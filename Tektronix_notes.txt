@@ -1,0 +1,26 @@
+the api needs the .so file
+	2 shared object files are required on Linux
+
+you need the software driver (see page 6 of API .pdf)
+	https://www.tek.com/en/search?keywords=RSA%20API&facets=_templatename%3dSoftware&sort=desc
+
+check library
+	$ sudo gcc -lpthread    // library name
+
+
+ensure proper hardware requirements are met before using programs
+measurements are not possible without proper antenna (sensor)
+data acquisition is more limited with the API, compared to the Windows-based software
+C code uses C99; ensure the Makefile is sourcing correctly
+Python script appears to be 2.7, try to modify code for python3 or use virtual env with 2.7
+
+The API::
+    RSA Application Programming Interface – API for 64-Bit Linux – V1.0.0014
+    The RSA API is a Linux C/C++ Shared Objects that provides direct access to RSA300/500/600 devices. 
+    It enables full control of the RSA and provides several forms of data and measurements to support custom applications independent of SignalVu-PC. 
+    Included is the API Shared Objects for use on 64-bit Linux, tested on CentOS 7, Debian 10, and Ubuntu 18.04 systems.
+    https://www.tek.com/en/support/software/application/rsa-application-programming-interface--api-for-64bit-linux--v100014
+    (need to make a free account with Tekronix)
+
+Use the manufacturer's software for simple tasks::
+    https://www.tek.com/en/support/software/application/signalvupc-vector-signal-analysis-software--v410022
