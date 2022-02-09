@@ -16,3 +16,8 @@ Supporting documentation can be found in the google drive:
 
 https://drive.google.com/drive/folders/1-Yi1jUahgB7YDmauL3ozKffGKSb-tnm9?usp=sharing
 
+
+API Version : 1.0.0014
+
+Detected Devices:
+deviceID: 0,	 SN: B037150,	 Type: RSA306B

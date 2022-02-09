@@ -331,8 +331,8 @@ void if_stream_example()
 	search_connect();
 	double cf = 2.4453e9;
 	double refLevel = -30;
-	char* fileDir = "C:\\SignalVu-PC Files\\";
-	char* fileName = "if_stream_test";
+	char fileDir [BIG_WIDTH] = "C:\\SignalVu-PC Files\\";
+	char fileName [BIG_WIDTH] = "if_stream_test";
 	int durationMsec = 1000;
 	int waitTime = 10;
 	bool writing = true;
@@ -343,7 +343,7 @@ void if_stream_example()
 	IFSTREAM_SetEnable(true);
 	while (writing == true)
 	{
-		Sleep(waitTime);
+		sleep(waitTime/1000);
 		IFSTREAM_GetActiveStatus(&writing);
 	}
 	DEVICE_Stop();

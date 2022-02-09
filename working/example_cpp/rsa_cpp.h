@@ -17,6 +17,8 @@ using namespace RSA_API;
 using namespace std;
 using namespace std::chrono;
 
+#define BIG_WIDTH 1024
+
 int search_connect();
 void print_device_info(int* deviceIDs, int numFound, const char** deviceSerial, const char** deviceType);
 
