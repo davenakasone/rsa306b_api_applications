@@ -936,7 +936,7 @@ namespace RSA_API   // ...use V2 namespace
 		///////////////////////////////////////////////////////////
 
 		RSA_API_DLL ReturnStatus PLAYBACK_OpenDiskFile(
-				const wchar_t * fileName,
+				const char * fileName,
 				int startPercentage,
 				int stopPercentage,
 				double skipTimeBetweenFullAcquisitions,

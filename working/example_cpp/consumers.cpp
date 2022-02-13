@@ -2,16 +2,18 @@
 
 void err_check(ReturnStatus rs)
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	if (rs != noError)
 	{
 		cout << "Error: " << rs << endl;
-		system("pause");
-		exit(0);
+		//system("pause");
+		//exit(0);
 	}
 }
 
 void print_device_info(int* deviceIDs, int numFound, const char** deviceSerial, const char** deviceType)
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	cout << "Number of devices found: " << numFound << endl;
 	for (int i = 0; i < numFound; i++)
 	{
@@ -23,6 +25,7 @@ void print_device_info(int* deviceIDs, int numFound, const char** deviceSerial, 
 
 int search_connect()
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	int numFound = 0;
 	int* deviceIDs;
 	const char** deviceSerial;
@@ -63,6 +66,7 @@ int search_connect()
 
 Spectrum_Settings config_spectrum(double cf, double refLevel, double span, double rbw)
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	SPECTRUM_SetEnable(true);
 	CONFIG_SetCenterFreq(cf);
 	CONFIG_SetReferenceLevel(refLevel);
@@ -80,6 +84,7 @@ Spectrum_Settings config_spectrum(double cf, double refLevel, double span, doubl
 
 double* create_frequency_array(Spectrum_Settings specSet)
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	double* freq = NULL;
 	int n = specSet.traceLength;
 	freq = new double[n];
@@ -93,6 +98,7 @@ double* create_frequency_array(Spectrum_Settings specSet)
 
 float* acquire_spectrum(Spectrum_Settings specSet)
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	bool ready = false;
 	int timeoutMsec = 0;
 
@@ -121,6 +127,7 @@ float* acquire_spectrum(Spectrum_Settings specSet)
 
 int peak_power_detector(float* traceData, double* freq, Spectrum_Settings specSet)
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	int peakIndex = 0;
 	for (int i = 0; i < specSet.traceLength; i++)
 	{
@@ -136,6 +143,7 @@ int peak_power_detector(float* traceData, double* freq, Spectrum_Settings specSe
 
 void spectrum_example()
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	double cf = 1e9;
 	double refLevel = -30;
 	double span = 40e6;
@@ -176,6 +184,7 @@ void spectrum_example()
 
 double* config_block_iq(double cf, double refLevel, double iqBw, int recordLength)
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	double iqSampleRate = 0;
 	double* time = NULL;
 	int n = recordLength;
@@ -202,6 +211,7 @@ double* config_block_iq(double cf, double refLevel, double iqBw, int recordLengt
 
 Cplx32* acquire_block_iq(int recordLength)
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	Cplx32* iqData = NULL;
 	int n = recordLength;
 	iqData = new Cplx32[n];
@@ -223,6 +233,7 @@ Cplx32* acquire_block_iq(int recordLength)
 
 void block_iq_example()
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	search_connect();
 	double cf = 1e9;
 	double refLevel = 0;
@@ -252,6 +263,7 @@ void block_iq_example()
 
 void config_dpx(double cf, double refLevel, double span, double rbw)
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	double yTop = refLevel;
 	double yBottom = yTop - 100;
 	double timeResolution = 1e-3;
@@ -269,6 +281,7 @@ void config_dpx(double cf, double refLevel, double span, double rbw)
 
 void acquire_dpx(DPX_FrameBuffer* fb)
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	bool frameAvailable = false;
 	bool ready = false;
 
@@ -289,6 +302,7 @@ void acquire_dpx(DPX_FrameBuffer* fb)
 
 void dpx_example()
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	search_connect();
 	double cf = 2.4453e9;
 	double refLevel = -30;
@@ -315,6 +329,7 @@ void dpx_example()
 
 void config_if_stream(double cf, double refLevel, char* fileDir, char* fileName, int durationMsec)
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	CONFIG_SetCenterFreq(cf);
 	CONFIG_SetReferenceLevel(refLevel);
 
@@ -328,6 +343,7 @@ void config_if_stream(double cf, double refLevel, char* fileDir, char* fileName,
 
 void if_stream_example()
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	search_connect();
 	double cf = 2.4453e9;
 	double refLevel = -30;
@@ -359,6 +375,7 @@ void if_stream_example()
 
 void config_iq_stream(double cf, double refLevel, double bw, char* fileName, IQSOUTDEST dest, int suffixCtl, int durationMsec)
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	double bwActual = 0;
 	double sampleRate = 0;
 	CONFIG_SetCenterFreq(cf);
@@ -374,6 +391,7 @@ void config_iq_stream(double cf, double refLevel, double bw, char* fileName, IQS
 
 void iqstream_status_parser(uint32_t acqStatus)
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	if (acqStatus == 0)
 		printf("No errors in IQ streaming detected.\n");
 	else
@@ -407,6 +425,7 @@ void iqstream_status_parser(uint32_t acqStatus)
 
 void iq_stream_example()
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	search_connect();
 	double cf = 2.4453e9;
 	double refLevel = -30;
@@ -416,7 +435,7 @@ void iq_stream_example()
 	int suffixCtl = -2;
 	int durationMsec = 2000;
 	int waitTime = 10;
-	char* fileName = "C:\\SignalVu-PC Files\\iq_stream_test";
+	char fileName[BIG_WIDTH] = "C:\\SignalVu-PC Files\\iq_stream_test";
 	IQSTRMFILEINFO iqStreamInfo;
 
 	bool complete = false;
@@ -427,7 +446,7 @@ void iq_stream_example()
 	IQSTREAM_Start();
 	while (complete == false)
 	{
-		Sleep(waitTime);
+		sleep(waitTime);
 		IQSTREAM_GetDiskFileWriteStatus(&complete, &writing);
 	}
 	IQSTREAM_Stop();
@@ -446,6 +465,7 @@ void iq_stream_example()
 
 void config_trigger(TriggerMode trigMode, double trigLevel, TriggerSource trigSource)
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	TRIG_SetTriggerMode(trigMode);
 	TRIG_SetIFPowerTriggerLevel(trigLevel);
 	TRIG_SetTriggerSource(trigSource);
@@ -455,15 +475,16 @@ void config_trigger(TriggerMode trigMode, double trigLevel, TriggerSource trigSo
 
 void if_playback()
 {
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 	search_connect();
 	const char* fileName = "C:\\SignalVu-PC Files\\if_stream_test.r3f";
-	wchar_t wFileName[300];
-	swprintf(wFileName, 300, L"%S", fileName);   // %S is 1-byte-char type for sWprintf
+	char FileName[300];
+	snprintf(FileName, 300, "%s", fileName);   // %S is 1-byte-char type for sWprintf
 	
-	FILE* fp = _wfopen(wFileName, L"rb");
+	FILE* fp = fopen(FileName, "rb");
 	if (fp == NULL)
 	{
-		printf("Error Opening File: \"%S\"\n", wFileName);
+		printf("Error Opening File: %s\n", FileName);
 	}
 	
 	int start = 0;
@@ -473,7 +494,7 @@ void if_playback()
 	bool rt = true;
 	bool complete = false;
 
-	PLAYBACK_OpenDiskFile(wFileName, start, stop, skip, loop, rt);
+	PLAYBACK_OpenDiskFile(FileName, start, stop, skip, loop, rt);
 	DEVICE_Run();
 	while (complete == false)
 	{

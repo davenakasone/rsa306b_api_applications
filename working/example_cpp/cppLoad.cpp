@@ -22,15 +22,17 @@ int main
             char** envp
 )
 {
+    printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
     //Uncomment the example you'd like to run.
 
-	spectrum_example();
+	//spectrum_example();
 	//block_iq_example();
 	//dpx_example();
-	//iq_stream_example();
+	iq_stream_example();
 	//if_stream_example();
 	//if_playback();
 
+    printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
     printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~\n\n");
     return EXIT_SUCCESS;
 }
