@@ -1,93 +1,152 @@
+/*
+	removing "w" type functions and variables
+	use designated API member for Linux 
+	make sure the "RSA_API.h" is not for windows
+*/
+
 #include "rsa_cpp.h"
 
-void err_check(ReturnStatus rs)
+
+void err_check
+(
+	RSA_API::ReturnStatus rs
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
-	if (rs != noError)
+#endif
+
+	if (rs != RSA_API::noError)
 	{
-		cout << "Error: " << rs << endl;
-		//system("pause");
-		//exit(0);
+		std::cout << "Error: " << rs << std::endl;
+		std::system("pause");
+		std::exit(0);
 	}
 }
 
-void print_device_info(int* deviceIDs, int numFound, const char** deviceSerial, const char** deviceType)
+
+////~~~~
+
+
+void print_device_info
+(
+	int* deviceIDs, 
+	int numFound, 
+	const char** deviceSerial, 
+	const char** deviceType
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
-	cout << "Number of devices found: " << numFound << endl;
+#endif
+
+	std::cout << "Number of devices found: " << numFound << std::endl;
 	for (int i = 0; i < numFound; i++)
 	{
 		cout << "Device ID: " << i;
 		cout << ", Serial Number: " << deviceSerial[i];
-		cout << ", Device Type: " << deviceType[i] << endl;
+		cout << ", Device Type: " << deviceType[i] << std::endl;
 	}
 }
 
-int search_connect()
+
+////~~~~
+
+
+int search_connect
+(
+	void
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
+#endif
+
 	int numFound = 0;
 	int* deviceIDs;
 	const char** deviceSerial;
 	const char** deviceType;
 	char apiVersion[200];
-	ReturnStatus rs;
+	RSA_API::ReturnStatus rs;
 
-	rs = DEVICE_GetAPIVersion(apiVersion);
-	cout << "API Version: " << apiVersion << endl;
-	rs = DEVICE_SearchInt(&numFound, &deviceIDs, &deviceSerial, &deviceType);
+	rs = RSA_API::DEVICE_GetAPIVersion(apiVersion);
+	std::cout << "API Version: " << apiVersion << std::endl;
+	rs = RSA_API::DEVICE_SearchInt(&numFound, &deviceIDs, &deviceSerial, &deviceType);
 	if (numFound < 1)
 	{
-		cout << "No devices found, exiting script." << endl;
-		system("pause");
-		exit(0);
+		std::cout << "No devices found, exiting script." << std::endl;
+		std::system("pause");
+		std::exit(0);
 	}
 	else if (numFound == 1)
 	{
 		print_device_info(deviceIDs, numFound, deviceSerial, deviceType);
-		rs = DEVICE_Connect(deviceIDs[0]);
+		rs = RSA_API::DEVICE_Connect(deviceIDs[0]);
 		err_check(rs);
 	}
 	else
 	{
 		print_device_info(deviceIDs, numFound, deviceSerial, deviceType);
 		int dev;
-		cout << "Select device between 0 and " << (numFound - 1) << "\n> ";
-		cin >> dev;
-		rs = DEVICE_Connect(deviceIDs[dev]);
+		std::cout << "Select device between 0 and " << (numFound - 1) << "\n> ";
+		std::cin >> dev;
+		rs = RSA_API::DEVICE_Connect(deviceIDs[dev]);
 		err_check(rs);
-		cout << "Connected to device " << dev;
-		cout << ", Serial Number: " << deviceSerial[dev];
-		cout << ", Device Type: " << deviceType[dev] << endl;
+		std::cout << "Connected to device " << dev;
+		std::cout << ", Serial Number: " << deviceSerial[dev];
+		std::cout << ", Device Type: " << deviceType[dev] << std::endl;
 	}
 
 	return 0;
 }
 
-Spectrum_Settings config_spectrum(double cf, double refLevel, double span, double rbw)
+
+//// ~~~~
+
+
+RSA_API::Spectrum_Settings config_spectrum
+(
+	double cf, 
+	double refLevel, 
+	double span, 
+	double rbw
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
-	SPECTRUM_SetEnable(true);
-	CONFIG_SetCenterFreq(cf);
-	CONFIG_SetReferenceLevel(refLevel);
+#endif
+
+	RSA_API::SPECTRUM_SetEnable(true);
+	RSA_API::CONFIG_SetCenterFreq(cf);
+	RSA_API::CONFIG_SetReferenceLevel(refLevel);
 	
-	SPECTRUM_SetDefault();
-	Spectrum_Settings specSet;
-	SPECTRUM_GetSettings(&specSet);
+	RSA_API::SPECTRUM_SetDefault();
+	RSA_API::Spectrum_Settings specSet;
+	RSA_API::SPECTRUM_GetSettings(&specSet);
 	specSet.span = span;
 	specSet.rbw = rbw;
-	SPECTRUM_SetSettings(specSet);
-	SPECTRUM_GetSettings(&specSet);
+	RSA_API::SPECTRUM_SetSettings(specSet);
+	RSA_API::SPECTRUM_GetSettings(&specSet);
 	
 	return specSet;
 }
 
-double* create_frequency_array(Spectrum_Settings specSet)
+
+////~~~~
+
+
+double* create_frequency_array
+(
+	RSA_API::Spectrum_Settings specSet
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
+#endif
+
 	double* freq = NULL;
 	int n = specSet.traceLength;
-	freq = new double[n];
+	freq = new double[n]; // see if you can find the delete/free()
 	for (int i=0; i < specSet.traceLength; i++)
 	{
 		freq[i] = specSet.actualStartFreq + specSet.actualFreqStepSize*i;
@@ -96,38 +155,60 @@ double* create_frequency_array(Spectrum_Settings specSet)
 	return freq;
 }
 
-float* acquire_spectrum(Spectrum_Settings specSet)
+
+////~~~~
+
+
+float* acquire_spectrum
+(
+	RSA_API::Spectrum_Settings specSet
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
+#endif
+
 	bool ready = false;
 	int timeoutMsec = 0;
 
-	SpectrumTraces trace = SpectrumTrace1;
+	RSA_API::SpectrumTraces trace = RSA_API::SpectrumTrace1;
 	int maxTracePoints = specSet.traceLength;
 	int outTracePoints = 0;
 	float* traceData = NULL;
 	int n = maxTracePoints;
-	traceData = new float[n];
+	traceData = new float[n]; // where is the delete?
 	
-	DEVICE_Run();
-	SPECTRUM_AcquireTrace();
+	RSA_API::DEVICE_Run();
+	RSA_API::SPECTRUM_AcquireTrace();
 	while (ready == false)
 	{
-		SPECTRUM_WaitForTraceReady(timeoutMsec, &ready);
+		RSA_API::SPECTRUM_WaitForTraceReady(timeoutMsec, &ready);
 	}
-	SPECTRUM_GetTrace(trace, maxTracePoints, traceData, &outTracePoints);
-	Spectrum_TraceInfo traceInfo;
-	SPECTRUM_GetTraceInfo(&traceInfo);
-	DEVICE_Stop();
+	RSA_API::SPECTRUM_GetTrace(trace, maxTracePoints, traceData, &outTracePoints);
+	RSA_API::Spectrum_TraceInfo traceInfo;
+	RSA_API::SPECTRUM_GetTraceInfo(&traceInfo);
+	RSA_API::DEVICE_Stop();
 
-	cout << "Trace Data Status: " << traceInfo.acqDataStatus << endl;
+	std::cout << "Trace Data Status: " << traceInfo.acqDataStatus << std::endl;
 
 	return traceData;
 }
 
-int peak_power_detector(float* traceData, double* freq, Spectrum_Settings specSet)
+
+////~~~~
+
+
+int peak_power_detector
+(
+	float* traceData,
+	double* freq, 
+	RSA_API::Spectrum_Settings specSet
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
+#endif
+
 	int peakIndex = 0;
 	for (int i = 0; i < specSet.traceLength; i++)
 	{
@@ -141,36 +222,45 @@ int peak_power_detector(float* traceData, double* freq, Spectrum_Settings specSe
 }
 
 
-void spectrum_example()
+////~~~~
+
+
+void spectrum_example
+(
+	void
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
+#endif
+
 	double cf = 1e9;
 	double refLevel = -30;
 	double span = 40e6;
 	double rbw = 300e3;
-	Spectrum_Settings specSet;
+	RSA_API::Spectrum_Settings specSet;
 	double* freq = NULL;
 	float* traceData = NULL;
 	int peakIndex = 0;
 
 	search_connect();
-	CONFIG_Preset();
-	CONFIG_SetCenterFreq(cf);
-	CONFIG_SetReferenceLevel(refLevel);
+	RSA_API::CONFIG_Preset();
+	RSA_API::CONFIG_SetCenterFreq(cf);
+	RSA_API::CONFIG_SetReferenceLevel(refLevel);
 
 	specSet = config_spectrum(cf, refLevel, span, rbw);
 	traceData = acquire_spectrum(specSet);
 	freq = create_frequency_array(specSet);
 	peakIndex = peak_power_detector(traceData, freq, specSet);
 	
-	cout << "Start frequency: " << freq[0] << endl;
-	cout << "Center frequency: " << freq[(specSet.traceLength - 1) / 2] << endl;
-	cout << "Stop frequency: " << freq[specSet.traceLength - 1] << endl;
-	cout << "Maximum value: " << traceData[peakIndex] << " dBm" << endl;
-	cout << "Frequency of max amplitude: " << freq[peakIndex] << " Hz" << endl;
+	std::cout << "Start frequency: " << freq[0] << std::endl;
+	std::cout << "Center frequency: " << freq[(specSet.traceLength - 1) / 2] << std::endl;
+	std::cout << "Stop frequency: " << freq[specSet.traceLength - 1] << std::endl;
+	std::cout << "Maximum value: " << traceData[peakIndex] << " dBm" << std::endl;
+	std::cout << "Frequency of max amplitude: " << freq[peakIndex] << " Hz" << std::endl;
 
-	cout << "Disconnecting." << endl;
-	DEVICE_Disconnect();
+	std::cout << "Disconnecting." << std::endl;
+	RSA_API::DEVICE_Disconnect();
 
 	//Clean up arrays
 	delete[] freq;
@@ -179,24 +269,37 @@ void spectrum_example()
 	traceData = NULL;
 
 	//Stop the program so we can see printouts
-	system("pause");
+	std::system("pause");
 }
 
-double* config_block_iq(double cf, double refLevel, double iqBw, int recordLength)
+
+////~~~~ 
+
+
+double* config_block_iq
+(
+	double cf, 
+	double refLevel, 
+	double iqBw, 
+	int recordLength
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
+#endif
+
 	double iqSampleRate = 0;
 	double* time = NULL;
 	int n = recordLength;
 	time = new double[n];
-	ReturnStatus rs;
+	RSA_API::ReturnStatus rs;
 
-	CONFIG_SetCenterFreq(cf);
-	CONFIG_SetReferenceLevel(refLevel);
+	RSA_API::CONFIG_SetCenterFreq(cf);
+	RSA_API::CONFIG_SetReferenceLevel(refLevel);
 
-	IQBLK_SetIQBandwidth(iqBw);
-	IQBLK_SetIQRecordLength(recordLength);
-	rs = IQBLK_GetIQSampleRate(&iqSampleRate);
+	RSA_API::IQBLK_SetIQBandwidth(iqBw);
+	RSA_API::IQBLK_SetIQRecordLength(recordLength);
+	rs = RSA_API::IQBLK_GetIQSampleRate(&iqSampleRate);
 	err_check(rs);
 
 	//simple C++ implementation of numpy.linspace()
@@ -209,45 +312,65 @@ double* config_block_iq(double cf, double refLevel, double iqBw, int recordLengt
 	return time;
 }
 
-Cplx32* acquire_block_iq(int recordLength)
+
+////~~~~
+
+
+RSA_API::Cplx32* acquire_block_iq
+(
+	int recordLength
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
-	Cplx32* iqData = NULL;
+#endif
+
+	RSA_API::Cplx32* iqData = NULL;
 	int n = recordLength;
-	iqData = new Cplx32[n];
+	iqData = new RSA_API::Cplx32[n]; // who calls delete?
 	bool ready = false;
 	int timeoutMsec = 100;
 	int outLength = 0;
 
-	DEVICE_Run();
-	IQBLK_AcquireIQData();
+	RSA_API::DEVICE_Run();
+	RSA_API::IQBLK_AcquireIQData();
 	while (ready == false)
 	{
-		IQBLK_WaitForIQDataReady(timeoutMsec, &ready);
+		RSA_API::IQBLK_WaitForIQDataReady(timeoutMsec, &ready);
 	}
-	IQBLK_GetIQDataCplx(iqData, &outLength, recordLength);
-	DEVICE_Stop();
+	RSA_API::IQBLK_GetIQDataCplx(iqData, &outLength, recordLength);
+	RSA_API::DEVICE_Stop();
 
 	return iqData;
 }
 
-void block_iq_example()
+
+////~~~~
+
+
+void block_iq_example
+(
+	void
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
+#endif
+
 	search_connect();
 	double cf = 1e9;
 	double refLevel = 0;
 	double iqBw = 40e6;
 	int recordLength = 1000;
 	double* time = NULL;
-	Cplx32* iqData = NULL;
+	RSA_API::Cplx32* iqData = NULL;
 
 	time = config_block_iq(cf, refLevel, iqBw, recordLength);
 	iqData = acquire_block_iq(recordLength); 
-	cout << "Disconnecting." << endl;
-	cout << "Also this is boring because I can't plot anything." << endl;
+	std::cout << "Disconnecting." << std::endl;
+	std::cout << "Also this is boring because I can't plot anything." << std::endl;
 
-	cout << "Disconnecting." << endl;
+	std::cout << "Disconnecting." << std::endl;
 	DEVICE_Disconnect();
 
 	//Clean up arrays
@@ -261,89 +384,141 @@ void block_iq_example()
 }
 
 
-void config_dpx(double cf, double refLevel, double span, double rbw)
+////~~~~
+
+
+void config_dpx
+(
+	double cf, 
+	double refLevel, 
+	double span, 
+	double rbw
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
+#endif
+
 	double yTop = refLevel;
 	double yBottom = yTop - 100;
 	double timeResolution = 1e-3;
-	CONFIG_SetCenterFreq(cf);
-	CONFIG_SetReferenceLevel(refLevel);
+	RSA_API::CONFIG_SetCenterFreq(cf);
+	RSA_API::CONFIG_SetReferenceLevel(refLevel);
 
-	DPX_SetEnable(true);
-	DPX_SetParameters(span, rbw, 801, 1, VerticalUnit_dBm, yTop, yBottom, false, 1.0, false);
-	DPX_SetSogramParameters(timeResolution, timeResolution, yTop, yBottom);
-	DPX_Configure(true, true);
-	DPX_SetSpectrumTraceType(0, TraceTypeMaxHold);
-	DPX_SetSpectrumTraceType(1, TraceTypeAverage);
-	DPX_SetSpectrumTraceType(2, TraceTypeMinHold);
+	RSA_API::DPX_SetEnable(true);
+	RSA_API::DPX_SetParameters(span, rbw, 801, 1, RSA_API::VerticalUnit_dBm, yTop, yBottom, false, 1.0, false);
+	RSA_API::DPX_SetSogramParameters(timeResolution, timeResolution, yTop, yBottom);
+	RSA_API::DPX_Configure(true, true);
+	RSA_API::DPX_SetSpectrumTraceType(0, RSA_API::TraceTypeMaxHold);
+	RSA_API::DPX_SetSpectrumTraceType(1, RSA_API::TraceTypeAverage);
+	RSA_API::DPX_SetSpectrumTraceType(2, RSA_API::TraceTypeMinHold);
 }
 
-void acquire_dpx(DPX_FrameBuffer* fb)
+
+////~~~~
+
+
+void acquire_dpx
+(
+	RSA_API::DPX_FrameBuffer* fb
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
+#endif
+
 	bool frameAvailable = false;
 	bool ready = false;
 
-	DEVICE_Run();
+	RSA_API::DEVICE_Run();
 	while (frameAvailable == false)
 	{
-		DPX_IsFrameBufferAvailable(&frameAvailable);
+		RSA_API::DPX_IsFrameBufferAvailable(&frameAvailable);
 	}
 	while (ready == false)
 	{
-		DPX_WaitForDataReady(100, &ready);
+		RSA_API::DPX_WaitForDataReady(100, &ready);
 	}
-	DPX_GetFrameBuffer(fb);
-	DPX_FinishFrameBuffer();
-	DEVICE_Stop();
+	RSA_API::DPX_GetFrameBuffer(fb);
+	RSA_API::DPX_FinishFrameBuffer();
+	RSA_API::DEVICE_Stop();
 }
+
+
+////~~~~
 
 
 void dpx_example()
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
+#endif
+
 	search_connect();
 	double cf = 2.4453e9;
 	double refLevel = -30;
 	double span = 40e6;
 	double rbw = 300e3;
-	DPX_FrameBuffer fb;
+	RSA_API::DPX_FrameBuffer fb;
 
 	config_dpx(cf, refLevel, span, rbw);
 	acquire_dpx(&fb);
-	cout << "\nFFTs in frame: " << fb.fftCount << endl;
-	cout << "DPX FrameBuffers acquired: " << fb.frameCount << endl;
-	cout << "DPX Bitmap is "<< fb.spectrumBitmapWidth << 
-		" x " << fb.spectrumBitmapHeight << " pixels." << endl;
-	cout << "DPX Spectrogram is " << fb.sogramBitmapWidth <<
-		" x " << fb.sogramBitmapHeight << " pixels." << endl;
-	cout << "Valid traces in spectrogram: " << fb.sogramBitmapNumValidLines << endl;
+	std::cout << "\nFFTs in frame: " << fb.fftCount << std::endl;
+	std::cout << "DPX FrameBuffers acquired: " << fb.frameCount << std::endl;
+	std::cout << "DPX Bitmap is "<< fb.spectrumBitmapWidth << 
+		" x " << fb.spectrumBitmapHeight << " pixels." << std::endl;
+	std::cout << "DPX Spectrogram is " << fb.sogramBitmapWidth <<
+		" x " << fb.sogramBitmapHeight << " pixels." << std::endl;
+	std::cout << "Valid traces in spectrogram: " << fb.sogramBitmapNumValidLines << std::endl;
 	
-	cout << "Disconnecting." << endl;
-	DEVICE_Disconnect();
+	std::cout << "Disconnecting." << std::endl;
+	RSA_API::DEVICE_Disconnect();
 
 	//Stop the program so we can see printouts
 	system("pause");
 }
 
-void config_if_stream(double cf, double refLevel, char* fileDir, char* fileName, int durationMsec)
-{
-	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
-	CONFIG_SetCenterFreq(cf);
-	CONFIG_SetReferenceLevel(refLevel);
 
-	IFSTREAM_SetDiskFilePath(fileDir);
-	IFSTREAM_SetDiskFilenameBase(fileName);
-	IFSTREAM_SetDiskFilenameSuffix(-2);
-	IFSTREAM_SetDiskFileLength(durationMsec);
-	IFSTREAM_SetDiskFileMode(StreamingModeFramed);
-	IFSTREAM_SetDiskFileCount(1);
+////~~~~
+
+
+void config_if_stream
+(
+	double cf,
+	double refLevel, 
+	char* fileDir, 
+	char* fileName, 
+	int durationMsec
+)
+{
+#ifdef DEBUG_CLI
+	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
+#endif
+
+	RSA_API::CONFIG_SetCenterFreq(cf);
+	RSA_API::CONFIG_SetReferenceLevel(refLevel);
+
+	RSA_API::IFSTREAM_SetDiskFilePath(fileDir);
+	RSA_API::IFSTREAM_SetDiskFilenameBase(fileName);
+	RSA_API::IFSTREAM_SetDiskFilenameSuffix(-2);
+	RSA_API::IFSTREAM_SetDiskFileLength(durationMsec);
+	RSA_API::IFSTREAM_SetDiskFileMode(RSA_API::StreamingModeFramed);
+	RSA_API::IFSTREAM_SetDiskFileCount(1);
 }
 
-void if_stream_example()
+
+////~~~~
+
+
+void if_stream_example
+(
+	void
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
+#endif
+
 	search_connect();
 	double cf = 2.4453e9;
 	double refLevel = -30;
@@ -355,107 +530,142 @@ void if_stream_example()
 
 	config_if_stream(cf, refLevel, fileDir, fileName, durationMsec);
 
-	DEVICE_Run();
-	IFSTREAM_SetEnable(true);
+	RSA_API::DEVICE_Run();
+	RSA_API::IFSTREAM_SetEnable(true);
 	while (writing == true)
 	{
 		sleep(waitTime/1000);
-		IFSTREAM_GetActiveStatus(&writing);
+		RSA_API::IFSTREAM_GetActiveStatus(&writing);
 	}
-	DEVICE_Stop();
-	cout << "Streaming finished." << endl;
+	RSA_API::DEVICE_Stop();
+	std::cout << "Streaming finished." << std::endl;
 	
-	cout << "Disconnecting." << endl;
-	DEVICE_Disconnect();
+	std::cout << "Disconnecting." << std::endl;
+	RSA_API::DEVICE_Disconnect();
 
 	//Stop the program so we can see printouts
 	system("pause");
 }
 
 
-void config_iq_stream(double cf, double refLevel, double bw, char* fileName, IQSOUTDEST dest, int suffixCtl, int durationMsec)
+////~~~~
+
+
+void config_iq_stream
+(
+	double cf, 
+	double refLevel, 
+	double bw, 
+	char* fileName, 
+	RSA_API::IQSOUTDEST dest, 
+	int suffixCtl, 
+	int durationMsec
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
+#endif
+
 	double bwActual = 0;
 	double sampleRate = 0;
-	CONFIG_SetCenterFreq(cf);
-	CONFIG_SetReferenceLevel(refLevel);
+	RSA_API::CONFIG_SetCenterFreq(cf);
+	RSA_API::CONFIG_SetReferenceLevel(refLevel);
 
-	IQSTREAM_SetAcqBandwidth(bw);
-	IQSTREAM_SetOutputConfiguration(dest, IQSODT_INT16);
-	IQSTREAM_SetDiskFilenameBase(fileName);
-	IQSTREAM_SetDiskFilenameSuffix(suffixCtl);
-	IQSTREAM_SetDiskFileLength(durationMsec);
-	IQSTREAM_GetAcqParameters(&bwActual, &sampleRate);
+	RSA_API::IQSTREAM_SetAcqBandwidth(bw);
+	RSA_API::IQSTREAM_SetOutputConfiguration(dest, RSA_API::IQSODT_INT16);
+	RSA_API::IQSTREAM_SetDiskFilenameBase(fileName);
+	RSA_API::IQSTREAM_SetDiskFilenameSuffix(suffixCtl);
+	RSA_API::IQSTREAM_SetDiskFileLength(durationMsec);
+	RSA_API::IQSTREAM_GetAcqParameters(&bwActual, &sampleRate);
 }
 
-void iqstream_status_parser(uint32_t acqStatus)
+
+////~~~~
+
+
+void iqstream_status_parser
+(
+	uint32_t acqStatus
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
+#endif
+
 	if (acqStatus == 0)
 		printf("No errors in IQ streaming detected.\n");
 	else
 	{
-		if (acqStatus & IQSTRM_STATUS_OVERRANGE)
+		if (acqStatus & RSA_API::IQSTRM_STATUS_OVERRANGE)
 		{
-			cout << "Input overrange." << endl;
+			std::cout << "Input overrange." << std::endl;
 		}
-		if (acqStatus & IQSTRM_STATUS_XFER_DISCONTINUITY)
+		if (acqStatus & RSA_API::IQSTRM_STATUS_XFER_DISCONTINUITY)
 		{
-			cout << "Streaming discontinuity, loss of data has occurred." << endl;
+			std::cout << "Streaming discontinuity, loss of data has occurred." << std::endl;
 		}
-		if (acqStatus & IQSTRM_STATUS_IBUFF75PCT)
+		if (acqStatus & RSA_API::IQSTRM_STATUS_IBUFF75PCT)
 		{
-			cout << "Input buffer > 75% full." << endl;
+			std::cout << "Input buffer > 75% full." << std::endl;
 		}
-		if (acqStatus & IQSTRM_STATUS_IBUFF75PCT)
+		if (acqStatus & RSA_API::IQSTRM_STATUS_IBUFF75PCT)
 		{
-			cout << "Input buffer overflow, IQStream processing too slow, data loss has occurred." << endl;
+			std::cout << "Input buffer overflow, IQStream processing too slow, data loss has occurred." << std::endl;
 		}
-		if (acqStatus & IQSTRM_STATUS_OBUFF75PCT)
+		if (acqStatus & RSA_API::IQSTRM_STATUS_OBUFF75PCT)
 		{
-			cout << "Output buffer > 75% full." << endl;
+			std::cout << "Output buffer > 75% full." << std::endl;
 		}
-		if (acqStatus & IQSTRM_STATUS_OBUFFOVFLOW)
+		if (acqStatus & RSA_API::IQSTRM_STATUS_OBUFFOVFLOW)
 		{
-			cout << "Output buffer overflow, file writing too slow, data loss has occurred." << endl;
+			std::cout << "Output buffer overflow, file writing too slow, data loss has occurred." << std::endl;
 		}
 	}
 }
 
-void iq_stream_example()
+
+////~~~~
+
+
+void iq_stream_example
+(
+	void
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
+#endif
+
 	search_connect();
 	double cf = 2.4453e9;
 	double refLevel = -30;
 	
 	double bw = 40e6;
-	IQSOUTDEST dest = IQSOD_FILE_SIQ;
+	RSA_API::IQSOUTDEST dest = RSA_API::IQSOD_FILE_SIQ;
 	int suffixCtl = -2;
 	int durationMsec = 2000;
 	int waitTime = 10;
 	char fileName[BIG_WIDTH] = "C:\\SignalVu-PC Files\\iq_stream_test";
-	IQSTRMFILEINFO iqStreamInfo;
+	RSA_API::IQSTRMFILEINFO iqStreamInfo;
 
 	bool complete = false;
 	bool writing = false;
 
 	config_iq_stream(cf, refLevel, bw, fileName, dest, suffixCtl, durationMsec);
-	DEVICE_Run();
-	IQSTREAM_Start();
+	RSA_API::DEVICE_Run();
+	RSA_API::IQSTREAM_Start();
 	while (complete == false)
 	{
 		sleep(waitTime);
-		IQSTREAM_GetDiskFileWriteStatus(&complete, &writing);
+		RSA_API::IQSTREAM_GetDiskFileWriteStatus(&complete, &writing);
 	}
-	IQSTREAM_Stop();
-	cout << "Streaming finished." << endl;
-	IQSTREAM_GetDiskFileInfo(&iqStreamInfo);
+	RSA_API::IQSTREAM_Stop();
+	std::cout << "Streaming finished." << std::endl;
+	RSA_API::IQSTREAM_GetDiskFileInfo(&iqStreamInfo);
 	iqstream_status_parser(iqStreamInfo.acqStatus);
-	DEVICE_Stop();
+	RSA_API::DEVICE_Stop();
 
-	cout << "Disconnecting." << endl;
+	std::cout << "Disconnecting." << std::endl;
 	DEVICE_Disconnect();
 
 	//Stop the program so we can see printouts
@@ -463,19 +673,36 @@ void iq_stream_example()
 }
 
 
-void config_trigger(TriggerMode trigMode, double trigLevel, TriggerSource trigSource)
+////~~~~
+
+
+void config_trigger
+(
+	RSA_API::TriggerMode trigMode, 
+	double trigLevel, 
+	RSA_API::TriggerSource trigSource
+)
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
-	TRIG_SetTriggerMode(trigMode);
-	TRIG_SetIFPowerTriggerLevel(trigLevel);
-	TRIG_SetTriggerSource(trigSource);
-	TRIG_SetTriggerPositionPercent(10);
+#endif
+
+	RSA_API::TRIG_SetTriggerMode(trigMode);
+	RSA_API::TRIG_SetIFPowerTriggerLevel(trigLevel);
+	RSA_API::TRIG_SetTriggerSource(trigSource);
+	RSA_API::TRIG_SetTriggerPositionPercent(10);
 }
+
+
+////~~~~
 
 
 void if_playback()
 {
+#ifdef DEBUG_CLI
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
+#endif
+
 	search_connect();
 	const char* fileName = "C:\\SignalVu-PC Files\\if_stream_test.r3f";
 	char FileName[300];
@@ -494,12 +721,15 @@ void if_playback()
 	bool rt = true;
 	bool complete = false;
 
-	PLAYBACK_OpenDiskFile(FileName, start, stop, skip, loop, rt);
-	DEVICE_Run();
+	RSA_API::PLAYBACK_OpenDiskFile(FileName, start, stop, skip, loop, rt);
+	RSA_API::DEVICE_Run();
 	while (complete == false)
 	{
-		PLAYBACK_GetReplayComplete(&complete);
+		RSA_API::PLAYBACK_GetReplayComplete(&complete);
 	}
-	cout << "Playback Complete: " << complete << endl;
-	system("pause");
+	std::cout << "Playback Complete: " << complete << std::endl;
+	//std::system("pause");
 }
+
+
+////////~~~~~~~~END>  consumers.cpp

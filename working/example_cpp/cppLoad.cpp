@@ -17,12 +17,15 @@
 
 int main
 (
-            int argc, 
-            char** argv, 
-            char** envp
+    int argc, 
+    char** argv, 
+    char** envp
 )
 {
+#ifdef DEBUG_CLI
     printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
+#endif
+
     //Uncomment the example you'd like to run.
 
 	//spectrum_example();
@@ -32,13 +35,13 @@ int main
 	//if_stream_example();
 	//if_playback();
 
+#ifdef DEBUG_CLI
     printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
     printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~\n\n");
+#endif
+
     return EXIT_SUCCESS;
 }
-
-
-////~~~~
 
 
 /////////~~~~~~~~END>  cppLoad.cpp
