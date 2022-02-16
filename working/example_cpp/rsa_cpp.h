@@ -20,7 +20,9 @@
 
 #define BIG_WIDTH 1024
 #define DEBUG_CLI -888
+#define getName(var) #var
 
+char holder[BIG_WIDTH];
 
 int search_connect();
 void print_device_info(int* deviceIDs, int numFound, const char** deviceSerial, const char** deviceType);

@@ -1,12 +1,19 @@
 the api needs the .so file
 	2 shared object files are required on Linux
+    assuming "README_install.txt" was followed correctly,
+        $ cd <your_bld_dir>
+        $ make                                           (any build system)
+        $ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.      (where ever you put the 2 *.so files)
+        $ ./cppLoad                                      (run your executable)
+...TODO making a .bash, .sh, or .deb for this
 
 you need the software driver (see page 6 of API .pdf)
 	https://www.tek.com/en/search?keywords=RSA%20API&facets=_templatename%3dSoftware&sort=desc
 
 check library
 	$ sudo gcc -lpthread    // library name
-
+don't trust system("pause") or this_thread_sleep(ms), the working thread will be locked out by a mutex
+just trust the API, and don't try and fork the process it is on or do anything that involves additional threads
 
 ensure proper hardware requirements are met before using programs
 measurements are not possible without proper antenna (sensor)
@@ -24,3 +31,23 @@ The API::
 
 Use the manufacturer's software for simple tasks::
     https://www.tek.com/en/support/software/application/signalvupc-vector-signal-analysis-software--v410022
+
+any Windows based C/C++ code needs Linux wine if it can't be avoided
+try to use the API function without the "w" or windows type ( ie "wchar" "wfopen()" ...)
+
+see the enum for error code
+a common error is #205, your USB port is not fast enough
+
+the status light on the RSA306B should turn green if healthy
+
+don't trust anything above -std=c++14, the newer features will not work with the RSA_API
+
+use full scope resolution instead of namespace, more typing, but can see source
+    std::cout , RSA_API::YOUR_FUN() , ...
+C++ only, extern C is set in the RSA_API.h
+
+
+
+
+
+

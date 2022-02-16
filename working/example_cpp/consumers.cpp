@@ -16,10 +16,12 @@ void err_check
 	printf("\n\t%s()  ,  %d\n", __func__, __LINE__);
 #endif
 
-	if (rs != RSA_API::noError)
+	// noError = 0 is the only signal that indicates hardware is satisfactory
+	// any other error code is a problem, and modifications are needed before proceeding
+	if (rs != RSA_API::noError) 
 	{
-		std::cout << "Error: " << rs << std::endl;
-		std::system("pause");
+		std::cout << "\nError: " << rs << std::endl;
+		//std::system("pause");
 		std::exit(0);
 	}
 }
@@ -43,9 +45,9 @@ void print_device_info
 	std::cout << "Number of devices found: " << numFound << std::endl;
 	for (int i = 0; i < numFound; i++)
 	{
-		cout << "Device ID: " << i;
-		cout << ", Serial Number: " << deviceSerial[i];
-		cout << ", Device Type: " << deviceType[i] << std::endl;
+		std::cout << "Device ID: " << i;
+		std::cout << ", Serial Number: " << deviceSerial[i];
+		std::cout << ", Device Type: " << deviceType[i] << std::endl;
 	}
 }
 
@@ -75,7 +77,7 @@ int search_connect
 	if (numFound < 1)
 	{
 		std::cout << "No devices found, exiting script." << std::endl;
-		std::system("pause");
+		//std::system("pause");
 		std::exit(0);
 	}
 	else if (numFound == 1)
@@ -269,7 +271,9 @@ void spectrum_example
 	traceData = NULL;
 
 	//Stop the program so we can see printouts
-	std::system("pause");
+	//std::system("pause");
+	std::cout << "\nany key to continue:  ";
+	std::cin >> holder;
 }
 
 
@@ -371,7 +375,7 @@ void block_iq_example
 	std::cout << "Also this is boring because I can't plot anything." << std::endl;
 
 	std::cout << "Disconnecting." << std::endl;
-	DEVICE_Disconnect();
+	RSA_API::DEVICE_Disconnect();
 
 	//Clean up arrays
 	delete[] time;
@@ -380,7 +384,9 @@ void block_iq_example
 	iqData = NULL;
 
 	//Stop the program so we can see printouts
-	system("pause");
+	//system("pause");
+	std::cout << "\nany key to continue:  ";
+	std::cin >> holder;
 }
 
 
@@ -475,7 +481,9 @@ void dpx_example()
 	RSA_API::DEVICE_Disconnect();
 
 	//Stop the program so we can see printouts
-	system("pause");
+	//system("pause");
+	std::cout << "\nany key to continue:  ";
+	std::cin >> holder;
 }
 
 
@@ -544,7 +552,9 @@ void if_stream_example
 	RSA_API::DEVICE_Disconnect();
 
 	//Stop the program so we can see printouts
-	system("pause");
+	//system("pause");
+	std::cout << "\nany key to continue:  ";
+	std::cin >> holder;
 }
 
 
@@ -666,10 +676,12 @@ void iq_stream_example
 	RSA_API::DEVICE_Stop();
 
 	std::cout << "Disconnecting." << std::endl;
-	DEVICE_Disconnect();
+	RSA_API::DEVICE_Disconnect();
 
 	//Stop the program so we can see printouts
-	system("pause");
+	//system("pause");
+	std::cout << "\nany key to continue:  ";
+	std::cin >> holder;
 }
 
 
@@ -729,6 +741,8 @@ void if_playback()
 	}
 	std::cout << "Playback Complete: " << complete << std::endl;
 	//std::system("pause");
+	std::cout << "\nany key to continue:  ";
+	std::cin >> holder;
 }
 
 
