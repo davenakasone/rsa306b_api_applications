@@ -654,7 +654,8 @@ void iq_stream_example
 	int suffixCtl = -2;
 	int durationMsec = 2000;
 	int waitTime = 10;
-	char fileName[BIG_WIDTH] = "C:\\SignalVu-PC Files\\iq_stream_test";
+	//char fileName[BIG_WIDTH] = "C:\\SignalVu-PC Files\\iq_stream_test";
+	char fileName[BIG_WIDTH] = ".";
 	RSA_API::IQSTRMFILEINFO iqStreamInfo;
 
 	bool complete = false;
@@ -679,7 +680,7 @@ void iq_stream_example
 
 	//Stop the program so we can see printouts
 	//system("pause");
-	std::cout << "\nany key to continue:  ";
+	std::cout << "\niq_stream_example complete , any key to continue:  ";
 	std::cin >> holder;
 }
 
