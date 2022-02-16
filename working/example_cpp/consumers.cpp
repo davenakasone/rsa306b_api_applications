@@ -5,6 +5,7 @@
 */
 
 #include "rsa_cpp.h"
+char holder[BIG_WIDTH];
 
 
 void err_check
@@ -272,7 +273,7 @@ void spectrum_example
 
 	//Stop the program so we can see printouts
 	//std::system("pause");
-	std::cout << "\nany key to continue:  ";
+	std::cout << "\nspectrum_example complete  ,  any key to continue:  ";
 	std::cin >> holder;
 }
 
@@ -373,8 +374,6 @@ void block_iq_example
 	iqData = acquire_block_iq(recordLength); 
 	std::cout << "Disconnecting." << std::endl;
 	std::cout << "Also this is boring because I can't plot anything." << std::endl;
-
-	std::cout << "Disconnecting." << std::endl;
 	RSA_API::DEVICE_Disconnect();
 
 	//Clean up arrays
@@ -385,7 +384,7 @@ void block_iq_example
 
 	//Stop the program so we can see printouts
 	//system("pause");
-	std::cout << "\nany key to continue:  ";
+	std::cout << "\nblock_iq_example complete  ,  any key to continue:  ";
 	std::cin >> holder;
 }
 
@@ -482,7 +481,7 @@ void dpx_example()
 
 	//Stop the program so we can see printouts
 	//system("pause");
-	std::cout << "\nany key to continue:  ";
+	std::cout << "\ndpx_example complete  ,  any key to continue:  ";
 	std::cin >> holder;
 }
 

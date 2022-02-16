@@ -28,12 +28,12 @@ int main
 
     //Uncomment the example you'd like to run.
 
-	spectrum_example();
-	//block_iq_example();
-	//dpx_example();
-	//iq_stream_example();
-	//if_stream_example();
-	//if_playback();
+	//spectrum_example();     // seems good
+	//block_iq_example();     // seems good
+	//dpx_example();          // seems good
+	iq_stream_example();    // start working from here
+	//if_stream_example();    // ?
+	//if_playback();          // ?
 
 #ifdef DEBUG_CLI
     printf("\n\t<<<  %s()  >>>\n", __func__);
