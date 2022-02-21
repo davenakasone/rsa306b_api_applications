@@ -28,10 +28,10 @@ int main
 
     //Uncomment the example you'd like to run.
 
-	//spectrum_example();     // seems good
+	spectrum_example();     // seems good
 	//block_iq_example();     // seems good
 	//dpx_example();          // seems good
-	iq_stream_example();    // start working from here
+	//iq_stream_example();    // start working from here
 	//if_stream_example();    // ?
 	//if_playback();          // ?
 
