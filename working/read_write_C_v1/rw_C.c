@@ -5,7 +5,7 @@
 
     kept to single file for unit testing, turn on macros as needed
 
-    $ cd read_write_C
+    $ cd read_write_C_v1
     $ make
     $ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
     $ ./rwC

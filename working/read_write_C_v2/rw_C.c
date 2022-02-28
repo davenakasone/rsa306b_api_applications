@@ -1,20 +1,10 @@
 /*
-    gets a spectrum
-    focus here is getting the complete reading
-    writes data to a file
+    focus is dumping raw data of an entire spectrum
 
-    kept to single file for unit testing, turn on macros as needed
-
-    $ cd read_write_C
+    $ cd read_write_C_v2
     $ make
     $ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
     $ ./rwC
-
-    TODO:
-        worker thread with a mutex or semaphore
-        error handling (program will seg fault if the reading gets behind the stream)
-        real-time adjustments
-        select data to get (there is a lot)
 */
 
 
@@ -28,7 +18,7 @@
 
 #include "RSA_API.h"
 
-#define REPZ 500 // don't make too big, computer can't keep up with bit stream ?
+#define REPZ 10 // don't make too big, computer can't keep up with bit stream ?
 #define SPEC_PATH "logs_spectrum/"
 #define BIG_BUF 1024
 #define STATUS_GOOD 1776
@@ -66,12 +56,14 @@ char g_helper_str[BIG_BUF];
 char g_holder_str[BIG_BUF];
 char g_dts[BIG_BUF];
 FILE* g_fptr = NULL;
-clock_t g_cpu_clk;
-
-void recording_stop(void); //  no gvar: FILE* recording_stop(FILE* fp);
-void recording_start(void); // no gvar: FILE* recording_stop(FILE* fp);
+clock_t g_cpu_clk_start;
+double g_run_time;
 
 int get_dts (void);
+void recording_stop(void); //  no gvar: FILE* recording_stop(FILE* fp);
+void recording_start(void); // no gvar: FILE* recording_stop(FILE* fp);
+double get_running_time(void);
+
 void spectrum_example (void);
 int search_connect (void);
 void print_device_info (int* deviceIDs, int numFound, const char** deviceSerial, const char** deviceType);
@@ -99,20 +91,9 @@ int main
         debug_handler(DB_REPORT);
     #endif
 
-    get_dts();
-    snprintf(g_helper_str, BIG_BUF, "%s%s.txt", SPEC_PATH, g_dts);
-    g_fptr = fopen(g_helper_str, "w");
-    if (g_fptr == NULL) {return EXIT_FAILURE;}
-    snprintf(g_holder_str, BIG_BUF, "\t\t~ ~ ~ LOG OPEN ~ ~ ~%s\n\n", g_helper_str);
-    fputs(g_holder_str, g_fptr);
 
     spectrum_example();
 
-    get_dts();
-    snprintf(g_helper_str, BIG_BUF, "\n\n\t\t ~ ~ ~ LOG CLOSED ~ ~ ~ %s\n\n", g_dts);
-    fputs(g_helper_str, g_fptr);
-    fclose(g_fptr);
-    g_fptr = NULL;
     #ifdef DEBUG_ENABLE 
         debug_handler(DB_END);
     #endif
@@ -146,6 +127,47 @@ int get_dts
     {
         return STATUS_BAD;
     }
+}
+
+
+////~~~~
+
+void recording_start(void)
+{
+    get_dts();
+    g_run_time = get_running_time();
+    g_run_time = g_run_time * 1000000;
+    int micro_seconds = (int) g_run_time;
+    snprintf(g_helper_str, BIG_BUF, "%s%s_%d_.txt", SPEC_PATH, g_dts, micro_seconds);
+    g_fptr = fopen(g_helper_str, "w");
+    if (g_fptr == NULL) {exit(0);}
+    snprintf(g_holder_str, BIG_BUF, "\t\t~ ~ ~ LOG OPEN ~ ~ ~%s\n\n", g_helper_str);
+    fputs(g_holder_str, g_fptr);
+}
+
+
+////~~~~
+
+
+void recording_stop(void)
+{
+    get_dts();
+    snprintf(g_helper_str, BIG_BUF, "\n\n\t\t ~ ~ ~ LOG CLOSED ~ ~ ~ %s\n\n", g_dts);
+    fputs(g_helper_str, g_fptr);
+    fclose(g_fptr);
+    g_fptr = NULL;
+}
+
+
+////~~~~
+
+
+double get_running_time(void)
+{
+    clock_t cpu_clk_now = clock(); // get current time
+    double running_time = 0;
+    running_time = ((double)cpu_clk_now - (double)g_cpu_clk_start) / CLOCKS_PER_SEC;
+    return running_time;
 }
 
 
@@ -267,6 +289,17 @@ void spectrum_example
 
     for (int ii = 0; ii < REPZ; ii++)
     {
+        recording_start();
+        traceData = acquire_spectrum(specSet);
+        freq = create_frequency_array(specSet);
+        for (int jj = specSet.traceLength; jj > 0; jj--)
+        {
+            snprintf(g_helper_str, BIG_BUF, "%lf\n", freq[jj]);
+            fputs(g_helper_str, g_fptr);
+        }
+        recording_stop();
+        
+        /*
         traceData = acquire_spectrum(specSet);
 	    freq = create_frequency_array(specSet);
 	    peakIndex = peak_power_detector(traceData, freq, specSet);
@@ -276,6 +309,7 @@ void spectrum_example
             traceData[peakIndex], freq[peakIndex]);
         fputs(g_helper_str, g_fptr);
         fputs(g_holder_str, g_fptr);
+        */
     }
     /*
 	traceData = acquire_spectrum(specSet);
