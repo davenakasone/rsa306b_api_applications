@@ -32,7 +32,7 @@ double set_span = 40e6;        // 40 MHz maximum frequency range for this device
 double set_rbw = 300e3;        // resolution bandwidth in Hz [10 : 10M]
 
 const int SHIFTZ = 5;             // shift the spectrum span this number of times
-const int  REPZ = 3;             // collect this many traces per span
+const int  REPZ = 3;              // collect this many traces per span
 const double STEP_SIZE = 30e6;    // Hz to shift spectrum, with room for overlap
 
 #define getName(var) #var
@@ -75,7 +75,7 @@ int main
 )
 {
     g_cpu_clk_duration = clock();    // program time starts
-    set_up_rsa();                    // set up the RSA-306B, connections and error check
+    //set_up_rsa();                    // set up the RSA-306B, connections and error check
 
     for (int ii = 0; ii < SHIFTZ; ii++)
     {
@@ -84,6 +84,7 @@ int main
         for (int jj = 0; jj < REPZ; jj++)
         {
             get_spectrum (set_cf, set_ref_level, set_span, set_rbw);
+printf("%d  ,  %s()", __LINE__, __func__);
         }
     }
     
@@ -209,15 +210,18 @@ void set_up_rsa
 )
 {
     int numFound;
-	int* device_IDs;
-	const char** deviceSerial;
-	const char** deviceType;
+	int device_IDs[DEVSRCH_MAX_NUM_DEVICES];
+	const char deviceSerial[DEVSRCH_MAX_NUM_DEVICES][DEVSRCH_SERIAL_MAX_STRLEN];
+	const char deviceType[DEVSRCH_MAX_NUM_DEVICES][DEVSRCH_TYPE_MAX_STRLEN]];
 	char apiVersion[D_BUF];
 	ReturnStatus rs;
 
 	rs = DEVICE_GetAPIVersion(apiVersion);
+printf("%d  ,  %s()", __LINE__, __func__);
     printf("\nAPI Version:  %s\n", apiVersion);
-	rs = DEVICE_SearchInt(&numFound, &device_IDs, &deviceSerial, &deviceType);
+	//rs = DEVICE_SearchInt(&numFound, &device_IDs, &deviceSerial, &deviceType); // hidden malloc()
+//DEVICE_Search(int* numDevicesFound, int deviceIDs[], char deviceSerial[][DEVSRCH_SERIAL_MAX_STRLEN], char deviceType[][DEVSRCH_TYPE_MAX_STRLEN])
+    rs = DEVICE_Search(&numFound, device_IDs, deviceSerial, deviceType)
 	if (numFound != 1)
 	{
         printf("check hardware...\n");
@@ -233,6 +237,9 @@ void set_up_rsa
         printf("\n\tDevice error=  %d\n", rs);
 		exit(0);
 	}
+
+    //free(device_IDs);
+    //free(deviceSerial);
 }
 
 
@@ -247,6 +254,8 @@ void get_spectrum
     double rbw
 )
 {
+set_up_rsa();                    // set up the RSA-306B, connections and error check
+printf("%d  ,  %s()", __LINE__, __func__);
 	Spectrum_Settings specSet;
 	double* freq = NULL;
 	float* traceData = NULL;
