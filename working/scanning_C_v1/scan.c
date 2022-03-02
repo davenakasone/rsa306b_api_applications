@@ -84,7 +84,7 @@ int main
         for (int jj = 0; jj < REPZ; jj++)
         {
             get_spectrum (set_cf, set_ref_level, set_span, set_rbw);
-printf("%d  ,  %s()", __LINE__, __func__);
+printf("%d  ,  %s()\n", __LINE__, __func__);
         }
     }
     
@@ -209,19 +209,29 @@ void set_up_rsa
     void
 )
 {
-    int numFound;
-	int device_IDs[DEVSRCH_MAX_NUM_DEVICES];
-	const char deviceSerial[DEVSRCH_MAX_NUM_DEVICES][DEVSRCH_SERIAL_MAX_STRLEN];
-	const char deviceType[DEVSRCH_MAX_NUM_DEVICES][DEVSRCH_TYPE_MAX_STRLEN]];
-	char apiVersion[D_BUF];
-	ReturnStatus rs;
-
+printf("%d  ,  %s()\n", __LINE__, __func__);
+    char apiVersion[D_BUF];
+    ReturnStatus rs;
 	rs = DEVICE_GetAPIVersion(apiVersion);
-printf("%d  ,  %s()", __LINE__, __func__);
+    // ReturnStatus DEVICE_GetAPIVersion(char* apiVersion);
     printf("\nAPI Version:  %s\n", apiVersion);
-	//rs = DEVICE_SearchInt(&numFound, &device_IDs, &deviceSerial, &deviceType); // hidden malloc()
-//DEVICE_Search(int* numDevicesFound, int deviceIDs[], char deviceSerial[][DEVSRCH_SERIAL_MAX_STRLEN], char deviceType[][DEVSRCH_TYPE_MAX_STRLEN])
-    rs = DEVICE_Search(&numFound, device_IDs, deviceSerial, deviceType)
+    //
+    int numFound = 0;
+	int* device_IDs = (int*) malloc(DEVSRCH_MAX_NUM_DEVICES * sizeof(int));
+    char ** deviceSerial = (char**) malloc(DEVSRCH_MAX_NUM_DEVICES * sizeof(char));
+    char ** deviceType = (char**) malloc(DEVSRCH_MAX_NUM_DEVICES * sizeof(char));
+    for (int ii = 0; ii < DEVSRCH_MAX_NUM_DEVICES; ii++)
+    {
+        deviceSerial[ii] = (char*) malloc(DEVSRCH_SERIAL_MAX_STRLEN * sizeof(char));
+        deviceType[ii] = (char*) malloc(DEVSRCH_TYPE_MAX_STRLEN * sizeof(char));
+    }
+	//char deviceSerial[DEVSRCH_MAX_NUM_DEVICES][DEVSRCH_SERIAL_MAX_STRLEN];
+	//char deviceType[DEVSRCH_MAX_NUM_DEVICES][DEVSRCH_TYPE_MAX_STRLEN];
+    rs = DEVICE_SearchInt(&numFound, &device_IDs, deviceSerial, deviceType);
+    // ReturnStatus DEVICE_Search(int* numDevicesFound, int deviceIDs[], char deviceSerial[][DEVSRCH_SERIAL_MAX_STRLEN], char deviceType[][DEVSRCH_TYPE_MAX_STRLEN])
+    //
+printf("%d  ,  %s()\n", __LINE__, __func__);
+
 	if (numFound != 1)
 	{
         printf("check hardware...\n");
@@ -238,8 +248,13 @@ printf("%d  ,  %s()", __LINE__, __func__);
 		exit(0);
 	}
 
-    //free(device_IDs);
-    //free(deviceSerial);
+    for (int ii = 0; ii < DEVSRCH_MAX_NUM_DEVICES; ii++)
+    {
+        free(deviceSerial[ii]); deviceSerial[ii] = NULL;
+        free(deviceType[ii]); deviceType[ii] == NULL;
+        deviceType[ii] = (char*) malloc(DEVSRCH_TYPE_MAX_STRLEN * sizeof(char));
+    }
+printf("%d  ,  %s()", __LINE__, __func__);
 }
 
 
@@ -255,7 +270,7 @@ void get_spectrum
 )
 {
 set_up_rsa();                    // set up the RSA-306B, connections and error check
-printf("%d  ,  %s()", __LINE__, __func__);
+printf("%d  ,  %s()\n", __LINE__, __func__);
 	Spectrum_Settings specSet;
 	double* freq = NULL;
 	float* traceData = NULL;
