@@ -31,7 +31,7 @@ double set_ref_level = -30;    // maximum expected signal power in dB [-130 : 30
 double set_span = 40e6;        // 40 MHz maximum frequency range for this device
 double set_rbw = 300e3;        // resolution bandwidth in Hz [10 : 10M]
 
-const int SHIFTZ = 5;             // shift the spectrum span this number of times
+const int SHIFTZ = 3;             // shift the spectrum span this number of times
 const int  REPZ = 3;              // collect this many traces per span
 const double STEP_SIZE = 30e6;    // Hz to shift spectrum, with room for overlap
 
@@ -75,7 +75,7 @@ int main
 )
 {
     g_cpu_clk_duration = clock();    // program time starts
-    //set_up_rsa();                    // set up the RSA-306B, connections and error check
+    set_up_rsa();                    // set up the RSA-306B, connections and error check
 
     for (int ii = 0; ii < SHIFTZ; ii++)
     {
@@ -83,12 +83,14 @@ int main
 
         for (int jj = 0; jj < REPZ; jj++)
         {
-            get_spectrum (set_cf, set_ref_level, set_span, set_rbw);
+            get_spectrum(set_cf, set_ref_level, set_span, set_rbw);
 printf("%d  ,  %s()\n", __LINE__, __func__);
         }
     }
     
-    printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~\n\n");
+    printf("\n\tdisconnecting....\n");
+	DEVICE_Disconnect();
+    printf ("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~\n\n");
     return EXIT_SUCCESS;
 }
 
@@ -213,33 +215,23 @@ printf("%d  ,  %s()\n", __LINE__, __func__);
     char apiVersion[D_BUF];
     ReturnStatus rs;
 	rs = DEVICE_GetAPIVersion(apiVersion);
-    // ReturnStatus DEVICE_GetAPIVersion(char* apiVersion);
     printf("\nAPI Version:  %s\n", apiVersion);
     //
     int numFound = 0;
-	int* device_IDs = (int*) malloc(DEVSRCH_MAX_NUM_DEVICES * sizeof(int));
-    char ** deviceSerial = (char**) malloc(DEVSRCH_MAX_NUM_DEVICES * sizeof(char));
-    char ** deviceType = (char**) malloc(DEVSRCH_MAX_NUM_DEVICES * sizeof(char));
-    for (int ii = 0; ii < DEVSRCH_MAX_NUM_DEVICES; ii++)
-    {
-        deviceSerial[ii] = (char*) malloc(DEVSRCH_SERIAL_MAX_STRLEN * sizeof(char));
-        deviceType[ii] = (char*) malloc(DEVSRCH_TYPE_MAX_STRLEN * sizeof(char));
-    }
-	//char deviceSerial[DEVSRCH_MAX_NUM_DEVICES][DEVSRCH_SERIAL_MAX_STRLEN];
-	//char deviceType[DEVSRCH_MAX_NUM_DEVICES][DEVSRCH_TYPE_MAX_STRLEN];
-    rs = DEVICE_SearchInt(&numFound, &device_IDs, deviceSerial, deviceType);
-    // ReturnStatus DEVICE_Search(int* numDevicesFound, int deviceIDs[], char deviceSerial[][DEVSRCH_SERIAL_MAX_STRLEN], char deviceType[][DEVSRCH_TYPE_MAX_STRLEN])
+	int device_IDs[DEVSRCH_MAX_NUM_DEVICES];
+	char device_serials[DEVSRCH_MAX_NUM_DEVICES][DEVSRCH_SERIAL_MAX_STRLEN];
+	char device_types[DEVSRCH_MAX_NUM_DEVICES][DEVSRCH_TYPE_MAX_STRLEN];
+	rs = DEVICE_Search(&numFound, device_IDs, device_serials, device_types);
     //
 printf("%d  ,  %s()\n", __LINE__, __func__);
-
 	if (numFound != 1)
 	{
         printf("check hardware...\n");
 		exit(0);
 	}	
     printf("Device ID:  %d  ,  ", device_IDs[0]);
-	printf("Serial Number:  %s  ,  ", deviceSerial[0]);
-	printf("Device Type:  %s\n", deviceType[0]);
+	printf("Serial Number:  %s  ,  ", device_serials[0]);
+	printf("Device Type:  %s\n", device_types[0]);
     
     rs = DEVICE_Connect(device_IDs[0]);
     if (rs != noError) 
@@ -247,14 +239,7 @@ printf("%d  ,  %s()\n", __LINE__, __func__);
         printf("\n\tDevice error=  %d\n", rs);
 		exit(0);
 	}
-
-    for (int ii = 0; ii < DEVSRCH_MAX_NUM_DEVICES; ii++)
-    {
-        free(deviceSerial[ii]); deviceSerial[ii] = NULL;
-        free(deviceType[ii]); deviceType[ii] == NULL;
-        deviceType[ii] = (char*) malloc(DEVSRCH_TYPE_MAX_STRLEN * sizeof(char));
-    }
-printf("%d  ,  %s()", __LINE__, __func__);
+printf("%d  ,  %s()\n", __LINE__, __func__);
 }
 
 
@@ -269,29 +254,39 @@ void get_spectrum
     double rbw
 )
 {
-set_up_rsa();                    // set up the RSA-306B, connections and error check
+//set_up_rsa();                    // set up the RSA-306B, connections and error check
 printf("%d  ,  %s()\n", __LINE__, __func__);
 	Spectrum_Settings specSet;
 	double* freq = NULL;
 	float* traceData = NULL;
 	//int peakIndex = 0;
     bool ready = false;
-	int timeoutMsec = 0;
+	int timeoutMsec = 0; // micro seconds or milli?
 	
 	CONFIG_Preset();  // device uses free-run trigger
-	CONFIG_SetCenterFreq(cf); // device sets center frequency in Hz
-	CONFIG_SetReferenceLevel(refLevel); // device sets highest reference level in dB
+printf("%d  ,  %s()\n", __LINE__, __func__);
+	//CONFIG_SetCenterFreq(cf); // device sets center frequency in Hz
+printf("%d  ,  %s()\n", __LINE__, __func__);
+	//CONFIG_SetReferenceLevel(refLevel); // device sets highest reference level in dB
+printf("%d  ,  %s()\n", __LINE__, __func__);
 	
-    SPECTRUM_SetEnable(true); // enables hardware for measurement
+printf("%d  ,  %s()\n", __LINE__, __func__);
 	CONFIG_SetCenterFreq(cf);
+printf("%d  ,  %s()\n", __LINE__, __func__);
 	CONFIG_SetReferenceLevel(refLevel);
+printf("%d  ,  %s()\n", __LINE__, __func__);
 	
 	SPECTRUM_SetDefault();
+printf("%d  ,  %s()\n", __LINE__, __func__);
 	SPECTRUM_GetSettings(&specSet);
+printf("%d  ,  %s()\n", __LINE__, __func__);
 	specSet.span = span;
 	specSet.rbw = rbw;
 	SPECTRUM_SetSettings(specSet);
-	SPECTRUM_GetSettings(&specSet);
+printf("%d  ,  %s()\n", __LINE__, __func__);
+	//SPECTRUM_GetSettings(&specSet);
+    SPECTRUM_SetEnable(true); // enables hardware for measurement
+printf("%d  ,  %s()\n", __LINE__, __func__);
     
 recording_start();
     // aquire spectrum
@@ -302,12 +297,16 @@ recording_start();
     traceData = (float*)malloc(n*sizeof(float));
 	
 	DEVICE_Run();
+printf("%d  ,  %s()\n", __LINE__, __func__);
 	SPECTRUM_AcquireTrace();
+printf("%d  ,  %s()\n", __LINE__, __func__);
 	while (ready == false)
-	{
-		SPECTRUM_WaitForTraceReady(timeoutMsec, &ready);
-	}
+    {
+        SPECTRUM_WaitForTraceReady(timeoutMsec, &ready);
+    }
+printf("%d  ,  %s()\n", __LINE__, __func__);
 	SPECTRUM_GetTrace(trace, maxTracePoints, traceData, &outTracePoints);
+printf("%d  ,  %s()\n", __LINE__, __func__);
 	Spectrum_TraceInfo traceInfo;
 	SPECTRUM_GetTraceInfo(&traceInfo);
 	DEVICE_Stop();
@@ -330,8 +329,6 @@ recording_stop();
 	free(traceData);
 	freq = NULL;
 	traceData = NULL;
-    printf("\n\tdisconnecting....\n");
-	DEVICE_Disconnect();
 }
 
 
