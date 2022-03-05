@@ -1,10 +1,12 @@
 /*
-    testing basic API use of C++
+    extends the basic use cases
+    focus on IQ stream
 
     $ cd example_cpp
+    $ make clean
     $ make
     $ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.
-    $ ./cppLoad
+    $ ./cpp_iq
 */
 
 #include <chrono>

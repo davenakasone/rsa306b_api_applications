@@ -22,6 +22,8 @@
 #define DEBUG_CLI -888
 #define getName(var) #var
 
+char holder[BIG_WIDTH];
+
 int search_connect();
 void print_device_info(int* deviceIDs, int numFound, const char** deviceSerial, const char** deviceType);
 
@@ -40,7 +42,7 @@ RSA_API::DPX_FrameBuffer acquire_dpx(RSA_API::DPX_FrameBuffer fb);
 void dpx_example();
 
 void config_iq_stream(double cf, double refLevel, double bw, char* fileName, RSA_API::IQSOUTDEST dest, int suffixCtl, int durationMsec);
-void iq_stream_example();
+void if_stream_example();
 void iqstream_status_parser(uint32_t acqStatus);
 void config_iq_stream(double cf, double refLevel, double bw, char* fileName, RSA_API::IQSOUTDEST dest, int suffixCtl, int durationMsec);
 

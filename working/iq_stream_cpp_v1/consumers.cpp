@@ -1,13 +1,20 @@
 /*
+	implementation of "rsa_cpp.h"
+
 	removing "w" type functions and variables
 	use designated API member for Linux 
 	make sure the "RSA_API.h" is not for windows
 */
 
 #include "rsa_cpp.h"
-char holder[BIG_WIDTH];
 
 
+/*
+	called from : search_connect()
+	calls       : none
+	API         : none
+	notes       : exits program if error connecting
+*/
 void err_check
 (
 	RSA_API::ReturnStatus rs
@@ -31,6 +38,12 @@ void err_check
 ////~~~~
 
 
+/*
+	called from : search_connect()
+	calls       : none
+	API         : none
+	notes       : data is error checked before calling
+*/
 void print_device_info
 (
 	int* deviceIDs, 
@@ -56,6 +69,20 @@ void print_device_info
 ////~~~~
 
 
+/*
+	called from : spectrum_example(), 
+				  block_iq_example(), 
+				  dpx_example(),
+				  if_stream_example(),
+				  iq_stream_example(), 
+				  if_stream_example()
+	calls       : err_check(), 
+	              print_device_info()
+	API         : DEVICE_GetAPIVersion(), 
+	              DEVICE_SearchInt(), 
+				  DEVICE_Connect()
+	notes       : used as gateway for connecting, retunrs 0 if successful
+*/
 int search_connect
 (
 	void
@@ -99,7 +126,6 @@ int search_connect
 		std::cout << ", Serial Number: " << deviceSerial[dev];
 		std::cout << ", Device Type: " << deviceType[dev] << std::endl;
 	}
-
 	return 0;
 }
 
@@ -107,6 +133,19 @@ int search_connect
 //// ~~~~
 
 
+/*
+	called from : spectrum_example()
+	calls       : none
+	API         : SPECTRUM_SetEnable(), 
+				  CONFIG_SetCenterFreq(), 
+				  CONFIG_SetReferenceLevel(),
+				  SPECTRUM_SetDefault(), 
+				  SPECTRUM_GetSettings(), x2
+				  SPECTRUM_SetSettings()
+	notes       : Spectrum_Settings instance returned
+	              Does this object ever go out of scope?
+	              
+*/
 RSA_API::Spectrum_Settings config_spectrum
 (
 	double cf, 
@@ -124,20 +163,26 @@ RSA_API::Spectrum_Settings config_spectrum
 	RSA_API::CONFIG_SetReferenceLevel(refLevel);
 	
 	RSA_API::SPECTRUM_SetDefault();
-	RSA_API::Spectrum_Settings specSet;
-	RSA_API::SPECTRUM_GetSettings(&specSet);
+	RSA_API::Spectrum_Settings specSet;      // object
+	RSA_API::SPECTRUM_GetSettings(&specSet); // apply defaults
 	specSet.span = span;
 	specSet.rbw = rbw;
-	RSA_API::SPECTRUM_SetSettings(specSet);
-	RSA_API::SPECTRUM_GetSettings(&specSet);
+	RSA_API::SPECTRUM_SetSettings(specSet); // apply user specification
+	RSA_API::SPECTRUM_GetSettings(&specSet); 
 	
-	return specSet;
+	return specSet; // see if this instance persists after leaving call stack
 }
 
 
 ////~~~~
 
 
+/*
+	called from : spectrum_example()
+	calls       : none
+	API         : none
+	notes       : uses frequency step-size for iteration
+*/
 double* create_frequency_array
 (
 	RSA_API::Spectrum_Settings specSet
@@ -149,7 +194,7 @@ double* create_frequency_array
 
 	double* freq = NULL;
 	int n = specSet.traceLength;
-	freq = new double[n]; // see if you can find the delete/free()
+	freq = new double[n];    // deallocated in spectrum_example()
 	for (int i=0; i < specSet.traceLength; i++)
 	{
 		freq[i] = specSet.actualStartFreq + specSet.actualFreqStepSize*i;
@@ -162,6 +207,12 @@ double* create_frequency_array
 ////~~~~
 
 
+/*
+	called from : spectrum_example()
+	calls       : none
+	API         : 
+	notes       : SpectrumTraces instance used
+*/
 float* acquire_spectrum
 (
 	RSA_API::Spectrum_Settings specSet
@@ -201,6 +252,12 @@ float* acquire_spectrum
 ////~~~~
 
 
+/*
+	called from : 
+	calls       : 
+	API         : 
+	notes       : 
+*/
 int peak_power_detector
 (
 	float* traceData,
@@ -228,6 +285,12 @@ int peak_power_detector
 ////~~~~
 
 
+/*
+	called from : 
+	calls       : 
+	API         : 
+	notes       : 
+*/
 void spectrum_example
 (
 	void
@@ -281,6 +344,12 @@ void spectrum_example
 ////~~~~ 
 
 
+/*
+	called from : 
+	calls       : 
+	API         : 
+	notes       : 
+*/
 double* config_block_iq
 (
 	double cf, 
@@ -321,6 +390,12 @@ double* config_block_iq
 ////~~~~
 
 
+/*
+	called from : 
+	calls       : 
+	API         : 
+	notes       : 
+*/
 RSA_API::Cplx32* acquire_block_iq
 (
 	int recordLength
@@ -353,6 +428,12 @@ RSA_API::Cplx32* acquire_block_iq
 ////~~~~
 
 
+/*
+	called from : 
+	calls       : 
+	API         : 
+	notes       : 
+*/
 void block_iq_example
 (
 	void
@@ -392,6 +473,12 @@ void block_iq_example
 ////~~~~
 
 
+/*
+	called from : 
+	calls       : 
+	API         : 
+	notes       : 
+*/
 void config_dpx
 (
 	double cf, 
@@ -423,6 +510,12 @@ void config_dpx
 ////~~~~
 
 
+/*
+	called from : 
+	calls       : 
+	API         : 
+	notes       : 
+*/
 void acquire_dpx
 (
 	RSA_API::DPX_FrameBuffer* fb
@@ -453,6 +546,12 @@ void acquire_dpx
 ////~~~~
 
 
+/*
+	called from : 
+	calls       : 
+	API         : 
+	notes       : 
+*/
 void dpx_example()
 {
 #ifdef DEBUG_CLI
@@ -489,6 +588,12 @@ void dpx_example()
 ////~~~~
 
 
+/*
+	called from : 
+	calls       : 
+	API         : 
+	notes       : 
+*/
 void config_if_stream
 (
 	double cf,
@@ -517,6 +622,12 @@ void config_if_stream
 ////~~~~
 
 
+/*
+	called from : 
+	calls       : 
+	API         : 
+	notes       : 
+*/
 void if_stream_example
 (
 	void
@@ -560,6 +671,12 @@ void if_stream_example
 ////~~~~
 
 
+/*
+	called from : 
+	calls       : 
+	API         : 
+	notes       : 
+*/
 void config_iq_stream
 (
 	double cf, 
@@ -592,6 +709,12 @@ void config_iq_stream
 ////~~~~
 
 
+/*
+	called from : 
+	calls       : 
+	API         : 
+	notes       : 
+*/
 void iqstream_status_parser
 (
 	uint32_t acqStatus
@@ -636,6 +759,12 @@ void iqstream_status_parser
 ////~~~~
 
 
+/*
+	called from : 
+	calls       : 
+	API         : 
+	notes       : 
+*/
 void iq_stream_example
 (
 	void
@@ -688,6 +817,12 @@ void iq_stream_example
 ////~~~~
 
 
+/*
+	called from : 
+	calls       : 
+	API         : 
+	notes       : 
+*/
 void config_trigger
 (
 	RSA_API::TriggerMode trigMode, 
@@ -709,6 +844,12 @@ void config_trigger
 ////~~~~
 
 
+/*
+	called from : 
+	calls       : 
+	API         : 
+	notes       : 
+*/
 void if_playback()
 {
 #ifdef DEBUG_CLI
