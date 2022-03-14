@@ -33,9 +33,9 @@ int main
 	spectrum_example();     // seems good
 	//block_iq_example();     // seems good
 	//dpx_example();          // seems good
-	//iq_stream_example();    // start working from here
-	//if_stream_example();    // ?
-	//if_playback();          // ?
+	//iq_stream_example();    // seems good
+	//if_stream_example();    // seems good
+	//if_playback();          // need to work it out for Linux
 
 #ifdef DEBUG_CLI
     printf("\n\t<<<  %s()  >>>\n", __func__);

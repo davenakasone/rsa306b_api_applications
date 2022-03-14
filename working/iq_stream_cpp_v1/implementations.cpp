@@ -7,13 +7,16 @@
 */
 
 #include "rsa_cpp.h"
-
+char holder[BIG_WIDTH];
 
 /*
-	called from : search_connect()
-	calls       : none
-	API         : none
-	notes       : exits program if error connecting
+	called from   : search_connect()
+	calls         : none
+	API types     : ReturnStatus
+	API values    : noError
+	API functions : none
+	notes         : ReturnStatus instance as input parameter
+	                exits the program if an error is detected
 */
 void err_check
 (
@@ -29,7 +32,6 @@ void err_check
 	if (rs != RSA_API::noError) 
 	{
 		std::cout << "\nError: " << rs << std::endl;
-		//std::system("pause");
 		std::exit(0);
 	}
 }
@@ -39,10 +41,13 @@ void err_check
 
 
 /*
-	called from : search_connect()
-	calls       : none
-	API         : none
-	notes       : data is error checked before calling
+	called from   : search_connect()
+	calls         : none
+	API types     : none
+	API values    : none
+	API functions : none
+	notes         : evaluates values input from DEVICE_SearchInt()
+	                data is error-checked before calling
 */
 void print_device_info
 (
@@ -70,18 +75,18 @@ void print_device_info
 
 
 /*
-	called from : spectrum_example(), 
-				  block_iq_example(), 
-				  dpx_example(),
-				  if_stream_example(),
-				  iq_stream_example(), 
-				  if_stream_example()
-	calls       : err_check(), 
-	              print_device_info()
-	API         : DEVICE_GetAPIVersion(), 
-	              DEVICE_SearchInt(), 
-				  DEVICE_Connect()
-	notes       : used as gateway for connecting, retunrs 0 if successful
+	called from   : spectrum_example()
+				    block_iq_example() 
+				    dpx_example()
+	calls         : err_check() 
+	                print_device_info()
+	API types     : ReturnStatus
+	API values    : none
+	API functions : DEVICE_GetAPIVersion() 
+	                DEVICE_SearchInt() 
+				    DEVICE_Connect()
+	notes         : used as gateway for connecting
+	                retunrs 0 if successful
 */
 int search_connect
 (
@@ -105,7 +110,6 @@ int search_connect
 	if (numFound < 1)
 	{
 		std::cout << "No devices found, exiting script." << std::endl;
-		//std::system("pause");
 		std::exit(0);
 	}
 	else if (numFound == 1)
@@ -134,17 +138,17 @@ int search_connect
 
 
 /*
-	called from : spectrum_example()
-	calls       : none
-	API         : SPECTRUM_SetEnable(), 
-				  CONFIG_SetCenterFreq(), 
-				  CONFIG_SetReferenceLevel(),
-				  SPECTRUM_SetDefault(), 
-				  SPECTRUM_GetSettings(), x2
-				  SPECTRUM_SetSettings()
-	notes       : Spectrum_Settings instance returned
-	              Does this object ever go out of scope?
-	              
+	called from   : spectrum_example()
+	calls         : none
+	API types     : Spectrum_Settings
+	API values    : none
+	API functions : SPECTRUM_SetEnable() 
+				    CONFIG_SetCenterFreq() 
+				    CONFIG_SetReferenceLevel()
+				    SPECTRUM_SetDefault() 
+				    SPECTRUM_GetSettings() x2
+				    SPECTRUM_SetSettings()
+	notes         : check scope of Spectrum_Settings instance returned ?
 */
 RSA_API::Spectrum_Settings config_spectrum
 (
@@ -178,10 +182,14 @@ RSA_API::Spectrum_Settings config_spectrum
 
 
 /*
-	called from : spectrum_example()
-	calls       : none
-	API         : none
-	notes       : uses frequency step-size for iteration
+	called from   : spectrum_example()
+	calls         : none
+	API types     : Spectrum_Settings
+	API values    : none
+	API functions : none
+	notes         : frequency is completley itterated
+					Spectrum_Settings isntance as input
+					dynamic float array made in here
 */
 double* create_frequency_array
 (
@@ -208,10 +216,19 @@ double* create_frequency_array
 
 
 /*
-	called from : spectrum_example()
-	calls       : none
-	API         : 
-	notes       : SpectrumTraces instance used
+	called from   : spectrum_example()
+	calls         : none
+	API types     : Spectrum_Settings
+					SpectrumTraces
+	API values    : none
+	API functions : DEVICE_Run()
+				    SPECTRUM_AquireTrace()
+				    SPECTRUM_WaitForTraceReady()
+					SPECTRUM_GetTrace()
+					SPECTRUM_GetTraceInfo()
+					DEVICE_Stop()
+	notes         : infinite loop until aquisition ready
+					dynamic float array is allocated
 */
 float* acquire_spectrum
 (
@@ -230,7 +247,7 @@ float* acquire_spectrum
 	int outTracePoints = 0;
 	float* traceData = NULL;
 	int n = maxTracePoints;
-	traceData = new float[n]; // where is the delete?
+	traceData = new float[n];    // deallocated in spectrum_example()
 	
 	RSA_API::DEVICE_Run();
 	RSA_API::SPECTRUM_AcquireTrace();
@@ -253,10 +270,13 @@ float* acquire_spectrum
 
 
 /*
-	called from : 
-	calls       : 
-	API         : 
-	notes       : 
+	called from   : spectrum_example()
+	calls         : none
+	API types     : Spectrum_Settings
+	API values    : none
+	API functions : none
+	notes         : iterates aquired trace to find peak frequency index
+	                not sure why it needs the double* freq
 */
 int peak_power_detector
 (
@@ -286,10 +306,19 @@ int peak_power_detector
 
 
 /*
-	called from : 
-	calls       : 
-	API         : 
-	notes       : 
+	called from   : main()
+	calls         : search_connect()
+					config_spectrum()
+					acquire_spectrum()
+					create_frequency_array()
+					peak_power_detector()
+	API types     : Spectrum_Settings
+	API values    : none
+	API functions : CONFIG_Preset()
+					CONFIG_SetCenterFreq()
+					CONFIG_SetReferenceLevel()
+					DEVICE_Disconnect()
+	notes         : deallocates 2x new calls for float arrays
 */
 void spectrum_example
 (
@@ -314,7 +343,9 @@ void spectrum_example
 	RSA_API::CONFIG_SetCenterFreq(cf);
 	RSA_API::CONFIG_SetReferenceLevel(refLevel);
 
-	specSet = config_spectrum(cf, refLevel, span, rbw);
+	specSet = config_spectrum(cf, refLevel, span, rbw);	
+for (int repz = 0; repz < 5000; repz++)
+{
 	traceData = acquire_spectrum(specSet);
 	freq = create_frequency_array(specSet);
 	peakIndex = peak_power_detector(traceData, freq, specSet);
@@ -325,17 +356,14 @@ void spectrum_example
 	std::cout << "Maximum value: " << traceData[peakIndex] << " dBm" << std::endl;
 	std::cout << "Frequency of max amplitude: " << freq[peakIndex] << " Hz" << std::endl;
 
-	std::cout << "Disconnecting." << std::endl;
-	RSA_API::DEVICE_Disconnect();
-
-	//Clean up arrays
 	delete[] freq;
 	delete[] traceData;
 	freq = NULL;
 	traceData = NULL;
+}
+	std::cout << "Disconnecting." << std::endl;
+	RSA_API::DEVICE_Disconnect();
 
-	//Stop the program so we can see printouts
-	//std::system("pause");
 	std::cout << "\nspectrum_example complete  ,  any key to continue:  ";
 	std::cin >> holder;
 }
@@ -344,12 +372,6 @@ void spectrum_example
 ////~~~~ 
 
 
-/*
-	called from : 
-	calls       : 
-	API         : 
-	notes       : 
-*/
 double* config_block_iq
 (
 	double cf, 
@@ -390,12 +412,6 @@ double* config_block_iq
 ////~~~~
 
 
-/*
-	called from : 
-	calls       : 
-	API         : 
-	notes       : 
-*/
 RSA_API::Cplx32* acquire_block_iq
 (
 	int recordLength
@@ -428,12 +444,6 @@ RSA_API::Cplx32* acquire_block_iq
 ////~~~~
 
 
-/*
-	called from : 
-	calls       : 
-	API         : 
-	notes       : 
-*/
 void block_iq_example
 (
 	void
@@ -457,14 +467,11 @@ void block_iq_example
 	std::cout << "Also this is boring because I can't plot anything." << std::endl;
 	RSA_API::DEVICE_Disconnect();
 
-	//Clean up arrays
 	delete[] time;
 	delete[] iqData;
 	time = NULL;
 	iqData = NULL;
 
-	//Stop the program so we can see printouts
-	//system("pause");
 	std::cout << "\nblock_iq_example complete  ,  any key to continue:  ";
 	std::cin >> holder;
 }
@@ -473,12 +480,6 @@ void block_iq_example
 ////~~~~
 
 
-/*
-	called from : 
-	calls       : 
-	API         : 
-	notes       : 
-*/
 void config_dpx
 (
 	double cf, 
@@ -510,12 +511,6 @@ void config_dpx
 ////~~~~
 
 
-/*
-	called from : 
-	calls       : 
-	API         : 
-	notes       : 
-*/
 void acquire_dpx
 (
 	RSA_API::DPX_FrameBuffer* fb
@@ -546,12 +541,6 @@ void acquire_dpx
 ////~~~~
 
 
-/*
-	called from : 
-	calls       : 
-	API         : 
-	notes       : 
-*/
 void dpx_example()
 {
 #ifdef DEBUG_CLI
@@ -578,8 +567,6 @@ void dpx_example()
 	std::cout << "Disconnecting." << std::endl;
 	RSA_API::DEVICE_Disconnect();
 
-	//Stop the program so we can see printouts
-	//system("pause");
 	std::cout << "\ndpx_example complete  ,  any key to continue:  ";
 	std::cin >> holder;
 }
@@ -588,12 +575,6 @@ void dpx_example()
 ////~~~~
 
 
-/*
-	called from : 
-	calls       : 
-	API         : 
-	notes       : 
-*/
 void config_if_stream
 (
 	double cf,
@@ -622,12 +603,6 @@ void config_if_stream
 ////~~~~
 
 
-/*
-	called from : 
-	calls       : 
-	API         : 
-	notes       : 
-*/
 void if_stream_example
 (
 	void
@@ -640,7 +615,7 @@ void if_stream_example
 	search_connect();
 	double cf = 2.4453e9;
 	double refLevel = -30;
-	char fileDir [BIG_WIDTH] = "C:\\SignalVu-PC Files\\";
+	char fileDir [BIG_WIDTH] = "./";
 	char fileName [BIG_WIDTH] = "if_stream_test";
 	int durationMsec = 1000;
 	int waitTime = 10;
@@ -661,8 +636,6 @@ void if_stream_example
 	std::cout << "Disconnecting." << std::endl;
 	RSA_API::DEVICE_Disconnect();
 
-	//Stop the program so we can see printouts
-	//system("pause");
 	std::cout << "\nany key to continue:  ";
 	std::cin >> holder;
 }
@@ -672,10 +645,19 @@ void if_stream_example
 
 
 /*
-	called from : 
-	calls       : 
-	API         : 
-	notes       : 
+	called from   : iq_stream_example()
+	calls         : none
+	API types     : IQSOUTDEST
+	API values    : none
+	API functions : CONFIG_SetCenterFreq()
+					CONFIG_SetReferenceLevel()
+					IQSTREAM_SetAcqBandwidth()
+					IQSTREAM_SetOutputConfiguration()
+					IQSTREAM_SetDiskFilenameBase()
+					IQSTREAM_SetDiskFilenameSuffix()
+					IQSTREAM_SetDiskFileLength()
+					IQSTREAM_GetAcqParameters()
+	notes         : sets up the IQ stream
 */
 void config_iq_stream
 (
@@ -710,10 +692,12 @@ void config_iq_stream
 
 
 /*
-	called from : 
-	calls       : 
-	API         : 
-	notes       : 
+	called from   : iq_stream_example()
+	calls         : none
+	API types     : IQSOUTDEST
+	API values    : IQSTRM_STATUS_*
+	API functions : none
+	notes         : diagnos status of the IQ stream
 */
 void iqstream_status_parser
 (
@@ -760,10 +744,21 @@ void iqstream_status_parser
 
 
 /*
-	called from : 
-	calls       : 
-	API         : 
-	notes       : 
+	called from   : main()
+	calls         : search_connect()
+					config_iq_stream()
+					iqstream_status_parser()
+	API types     : IQSOUTDEST
+					IQSTRMFILEINFO
+	API values    : none
+	API functions : DEVICE_Run()
+					RSA_API::IQSTREAM_Start()
+					RSA_API::IQSTREAM_GetDiskFileWriteStatus()
+					RSA_API::IQSTREAM_Stop()
+					QSTREAM_GetDiskFileInfo()
+					DEVICE_Stop()
+					DEVICE_Disconnect()
+	notes         : 
 */
 void iq_stream_example
 (
@@ -784,7 +779,7 @@ void iq_stream_example
 	int durationMsec = 2000;
 	int waitTime = 10;
 	//char fileName[BIG_WIDTH] = "C:\\SignalVu-PC Files\\iq_stream_test";
-	char fileName[BIG_WIDTH] = ".";
+	char fileName[BIG_WIDTH] = "./iq_stream_test";
 	RSA_API::IQSTRMFILEINFO iqStreamInfo;
 
 	bool complete = false;
@@ -807,8 +802,6 @@ void iq_stream_example
 	std::cout << "Disconnecting." << std::endl;
 	RSA_API::DEVICE_Disconnect();
 
-	//Stop the program so we can see printouts
-	//system("pause");
 	std::cout << "\niq_stream_example complete , any key to continue:  ";
 	std::cin >> holder;
 }
@@ -818,10 +811,7 @@ void iq_stream_example
 
 
 /*
-	called from : 
-	calls       : 
-	API         : 
-	notes       : 
+	this is not used anywhere, but may be helpful
 */
 void config_trigger
 (
@@ -844,12 +834,6 @@ void config_trigger
 ////~~~~
 
 
-/*
-	called from : 
-	calls       : 
-	API         : 
-	notes       : 
-*/
 void if_playback()
 {
 #ifdef DEBUG_CLI
@@ -857,9 +841,9 @@ void if_playback()
 #endif
 
 	search_connect();
-	const char* fileName = "C:\\SignalVu-PC Files\\if_stream_test.r3f";
+	const char* fileName = "if_stream_test.r3f";
 	char FileName[300];
-	snprintf(FileName, 300, "%s", fileName);   // %S is 1-byte-char type for sWprintf
+	snprintf(FileName, 300, "%s", fileName); 
 	
 	FILE* fp = fopen(FileName, "rb");
 	if (fp == NULL)
@@ -881,10 +865,9 @@ void if_playback()
 		RSA_API::PLAYBACK_GetReplayComplete(&complete);
 	}
 	std::cout << "Playback Complete: " << complete << std::endl;
-	//std::system("pause");
 	std::cout << "\nany key to continue:  ";
 	std::cin >> holder;
 }
 
 
-////////~~~~~~~~END>  consumers.cpp
+////////~~~~~~~~END>  implementations.cpp
