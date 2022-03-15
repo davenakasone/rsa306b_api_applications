@@ -75,10 +75,19 @@ int main
 		std::exit(0);
 	}
 	
-	g_cf = 4.9e9;                       
+	/*
+	// original
+	g_cf = 1e9;
 	g_refLevel = -30;                
 	g_span = 40e6;                    
 	g_rbw = 300e3;
+	*/
+	// trying FM radio
+	g_cf = 100e6;
+	g_refLevel = -10;                
+	g_span = 1e6;                    
+	g_rbw = 1e3;
+
 	for (int ii = 0; ii < STEPZ; ii++)
 	{
 		for (int jj = 0; jj < REPZ; jj++)
