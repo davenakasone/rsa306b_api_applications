@@ -1,16 +1,19 @@
-EXEC	=	cLoad
-SRC_FILES=	cLoad.c
-CC	=	gcc
+EXEC = cLoad
+SRC_FILES = cLoad.c
+CC = gcc
 
-#Change "." to directory containing header files
-IDIR	=	..
-#Change "." to directory of API libraries
-LDIR	=	..
+IDIR = .
+LDIR = .
 
-CFLAGS	=	-std=c99 -I$(IDIR)
-LDFLAGS	=	-L$(LDIR)
-LDLIBS	=	-lRSA_API
-LDLIUSBS	=	-lcyusb_shared
+CFLAGS = -Wall -Wextra -Wpedantic -std=c99 -I $(IDIR)
+LDFLAGS = -L $(LDIR)
+LDLIBS = -lRSA_API
+LDLIUSBS = -lcyusb_shared
 
 cLoad: cLoad.c
 	$(CC) -o $(EXEC) $(CFLAGS) $(SRC_FILES) $(LDFLAGS) $(LDLIBS) $(LDLIUSBS) 
+	export LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(LDIR)
+	@echo "${EXEC} compiled, verify the export"
+
+clean:
+	rm -f $(EXEC)

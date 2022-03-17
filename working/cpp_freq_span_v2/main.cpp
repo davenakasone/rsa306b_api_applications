@@ -1,5 +1,10 @@
 /*
     change the frequency center, moving 500 MHz to 1.5 GHz in 40 MHz spans
+	the basic use functions are unpacked, operating on global variables
+	this is the first step to producing modular objects (classes)
+	notice that you could run 1 million loops with no seg-fault
+	the past programs have failed because they try to do too much between aquisitions
+	if you try to do too much, the computer can't keep the stream and seg-faults
 */
 
 #include <chrono>

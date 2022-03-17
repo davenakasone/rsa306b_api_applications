@@ -14,3 +14,6 @@ LDLIUSBS	=	-lcyusb_shared
 
 cppLoad: cppLoad.cpp
 	$(CC) -o $(EXEC) $(CFLAGS) $(SRC_FILES) $(LDFLAGS) $(LDLIBS) $(LDLIUSBS) 
+
+clean:
+	rm -f $(EXEC)

@@ -12,3 +12,6 @@ LDLIUSBS = -lcyusb_shared
 
 rwC: rw_C.c
 	$(CC) -o $(EXEC) $(CFLAGS) $(SRC_FILES) $(LDFLAGS) $(LDLIBS) $(LDLIUSBS) 
+
+clean:
+	rm -f $(EXEC)

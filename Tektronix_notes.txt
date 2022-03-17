@@ -2,24 +2,26 @@ the api needs the .so file
 	2 shared object files are required on Linux
     assuming "README_install.txt" was followed correctly,
         $ cd <your_bld_dir>
-        $ make                                           (any build system)
-        $ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.      (where ever you put the 2 *.so files)
-        $ ./cppLoad                                      (run your executable)
+        $ make                                          
+        $ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.    (where ever you put the 2 *.so files)
+        $ ./<your_exe>                                 (run your executable)
 ...TODO making a .bash, .sh, or .deb for this
 
 you need the software driver (see page 6 of API .pdf)
 	https://www.tek.com/en/search?keywords=RSA%20API&facets=_templatename%3dSoftware&sort=desc
 
 check library
-	$ sudo gcc -lpthread    // library name
+	$ sudo gcc -lpthread    // library name you want to use
 don't trust system("pause") or this_thread_sleep(ms), the working thread will be locked out by a mutex
-just trust the API, and don't try and fork the process it is on or do anything that involves additional threads
+just trust the API, and don't try and fork the process
+multi-threading may be possible
 
 ensure proper hardware requirements are met before using programs
 measurements are not possible without proper antenna (sensor)
 data acquisition is more limited with the API, compared to the Windows-based software
 C code uses C99; ensure the Makefile is sourcing correctly
 Python script appears to be 2.7, try to modify code for python3 or use virtual env with 2.7
+C++ code should use std=c++14, non of the new C++17, 20, etc will work
 
 The API::
     RSA Application Programming Interface – API for 64-Bit Linux – V1.0.0014
@@ -40,14 +42,27 @@ a common error is #205, your USB port is not fast enough
 
 the status light on the RSA306B should turn green if healthy
 
-don't trust anything above -std=c++14, the newer features will not work with the RSA_API
-
 use full scope resolution instead of namespace, more typing, but can see source
     std::cout , RSA_API::YOUR_FUN() , ...
 C++ only, extern C is set in the RSA_API.h
 
+the shared objects were compilied on an x86, x64, or something for an Intel processor
+they do not work on the ARM A72
+Tekronix probably won't give up there source code, and the chance of getting someone to compile on ARM is low
+pick a beater x86 SBC for deployment
 
+Linux, Ubuntu 20.04 LTS appears to be working
 
+python appears to be to slow to interact with the API unless Ctypes are optimized, so just use C or C++
+there is not enough time to make an FPGA or CUDA implementation
+C is viable, but requires a lot of work
+C++ with the STL/Boost is very viable; lots of optimizations, make classes, templates, overloads...
+Matlab will probably work, but 
+    - there is not enough funding for a license
+    - too heavy for an SBC
+    - not able to reproduce source code it can produce
 
-
+if the red LED on the RSA is not turning green, try restarting your computer with the device plugged in
+it needs a restart for the boot configuration to take effect
+(assumes you installed driver correctly)
 
