@@ -1,0 +1,28 @@
+the IQ stream makes a big .sig file
+just streaming 10 seconds make a 450 MB file
+there were over 80,000,000 lines of data in the file
+
+here is the top:
+
+RSASIQHT:1024,1
+FileDateTime:2022-03-19T04:38:46.703
+Hardware:RSA306B,B037150,V7
+Software/Firmware:1.0.0014,V1.7,V2.1
+ReferenceLevel:-30.00
+CenterFrequency:2445300000.00
+SampleRate:56000000.000
+AcqBandwidth:40000000.00
+NumberSamples:112000000
+NumberFormat:IQ-Int16
+DataScale:2.0758172E-06
+DataEndian:Little
+RecordUtcSec:001647689926.706491607
+RecordUtcTime:2022-03-19T11:38:46.706491607
+RecordLclTime:2022-03-19T04:38:46.706491607
+TriggerIndex:0
+TriggerUtcSec:001647689926.706491607
+TriggerUtcTime:2022-03-19T11:38:46.706491607
+TriggerLclTime:2022-03-19T04:38:46.706491607
+AcqStatus:0x00000000
+RefTimeSource:System
+FreqRefSource:Intern

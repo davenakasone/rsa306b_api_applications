@@ -15,10 +15,14 @@ rsa306b_api_applications/
     original_Linux_API      # from manufacturer
 
     working                 # basic tests to ensure interfacing, self-contained resources per directory
+        cpp_block_IQ_v1     # gets IQ from Cplx32 type, includes time, prepared for class use, looks good
+        cpp_DPX_v1          # basic view of DPX data, may be useful, but very heavy
         cpp_freq_span_v1    # basic test using frequency spectrum
         cpp_freq_span_v2    # frequency spectrum, unpacking parameters to prepare for class use, looks good
+        cpp_IF_stream_v1    # has playback, makes very big .r3f files
+        cpp_IQ_stream_v1    # makes very big .sig files, probably not best idea, check playbacks
         example_c           # the C code works, very basic, just to see if device is ok
-        example_cpp         # the C++ code works, must be adapted to Linux, good examples here
+        example_cpp         # the C++ code works, must be adapted to Linux, good examples here + trigger
         example_python      # it works, but python is a bad choice for data acquisition
         iq_stream_cpp_v1    # the IQ files are 400 MB each...
         read_write_C_v1     # tried to do too much, program failed

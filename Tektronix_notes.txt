@@ -66,3 +66,23 @@ if the red LED on the RSA is not turning green, try restarting your computer wit
 it needs a restart for the boot configuration to take effect
 (assumes you installed driver correctly)
 
+be careful with "bool" types
+ANSI and ISO C++ will include them
+C99 needs #include<stdbool.h>
+the API may use "true" == anything except 0, or true == 1
+it is safe to assume "false" == 0 for this API
+
+do not use smart pointers or boost pointers (for API interaction)
+C++ needs good use of "new" and "delete"
+C needs malloc()/calloc()/realloc()... with a matching free()
+there does not appear to be any hidden allocators, but there is use of internal buffers
+see the API documentation to ensure that allocations are properly made
+
+the paths to shared libraries are usually resolved at runtime
+export point LD_LIBRARY_PATH where the 2 shared objects live
+if you need other libraries, like "-lpthread", use the full path when compiling
+static libraries link in phase, but must be replaced if a bug is found
+dynamic/shared libraries are not connected to client's code; 
+    they are dynamically loaded at run-time
+[ .a ] is a static "archive" static
+[ .so ] is a "shared object" dynamic
