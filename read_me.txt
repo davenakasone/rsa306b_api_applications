@@ -16,6 +16,7 @@ rsa306b_api_applications/
 
     working                 # basic tests to ensure interfacing, self-contained resources per directory
         cpp_block_IQ_v1     # gets IQ from Cplx32 type, includes time, prepared for class use, looks good
+        cpp_class_v1        # trying to make a class where the API abstraction is removed
         cpp_DPX_v1          # basic view of DPX data, may be useful, but very heavy
         cpp_freq_span_v1    # basic test using frequency spectrum
         cpp_freq_span_v2    # frequency spectrum, unpacking parameters to prepare for class use, looks good

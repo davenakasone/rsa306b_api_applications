@@ -86,3 +86,6 @@ dynamic/shared libraries are not connected to client's code;
     they are dynamically loaded at run-time
 [ .a ] is a static "archive" static
 [ .so ] is a "shared object" dynamic
+
+need a way to compile and link 2 different library paths
+
