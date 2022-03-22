@@ -20,17 +20,28 @@ int main
     char** envp
 )
 {
-    rsa306b my_spectrum_analyzer;
-    int test = plus_1(6);
+    {
+        rsa306b my_spectrum_analyzer;
+        my_spectrum_analyzer.rsa_connect();
+        sleep(3);
+    }
 
-    RSA_API::DEVICE_Connect(0);
-    sleep(3);
-    RSA_API::DEVICE_Disconnect();
-    
-    printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~%d\n\n", test);
+    printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~\n");
+    #ifdef __clang_major__
+        printf("\nCompiler:  clang  ,  v %d.%d\n\n",
+            __clang_major__, __clang_minor__);
+    #endif
+    #ifdef __GNUC__
+        #ifdef __cplusplus
+            printf("\nCompiler:  g++  ,  v %d.%d\n\n",
+                __GNUC__, __GNUC_MINOR__);
+        #else
+            printf("\nCompiler:  gcc  ,  v %d.%d\n\n",
+                __GNUC__, __GNUC_MINOR__);
+        #endif
+    #endif
     return EXIT_SUCCESS;
 }
-
 
 
 ////////~~~~~~~~END>  main.cpp

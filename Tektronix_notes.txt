@@ -1,5 +1,5 @@
 the api needs the .so file
-	2 shared object files are required on Linux
+	2 shared object files are required on Linux, needs Intel 64-bit processor
     assuming "README_install.txt" was followed correctly,
         $ cd <your_bld_dir>
         $ make                                          
@@ -49,9 +49,9 @@ C++ only, extern C is set in the RSA_API.h
 the shared objects were compilied on an x86, x64, or something for an Intel processor
 they do not work on the ARM A72
 Tekronix probably won't give up there source code, and the chance of getting someone to compile on ARM is low
-pick a beater x86 SBC for deployment
+pick a beater x86 SBC for deployment, something with an i3 or better
 
-Linux, Ubuntu 20.04 LTS appears to be working
+Linux, Ubuntu 20.04 LTS appears to be working, 64-bit dual booting on a mac with i7
 
 python appears to be to slow to interact with the API unless Ctypes are optimized, so just use C or C++
 there is not enough time to make an FPGA or CUDA implementation
