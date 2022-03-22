@@ -16,7 +16,11 @@
 */
 rsa306b::rsa306b()
 {
-    printf("\n\tallocating class instance....\n");
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s(),  constructor\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
     rsa306b::init_member_variables();
 }
 
@@ -32,6 +36,11 @@ rsa306b::rsa306b()
 */
 void rsa306b::init_member_variables()
 {
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
     // general purpose
     this->is_connected = false;
     memset(this->helper_string, '\0', BUF_E);
@@ -59,7 +68,6 @@ void rsa306b::init_member_variables()
         this->device_ids[ii] = INIT_INT;
     }
     this->devices_found = INIT_INT;
-    
 }
        
 
@@ -75,11 +83,16 @@ void rsa306b::init_member_variables()
 */
 rsa306b::~rsa306b()
 {
-    printf("\n\tdeallocating class instance...\n");
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s(),  destructor\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
     if (this->is_connected == true)
     {
         this->api_return_status = RSA_API::DEVICE_Disconnect();
         error_check();
+        sleep(1);
     }
 }
 

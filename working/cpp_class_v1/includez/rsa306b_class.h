@@ -13,6 +13,9 @@
     API function groups:
 
         Alignment
+            ALIGN_GetAlignmentNeeded()
+            ALIGN_GetWarmupStatus()
+            ALIGN_RunAlignment()
 
         Audio # might want to use, look into these later
 
@@ -21,6 +24,7 @@
         Device # used to get basic information and perform basic tasks
             DEVICE_Connect()
             DEVICE_Disconnect()
+            DEVICE_GetEnable()
             DEVICE_GetErrorString()
             DEVICE_GetFPGAVersion()
             DEVICE_GetFWVersion()
@@ -28,9 +32,10 @@
             DEVICE_GetNomenclature()
             DEVICE_GetAPIVersion()
             DEVICE_GetOverTemperatureStatus()
-                DEVICE_Run()
+            DEVICE_Reset()
+            DEVICE_Run()
             DEVICE_Search()
-                DEVICE_Stop()
+            DEVICE_Stop()
 
         DPX
 
@@ -74,6 +79,9 @@
 
 #define GET_NAME(var) #var
 
+#define DEBUG_CLI 1776
+#define DEBUG_MIN 1917
+
 #define BUF_A 32
 #define BUF_B 64
 #define BUF_C 128
@@ -92,16 +100,23 @@ class rsa306b
 {
     public:
 
-        rsa306b();    // general purpouse
-        ~rsa306b();   // general purpose
+        // general purpouse
+        rsa306b();    
+        ~rsa306b();   
 
-        void rsa_check_alignment();    // ALIGN
+        // ALIGN
+        void rsa_alignment();   
 
-        void rsa_connect();              // DEVICE
-        void rsa_device_info();          // DEVICE
-        void rsa_check_temperature();    // DEVICE
+        // CONFIG
+        void rsa_spectrum_config();
 
-
+        // DEVICE
+        void rsa_connect();              
+        void rsa_check_temperature();    
+        void rsa_device_info();          
+        void rsa_reset();                
+        void rsa_run();                  
+        void rsa_stop();   
 
     private:
 
@@ -112,12 +127,16 @@ class rsa306b
         RSA_API::ReturnStatus api_return_status;
 
         // API group "ALIGN"
+            void execute_alignment();
+            void execute_warm_up();
         bool is_needed_alignment;
         bool is_warmed_up;
 
         // API group "AUDIO"
         // API group "CONFIG"
-
+        double center_frequency;
+        double reference_level;
+        
         // API group "DEVICE"
             void error_check(); 
         bool is_connected;
@@ -140,6 +159,8 @@ class rsa306b
         // API group "IQSTREAM"
         // API group "PLAYBACK"
         // API group "SPECTRUM"
+        RSA_API::Spectrum_Settings spectrum_settings;
+
         // API group "REFTIME"
         // API group "TRIG"
 };
