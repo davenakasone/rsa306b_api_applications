@@ -14,7 +14,10 @@
             # record_start_time()
             # record_time_now()
             # record_time_split()
-    
+            # timestamp_2_time()
+            # time_2_timestamp()
+            # update_time_stamp_rate()
+
     "REFTIME" functions are ready when the device is successfully connected
 */
 
@@ -34,7 +37,7 @@ void rsa306b::print_time_begin()
     if (this->is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("device not connected, timing not possible\n");
+            printf("device not connected, no timing data to print\n");
         #endif
         return;
     }
@@ -68,7 +71,7 @@ void rsa306b::print_time_info()
     if (this->is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("device not connected, timing not possible\n");
+            printf("device not connected, no timing data to print\n");
         #endif
         return;
     }
@@ -94,8 +97,7 @@ void rsa306b::print_time_info()
             printf("\treference time source:  unknown\n");
             break;
     }
-    this->api_return_status = RSA_API::REFTIME_GetTimestampRate(
-        &this->time_stamp_sampling_rate);
+    this->update_time_stamp_rate();
     printf("\ttime-stamp rate:  %ld\n", 
         this->time_stamp_sampling_rate);
     this->print_time_begin();
@@ -121,7 +123,7 @@ void rsa306b::print_time_now()
     if (this->is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("device not connected, timing not possible\n");
+            printf("device not connected, no timing data to print\n");
         #endif
         return;
     }
@@ -156,7 +158,7 @@ void rsa306b::print_time_running()
     if (this->is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("device not connected, timing not possible\n");
+            printf("device not connected, no timing data to print\n");
         #endif
         return;
     }
@@ -183,7 +185,7 @@ void rsa306b::print_time_split()
     if (this->is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("device not connected, timing not possible\n");
+            printf("device not connected, no timing data to print\n");
         #endif
         return;
     }
@@ -215,7 +217,7 @@ void rsa306b::record_date_time_stamp
     if (this->is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("device not connected, timing not possible\n");
+            printf("device not connected, can't make a date time stamp\n");
         #endif
         return;
     }
@@ -253,7 +255,7 @@ void rsa306b::record_running_time()
     if (this->is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("device not connected, timing not possible\n");
+            printf("device not connected, no running time\n");
         #endif
         return;
     }
@@ -271,6 +273,8 @@ void rsa306b::record_running_time()
     called from constructor
     should be the only call this function once
     "reference_time_*" members are set for the life of the object
+    the time split is prepared
+    time stamp sampling rate is received
 */
 void rsa306b::record_start_time()
 {
@@ -282,7 +286,7 @@ void rsa306b::record_start_time()
     if (this->is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("device not connected, timing not possible\n");
+            printf("device not connected, can't record start time\n");
         #endif
         return;
     }
@@ -292,6 +296,8 @@ void rsa306b::record_start_time()
         &this->reference_time_nano_seconds, 
         &this->reference_time_stamp);
     this->error_check();
+    this->update_time_stamp_rate();
+    
 }
 
 
@@ -313,7 +319,7 @@ void rsa306b::record_time_now()
     if (this->is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("device not connected, timing not possible\n");
+            printf("device not connected, can't record time now\n");
         #endif
         return;
     }
@@ -343,7 +349,7 @@ void rsa306b::record_time_split()
     if (this->is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("device not connected, timing not possible\n");
+            printf("device not connected, can't make a time split\n");
         #endif
         return;
     }
@@ -355,5 +361,105 @@ void rsa306b::record_time_split()
     this->error_check();
 }
 
-           
+
+////~~~~
+
+
+/*
+    private
+    given a time stamp and timing data types, 
+        updates timing data types to the time stamp
+    the time stamp sample rate is updated because
+        caller will likely need an accurate time stamp rate
+*/
+void rsa306b::timestamp_2_time
+(
+    uint64_t in_time_stamp, 
+    time_t* out_seconds, 
+    uint64_t* out_nanos
+)
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    if (this->is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("device not connected, no times to convert\n");
+        #endif
+        return;
+    }
+    this->update_time_stamp_rate();
+    this->api_return_status = RSA_API::REFTIME_GetTimeFromTimestamp(
+        in_time_stamp, out_seconds, out_nanos);
+    this->error_check();
+}
+
+
+////~~~~
+
+
+/*
+    private
+    given a time stamp and timing data types, 
+        updates time stamp to the timing data types
+    the time stamp sample rate is updated because
+        caller will likely need an accurate time stamp rate
+*/
+void rsa306b::time_2_timestamp
+(
+    time_t in_seconds, 
+    uint64_t in_nanos, 
+    uint64_t* out_time_stamp
+)
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    if (this->is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("device not connected, no times to convert\n");
+        #endif
+        return;
+    }
+    this->update_time_stamp_rate();
+    this->api_return_status = RSA_API::REFTIME_GetTimestampFromTime(
+        in_seconds, in_nanos, out_time_stamp);
+    this->error_check();
+}
+
+
+////~~~~
+
+
+/*
+    private
+    called to set time stamp sampling rate
+    good to call occasionally in case any temperature changes occur
+*/
+void rsa306b::update_time_stamp_rate()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    if (this->is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("device not connected, can't update time stamp rate\n");
+        #endif
+        return;
+    }
+    this->api_return_status = RSA_API::REFTIME_GetTimestampRate(
+        &this->time_stamp_sampling_rate);
+    this->error_check();
+}
+
+
 ////////~~~~~~~~END>  rsa306b_class_REFTIME.cpp

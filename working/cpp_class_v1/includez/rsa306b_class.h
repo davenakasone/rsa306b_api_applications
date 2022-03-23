@@ -84,6 +84,8 @@
             REFTIME_GetCurrentTime()
             REFTIME_GetIntervalSinceRefTimeSet()
             REFTIME_GetReferenceTimeSource()
+            REFTIME_GetTimeFromTimestamp()
+            REFTIME_GetTimestampFromTime()
             REFTIME_GetTimestampRate()
 
         Tracking # not used, only for RSA500/600 series
@@ -254,6 +256,9 @@ class rsa306b
             void record_start_time();
             void record_time_now();
             void record_time_split();
+            void timestamp_2_time(uint64_t in_time_stamp, time_t* out_seconds, uint64_t* out_nanos);
+            void time_2_timestamp(time_t in_seconds, uint64_t in_nanos, uint64_t* out_time_stamp);
+            void update_time_stamp_rate();
         char date_time_stamp[BUF_B];                   
         double seconds_since_reference_time_set;
         double time_split;
