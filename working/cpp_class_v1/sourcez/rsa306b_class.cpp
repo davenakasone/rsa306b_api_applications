@@ -1,8 +1,10 @@
 /*
     implementation of the essential components in the rsa306b class
-        # rsa306b()
-        # init_member_variables()
-        # ~rsa306b()
+        public:
+            # rsa306b()
+            # ~rsa306b()
+        private:
+            # init_member_variables()
 */
 
 #include "../includez/rsa306b_class.h"
@@ -13,6 +15,7 @@
     the constructor for the class
     there is no need for multiple constructors (for now)
     ensures all variables are initialized to known values
+    refernce time must begin when instance is made
 */
 rsa306b::rsa306b()
 {
@@ -21,55 +24,14 @@ rsa306b::rsa306b()
         __LINE__, __FILE__, __func__);
 #endif
 
+    this->api_return_status = RSA_API::REFTIME_GetReferenceTime(
+        &this->reference_time_seconds, 
+        &this->reference_time_nano_seconds, 
+        &this->reference_time_stamp);
     rsa306b::init_member_variables();
+    this->rsa_connect();
 }
 
-
-////~~~~
-
-
-/*
-    public
-    call any time member variables should be reset to known values
-    deallocates dynamically member variables if needed, and places on NULL
-    initialization values are in "rsa306b_class.h"
-*/
-void rsa306b::init_member_variables()
-{
-#ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
-        __LINE__, __FILE__, __func__);
-#endif
-
-    // general purpose
-    this->is_connected = false;
-    memset(this->helper_string, '\0', BUF_E);
-    memset(this->holder_string, '\0', BUF_F);
-    this->api_return_status = RSA_API::errorPlaceholder;
-
-    // ALIGN
-    this->is_needed_alignment = true;
-    this->is_warmed_up = false;
-
-    // DEVICE
-    this->is_connected = false;
-    this->is_over_temperature_limit = true;
-    this->is_running = false;
-    memset(this->device_api_version, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    memset(this->device_error_string, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    memset(this->device_firm_ware_version, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    memset(this->device_fpga_version, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    memset(this->device_hardware_version, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    memset(this->device_nomenclature, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    for (int ii = 0; ii < RSA_API::DEVSRCH_MAX_NUM_DEVICES; ii++)
-    {
-        sprintf(this->device_serials[ii], "%s", INIT_STR);
-        sprintf(this->device_types[ii], "%s", INIT_STR);
-        this->device_ids[ii] = INIT_INT;
-    }
-    this->devices_found = INIT_INT;
-}
-       
 
 ////~~~~
 
@@ -91,10 +53,63 @@ rsa306b::~rsa306b()
     if (this->is_connected == true)
     {
         this->api_return_status = RSA_API::DEVICE_Disconnect();
-        error_check();
+        this->error_check();
         sleep(1);
     }
 }
 
+
+////~~~~
+
+
+/*
+    private
+    call any time member variables should be reset to known values
+    deallocates dynamically member variables if needed, and places on NULL
+    initialization values are in "rsa306b_class.h"
+*/
+void rsa306b::init_member_variables()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    // general purpose
+    this->is_connected = false;
+    memset(this->helper_string, '\0', BUF_E);
+    memset(this->holder_string, '\0', BUF_F);
+    //this->api_return_status = RSA_API::errorPlaceholder;
+
+    // ALIGN
+    this->is_needed_alignment = true;
+    this->is_warmed_up = false;
+
+    // CONFIG
+    this->center_frequency = INIT_DOUBLE;
+    this->center_frequency_max = INIT_DOUBLE;
+    this->center_frequency_min = INIT_DOUBLE;
+    this->reference_level = INIT_DOUBLE;
+    this->frequency_reference_source = RSA_API::FRS_INTERNAL;
+
+    // DEVICE
+    this->is_connected = false;
+    this->is_over_temperature_limit = true;
+    this->is_running = false;
+    memset(this->device_api_version, '\0', RSA_API::DEVINFO_MAX_STRLEN);
+    memset(this->device_error_string, '\0', RSA_API::DEVINFO_MAX_STRLEN);
+    memset(this->device_firm_ware_version, '\0', RSA_API::DEVINFO_MAX_STRLEN);
+    memset(this->device_fpga_version, '\0', RSA_API::DEVINFO_MAX_STRLEN);
+    memset(this->device_hardware_version, '\0', RSA_API::DEVINFO_MAX_STRLEN);
+    memset(this->device_nomenclature, '\0', RSA_API::DEVINFO_MAX_STRLEN);
+    for (int ii = 0; ii < RSA_API::DEVSRCH_MAX_NUM_DEVICES; ii++)
+    {
+        sprintf(this->device_serials[ii], "%s", INIT_STR);
+        sprintf(this->device_types[ii], "%s", INIT_STR);
+        this->device_ids[ii] = INIT_INT;
+    }
+    this->devices_found = INIT_INT;
+}
+       
 
 ////////~~~~~~~~END>  rsa306b_class.cpp

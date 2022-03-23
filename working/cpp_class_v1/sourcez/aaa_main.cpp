@@ -20,9 +20,12 @@ int main
     char** envp
 )
 {
+    double center_f = 1.3e6;
+    double reference_l = -10.2;
     {
-        rsa306b my_spectrum_analyzer;
-        my_spectrum_analyzer.rsa_connect();
+        rsa306b my_spectrum_analyzer;    // automatic connection
+        my_spectrum_analyzer.rsa_configure_cf_rl(center_f, reference_l);
+        my_spectrum_analyzer.print_configuration();
         sleep(3);
     }
 
