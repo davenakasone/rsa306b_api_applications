@@ -70,6 +70,14 @@
             SPECTRUM_GetLimits()
             SPECTRUM_GetSettings()
             SPECTRUM_GetTrace()
+            SPECTRUM_GetTraceInfo()
+            SPECTRUM_GetTraceType()
+            SPECTRUM_SetDefault()
+            SPECTRUM_SetEnable()
+            SPECTRUM_SetSettings()
+            SPECTRUM_SetTraceType()
+            SPECTRUM_WaitForTraceReady()
+
 
         Time
             REFTIME_GetReferenceTime()
@@ -113,8 +121,8 @@
 
 #define GET_NAME(var) #var
 
-//#define DEBUG_CLI 1776    // when activated, prints __LINE__, __FILE__, __func__ for each call
-//#define DEBUG_MIN 1917    // when activated, prints essential information
+#define DEBUG_CLI 1776    // when activated, prints __LINE__, __FILE__, __func__ for each call
+#define DEBUG_MIN 1917    // when activated, prints essential information
 #define DEBUG_ERR 1492    // when activated, prints error_checks() that result in an error condition
 
 #define BUF_A 32
@@ -231,8 +239,9 @@ class rsa306b
         RSA_API::Spectrum_TraceInfo spectrum_trace_info_type;            // struct, used for timing and "AcqDataStatus"
         
         
+        bool is_enabled_trace;
         float* trace_data; // dynamic
-        int out_trace_points; // how many valid points were aquired from trace
+        
 
 
 
