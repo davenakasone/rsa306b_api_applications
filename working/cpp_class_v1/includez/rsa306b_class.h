@@ -10,6 +10,7 @@
         rsa306b_class_CONFIG.cpp
         rsa306b_class_DEVICE.cpp 
         rsa306b_class_REFTIME.cpp 
+        rsa306b_class_SPECTRUM.cpp
         rsa306b_class.cpp  // general purpose
 
 
@@ -64,23 +65,35 @@
         Power # not used, only for the RSA500 series
 
         Spectrum
+            SPECTRUM_AquireTrace()
+            SPECTRUM_GetEnable()
+            SPECTRUM_GetLimits()
+            SPECTRUM_GetSettings()
+            SPECTRUM_GetTrace()
 
         Time
             REFTIME_GetReferenceTime()
             REFTIME_GetCurrentTime()
             REFTIME_GetIntervalSinceRefTimeSet()
             REFTIME_GetReferenceTimeSource()
+            REFTIME_GetTimestampRate()
 
         Tracking # not used, only for RSA500/600 series
 
         Trigger # this group looks useful, try it out later
 
 
-    a method of form "rsa_*" will directly use the API
+    a method of form "rsa_*" replaces the user's need to interact with the API
     a method of form "print_*" may use the API, but just prints to stdout
+    an API enum has form "*_select"
+    an API struct has form "*_type"
+    const data types are used to assure type-safe constants
+    #define VALUE is used when const is not possible
+    any fixed value should be controlled in this header file
+    any library or header needed for the class should be included in this header file (not source files)
 
     TODO:
-        timer with splits
+        see what function groups are useful
         DEBUG logger .txt
         date-time-stamp
         ...helper class by composition or make this a big API class
@@ -92,10 +105,11 @@
 
 #include <iostream>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-#include "../api_resourcez/RSA_API.h" // has <time.h> and <stdint.h> already
+#include "../api_resourcez/RSA_API.h" // has <time.h> and <stdint.h> 
 
 #define GET_NAME(var) #var
 
@@ -145,27 +159,26 @@ class rsa306b
 
         // DEVICE
         void rsa_connect();              
-        void print_temperature();    
+        void print_device_temperature();    
         void print_device_info();          
         void rsa_reset();                
         void rsa_run();                  
         void rsa_stop();   
 
         // REFTIME
-        void print_date_time_stamp();
-        void print_running_time_seconds();
+        void print_time_begin();
         void print_time_info();
         void print_time_now();
-        void print_time_split_seconds();
+        void print_time_running();
+        void print_time_split();
         
-
     private:
 
         // general purpose
             void init_member_variables();
         char helper_string[BUF_E];
         char holder_string[BUF_F];
-        RSA_API::ReturnStatus api_return_status;  // do not initialize
+        RSA_API::ReturnStatus api_return_status;  // do not initialize, enum, most API functions return this
 
         // API group "ALIGN"
             void execute_alignment();
@@ -180,7 +193,7 @@ class rsa306b
         double center_frequency_max;
         double center_frequency_min;
         double reference_level;
-        RSA_API::FREQREF_SOURCE frequency_reference_source;
+        RSA_API::FREQREF_SOURCE frequency_reference_source_select;    // enum, where source of frequency is
 
         // API group "DEVICE"
             void error_check(); 
@@ -209,24 +222,42 @@ class rsa306b
         // API group "PLAYBACK"
 
         // API group "SPECTRUM"
-        RSA_API::Spectrum_Settings spectrum_settings;
+        RSA_API::SpectrumDetectors spectrum_detector_select;             // enum, condition to aquire bin
+        RSA_API::SpectrumVerticalUnits spectrum_vertical_unit_select;    // enum, data to be output on Y-axis
+        RSA_API::SpectrumTraces spectrum_trace_select;                   // enum, type of trace to get
+        RSA_API::SpectrumWindows spectrum_window_select;                 // enum, type of filtering window
+        RSA_API::Spectrum_Limits spectrum_limits_type;                   // struct, with 6 doubles and 2 ints as limits
+        RSA_API::Spectrum_Settings spectrum_settings_type;               // struct, with internal + external settings
+        RSA_API::Spectrum_TraceInfo spectrum_trace_info_type;            // struct, used for timing and "AcqDataStatus"
+        
+        
+        float* trace_data; // dynamic
+        int out_trace_points; // how many valid points were aquired from trace
 
-        // API group "REFTIME"
-            void record_date_time_stamp();
+
+
+
+
+
+        // API group "REFTIME", do not initialize member variables
+            void record_date_time_stamp(time_t time_in, uint64_t nano_in);
+            void record_running_time();
             void record_start_time();
             void record_time_now();
             void record_time_split();
-        char date_time_stamp[BUF_B];
+        char date_time_stamp[BUF_B];                   
         double seconds_since_reference_time_set;
+        double time_split;
         double time_split_lead;
         double time_split_trail;
-        RSA_API::REFTIME_SRC reference_time_source;
-        time_t current_time_seconds;             // seconds since 00:00:00, Jan 1, 1970, UTC
-        time_t reference_time_seconds;           // seconds since 00:00:00, Jan 1, 1970, UTC, do not initialize
-        uint64_t current_time_nano_seconds;      // off set from seconds
-        uint64_t current_time_stamp;             // counter valued
-        uint64_t reference_time_nano_seconds;    // off set from seconds, do not initialize
-        uint64_t reference_time_stamp;           // counter valued, do not initialize
+        RSA_API::REFTIME_SRC reference_time_source_select;    // enum, where time source is located
+        time_t current_time_seconds;                          // seconds since 00:00:00, Jan 1, 1970, UTC
+        time_t reference_time_seconds;                        // seconds since 00:00:00, Jan 1, 1970, UTC
+        uint64_t current_time_nano_seconds;                   // off set from seconds
+        uint64_t current_time_stamp;                          // counter valued
+        uint64_t reference_time_nano_seconds;                 // off set from seconds
+        uint64_t reference_time_stamp;                        // counter valued
+        uint64_t time_stamp_sampling_rate;                    // rate of the time-stamp counter's clock 
 
         // API group "TRIG"
 };

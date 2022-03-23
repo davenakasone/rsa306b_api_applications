@@ -2,6 +2,7 @@ CC = g++
 IDIR = ./api_resourcez/
 LDIR = ./api_resourcez/
 SDIR = ./sourcez/
+TDIR = ./testz/
 EXEC = klass
 CFLAGS = -Wall -std=c++14 -I $(IDIR)
 LDFLAGS	= -L $(LDIR)
@@ -14,7 +15,9 @@ $(SDIR)rsa306b_class_CONFIG.cpp \
 $(SDIR)rsa306b_class_DEVICE.cpp \
 $(SDIR)rsa306b_class_REFTIME.cpp \
 $(SDIR)rsa306b_class.cpp \
-$(SDIR)tester.cpp
+$(TDIR)test_selector.cpp \
+$(TDIR)unit_test_1.cpp \
+$(TDIR)unit_test_999.cpp
 
 $(EXEC) : $(MAIN_FILE)
 	$(CC) -o $(EXEC) $(CFLAGS) $(SOURCE_FILES) $(LDFLAGS) $(LDLIBS) $(LDLIUSBS) 

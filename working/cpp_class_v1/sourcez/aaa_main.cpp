@@ -1,16 +1,13 @@
 /*
     there is a preliminary understanding of the API and its limitations 
 	a class can help remove the abstraction
-	main() here is a test bench
-	next step is to put the instance in a worker thread, then configure it on the fly
+	main() directs the unit tests
+	next step is to put the instance in a worker thread, 
+        allowing the user to manipulate it during run time
 */
 
-#include <stdlib.h>
-#include <stdio.h>
-
-#include <unistd.h>
 #include "../includez/rsa306b_class.h"
-#include "../includez/tester.h"
+#include "../testz/unit_tests.h"
 
 
 int main
@@ -20,14 +17,9 @@ int main
     char** envp
 )
 {
-    double center_f = 1.3e6;
-    double reference_l = -10.2;
-    {
-        rsa306b my_spectrum_analyzer;    // automatic connection
-        my_spectrum_analyzer.rsa_configure_cf_rl(center_f, reference_l);
-        my_spectrum_analyzer.print_configuration();
-        sleep(3);
-    }
+    
+    test_selector(1);  // constructor, printing, destructor
+
 
     printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~\n");
     #ifdef __clang_major__

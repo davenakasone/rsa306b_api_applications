@@ -15,7 +15,6 @@
     the constructor for the class
     there is no need for multiple constructors (for now)
     ensures all variables are initialized to known values
-    refernce time must begin when instance is made
 */
 rsa306b::rsa306b()
 {
@@ -24,10 +23,6 @@ rsa306b::rsa306b()
         __LINE__, __FILE__, __func__);
 #endif
 
-    this->api_return_status = RSA_API::REFTIME_GetReferenceTime(
-        &this->reference_time_seconds, 
-        &this->reference_time_nano_seconds, 
-        &this->reference_time_stamp);
     rsa306b::init_member_variables();
     this->rsa_connect();
 }
@@ -79,7 +74,6 @@ void rsa306b::init_member_variables()
     this->is_connected = false;
     memset(this->helper_string, '\0', BUF_E);
     memset(this->holder_string, '\0', BUF_F);
-    //this->api_return_status = RSA_API::errorPlaceholder;
 
     // ALIGN
     this->is_needed_alignment = true;
@@ -90,7 +84,7 @@ void rsa306b::init_member_variables()
     this->center_frequency_max = INIT_DOUBLE;
     this->center_frequency_min = INIT_DOUBLE;
     this->reference_level = INIT_DOUBLE;
-    this->frequency_reference_source = RSA_API::FRS_INTERNAL;
+    this->frequency_reference_source_select = RSA_API::FRS_INTERNAL;
 
     // DEVICE
     this->is_connected = false;

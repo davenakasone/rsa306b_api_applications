@@ -140,7 +140,7 @@ void rsa306b::execute_warm_up()
     this->error_check();
     if (this->is_warmed_up == false)
     {
-        sleep(10);
+        sleep(3);
         this->api_return_status = RSA_API::ALIGN_GetWarmupStatus(&this->is_warmed_up);
         this->error_check();
         if (this->is_warmed_up == false)

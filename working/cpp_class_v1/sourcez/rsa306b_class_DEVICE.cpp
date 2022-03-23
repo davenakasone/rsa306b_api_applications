@@ -3,7 +3,7 @@
     using "DEVICE" function group of the API
         # error_check()
         # rsa_connect()
-        # print_temperature()
+        # print_device_temperature()
         # print_device_info()
         # rsa_reset()
         # rsa_run()
@@ -61,11 +61,7 @@ void rsa306b::rsa_connect()
     {
         this->api_return_status = RSA_API::DEVICE_Connect(this->device_ids[0]);
         this->error_check();
-        if (this->api_return_status == RSA_API::noError) 
-        {
-            this->is_connected = true;
-        }
-        else
+        if (this->api_return_status != RSA_API::noError) 
         {
             #ifdef DEBUG_MIN
                 printf("connection failure\n");
@@ -75,9 +71,11 @@ void rsa306b::rsa_connect()
         #ifdef DEBUG_MIN
             printf("\t~ CONNECTED ~\n");
         #endif
+        this->is_connected = true;
+        this->record_start_time();
         this->rsa_align();
         this->print_device_info();
-        this->print_temperature();
+        this->print_device_temperature();
         this->print_alignment();
     }
     else if (this->devices_found > 1)
@@ -103,7 +101,7 @@ void rsa306b::rsa_connect()
     checks the temperature of the device
     if the device is over temperature limit, operations should halt
 */
-void rsa306b::print_temperature()
+void rsa306b::print_device_temperature()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",

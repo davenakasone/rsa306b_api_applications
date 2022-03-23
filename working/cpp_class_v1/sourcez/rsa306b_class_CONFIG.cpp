@@ -32,9 +32,9 @@ void rsa306b::rsa_configure_cf_rl(double cf, double rl)
     }
     this->rsa_stop();
 
-    this->frequency_reference_source = RSA_API::FRS_INTERNAL; // change source here
+    this->frequency_reference_source_select = RSA_API::FRS_INTERNAL; // change source here
     this->api_return_status = RSA_API::CONFIG_SetFrequencyReferenceSource(
-        this->frequency_reference_source);
+        this->frequency_reference_source_select);
     this->error_check();
 
     if (cf > FREQUENCY_MIN_HZ &&
@@ -110,7 +110,7 @@ void rsa306b::print_configuration()
     this->error_check();
     this->api_return_status = RSA_API::CONFIG_GetReferenceLevel(&this->reference_level);
     this->error_check();
-    this->api_return_status = RSA_API::CONFIG_GetFrequencyReferenceSource(&this->frequency_reference_source);
+    this->api_return_status = RSA_API::CONFIG_GetFrequencyReferenceSource(&this->frequency_reference_source_select);
     this->error_check();
 
     printf("\ndevice configuration status >>>\n");
@@ -119,7 +119,7 @@ void rsa306b::print_configuration()
     printf("\tmax center frequency:        %lf  Hz\n", this->center_frequency_max);
     printf("\treference level:             %lf  dBm\n", this->reference_level);
     printf("\tfrequency reference source:  ");
-    switch (this->frequency_reference_source)
+    switch (this->frequency_reference_source_select)
     {
         case (RSA_API::FRS_INTERNAL) :
             printf("internal\n");
