@@ -74,7 +74,7 @@ rsa306b::~rsa306b()
 RSA_API::ReturnStatus rsa306b::get_api_return_status()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s(),\n",
+    printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif
 
@@ -93,7 +93,7 @@ RSA_API::ReturnStatus rsa306b::get_api_return_status()
 void rsa306b::get_api_return_status_string(char* carrier)
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s(),\n",
+    printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif
     
@@ -122,7 +122,7 @@ void rsa306b::get_api_return_status_string(char* carrier)
 int rsa306b::get_internal_return_status()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s(),\n",
+    printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif
     
