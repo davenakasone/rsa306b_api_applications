@@ -1,10 +1,18 @@
 /*
     implementation of the essential components in the rsa306b class
+    functions and members of "general purpose"
+
         public:
             # rsa306b()
             # ~rsa306b()
+            # get_api_return_status()
+            # get_api_return_status_string()
+            # get_internal_return_status()
+
         private:
-            # init_member_variables()
+            # _api_error_check()
+            # _internal_error_check()
+            # _init_member_variables()
 */
 
 #include "../includez/rsa306b_class.h"
@@ -23,8 +31,9 @@ rsa306b::rsa306b()
         __LINE__, __FILE__, __func__);
 #endif
 
-    rsa306b::init_member_variables();
-    this->rsa_connect();
+    this->_init_member_variables();
+    this->_api_error_check();
+    this->_internal_error_check();
 }
 
 
@@ -45,11 +54,133 @@ rsa306b::~rsa306b()
         __LINE__, __FILE__, __func__);
 #endif
 
-    if (this->is_connected == true)
+    if (this->_device_is_connected == true)
     {
-        this->api_return_status = RSA_API::DEVICE_Disconnect();
-        this->error_check();
+        this->_api_return_status = RSA_API::DEVICE_Disconnect();
+        this->_api_error_check();
         sleep(1);
+    }
+}
+
+
+////~~~~
+
+
+/*
+    public
+    returns integer matching the error in the API enum
+    user is responsible for matching the value
+*/
+RSA_API::ReturnStatus rsa306b::get_api_return_status()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s(),\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    return this->_api_return_status;
+}
+
+
+////~~~~
+
+
+/*
+    public
+    updates string with API return status and error message
+    caller must allocate input string, make at least 256 chars
+*/
+void rsa306b::get_api_return_status_string(char* carrier)
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s(),\n",
+        __LINE__, __FILE__, __func__);
+#endif
+    
+    if (carrier == NULL)
+    {
+        #ifdef DEBUG_MIN
+            printf("\tallocate the string before calling\n");
+        #endif
+        return;
+    }
+
+    const char* temp;
+    temp = RSA_API::DEVICE_GetErrorString(this->_api_return_status);
+    snprintf(carrier, BUF_D-1, 
+        "error code:  %d  ,  error message:  %s", this->_api_return_status, temp);
+}
+
+
+////~~~~
+
+
+/*
+    public
+    returns current state of internal return status indicator
+*/
+int rsa306b::get_internal_return_status()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s(),\n",
+        __LINE__, __FILE__, __func__);
+#endif
+    
+   return this->_internal_return_status;
+}
+
+
+////~~~~
+
+
+/*
+    private
+    matches current state of the ReturnStatus variable to the enum
+    indicates if an error has occured, otherwise does nothing
+    good practice to call after each API function is used, unless speed is needed
+    requires DEBUG_CLI or DEBUG_MIN to be activated
+*/
+void rsa306b::_api_error_check()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    if (this->_api_return_status != RSA_API::noError)
+    {
+        #ifdef DEBUG_ERR
+            this->get_api_return_status_string(this->_helper_string);
+            printf("\t###   !!!   API ERROR   !!!   ###   %s\n", 
+                this->_helper_string);
+        #endif
+        #ifdef DEBUG_MIN
+            printf("\t###   !!!   API ERROR   !!!   ###\n");
+        #endif
+    }
+}
+
+
+////~~~~
+
+
+/*
+    private
+    called to indicate error conditions after internal function calls
+    requires DEBUG_CLI or DEBUG_MIN to be activated
+*/
+void rsa306b::_internal_error_check()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    if (this->_internal_return_status != CALL_SUCCESS)
+    {
+        #if defined (DEBUG_ERR) || (DEBUG_CLI)
+            printf("\t###   !!!   INTERNAL ERROR   !!!   ###\n");
+        #endif
     }
 }
 
@@ -63,7 +194,7 @@ rsa306b::~rsa306b()
     deallocates dynamically member variables if needed, and places on NULL
     initialization values are in "rsa306b_class.h"
 */
-void rsa306b::init_member_variables()
+void rsa306b::_init_member_variables()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -71,38 +202,16 @@ void rsa306b::init_member_variables()
 #endif
 
     // general purpose
-    this->is_connected = false;
-    memset(this->helper_string, '\0', BUF_E);
-    memset(this->holder_string, '\0', BUF_F);
+    memset(this->_helper_string, '\0', BUF_E);
+    memset(this->_holder_string, '\0', BUF_F);
+    this->_api_return_status = RSA_API::noError;
+    this->_internal_return_status = CALL_SUCCESS;
 
     // ALIGN
-    this->is_needed_alignment = true;
-    this->is_warmed_up = false;
 
     // CONFIG
-    this->center_frequency = INIT_DOUBLE;
-    this->center_frequency_max = INIT_DOUBLE;
-    this->center_frequency_min = INIT_DOUBLE;
-    this->reference_level = INIT_DOUBLE;
-    this->frequency_reference_source_select = RSA_API::FRS_INTERNAL;
 
     // DEVICE
-    this->is_connected = false;
-    this->is_over_temperature_limit = true;
-    this->is_running = false;
-    memset(this->device_api_version, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    memset(this->device_error_string, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    memset(this->device_firm_ware_version, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    memset(this->device_fpga_version, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    memset(this->device_hardware_version, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    memset(this->device_nomenclature, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    for (int ii = 0; ii < RSA_API::DEVSRCH_MAX_NUM_DEVICES; ii++)
-    {
-        sprintf(this->device_serials[ii], "%s", INIT_STR);
-        sprintf(this->device_types[ii], "%s", INIT_STR);
-        this->device_ids[ii] = INIT_INT;
-    }
-    this->devices_found = INIT_INT;
 }
        
 

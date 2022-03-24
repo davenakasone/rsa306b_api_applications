@@ -6,7 +6,6 @@
         allowing the user to manipulate it during run time
 */
 
-#include "../includez/rsa306b_class.h"
 #include "../testz/unit_tests.h"
 
 
@@ -18,7 +17,7 @@ int main
 )
 {
     
-    test_selector(1);  // constructor, printing, destructor
+    test_selector(1);  // tests the "general purpose" section of the class
 
 
     printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~\n");

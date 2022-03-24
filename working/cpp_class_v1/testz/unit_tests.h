@@ -20,9 +20,9 @@
 #include "../includez/rsa306b_class.h"
 
 
-void test_selector (int test_number);
+void test_selector (int test_number);    // controls the unit test being performed
 
-void unit_test_1 (void);    // constructor, printing, destructor
+void unit_test_1 (void);    // tests the "general purpose" section of the class
 
 void unit_test_999 (void);    // place holder
 

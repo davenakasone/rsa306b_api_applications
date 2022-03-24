@@ -14,33 +14,6 @@
 
 
 /*
-    private
-    matches current state of the ReturnStatus variable to the enum
-    indicates if an error has occured, otherwise does nothing
-    good practice to call after each API function is used, unless speed is needed
-*/
-void rsa306b::error_check()
-{
-    if (this->api_return_status != RSA_API::noError)
-    {
-        #ifdef DEBUG_ERR
-            const char* temp;
-            temp = RSA_API::DEVICE_GetErrorString(this->api_return_status);
-            snprintf(this->device_error_string, BUF_D, "error code:  %d  ,  error message:  %s",
-            this->api_return_status, temp);
-            printf("\t!!! ERROR !!!  %s\n", this->device_error_string);
-        #endif
-        #ifdef DEBUG_MIN
-            printf("\t!!! ERROR !!!\n");
-        #endif
-    }
-}
-
-
-////~~~~
-
-
-/*
     public
     first searches for suitable device to connect to
         there must be only one deveice connected
@@ -54,13 +27,30 @@ void rsa306b::rsa_connect()
         __LINE__, __FILE__, __func__);
 #endif
 
+    int devices_found;
+    int device_ids[RSA_API::DEVSRCH_MAX_NUM_DEVICES];
+    char device_serials[RSA_API::DEVSRCH_MAX_NUM_DEVICES]
+        [RSA_API::DEVSRCH_SERIAL_MAX_STRLEN];
+    char device_types[RSA_API::DEVSRCH_MAX_NUM_DEVICES]
+        [RSA_API::DEVSRCH_TYPE_MAX_STRLEN];
+
     this->api_return_status = RSA_API::DEVICE_Search(
-        &this->devices_found, this->device_ids, this->device_serials, this->device_types);
+        &devices_found, 
+        device_ids, 
+        device_serials, 
+        device_types);
     this->error_check();
-    if (this->devices_found == 1)
+
+    if (devices_found == 1)
     {
-        this->api_return_status = RSA_API::DEVICE_Connect(this->device_ids[0]);
+        this->device_id = device_ids[0];
+        this->api_return_status = RSA_API::DEVICE_GetInfo(
+                &this->device_info_type);
         this->error_check();
+        this->api_return_status = RSA_API::DEVICE_Connect(
+                this->device_id);
+        this->error_check();
+
         if (this->api_return_status != RSA_API::noError) 
         {
             #ifdef DEBUG_MIN
@@ -78,10 +68,10 @@ void rsa306b::rsa_connect()
         this->print_device_temperature();
         this->print_alignment();
     }
-    else if (this->devices_found > 1)
+    else if (devices_found > 1)
     {
         #ifdef DEBUG_MIN
-            printf("too many devices for the program, only connect on spectrum analyzer\n");
+            printf("too many devices, only connect one\n");
         #endif
     }
     else
@@ -108,7 +98,8 @@ void rsa306b::print_device_temperature()
         __LINE__, __FILE__, __func__);
 #endif
 
-    this->api_return_status = RSA_API::DEVICE_GetOverTemperatureStatus(&this->is_over_temperature_limit);
+    this->api_return_status = RSA_API::DEVICE_GetOverTemperatureStatus(
+            &this->is_over_temperature_limit);
     this->error_check();
     printf("\ndevice temperature status >>>\n");
     if (this->is_over_temperature_limit == false)
@@ -131,40 +122,28 @@ void rsa306b::print_device_temperature()
     when called with a connected device
     basic info is printed to stdout
 */
-void rsa306b::print_device_info()
+void rsa306b::print_device_all()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif
 
-    if (this->is_connected == false)
+    if (this->_device_is_connected == false)
     {
         #ifdef DEBUG_MIN
             printf("there is no device connected\n");
         #endif
         return;
     }
-
-    this->api_return_status = RSA_API::DEVICE_GetAPIVersion(this->device_api_version);
-    this->error_check();
-    this->api_return_status = RSA_API::DEVICE_GetFWVersion(this->device_firm_ware_version);
-    this->error_check();
-    this->api_return_status = RSA_API::DEVICE_GetFPGAVersion(this->device_fpga_version);
-    this->error_check();
-    this->api_return_status = RSA_API::DEVICE_GetHWVersion(this->device_hardware_version);
-    this->error_check();
-    this->api_return_status = RSA_API::DEVICE_GetNomenclature(this->device_nomenclature);
-    this->error_check();
     printf("\ndevice information >>>\n");
-    printf("\tAPI Version:        %s\n", this->device_api_version);
-    printf("\tDevice ID:          %d\n", this->device_ids[0]);
-    printf("\tDevice Type:        %s\n", this->device_types[0]);
-    printf("\tFirm Ware Version:  %s\n", this->device_firm_ware_version);
-    printf("\tFPGA Version:       %s\n", this->device_fpga_version);
-    printf("\tHardware Version:   %s\n", this->device_hardware_version);
-    printf("\tNomenclature:       %s\n", this->device_nomenclature);
-    printf("\tSerial Number:      %s\n", this->device_serials[0]);
+    printf("\tAPI Version:        %s\n", this->_device_info_type.apiVersion);
+    printf("\tDevice ID:          %d\n", this->_device_id);
+    printf("\tFirm Ware Version:  %s\n", this->_device_info_type.fwVersion);
+    printf("\tFPGA Version:       %s\n", this->_device_info_type.fpgaVersion);
+    printf("\tHardware Version:   %s\n", this->_device_info_type.hwVersion);
+    printf("\tNomenclature:       %s\n", this->_device_info_type.nomenclature);
+    printf("\tSerial Number:      %s\n", this->_device_info_type.serialNum);
 }
 
 
@@ -192,7 +171,7 @@ void rsa306b::rsa_reset()
         return;
     }
     this->rsa_stop();
-    this->api_return_status = RSA_API::DEVICE_Reset(this->device_ids[0]);
+    this->api_return_status = RSA_API::DEVICE_Reset(this->device_id);
     if (this->api_return_status != RSA_API::noError)
     {
         #ifdef DEBUG_MIN
@@ -201,7 +180,7 @@ void rsa306b::rsa_reset()
         while (this->api_return_status != RSA_API::noError)
         {
             sleep(3);
-            this->api_return_status = RSA_API::DEVICE_Reset(this->device_ids[0]);
+            this->api_return_status = RSA_API::DEVICE_Reset(this->device_id);
         }
     }
     #ifdef DEBUG_MIN

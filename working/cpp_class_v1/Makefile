@@ -10,10 +10,6 @@ LDLIBS = -lRSA_API
 LDLIUSBS = -lcyusb_shared
 
 SOURCE_FILES = $(SDIR)aaa_main.cpp \
-$(SDIR)rsa306b_class_ALIGN.cpp \
-$(SDIR)rsa306b_class_CONFIG.cpp \
-$(SDIR)rsa306b_class_DEVICE.cpp \
-$(SDIR)rsa306b_class_REFTIME.cpp \
 $(SDIR)rsa306b_class.cpp \
 $(TDIR)test_selector.cpp \
 $(TDIR)unit_test_1.cpp \
