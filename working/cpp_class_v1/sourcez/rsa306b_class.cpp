@@ -100,7 +100,7 @@ void rsa306b::get_api_return_status_string(char* carrier)
     if (carrier == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\tallocate the string before calling\n");
+            printf("\n\tallocate the string before calling\n");
         #endif
         return;
     }
@@ -151,11 +151,11 @@ void rsa306b::_api_error_check()
     {
         #ifdef DEBUG_ERR
             this->get_api_return_status_string(this->_helper_string);
-            printf("\t###   !!!   API ERROR   !!!   ###   %s\n", 
+            printf("\n\t###   !!!   API ERROR   !!!   ###   %s\n", 
                 this->_helper_string);
         #endif
         #ifdef DEBUG_MIN
-            printf("\t###   !!!   API ERROR   !!!   ###\n");
+            printf("\n\t###   !!!   API ERROR   !!!   ###\n");
         #endif
     }
 }
@@ -179,7 +179,7 @@ void rsa306b::_internal_error_check()
     if (this->_internal_return_status != CALL_SUCCESS)
     {
         #if defined (DEBUG_ERR) || (DEBUG_CLI)
-            printf("\t###   !!!   INTERNAL ERROR   !!!   ###\n");
+            printf("\n\t###   !!!   INTERNAL ERROR   !!!   ###\n");
         #endif
     }
 }
@@ -193,6 +193,8 @@ void rsa306b::_internal_error_check()
     call any time member variables should be reset to known values
     deallocates dynamically member variables if needed, and places on NULL
     initialization values are in "rsa306b_class.h"
+    this is the only function that changes values without using setters 
+    this function should only be called by the constructor
 */
 void rsa306b::_init_member_variables()
 {
@@ -212,6 +214,16 @@ void rsa306b::_init_member_variables()
     // CONFIG
 
     // DEVICE
+    this->_device_is_connected = false;
+    this->_device_is_over_temperature = false;
+    this->_device_is_running = false;
+    this->_device_id = this->INIT_INT;
+    strcpy(this->_device_info_type.apiVersion, this->INIT_STR);
+    strcpy(this->_device_info_type.fpgaVersion, this->INIT_STR);
+    strcpy(this->_device_info_type.fwVersion, this->INIT_STR);
+    strcpy(this->_device_info_type.hwVersion, this->INIT_STR);
+    strcpy(this->_device_info_type.nomenclature, this->INIT_STR);
+    strcpy(this->_device_info_type.serialNum, this->INIT_STR);
 }
        
 

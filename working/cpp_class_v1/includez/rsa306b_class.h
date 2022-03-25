@@ -110,8 +110,8 @@
             none, just constants for user reference
 
         private member functions are classified as:
-            "_<group>_<task>()"        // manages API interface, usually activated by public counter part
-            "_<group>_set_<task>()"    // setter, sets most private member variables after validation
+            "_<group>_<task>()"          // manages API interface, usually activated by public counter part
+            "_<group>_set_<member>()"    // setter, sets most private member variables after validation
         
         private member variables are classifed as:
             "_<group>_<description>"        // for common parameters to API funciton calls
@@ -119,6 +119,7 @@
             "_<group>_<api_name>_type"      // for API structs
 
         not all member variables have a getter and setter
+        "general purpose" functions and variables do not a have a <group>
         private members use the python-inspired "_*" to facilitate programing
         this API often nests enums in structs
         some structs in this API incorporate other API structs by composition
@@ -137,8 +138,12 @@
     TODO:
         see what function groups are useful
         DEBUG logger .txt
-        date-time-stamp
         ...helper class by composition or make this a big API class
+        unit tests
+        keep building the API
+
+            general purpouse
+            DEVICE
 */
 
 #ifndef H_rsa306b_class
@@ -193,10 +198,10 @@ class rsa306b
 
         // general purpouse
         rsa306b();    
-        ~rsa306b();
+        ~rsa306b(); 
         RSA_API::ReturnStatus get_api_return_status();
         void get_api_return_status_string(char* carrier);
-        int get_internal_return_status();   
+        int get_internal_return_status();
 
         // ALIGN
         void align_execute_alignment();
@@ -210,12 +215,16 @@ class rsa306b
         void print_config_all();
 
         // DEVICE
-        void print_device_all();
-        void device_connect();              
-        bool get_device_temperature_check();              
+        void device_connect(); 
+        void device_print_all();        
         void device_reset();                
         void device_run();                  
-        void device_stop();   
+        void device_stop();  
+            int device_get_id();
+            void device_get_info_type(RSA_API::DEVICE_INFO* devInfo);
+            bool device_get_is_connected();
+            bool device_get_is_over_temperature();
+            bool device_get_is_running(); 
 
         // REFTIME
         void print_time_begin();
@@ -231,15 +240,15 @@ class rsa306b
         char _holder_string[BUF_F];
         int _internal_return_status;                 // set when calling non-API functions
         RSA_API::ReturnStatus _api_return_status;    // enum, all API functions return this
-        void _api_error_check();                     // checks status of API function calls
-        void _internal_error_check();                // checks status of internal function calls
-        void _init_member_variables();               // initializes all member variables
+            void _api_error_check();                     // checks status of API function calls
+            void _internal_error_check();                // checks status of internal function calls
+            void _init_member_variables();               // initializes all member variables
 
         // API group "ALIGN"
         bool _align_is_needed;
         bool _align_is_warmed;
-        int _align_set_is_needed(bool new_value);
-        int _align_set_is_warmed(bool new_value);
+            int _align_set_is_needed(bool new_value);
+            int _align_set_is_warmed(bool new_value);
         
         
         // API group "AUDIO"
@@ -253,11 +262,15 @@ class rsa306b
 
         // API group "DEVICE"
         bool _device_is_connected;
-        bool _device_is_over_temperature_limit;
+        bool _device_is_over_temperature;
         bool _device_is_running;
         int _device_id;
         RSA_API::DEVICE_INFO _device_info_type;    // struct, has 6 strings
-        
+            int _device_set_id(int new_value);
+            int _device_set_info_type();
+            int _device_set_is_connected(bool new_value);
+            int _device_set_is_over_temperature(bool new_value);
+            int _device_set_is_running(bool new_value);
         
         // API group "DPX"
 
@@ -301,17 +314,15 @@ class rsa306b
         double _reftime_split;
         double _reftime_split_lead;
         double _time_split_trail;
-        RSA_API::REFTIME_SRC 
-            _reftime_reference_time_source_select;     // enum, where time source is located
-        time_t _reftime_current_seconds;               // seconds since 00:00:00, Jan 1, 1970, UTC
-        time_t _reftime_begin_seconds;                 // seconds since 00:00:00, Jan 1, 1970, UTC
-        uint64_t _reftime_current_nano;                // off set from seconds
-        uint64_t _reftime_current_stamp;               // counter valued
-        uint64_t _reftime_begin_nano;                  // off set from seconds
-        uint64_t _reftime_begin_stamp;                 // counter valued
-        uint64_t _reftime_time_stamp_sampling_rate;    // rate of the time-stamp counter's clock 
-        void _reftime_date_time_stamp
-            (time_t time_in, uint64_t nano_in);
+        RSA_API::REFTIME_SRC _reftime_reference_time_source_select;     // enum, where time source is located
+        time_t _reftime_current_seconds;                                // seconds since 00:00:00, Jan 1, 1970, UTC
+        time_t _reftime_begin_seconds;                                  // seconds since 00:00:00, Jan 1, 1970, UTC
+        uint64_t _reftime_current_nano;                                 // off set from seconds
+        uint64_t _reftime_current_stamp;                                // counter valued
+        uint64_t _reftime_begin_nano;                                   // off set from seconds
+        uint64_t _reftime_begin_stamp;                                  // counter valued
+        uint64_t _reftime_time_stamp_sampling_rate;                     // rate of the time-stamp counter's clock 
+        void _reftime_date_time_stamp (time_t time_in, uint64_t nano_in);
         void _reftime_record_running();
         void _reftime_record_start();
         void _reftime_record_current();

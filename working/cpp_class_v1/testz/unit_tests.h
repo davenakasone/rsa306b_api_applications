@@ -17,12 +17,25 @@
 #ifndef H_unit_tests
 #define H_unit_tests
 
+
+#include <ostream>
+
 #include "../includez/rsa306b_class.h"
 
 
 void test_selector (int test_number);    // controls the unit test being performed
+void wait_enter_clear();                 // flow separation between unit tests
 
-void unit_test_1 (void);    // tests the "general purpose" section of the class
+void unit_test_1  (void);    // tests the "general purpose" section of the class
+void unit_test_2  (void);    // tests the "DEVICE" section of the class
+void unit_test_3  (void);    // 
+void unit_test_4  (void);    // 
+void unit_test_5  (void);    // 
+void unit_test_6  (void);    // 
+void unit_test_7  (void);    // 
+void unit_test_8  (void);    // 
+void unit_test_9  (void);    // 
+void unit_test_10 (void);    // 
 
 void unit_test_999 (void);    // place holder
 

@@ -17,8 +17,9 @@ int main
 )
 {
     
-    test_selector(1);  // tests the "general purpose" section of the class
-
+    test_selector(1);     // tests the "general purpose" section of the class
+    test_selector(2);     // tests the "DEVICE" section of the class
+    test_selector(99);    // catch all 
 
     printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~\n");
     #ifdef __clang_major__

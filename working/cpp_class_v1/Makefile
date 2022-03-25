@@ -11,9 +11,12 @@ LDLIUSBS = -lcyusb_shared
 
 SOURCE_FILES = $(SDIR)aaa_main.cpp \
 $(SDIR)rsa306b_class.cpp \
+$(SDIR)rsa306b_class_DEVICE_get_set.cpp \
 $(TDIR)test_selector.cpp \
 $(TDIR)unit_test_1.cpp \
-$(TDIR)unit_test_999.cpp
+$(TDIR)unit_test_2.cpp \
+$(TDIR)unit_test_999.cpp \
+$(TDIR)wait_enter_clear.cpp
 
 $(EXEC) : $(MAIN_FILE)
 	$(CC) -o $(EXEC) $(CFLAGS) $(SOURCE_FILES) $(LDFLAGS) $(LDLIBS) $(LDLIUSBS) 
