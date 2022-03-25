@@ -21,13 +21,13 @@ void unit_test_1 (void)
         rsa306b my_rsa;    // constructor is called
 
         apiRet = my_rsa.get_api_return_status();  
-        clsRet = my_rsa.get_internal_return_status();
+        clsRet = my_rsa.get_gp_return_status();
         my_rsa.get_api_return_status_string(apiStr);
 
         printf("\nget 'general purpose' variables >>>\n");
         printf("\tclass api return status         :  %d\n", apiRet);
         printf("\tclass api return status string  :  %s\n", apiStr);
-        printf("\tclass internal return status    :  %d\n", clsRet); 
+        printf("\tclass gp return status    :  %d\n", clsRet); 
 
         printf("\nclass constants >>>\n");
         printf("\tCALL_SUCCESS            :  %d\n", my_rsa.CALL_SUCCESS);

@@ -1,26 +1,32 @@
 /*
     implementation of the rsa306b_class
     using "DEVICE" function group of the API
-        # error_check()
-        # rsa_connect()
-        # print_device_temperature()
-        # print_device_info()
-        # rsa_reset()
-        # rsa_run()
-        # rsa_stop()
+
+        public:
+            < 1 >  device_connect()
+            < 2 >  device_disconnect()
+            < 3 >  device_prepare_run()
+            < 4 >  device_print_all()
+            < 5 >  device_reset()
+            < 6 >  device_run()
+            < 7 >  device_start_frame_transfer()
+            < 8 >  device_stop()
+        
+        private:
+            # none
 */
 
 #include "../includez/rsa306b_class.h"
 
 
 /*
-    public
+    public < 1 >
     first searches for suitable device to connect to
         there must be only one deveice connected
-    if the connection is successful, the device information is printed to stdout
-        temperature and alignment are also verified
+    this is the only function that should make "_device_is_connected == true"
+    this is the only function that should assign "_device_id = <searched_ID>"
 */
-void rsa306b::rsa_connect()
+void rsa306b::device_connect()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -34,95 +40,90 @@ void rsa306b::rsa_connect()
     char device_types[RSA_API::DEVSRCH_MAX_NUM_DEVICES]
         [RSA_API::DEVSRCH_TYPE_MAX_STRLEN];
 
-    this->api_return_status = RSA_API::DEVICE_Search(
+    this->_api_return_status = RSA_API::DEVICE_Search(
         &devices_found, 
         device_ids, 
         device_serials, 
         device_types);
-    this->error_check();
+    this->_api_error_check();
 
     if (devices_found == 1)
     {
-        this->device_id = device_ids[0];
-        this->api_return_status = RSA_API::DEVICE_GetInfo(
-                &this->device_info_type);
-        this->error_check();
-        this->api_return_status = RSA_API::DEVICE_Connect(
-                this->device_id);
-        this->error_check();
+        this->_device_set_id(device_ids[0]);
+        this->_api_return_status = RSA_API::DEVICE_Connect(
+            this->_device_id);
+        this->_api_error_check();
 
-        if (this->api_return_status != RSA_API::noError) 
+        if (this->_api_return_status != RSA_API::noError) 
         {
             #ifdef DEBUG_MIN
-                printf("connection failure\n");
+                printf("\n\tconnection failure\n");
             #endif
             return;
         }
         #ifdef DEBUG_MIN
-            printf("\t~ CONNECTED ~\n");
+            printf("\n\t^^^ CONNECTED ^^^\n");
         #endif
-        this->is_connected = true;
-        this->record_start_time();
-        this->rsa_align();
-        this->print_device_info();
-        this->print_device_temperature();
-        this->print_alignment();
+        this->_device_set_is_connected(true);
+        this->_device_set_info_type();
+        this->_device_set_is_over_temperature();
+        this->_device_set_is_running();
+
+        // reftime, align...add here
+        //this->record_start_time();
+        //this->rsa_align();
+        // start the time, align, check temperature
     }
     else if (devices_found > 1)
     {
         #ifdef DEBUG_MIN
-            printf("too many devices, only connect one\n");
+            printf("\n\ttoo many devices, only connect one\n");
         #endif
     }
     else
     {
         #ifdef DEBUG_MIN
-            printf("no devices were found\n");
+            printf("\n\tno devices were found\n");
         #endif
     }
 }
-
 
 ////~~~~
 
 
 /*
-    public
-    checks the temperature of the device
-    if the device is over temperature limit, operations should halt
+    public < 2 >
+    disconnects device if connected
+    should only be called by the constructor
+        or if a hard reset is needed
 */
-void rsa306b::print_device_temperature()
+void rsa306b::device_disconnect()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif
 
-    this->api_return_status = RSA_API::DEVICE_GetOverTemperatureStatus(
-            &this->is_over_temperature_limit);
-    this->error_check();
-    printf("\ndevice temperature status >>>\n");
-    if (this->is_over_temperature_limit == false)
+    if (this->_device_is_connected == true)
     {
-            printf("\tunder the temperature limit, ready for use\n");
-    }
-    else
-    {
-            printf("\tOVER the temperature limit, shut down now\n");
+        this->device_stop();
+        this->_api_return_status = RSA_API::DEVICE_Disconnect();
+        this->_api_error_check();
+        sleep(1);
+        this->_init_member_variables();
     }
 }
 
 
 ////~~~~
 
-
 /*
-    public
-    call when device is connected, or no query is possible
-    when called with a connected device
-    basic info is printed to stdout
+    public < 3 >
+    makes system ready to start streaming data
+    good with "device_start_frame_transfer"
+    data transfer not initiated, only prepares
 */
-void rsa306b::print_device_all()
+void rsa306b::device_prepare_run()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -132,10 +133,48 @@ void rsa306b::print_device_all()
     if (this->_device_is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("there is no device connected\n");
+            printf("\n\tno device connected, can't prepare for run\n");
         #endif
         return;
     }
+
+    this->device_stop();
+    this->_api_return_status = RSA_API::DEVICE_PrepareForRun();
+    this->_api_error_check();
+    this->_device_set_is_running();
+    #ifdef DEBUG_MIN
+        printf("\n\tprepared device to run\n");
+    #endif
+}
+
+
+////~~~~
+
+
+/*
+    public < 4 >
+    call when device is connected, or no query is possible
+    when called with a connected device
+    basic info is printed to stdout
+*/
+void rsa306b::device_print_all()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    if (this->_device_is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tno device connected, nothing to print\n");
+        #endif
+        return;
+    }
+    this->_device_set_info_type();
+    this->_device_set_is_over_temperature();
+    this->_device_set_is_running();
+
     printf("\ndevice information >>>\n");
     printf("\tAPI Version:        %s\n", this->_device_info_type.apiVersion);
     printf("\tDevice ID:          %d\n", this->_device_id);
@@ -144,6 +183,11 @@ void rsa306b::print_device_all()
     printf("\tHardware Version:   %s\n", this->_device_info_type.hwVersion);
     printf("\tNomenclature:       %s\n", this->_device_info_type.nomenclature);
     printf("\tSerial Number:      %s\n", this->_device_info_type.serialNum);
+
+    printf("\ndevice status >>>\n");
+    printf("\tis connected               :  %d\n", this->_device_is_connected);
+    printf("\tis running                 :  %d\n", this->_device_is_running);
+    printf("\tis over temperature limit  :  %d\n", this->_device_is_over_temperature);
 }
 
 
@@ -151,40 +195,47 @@ void rsa306b::print_device_all()
 
 
 /*
-    public
-    resets the device, if needed
-    blocks until reset is achieved
-    halts running, if device is currently running
+    public < 5 >
+    stops running device, if needed
+    resets the device, if needed 
+        uses blocking until reset is achieved
+    you probably should not call this function, ever
+        try doing a disconnect --> connect instead
 */
-void rsa306b::rsa_reset()
+void rsa306b::device_reset()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif
 
-    if (this->is_connected == false)
+    if (this->_device_is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("device can't reset, nothing is connected\n");
+            printf("\n\tno device connected, can't reset\n");
         #endif
         return;
     }
-    this->rsa_stop();
-    this->api_return_status = RSA_API::DEVICE_Reset(this->device_id);
-    if (this->api_return_status != RSA_API::noError)
+
+    this->device_stop();
+    this->_api_return_status = RSA_API::DEVICE_Reset(this->_device_id);
+    this->_api_error_check();
+
+    /*
+    if (this->_api_return_status != RSA_API::noError)
     {
         #ifdef DEBUG_MIN
-            printf("reset FAILURE\n");
+            printf("\n\treset FAILURE\n");
         #endif
-        while (this->api_return_status != RSA_API::noError)
+        while (this->_api_return_status != RSA_API::noError)
         {
             sleep(3);
-            this->api_return_status = RSA_API::DEVICE_Reset(this->device_id);
+            this->_api_return_status = RSA_API::DEVICE_Reset(this->_device_id);
         }
     }
+    */
     #ifdef DEBUG_MIN
-        printf("device was reset\n");
+        printf("\n\treset complete\n");
     #endif
 }
 
@@ -193,41 +244,74 @@ void rsa306b::rsa_reset()
 
 
 /*
-    public
+    public < 6 >
     allows the device to run, if connected
-    sets "is_running"
+    immediately starts data streaming without waiting for GO signal
 */
-void rsa306b::rsa_run()
+void rsa306b::device_run()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif
 
-    if (this->is_connected == false)
+    if (this->_device_is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("device can't run, nothing is connected\n");
+            printf("\n\tno device connected, can't run\n");
         #endif
         return;
     }
-    this->api_return_status = RSA_API::DEVICE_GetEnable(&this->is_running);
-    this->error_check();
-    if (is_running == true)
+
+    this->_device_set_is_running();
+    
+    if (this->_device_is_running == true)
     {
         #ifdef DEBUG_MIN
-            printf("device was already running\n");
+            printf("\n\tdevice was already running\n");
         #endif
         return;
     }
     else
     {
-        this->api_return_status = RSA_API::DEVICE_Run();
-        this->error_check();
-        is_running = true;
+        this->_api_return_status = RSA_API::DEVICE_Run();
+        this->_api_error_check();
+        this->_device_set_is_running();
     }
     #ifdef DEBUG_MIN
-        printf("device is running\n");
+        printf("\n\trunning device\n");
+    #endif
+}
+
+////~~~~
+
+
+/*
+    public < 7 >
+    trigger for data aquisition after calling "device_prepare_run()"
+    if stopped, the system is automatically placed in the run state
+    data stream begins if here are no errors
+*/
+void rsa306b::device_start_frame_transfer()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    if (this->_device_is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tno device connected, can't start frame transfer\n");
+        #endif
+        return;
+    }
+    
+    this->_api_return_status = RSA_API::DEVICE_StartFrameTransfer();
+    this->_api_error_check();
+    this->_device_set_is_running();
+    #ifdef DEBUG_MIN
+        printf("\n\tstarted frame transfer\n");
     #endif
 }
 
@@ -236,41 +320,42 @@ void rsa306b::rsa_run()
 
 
 /*
-    public
+    public < 8 >
     stops the device, if connected
-    sets "is_running"
+    must be called for changes that effect measurement
 */
-void rsa306b::rsa_stop()
+void rsa306b::device_stop()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif
 
-    if (this->is_connected == false)
+    if (this->_device_is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("device can't stop, nothing is connected\n");
+            printf("\n\tno device connected, nothing to stop\n");
         #endif
         return;
     }
-    this->api_return_status = RSA_API::DEVICE_GetEnable(&this->is_running);
-    this->error_check();
-    if (is_running == false)
+    
+    this->_device_set_is_running();
+
+    if (this->_device_is_running == false)
     {
         #ifdef DEBUG_MIN
-            printf("device was already stopped\n");
+            printf("\n\tdevice was already stopped\n");
         #endif
         return;
     }
     else
     {
-        this->api_return_status = RSA_API::DEVICE_Stop();
-        this->error_check();
-        is_running = false;
+        this->_api_return_status = RSA_API::DEVICE_Stop();
+        this->_api_error_check();
+        this->_device_set_is_running();
     }
     #ifdef DEBUG_MIN
-        printf("device stopped\n");
+        printf("\n\tstopped device\n");
     #endif
 }
 

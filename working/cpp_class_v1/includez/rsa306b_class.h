@@ -22,79 +22,81 @@
         rsa306b_class.cpp  // general purpose
 
 
-    functions used, by API group:
+        functions used, by API group:
 
-        Alignment
-            ALIGN_GetAlignmentNeeded()
-            ALIGN_GetWarmupStatus()
-            ALIGN_RunAlignment()
+            Alignment
+                ALIGN_GetAlignmentNeeded()
+                ALIGN_GetWarmupStatus()
+                ALIGN_RunAlignment()
 
-        Audio # might want to use, look into these later
+            Audio # might want to use, look into these later
 
-        Configure
-            GetCenterFreq()
-            GetFrequecnyReferenceSource()
-            GetMaxCenterFreq()
-            GetMinCenterFreq()
-            GetReferenceLevel()
-            Preset()
-            SetCenterFreq()
-            SetFrequencyReferenceSource()
-            SetReferenceLevel()
+            Configure
+                GetCenterFreq()
+                GetFrequecnyReferenceSource()
+                GetMaxCenterFreq()
+                GetMinCenterFreq()
+                GetReferenceLevel()
+                Preset()
+                SetCenterFreq()
+                SetFrequencyReferenceSource()
+                SetReferenceLevel()
 
-        Device # used to get basic information and perform basic tasks
-            DEVICE_Connect()
-            DEVICE_Disconnect()
-            DEVICE_GetEnable()
-            DEVICE_GetErrorString()
-            DEVICE_GetInfo()
-            DEVICE_GetOverTemperatureStatus()
-            DEVICE_Reset()
-            DEVICE_Run()
-            DEVICE_Search()
-            DEVICE_Stop()
+            Device 
+                DEVICE_Connect()
+                DEVICE_Disconnect()
+                DEVICE_GetEnable()
+                DEVICE_GetErrorString()
+                DEVICE_GetInfo()
+                DEVICE_GetOverTemperatureStatus()
+                DEVICE_PrepareForRun()
+                DEVICE_Reset()
+                DEVICE_Run()
+                DEVICE_Search()
+                DEVICE_StartFrameTransfer()
+                DEVICE_Stop()
 
-        DPX
+            DPX
 
-        GNSS # not used, only the RSA500/600 has position data
+            GNSS # not used, only the RSA500/600 has position data
 
-        IF Streaming
+            IF Streaming
 
-        IQ Block
+            IQ Block
 
-        IQ Streaming
+            IQ Streaming
 
-        Playback
+            Playback
 
-        Power # not used, only for the RSA500 series
+            Power # not used, only for the RSA500 series
 
-        Spectrum
-            SPECTRUM_AquireTrace()
-            SPECTRUM_GetEnable()
-            SPECTRUM_GetLimits()
-            SPECTRUM_GetSettings()
-            SPECTRUM_GetTrace()
-            SPECTRUM_GetTraceInfo()
-            SPECTRUM_GetTraceType()
-            SPECTRUM_SetDefault()
-            SPECTRUM_SetEnable()
-            SPECTRUM_SetSettings()
-            SPECTRUM_SetTraceType()
-            SPECTRUM_WaitForTraceReady()
+            Spectrum
+                SPECTRUM_AquireTrace()
+                SPECTRUM_GetEnable()
+                SPECTRUM_GetLimits()
+                SPECTRUM_GetSettings()
+                SPECTRUM_GetTrace()
+                SPECTRUM_GetTraceInfo()
+                SPECTRUM_GetTraceType()
+                SPECTRUM_SetDefault()
+                SPECTRUM_SetEnable()
+                SPECTRUM_SetSettings()
+                SPECTRUM_SetTraceType()
+                SPECTRUM_WaitForTraceReady()
 
 
-        Time
-            REFTIME_GetReferenceTime()
-            REFTIME_GetCurrentTime()
-            REFTIME_GetIntervalSinceRefTimeSet()
-            REFTIME_GetReferenceTimeSource()
-            REFTIME_GetTimeFromTimestamp()
-            REFTIME_GetTimestampFromTime()
-            REFTIME_GetTimestampRate()
+            Time
+                REFTIME_GetReferenceTime()
+                REFTIME_GetCurrentTime()
+                REFTIME_GetIntervalSinceRefTimeSet()
+                REFTIME_GetReferenceTimeSource()
+                REFTIME_GetTimeFromTimestamp()
+                REFTIME_GetTimestampFromTime()
+                REFTIME_GetTimestampRate()
 
-        Tracking # not used, only for RSA500/600 series
+            Tracking # not used, only for RSA500/600 series
 
-        Trigger # this group looks useful, try it out later
+            Trigger # this group looks useful, try it out later
 
 
     notes:
@@ -149,6 +151,7 @@
 #ifndef H_rsa306b_class
 #define H_rsa306b_class
 
+
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -176,9 +179,9 @@ class rsa306b
     public:
         // access to constants:
 
-            // status of internal function calls
-            const int CALL_SUCCESS = -777;    // the function call was successful
-            const int CALL_FAILURE = -444;    // the function call failed
+            // status of non-API 'general purpose' function calls
+            const int CALL_SUCCESS = 7777777;     // the function call was successful
+            const int CALL_FAILURE = -7777777;    // the function call failed
 
             // common initialization values, by data type
             const char INIT_CHAR = 'Z';
@@ -201,7 +204,7 @@ class rsa306b
         ~rsa306b(); 
         RSA_API::ReturnStatus get_api_return_status();
         void get_api_return_status_string(char* carrier);
-        int get_internal_return_status();
+        int get_gp_return_status();
 
         // ALIGN
         void align_execute_alignment();
@@ -216,9 +219,12 @@ class rsa306b
 
         // DEVICE
         void device_connect(); 
+        void device_disconnect();
+        void device_prepare_run();
         void device_print_all();        
         void device_reset();                
-        void device_run();                  
+        void device_run();
+        void device_start_frame_transfer();                  
         void device_stop();  
             int device_get_id();
             void device_get_info_type(RSA_API::DEVICE_INFO* devInfo);
@@ -227,22 +233,37 @@ class rsa306b
             bool device_get_is_running(); 
 
         // REFTIME
-        void print_time_begin();
-        void print_time_info();
-        void print_time_now();
-        void print_time_running();
-        void print_time_split();
+        struct reftime_type
+        {
+            time_t seconds;    // seconds since 00:00:00, Jan 1, 1970, UTC
+            uint64_t nanos;    // off set from seconds                               
+            uint64_t stamp;    // counter-valued, depends on timestamp rate                                
+        }; 
+        typedef struct reftime_type reftime_type;
+        void reftime_start_split();
+        void reftime_stop_split();
+        void reftime_print_all();
+        void reftime_timestamp_2_time (reftime_type* r_t);
+        void reftime_time_2_timestamp (reftime_type* r_t);
+            void reftime_get_date_timestamp(char* dts);    // gives internal date-time-stamp
+            double reftime_get_running();
+            double reftime_get_split();
+            RSA_API::REFTIME_SRC reftime_get_source_select();
+            uint64_t reftime_get_timestamp_rate();
+            void reftime_get_begin_type(reftime_type* r_t);
+            void reftime_get_current_type(reftime_type* r_t);
+        
         
     private:
 
         // general purpose
         char _helper_string[BUF_E];
         char _holder_string[BUF_F];
-        int _internal_return_status;                 // set when calling non-API functions
+        int _gp_return_status;                       // set when calling non-API functions
         RSA_API::ReturnStatus _api_return_status;    // enum, all API functions return this
-            void _api_error_check();                     // checks status of API function calls
-            void _internal_error_check();                // checks status of internal function calls
-            void _init_member_variables();               // initializes all member variables
+            void _api_error_check();                 // checks status of API function calls
+            void _gp_error_check();                  // checks status of internal function calls
+            void _init_member_variables();           // initializes all member variables
 
         // API group "ALIGN"
         bool _align_is_needed;
@@ -266,11 +287,11 @@ class rsa306b
         bool _device_is_running;
         int _device_id;
         RSA_API::DEVICE_INFO _device_info_type;    // struct, has 6 strings
-            int _device_set_id(int new_value);
-            int _device_set_info_type();
-            int _device_set_is_connected(bool new_value);
-            int _device_set_is_over_temperature(bool new_value);
-            int _device_set_is_running(bool new_value);
+            void _device_set_id(int new_value);
+            void _device_set_info_type();
+            void _device_set_is_connected(bool new_value);
+            void _device_set_is_over_temperature();
+            void _device_set_is_running();
         
         // API group "DPX"
 
@@ -308,28 +329,25 @@ class rsa306b
 
 
 
-        // API group "REFTIME", do not initialize member variables
-        char _reftime_dateTimeStamp[BUF_B];                   
-        double _reftime_seconds_since_reference_time_set;
-        double _reftime_split;
-        double _reftime_split_lead;
-        double _time_split_trail;
-        RSA_API::REFTIME_SRC _reftime_reference_time_source_select;     // enum, where time source is located
-        time_t _reftime_current_seconds;                                // seconds since 00:00:00, Jan 1, 1970, UTC
-        time_t _reftime_begin_seconds;                                  // seconds since 00:00:00, Jan 1, 1970, UTC
-        uint64_t _reftime_current_nano;                                 // off set from seconds
-        uint64_t _reftime_current_stamp;                                // counter valued
-        uint64_t _reftime_begin_nano;                                   // off set from seconds
-        uint64_t _reftime_begin_stamp;                                  // counter valued
-        uint64_t _reftime_time_stamp_sampling_rate;                     // rate of the time-stamp counter's clock 
-        void _reftime_date_time_stamp (time_t time_in, uint64_t nano_in);
-        void _reftime_record_running();
-        void _reftime_record_start();
-        void _reftime_record_current();
-        void _reftime_record_split();
-        void _reftime_timestamp_2_time (uint64_t in_time_stamp, time_t* out_seconds, uint64_t* out_nanos);
-        void _reftime_time_2_timestamp (time_t in_seconds, uint64_t in_nanos, uint64_t* out_time_stamp);
-        void _reftime_update_time_stamp_rate();
+        // API group "REFTIME"
+        char _reftime_date_timestamp[BUF_C];                   
+        double _reftime_running;                        // time since reference time set, in seconds
+        double _reftime_split;                          // difference of lead - trail, in seconds
+        double _reftime_split_lead;                     // not for user access
+        double _reftime_split_trail;                    // not for user access
+        RSA_API::REFTIME_SRC _reftime_source_select;    // enum, where time source is located
+        uint64_t _reftime_timestamp_rate;      // rate of the time-stamp counter's clock 
+        reftime_type _reftime_begin_type;      // marks start of time
+        reftime_type _reftime_current_type;    // updated periodically
+            void _reftime_set_date_timestamp();
+            void _reftime_set_running();
+            void _reftime_set_split();
+            void _reftime_set_split_lead();
+            void _reftime_set_split_trail();
+            void _reftime_set_source_select();
+            void _reftime_set_timestamp_rate();
+            void _reftime_set_begin_type();
+            void _reftime_set_current_type();
 
         // API group "TRIG"
 };

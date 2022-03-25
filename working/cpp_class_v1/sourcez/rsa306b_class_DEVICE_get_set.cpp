@@ -4,25 +4,25 @@
     getters and setters for member variables
 
         public:
-            # device_get_id()
-            # device_get_info_type()
-            # device_get_is_connected()
-            # device_get_is_over_temperature()
-            # device_get_is_running()
+            < 1 >  device_get_id()
+            < 2 >  device_get_info_type()
+            < 3 >  device_get_is_connected()
+            < 4 >  device_get_is_over_temperature()
+            < 5 >  device_get_is_running()
         
         private:
-            # _device_set_id
-            # _device_set_info_type()
-            # _device_set_is_connected()
-            # _device_set_is_over_temperature()
-            # _device_set_is_running()
+            < 1 >  _device_set_id
+            < 2 >  _device_set_info_type()
+            < 3 >  _device_set_is_connected()
+            < 4 >  _device_set_is_over_temperature()
+            < 5 >  _device_set_is_running()
 */
 
 #include "../includez/rsa306b_class.h"
 
 
 /*
-    public
+    public < 1 >
     returns current value of "_device_id"
 */
 int rsa306b::device_get_id()
@@ -46,7 +46,7 @@ int rsa306b::device_get_id()
 
 
 /*
-    public
+    public < 2 >
     populates current values of "DEVICE_INFO" struct, 6 strings
 */
 void rsa306b::device_get_info_type(RSA_API::DEVICE_INFO* devInfo)
@@ -62,6 +62,8 @@ void rsa306b::device_get_info_type(RSA_API::DEVICE_INFO* devInfo)
             printf("\n\tno device connected, values as initialized\n");
         #endif
     }
+
+    this->_device_set_info_type();
     strcpy(devInfo->apiVersion, this->_device_info_type.apiVersion);
     strcpy(devInfo->fpgaVersion, this->_device_info_type.fpgaVersion);
     strcpy(devInfo->fwVersion, this->_device_info_type.fwVersion);
@@ -75,7 +77,7 @@ void rsa306b::device_get_info_type(RSA_API::DEVICE_INFO* devInfo)
 
 
 /*
-    public
+    public < 3 >
     returns current value of "_device_is_connected"
 */
 bool rsa306b::device_get_is_connected()
@@ -93,7 +95,7 @@ bool rsa306b::device_get_is_connected()
 
 
 /*
-    public
+    public < 4 >
     returns current value of "_device_is_over_temperature"
 */
 bool rsa306b::device_get_is_over_temperature()
@@ -109,6 +111,10 @@ bool rsa306b::device_get_is_over_temperature()
             printf("\n\tno device connected, values as initialized\n");
         #endif
     }
+    else
+    {
+        this->_device_set_is_over_temperature();
+    }
     return this->_device_is_over_temperature;
 }
 
@@ -117,7 +123,7 @@ bool rsa306b::device_get_is_over_temperature()
 
 
 /*
-    public
+    public < 5 >
     returns current value of "_device_is_running"
 */
 bool rsa306b::device_get_is_running()
@@ -133,6 +139,7 @@ bool rsa306b::device_get_is_running()
             printf("\n\tno device connected, values as initialized\n");
         #endif
     }
+    this->_device_set_is_running();
     return this->_device_is_running;
 }
 
@@ -141,10 +148,11 @@ bool rsa306b::device_get_is_running()
 
 
 /*
-    private
+    private < 1 >
     sets "_device_id" to provided value
+    should only be set while connecting
 */
-int rsa306b::_device_set_id(int new_value)
+void rsa306b::_device_set_id(int new_value)
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -152,7 +160,6 @@ int rsa306b::_device_set_id(int new_value)
 #endif
 
     this->_device_id = new_value;
-    return CALL_SUCCESS;
 }
 
 
@@ -160,10 +167,10 @@ int rsa306b::_device_set_id(int new_value)
 
 
 /*
-    private
+    private < 2 >
     sets "_device_info_type" when connected
 */
-int rsa306b::_device_set_info_type()
+void rsa306b::_device_set_info_type()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -175,11 +182,10 @@ int rsa306b::_device_set_info_type()
         #ifdef DEBUG_MIN
             printf("\n\tno device connected, not possible to set values\n");
         #endif
-        return CALL_FAILURE;
+        return;
     }
     this->_api_return_status = RSA_API::DEVICE_GetInfo(&this->_device_info_type);
     this->_api_error_check();
-    return CALL_SUCCESS;
 }
 
 
@@ -187,10 +193,11 @@ int rsa306b::_device_set_info_type()
 
 
 /*
-    private
+    private < 3 >
     sets "_device_is_connected" to provided value
+    should only be set when connecting
 */
-int rsa306b::_device_set_is_connected(bool new_value)
+void rsa306b::_device_set_is_connected(bool new_value)
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -198,7 +205,6 @@ int rsa306b::_device_set_is_connected(bool new_value)
 #endif
 
     this->_device_is_connected = new_value;
-    return CALL_SUCCESS;
 }
 
 
@@ -206,10 +212,10 @@ int rsa306b::_device_set_is_connected(bool new_value)
 
 
 /*
-    private
-    sets "_device_is_over_temperature" to provided value, when connected
+    private < 4 >
+    sets "_device_is_over_temperature", if connected
 */
-int rsa306b::_device_set_is_over_temperature(bool new_value)
+void rsa306b::_device_set_is_over_temperature()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -221,10 +227,11 @@ int rsa306b::_device_set_is_over_temperature(bool new_value)
         #ifdef DEBUG_MIN
             printf("\n\tno device connected, not possible to set values\n");
         #endif
-        return CALL_FAILURE;
+        return;
     }
-    this->_device_is_over_temperature = new_value;
-    return CALL_SUCCESS;
+    this->_api_return_status = RSA_API::DEVICE_GetOverTemperatureStatus(
+            &this->_device_is_over_temperature);
+    this->_api_error_check();
 }
 
 
@@ -232,10 +239,10 @@ int rsa306b::_device_set_is_over_temperature(bool new_value)
 
 
 /*
-    private
-    sets "_device_is_running" to provided value, when connected
+    private < 5 >
+    sets "_device_is_running" to provided value, if connected
 */
-int rsa306b::_device_set_is_running(bool new_value)
+void rsa306b::_device_set_is_running()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -247,10 +254,11 @@ int rsa306b::_device_set_is_running(bool new_value)
         #ifdef DEBUG_MIN
             printf("\n\tno device connected, not possible to set values\n");
         #endif
-        return CALL_FAILURE;
+        return;
     }
-    this->_device_is_running = new_value;
-    return CALL_SUCCESS;
+    this->_api_return_status = RSA_API::DEVICE_GetEnable(
+        &this->_device_is_running);
+    this->_api_error_check();
 }
 
 
