@@ -249,6 +249,7 @@ void rsa306b::_reftime_set_begin_type()
         #endif
         return;
     }
+    this->_reftime_cpu.begin = clock();
     this->_reftime_set_split_lead();
     this->_reftime_set_split_trail();
     this->_reftime_set_source_select();

@@ -11,6 +11,8 @@
             < 5 >  reftime_get_timestamp_rate()
             < 6 >  reftime_get_begin_type()
             < 7 >  reftime_get_current_type()
+            < 8 >  reftime_get_split_cpu()
+            < 9 >  rectime_get_running_cpu()
 
         private:
             # none
@@ -230,5 +232,60 @@ void rsa306b::reftime_get_current_type
     r_t->stamp = this->_reftime_current_type.stamp;
 }
 
+
+////~~~~
+
+
+/*
+    public < 8 >
+    returns the time split, but call:
+        start_split
+        stop_split
+    returns value of the time split in seconds, 
+        using CPU clock
+*/
+double rsa306b::reftime_get_split_cpu()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    if (this->_device_is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tno device connected, no timing availible\n");
+        #endif
+    }
+    return this->_reftime_cpu.split;
+}
+
+
+////~~~~
+
+
+/*
+    public < 9 >
+    updates the running time, then returns value
+        uses CPU clock
+*/
+double rsa306b::reftime_get_running_cpu()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    if (this->_device_is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tno device connected, no timing availible\n");
+        #endif
+    }
+    clock_t temp = clock();
+    this->_reftime_cpu.running = ( ((double)temp) - 
+        ((double)this->_reftime_cpu.begin) ) / CLOCKS_PER_SEC;
+    return this->_reftime_cpu.running;
+}
 
 ////////~~~~~~~~END>  rsa306b_class_REFTIME_get.cpp

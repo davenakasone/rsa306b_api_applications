@@ -264,6 +264,8 @@ class rsa306b
         uint64_t reftime_get_timestamp_rate();
         void reftime_get_begin_type(reftime_type* r_t);
         void reftime_get_current_type(reftime_type* r_t);
+        double reftime_get_split_cpu();
+        double reftime_get_running_cpu();
         
 
     private:
@@ -351,6 +353,15 @@ class rsa306b
         uint64_t _reftime_timestamp_rate;               // rate of the time-stamp counter's clock 
         reftime_type _reftime_begin_type;               // marks start of time
         reftime_type _reftime_current_type;             // updated periodically
+        struct t_cpu
+        {
+            clock_t begin;
+            clock_t lead;
+            clock_t trail;
+            double running;
+            double split;
+        }; typedef struct t_cpu t_cpu;    // need a CPU clock capability
+        t_cpu _reftime_cpu;
         // setters
         void _reftime_set_date_timestamp();
         void _reftime_set_running();

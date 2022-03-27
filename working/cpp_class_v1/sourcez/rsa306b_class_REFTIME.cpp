@@ -40,6 +40,7 @@ void rsa306b::reftime_start_split()
         return;
     }
     this->_reftime_set_split_trail();
+    this->_reftime_cpu.trail = clock();
 }
 
 
@@ -66,8 +67,13 @@ void rsa306b::reftime_stop_split()
         #endif
         return;
     }
+    
     this->_reftime_set_split_lead();
     this->_reftime_set_split();
+
+    this->_reftime_cpu.lead = clock();
+    this->_reftime_cpu.split = ( ((double)this->_reftime_cpu.lead) - 
+        ((double)this->_reftime_cpu.trail) ) / CLOCKS_PER_SEC;
 }
 
 
