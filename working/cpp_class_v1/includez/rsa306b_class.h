@@ -326,22 +326,25 @@ class rsa306b
     // API group "PLAYBACK"
 
     // API group "SPECTRUM"
-        RSA_API::SpectrumDetectors 
-            _spectrum_detector_select;         // enum, condition to aquire bin
-        RSA_API::SpectrumVerticalUnits 
-            _spectrum_vertical_unit_select;    // enum, data to be output on Y-axis
-        RSA_API::SpectrumTraces 
-            _spectrum_trace_select;            // enum, type of trace to get
-        RSA_API::SpectrumWindows 
-            _spectrum_window_select;           // enum, type of filtering window
-        RSA_API::Spectrum_Limits 
-            _spectrum_limits_type;             // struct, with 6 doubles and 2 ints as limits
-        RSA_API::Spectrum_Settings 
-            _spectrum_settings_type;           // struct, with internal + external settings
-        RSA_API::Spectrum_TraceInfo 
-            _spectrum_trace_info_type;         // struct, used for timing and "AcqDataStatus"
+        RSA_API::SpectrumDetectors _spectrum_detector_select;             // enum, condition to aquire bin
+        RSA_API::SpectrumVerticalUnits _spectrum_vertical_unit_select;    // enum, data to be output on Y-axis
+        RSA_API::SpectrumTraces _spectrum_trace_select;                   // enum, type of trace to get
+        RSA_API::SpectrumWindows _spectrum_window_select;                 // enum, type of filtering window
+        RSA_API::Spectrum_Limits _spectrum_limits_type;                   // struct, with 6 doubles and 2 ints as limits
+        RSA_API::Spectrum_Settings _spectrum_settings_type;               // struct, with internal + external settings
+        RSA_API::Spectrum_TraceInfo _spectrum_trace_info_type;            // struct, used for timing and "AcqDataStatus"
         bool is_enabled_trace;
         float* trace_data; // dynamic
+        // setters
+        void _spectrum_set_detector_select();
+        void _spectrum_set_vertical_unit_select();
+        void _spectrum_set_trace_select();
+        void _spectrum_set_window_select();
+        void _spectrum_set_limits_type();
+        void _spectrum_set_settings_type();
+        void _spectrum_set_trace_info_type();
+        void _spectrum_set_is_enabled_trace();
+        void _spectrum_set_trace_data(); // ??? where are the freqs?
         
     // API group "REFTIME"
         char _reftime_date_timestamp[BUF_C];                   

@@ -47,7 +47,7 @@ void rsa306b::config_update_cf_rl
         cf_Hz > this->_config_center_frequency_max_hz  )
     {
         #ifdef DEBUG_MIN
-            printf("\n\tprovided center frequency not in range\n");
+            printf("\n\tcenter frequency  %lf  Hz\n", cf_Hz);
             printf("\t\tmust be [  %lf  :  %lf  ]  Hz\n",
                 this->_config_center_frequency_min_hz,
                 this->_config_center_frequency_max_hz);
@@ -58,8 +58,8 @@ void rsa306b::config_update_cf_rl
         rl_dbm > this->REFERENCE_LEVEL_MAX_dbm  )
     {
         #ifdef DEBUG_MIN
-            printf("\n\tprovided reference level not in range\n");
-            printf("\t\tmust be [  %lf  :  %lf  ]  dbm\n",
+            printf("\n\treference level  %lf  dbm\n", rl_dbm);
+            printf("\t\tmust be in range [  %lf  :  %lf  ]  dbm\n",
                 this->REFERENCE_LEVEL_MIN_dbm,
                 this->REFERENCE_LEVEL_MAX_dbm);
         #endif

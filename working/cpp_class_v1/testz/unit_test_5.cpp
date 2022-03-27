@@ -47,6 +47,12 @@ void unit_test_5 (void)
         printf("\nset center frequency:  %lf Hz\n", test.cf);
         printf("set reference level :  %lf dbm\n", test.rl);
         rsa.config_print_all();
+        test.cf = 100e9;
+        test.rl = -44;
+        rsa.config_update_cf_rl(test.cf, test.rl);
+        test.cf = 1e9;
+        test.rl = 444;
+        rsa.config_update_cf_rl(test.cf, test.rl);
         rsa.device_disconnect();
 
         // use internal reference (try external at the lab)

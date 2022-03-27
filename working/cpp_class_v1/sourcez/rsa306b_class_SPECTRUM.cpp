@@ -1,10 +1,12 @@
 /*
     implementation of the rsa306b_class
     using "SPECTRUM" function group of the API
+
         public:
-            # 
+            < 1 >
+            
         private:
-            # 
+            < 1 >
         
 */
 
@@ -12,7 +14,7 @@
 
 
 /*
-    public
+    public < 1 >
 */
 void rsa306b::
 {
@@ -27,7 +29,7 @@ void rsa306b::
 
 
 /*
-    private
+    private < 1 >
 */
 void rsa306b::
 {
