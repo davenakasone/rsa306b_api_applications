@@ -8,6 +8,7 @@
             < 3 >  get_api_return_status()
             < 4 >  get_api_return_status_string()
             < 5 >  get_gp_return_status()
+            < 6 >  print_all_const()
 
         private:
             < 1 >  _api_error_check()
@@ -132,6 +133,54 @@ int rsa306b::get_gp_return_status()
 
 
 /*
+    public < 6 >
+    call to print class constants 
+    individual class constants and macros are publically availible 
+    it is not possible for user to change "const <data_type>" members
+*/
+void rsa306b::print_all_const()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+    
+    printf("\nclass macros >>>\n");
+    #ifdef DEBUG_CLI
+        printf("\tDEBUG_CLI               :  %d\n", DEBUG_CLI);
+    #endif
+    #ifdef DEBUG_MIN
+        printf("\tDEBUG_MIN               :  %d\n", DEBUG_MIN);
+    #endif
+    #ifdef DEBUG_ERR
+        printf("\tDEBUG_ERR               :  %d\n", DEBUG_ERR);
+    #endif
+    printf("\tBUF_A  :  %d\n", BUF_A);
+    printf("\tBUF_B  :  %d\n", BUF_B);
+    printf("\tBUF_C  :  %d\n", BUF_C);
+    printf("\tBUF_D  :  %d\n", BUF_D);
+    printf("\tBUF_E  :  %d\n", BUF_E);
+    printf("\tBUF_F  :  %d\n", BUF_F);
+    printf("\nclass constants >>>\n");
+    printf("\tCALL_SUCCESS             :  %d\n", this->CALL_SUCCESS);
+    printf("\tCALL_FAILURE             :  %d\n", this->CALL_FAILURE);
+    printf("\tINIT_CHAR                :  %c\n", this->INIT_CHAR);
+    printf("\tINIT_DOUBLE              :  %lf\n", this->INIT_DOUBLE);
+    printf("\tINIT_INT                 :  %d\n", this->INIT_INT);
+    printf("\tINIT_STR                 :  %s\n", this->INIT_STR);
+    printf("\tEXTERNAL_FREQUENCY       :  %lf  Hz\n", this->EXTERNAL_FREQUENCY);
+    printf("\tEXTERNAL_AMPLITUDE_dbm   :  %lf +/- dbm\n", this->EXTERNAL_AMPLITUDE_dbm);
+    printf("\tREFERENCE_LEVEL_MAX_dbm  :  %lf  dbm\n", this->REFERENCE_LEVEL_MAX_dbm);
+    printf("\tREFERENCE_LEVEL_MIN_dbm  :  %lf  dbm\n", this->REFERENCE_LEVEL_MIN_dbm);
+    printf("\tSPAN_MAX_Hz              :  %lf  Hz\n", this->SPAN_MAX_Hz);
+    printf("\tSPAN_MIN_Hz              :  %lf  Hz\n", this->SPAN_MIN_Hz);
+}
+
+
+////~~~~
+
+
+/*
     private < 1 >
     matches current state of the ReturnStatus variable to the enum
     indicates if an error has occured, otherwise does nothing
@@ -140,7 +189,7 @@ int rsa306b::get_gp_return_status()
 */
 void rsa306b::_api_error_check()
 {
-#ifdef DEBUG_CLI
+#ifdef DEBUG_ERR
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif
@@ -170,7 +219,7 @@ void rsa306b::_api_error_check()
 */
 void rsa306b::_gp_error_check()
 {
-#ifdef DEBUG_CLI
+#ifdef DEBUG_ERR
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif
@@ -178,7 +227,7 @@ void rsa306b::_gp_error_check()
     if (this->_gp_return_status != CALL_SUCCESS)
     {
         #if defined (DEBUG_ERR) || (DEBUG_CLI)
-            printf("\n\t###   !!!   INTERNAL ERROR   !!!   ###\n");
+            printf("\n\t###   !!! ERROR  IN THE OBJECT !!!   ###\n");
         #endif
     }
 }
@@ -209,8 +258,16 @@ void rsa306b::_init_member_variables()
     this->_gp_return_status = CALL_SUCCESS;
 
     // ALIGN
+    this->_align_need_alignment = false;
+    this->_align_is_warmed = false;
 
     // CONFIG
+    this->_config_center_frequency_hz = INIT_DOUBLE;
+    this->_config_center_frequency_max_hz = -6.2e9;
+    this->_config_center_frequency_min_hz = -9e3;
+    this->_config_reference_level_dbm = INIT_DOUBLE;
+    this->_config_external_reference_frequency_hz = INIT_DOUBLE;
+    this->_config_frequency_reference_source_select = RSA_API::FRS_INTERNAL;
 
     // DEVICE
     this->_device_is_connected = false;
@@ -238,7 +295,6 @@ void rsa306b::_init_member_variables()
     this->_reftime_current_type.seconds = this->INIT_INT;
     this->_reftime_current_type.nanos = this->INIT_INT;
     this->_reftime_current_type.stamp = this->INIT_INT;
-    
 }
        
 

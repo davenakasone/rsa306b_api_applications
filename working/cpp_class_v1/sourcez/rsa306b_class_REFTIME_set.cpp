@@ -166,7 +166,7 @@ void rsa306b::_reftime_set_split_trail()
         return;
     }
     this->_reftime_set_running();
-    this->_reftime_split_lead = this->_reftime_running;
+    this->_reftime_split_trail = this->_reftime_running;
 }
 
 
@@ -252,7 +252,6 @@ void rsa306b::_reftime_set_begin_type()
     this->_reftime_set_split_lead();
     this->_reftime_set_split_trail();
     this->_reftime_set_source_select();
-    this->_reftime_set_current_type();
     this->_reftime_set_timestamp_rate();
 
     this->_api_return_status = RSA_API::REFTIME_GetReferenceTime(
@@ -261,7 +260,7 @@ void rsa306b::_reftime_set_begin_type()
         &this->_reftime_begin_type.stamp);
     this->_api_error_check();
 
-    this->_reftime_set_date_timestamp();
+    this->_reftime_set_date_timestamp(); // calls _reftime_set_current_type()
     this->_reftime_set_running();
     this->_reftime_set_split();
 }
@@ -273,6 +272,9 @@ void rsa306b::_reftime_set_begin_type()
 /*
     private < 9 >
     call before operation requiring the current time
+    automatic update of timestamp sampling rate
+    automatic update of running time
+    called from "_reftime_set_date_timestamp()", don't make circular
 */
 void rsa306b::_reftime_set_current_type()
 {
@@ -288,6 +290,9 @@ void rsa306b::_reftime_set_current_type()
         #endif
         return;
     }
+    this->_reftime_set_timestamp_rate();    // update
+    this->_reftime_set_running();           // update
+
     this->_api_return_status = RSA_API::REFTIME_GetCurrentTime(
         &this->_reftime_current_type.seconds,
         &this->_reftime_current_type.nanos,

@@ -25,6 +25,7 @@
         there must be only one deveice connected
     this is the only function that should make "_device_is_connected == true"
     this is the only function that should assign "_device_id = <searched_ID>"
+    basic checks and alignments updated when connection is successful
 */
 void rsa306b::device_connect()
 {
@@ -33,6 +34,13 @@ void rsa306b::device_connect()
         __LINE__, __FILE__, __func__);
 #endif
 
+    if (this->_device_is_connected == true)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tthe device is already connected\n");
+        #endif
+        return;
+    }
     int devices_found;
     int device_ids[RSA_API::DEVSRCH_MAX_NUM_DEVICES];
     char device_serials[RSA_API::DEVSRCH_MAX_NUM_DEVICES]
@@ -64,15 +72,14 @@ void rsa306b::device_connect()
         #ifdef DEBUG_MIN
             printf("\n\t^^^ CONNECTED ^^^\n");
         #endif
-        this->_device_set_is_connected(true);
+        this->_device_set_is_connected(true);       // call once per connected session
         this->_device_set_info_type();
-        this->_device_set_is_over_temperature();
-        this->_device_set_is_running();
-
-        // reftime, align...add here
-        //this->record_start_time();
-        //this->rsa_align();
-        // start the time, align, check temperature
+        this->_device_set_is_over_temperature();    
+        this->_device_set_is_running();             
+        this->_reftime_set_begin_type();            // call once per connected session
+        this->_align_set_is_warmed();
+        this->align_execute_alignment();
+        this->_config_init();                       // call once per connected session
     }
     else if (devices_found > 1)
     {
@@ -175,16 +182,14 @@ void rsa306b::device_print_all()
     this->_device_set_is_over_temperature();
     this->_device_set_is_running();
 
-    printf("\ndevice information >>>\n");
-    printf("\tAPI Version:        %s\n", this->_device_info_type.apiVersion);
-    printf("\tDevice ID:          %d\n", this->_device_id);
-    printf("\tFirm Ware Version:  %s\n", this->_device_info_type.fwVersion);
-    printf("\tFPGA Version:       %s\n", this->_device_info_type.fpgaVersion);
-    printf("\tHardware Version:   %s\n", this->_device_info_type.hwVersion);
-    printf("\tNomenclature:       %s\n", this->_device_info_type.nomenclature);
-    printf("\tSerial Number:      %s\n", this->_device_info_type.serialNum);
-
-    printf("\ndevice status >>>\n");
+    printf("\nDEVICE information >>>\n");
+    printf("\tAPI Version                :  %s\n", this->_device_info_type.apiVersion);
+    printf("\tDevice ID                  :  %d\n", this->_device_id);
+    printf("\tFirm Ware Version          :  %s\n", this->_device_info_type.fwVersion);
+    printf("\tFPGA Version               :  %s\n", this->_device_info_type.fpgaVersion);
+    printf("\tHardware Version           :  %s\n", this->_device_info_type.hwVersion);
+    printf("\tNomenclature               :  %s\n", this->_device_info_type.nomenclature);
+    printf("\tSerial Number              :  %s\n", this->_device_info_type.serialNum);
     printf("\tis connected               :  %d\n", this->_device_is_connected);
     printf("\tis running                 :  %d\n", this->_device_is_running);
     printf("\tis over temperature limit  :  %d\n", this->_device_is_over_temperature);

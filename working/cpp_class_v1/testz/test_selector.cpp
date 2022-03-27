@@ -16,8 +16,14 @@ void test_selector
 
     switch (test_number)
     {
-        case (1)  : unit_test_1()  ; break;
-        case (2)  : unit_test_2()  ; break;
+        case (1)    : unit_test_1()  ; break;
+        case (2)    : unit_test_2()  ; break;
+        case (3)    : unit_test_3()  ; break;
+        case (4)    : unit_test_4()  ; break;
+        case (5)    : unit_test_5()  ; break;
+
+        case (998)  : vvv_998()      ; break;
+        
         default   : unit_test_999(); break;
     }
 

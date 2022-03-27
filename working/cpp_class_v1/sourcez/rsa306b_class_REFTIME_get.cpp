@@ -173,6 +173,13 @@ void rsa306b::reftime_get_begin_type
         __LINE__, __FILE__, __func__);
 #endif
 
+    if (r_t == NULL)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tallocate struct before calling\n");
+        #endif
+        return;   
+    }
     if (this->_device_is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -180,7 +187,6 @@ void rsa306b::reftime_get_begin_type
         #endif
         return;
     }
-    this->_reftime_set_begin_type();
     r_t->seconds = this->_reftime_begin_type.seconds;
     r_t->nanos = this->_reftime_begin_type.nanos;
     r_t->stamp = this->_reftime_begin_type.stamp;
@@ -204,6 +210,13 @@ void rsa306b::reftime_get_current_type
         __LINE__, __FILE__, __func__);
 #endif
 
+    if (r_t == NULL)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tallocate struct before calling\n");
+        #endif
+        return;   
+    }
     if (this->_device_is_connected == false)
     {
         #ifdef DEBUG_MIN

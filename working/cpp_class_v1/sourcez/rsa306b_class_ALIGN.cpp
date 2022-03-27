@@ -1,159 +1,214 @@
 /*
     implementation of the rsa306b_class
     using "ALIGN" function group of the API
+    getters and setters for member variables
+    includes two user-action function
+
         public:
-            # print_alignment()
-            # rsa_alignment()
+            < 1 >  align_execute_alignment()
+            < 2 >  align_print_all()
+            < 3 >  align_get_is_warmed()
+            < 4 >  align_get_need_alignment()
+
         private:
-            # execute_alignment()
-            # execute_warm_up()
-        
+            < 1 >  _align_set_is_warmed()
+            < 2 >  _align_set_need_alignment()
 */
 
 #include "../includez/rsa306b_class.h"
 
 
 /*
-    public
-    called to print alignment information,
-    includes warm-up status
+    public < 1 >
+    performs an alignment operation, usually works
+        device must be connected
+        device is stopped if running
+        checks if alignment is needed
+        executes alignment if needed
 */
-void rsa306b::print_alignment()
+void rsa306b::align_execute_alignment()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif
 
-    if (this->is_connected == false)
+    if (this->_device_is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("can't print alignment information, there is no device connected\n");
+            printf("\n\tno device connected, alignments not possible\n");
         #endif
         return;
     }
-    this->api_return_status = RSA_API::ALIGN_GetAlignmentNeeded(&this->is_needed_alignment);
-    this->error_check();
-    this->api_return_status = RSA_API::ALIGN_GetWarmupStatus(&this->is_warmed_up);
-    this->error_check();
-    printf("\ndevice alignment status >>>\n");
-    if (this->is_needed_alignment == false)
+    if (this->_device_is_running == true)
     {
-        printf("\tno alignment is needed\n");
+        this->device_stop();
     }
-    else
+
+    this->_align_set_need_alignment();
+    if (this->_align_need_alignment == true)
     {
-        printf("\talignment IS needed\n");
-    }
-    if (this->is_warmed_up == true)
-    {
-        printf("\twarm-up is complete\n");
-    }
-    else
-    {
-        printf("\twarm-up is NOT complete\n");
-    }
-}
-
-
-////~~~~
-
-
-/*
-    public
-    alignments may be needed during start-up or extended use
-    the instance should call this method:
-        - when starting the spectrum analyzer
-        - after temperature changes
-        - every 15 minutes of operation
-    
-    this function rejects calls if no device is connected
-    the device is then stopped
-    if the device is not warm, the program halts until it is
-    aligment is ran, if needed
-*/
-void rsa306b::rsa_align()
-{
-#ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
-        __LINE__, __FILE__, __func__);
-#endif
-
-    if (this->is_connected == false)
-    {
-        #ifdef DEBUG_MIN
-            printf("can't align, there is no device connected\n");
-        #endif
-        return;
-    }
-    this->rsa_stop();
-    this->execute_alignment();
-    this->execute_warm_up();
-}
-
-
-////~~~~
-
-
-/*
-    private
-    alignment ensures general calibration
-    for serious problems, send in to be recalibrated
-*/
-void rsa306b::execute_alignment()
-{
-#ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
-        __LINE__, __FILE__, __func__);
-#endif
-
-    this->api_return_status = RSA_API::ALIGN_GetAlignmentNeeded(&this->is_needed_alignment);
-    this->error_check();
-    if (is_needed_alignment == true)
-    {
-        this->api_return_status = RSA_API::ALIGN_RunAlignment();
-        this->error_check();
-        this->is_needed_alignment = false;
-    }
-    #ifdef DEBUG_MIN
-        printf("aligment complete\n");
-    #endif
-}
-
-
-////~~~~
-
-
-/*
-    private
-    the spectrum analyzers can take 30 minutes to warm up
-    it is safe to get data if not completley warmed up
-*/
-void rsa306b::execute_warm_up()
-{
-#ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
-        __LINE__, __FILE__, __func__);
-#endif
-
-    this->api_return_status = RSA_API::ALIGN_GetWarmupStatus(&this->is_warmed_up);
-    this->error_check();
-    if (this->is_warmed_up == false)
-    {
-        sleep(3);
-        this->api_return_status = RSA_API::ALIGN_GetWarmupStatus(&this->is_warmed_up);
-        this->error_check();
-        if (this->is_warmed_up == false)
+        this->_api_return_status = RSA_API::ALIGN_RunAlignment();
+        this->_api_error_check();
+        this->_align_set_need_alignment();
+        if (this->_align_need_alignment == false)
         {
             #ifdef DEBUG_MIN
-                printf("the device will be warmed up soon...\n");
+                printf("\n\talignment success\n");
             #endif
         }
-        this->is_warmed_up = true;
+        else
+        {
+            #ifdef DEBUG_MIN
+                printf("\n\talignment failure\n");
+            #endif
+        }
     }
-    #ifdef DEBUG_MIN
-        printf("warm-up complete ?\n");
-    #endif
+    else
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tdevice was already aligned\n");
+        #endif
+        return;
+    }
+}
+
+
+////~~~~
+
+
+/*
+    public < 2 >
+    prints alignment conditions
+*/
+void rsa306b::align_print_all()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    if (this->_device_is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tno device connected, alignments not possible\n");
+        #endif
+        return;
+    }
+    this->_align_set_is_warmed();
+    this->_align_set_need_alignment();
+    printf("\nALIGN information >>>\n");
+    printf("\talignment is needed  :  %d\n", this->_align_need_alignment);
+    printf("\tdevice is warmed up  :  %d\n", this->_align_is_warmed);
+}
+
+
+////~~~~
+
+
+/*
+    public < 3 >
+    checks warm-up status
+    returns result
+*/
+bool rsa306b::align_get_is_warmed()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    if (this->_device_is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tno device connected, value as initialized\n");
+        #endif
+    }
+    this->_align_set_is_warmed();
+    return this->_align_is_warmed;
+}
+
+
+////~~~~
+
+
+/*
+    public < 4 >
+    checks alignment status
+    returns result
+*/
+bool rsa306b::align_get_need_alignment()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    if (this->_device_is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tno device connected, value as initialized\n");
+        #endif
+    }
+    this->_align_set_need_alignment();
+    return this->_align_need_alignment;
+}
+
+
+////~~~~
+
+
+/*
+    private < 1 >
+    checks warmup status
+    sets "_align_is_warmed" accordingly
+    don't worry about it too much, the device gets warm fast
+*/
+void rsa306b::_align_set_is_warmed()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    if (this->_device_is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tno device connected, alignments not possible\n");
+        #endif
+        return;
+    }
+    this->_api_return_status = RSA_API::ALIGN_GetWarmupStatus(
+        &this->_align_is_warmed);
+    this->_api_error_check();
+}
+
+
+////~~~~
+
+
+/*
+    private < 2 >
+    checks aligment status
+    sets "_align_need_alignment" accordingly
+*/
+void rsa306b::_align_set_need_alignment()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    if (this->_device_is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tno device connected, alignments not possible\n");
+        #endif
+        return;
+    }
+    this->_api_return_status = RSA_API::ALIGN_GetAlignmentNeeded(
+        &this->_align_need_alignment);
+    this->_api_error_check();
 }
 
 
