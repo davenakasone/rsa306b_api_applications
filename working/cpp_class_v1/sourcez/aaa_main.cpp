@@ -1,6 +1,6 @@
 /*
     there is a preliminary understanding of the API and its limitations 
-	a class can help remove the abstraction
+	a class can help remove the abstraction and make analysis efficient
 	main() directs the unit tests
 	next step is to put the instance in a worker thread, 
         allowing the user to manipulate it during run time
@@ -12,9 +12,9 @@
 // turn on and change UT_NUMBER to run a specific unit test
 #define UNIT_TEST_BY_NUMBER 88 
 
-// valid UT_NUMER, class sections  "unit_test_#" : 1, 2, 3, 4, 5
+// valid UT_NUMER, class sections  "unit_test_#" : 1, 2, 3, 4, 5, 6
 // valid UT_NUMER, specific tasks  "vvv_#"       :  998
-const int UT_NUMBER = 5;  // select unit test # here
+const int UT_NUMBER = 6;  // select unit test # here
 
 
 int main
@@ -32,6 +32,7 @@ int main
         test_selector(3);      // tests the "REFTIME" section of the class
         test_selector(4);      // tests the "ALIGN" section of the class
         test_selector(5);      // tests the "CONFIG" section of the class
+        test_selector(6);      // tests the "SPECTRUM" section of the class
         test_selector(998);    // seeing if the 'REFTIME' split-timer is good
         test_selector(999);    // catch all 
     #endif

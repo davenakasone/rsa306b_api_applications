@@ -155,12 +155,13 @@ void rsa306b::print_all_const()
     #ifdef DEBUG_ERR
         printf("\tDEBUG_ERR               :  %d\n", DEBUG_ERR);
     #endif
-    printf("\tBUF_A  :  %d\n", BUF_A);
-    printf("\tBUF_B  :  %d\n", BUF_B);
-    printf("\tBUF_C  :  %d\n", BUF_C);
-    printf("\tBUF_D  :  %d\n", BUF_D);
-    printf("\tBUF_E  :  %d\n", BUF_E);
-    printf("\tBUF_F  :  %d\n", BUF_F);
+    printf("\tBUF_A        :  %d\n", BUF_A);
+    printf("\tBUF_B        :  %d\n", BUF_B);
+    printf("\tBUF_C        :  %d\n", BUF_C);
+    printf("\tBUF_D        :  %d\n", BUF_D);
+    printf("\tBUF_E        :  %d\n", BUF_E);
+    printf("\tBUF_F        :  %d\n", BUF_F);
+    printf("\tDATA_LENGTH  :  %d\n", DATA_LENGTH);
     printf("\nclass constants >>>\n");
     printf("\tCALL_SUCCESS             :  %d\n", this->CALL_SUCCESS);
     printf("\tCALL_FAILURE             :  %d\n", this->CALL_FAILURE);

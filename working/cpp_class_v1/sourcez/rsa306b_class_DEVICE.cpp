@@ -116,8 +116,8 @@ void rsa306b::device_disconnect()
         this->device_stop();
         this->_api_return_status = RSA_API::DEVICE_Disconnect();
         this->_api_error_check();
-        sleep(1);
-        this->_init_member_variables();
+        //sleep(1);
+        //this->_init_member_variables();
     }
 }
 

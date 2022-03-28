@@ -3,6 +3,8 @@
     this testing section is designed to test the "rsa306b" class
 
     finished product should delete this entire directory "./testz"
+        but it might be helpful to keep, so examples can be shown
+        just pick the best unit tests and delete the rest?
 
     unit tests are important and should be conducted in parallel with development
     the intent is to identify problems early
@@ -13,7 +15,10 @@
     all testing resource are confined to this header file
         libraries, headers, constants, global variables...
     
-
+    "unit_test_*" are for general sections
+    "vvv_*"       are for specific demonstrations, debugging, and feature developments
+    no test should ever be broken
+    passing all tests validates the program/class
 */
 
 #ifndef H_unit_tests
@@ -33,7 +38,7 @@ void unit_test_2  (void);    // tests the "DEVICE" section of the class
 void unit_test_3  (void);    // tests the "REFTIME" section of the class
 void unit_test_4  (void);    // tests the "ALIGN" section of the class
 void unit_test_5  (void);    // tests the "CONFIG" section of the class
-void unit_test_6  (void);    // 
+void unit_test_6  (void);    // tests the "SPECTRUM" section of the class
 void unit_test_7  (void);    // 
 void unit_test_8  (void);    // 
 void unit_test_9  (void);    // 
