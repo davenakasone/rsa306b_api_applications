@@ -278,8 +278,7 @@ class rsa306b
         int spectrum_find_peak_index(int trace_length, float* traceData);    // give Y values to find peak
         // getters
         void spectrum_get_limits_type(RSA_API::Spectrum_Limits* limits);  // get _spectrum_limits_type
-
-
+        bool spectrum_get_measurement_enabled(); // get _spectrum_measurement_enabled
 
     private:
 
@@ -374,7 +373,7 @@ class rsa306b
         double _spectrum_frequency_array[DATA_LENGTH];               // X axis, frequencies 
         float _spectrum_trace_data[DATA_LENGTH];                     // Y axis, adjust to not make dynamic
         RSA_API::SpectrumDetectors _spectrum_detectors_select[3];    // enum, for each of 3 traces, they average
-        RSA_API::SpectrumTraces _spectrum_traces_select;             // enum, select 1 of 3 traces
+        RSA_API::SpectrumTraces _spectrum_traces_select[3];             // enum, select 1 of 3 traces
         RSA_API::Spectrum_Limits _spectrum_limits_type;              // struct, with 6 doubles and 2 ints as limits
         RSA_API::Spectrum_Settings _spectrum_settings_type;          // struct, with internal + 2 enums + external settings
         RSA_API::Spectrum_TraceInfo _spectrum_trace_info_type;       // struct, used for timing and "AcqDataStatus"
@@ -383,7 +382,7 @@ class rsa306b
 
         // setters
         void _spectrum_set_limits_type();//API sets _spectrum_limits_type
-
+        void _spectrum_set_measurement_enabled(bool new_value);// API updates _spectrum_measurement_enabled
 
         /*
         void _spectrum_set_detector_select();

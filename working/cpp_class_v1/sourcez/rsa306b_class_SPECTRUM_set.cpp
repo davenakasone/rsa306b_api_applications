@@ -7,6 +7,7 @@
             
         private:
             < 1 > _spectrum_set_limits_type()
+            < 2 > _spectrum_set_measurement_enabled()
         
 */
 
@@ -40,6 +41,57 @@ void rsa306b::_spectrum_set_limits_type()
 
 
 ////~~~~
+
+
+/*
+    private < 2 >
+    the device must be connected
+    setting value must be different than current
+    a running device is stopped
+    new measurement state is sent
+    status of measurement state is updated to member
+*/
+void rsa306b::_spectrum_set_measurement_enabled
+(
+    bool new_value
+)
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    if (this->_device_is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tno device connected\n");
+        #endif
+        return;
+    } 
+    if (new_value == false                        && 
+        this->_spectrum_measurement_enabled == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("\nmeasurement already disabled\n");
+        #endif
+        return;
+    }
+    if (new_value == true                       && 
+        this->_spectrum_measurement_enabled == true)
+    {
+        #ifdef DEBUG_MIN
+            printf("\nmeasurement already enabled\n");
+        #endif
+        return;
+    }
+    this->device_stop();
+    this->_api_error_check();
+    this->_api_return_status = RSA_API::SPECTRUM_SetEnable(new_value);
+    this->_api_error_check();
+    this->_api_return_status = RSA_API::SPECTRUM_GetEnable(
+        &this->_spectrum_measurement_enabled);
+    this->_api_error_check();
+}
 
 
 ////////~~~~~~~~END>  rsa306b_class_SPECTRUM_set.cpp
