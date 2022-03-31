@@ -16,7 +16,7 @@
 #include "RSA_API.h"
 
 #define STEPZ 9
-#define REPZ 9
+#define REPZ 900
 #define BIG_WIDTH 1024
 //#define DEBUG_CLI -888
 #define getName(var) #var
