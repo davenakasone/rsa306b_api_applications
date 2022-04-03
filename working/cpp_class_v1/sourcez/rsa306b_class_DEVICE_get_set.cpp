@@ -195,7 +195,7 @@ void rsa306b::_device_set_info_type()
 /*
     private < 3 >
     sets "_device_is_connected" to provided value
-    should only be set when connecting
+    should only be set when connecting or disconnecting
 */
 void rsa306b::_device_set_is_connected(bool new_value)
 {

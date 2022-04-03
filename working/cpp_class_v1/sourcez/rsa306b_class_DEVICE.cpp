@@ -25,7 +25,7 @@
         there must be only one deveice connected
     this is the only function that should make "_device_is_connected == true"
     this is the only function that should assign "_device_id = <searched_ID>"
-    basic checks and alignments updated when connection is successful
+    other groups of the API are initialized when connection is successful
 */
 void rsa306b::device_connect()
 {
@@ -80,6 +80,7 @@ void rsa306b::device_connect()
         this->_align_set_is_warmed();
         this->align_execute_alignment();
         this->_config_init();                       // call once per connected session
+        this->_spectrum_init();                     // call once per connected session
     }
     else if (devices_found > 1)
     {
@@ -101,8 +102,10 @@ void rsa306b::device_connect()
 /*
     public < 2 >
     disconnects device if connected
-    should only be called by the constructor
+    should only be called by the destructor
         or if a hard reset is needed
+    this is the only function that should make "_device_is_connected == false"
+        done through the initialization
 */
 void rsa306b::device_disconnect()
 {
@@ -116,9 +119,8 @@ void rsa306b::device_disconnect()
         this->device_stop();
         this->_api_return_status = RSA_API::DEVICE_Disconnect();
         this->_api_error_check();
-        //sleep(1);
-        //this->_init_member_variables();
     }
+    this->_init_member_variables();
 }
 
 

@@ -25,6 +25,7 @@ void cpu_time_split(cpu_timer* stc);
 
 void vvv_998()
 {
+    printf("\n%s()  ,  timing\n", __func__);
     {
         double trackSplit;
         double trackRunning;
@@ -107,6 +108,7 @@ void vvv_998()
         rsa.reftime_print_all();
         */
     }
+    printf("\n%s()  ,  test complete\n", __func__);
 }
 
 

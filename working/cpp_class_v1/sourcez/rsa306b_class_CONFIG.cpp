@@ -7,6 +7,7 @@
         public:
             < 1 >  config_update_cf_rl()
             < 2 >  config_print_all()
+            < 3 >  config_use_external_reference_source()
     
         private:
             < 1 >  _config_init()
@@ -24,10 +25,10 @@
     memebers are updated
     caller responsible for calling "device_run()"
 */
-void rsa306b::config_update_cf_rl
+int rsa306b::config_update_cf_rl
 (
     double cf_Hz, 
-    double rl_dbm
+    double rl_dBm
 )
 {
 #ifdef DEBUG_CLI
@@ -40,6 +41,7 @@ void rsa306b::config_update_cf_rl
         #ifdef DEBUG_MIN
             printf("\n\tno device connected, not able to configure\n");
         #endif
+        return CALL_FAILURE;
     }
     this->device_stop();
 
@@ -52,21 +54,21 @@ void rsa306b::config_update_cf_rl
                 this->_config_center_frequency_min_hz,
                 this->_config_center_frequency_max_hz);
         #endif
-        return;
+        return CALL_FAILURE;
     }
-    if (rl_dbm < this->REFERENCE_LEVEL_MIN_dbm ||
-        rl_dbm > this->REFERENCE_LEVEL_MAX_dbm  )
+    if (rl_dBm < this->REFERENCE_LEVEL_MIN_dbm ||
+        rl_dBm > this->REFERENCE_LEVEL_MAX_dbm  )
     {
         #ifdef DEBUG_MIN
-            printf("\n\treference level  %lf  dbm\n", rl_dbm);
+            printf("\n\treference level  %lf  dbm\n", rl_dBm);
             printf("\t\tmust be in range [  %lf  :  %lf  ]  dbm\n",
                 this->REFERENCE_LEVEL_MIN_dbm,
                 this->REFERENCE_LEVEL_MAX_dbm);
         #endif
-        return;
+        return CALL_FAILURE;
     }
 
-    this->_api_return_status = RSA_API::CONFIG_SetReferenceLevel(rl_dbm);
+    this->_api_return_status = RSA_API::CONFIG_SetReferenceLevel(rl_dBm);
     this->_api_error_check();
     this->_api_return_status = RSA_API::CONFIG_SetCenterFreq(cf_Hz);
     this->_api_error_check();
@@ -74,8 +76,9 @@ void rsa306b::config_update_cf_rl
     this->_config_set_center_frequency_hz();
     this->_config_set_reference_level_dbm();
     #ifdef DEBUG_MIN
-        printf("center frequency and reference level are configured\n");
+        printf("\n\tcenter frequency and reference level are configured\n");
     #endif
+    return CALL_SUCCESS;
 }
 
 

@@ -41,31 +41,34 @@ void unit_test_2 (void)
         test.d_id = -11;
         rsa306b rsa;                // constructor is called
 
+        //
         // not connected, should be rejected
         ut2_get(&test, &rsa);
         rsa.device_print_all();
         ut2_print(&test);
-
+        //
+        //
         rsa.device_connect();
         rsa.device_prepare_run();
         rsa.device_start_frame_transfer();
         ut2_get(&test, &rsa);
         ut2_print(&test);
-
+        //
         #ifdef CAUSE_CORE_DUMP
             my_rsa.device_reset();  // try not to use this, maybe good to remove it from the class
         #endif
-
+        //
         // observe stopped device, disconnected device
         rsa.device_stop();
         rsa.device_print_all();
         rsa.device_disconnect();
         rsa.device_print_all();
-
+        //
         // connecte again and observe running device
         rsa.device_connect();
         rsa.device_run();
         rsa.device_print_all();
+        //
     }
     // instance goes out of scope and destructor is called
     printf("\n%s()  ,  test complete\n", __func__);

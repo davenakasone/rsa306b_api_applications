@@ -91,7 +91,7 @@ RSA_API::ReturnStatus rsa306b::get_api_return_status()
 */
 void rsa306b::get_api_return_status_string(char* carrier)
 {
-#ifdef DEBUG_CLI
+#ifdef DEBUG_CL
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif
@@ -104,10 +104,11 @@ void rsa306b::get_api_return_status_string(char* carrier)
         return;
     }
 
-    const char* temp;
+    const char* temp = NULL;
     temp = RSA_API::DEVICE_GetErrorString(this->_api_return_status);
     snprintf(carrier, BUF_D-1, 
         "error code:  %d  ,  error message:  %s", this->_api_return_status, temp);
+    temp = NULL;
 }
 
 
@@ -197,13 +198,10 @@ void rsa306b::_api_error_check()
 
     if (this->_api_return_status != RSA_API::noError)
     {
-        #ifdef DEBUG_ERR
+        #if defined (DEBUG_ERR) || (DEBUG_MIN)
             this->get_api_return_status_string(this->_helper_string);
             printf("\n\t###   !!!   API ERROR   !!!   ###   %s\n", 
                 this->_helper_string);
-        #endif
-        #ifdef DEBUG_MIN
-            printf("\n\t###   !!!   API ERROR   !!!   ###\n");
         #endif
     }
 }
@@ -227,7 +225,7 @@ void rsa306b::_gp_error_check()
 
     if (this->_gp_return_status != CALL_SUCCESS)
     {
-        #if defined (DEBUG_ERR) || (DEBUG_CLI)
+        #if defined (DEBUG_ERR) || (DEBUG_MIN)
             printf("\n\t###   !!! ERROR  IN THE OBJECT !!!   ###\n");
         #endif
     }
@@ -296,6 +294,50 @@ void rsa306b::_init_member_variables()
     this->_reftime_current_type.seconds = this->INIT_INT;
     this->_reftime_current_type.nanos = this->INIT_INT;
     this->_reftime_current_type.stamp = this->INIT_INT;
+
+    // SPECTRUM
+    this->_spectrum_valid_trace_points = INIT_INT;
+    this->_spectrum_good_aquisition = false;
+    this->_spectrum_measurement_enabled = false;
+    for (int ii = 0; ii < DATA_LENGTH; ii++)
+    {
+        this->_spectrum_frequency_array[ii] = this->INIT_DOUBLE;
+        this->_spectrum_trace_data[0][ii] = this->INIT_FLOAT;
+        this->_spectrum_trace_data[1][ii] = this->INIT_FLOAT;
+        this->_spectrum_trace_data[2][ii] = this->INIT_FLOAT;
+    }
+    this->_spectrum_3_traces_type.trace_enabled[0] = false;
+    this->_spectrum_3_traces_type.trace_enabled[1] = false;
+    this->_spectrum_3_traces_type.trace_enabled[2] = false;
+    this->_spectrum_3_traces_type.detector_select[0] = RSA_API::SpectrumDetector_Sample;
+    this->_spectrum_3_traces_type.detector_select[1] = RSA_API::SpectrumDetector_Sample;
+    this->_spectrum_3_traces_type.detector_select[2] = RSA_API::SpectrumDetector_Sample;
+    this->_spectrum_3_traces_type.trace_select[0] = RSA_API::SpectrumTrace1;
+    this->_spectrum_3_traces_type.trace_select[1] = RSA_API::SpectrumTrace2;
+    this->_spectrum_3_traces_type.trace_select[2] = RSA_API::SpectrumTrace3;
+    this->_spectrum_limits_type.maxRBW = INIT_DOUBLE;    
+    this->_spectrum_limits_type.maxSpan = INIT_DOUBLE;
+    this->_spectrum_limits_type.maxTraceLength = INIT_INT;
+    this->_spectrum_limits_type.maxVBW = INIT_DOUBLE;
+    this->_spectrum_limits_type.minRBW = INIT_DOUBLE;
+    this->_spectrum_limits_type.minSpan = INIT_DOUBLE;
+    this->_spectrum_limits_type.minTraceLength = INIT_INT;
+    this->_spectrum_limits_type.minVBW = INIT_DOUBLE;
+    this->_spectrum_settings_type.actualFreqStepSize = INIT_DOUBLE;
+    this->_spectrum_settings_type.actualNumIQSamples = INIT_INT;
+    this->_spectrum_settings_type.actualRBW = INIT_DOUBLE;
+    this->_spectrum_settings_type.actualStartFreq = INIT_DOUBLE;
+    this->_spectrum_settings_type.actualStopFreq = INIT_DOUBLE;
+    this->_spectrum_settings_type.actualVBW = INIT_DOUBLE;
+    this->_spectrum_settings_type.enableVBW = false;
+    this->_spectrum_settings_type.rbw = INIT_DOUBLE;
+    this->_spectrum_settings_type.span = INIT_DOUBLE;
+    this->_spectrum_settings_type.traceLength = INIT_INT;
+    this->_spectrum_settings_type.vbw = INIT_DOUBLE;
+    this->_spectrum_settings_type.verticalUnit = RSA_API::SpectrumVerticalUnit_Watt;
+    this->_spectrum_settings_type.window = RSA_API::SpectrumWindow_Mil6dB;
+    this->_spectrum_trace_info_type.acqDataStatus = RSA_API::AcqDataStatus_ADC_DATA_LOST;
+    this->_spectrum_trace_info_type.timestamp = INIT_INT;    
 }
        
 

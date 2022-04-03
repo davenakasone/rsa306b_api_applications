@@ -14,90 +14,95 @@
 
 
     class source files, by API function group:
+        rsa306b_class_gp.cpp
         rsa306b_class_ALIGN.cpp 
+        rsa306b_class_CONFIG_get_set.cpp
         rsa306b_class_CONFIG.cpp
         rsa306b_class_DEVICE_get_set.cpp 
+        rsa306b_class_DEVICE.cpp 
         rsa306b_class_REFTIME_get.cpp 
         rsa306b_class_REFTIME_set.cpp 
         rsa306b_class_REFTIME.cpp 
-        rsa306b_class_SPECTRUM.cpp
-        rsa306b_class.cpp  // general purpose
+        rsa306b_class_SPECTRUM_get.cpp
+        rsa306b_class_SPECTRUM_private.cpp
+        rsa306b_class_SPECTRUM_public.cpp
+        rsa306b_class_SPECTRUM_set.cpp
 
+    
+    functions used, by API group:
 
-        functions used, by API group:
+        Alignment
+            ALIGN_GetAlignmentNeeded()
+            ALIGN_GetWarmupStatus()
+            ALIGN_RunAlignment()
 
-            Alignment
-                ALIGN_GetAlignmentNeeded()
-                ALIGN_GetWarmupStatus()
-                ALIGN_RunAlignment()
+        Audio # might want to use, look into these later
 
-            Audio # might want to use, look into these later
+        Configure
+            GetCenterFreq()
+            GetFrequecnyReferenceSource()
+            GetMaxCenterFreq()
+            GetMinCenterFreq()
+            GetReferenceLevel()
+            Preset()
+            SetCenterFreq()
+            SetFrequencyReferenceSource()
+            SetReferenceLevel()
 
-            Configure
-                GetCenterFreq()
-                GetFrequecnyReferenceSource()
-                GetMaxCenterFreq()
-                GetMinCenterFreq()
-                GetReferenceLevel()
-                Preset()
-                SetCenterFreq()
-                SetFrequencyReferenceSource()
-                SetReferenceLevel()
+        Device 
+            DEVICE_Connect()
+            DEVICE_Disconnect()
+            DEVICE_GetEnable()
+            DEVICE_GetErrorString()
+            DEVICE_GetInfo()
+            DEVICE_GetOverTemperatureStatus()
+            DEVICE_PrepareForRun()
+            DEVICE_Reset()
+            DEVICE_Run()
+            DEVICE_Search()
+            DEVICE_StartFrameTransfer()
+            DEVICE_Stop()
 
-            Device 
-                DEVICE_Connect()
-                DEVICE_Disconnect()
-                DEVICE_GetEnable()
-                DEVICE_GetErrorString()
-                DEVICE_GetInfo()
-                DEVICE_GetOverTemperatureStatus()
-                DEVICE_PrepareForRun()
-                DEVICE_Reset()
-                DEVICE_Run()
-                DEVICE_Search()
-                DEVICE_StartFrameTransfer()
-                DEVICE_Stop()
+        DPX
 
-            DPX
+        GNSS # not used, only the RSA500/600 has position data
 
-            GNSS # not used, only the RSA500/600 has position data
+        IF Streaming
 
-            IF Streaming
+        IQ Block
 
-            IQ Block
+        IQ Streaming
 
-            IQ Streaming
+        Playback
 
-            Playback
+        Power # not used, only for the RSA500 series
 
-            Power # not used, only for the RSA500 series
+        Spectrum
+            SPECTRUM_AquireTrace()
+            SPECTRUM_GetEnable()
+            SPECTRUM_GetLimits()
+            SPECTRUM_GetSettings()
+            SPECTRUM_GetTrace()
+            SPECTRUM_GetTraceInfo()
+            SPECTRUM_GetTraceType()
+            SPECTRUM_SetDefault()
+            SPECTRUM_SetEnable()
+            SPECTRUM_SetSettings()
+            SPECTRUM_SetTraceType()
+            SPECTRUM_WaitForTraceReady()
 
-            Spectrum
-                SPECTRUM_AquireTrace()
-                SPECTRUM_GetEnable()
-                SPECTRUM_GetLimits()
-                SPECTRUM_GetSettings()
-                SPECTRUM_GetTrace()
-                SPECTRUM_GetTraceInfo()
-                SPECTRUM_GetTraceType()
-                SPECTRUM_SetDefault()
-                SPECTRUM_SetEnable()
-                SPECTRUM_SetSettings()
-                SPECTRUM_SetTraceType()
-                SPECTRUM_WaitForTraceReady()
+        Time
+            REFTIME_GetReferenceTime()
+            REFTIME_GetCurrentTime()
+            REFTIME_GetIntervalSinceRefTimeSet()
+            REFTIME_GetReferenceTimeSource()
+            REFTIME_GetTimeFromTimestamp()
+            REFTIME_GetTimestampFromTime()
+            REFTIME_GetTimestampRate()
 
-            Time
-                REFTIME_GetReferenceTime()
-                REFTIME_GetCurrentTime()
-                REFTIME_GetIntervalSinceRefTimeSet()
-                REFTIME_GetReferenceTimeSource()
-                REFTIME_GetTimeFromTimestamp()
-                REFTIME_GetTimestampFromTime()
-                REFTIME_GetTimestampRate()
+        Tracking # not used, only for RSA500/600 series
 
-            Tracking # not used, only for RSA500/600 series
-
-            Trigger # this group looks useful, try it out later
+        Trigger # this group looks useful, try it out later
 
 
     notes:
@@ -144,9 +149,8 @@
         ...helper class by composition or make this a big API class
         unit tests
         keep building the API
-
-            general purpouse
-            DEVICE
+        playback / reading recorded files is of interest
+        spectrum-group functions may be too basic
 */
 
 #ifndef H_rsa306b_class
@@ -164,7 +168,7 @@
 #define GET_NAME(var) #var
 
 //#define DEBUG_CLI 1776    // when activated, prints __LINE__, __FILE__, __func__ for each call
-#define DEBUG_MIN 1917    // when activated, prints essential information
+//#define DEBUG_MIN 1917    // when activated, prints essential information
 //#define DEBUG_ERR 1492    // when activated, prints *_error_checks() that result in an error condition
 
 #define BUF_A 32           // a short general purpose buffer
@@ -173,7 +177,7 @@
 #define BUF_D 256          // ....
 #define BUF_E 512          // .....
 #define BUF_F 1024         // a long general purpose buffer
-#define DATA_LENGTH 2048   // data points to get, stops need for dynamic allocation
+#define DATA_LENGTH 2048   // data points to get, stops need for dynamic allocation, trying dynamic first?
 
 
 class rsa306b
@@ -181,8 +185,8 @@ class rsa306b
     public:
     // access to constants:
         // status of internal non-API function calls
-        const int CALL_SUCCESS = 7777777;             // the function call was successful
-        const int CALL_FAILURE = -7777777;            // the function call failed
+        const int CALL_SUCCESS = 7777;    // the function call was successful
+        const int CALL_FAILURE = -777;    // the function call failed
         // common initialization values, by data type
         const char INIT_CHAR = 'Z';
         const char INIT_STR[6] = "ZZZZZ";
@@ -215,7 +219,7 @@ class rsa306b
           
     // CONFIG
         // functions for user action
-        void config_update_cf_rl(double cf_Hz, double rl_dbm);                        // user defined center frequency and reference level
+        int config_update_cf_rl(double cf_Hz, double rl_dBm);                         // user defined center frequency and reference level
         void config_print_all();                                                      // print members to stdout
         void config_use_external_reference_source(RSA_API::FREQREF_SOURCE source);    // be careful with this
         // getters
@@ -244,7 +248,7 @@ class rsa306b
         bool device_get_is_running();                                // don't configure if this is true
 
     // REFTIME
-        struct reftime_type
+        struct reftime_type    // for user convenience in getting reference time information
         {
             time_t seconds;    // seconds since 00:00:00, Jan 1, 1970, UTC
             uint64_t nanos;    // off set from seconds                               
@@ -268,17 +272,32 @@ class rsa306b
         double reftime_get_running_cpu();                    // time since connected, cpu
     
     //SPECTRUM
+        struct spectrum_3_traces_type    // for user convenience in getting information of the 3 traces
+        {
+            RSA_API::SpectrumTraces trace_select[3];          // enum, specify 1 of 3 traces
+            RSA_API::SpectrumDetectors detector_select[3];    // enum, for each of 3 traces, they average
+            bool trace_enabled[3];                            // tracks activation for each of the 3 traces
+        }; typedef struct spectrum_3_traces_type spectrum_3_traces_type;
+        struct spectrum_data_collector    // for user convenience in getting trace data
+        {
+            RSA_API::SpectrumTraces trace_number[3];    // enum, specify 1 of 3 traces
+            double x_frequency;                         // frequency of the measurement
+            float y_measurement[3];                     // value of the measurement, each trace
+        }; typedef struct spectrum_data_collector spectrum_data_collector;
         // functions for user action
-        void spectrum_print_all(); // prints spectrum information to stdout
-        void spectrum_configure(int number_of_traces,                        // number or traces to use (1 is fast), 3 is slow
-            RSA_API::Spectrum_Settings* settings,                            // desired settings
-            RSA_API::SpectrumDetectors* detectors);                          // detection for each trace, size matches number_of_traces
-        void spectrum_aquire_trace_data(float* traceData);                   // get Y axis values, caller allocates
-        void spectrum_aquire_frequency_data(double* frequencyArray);         // get X axis values, caller allocates
-        int spectrum_find_peak_index(int trace_length, float* traceData);    // give Y values to find peak
+        void spectrum_print_all();                                                       // prints spectrum information to stdout
+        void spectrum_prepare(double cf_Hz, double rl_dBm,                               // set through "config_update_cf_rl()"
+            RSA_API::Spectrum_Settings* settings,                                        // desired settings
+            spectrum_3_traces_type* traces3);                                            // desired characteristics of each trace
+        void spectrum_acquire_trace(RSA_API::SpectrumTraces trace_number);               // gets trace for specified trace number
+        int spectrum_index_of_peak_measurement(RSA_API::SpectrumTraces trace_number);    // gets index of peak after trace acquired
+        void spectrum_collect_data(spectrum_data_collector* data_getter, int index);     // collect data for a trace and index of interest 
         // getters
-        void spectrum_get_limits_type(RSA_API::Spectrum_Limits* limits);  // get _spectrum_limits_type
-        bool spectrum_get_measurement_enabled(); // get _spectrum_measurement_enabled
+        void spectrum_get_limits_type(RSA_API::Spectrum_Limits* limits);               // get _spectrum_limits_type
+        bool spectrum_get_measurement_enabled();                                       // get _spectrum_measurement_enabled
+        void spectrum_get_settings_type(RSA_API::Spectrum_Settings* settings);         // get _spectrum_settings_type
+        void spectrum_get_trace_info_type(RSA_API::Spectrum_TraceInfo* trace_info);    // get _spectrum_trace_info_type
+        void spectrum_get_3_traces_type(spectrum_3_traces_type* your_3_traces);        // get type of all 3 traces
 
     private:
 
@@ -367,35 +386,27 @@ class rsa306b
         void _reftime_set_begin_type();        // API updates _reftime_begin_type, should not change
         void _reftime_set_current_type();      // API updates _reftime_current_typ, will change
     
-    // API group "SPECTRUM"
-        bool _spectrum_trace_enabled[3];                             // tracks activation for each of the 3 traces
-        bool _spectrum_measurement_enabled;                          // status of instrument for spectrum aquisition
-        double _spectrum_frequency_array[DATA_LENGTH];               // X axis, frequencies 
-        float _spectrum_trace_data[DATA_LENGTH];                     // Y axis, adjust to not make dynamic
-        RSA_API::SpectrumDetectors _spectrum_detectors_select[3];    // enum, for each of 3 traces, they average
-        RSA_API::SpectrumTraces _spectrum_traces_select[3];             // enum, select 1 of 3 traces
-        RSA_API::Spectrum_Limits _spectrum_limits_type;              // struct, with 6 doubles and 2 ints as limits
-        RSA_API::Spectrum_Settings _spectrum_settings_type;          // struct, with internal + 2 enums + external settings
-        RSA_API::Spectrum_TraceInfo _spectrum_trace_info_type;       // struct, used for timing and "AcqDataStatus"
-        void _spectrum_init();                                       // called when connecting
-        void _spectrum_create_frequency_array();                     // matching frequency array for _spectrum_trace_data
-
+    // API group "SPECTRUM"        
+        spectrum_3_traces_type _spectrum_3_traces_type;                          // public struct, info of the 3 traces
+        bool _spectrum_good_aquisition;                                          // bit mask result of AcqDataStatus enum
+        bool _spectrum_measurement_enabled;                                      // status of instrument for spectrum aquisition
+        double _spectrum_frequency_array[DATA_LENGTH];                           // X axis, frequencies, all 3 traces 
+        float _spectrum_trace_data[3][DATA_LENGTH];                              // Y axis, measurments, all 3 traces
+        int _spectrum_valid_trace_points;                                        // number of valid points spectrum analyzer recorded
+        RSA_API::Spectrum_Limits _spectrum_limits_type;                          // struct, with 6 doubles and 2 ints as limits
+        RSA_API::Spectrum_Settings _spectrum_settings_type;                      // struct, with internal + 2 enums + external settings
+        RSA_API::Spectrum_TraceInfo _spectrum_trace_info_type;                   // struct, used for timing and "AcqDataStatus"
+        void _spectrum_init();                                                   // called when connecting
+        void _spectrum_create_frequency_array();                                 // makes array for _spectrum_frequency_array, sized to _spectrum_trace_data
+        int _spectrum_trace_number_2_index(RSA_API::SpectrumTraces trace_number);  // convert a trace number to proper index
+        int _spectrum_find_peak_index(RSA_API::SpectrumTraces trace_number);    // finds peak index of desired trace
         // setters
-        void _spectrum_set_limits_type();//API sets _spectrum_limits_type
-        void _spectrum_set_measurement_enabled(bool new_value);// API updates _spectrum_measurement_enabled
-
-        /*
-        void _spectrum_set_detector_select();
-        void _spectrum_set_vertical_unit_select();
-        void _spectrum_set_trace_select();
-        void _spectrum_set_window_select();
-        void _spectrum_set_limits_type();
-        void _spectrum_set_settings_type();
-        void _spectrum_set_trace_info_type();
-        void _spectrum_set_is_enabled_trace();
-        void _spectrum_set_trace_data(); // ??? where are the freqs?
-        */
-
+        int _spectrum_set_limits_type();                                              //API sets _spectrum_limits_type
+        int _spectrum_set_measurement_enabled(bool new_value);                        // API updates _spectrum_measurement_enabled
+        int _spectrum_set_settings_type(RSA_API::Spectrum_Settings* new_settings);    // updates _spectrum_settings_type with API
+        void _spectrum_set_trace_info_type();                                         // updates _spectrum_trace_info_type with API
+        int _spectrum_set_3_traces_type(spectrum_3_traces_type* traces3);             // updates _spectrum_trace_enabled, _spectrum_trace_select, 
+                                                                                      //     and _spectrum_detector_select
     // API group "TRIG"
 
 };

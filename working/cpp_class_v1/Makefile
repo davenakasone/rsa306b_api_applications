@@ -20,6 +20,7 @@ $(SDIR)rsa306b_class_REFTIME.cpp \
 $(SDIR)rsa306b_class_REFTIME_get.cpp \
 $(SDIR)rsa306b_class_REFTIME_set.cpp \
 $(SDIR)rsa306b_class_SPECTRUM_get.cpp \
+$(SDIR)rsa306b_class_SPECTRUM_private.cpp \
 $(SDIR)rsa306b_class_SPECTRUM_public.cpp \
 $(SDIR)rsa306b_class_SPECTRUM_set.cpp \
 $(TDIR)test_selector.cpp \
@@ -31,6 +32,8 @@ $(TDIR)unit_test_5.cpp \
 $(TDIR)unit_test_6.cpp \
 $(TDIR)unit_test_999.cpp \
 $(TDIR)vvv_998.cpp \
+$(TDIR)vvv_997.cpp \
+$(TDIR)vvv_996.cpp \
 $(TDIR)wait_enter_clear.cpp
 
 raw :

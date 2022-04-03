@@ -12,9 +12,22 @@
 
 void unit_test_999 (void)
 {
-    printf("\n%s()  ,  testing stuff\n", __func__);
+    printf("\n%s()  ,  some data printing\n", __func__);
 
-    printf("\n\t\tTODO\n");
+    rsa306b rsa;
+    rsa.device_connect();
+
+    rsa.print_all_const();
+
+    rsa.device_print_all();
+
+    rsa.align_print_all();
+
+    rsa.reftime_print_all();
+
+    rsa.config_print_all();
+
+    rsa.spectrum_print_all();
 
     printf("\n%s()  ,  test complete\n", __func__);
     wait_enter_clear();
