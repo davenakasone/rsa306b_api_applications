@@ -178,7 +178,7 @@
 #define GET_NAME(var) #var
 
 //#define DEBUG_CLI 1776    // when activated, prints __LINE__, __FILE__, __func__ for each call
-#define DEBUG_MIN 1917    // when activated, prints essential information
+//#define DEBUG_MIN 1917    // when activated, prints essential information
 //#define DEBUG_ERR 1492    // when activated, prints *_error_checks() that result in an error condition
 
 #define BUF_A 32           // a short general purpose buffer

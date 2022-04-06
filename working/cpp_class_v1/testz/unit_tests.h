@@ -46,6 +46,7 @@ void unit_test_999 (void);    // place holder, data printer
 void vvv_998 (void);          // seeing if the 'REFTIME' split-timer is good
 void vvv_997 (void);          // moving settings on the fly, 'SPECTRUM' group functions
 void vvv_996 (void);          // trying to find antenna range by moving spectrum
+void vvv_995 (void);          // trying to find antenna range by moving spectrum, adjusting trigger
 
 
 #endif

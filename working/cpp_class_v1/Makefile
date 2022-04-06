@@ -37,6 +37,7 @@ $(TDIR)unit_test_999.cpp \
 $(TDIR)vvv_998.cpp \
 $(TDIR)vvv_997.cpp \
 $(TDIR)vvv_996.cpp \
+$(TDIR)vvv_995.cpp \
 $(TDIR)wait_enter_clear.cpp
 
 raw :
