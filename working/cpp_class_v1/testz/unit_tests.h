@@ -39,12 +39,9 @@ void unit_test_3  (void);    // tests the "REFTIME" section of the class
 void unit_test_4  (void);    // tests the "ALIGN" section of the class
 void unit_test_5  (void);    // tests the "CONFIG" section of the class
 void unit_test_6  (void);    // tests the "SPECTRUM" section of the class
-void unit_test_7  (void);    // 
-void unit_test_8  (void);    // 
-void unit_test_9  (void);    // 
-void unit_test_10 (void);    // 
+void unit_test_7  (void);    // tests the "SPECTRUM" section of the class
 
-void unit_test_999 (void);    // place holder
+void unit_test_999 (void);    // place holder, data printer
 
 void vvv_998 (void);          // seeing if the 'REFTIME' split-timer is good
 void vvv_997 (void);          // moving settings on the fly, 'SPECTRUM' group functions

@@ -176,6 +176,8 @@ void rsa306b::print_all_const()
     printf("\tREFERENCE_LEVEL_MIN_dbm  :  %lf  dbm\n", this->REFERENCE_LEVEL_MIN_dbm);
     printf("\tSPAN_MAX_Hz              :  %lf  Hz\n", this->SPAN_MAX_Hz);
     printf("\tSPAN_MIN_Hz              :  %lf  Hz\n", this->SPAN_MIN_Hz);
+    printf("\tPOSITION_PERCENT_MAX     :  %lf  Hz\n", this->POSITION_PERCENT_MAX);
+    printf("\tPOSITION_PERCENT_MIN     :  %lf  Hz\n", this->POSITION_PERCENT_MIN);
 }
 
 
@@ -254,18 +256,18 @@ void rsa306b::_init_member_variables()
     memset(this->_helper_string, '\0', BUF_E);
     memset(this->_holder_string, '\0', BUF_F);
     this->_api_return_status = RSA_API::noError;
-    this->_gp_return_status = CALL_SUCCESS;
+    this->_gp_return_status = this->CALL_SUCCESS;
 
     // ALIGN
     this->_align_need_alignment = false;
     this->_align_is_warmed = false;
 
     // CONFIG
-    this->_config_center_frequency_hz = INIT_DOUBLE;
+    this->_config_center_frequency_hz = this->INIT_DOUBLE;
     this->_config_center_frequency_max_hz = -6.2e9;
     this->_config_center_frequency_min_hz = -9e3;
-    this->_config_reference_level_dbm = INIT_DOUBLE;
-    this->_config_external_reference_frequency_hz = INIT_DOUBLE;
+    this->_config_reference_level_dbm = this->INIT_DOUBLE;
+    this->_config_external_reference_frequency_hz = this->INIT_DOUBLE;
     this->_config_frequency_reference_source_select = RSA_API::FRS_INTERNAL;
 
     // DEVICE
@@ -296,7 +298,7 @@ void rsa306b::_init_member_variables()
     this->_reftime_current_type.stamp = this->INIT_INT;
 
     // SPECTRUM
-    this->_spectrum_valid_trace_points = INIT_INT;
+    this->_spectrum_valid_trace_points = this->INIT_INT;
     this->_spectrum_good_aquisition = false;
     this->_spectrum_measurement_enabled = false;
     for (int ii = 0; ii < DATA_LENGTH; ii++)
@@ -315,29 +317,36 @@ void rsa306b::_init_member_variables()
     this->_spectrum_3_traces_type.trace_select[0] = RSA_API::SpectrumTrace1;
     this->_spectrum_3_traces_type.trace_select[1] = RSA_API::SpectrumTrace2;
     this->_spectrum_3_traces_type.trace_select[2] = RSA_API::SpectrumTrace3;
-    this->_spectrum_limits_type.maxRBW = INIT_DOUBLE;    
-    this->_spectrum_limits_type.maxSpan = INIT_DOUBLE;
+    this->_spectrum_limits_type.maxRBW = this->INIT_DOUBLE;    
+    this->_spectrum_limits_type.maxSpan = this->INIT_DOUBLE;
     this->_spectrum_limits_type.maxTraceLength = INIT_INT;
-    this->_spectrum_limits_type.maxVBW = INIT_DOUBLE;
-    this->_spectrum_limits_type.minRBW = INIT_DOUBLE;
-    this->_spectrum_limits_type.minSpan = INIT_DOUBLE;
-    this->_spectrum_limits_type.minTraceLength = INIT_INT;
-    this->_spectrum_limits_type.minVBW = INIT_DOUBLE;
-    this->_spectrum_settings_type.actualFreqStepSize = INIT_DOUBLE;
-    this->_spectrum_settings_type.actualNumIQSamples = INIT_INT;
-    this->_spectrum_settings_type.actualRBW = INIT_DOUBLE;
-    this->_spectrum_settings_type.actualStartFreq = INIT_DOUBLE;
-    this->_spectrum_settings_type.actualStopFreq = INIT_DOUBLE;
-    this->_spectrum_settings_type.actualVBW = INIT_DOUBLE;
+    this->_spectrum_limits_type.maxVBW = this->INIT_DOUBLE;
+    this->_spectrum_limits_type.minRBW = this->INIT_DOUBLE;
+    this->_spectrum_limits_type.minSpan = this->INIT_DOUBLE;
+    this->_spectrum_limits_type.minTraceLength = this->INIT_INT;
+    this->_spectrum_limits_type.minVBW = this->INIT_DOUBLE;
+    this->_spectrum_settings_type.actualFreqStepSize = this->INIT_DOUBLE;
+    this->_spectrum_settings_type.actualNumIQSamples = this->INIT_INT;
+    this->_spectrum_settings_type.actualRBW = this->INIT_DOUBLE;
+    this->_spectrum_settings_type.actualStartFreq = this->INIT_DOUBLE;
+    this->_spectrum_settings_type.actualStopFreq = this->INIT_DOUBLE;
+    this->_spectrum_settings_type.actualVBW = this->INIT_DOUBLE;
     this->_spectrum_settings_type.enableVBW = false;
-    this->_spectrum_settings_type.rbw = INIT_DOUBLE;
-    this->_spectrum_settings_type.span = INIT_DOUBLE;
-    this->_spectrum_settings_type.traceLength = INIT_INT;
-    this->_spectrum_settings_type.vbw = INIT_DOUBLE;
+    this->_spectrum_settings_type.rbw = this->INIT_DOUBLE;
+    this->_spectrum_settings_type.span = this->INIT_DOUBLE;
+    this->_spectrum_settings_type.traceLength = this->INIT_INT;
+    this->_spectrum_settings_type.vbw = this->INIT_DOUBLE;
     this->_spectrum_settings_type.verticalUnit = RSA_API::SpectrumVerticalUnit_Watt;
     this->_spectrum_settings_type.window = RSA_API::SpectrumWindow_Mil6dB;
     this->_spectrum_trace_info_type.acqDataStatus = RSA_API::AcqDataStatus_ADC_DATA_LOST;
-    this->_spectrum_trace_info_type.timestamp = INIT_INT;    
+    this->_spectrum_trace_info_type.timestamp = this->INIT_INT;  
+
+    // TRIG
+    this->_trig_type.if_power_level = this->INIT_DOUBLE;
+    this->_trig_type.position_percent = this->INIT_DOUBLE;
+    this->_trig_type.mode_select = RSA_API::triggered;
+    this->_trig_type.source_select = RSA_API::TriggerSourceExternal;
+    this->_trig_type.transition_select = RSA_API::TriggerTransitionHL;  
 }
        
 

@@ -23,6 +23,8 @@ $(SDIR)rsa306b_class_SPECTRUM_get.cpp \
 $(SDIR)rsa306b_class_SPECTRUM_private.cpp \
 $(SDIR)rsa306b_class_SPECTRUM_public.cpp \
 $(SDIR)rsa306b_class_SPECTRUM_set.cpp \
+$(SDIR)rsa306b_class_TRIG_private.cpp \
+$(SDIR)rsa306b_class_TRIG_public.cpp \
 $(TDIR)test_selector.cpp \
 $(TDIR)unit_test_1.cpp \
 $(TDIR)unit_test_2.cpp \
@@ -30,6 +32,7 @@ $(TDIR)unit_test_3.cpp \
 $(TDIR)unit_test_4.cpp \
 $(TDIR)unit_test_5.cpp \
 $(TDIR)unit_test_6.cpp \
+$(TDIR)unit_test_7.cpp \
 $(TDIR)unit_test_999.cpp \
 $(TDIR)vvv_998.cpp \
 $(TDIR)vvv_997.cpp \

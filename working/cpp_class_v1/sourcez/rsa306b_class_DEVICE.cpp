@@ -81,6 +81,7 @@ void rsa306b::device_connect()
         this->align_execute_alignment();
         this->_config_init();                       // call once per connected session
         this->_spectrum_init();                     // call once per connected session
+        this->trig_get_settings(&this->_trig_type);
     }
     else if (devices_found > 1)
     {

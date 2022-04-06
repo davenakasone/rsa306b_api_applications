@@ -10,8 +10,8 @@
 
 // turn off to run all unit tests
 // turn on and change UT_NUMBER to run a specific unit test
-#define UNIT_TEST_BY_NUMBER 996 // select unit test # here
-// valid UT_NUMER, class sections  "unit_test_#" : 1, 2, 3, 4, 5, 6
+#define UNIT_TEST_BY_NUMBER 7 // select unit test # here
+// valid UT_NUMER, class sections  "unit_test_#" : 1, 2, 3, 4, 5, 6, 7
 // valid UT_NUMER, specific tasks  "vvv_#"       : 999, 998, 997, 996
 
 
@@ -32,6 +32,7 @@ int main
         test_selector(4);      // tests the "ALIGN" section of the class
         test_selector(5);      // tests the "CONFIG" section of the class
         test_selector(6);      // tests the "SPECTRUM" section of the class
+        test_selector(7);      // tests the "TRIG" section of the class
         test_selector(998);    // seeing if the 'REFTIME' split-timer is good
         test_selector(997);    // moving settings on the fly, 'SPECTRUM' group functions
         test_selector(996);    // trying to find antenna range by moving spectrum

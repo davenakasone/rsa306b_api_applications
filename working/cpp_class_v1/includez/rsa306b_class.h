@@ -102,9 +102,19 @@
 
         Tracking # not used, only for RSA500/600 series
 
-        Trigger # this group looks useful, try it out later
-
-
+        Trigger
+            TRIG_ForceTrigger()
+            TRIG_GetIFPowerTriggerLevel()
+            TRIG_GetTriggerMode()
+            TRIG_GetTriggerPositionPercent()
+            TRIG_GetTriggerSource()
+            TRIG_GetTriggerTransition()
+            TRIG_SetIFPowerTriggerLevel()
+            TRIG_SetTriggerMode()
+            TRIG_SetTriggerPositionPercent()
+            TRIG_SetTriggerSource()
+            TRIG_SetTriggerTransition()
+            
     notes:
 
         public member functions are classified as:
@@ -168,7 +178,7 @@
 #define GET_NAME(var) #var
 
 //#define DEBUG_CLI 1776    // when activated, prints __LINE__, __FILE__, __func__ for each call
-//#define DEBUG_MIN 1917    // when activated, prints essential information
+#define DEBUG_MIN 1917    // when activated, prints essential information
 //#define DEBUG_ERR 1492    // when activated, prints *_error_checks() that result in an error condition
 
 #define BUF_A 32           // a short general purpose buffer
@@ -183,6 +193,7 @@
 class rsa306b
 {
     public:
+
     // access to constants:
         // status of internal non-API function calls
         const int CALL_SUCCESS = 7777;    // the function call was successful
@@ -200,6 +211,8 @@ class rsa306b
         const double REFERENCE_LEVEL_MIN_dbm = -130;    // smallest measurable signal power
         const double SPAN_MAX_Hz = 40e6;                // largest measurable bandwith
         const double SPAN_MIN_Hz = 100;                 // smallest measurable bandwith 
+        const double POSITION_PERCENT_MIN = 1;          // smallest trigger position percentage
+        const double POSITION_PERCENT_MAX = 99;         // largest trigger position percentage
 
     // general purpouse
         rsa306b();    
@@ -209,7 +222,7 @@ class rsa306b
         int get_gp_return_status();                          // get validation of internal funciton calls
         void print_all_const();                              // prints macros and const types to stdout
 
-    // ALIGN
+    // API group "ALIGN"
         // functions for user action
         void align_execute_alignment();    // called when connected, callable anytime
         void align_print_all();            // prints state of members to stdout
@@ -217,7 +230,7 @@ class rsa306b
         bool align_get_is_warmed();         // device can take a while to warmup, not too important
         bool align_get_need_alignment();    // align_execute_alignment() should be called if true
           
-    // CONFIG
+    // API group "CONFIG"
         // functions for user action
         int config_update_cf_rl(double cf_Hz, double rl_dBm);                         // user defined center frequency and reference level
         void config_print_all();                                                      // print members to stdout
@@ -230,7 +243,7 @@ class rsa306b
         RSA_API::FREQREF_SOURCE config_get_frequency_reference_source();    // RSA-306B only has internal and external
         double config_get_external_frequency_reference_hz();                // the +/- 10 dbm range is enforced
 
-    // DEVICE
+    // API group "DEVICE"
         // functions for user action
         void device_connect();                 // user must call to connect device
         void device_disconnect();              // destructor calls, but user can also
@@ -247,7 +260,17 @@ class rsa306b
         bool device_get_is_over_temperature();                       // stop device if this is true
         bool device_get_is_running();                                // don't configure if this is true
 
-    // REFTIME
+    // API group "DPX"
+
+    // API group "IFSTREAM"
+
+    // API group "IQBLK"
+
+    // API group "IQSTREAM"
+
+    // API group "PLAYBACK"
+
+    // API group "REFTIME"
         struct reftime_type    // for user convenience in getting reference time information
         {
             time_t seconds;    // seconds since 00:00:00, Jan 1, 1970, UTC
@@ -271,7 +294,7 @@ class rsa306b
         double reftime_get_split_cpu();                      // time since start_split()/stop_split(), cpu
         double reftime_get_running_cpu();                    // time since connected, cpu
     
-    //SPECTRUM
+    // API group "SPECTRUM"
         struct spectrum_3_traces_type    // for user convenience in getting information of the 3 traces
         {
             RSA_API::SpectrumTraces trace_select[3];          // enum, specify 1 of 3 traces
@@ -299,7 +322,25 @@ class rsa306b
         void spectrum_get_trace_info_type(RSA_API::Spectrum_TraceInfo* trace_info);    // get _spectrum_trace_info_type
         void spectrum_get_3_traces_type(spectrum_3_traces_type* your_3_traces);        // get type of all 3 traces
 
+    // API group "TRIG"
+        struct trig_type    // for user convenience in getting or setting the trigger
+        {
+            double if_power_level;
+            double position_percent;
+            RSA_API::TriggerMode mode_select;
+            RSA_API::TriggerSource source_select;
+            RSA_API::TriggerTransition transition_select;
+        }; typedef struct trig_type trig_type;
+        // functions for user action
+        void trig_print_all();                             // prints trig information to stdout
+        void trig_force_trigger();                         // API call to force trigger event
+        void trig_prepare(trig_type* trigger_settings);    // place trigger settings in "trig_type" before calling
+        // getters
+        void trig_get_settings(trig_type* trigger_settings);    // struct is overwritten with current trigger settings
+
+
     private:
+
 
     // general purpose
         char _helper_string[BUF_E];                  // string for utility
@@ -408,7 +449,13 @@ class rsa306b
         int _spectrum_set_3_traces_type(spectrum_3_traces_type* traces3);             // updates _spectrum_trace_enabled, _spectrum_trace_select, 
                                                                                       //     and _spectrum_detector_select
     // API group "TRIG"
-
+        trig_type _trig_type;
+        // setters
+        int _trig_set_if_power_trigger_level(double level); // API call to set IF power level of trigger
+        int _trig_set_trigger_mode(RSA_API::TriggerMode mode);                      // API call, free run or use trigger settings
+        int _trig_set_trigger_position_percent(double percent);                     // API call to set how much data is saved before and after trigger
+        int _trig_set_trigger_source(RSA_API::TriggerSource source);                // API call to set the source of the trigger
+        int _trig_set_trigger_transition(RSA_API::TriggerTransition transition);    // API call to set triggering event
 };
 
 

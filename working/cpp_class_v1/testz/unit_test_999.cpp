@@ -29,6 +29,8 @@ void unit_test_999 (void)
 
     rsa.spectrum_print_all();
 
+    rsa.trig_print_all();
+
     printf("\n%s()  ,  test complete\n", __func__);
     wait_enter_clear();
 }
