@@ -45,6 +45,38 @@ void unit_test_7 (void)
             rsa.trig_prepare(&trig_t);
             rsa.trig_print_all();
         #endif
+        #ifdef UT7_3
+            rsa.trig_get_settings(&trig_t);
+            rsa.trig_print_all();
+            trig_t.position_percent = 10;
+            trig_t.if_power_level = -50;
+            trig_t.source_select = RSA_API::TriggerSourceIFPowerLevel;
+            trig_t.transition_select = RSA_API::TriggerTransitionEither;
+            trig_t.mode_select = RSA_API::triggered;
+            rsa.trig_prepare(&trig_t);
+            rsa.trig_print_all();
+
+            int peak;
+            rsa306b::spectrum_data_collector data;
+            RSA_API::Spectrum_Settings t_set;
+            rsa306b::spectrum_3_traces_type t_3;
+            rsa.spectrum_get_3_traces_type(&t_3);
+            rsa.spectrum_get_settings_type(&t_set);
+            t_set.span = 20.5e6;
+            double cf = 97.75e6;
+            double rl = -30;
+            rsa.spectrum_prepare(cf, rl, &t_set, &t_3);
+            printf("\nusing demo settings:\n");
+            printf("\tcf    :  %lf\n", cf);
+            printf("\trl    :  %lf\n", rl);
+            printf("\tspan  :  %lf\n", t_set.span);
+
+            rsa.spectrum_acquire_trace(RSA_API::SpectrumTrace1);
+            rsa.trig_force_trigger();
+            peak = rsa.spectrum_index_of_peak_measurement(RSA_API::SpectrumTrace1);
+            rsa.spectrum_collect_data(&data, peak);
+            printf("\nmax value>>  cf:  %lf  ,  dbm:  %lf\n", data.x_frequency, data.y_measurement[0]);
+        #endif
     }
     // instance goes out of scope and destructor is called
     printf("\n%s()  ,  test complete\n", __func__);

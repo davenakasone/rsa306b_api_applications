@@ -31,6 +31,8 @@ void unit_test_999 (void)
 
     rsa.trig_print_all();
 
+    rsa.audio_print_all();
+
     printf("\n%s()  ,  test complete\n", __func__);
     wait_enter_clear();
 }

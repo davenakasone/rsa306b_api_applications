@@ -8,7 +8,7 @@
 
 void vvv_995()
 {
-    printf("\n%s()  , checking antenna\n", __func__);
+    printf("\n%s()  , checking antenna with trigger\n", __func__);
     rsa306b rsa;           
     rsa.device_connect(); 
 
@@ -36,7 +36,7 @@ void vvv_995()
     rsa306b::spectrum_3_traces_type t_3;
     double cf = 50e6;
     double rl;
-    double span = 5e6;
+    //double span = 5e6;
     int pk = -12;
 
     rl = -50;

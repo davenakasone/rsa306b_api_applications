@@ -82,6 +82,7 @@ void rsa306b::device_connect()
         this->_config_init();                       // call once per connected session
         this->_spectrum_init();                     // call once per connected session
         this->trig_get_settings(&this->_trig_type);
+        this->audio_get_settings(&this->_audio_type);
     }
     else if (devices_found > 1)
     {

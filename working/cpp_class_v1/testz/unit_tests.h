@@ -40,6 +40,7 @@ void unit_test_4  (void);    // tests the "ALIGN" section of the class
 void unit_test_5  (void);    // tests the "CONFIG" section of the class
 void unit_test_6  (void);    // tests the "SPECTRUM" section of the class
 void unit_test_7  (void);    // tests the "SPECTRUM" section of the class
+void unit_test_8  (void);    // tests the "AUDIO" section of the class
 
 void unit_test_999 (void);    // place holder, data printer
 

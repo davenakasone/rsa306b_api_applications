@@ -156,11 +156,11 @@ void rsa306b::spectrum_acquire_trace
         #endif
         return;
     }
-    if (this->_spectrum_settings_type.traceLength > DATA_LENGTH)
+    if (this->_spectrum_settings_type.traceLength > SPECTRUM_DATA_LENGTH)
     {
         #ifdef DEBUG_MIN
             printf("\n\tneed more memory, allocated  %d  ,  required  %d\n", 
-                DATA_LENGTH, this->_spectrum_settings_type.traceLength);
+                SPECTRUM_DATA_LENGTH, this->_spectrum_settings_type.traceLength);
         #endif
         return;
     }

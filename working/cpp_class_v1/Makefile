@@ -12,6 +12,8 @@ LDLIUSBS = -lcyusb_shared
 SOURCE_FILES = $(SDIR)aaa_main.cpp \
 $(SDIR)rsa306b_class__gp.cpp \
 $(SDIR)rsa306b_class_ALIGN.cpp \
+$(SDIR)rsa306b_class_AUDIO_private.cpp \
+$(SDIR)rsa306b_class_AUDIO_public.cpp \
 $(SDIR)rsa306b_class_CONFIG.cpp \
 $(SDIR)rsa306b_class_CONFIG_get_set.cpp \
 $(SDIR)rsa306b_class_DEVICE.cpp \
@@ -33,6 +35,7 @@ $(TDIR)unit_test_4.cpp \
 $(TDIR)unit_test_5.cpp \
 $(TDIR)unit_test_6.cpp \
 $(TDIR)unit_test_7.cpp \
+$(TDIR)unit_test_8.cpp \
 $(TDIR)unit_test_999.cpp \
 $(TDIR)vvv_998.cpp \
 $(TDIR)vvv_997.cpp \

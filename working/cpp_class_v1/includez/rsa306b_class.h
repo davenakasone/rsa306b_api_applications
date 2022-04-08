@@ -36,7 +36,19 @@
             ALIGN_GetWarmupStatus()
             ALIGN_RunAlignment()
 
-        Audio # might want to use, look into these later
+        Audio
+            AUDIO_SetFrequencyOffset()
+            AUDIO_GetFrequencyOffset()
+            AUDIO_GetEnable()
+            AUDIO_GetData()
+            AUDIO_GetMode()
+            AUDIO_GetMute()
+            AUDIO_GetVolume()
+            AUDIO_SetMode()
+            AUDIO_SetMute()
+            AUDIO_SetVolume()
+            AUDIO_Start()
+            AUDIO_Stop()
 
         Configure
             GetCenterFreq()
@@ -178,16 +190,17 @@
 #define GET_NAME(var) #var
 
 //#define DEBUG_CLI 1776    // when activated, prints __LINE__, __FILE__, __func__ for each call
-//#define DEBUG_MIN 1917    // when activated, prints essential information
+#define DEBUG_MIN 1917    // when activated, prints essential information
 //#define DEBUG_ERR 1492    // when activated, prints *_error_checks() that result in an error condition
 
-#define BUF_A 32           // a short general purpose buffer
-#define BUF_B 64           // ..
-#define BUF_C 128          // ...
-#define BUF_D 256          // ....
-#define BUF_E 512          // .....
-#define BUF_F 1024         // a long general purpose buffer
-#define DATA_LENGTH 2048   // data points to get, stops need for dynamic allocation, trying dynamic first?
+#define BUF_A 32                    // a short general purpose buffer
+#define BUF_B 64                    // ..
+#define BUF_C 128                   // ...
+#define BUF_D 256                   // ....
+#define BUF_E 512                   // .....
+#define BUF_F 1024                  // a long general purpose buffer
+#define SPECTRUM_DATA_LENGTH 2048   // spectrum aquisitions, stops need for dynamic allocation, trying dynamic first?
+#define AUDIO_DATA_LENGTH 65535     // audio data points, 2^16 - 1
 
 
 class rsa306b
@@ -205,14 +218,18 @@ class rsa306b
         const float INIT_FLOAT = -9999.9;
         const int INIT_INT = -9999;
         // device limits for the RSA-306B
-        const double EXTERNAL_FREQUENCY = 10e6;         // external reference frequency, required
-        const double EXTERNAL_AMPLITUDE_dbm = 10;       // allows +/- 10 dbm maximum amplitude  
-        const double REFERENCE_LEVEL_MAX_dbm = 30;      // highest measurable signal power
-        const double REFERENCE_LEVEL_MIN_dbm = -130;    // smallest measurable signal power
-        const double SPAN_MAX_Hz = 40e6;                // largest measurable bandwith
-        const double SPAN_MIN_Hz = 100;                 // smallest measurable bandwith 
-        const double POSITION_PERCENT_MIN = 1;          // smallest trigger position percentage
-        const double POSITION_PERCENT_MAX = 99;         // largest trigger position percentage
+        const double EXTERNAL_FREQUENCY = 10e6;                       // external reference frequency, required
+        const double EXTERNAL_AMPLITUDE_dbm = 10;                     // allows +/- 10 dbm maximum amplitude  
+        const double REFERENCE_LEVEL_MAX_dbm = 30;                    // highest measurable signal power
+        const double REFERENCE_LEVEL_MIN_dbm = -130;                  // smallest measurable signal power
+        const double SPAN_MAX_Hz = 40e6;                              // largest measurable bandwith
+        const double SPAN_MIN_Hz = 100;                               // smallest measurable bandwith 
+        const double POSITION_PERCENT_MIN = 1;                        // smallest trigger position percentage
+        const double POSITION_PERCENT_MAX = 99;                       // largest trigger position percentage
+        const float AUDIO_VOLUME_MAX = 1.0;                           // maximum audio volume API will accept
+        const float AUDIO_VOLUME_MIN = 0.0;                           // minimum audio volume API will accept
+        const double AUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz = 20e6;     // highest audio demodulator API accepts
+        const double AUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz = -20e6;    // highest audio demodulator API accepts
 
     // general purpouse
         rsa306b();    
@@ -229,7 +246,25 @@ class rsa306b
         // getters
         bool align_get_is_warmed();         // device can take a while to warmup, not too important
         bool align_get_need_alignment();    // align_execute_alignment() should be called if true
-          
+    
+    // API group "AUDIO"
+        int16_t aduio_data[AUDIO_DATA_LENGTH];    // public member for user access to audio data
+        struct audio_type                          // for user convenience in getting audio information
+        {
+            bool is_demodulating;                                // true indicates device is demodulating
+            bool is_mute;                                        // false means that the speakers are on
+            double center_frequency_offset_hz;                   // must be in range, does not require changing center frequency
+            float volume;                                        // must be in range, adjusts speaker volume
+            RSA_API::AudioDemodMode demodulation_mode_select;    // type of demodulation applied
+            uint16_t data_length_received;                       // data points written to "audio_data[]" during a data call
+        }; typedef struct audio_type audio_type;
+        // functions for user action
+        void audio_print_all();                      // prints audio status to stdout
+        void audio_prepare(audio_type* settings);    // configure device audio settings with struct
+        // getters
+        void audio_get_data(audio_type* settings);        // updates "audio_data" and elements aquired
+        void audio_get_settings(audio_type* settings);    // updates struct with current device audio settings
+
     // API group "CONFIG"
         // functions for user action
         int config_update_cf_rl(double cf_Hz, double rl_dBm);                         // user defined center frequency and reference level
@@ -360,6 +395,11 @@ class rsa306b
         void _align_set_is_warmed();         // uses API to set _align_is_warmed
         
     // API group "AUDIO"
+        audio_type _audio_type;                                            // maintains audio-group member variables of the class
+        int _audio_set_center_frequency_offset(double cf_offset);          // API sets offset from center frequency
+        int _audio_set_demodulation_mode(RSA_API::AudioDemodMode mode);    // API sets demodulation mode
+        int _audio_set_mute_status(bool new_value);                        // API sets the mute state
+        int _audio_set_volume(float new_value);                            // API sets the volume
 
     // API group "CONFIG"
         double _config_center_frequency_hz;                                   // user can pick, within limits
@@ -428,19 +468,19 @@ class rsa306b
         void _reftime_set_current_type();      // API updates _reftime_current_typ, will change
     
     // API group "SPECTRUM"        
-        spectrum_3_traces_type _spectrum_3_traces_type;                          // public struct, info of the 3 traces
-        bool _spectrum_good_aquisition;                                          // bit mask result of AcqDataStatus enum
-        bool _spectrum_measurement_enabled;                                      // status of instrument for spectrum aquisition
-        double _spectrum_frequency_array[DATA_LENGTH];                           // X axis, frequencies, all 3 traces 
-        float _spectrum_trace_data[3][DATA_LENGTH];                              // Y axis, measurments, all 3 traces
-        int _spectrum_valid_trace_points;                                        // number of valid points spectrum analyzer recorded
-        RSA_API::Spectrum_Limits _spectrum_limits_type;                          // struct, with 6 doubles and 2 ints as limits
-        RSA_API::Spectrum_Settings _spectrum_settings_type;                      // struct, with internal + 2 enums + external settings
-        RSA_API::Spectrum_TraceInfo _spectrum_trace_info_type;                   // struct, used for timing and "AcqDataStatus"
-        void _spectrum_init();                                                   // called when connecting
-        void _spectrum_create_frequency_array();                                 // makes array for _spectrum_frequency_array, sized to _spectrum_trace_data
-        int _spectrum_trace_number_2_index(RSA_API::SpectrumTraces trace_number);  // convert a trace number to proper index
-        int _spectrum_find_peak_index(RSA_API::SpectrumTraces trace_number);    // finds peak index of desired trace
+        spectrum_3_traces_type _spectrum_3_traces_type;                              // public struct, info of the 3 traces
+        bool _spectrum_good_aquisition;                                              // bit mask result of AcqDataStatus enum
+        bool _spectrum_measurement_enabled;                                          // status of instrument for spectrum aquisition
+        double _spectrum_frequency_array[SPECTRUM_DATA_LENGTH];                      // X axis, frequencies, all 3 traces 
+        float _spectrum_trace_data[3][SPECTRUM_DATA_LENGTH];                         // Y axis, measurments, all 3 traces
+        int _spectrum_valid_trace_points;                                            // number of valid points spectrum analyzer recorded
+        RSA_API::Spectrum_Limits _spectrum_limits_type;                              // struct, with 6 doubles and 2 ints as limits
+        RSA_API::Spectrum_Settings _spectrum_settings_type;                          // struct, with internal + 2 enums + external settings
+        RSA_API::Spectrum_TraceInfo _spectrum_trace_info_type;                       // struct, used for timing and "AcqDataStatus"
+        void _spectrum_init();                                                       // called when connecting
+        void _spectrum_create_frequency_array();                                     // makes array for _spectrum_frequency_array, sized to _spectrum_trace_data
+        int _spectrum_trace_number_2_index(RSA_API::SpectrumTraces trace_number);    // convert a trace number to proper index
+        int _spectrum_find_peak_index(RSA_API::SpectrumTraces trace_number);         // finds peak index of desired trace
         // setters
         int _spectrum_set_limits_type();                                              //API sets _spectrum_limits_type
         int _spectrum_set_measurement_enabled(bool new_value);                        // API updates _spectrum_measurement_enabled
@@ -451,7 +491,7 @@ class rsa306b
     // API group "TRIG"
         trig_type _trig_type;
         // setters
-        int _trig_set_if_power_trigger_level(double level); // API call to set IF power level of trigger
+        int _trig_set_if_power_trigger_level(double level);                         // API call to set IF power level of trigger
         int _trig_set_trigger_mode(RSA_API::TriggerMode mode);                      // API call, free run or use trigger settings
         int _trig_set_trigger_position_percent(double percent);                     // API call to set how much data is saved before and after trigger
         int _trig_set_trigger_source(RSA_API::TriggerSource source);                // API call to set the source of the trigger

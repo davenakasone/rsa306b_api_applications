@@ -31,7 +31,9 @@ rsa306b::rsa306b()
     printf("\n<%d> %s/%s(),  constructor\n",
         __LINE__, __FILE__, __func__);
 #endif
-
+    #ifdef DEBUG_MIN
+        printf("\n\tinstance constructed\n");
+    #endif
     this->_init_member_variables();
     this->_api_error_check();
     this->_gp_error_check();
@@ -156,28 +158,33 @@ void rsa306b::print_all_const()
     #ifdef DEBUG_ERR
         printf("\tDEBUG_ERR               :  %d\n", DEBUG_ERR);
     #endif
-    printf("\tBUF_A        :  %d\n", BUF_A);
-    printf("\tBUF_B        :  %d\n", BUF_B);
-    printf("\tBUF_C        :  %d\n", BUF_C);
-    printf("\tBUF_D        :  %d\n", BUF_D);
-    printf("\tBUF_E        :  %d\n", BUF_E);
-    printf("\tBUF_F        :  %d\n", BUF_F);
-    printf("\tDATA_LENGTH  :  %d\n", DATA_LENGTH);
+    printf("\tBUF_A                 :  %d\n", BUF_A);
+    printf("\tBUF_B                 :  %d\n", BUF_B);
+    printf("\tBUF_C                 :  %d\n", BUF_C);
+    printf("\tBUF_D                 :  %d\n", BUF_D);
+    printf("\tBUF_E                 :  %d\n", BUF_E);
+    printf("\tBUF_F                 :  %d\n", BUF_F);
+    printf("\tSPECTRUM_DATA_LENGTH  :  %d\n", SPECTRUM_DATA_LENGTH);
+    printf("\tAUDIO_DATA_LENGTH     :  %d\n", AUDIO_DATA_LENGTH);
     printf("\nclass constants >>>\n");
-    printf("\tCALL_SUCCESS             :  %d\n", this->CALL_SUCCESS);
-    printf("\tCALL_FAILURE             :  %d\n", this->CALL_FAILURE);
-    printf("\tINIT_CHAR                :  %c\n", this->INIT_CHAR);
-    printf("\tINIT_DOUBLE              :  %lf\n", this->INIT_DOUBLE);
-    printf("\tINIT_INT                 :  %d\n", this->INIT_INT);
-    printf("\tINIT_STR                 :  %s\n", this->INIT_STR);
-    printf("\tEXTERNAL_FREQUENCY       :  %lf  Hz\n", this->EXTERNAL_FREQUENCY);
-    printf("\tEXTERNAL_AMPLITUDE_dbm   :  %lf +/- dbm\n", this->EXTERNAL_AMPLITUDE_dbm);
-    printf("\tREFERENCE_LEVEL_MAX_dbm  :  %lf  dbm\n", this->REFERENCE_LEVEL_MAX_dbm);
-    printf("\tREFERENCE_LEVEL_MIN_dbm  :  %lf  dbm\n", this->REFERENCE_LEVEL_MIN_dbm);
-    printf("\tSPAN_MAX_Hz              :  %lf  Hz\n", this->SPAN_MAX_Hz);
-    printf("\tSPAN_MIN_Hz              :  %lf  Hz\n", this->SPAN_MIN_Hz);
-    printf("\tPOSITION_PERCENT_MAX     :  %lf  Hz\n", this->POSITION_PERCENT_MAX);
-    printf("\tPOSITION_PERCENT_MIN     :  %lf  Hz\n", this->POSITION_PERCENT_MIN);
+    printf("\tCALL_SUCCESS                          :  %d\n", this->CALL_SUCCESS);
+    printf("\tCALL_FAILURE                          :  %d\n", this->CALL_FAILURE);
+    printf("\tINIT_CHAR                             :  %c\n", this->INIT_CHAR);
+    printf("\tINIT_DOUBLE                           :  %lf\n", this->INIT_DOUBLE);
+    printf("\tINIT_INT                              :  %d\n", this->INIT_INT);
+    printf("\tINIT_STR                              :  %s\n", this->INIT_STR);
+    printf("\tEXTERNAL_FREQUENCY                    :  %lf  Hz\n", this->EXTERNAL_FREQUENCY);
+    printf("\tEXTERNAL_AMPLITUDE_dbm                :  %lf +/- dbm\n", this->EXTERNAL_AMPLITUDE_dbm);
+    printf("\tREFERENCE_LEVEL_MAX_dbm               :  %lf  dbm\n", this->REFERENCE_LEVEL_MAX_dbm);
+    printf("\tREFERENCE_LEVEL_MIN_dbm               :  %lf  dbm\n", this->REFERENCE_LEVEL_MIN_dbm);
+    printf("\tSPAN_MAX_Hz                           :  %lf  Hz\n", this->SPAN_MAX_Hz);
+    printf("\tSPAN_MIN_Hz                           :  %lf  Hz\n", this->SPAN_MIN_Hz);
+    printf("\tPOSITION_PERCENT_MAX                  :  %lf  Hz\n", this->POSITION_PERCENT_MAX);
+    printf("\tPOSITION_PERCENT_MIN                  :  %lf  Hz\n", this->POSITION_PERCENT_MIN);
+    printf("\tAUDIO_VOLUME_MAX                      :  %f\n", this->AUDIO_VOLUME_MAX);
+    printf("\tAUDIO_VOLUME_MIN                      :  %f\n", this->AUDIO_VOLUME_MIN);
+    printf("\tAUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz  :  %lf\n", this->AUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz);
+    printf("\tAUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz  :  %lf\n", this->AUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz);
 }
 
 
@@ -262,6 +269,18 @@ void rsa306b::_init_member_variables()
     this->_align_need_alignment = false;
     this->_align_is_warmed = false;
 
+    // AUDIO
+    this->_audio_type.center_frequency_offset_hz = this->INIT_DOUBLE;
+    this->_audio_type.demodulation_mode_select = RSA_API::ADM_AM_8KHZ;
+    this->_audio_type.is_demodulating = false;
+    this->_audio_type.is_mute = true;
+    this->_audio_type.volume = this->INIT_FLOAT;
+    this->_audio_type.data_length_received = 0;
+    for (int ii = 0; ii < AUDIO_DATA_LENGTH; ii++)
+    {
+        this->aduio_data[ii] = 0;
+    }
+
     // CONFIG
     this->_config_center_frequency_hz = this->INIT_DOUBLE;
     this->_config_center_frequency_max_hz = -6.2e9;
@@ -301,7 +320,7 @@ void rsa306b::_init_member_variables()
     this->_spectrum_valid_trace_points = this->INIT_INT;
     this->_spectrum_good_aquisition = false;
     this->_spectrum_measurement_enabled = false;
-    for (int ii = 0; ii < DATA_LENGTH; ii++)
+    for (int ii = 0; ii < SPECTRUM_DATA_LENGTH; ii++)
     {
         this->_spectrum_frequency_array[ii] = this->INIT_DOUBLE;
         this->_spectrum_trace_data[0][ii] = this->INIT_FLOAT;
@@ -347,6 +366,10 @@ void rsa306b::_init_member_variables()
     this->_trig_type.mode_select = RSA_API::triggered;
     this->_trig_type.source_select = RSA_API::TriggerSourceExternal;
     this->_trig_type.transition_select = RSA_API::TriggerTransitionHL;  
+
+    #ifdef DEBUG_MIN
+        printf("\n\tclass members initialized\n");
+    #endif
 }
        
 
