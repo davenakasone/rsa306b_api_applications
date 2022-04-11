@@ -1,0 +1,134 @@
+the r3f file was made, executing "vvv_994()"
+the python script "read_r3f.py" was called for "duration_1ms.r3f"
+
+https://stackoverflow.com/questions/57507832/unable-to-allocate-array-with-shape-and-data-type
+https://www.kernel.org/doc/Documentation/vm/overcommit-accounting
+unlv@unlv:~/Desktop/rsa306b_api_applications$ cat /proc/sys/vm/overcommit_memory
+>>> 0 // need it to overcommit
+unlv@unlv:~/Desktop/rsa306b_api_applications$ sudo -i
+root@unlv:~# echo 1 > /proc/sys/vm/overcommit_memory
+unlv@unlv:~/Desktop/rsa306b_api_applications$ cat /proc/sys/vm/overcommit_memory
+>>> 1 // must do every reboot ?
+
+https://stackoverflow.com/questions/56656777/userwarning-matplotlib-is-currently-using-agg-which-is-a-non-gui-backend-so
+(rsa) unlv@unlv:~/Desktop/rsa306b_api_applications/working/cpp_class_v1/python_helpers$ pip install pyqt5
+
+
+(rsa) unlv@unlv:~/Desktop/rsa306b_api_applications/working/cpp_class_v1/python_helpers$ python3 read_r3f.py 
+Enter input file name including extension (.r3f/.r3a/.r3h).
+> duration_1ms.r3f
+0=display nothing
+1=display header data
+2=plot correction tables
+3=display 1 and 2
+> 3
+0=discard header
+1=save header in .csv file
+>1
+0=discard IQ
+1=save IQ in .mat file
+>1
+0=discard footer
+1=save footer
+> 1
+read_r3f.py:177: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  self.vInfo.endian = np.fromstring(
+read_r3f.py:198: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  self.dFormat.dataType = np.fromstring(
+read_r3f.py:202: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  self.dFormat.frameOffset = np.fromstring(
+read_r3f.py:204: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  self.dFormat.frameSize = np.fromstring(
+read_r3f.py:207: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  self.dFormat.sampleSize = np.fromstring(
+read_r3f.py:209: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  self.dFormat.nonsampleOffset = np.fromstring(
+read_r3f.py:211: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  self.dFormat.nonSampleSize = np.fromstring(
+read_r3f.py:213: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  self.dFormat.ifcf = np.fromstring(
+read_r3f.py:216: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  self.dFormat.sRate = np.fromstring(
+read_r3f.py:223: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  self.dFormat.timeSampleRate = np.fromstring(
+read_r3f.py:228: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  self.chCorr.adcScale = np.fromstring(
+read_r3f.py:230: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  self.chCorr.pathDelay = np.fromstring(
+read_r3f.py:232: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  self.chCorr.corrType = np.fromstring(
+read_r3f.py:234: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  tableEntries = np.fromstring(data[4352:4356], dtype=np.uint32)
+read_r3f.py:239: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  self.chCorr.freqTable = np.fromstring(
+read_r3f.py:241: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  self.chCorr.phaseTable = np.fromstring(
+read_r3f.py:243: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  self.chCorr.ampTable = np.fromstring(
+Number of Frames: 32
+
+File size is: 540672 bytes.
+File length is: 0.002337 seconds.
+
+FILE INFO
+FileID:  Tektronix RSA300 Data File
+Endian Check: 0x12345678
+File Format Version: 1.2.0.0
+API Version: 1.0.14.0
+FX3 Version: 1.7.32.38
+FPGA Version: 2.1.32.38
+Device Serial Number:  B037150
+INSTRUMENT STATE
+Reference Level: -30.00 dBm
+Center Frequency: 100000000.0 Hz
+temp: 34.1875 C
+Alignment status:  1
+Frequency Reference:  0
+Trigger mode:  0
+Trigger Source:  0
+Trigger Transition:  1
+Trigger Level: 0.0 dBm
+
+DATA FORMAT
+Data Type: 2 bytes per sample
+Offset to first frame (bytes):  16384
+Frame Size (bytes):  16384
+Offset to sample data (bytes):  0
+Samples in Frame:  8178
+Offset to non-sample data:  16356
+Size of non-sample data:  28
+IF Center Frequency: 28000000.0 Hz
+Sample Rate: 112000000.0 S/sec
+Bandwidth: 40000000.0 Hz
+Corrected data status:  0
+Time Type (0=local, 1=remote):  0
+Reference Time: 4/10/2022 at 23:23:39.0
+Clock sample count:  1487267384611
+Sample ticks per second:  112000000
+UTC Time: 4/11/2022 at 6:23:39.0
+
+CHANNEL AND SIGNAL PATH CORRECTION
+ADC Scale Factor:  9.739653560976657e-07
+Signal Path Delay: 800.7107142857143 nsec
+Correction Type (0=LF, 1=IF):  1
+Header printed and channel correction graphs plotted.
+
+Beginning file conversion.
+
+read_r3f.py:410: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  adcsamples[fstart:fstop] = np.fromstring(frame, dtype=np.int16)
+read_r3f.py:434: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  footer.reserved = np.fromstring(raw_footer[0:6],
+read_r3f.py:436: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  footer.frameId = np.fromstring(raw_footer[8:12],
+read_r3f.py:438: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  footer.trig2Idx = np.fromstring(raw_footer[12:14],
+read_r3f.py:440: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  footer.trig1Idx = np.fromstring(raw_footer[14:16],
+read_r3f.py:442: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  footer.timeSyncIdx = np.fromstring(raw_footer[16:18],
+read_r3f.py:445: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  int(np.fromstring(raw_footer[18:20], dtype=np.uint16, count=1)))
+read_r3f.py:446: DeprecationWarning: The binary mode of fromstring is deprecated, as it behaves surprisingly on unicode inputs. Use frombuffer instead
+  footer.timestamp = np.fromstring(raw_footer[20:28],
+Killed

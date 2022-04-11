@@ -1,13 +1,20 @@
+# child shell can't control the parent shell
+#     so, be sure to export and source after making the target
+#     or, change .bashrc / make a bash script
+SHELL := /bin/bash
 CC = g++
 IDIR = ./api_resourcez/
 LDIR = ./api_resourcez/
 SDIR = ./sourcez/
 TDIR = ./testz/
+OUTPUTS_R3F = $(TDIR)test_outputs_r3f/
+OUTPUTS_TXT = $(TDIR)test_outputs_txt/
 EXEC = klass
 CFLAGS = -Wall -std=c++14 -I $(IDIR)
 LDFLAGS	= -L $(LDIR)
 LDLIBS = -lRSA_API
 LDLIUSBS = -lcyusb_shared
+
 
 SOURCE_FILES = $(SDIR)aaa_main.cpp \
 $(SDIR)rsa306b_class__gp.cpp \
@@ -36,18 +43,38 @@ $(TDIR)unit_test_5.cpp \
 $(TDIR)unit_test_6.cpp \
 $(TDIR)unit_test_7.cpp \
 $(TDIR)unit_test_8.cpp \
-$(TDIR)unit_test_999.cpp \
-$(TDIR)vvv_998.cpp \
-$(TDIR)vvv_997.cpp \
-$(TDIR)vvv_996.cpp \
+$(TDIR)vvv_994.cpp \
 $(TDIR)vvv_995.cpp \
+$(TDIR)vvv_996.cpp \
+$(TDIR)vvv_997.cpp \
+$(TDIR)vvv_998.cpp \
+$(TDIR)unit_test_999.cpp \
 $(TDIR)wait_enter_clear.cpp
 
+
+# the executable is first deleted, then a clean build occurs
+# copy and paste the last 2 lines when terminal is frist used
+#     need to "export" the API resources
+#     need to "source the python virtual environment 
 raw :
 	rm -f $(EXEC)
-	$(CC) -o $(EXEC) $(CFLAGS) $(SOURCE_FILES) $(LDFLAGS) $(LDLIBS) $(LDLIUSBS) 
-	export LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(LDIR)	
-	@echo [ ${EXEC} ] compiled, check the export
+	$(CC) -o $(EXEC) $(CFLAGS) $(SOURCE_FILES) $(LDFLAGS) $(LDLIBS) $(LDLIUSBS) 	
+	@echo [ ${EXEC} ] compiled 
+	@echo "be sure to export the RSA shared object library variable \
+and source the python3 virtual environment"
+	@echo "...copy and paste in terminal:"
+	export LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(LDIR)
+	source /home/unlv/Desktop/rsa306b_api_applications/rsa_venv/rsa/bin/activate
 
+
+# the executable is deleted
+# any files too large for github are deleted
+# empty directories are made for the large files
+#	vvv_997 : makes "*.txt" files in "test_outputs_txt"
+#	vvv_994 : makes "*.r3f" files in "test_outputs_r3f"
 clean :
 	rm -f $(EXEC)
+	rm -rf $(OUTPUTS_R3F)
+	mkdir $(OUTPUTS_R3F)
+	rm -rf $(OUTPUTS_TXT)
+	mkdir $(OUTPUTS_TXT)

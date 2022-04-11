@@ -190,7 +190,7 @@
 #define GET_NAME(var) #var
 
 //#define DEBUG_CLI 1776    // when activated, prints __LINE__, __FILE__, __func__ for each call
-#define DEBUG_MIN 1917    // when activated, prints essential information
+//#define DEBUG_MIN 1917    // when activated, prints essential information
 //#define DEBUG_ERR 1492    // when activated, prints *_error_checks() that result in an error condition
 
 #define BUF_A 32                    // a short general purpose buffer
@@ -237,7 +237,8 @@ class rsa306b
         RSA_API::ReturnStatus get_api_return_status();       // get validation of API calls
         void get_api_return_status_string(char* carrier);    // get state of API call in a string
         int get_gp_return_status();                          // get validation of internal funciton calls
-        void print_all_const();                              // prints macros and const types to stdout
+        void print_constants();                              // prints macros and const types to stdout
+        void print_variables();                              // prints device variables by API function group
 
     // API group "ALIGN"
         // functions for user action

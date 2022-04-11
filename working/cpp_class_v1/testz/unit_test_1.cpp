@@ -42,7 +42,9 @@ void unit_test_1 (void)
         printf("\tREFERENCE_LEVEL_MAX_dbm  :  %lf\n", rsa.REFERENCE_LEVEL_MAX_dbm);
         printf("\tSPAN_MAX_HZ              :  %lf\n", rsa.SPAN_MAX_Hz);
         printf("\tSPAN_MIN_HZ              :  %lf\n", rsa.SPAN_MIN_Hz);
-        rsa.print_all_const();
+
+        printf("\nprinting constatns from the object...\n\n");
+        rsa.print_constants();
     }
     // instance goes out of scope and destructor is called
     printf("\n%s()  ,  test complete\n", __func__);

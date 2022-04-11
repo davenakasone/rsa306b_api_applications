@@ -1,0 +1,30 @@
+many of the python examples use different modules over the span of several years
+maintian this virtual environment to ensure correct dependencies are being used
+activate this virtual environment to run any python files in the project
+    better yet, use Docker (did not do because not everyone knows it)
+
+the virtual enviroment was made (already done)
+    $ pip3 install virtualenv
+    $ cd rsa306b_api_applications    // get into the project directory
+    $ mkdir rsa_venv
+    $ virtualenv rsa                 // the virtual environment
+
+activate the venv
+    $ source ./rsa/bin/activate
+    $ which python                 // make sure the path is to the venv
+    $ python --version             // make sure verion is 3.xx
+    $ which pip                    // path and version check pip
+    $ pip --version
+    # your prompt should change: (rsa) ...
+
+deactivate the venv
+    $ deactivate
+
+save the venv so others can use it
+    # the venv is activated, working inside "rsa_venv"
+    (rsa) unlv@unlv:~/Desktop/rsa306b_api_applications/rsa_venv$ pip freeze --local >requirments.txt
+    $ cat requirments.txt    // check it, someone else can use "pip3 install requirments.txt" to make your venv
+
+place the activation path for eash access
+pip freeze before passing the venv to someone else
+make sure the wheels stay on (amd64, x86-64)

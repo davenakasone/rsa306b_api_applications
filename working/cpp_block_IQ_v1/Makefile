@@ -11,10 +11,11 @@ LDFLAGS	= -L $(LDIR)
 LDLIBS = -lRSA_API
 LDLIUSBS = -lcyusb_shared
 
-$(EXEC) : $(MAIN_FILE)
+raw :
+	rm -f $(EXEC)
 	$(CC) -o $(EXEC) $(CFLAGS) $(MAIN_FILE) $(SRC_FILES) $(LDFLAGS) $(LDLIBS) $(LDLIUSBS) 
+	@echo [ ${EXEC} ] compiled
 	export LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(LDIR)	
-	@echo ${EXEC} compiled, check the export
-
+	
 clean :
 	rm -f $(EXEC)

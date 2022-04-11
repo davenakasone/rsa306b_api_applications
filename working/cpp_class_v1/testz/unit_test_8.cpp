@@ -47,7 +47,7 @@ void unit_test_8 (void)
             rsa.audio_prepare(&aud_t);
             rsa.audio_print_all();
         #endif
-        #ifdef UT8_3
+        #ifdef UT8_3 // fix this, it should be able to get FM radio
             RSA_API::Spectrum_Settings t_set;
             rsa306b::spectrum_3_traces_type t_3;
             double cf = 97.75e6;

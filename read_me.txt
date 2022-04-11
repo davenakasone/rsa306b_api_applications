@@ -37,6 +37,14 @@ API Version : 1.0.0014
 Detected Devices:
 deviceID: 0,	 SN: B037150,	 Type: RSA306B
 
+NUC needs a graphics driver for Ubuntu
+NUC does not recognize other RAM stick for Ubuntu
+unlv@unlv:~/Desktop/rsa306b_api_applications$ free -h
+              total        used        free      shared  buff/cache   available
+Mem:           30Gi       1.5Gi        28Gi       491Mi       1.1Gi        28Gi
+Swap:         3.8Gi       1.8Gi       2.0Gi
+swapiness was set to 10
+
 additional documentation can be found in the google drive:
     https://drive.google.com/drive/folders/1-Yi1jUahgB7YDmauL3ozKffGKSb-tnm9?usp=sharing
 

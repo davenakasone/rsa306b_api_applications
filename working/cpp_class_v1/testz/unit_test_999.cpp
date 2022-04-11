@@ -5,6 +5,11 @@
         - 
         - 
         - 
+    
+    this a just a place holder
+    hopefully the object can be made in less than 1,000 unit tests
+        if not, make this "9999" and continue
+        Thomas Edison tried about 10,000 times to make a light bulb?
 */
 
 #include "unit_tests.h"
@@ -13,26 +18,13 @@
 void unit_test_999 (void)
 {
     printf("\n%s()  ,  some data printing\n", __func__);
+    {
+        rsa306b rsa;
+        rsa.device_connect();
 
-    rsa306b rsa;
-    rsa.device_connect();
-
-    rsa.print_all_const();
-
-    rsa.device_print_all();
-
-    rsa.align_print_all();
-
-    rsa.reftime_print_all();
-
-    rsa.config_print_all();
-
-    rsa.spectrum_print_all();
-
-    rsa.trig_print_all();
-
-    rsa.audio_print_all();
-
+        rsa.print_constants();
+        rsa.print_variables();
+    }
     printf("\n%s()  ,  test complete\n", __func__);
     wait_enter_clear();
 }

@@ -16,7 +16,7 @@ void vvv_997()
 {
     printf("\n%s()  ,  moving the spectrum and writting to files\n", __func__);
 
-    const char file_path[] = "./testz/test_outputs/";
+    const char file_path[] = "./testz/test_outputs_txt/";
     FILE* f_ptr = NULL;
     char help[BUF_E];
 

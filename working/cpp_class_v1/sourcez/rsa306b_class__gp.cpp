@@ -8,7 +8,8 @@
             < 3 >  get_api_return_status()
             < 4 >  get_api_return_status_string()
             < 5 >  get_gp_return_status()
-            < 6 >  print_all_const()
+            < 6 >  print_constants()
+            < 7 >  print_variables()
 
         private:
             < 1 >  _api_error_check()
@@ -141,7 +142,7 @@ int rsa306b::get_gp_return_status()
     individual class constants and macros are publically availible 
     it is not possible for user to change "const <data_type>" members
 */
-void rsa306b::print_all_const()
+void rsa306b::print_constants()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -185,6 +186,31 @@ void rsa306b::print_all_const()
     printf("\tAUDIO_VOLUME_MIN                      :  %f\n", this->AUDIO_VOLUME_MIN);
     printf("\tAUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz  :  %lf\n", this->AUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz);
     printf("\tAUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz  :  %lf\n", this->AUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz);
+}
+
+
+////~~~~
+
+
+/*
+    public < 7 >
+    prints device member variables
+    organized by API function group
+*/
+void rsa306b::print_variables()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s(),  destructor\n",
+        __LINE__, __FILE__, __func__);
+#endif
+    
+    this->audio_print_all();
+    this->align_print_all();
+    this->config_print_all();
+    this->device_print_all();
+    this->reftime_print_all();
+    this->spectrum_print_all();
+    this->trig_print_all();
 }
 
 

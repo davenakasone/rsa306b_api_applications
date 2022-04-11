@@ -10,6 +10,7 @@
 #include "RSA_API.h"
 
 #define BIG_WIDTH 1024
+#define SMALL_WIDTH 128
 //#define DEBUG_CLI -888
 
 const char my_data[] = "./iq_outputs.txt";
@@ -23,12 +24,12 @@ const char** g_deviceSerial;    // from original search_connect()
 const char** g_deviceType;      // from original search_connect()
 char g_apiVersion[200];         // from original search_connect()
 
-double g_cf = 2.4453e9;                            // from original if_stream_example()
-double g_refLevel = -30;                           // from original if_stream_example()
-char g_fileDir [BIG_WIDTH] = "./";                 // from original if_stream_example()
-char g_fileName [BIG_WIDTH] = "if_stream_test";    // from original if_stream_example()
-int g_durationMsec = 1000;                         // from original if_stream_example()
-int g_waitTime = 10;                               // from original if_stream_example()
+double g_cf = 2.4453e9;                              // from original if_stream_example()
+double g_refLevel = -30;                             // from original if_stream_example()
+char g_fileDir [SMALL_WIDTH] = "./";                 // from original if_stream_example()
+char g_fileName [SMALL_WIDTH] = "if_stream_test";    // from original if_stream_example()
+int g_durationMsec = 1000;                           // from original if_stream_example()
+int g_waitTime = 10;                                 // from original if_stream_example()
 
 void search_and_connect (void);
 void error_check (void);
