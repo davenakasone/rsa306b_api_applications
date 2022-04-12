@@ -68,10 +68,11 @@ and source the python3 virtual environment"
 
 
 # the executable is deleted
-# any files too large for github are deleted
-# empty directories are made for the large files
+# output file directories are deleted, removing all output files
+# empty output file directories are made
 #	vvv_997 : makes "*.txt" files in "test_outputs_txt"
 #	vvv_994 : makes "*.r3f" files in "test_outputs_r3f"
+# issue "make clean" if files are too large for github
 clean :
 	rm -f $(EXEC)
 	rm -rf $(OUTPUTS_R3F)
