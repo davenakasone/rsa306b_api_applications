@@ -57,6 +57,7 @@ $(TDIR)wait_enter_clear.cpp
 #     need to "export" the API resources
 #     need to "source the python virtual environment 
 raw :
+	clear
 	rm -f $(EXEC)
 	$(CC) -o $(EXEC) $(CFLAGS) $(SOURCE_FILES) $(LDFLAGS) $(LDLIBS) $(LDLIUSBS) 	
 	@echo [ ${EXEC} ] compiled 
