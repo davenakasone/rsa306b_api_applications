@@ -23,7 +23,7 @@
 
 #include "unit_tests.h"
 
-#define FILES_MADE 5
+#define FILES_MADE 11
 
 
 void vvv_994()
