@@ -1,5 +1,6 @@
 """
 trying to fix the python r3f reader for the class
+	- don't use this script, just take some ideas and deploy C or C++
 
 use the venv
 	
@@ -17,7 +18,8 @@ changes
 	will reformat the binary, don't want unexpected behavior ?
 
 	numpy.core._exceptions.MemoryError: Unable to allocate 1.99 TiB for an array with shape (523392, 523392) and data type float64
-	probably should keep recording to 1ms or less
+	numpy.core._exceptions.MemoryError: Unable to allocate 510. GiB for an array with shape (261696, 261696) and data type float64
+	that does not look good
 
 https://forum.tek.com/viewtopic.php?t=138284
 a script in Python 3 that converts the IF data in an r3f file to uncorrected IQ data and stores it in a .mat file. 
