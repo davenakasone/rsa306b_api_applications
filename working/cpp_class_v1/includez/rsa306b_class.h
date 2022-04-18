@@ -1,4 +1,11 @@
 /*
+    TODO:
+        # DPX
+        # IFSTREAM
+        # IQBLK
+        # IQSTREAM
+        # PLAYBACK
+
     this class uses a provided API to interface with the RSA-306B Spectrum Analyzer
     Tektronix requires 2 shared objects (dynamic libraries) to be linked and the RSA_API.h header
     the API is designed to run on a 64-bit Linux OS using an intel processor
@@ -76,7 +83,27 @@
             DEVICE_Stop()
 
         DPX
-
+            DPX_Configure()
+            DPX_FinishFrameBuffer()
+            DPX_GetEnable()
+            DPX_GetFrameBuffer()
+            DPX_GetFrameInfo()
+            DPX_GetRBWRange()
+            DPX_GetSettings()
+            DPX_GetSogramHiResLine()
+            DPX_GetSogramHiResLineCountLatest()
+            DPX_GetSogramHiResLineTimestamp()
+            DPX_GetSogramHiResLineTriggered()
+            DPX_GetSogramSettings()
+            DPX_IsFrameBufferAvailable()
+            DPX_Reset()
+            DPX_SetEnable()
+            DPX_SetParameters()
+            DPX_SetSogramParameters()
+            DPX_SetSogramTraceType()
+            DPX_SetSpectrumTraceType()
+            DPX_WaitForReady()
+            
         GNSS # not used, only the RSA500/600 has position data
 
         IF Streaming

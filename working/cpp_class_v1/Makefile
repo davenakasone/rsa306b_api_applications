@@ -10,7 +10,7 @@ TDIR = ./testz/
 OUTPUTS_R3F = $(TDIR)test_outputs_r3f/
 OUTPUTS_TXT = $(TDIR)test_outputs_txt/
 EXEC = klass
-CFLAGS = -Wall -std=c++14 -I $(IDIR)
+CFLAGS = -Wall -lpthread -std=c++14 -I $(IDIR)
 LDFLAGS	= -L $(LDIR)
 LDLIBS = -lRSA_API
 LDLIUSBS = -lcyusb_shared
