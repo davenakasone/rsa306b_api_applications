@@ -56,7 +56,7 @@ Routing header/configuration block:
             "<firmware_version>.<firmware_version_sub>.<firmware_version_part>"
         [528], 1 byte, int8_t fpga_version
         [529], 1 byte, int8_t fpga_version_sub
-        [530:531], 2 bytes, int16_t_t fpga_version_part
+        [530:531], 2 bytes, int16_t fpga_version_part
             "<fpga_version>.<fpga_version_sub>.<fpga_version_part>"
         [532:595], 64 bytes, char* device_serial_number
         [596:627], 32 bytes, char* device_nomenclature
@@ -97,7 +97,7 @@ Routing header/configuration block:
             [2328:2331], 4 bytes, int32_t reftime_second
             [2332:2335], 4 bytes, int32_t reftime_nano_second
         [2336:2343], 8 bytes, uint64_t fpga_sample_count
-        [2344:2351], 8 bytes, utin64_t fpga_sample_counter_ticks_per_second
+        [2344:2351], 8 bytes, uint64_t fpga_sample_counter_ticks_per_second
         REFTIME UTC
             [2352:2355], 4 bytes, int32_t reftime_utc_year
             [2356:2359], 4 bytes, int32_t reftime_utc_month
@@ -135,7 +135,7 @@ Routing header/configuration block:
     [12288:16383] reserved, EMPTY
 
 
-
+footers have some data, but it is not needed for raw processing, just skip it (for now)
     
 
 
