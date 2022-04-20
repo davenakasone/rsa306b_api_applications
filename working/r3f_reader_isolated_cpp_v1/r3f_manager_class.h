@@ -17,6 +17,7 @@
         file_process()
         _process_header()
         _process_data()
+        _store_field()
 
     "r3fc_file_decode.cpp"
         file_decode()
@@ -57,6 +58,9 @@
 #define H_r3f_manager_class
 
 
+#include <cmath>
+#include <queue>
+#include <stack>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -65,7 +69,7 @@
 
 #include "r3f_manager_struct.h"    // <stdint.h>, <float.h>
 
-#define DEBUG_CLI 1776    // print callstack to stdout while program executes
+//#define DEBUG_CLI 1776    // print callstack to stdout while program executes
 #define DEBUG_MIN 1787    // print only essential information to stdout
 
 #define BUF_HELPER 256
@@ -81,7 +85,7 @@ class r3f_manager_class
         r3f_manager_struct members;    // just a variable tap-point, if needed (changes are inert)
 
         long int get_bytes_in_file();                  // returns total bytes in file
-        void get_members(r3f_manager_struct* sptr);    // copy 
+        void get_members(r3f_manager_struct* sptr);    // copy of parsing variables, if needed 
         
         // CPU clock
             void time_split_begin();      // records start of CPU time split
@@ -102,13 +106,18 @@ class r3f_manager_class
             long int decode_stop_byte,
             bool print_while_decoding);    
 
+        // further processing
+        void prepare_plot_from_header(const char* output_file);                          // frequecny: amplitude and phase
+        void prepare_plot_from_data(const char* input_file, const char* output_file);    // time : I and Q
+    
 
     private :
         
         int _return_status;             // communication between member functions
         const int _CALL_FAILURE = 3;    // error in member function
         const int _CALL_SUCCESS = 4;    // member function executed correctly
-
+        const char _BLOCK_SEPERATOR[BUF_HELPER/2] = "------------------------------------------------------------------------------------------";
+        
         char _helper[BUF_HELPER];       // smaller string
         char _holder[BUF_HOLDER];       // larger string
         FILE* _fptr_decode;             // for writting decoded "*r3f" information to output
@@ -127,8 +136,9 @@ class r3f_manager_class
         void _initialize();                                                 // sets member variables to known values
         int _verify_r3f_extension(const char* r3f_input_path_file_name);    // enforces processing of only "*.r3f" files
         int _find_input_file_size();                                        // determines bytes in the input file
-        void _process_header();                                             // helps "file_process()"
-        void _process_data();                                               // helps "file_process()"
+        void _process_header(bool print_while_processing);                  // helps "file_process()"
+        void _process_data(bool print_while_processing);                    // helps "file_process()"
+        void _store_field(bool print_while_processing);                     // helps all processing functions
 };
 
 

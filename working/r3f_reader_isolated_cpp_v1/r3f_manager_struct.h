@@ -16,9 +16,10 @@
 // header known field sizes:
 #define FIELD_ID_SIZE_BYTES 28
 #define DEVICE_SERIAL_NUMBER_SIZE_BYTES 64
-#define DEVICE_NOMENCLATURE_SIZE 32
+#define DEVICE_NOMENCLATURE_SIZE_BYTES 32
 #define REFTIME_ELEMENTS 7
 #define MAX_TABLE_ENTRIES 501
+#define FOOTER_DISCARD 8
 
 // header byte indexes, by section:
 #define BI_FILE_ID_START 0L  
@@ -32,12 +33,14 @@
 #define BI_SIGNAL_PATH_START 3072L
 #define BI_SIGNAL_PATH_STOP 4095L
 #define BI_CHANNEL_CORRECTION_START 4096L
+#define BI_CHANNEL_CORRECTION_MID 4352L
 #define BI_CHANNEL_CORRECTION_STOP 12287L
 
 
 struct r3f_manager_struct
 {
-    // file ID, [0:511], 512 bytes
+// HEADER
+    // File ID, [0:511], 512 bytes
         char file_id[BUF_STR];    // [0:27], 28 bytes
     //[27:EOB] EMPTY
     
@@ -71,7 +74,7 @@ struct r3f_manager_struct
         int32_t frequecny_reference_state; // [1052:1055], 4 bytes, {0= internal, 1= external, 2=GNSS, 3=user}
         int32_t trigger_mode; // [1056:1059], 4 bytes, {0= free run, 1= triggered}
         int32_t trigger_source; // [1060:1063], 4 bytes, {0= external, 1=power}
-        int32_t trigger_transition; // [1064:1067], 4 bytes, {0=rising, 1=falling}
+        int32_t trigger_transition; // [1064:1067], 4 bytes, {1=rising, 2=falling}
         double trigger_level_dbm; // [1068:1075], 8 bytes
     // [1076:EOB] EMPTY
 
@@ -104,14 +107,26 @@ struct r3f_manager_struct
 
     // Channel Correction[4096:12287], 8192 bytes
         int32_t channel_correction_type;             // [4096:4099], 4 bytes, {0=LF, 1=RF/IF}
-        // [5000:5251] EMPTY
-        int32_t number_of_table_entries;             // [5252:5255], 4 bytes, {the max is "501"}
+        // [4100:4351] EMPTY, 252 bytes of dead space
+        int32_t number_of_table_entries;             // [4352:4355], 4 bytes, {the max is "501"}
         float table_frequency[MAX_TABLE_ENTRIES];    // <number_of_table_entries> * 4 bytes
         float table_amplitude[MAX_TABLE_ENTRIES];    // <number_of_table_entries> * 4 bytes
         float table_phase[MAX_TABLE_ENTRIES];        // <number_of_table_entries> * 4 bytes
     // [:12287] EMPTY
 
     // [12288:16383] reserved, EMPTY ...first data on 16384
+
+// DATA
+    int16_t extracted_sample;    // holds the 16-bit sample
+
+// FOOTER
+    uint8_t discard[FOOTER_DISCARD];
+    uint32_t frame_id;
+    uint16_t trigger_2_index;
+    uint16_t trigger_1_index;
+    uint16_t time_synchronization_index;
+    uint16_t frame_status;
+    uint64_t frame_timestamp;
 
 }; typedef struct r3f_manager_struct r3f_manager_struct;
 

@@ -38,7 +38,6 @@ int r3f_manager_class::_verify_r3f_extension
     }
 
     int string_length = (int)strlen(r3f_input_path_file_name);
-printf("\n{}%d\n", string_length);
     if ( string_length < 5)
     {
         #ifdef DEBUG_MIN
@@ -204,7 +203,21 @@ void r3f_manager_class::_initialize()
         this->_members.table_frequency[ii] = 0;
         this->_members.table_phase[ii] = 0;
     }
-    this->get_members(&this->members);   // initializes public instance
+
+    this->_members.extracted_sample = 0;
+
+    for (int ii = 0; ii < FOOTER_DISCARD; ii++)
+    {
+        this->_members.discard[ii] = 0;
+    }
+    this->_members.frame_id = 0;
+    this->_members.trigger_1_index = 0;
+    this->_members.trigger_2_index = 0;
+    this->_members.time_synchronization_index = 0;
+    this->_members.frame_status = 0;
+    this->_members.frame_timestamp = 0;
+
+    this->get_members(&this->members);   // initializes the public struct instance
 }
 
 

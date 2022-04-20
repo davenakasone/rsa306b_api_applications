@@ -9,10 +9,13 @@
 const char input_file_to_read[NAME_SIZE] = "dummy_in_1ms.r3f";    // this file is read by the class
 const char output_processed[NAME_SIZE] = "processed.txt";         // the class processes the input file and writes here
 const char output_decoded[NAME_SIZE] = "decoded.txt";             // the class processes the input file and decodes here
+const char outputs_for_header[NAME_SIZE] = "plot_header.csv";     // use to plot the table data in the header of the "*.r3f" file
+const char outputs_for_IQ[NAME_SIZE] = "plot_data.csv";           // use to plot the IQ data in the header of the "*.r3f" file
 
 void demo_1();    // basic operation of the object "r3f_manager_class"
 void demo_2();    // decode "*r3f" file
 void demo_3();    // process "*.r3f" file
+void demo_4();    // use the "*r3f" to make some data to plot
 
 
 int main
@@ -30,7 +33,8 @@ int main
 
     //demo_1();
     //demo_2();
-    demo_3();
+    //demo_3();
+    demo_4();
 
     printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~\n");
     #ifdef __clang_major__
@@ -90,6 +94,18 @@ void demo_3()
 {
     r3f_manager_class manager;
     manager.file_process(input_file_to_read, output_processed, true);
+}
+
+
+////~~~~
+
+
+void demo_4()
+{
+    r3f_manager_class manager;
+    manager.file_process(input_file_to_read, output_processed, false);
+    manager.prepare_plot_from_header(outputs_for_header);
+    manager.prepare_plot_from_data(input_file_to_read, outputs_for_IQ);
 }
 
 
