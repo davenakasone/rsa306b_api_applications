@@ -144,11 +144,11 @@ void r3f_manager_class::prepare_plot_from_data
         for (int jj = 0; jj < this->_members.number_of_samples_per_frame; jj++)
         {
             fread(&sample_getter, sizeof(int16_t), 1, this->_fptr_read);
-            in_phase.push(sample_getter*
-                          this->_members.sample_gain_scaling_factor*
+            in_phase.push(sample_getter *
+                          this->_members.sample_gain_scaling_factor *
                           std::cos(omega * time_series.front()));
-            quadrature.push(sample_getter*
-                            this->_members.sample_gain_scaling_factor*
+            quadrature.push(sample_getter *
+                            this->_members.sample_gain_scaling_factor *
                             std::sin(omega * time_series.front()));
             time_series.pop();
         }

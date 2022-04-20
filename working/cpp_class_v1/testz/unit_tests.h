@@ -43,7 +43,7 @@ void unit_test_6  (void);     // tests the "SPECTRUM" section of the class
 void unit_test_7  (void);     // tests the "SPECTRUM" section of the class
 void unit_test_8  (void);     // tests the "AUDIO" section of the class
 
-
+void vvv_993 (void);          // variations of preparing he "*.r3f" file for further analysis
 void vvv_994 (void);          // activate the IFSTREAM, save as "*.r3f", try to read with python
 void vvv_995 (void);          // trying to find antenna range by moving spectrum, adjusting trigger
 void vvv_996 (void);          // trying to find antenna range by moving spectrum

@@ -12,7 +12,7 @@
 // turn on and change UT_NUMBER to run a specific unit test
 #define UNIT_TEST_BY_NUMBER 994 // select unit test # here
 // valid UT_NUMER, class sections  "unit_test_#" : 1, 2, 3, 4, 5, 6, 7
-// valid UT_NUMER, specific tasks  "vvv_#"       : 999, 998, 997, 996, 995, 994
+// valid UT_NUMER, specific tasks  "vvv_#"       : 999, 998, 997, 996, 995, 994, 993
 
 
 
@@ -42,7 +42,7 @@ int main
         test_selector(7);      // tests the "TRIG" section of the class
         test_selector(8);      // tests the "AUDIO" section of the class
 
-        
+        test_selector(993);    // variations of preparing he "*.r3f" file for further analysis
         test_selector(994);    // activate the IFSTREAM, save as "*.r3f", try to read with python
         test_selector(995);    // trying to find antenna range by moving spectrum
         test_selector(996);    // trying to find antenna range by moving spectrum

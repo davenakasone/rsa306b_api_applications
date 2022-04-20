@@ -6,7 +6,7 @@
 close all;
 clear all;
 clc;
-select = 2;
+select = 1;
 
 %-----------------------------------------------------------------------------------------------------
 if select == 1
@@ -49,7 +49,7 @@ if select == 2
     data_size = temp(1);
 
     skip = 100;
-    %{
+    %
     dots = 1000;
     range_t = [min(t_t, [], "all"), max(t_t, [], "all")];
     buf_t = 0;%(range_t(2) - range_t(1)) / dots;
@@ -66,7 +66,7 @@ if select == 2
     grid on;
     view(45, 25);
     title("In-Phase and Quadrature components of Intermidiate Frequency", FontSize=20);
-    %{
+    %}
     xlim([range_t(1)-buf_t, range_t(2)+buf_t]);
     ylim([range_I(1)-buf_I, range_I(2)+buf_I]);
     zlim([range_Q(1)-buf_Q, range_Q(2)+buf_Q]);
@@ -74,7 +74,7 @@ if select == 2
     xlabel("time (s)", FontSize=10);
     ylabel("I", FontSize=10);
     zlabel("Q", FontSize=10);
-    %{
+    %
     plot3(axis_t, 0*axis_t, 0*axis_t, "k-", LineWidth=2);
     plot3(0*axis_I, axis_I, 0*axis_I, "k-", LineWidth=2);
     plot3(0*axis_Q, 0*axis_Q, axis_Q, "k-", LineWidth=2);
@@ -82,8 +82,8 @@ if select == 2
 
     %plot3(t_t(3), I_t(3), Q_t(3), "r.", LineWidth=5, MarkerSize=10);
     for ii = 1:skip:data_size
-        plot3(t_t, I_t, Q_t, "r-", LineWidth=1);
-        %quiver3(t_t(ii), 0, 0, t_t(ii), I_t(ii), Q_t(ii));
+        %plot3(t_t, I_t, Q_t, "r-", LineWidth=1);
+        quiver3(t_t(ii), 0, 0, t_t(ii), I_t(ii), Q_t(ii));
     end
     hold off;
 end

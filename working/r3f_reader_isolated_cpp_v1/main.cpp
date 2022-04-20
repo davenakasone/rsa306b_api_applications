@@ -17,6 +17,7 @@ void demo_2();    // decode "*r3f" file
 void demo_3();    // process "*.r3f" file
 void demo_4();    // use the "*r3f" to make some data to plot
 
+#define TEST_SELECT 2   // valid tests: 1, 2, 3, 4
 
 int main
 (
@@ -31,10 +32,21 @@ int main
         objSize= sizeof(dummy);
     }
 
-    //demo_1();
-    //demo_2();
-    //demo_3();
-    demo_4();
+    #ifdef TEST_SELECT
+        switch (TEST_SELECT)
+        {
+            case (1) : demo_1(); break;
+            case (2) : demo_2(); break;
+            case (3) : demo_3(); break;
+            case (4) : demo_4(); break;
+        }
+    #else
+        demo_1();
+        demo_2();
+        demo_3();
+        demo_4();
+    #endif
+    
 
     printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~\n");
     #ifdef __clang_major__
