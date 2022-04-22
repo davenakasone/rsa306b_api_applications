@@ -1,0 +1,33 @@
+each class keeps member variables in a struct
+a public struct is initialized
+    changing variables in the public struct does not directly influence the state of the class
+    the public struct was made to assist the user in managing variables required in the API
+    having a public struct simplifies getting, setting, and validating 
+a private struct is initialized
+    the variables in the private struct can only be changed after successful validation
+    having a private struct allows the program to operate even if the user is providing invalid inputs
+public functions are only for user-actions
+    generaly, each class has: 
+        "getter"      , a deep copy of the private struct is made to the public struct
+        "print all"   , to display the values of variables in the private struct
+        "user action" , to accomplish a specific API task; there are no public setters, setting occurs here if needed
+private functions
+    generaly, each class has:
+        "setter"      , API variables are validated before setting
+        "initializer" , variables can safely be placed into a known state
+        "helpers"     , to accomplish tasks designed to be hidden from the user
+
+usually avoided:
+    "protected" members and functions       // not needed
+    virtualization                          // not needed
+    template - meta programming             // only used if STL or Boost uses it
+    polymorphisim                           // not needed
+    raw pointers with dynamic allocation    // let a proven STL or Boost data structure do that
+
+common use:
+    macros activate and deactivate specific sections and features of the program
+    macros provide static values when required
+    a single contructor for a class is prefered (there can only be 1 destructor)
+    explicit naming results in self-commenting code
+    "_*" is used for developers to quickly identify private members and functions
+    every compilation unit has a header file

@@ -1,0 +1,93 @@
+/*
+    printing functions for the "general purpose" group
+
+        public :
+            < 1 >  print_everything()
+            < 2 >  print_constants()
+            < 3 >  print_gp()
+        
+        private :
+            #  none
+*/
+
+#include "../rsa306b_class.h"
+
+
+/*
+    < 1 > public
+    prints class variables and constatns to stdout
+    variables are displayed in current state
+    uses the private struct
+*/
+void rsa306b_class::print_everything()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    this->print_constants();
+    this->print_gp();
+} 
+
+
+////~~~~
+
+
+/*
+    < 2 > public
+    prints class constants to stdout
+*/
+void rsa306b_class::print_constants()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    printf("\nclass constants >>>\n");
+    printf("\tCALL_SUCCESS                          :  %d\n", this->_vars.constants.CALL_SUCCESS);
+    printf("\tCALL_FAILURE                          :  %d\n", this->_vars.constants.CALL_FAILURE);
+    printf("\tINIT_CHAR                             :  %c\n", this->_vars.constants.INIT_CHAR);
+    printf("\tINIT_DOUBLE                           :  %lf\n", this->_vars.constants.INIT_DOUBLE);
+    printf("\tINIT_INT                              :  %d\n", this->_vars.constants.INIT_INT);
+    printf("\tINIT_STR                              :  %s\n", this->_vars.constants.INIT_STR);
+    printf("\tEXTERNAL_FREQUENCY                    :  %lf  Hz\n", this->_vars.constants.EXTERNAL_FREQUENCY);
+    printf("\tEXTERNAL_AMPLITUDE_dbm                :  %lf +/- dbm\n", this->_vars.constants.EXTERNAL_AMPLITUDE_dbm);
+    printf("\tREFERENCE_LEVEL_MAX_dbm               :  %lf  dbm\n", this->_vars.constants.REFERENCE_LEVEL_MAX_dbm);
+    printf("\tREFERENCE_LEVEL_MIN_dbm               :  %lf  dbm\n", this->_vars.constants.REFERENCE_LEVEL_MIN_dbm);
+    printf("\tSPAN_MAX_Hz                           :  %lf  Hz\n", this->_vars.constants.SPAN_MAX_Hz);
+    printf("\tSPAN_MIN_Hz                           :  %lf  Hz\n", this->_vars.constants.SPAN_MIN_Hz);
+    printf("\tPOSITION_PERCENT_MAX                  :  %lf  Hz\n", this->_vars.constants.POSITION_PERCENT_MAX);
+    printf("\tPOSITION_PERCENT_MIN                  :  %lf  Hz\n", this->_vars.constants.POSITION_PERCENT_MIN);
+    printf("\tAUDIO_VOLUME_MAX                      :  %f\n", this->_vars.constants.AUDIO_VOLUME_MAX);
+    printf("\tAUDIO_VOLUME_MIN                      :  %f\n", this->_vars.constants.AUDIO_VOLUME_MIN);
+    printf("\tAUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz  :  %lf\n", this->_vars.constants.AUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz);
+    printf("\tAUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz  :  %lf\n", this->_vars.constants.AUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz);
+}
+
+
+////~~~~
+
+
+/*
+    < 3 > public
+    prints "gp" group variables to stdout
+*/
+void rsa306b_class::print_gp()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    printf("\ngeneral purpose >>>\n");
+    printf("\terror code   :  %s\n", this->_vars.gp.error_code);
+    printf("\thelper       :  %s\n", this->_vars.gp.helper);
+    printf("\tholder       :  %s\n", this->_vars.gp.holder);
+    printf("\tcall status  :  %d\n", this->_vars.gp.call_status);
+    printf("\tAPI status   :  %d\n", (int)this->_vars.gp.api_status);
+}
+
+
+////////~~~~~~~~END>  rsa306b_print_constants.cpp
