@@ -27,7 +27,9 @@ void rsa306b_class::_init_everything()
 
     this->_gp_init();
 
-    this->get_everything();
+    this->_device_init();
+
+    this->_align_init();
 }
 
 
@@ -46,13 +48,15 @@ void rsa306b_class::_gp_init()
 #endif
 
     memset(this->_vars.gp.helper, '\0', BUF_E);
+    strncpy(this->_vars.gp.helper, this->_vars.constants.INIT_STR, BUF_E-1);
+
     memset(this->_vars.gp.holder, '\0', BUF_F);
-    memset(this->_vars.gp.error_code, '\0', BUF_D);
-    strcpy(this->_vars.gp.helper, this->_vars.constants.INIT_STR);
-    strcpy(this->_vars.gp.holder, this->_vars.constants.INIT_STR);
-    strcpy(this->_vars.gp.error_code, this->_vars.constants.INIT_STR);
+    strncpy(this->_vars.gp.holder, this->_vars.constants.INIT_STR, BUF_F-1);
+
     this->_vars.gp.api_status = RSA_API::noError;
     this->_vars.gp.call_status = this->_vars.constants.CALL_SUCCESS;
+
+    this->_gp_copy_vars();
 }
 
 

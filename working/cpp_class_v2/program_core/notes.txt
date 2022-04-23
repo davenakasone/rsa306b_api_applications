@@ -1,21 +1,17 @@
-each class keeps member variables in a struct
-a public struct is initialized
-    changing variables in the public struct does not directly influence the state of the class
-    the public struct was made to assist the user in managing variables required in the API
-    having a public struct simplifies getting, setting, and validating 
-a private struct is initialized
-    the variables in the private struct can only be changed after successful validation
-    having a private struct allows the program to operate even if the user is providing invalid inputs
-public functions are only for user-actions
-    generaly, each class has: 
-        "getter"      , a deep copy of the private struct is made to the public struct
-        "print all"   , to display the values of variables in the private struct
-        "user action" , to accomplish a specific API task; there are no public setters, setting occurs here if needed
-private functions
-    generaly, each class has:
-        "setter"      , API variables are validated before setting
-        "initializer" , variables can safely be placed into a known state
-        "helpers"     , to accomplish tasks designed to be hidden from the user
+The API manages a complex instrument
+It is not ideal for every user to be familiar with the procedure for making API calls
+Some procedures require 20-37 API function calls to accomplish a single task
+
+There is a "rsa306b_class" object to handle abstract the API
+This class exposes the API capabilities, while enforcing correct operation
+Speed is important for operating this instrument, and was a priority for the archetecture of the class
+The class provides a robust framework to build on; new features can be easily added
+
+The "cpu_timer_class" measures processing time required
+It is helpful to gauge use cases and not create conditions where failure occurs
+A CPU timer was required because the API only uses "time_t" data types (measures wall-clock)
+
+
 
 usually avoided:
     "protected" members and functions       // not needed

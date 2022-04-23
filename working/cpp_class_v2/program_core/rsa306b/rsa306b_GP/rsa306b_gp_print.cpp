@@ -28,6 +28,8 @@ void rsa306b_class::print_everything()
 
     this->print_constants();
     this->print_gp();
+    this->print_align();
+    this->print_device();
 } 
 
 
@@ -45,7 +47,7 @@ void rsa306b_class::print_constants()
         __LINE__, __FILE__, __func__);
 #endif
 
-    printf("\nclass constants >>>\n");
+    printf("\n'constants' group >>>\n");
     printf("\tCALL_SUCCESS                          :  %d\n", this->_vars.constants.CALL_SUCCESS);
     printf("\tCALL_FAILURE                          :  %d\n", this->_vars.constants.CALL_FAILURE);
     printf("\tINIT_CHAR                             :  %c\n", this->_vars.constants.INIT_CHAR);
@@ -81,8 +83,7 @@ void rsa306b_class::print_gp()
         __LINE__, __FILE__, __func__);
 #endif
 
-    printf("\ngeneral purpose >>>\n");
-    printf("\terror code   :  %s\n", this->_vars.gp.error_code);
+    printf("\n'general purpose' group >>>\n");
     printf("\thelper       :  %s\n", this->_vars.gp.helper);
     printf("\tholder       :  %s\n", this->_vars.gp.holder);
     printf("\tcall status  :  %d\n", this->_vars.gp.call_status);

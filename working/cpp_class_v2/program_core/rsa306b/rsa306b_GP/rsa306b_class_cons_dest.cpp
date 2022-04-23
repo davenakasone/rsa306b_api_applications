@@ -32,6 +32,7 @@ rsa306b_class::~rsa306b_class()
     printf("\n\tinstance destroyed\n");
 #endif
 
+    this->device_disconnect();
 }
 
 

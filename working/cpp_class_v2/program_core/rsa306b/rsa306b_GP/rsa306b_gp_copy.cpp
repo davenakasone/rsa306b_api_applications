@@ -8,11 +8,10 @@
         
         private :
             < 1 >  _gp_copy_vars()
-            < 2 >  _gp_copy_vars_error_code()
-            < 3 >  _gp_copy_vars_helper()
-            < 4 >  _gp_copy_vars_holder()
-            < 5 >  _gp_copy_vars_call_status()
-            < 6 >  _gp_copy_vars_api_status()
+            < 2 >  _gp_copy_helper()
+            < 3 >  _gp_copy_holder()
+            < 4 >  _gp_copy_call_status()
+            < 5 >  _gp_copy_api_status()
 */
 
 #include "../rsa306b_class.h"
@@ -33,6 +32,10 @@ void rsa306b_class::get_everything()
 #endif
 
     this->_gp_copy_vars(); 
+
+    this->_device_copy_vars();
+
+    this->_align_copy_vars();
 }
 
 ////~~~~
@@ -49,12 +52,11 @@ void rsa306b_class::_gp_copy_vars()
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif
-
-    this->_gp_copy_vars_error_code();    
-    this->_gp_copy_vars_helper();
-    this->_gp_copy_vars_holder();
-    this->_gp_copy_vars_call_status();
-    this->_gp_copy_vars_api_status();
+  
+    this->_gp_copy_helper();
+    this->_gp_copy_holder();
+    this->_gp_copy_call_status();
+    this->_gp_copy_api_status();
 }
 
 
@@ -64,24 +66,7 @@ void rsa306b_class::_gp_copy_vars()
 /*
     < 2 > private
 */
-void rsa306b_class::_gp_copy_vars_error_code()
-{
-#ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
-        __LINE__, __FILE__, __func__);
-#endif
-
-    strcpy(this->vars.gp.error_code, this->_vars.gp.error_code);
-}
-
-
-////~~~~
-
-
-/*
-    < 3 > private
-*/
-void rsa306b_class::_gp_copy_vars_helper()
+void rsa306b_class::_gp_copy_helper()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -96,9 +81,9 @@ void rsa306b_class::_gp_copy_vars_helper()
 
 
 /*
-    < 4 > private
+    < 3 > private
 */
-void rsa306b_class::_gp_copy_vars_holder()
+void rsa306b_class::_gp_copy_holder()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -113,9 +98,9 @@ void rsa306b_class::_gp_copy_vars_holder()
 
 
 /*
-    < 5 > private
+    < 4 > private
 */
-void rsa306b_class::_gp_copy_vars_call_status()
+void rsa306b_class::_gp_copy_call_status()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -130,9 +115,9 @@ void rsa306b_class::_gp_copy_vars_call_status()
 
 
 /*
-    < 6 > private
+    < 5 > private
 */
-void rsa306b_class::_gp_copy_vars_api_status()
+void rsa306b_class::_gp_copy_api_status()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",

@@ -1,5 +1,9 @@
 /*
     test the CPU timer
+        had to make a CPU timer to observe the clock
+        API only uses time_t, this class uses clock_t
+    
+    clock_t handles the "processing time" required
 */
 
 #include "../testz.h"
@@ -23,8 +27,8 @@ void task_998()
         cpu.print_time_split();
         cpu.print_running_time();
     }
-
     printf("\n%s()  ,  test complete\n", __func__);
 }
+
 
 /////////~~~~~~~~END>  task_998.cpp

@@ -10,6 +10,8 @@ TDIR = ./program_test/
 TDIR_IO = data/
 TDIR_U = $(TDIR)units/
 TDIR_T = $(TDIR)tasks/
+BLANK_IO = clear.txt
+BLANK_MSG = directory cleared
 
 EXEC = oo
 CFLAGS = -Wall -lpthread -std=c++14 -I $(IDIR)
@@ -18,7 +20,7 @@ LDLIBS = -lRSA_API
 LDLIUSBS = -lcyusb_shared
 
 OUTPUTS_BIN = $(TDIR)$(TDIR_IO)outputs_bin/
-OUTPUTS_R3F = $(TDIR)$(TDIR_IO)outputs_dpx/
+OUTPUTS_DPX = $(TDIR)$(TDIR_IO)outputs_dpx/
 OUTPUTS_R3F = $(TDIR)$(TDIR_IO)outputs_r3f/
 OUTPUTS_SIG = $(TDIR)$(TDIR_IO)outputs_sig/
 OUTPUTS_TXT = $(TDIR)$(TDIR_IO)outputs_txt/
@@ -32,7 +34,15 @@ INPUTS_TXT = $(TDIR)$(TDIR_IO)inputs_txt/
 SOURCE_FILES = $(SDIR)main.cpp \
 $(SDIR)control/globalz.cpp \
 $(SDIR)cpu_timer/cpu_timer_class.cpp \
+$(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_get_copy.cpp \
+$(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_print_init.cpp \
+$(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_user.cpp \
 $(SDIR)rsa306b/rsa306b_CONST/rsa306b_constants_cons_dest.cpp \
+$(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_copy.cpp \
+$(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_get.cpp \
+$(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_print_init.cpp \
+$(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_user1.cpp \
+$(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_user2.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_class_cons_dest.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_confirm.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_copy.cpp \
@@ -41,6 +51,8 @@ $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_print.cpp \
 $(TDIR_T)task_998.cpp \
 $(TDIR_T)task_999.cpp \
 $(TDIR_U)unit_test_1.cpp \
+$(TDIR_U)unit_test_2.cpp \
+$(TDIR_U)unit_test_3.cpp \
 $(TDIR)test_selector.cpp \
 $(TDIR)unit_test_0.cpp \
 $(TDIR)wait_enter_clear.cpp
@@ -53,7 +65,8 @@ $(TDIR)wait_enter_clear.cpp
 raw :
 	clear
 	rm -f $(EXEC)
-	$(CC) -o $(EXEC) $(CFLAGS) $(SOURCE_FILES) $(LDFLAGS) $(LDLIBS) $(LDLIUSBS) 	
+	$(CC) -o $(EXEC) $(CFLAGS) $(SOURCE_FILES) $(LDFLAGS) $(LDLIBS) $(LDLIUSBS)
+	clear	
 	@echo [ ${EXEC} ] compiled 
 	@echo "...copy and paste in terminal:"
 	export LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(LDIR)
@@ -70,15 +83,22 @@ clear_outputs :
 	clear
 	rm -f $(EXEC)
 	rm -rf $(OUTPUTS_BIN)
-	mkdir $(OUTPUTS_BIN)potatoe.txt
 	rm -rf $(OUTPUTS_DPX)
-	mkdir $(OUTPUTS_DPX)potatoe.txt
 	rm -rf $(OUTPUTS_R3F)
-	mkdir $(OUTPUTS_R3F)potatoe.txt
 	rm -rf $(OUTPUTS_SIG)
-	mkdir $(OUTPUTS_SIG)potatoe.txt
 	rm -rf $(OUTPUTS_TXT)
-	mkdir $(OUTPUTS_TXT)potatoe.txt
+	mkdir $(OUTPUTS_BIN)
+	mkdir $(OUTPUTS_DPX)
+	mkdir $(OUTPUTS_R3F)
+	mkdir $(OUTPUTS_SIG)
+	mkdir $(OUTPUTS_TXT)
+	printf '$(BLANK_MSG)' > $(OUTPUTS_BIN)$(BLANK_IO)
+	printf '$(BLANK_MSG)' > $(OUTPUTS_DPX)$(BLANK_IO)
+	printf '$(BLANK_MSG)' > $(OUTPUTS_R3F)$(BLANK_IO)
+	printf '$(BLANK_MSG)' > $(OUTPUTS_SIG)$(BLANK_IO)
+	printf '$(BLANK_MSG)' > $(OUTPUTS_TXT)$(BLANK_IO)
+	clear
+	@echo 'outputs are cleared'
 
 
 # stdout is cleared
@@ -91,34 +111,28 @@ clear_inputs :
 	clear
 	rm -f $(EXEC)
 	rm -rf $(INPUTS_BIN)
-	mkdir $(INPUTS_BIN)potatoe.txt
 	rm -rf $(INPUTS_DPX)
-	mkdir $(INPUTS_DPX)potatoe.txt
 	rm -rf $(INPUTS_R3F)
-	mkdir $(INPUTS_R3F)potatoe.txt
 	rm -rf $(INPUTS_SIG)
-	mkdir $(INPUTS_SIG)potatoe.txt
 	rm -rf $(INPUTS_TXT)
-	mkdir $(INPUTS_TXT)potatoe.txt
+	mkdir $(INPUTS_BIN)
+	mkdir $(INPUTS_DPX)
+	mkdir $(INPUTS_R3F)
+	mkdir $(INPUTS_SIG)
+	mkdir $(INPUTS_TXT)
+	printf '$(BLANK_MSG)' > $(INPUTS_BIN)$(BLANK_IO)
+	printf '$(BLANK_MSG)' > $(INPUTS_DPX)$(BLANK_IO)
+	printf '$(BLANK_MSG)' > $(INPUTS_R3F)$(BLANK_IO)
+	printf '$(BLANK_MSG)' > $(INPUTS_SIG)$(BLANK_IO)
+	printf '$(BLANK_MSG)' > $(INPUTS_TXT)$(BLANK_IO)
+	clear
+	@echo 'inputs are cleared'
 
 
 # stdout is cleared
 # the executable is deleted
 # input and output file directories are deleted, removing all output files
-# empty output file directories are made
-# empty input file directories are made
 # issue "make clean" if files are too large for github
-clean :
+clean : clear_inputs clear_outputs
 	clear
-	rm -f $(EXEC)
-	rm -rf $(TDIR)$(TDIR_IO)
-	mkdir $(OUTPUTS_BIN)potatoe.txt
-	mkdir $(OUTPUTS_DPX)potatoe.txt
-	mkdir $(OUTPUTS_R3F)potatoe.txt
-	mkdir $(OUTPUTS_SIG)potatoe.txt
-	mkdir $(OUTPUTS_TXT)potatoe.txt
-	mkdir $(INPUTS_BIN)potatoe.txt
-	mkdir $(INPUTS_DPX)potatoe.txt
-	mkdir $(INPUTS_R3F)potatoe.txt
-	mkdir $(INPUTS_SIG)potatoe.txt
-	mkdir $(INPUTS_TXT)potatoe.txt
+	@echo 'inputs and outputs are cleared'

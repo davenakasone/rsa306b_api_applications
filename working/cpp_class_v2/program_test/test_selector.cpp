@@ -17,6 +17,8 @@ void test_selector
     switch (test_number)
     {
         case (1)   : unit_test_1()  ; break;
+        case (2)   : unit_test_2()  ; break;
+        case (3)   : unit_test_3()  ; break;
 
         case (998) : task_998() ; break;
         case (999) : task_999() ; break;

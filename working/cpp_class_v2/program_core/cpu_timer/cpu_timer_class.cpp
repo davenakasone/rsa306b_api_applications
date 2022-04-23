@@ -84,7 +84,7 @@ void cpu_timer_class::time_split_stop()
 */
 void cpu_timer_class::print_time_split()
 {
-    printf("\ntime split:  %lf seconds\n", 
+    printf("\nCPU processing time during interval:  %0.12lf seconds\n", 
         this->_split);
 }
 
@@ -98,7 +98,7 @@ void cpu_timer_class::print_time_split()
 void cpu_timer_class::print_running_time()
 {
     this->get_running_time();
-    printf("\ntotal running time:  %lf seconds\n", 
+    printf("\nCPU total processing time:  %0.12lf seconds\n", 
         this->_running);
 }
 

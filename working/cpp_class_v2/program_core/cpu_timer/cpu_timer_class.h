@@ -2,6 +2,8 @@
     timer to supplement the API timing capbility
     the API does not monitor the CPU clock
     use an instance of this object as another reference for timing considerations
+
+    "processing time" required, not wall clock
 */
 
 #include "../control/resourcez.h"

@@ -28,10 +28,12 @@ void test_selector (int test_number);    // controls the unit test being perform
 void wait_enter_clear (void);            // flow separation between unit tests
 void unit_test_0 (void);                 // place holder, default
 
-void unit_test_1   (void);    // 
+void unit_test_1   (void);    // test 'general purpose' section
+void unit_test_2   (void);    // test 'DEVICE' section
+void unit_test_3   (void);    // test 'DEVICE' section
 
 void task_998 (void);    // test the cpu_timer_class
-void task_999 (void);    // basic restructuring          
+void task_999 (void);    // test bench          
 
 
 #endif

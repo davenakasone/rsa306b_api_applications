@@ -1,5 +1,5 @@
 /*
-    unit test # 999, "catch all"
+    unit test # 0, "catch all"
 
     goals:
         - 
@@ -17,6 +17,9 @@ void unit_test_0 (void)
 {
     printf("\n%s()  ,  a test template\n", __func__);
     {
+        rsa306b_class rsa;
+        cpu_timer_class cpu;
+        
         printf("\n\ttest executes...\n");
     }
     printf("\n%s()  ,  test complete\n", __func__);
