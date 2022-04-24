@@ -27,7 +27,7 @@ void rsa306b_class::align_run()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\tno device connected\n");
         #endif
         return;
@@ -36,7 +36,7 @@ void rsa306b_class::align_run()
     this->_align_get_is_needed();
     if (this->_vars.align.is_needed == false)
     {
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\tdevice was already aligned\n");
         #endif
         return;
@@ -63,7 +63,7 @@ void rsa306b_class::align_check_is_needed()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\tno device connected\n");
         #endif
         return;
@@ -88,7 +88,7 @@ void rsa306b_class::align_check_is_warmed()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\tno device connected\n");
         #endif
         return;

@@ -37,6 +37,11 @@ $(SDIR)cpu_timer/cpu_timer_class.cpp \
 $(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_get_copy.cpp \
 $(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_print_init.cpp \
 $(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_user.cpp \
+$(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_copy.cpp \
+$(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_get.cpp \
+$(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_print_init.cpp \
+$(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_set.cpp \
+$(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_user.cpp \
 $(SDIR)rsa306b/rsa306b_CONST/rsa306b_constants_cons_dest.cpp \
 $(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_copy.cpp \
 $(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_get.cpp \
@@ -48,11 +53,23 @@ $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_confirm.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_copy.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_init.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_print.cpp \
+$(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_copy.cpp \
+$(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_get.cpp \
+$(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_print_init.cpp \
+$(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_user.cpp \
+$(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_copy.cpp \
+$(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_get.cpp \
+$(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_print_init.cpp \
+$(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_set.cpp \
+$(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_user.cpp \
 $(TDIR_T)task_998.cpp \
 $(TDIR_T)task_999.cpp \
 $(TDIR_U)unit_test_1.cpp \
 $(TDIR_U)unit_test_2.cpp \
 $(TDIR_U)unit_test_3.cpp \
+$(TDIR_U)unit_test_4.cpp \
+$(TDIR_U)unit_test_5.cpp \
+$(TDIR_U)unit_test_6.cpp \
 $(TDIR)test_selector.cpp \
 $(TDIR)unit_test_0.cpp \
 $(TDIR)wait_enter_clear.cpp
@@ -65,8 +82,7 @@ $(TDIR)wait_enter_clear.cpp
 raw :
 	clear
 	rm -f $(EXEC)
-	$(CC) -o $(EXEC) $(CFLAGS) $(SOURCE_FILES) $(LDFLAGS) $(LDLIBS) $(LDLIUSBS)
-	clear	
+	$(CC) -o $(EXEC) $(CFLAGS) $(SOURCE_FILES) $(LDFLAGS) $(LDLIBS) $(LDLIUSBS)	
 	@echo [ ${EXEC} ] compiled 
 	@echo "...copy and paste in terminal:"
 	export LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(LDIR)

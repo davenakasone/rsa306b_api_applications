@@ -27,9 +27,15 @@ void rsa306b_class::_init_everything()
 
     this->_gp_init();
 
+    this->_align_init();
+
+    this->_audio_init();
+
     this->_device_init();
 
-    this->_align_init();
+    this->_reftime_init();
+    
+    this->_trig_init();
 }
 
 

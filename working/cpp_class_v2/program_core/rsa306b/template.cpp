@@ -39,7 +39,7 @@ void rsa306b_class::xxx()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\tno device connected\n");
         #endif
         return;

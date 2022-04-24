@@ -7,6 +7,7 @@
     private :
         < 1 >  _gp_confirm_api_status()
         < 2 >  _gp_confirm_call_status()
+        < 3 >  _gp_confirm_return()
 */
 
 #include "../rsa306b_class.h"
@@ -28,7 +29,7 @@ void rsa306b_class::_gp_confirm_api_status()
 
     if (this->_vars.gp.api_status != RSA_API::noError)
     {
-        #if defined (DEBUG_ERR) || (DEBUG_MIN)
+        #if defined (DEBUG_ERR) || (DEBUG_MIN) || (DEBUG_MAX)
             this->_device_get_error_string();
             printf("\n\t###   !!!   API ERROR   !!!   ###   %s\n", 
                 this->_vars.device.error_string);
@@ -57,11 +58,36 @@ void rsa306b_class::_gp_confirm_call_status()
     if (this->_vars.gp.call_status      != 
         this->_vars.constants.CALL_SUCCESS)
     {
-        #if defined (DEBUG_ERR) || (DEBUG_MIN)
+        #if defined (DEBUG_ERR) || (DEBUG_MIN) || (DEBUG_MAX)
             printf("\n\t###   !!! ERROR  IN THE OBJECT !!!   ###\n");
         #endif
     }
     this->_gp_copy_call_status();
+}
+
+
+////~~~~
+
+
+/*
+    private < 3 >
+    uses API state to select an internal return value
+*/
+int rsa306b_class::_gp_confirm_return()
+{
+#ifdef DEBUG_ERR
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    if (this->_vars.gp.api_status == RSA_API::noError)
+    {
+        return this->_vars.constants.CALL_SUCCESS;
+    }
+    else
+    {
+        return this->_vars.constants.CALL_FAILURE;
+    }
 }
 
 

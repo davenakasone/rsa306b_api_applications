@@ -27,9 +27,20 @@ void rsa306b_class::print_everything()
 #endif
 
     this->print_constants();
+
     this->print_gp();
+    
     this->print_align();
+    
+    this->print_audio();
+
     this->print_device();
+
+    this->print_reftime();
+
+    this->print_trig();
+
+    // INSERT
 } 
 
 
@@ -53,6 +64,7 @@ void rsa306b_class::print_constants()
     printf("\tINIT_CHAR                             :  %c\n", this->_vars.constants.INIT_CHAR);
     printf("\tINIT_DOUBLE                           :  %lf\n", this->_vars.constants.INIT_DOUBLE);
     printf("\tINIT_INT                              :  %d\n", this->_vars.constants.INIT_INT);
+    printf("\tINIT_UINT                             :  %u\n", this->_vars.constants.INIT_UINT);
     printf("\tINIT_STR                              :  %s\n", this->_vars.constants.INIT_STR);
     printf("\tEXTERNAL_FREQUENCY                    :  %lf  Hz\n", this->_vars.constants.EXTERNAL_FREQUENCY);
     printf("\tEXTERNAL_AMPLITUDE_dbm                :  %lf +/- dbm\n", this->_vars.constants.EXTERNAL_AMPLITUDE_dbm);

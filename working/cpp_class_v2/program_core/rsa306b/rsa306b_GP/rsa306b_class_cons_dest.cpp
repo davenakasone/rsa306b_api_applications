@@ -11,7 +11,7 @@ rsa306b_class::rsa306b_class()
     printf("\n<%d> %s/%s(),  constructor\n",
         __LINE__, __FILE__, __func__);
 #endif
-#ifdef DEBUG_MIN
+#ifdef DEBUG_MAX
     printf("\n\tinstance constructed\n");
 #endif
 
@@ -28,7 +28,7 @@ rsa306b_class::~rsa306b_class()
     printf("\n<%d> %s/%s(),  destructor\n",
         __LINE__, __FILE__, __func__);
 #endif
-#ifdef DEBUG_MIN
+#ifdef DEBUG_MAX
     printf("\n\tinstance destroyed\n");
 #endif
 

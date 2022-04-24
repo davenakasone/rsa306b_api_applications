@@ -24,7 +24,7 @@ void rsa306b_class::print_device()
         __LINE__, __FILE__, __func__);
 #endif
 
-    printf("\n'DEVICE' group:\n");
+    printf("\n'DEVICE' group >>>\n");
     printf("\tis connected         :  %d\n", this->_vars.device.is_connected);
     printf("\tis running           :  %d\n", this->_vars.device.is_running);
     printf("\tis over temperature  :  %d\n", this->_vars.device.is_over_temperature);

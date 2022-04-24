@@ -31,7 +31,7 @@ void rsa306b_class::device_connect()
 
     if (this->_vars.device.is_connected == true)
     {
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\tdevice already connected\n");
         #endif
         return;
@@ -89,10 +89,10 @@ void rsa306b_class::device_connect()
     #ifdef DEBUG_MIN
         printf("\n\t^^^ CONNECTED ^^^\n");
     #endif
-    this->_device_get_vars();
-    //
-    ///
-    ////
+
+    this->align_run();
+
+    this->get_everything();
 }
 
 
@@ -113,9 +113,10 @@ void rsa306b_class::device_disconnect()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\tdevice already disconnected\n");
         #endif
+        this->_init_everything();
         return;
     }
     this->device_stop();
@@ -157,7 +158,7 @@ void rsa306b_class::device_run()
     }
     if (this->_vars.device.is_running == true)
     {
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\tdevice already running\n");
         #endif
         return;
@@ -192,7 +193,7 @@ void rsa306b_class::device_stop()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\tno device connected\n");
         #endif
         return;
@@ -200,7 +201,7 @@ void rsa306b_class::device_stop()
     this->_device_get_is_running();
     if (this->_vars.device.is_running == false)
     {
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\tdevice was already stopped\n");
         #endif
         return;
@@ -235,7 +236,7 @@ void rsa306b_class::device_reset()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\tno device connected\n");
         #endif
         return;

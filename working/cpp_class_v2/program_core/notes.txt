@@ -11,12 +11,10 @@ The "cpu_timer_class" measures processing time required
 It is helpful to gauge use cases and not create conditions where failure occurs
 A CPU timer was required because the API only uses "time_t" data types (measures wall-clock)
 
-
-
 usually avoided:
     "protected" members and functions       // not needed
     virtualization                          // not needed
-    template - meta programming             // only used if STL or Boost uses it
+    template - meta programming             // only used if STL or if Boost uses it
     polymorphisim                           // not needed
     raw pointers with dynamic allocation    // let a proven STL or Boost data structure do that
 
@@ -27,3 +25,11 @@ common use:
     explicit naming results in self-commenting code
     "_*" is used for developers to quickly identify private members and functions
     every compilation unit has a header file
+    an API enum will be called "*_select"
+    an API struct will be called "*_type"
+
+the "TRIG" group has 2 functions that are not documented:
+    RSA_API_DLL ReturnStatus TRIG_SetTriggerTime(time_t startTimeSec, uint64_t startTimeNsec, uint64_t repeatTimeNsec);
+	RSA_API_DLL ReturnStatus TRIG_GetTriggerTime(time_t* startTimeSec, uint64_t* startTimeNsec, uint64_t* repeatTimeNsec);
+not sure if they work with the RSA306b, find out 
+

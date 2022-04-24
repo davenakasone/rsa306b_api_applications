@@ -28,6 +28,7 @@ class rsa306b_constants_class
         const double INIT_DOUBLE = -99.123;
         const float INIT_FLOAT = -99.4;
         const int INIT_INT = -99;
+        const uint8_t INIT_UINT = 99;
 
         // device limits for the RSA-306B
         const double EXTERNAL_FREQUENCY = 10e6;                       // external reference frequency, required

@@ -23,7 +23,8 @@
 
 //#define DEBUG_CLI 1776    // when activated, prints __LINE__, __FILE__, __func__ for each call
 #define DEBUG_MIN 1917    // when activated, prints essential information
-//#define DEBUG_ERR 1492    // when activated, prints *_error_checks() that result in an API error condition
+//#define DEBUG_MAX 1787    // when activated, prints additional information (keep DEBUG_MIN on if using)
+//#define DEBUG_ERR 1492    // when activated, prints the occurance of API and class "call checks"
 
 #define BUF_A 32                    // a short general purpose buffer
 #define BUF_B 64                    // ..
@@ -32,8 +33,8 @@
 #define BUF_E 512                   // .....
 #define BUF_F 1024                  // a long general purpose buffer
 
-#define SPECTRUM_DATA_LENGTH 2048   // spectrum aquisitions, stops need for dynamic allocation, trying dynamic first?
-#define AUDIO_DATA_LENGTH 65535     // audio data points, 2^16 - 1
+#define SPECTRUM_DATA_LENGTH 2048       // spectrum aquisitions, go dynamic if needed
+#define AUDIO_DATA_LENGTH_MAX 65535     // maximum audio data points, 2^16 - 1, go dynamic if needed
 
 
 #endif

@@ -10,8 +10,6 @@
     see documentation for general details
     see the test section for examples 
 
-
-
     Class source files, 
     
         "./program_core/rsa306b"
@@ -29,6 +27,7 @@
             - rsa306b_gp_confirm.cpp
                 _gp_confirm_api_status()
                 _gp_confirm_call_status()
+                _gp_confirm_return()
             - rsa306b_gp_copy.cpp
                 get_everything()
                 _gp_copy_vars()
@@ -53,7 +52,7 @@
         
         "./program_core/rsa306b/rsa306_ALIGN"
             - rsa306b_align_struct.h
-                struct rsa306b_align_struct.h
+                struct rsa306b_align_struct
             - rsa306b_align_print_init.cpp
                 print_align()
                 _align_init()
@@ -68,10 +67,45 @@
                 align_run()
                 align_check_is_needed()
                 align_check_is_warmed()
+        
+        "./program_core/rsa306b/rsa306_AUDIO"
+            - rsa306b_audio_struct.h
+                struct rsa306b_audio_struct
+            - rsa306b_audio_print_init.cpp
+                print_audio()
+                _audio_init()
+            - rsa306b_audio_copy.cpp
+                _audio_copy_vars()
+                _audio_copy_is_demodulating()
+                _audio_copy_is_mute()
+                _audio_copy_frequecny_offset_hz()
+                _audio_copy_volume()
+                _audio_copy_demodulation_select()
+                _audio_copy_data()
+                _audio_copy_data_samples_requested()
+                _audio_copy_data_samples_output()
+            - rsa306b_audio_get.cpp
+                _audio_get_vars()
+                _audio_get_is_demodulating()
+                _audio_get_is_mute()
+                _audio_get_frequency_offset_hz()
+                _audio_get_volume()
+                _audio_get_demodulation_select()
+                _audio_get_data()
+            - rsa306b_audio_set.cpp
+                _audio_set_vars()
+                _audio_set_is_mute()
+                _audio_set_frequency_offset_hz()
+                _audio_set_volume()
+                _audio_set_demodulation_select()
+                _audio_set_data_samples_requested()
+            - rsa306b_audio_user.cpp
+                audio_set_vars()
+                audio_acquire_data()
 
         "./program_core/rsa306b/rsa306_DEVICE/"
             - rsa306b_device_struct.h
-                struct rsa306b_device_struct.h
+                struct rsa306b_device_struct
             - rsa306b_device_print_init.cpp
                 print_device()
                 _device_init()
@@ -105,6 +139,77 @@
                 device_check_event()
                 device_prepare_for_run()
                 device_start_frame_transfer()
+
+        "./program_core/rsa306b/rsa306_REFTIME/"
+            - rsa306b_reftime_struct.h
+                struct rsa306b_reftime_struct
+                struct reftime_type
+            - rsa306b_reftime_print_init.cpp
+                print_reftime()
+                _reftime_init()
+            - rsa306b_reftime_copy.cpp
+                _reftime_copy_vars()
+                _reftime_copy_current()
+                _reftime_copy_start()
+                _reftime_copy_helper()
+                _reftime_copy_dts()
+                _reftime_copy_running_duration()
+                _reftime_copy_split_duration()
+                _reftime_copy_split_trail()
+                _reftime_copy_source_select()
+                _reftime_copy_timestamp_rate()
+            - rsa306b_reftime_get.cpp
+                _reftime_get_vars()
+                _reftime_get_current()
+                _reftime_get_start()
+                _reftime_get_running_duration()
+                _reftime_get_source_select()
+                _reftime_get_timestamp_rate()
+            - rsa306b_reftime_user.cpp
+                reftime_reset()
+                reftime_get_vars()
+                reftime_timestamp_2_time()
+                reftime_time_2_timestamp()
+                reftime_make_dts()
+                reftime_split_begin()
+                reftime_split_end()
+
+
+
+
+
+        "./program_core/rsa306b/rsa306_TRIG/"
+            - rsa306b_trig_struct.h
+                struct rsa306b_trig_struct
+            - rsa306b_trig_print_init.cpp
+                print_trig()
+                _trig_init()
+            - rsa306b_trig_copy.cpp
+                _trig_copy_vars()
+                _trig_copy_if_power_level()
+                _trig_copy_mode_select()
+                _trig_copy_position_percent()
+                _trig_copy_source_select()
+                _trig_copy_transition_select()
+            - rsa306b_trig_get.cpp
+                _trig_get_vars()
+                _trig_get_if_power_level()
+                _trig_get_mode_select()
+                _trig_get_position_percent()
+                _trig_get_source_select()
+                _trig_get_transition_select()
+            - rsa306b_trig_set.cpp
+                _trig_set_vars()
+                _trig_set_if_power_level()
+                _trig_set_mode_select()
+                _trig_set_position_percent()
+                _trig_set_source_select()
+                _trig_set_transition_select()
+            - rsa306b_trig_user.cpp
+                trig_set_vars()
+                trig_force()
+
+// INSERT POINTS: device_connect(), _init_everything(), print_everything(), get_everything()
 
 
     Purpose of this class:
@@ -156,6 +261,11 @@ class rsa306b_class
         void align_check_is_needed();    // see if the spectrum analyzer needs to be aligned
         void align_check_is_warmed();    // see if the spectrum analyser is warmed-up
         void align_run();                // execute the device alignment procedure
+    
+    // API group "AUDIO"
+        void print_audio();           // prints the "AUDIO" variables to stdout, using the private struct
+        void audio_set_vars();        // user changes "AUDIO" variables in public struct, then calls to set new values
+        void audio_acquire_data();    // audio demodulation produces data, automatic start/stop
 
     // API group "DEVICE"
         void print_device();                   // prints the "DEVICE" variables to stdout, using the private struct
@@ -169,9 +279,23 @@ class rsa306b_class
         void device_check_event();             // determine if an event occurred {0: ADC overange, 1: trigger}
         void device_prepare_for_run();         // make the device ready to run / trigger
         void device_start_frame_transfer();    // initiates run, data transfer begins
+    
+    // API group "REFTIME"
+        void print_reftime();  // prints the "REFTIME" variables to stdout, using the private struct
+        void reftime_reset();  // resets start time of the device
+        void reftime_get_vars(); // gets all the "REFTIME" variables, time split and dts are not updated
+        void reftime_timestamp_2_time(); // set "vars.reftime.helper.timestamp", then call, updates time_t and uint64_t
+        void reftime_time_2_timestamp(); // set "vars.reftime.helper.seconds  and nanos", then call, updates timestamp
+        void reftime_make_dts(); // makes a date time stamp using the current time
+        void reftime_split_begin(); // split start is marked
+        void reftime_split_end(); // split stop is marked, "vars.reftime.split_duration" is updated
+
+    // API group "TRIG"
+        void print_trig();       // prints the "TRIG" variables to stdout, using the private struct
+        void trig_set_vars();    // user changes "TRIG" variables in public struct, then calls to set new values
+        void trig_force();       // a trigger event is forced, user calls "device_run()" before and "device_stop()" after
 
         
-
     private : 
 
         rsa306b_struct _vars;    // private variables
@@ -182,6 +306,7 @@ class rsa306b_class
         // monitor the program
         void _gp_confirm_api_status();     // called to check error conditions after API function calls     
         void _gp_confirm_call_status();    // called to check error conditions in the class
+        int _gp_confirm_return();          // called to provide a return value corresponding to the API status
         // copiers, private --> public
         void _gp_copy_vars();
         void _gp_copy_helper();
@@ -189,6 +314,34 @@ class rsa306b_class
         void _gp_copy_call_status();
         void _gp_copy_api_status();
     
+    // API group "AUDIO"
+        void _audio_init();
+        // copiers, private --> public
+        void _audio_copy_vars();
+        void _audio_copy_is_demodulating();
+        void _audio_copy_is_mute();
+        void _audio_copy_frequecny_offset_hz();
+        void _audio_copy_volume();
+        void _audio_copy_demodulation_select();
+        void _audio_copy_data();
+        void _audio_copy_data_samples_requested();
+        void _audio_copy_data_samples_output();
+        // getters, API is used
+        void _audio_get_vars();                     // calls the getters
+        void _audio_get_is_demodulating();          // determine if demodulation is occuring
+        void _audio_get_is_mute();                  // query mute status
+        void _audio_get_frequency_offset_hz();      // query frequency offset
+        void _audio_get_volume();                   // query volume setting
+        void _audio_get_demodulation_select();      // query demodulation mode
+        void _audio_get_data();                     // get requested audio samples
+        // setters, API is used
+        int _audio_set_vars();                      // calls the setters
+        int _audio_set_is_mute();                   // control speakers
+        int _audio_set_frequency_offset_hz();       // set carrier frequency
+        int _audio_set_volume();                    // control speaker volume
+        int _audio_set_demodulation_select();       // control demodulation mode
+        int _audio_set_data_samples_requested();    // sets a non-API, used to call API
+
     // API group "ALIGN"
         void _align_init();
         // copiers, private --> public
@@ -196,7 +349,7 @@ class rsa306b_class
         void _align_copy_is_needed();
         void _align_copy_is_warmed();
         // getters, API is used
-        void _align_get_vars();         // calls all of the API getters
+        void _align_get_vars();         // calls the getters
         void _align_get_is_needed();    // query "alignment is needed", with API
         void _align_get_is_warmed();    // query "device is warmed-up", with API
 
@@ -214,12 +367,57 @@ class rsa306b_class
         void _device_copy_info_type();
         void _device_copy_event_timestamp();
         // getters, API is used
-        void _device_get_vars();                   // calls all of the API getters
+        void _device_get_vars();                   // calls the getters
         void _device_get_is_running();             // query the run state
         void _device_get_error_string();           // gets the API error code based on return status
         void _device_get_info_type();              // fill strings with device information
         void _device_get_is_over_temperature();    // query temerature warning
         void _device_get_event();                  // query an event of interest
+    
+    // API group "REFTIME"
+        void _reftime_init();
+        // copiers, private --> public
+        void _reftime_copy_vars();
+        void _reftime_copy_current();
+        void _reftime_copy_start();
+        void _reftime_copy_helper();
+        void _reftime_copy_dts();
+        void _reftime_copy_running_duration();
+        void _reftime_copy_split_duration();
+        void _reftime_copy_split_trail();
+        void _reftime_copy_source_select();
+        void _reftime_copy_timestamp_rate();
+        // getters, uses API
+        void _reftime_get_vars();
+        void _reftime_get_current();
+        void _reftime_get_start();
+        void _reftime_get_running_duration();
+        void _reftime_get_source_select();
+        void _reftime_get_timestamp_rate();
+
+    // API group "TRIG"
+        void _trig_init();
+        // copiers, private --> public
+        void _trig_copy_vars();
+        void _trig_copy_if_power_level();
+        void _trig_copy_mode_select();
+        void _trig_copy_position_percent();
+        void _trig_copy_source_select();
+        void _trig_copy_transition_select();
+        // getters, API is used
+        void _trig_get_vars();
+        void _trig_get_if_power_level();
+        void _trig_get_mode_select();
+        void _trig_get_position_percent();
+        void _trig_get_source_select();
+        void _trig_get_transition_select();
+        // setters, API is used
+        int _trig_set_vars();
+        int _trig_set_if_power_level();
+        int _trig_set_mode_select();
+        int _trig_set_position_percent();
+        int _trig_set_source_select();
+        int _trig_set_transition_select();
 };
 
 
