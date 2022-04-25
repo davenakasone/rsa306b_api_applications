@@ -83,19 +83,19 @@ int rsa306b_class::_audio_set_is_mute()
         __LINE__, __FILE__, __func__);
 #endif
 
-    if (this->_vars.device.is_connected == false)
-    {
-        #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
-        #endif
-        return this->_vars.constants.CALL_FAILURE;
-    }
     if (this->vars.audio.is_mute == this->_vars.audio.is_mute)
     {
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\taudio already muted\n");
         #endif
         return this->_vars.constants.CALL_SUCCESS;
+    }
+    if (this->_vars.device.is_connected == false)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\tno device connected\n");
+        #endif
+        return this->_vars.constants.CALL_FAILURE;
     }
     this->device_stop();
 
@@ -120,9 +120,16 @@ int rsa306b_class::_audio_set_frequency_offset_hz()
         __LINE__, __FILE__, __func__);
 #endif
 
+    if (this->vars.audio.frequency_offset_hz == this->_vars.audio.frequency_offset_hz)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\taudio frequency offset already set\n");
+        #endif
+        return this->_vars.constants.CALL_SUCCESS;
+    }
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\tno device connected\n");
         #endif
         return this->_vars.constants.CALL_FAILURE;
@@ -161,6 +168,13 @@ int rsa306b_class::_audio_set_volume()
         __LINE__, __FILE__, __func__);
 #endif
 
+    if (this->vars.audio.volume == this->_vars.audio.volume)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\taudio volume already set\n");
+        #endif
+        return this->_vars.constants.CALL_SUCCESS;
+    }
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MAX
@@ -202,6 +216,13 @@ int rsa306b_class::_audio_set_demodulation_select()
         __LINE__, __FILE__, __func__);
 #endif
 
+    if (this->vars.audio.demodulation_select == this->_vars.audio.demodulation_select)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\taudio demodulation already set\n");
+        #endif
+        return this->_vars.constants.CALL_SUCCESS;
+    }
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MAX
@@ -243,6 +264,13 @@ int rsa306b_class::_audio_set_data_samples_requested()
         __LINE__, __FILE__, __func__);
 #endif
 
+    if (this->vars.audio.data_samples_requested == this->_vars.audio.data_samples_requested)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\taudio data samples requested already set\n");
+        #endif
+        return this->_vars.constants.CALL_SUCCESS;
+    }
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MAX

@@ -78,6 +78,13 @@ int rsa306b_class::_trig_set_if_power_level()
         __LINE__, __FILE__, __func__);
 #endif
 
+    if (this->vars.trig.if_power_level == this->_vars.trig.if_power_level)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\ttrig IF power level already set\n");
+        #endif
+        return this->_vars.constants.CALL_SUCCESS;
+    }
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MAX
@@ -119,6 +126,13 @@ int rsa306b_class::_trig_set_mode_select()
         __LINE__, __FILE__, __func__);
 #endif
 
+    if (this->vars.trig.mode_select == this->_vars.trig.mode_select)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\ttrig mode already set\n");
+        #endif
+        return this->_vars.constants.CALL_SUCCESS;
+    }
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MAX
@@ -158,6 +172,13 @@ int rsa306b_class::_trig_set_position_percent()
         __LINE__, __FILE__, __func__);
 #endif
 
+    if (this->vars.trig.position_percent == this->_vars.trig.position_percent)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\ttrig position percent already set\n");
+        #endif
+        return this->_vars.constants.CALL_SUCCESS;
+    }
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MAX
@@ -199,6 +220,13 @@ int rsa306b_class::_trig_set_source_select()
         __LINE__, __FILE__, __func__);
 #endif
 
+    if (this->vars.trig.source_select== this->_vars.trig.source_select)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\ttrig source select already set\n");
+        #endif
+        return this->_vars.constants.CALL_SUCCESS;
+    }
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MAX
@@ -238,6 +266,13 @@ int rsa306b_class::_trig_set_transition_select()
         __LINE__, __FILE__, __func__);
 #endif
 
+    if (this->vars.trig.transition_select == this->_vars.trig.transition_select)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\ttrig transition select already set\n");
+        #endif
+        return this->_vars.constants.CALL_SUCCESS;
+    }
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MAX

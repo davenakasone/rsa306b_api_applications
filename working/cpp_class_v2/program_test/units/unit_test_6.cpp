@@ -21,7 +21,7 @@
 
 void unit_test_6 (void)
 {
-    printf("\n%s()  ,  API group 'TRIG'\n", __func__);
+    printf("\n%s()  ,  API group 'REFTIME'\n", __func__);
     {
         rsa306b_class rsa;
         cpu_timer_class cpu;
