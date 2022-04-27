@@ -11,7 +11,6 @@
         < 4 >  _align_copy_vars()
         < 5 >  _align_copy_is_needed()
         < 6 >  _align_copy_is_warmed()
-
 */
 
 #include "../rsa306b_class.h"

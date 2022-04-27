@@ -12,7 +12,6 @@
         < 5 >  _config_get_max_center_frequency_hz()
         < 6 >  _config_get_external_reference_frequency_hz()
         < 7 >  _config_get_frequency_reference_source_select()
-
 */
 
 #include "../rsa306b_class.h"

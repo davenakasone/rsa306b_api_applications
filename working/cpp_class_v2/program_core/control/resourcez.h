@@ -33,8 +33,9 @@
 #define BUF_E 512                   // .....
 #define BUF_F 1024                  // a long general purpose buffer
 
-#define SPECTRUM_DATA_LENGTH 2048       // spectrum aquisitions, go dynamic if needed
-#define AUDIO_DATA_LENGTH_MAX 65535     // maximum audio data points, 2^16 - 1, go dynamic if needed
+#define TRACES_AVAILABLE 3           // the RSA-306B has three traces that can be used
+#define SPECTRUM_DATA_LENGTH 2048    // spectrum aquisitions, go dynamic if needed
+#define AUDIO_DATA_LENGTH 1024       // maximum audio data points, 2^16 - 1, go dynamic if needed
 
 
 #endif

@@ -8,7 +8,6 @@
     
     private :
         #  none
-
 */
 
 #include "../rsa306b_class.h"

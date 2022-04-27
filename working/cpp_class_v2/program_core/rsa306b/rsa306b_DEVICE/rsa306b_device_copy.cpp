@@ -15,7 +15,6 @@
         < 8 >   _device_copy_event_id()
         < 9 >   _device_copy_info_type()
         < 10 >  _device_copy_event_timestamp()
-
 */
 
 #include "../rsa306b_class.h"

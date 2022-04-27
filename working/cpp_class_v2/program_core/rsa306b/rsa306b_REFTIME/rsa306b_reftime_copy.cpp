@@ -13,7 +13,6 @@
         < 6 >  _reftime_copy_running_duration()
         < 7 >  _reftime_copy_source_select()
         < 8 >  _reftime_copy_timestamp_rate()
-
 */
 
 #include "../rsa306b_class.h"

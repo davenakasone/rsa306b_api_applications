@@ -9,7 +9,6 @@
     
     private :
         < 1 >  _reftime_make_dts()
-
 */
 
 #include "../rsa306b_class.h"

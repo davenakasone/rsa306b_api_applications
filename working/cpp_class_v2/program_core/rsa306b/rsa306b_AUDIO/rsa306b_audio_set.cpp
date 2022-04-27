@@ -13,7 +13,6 @@
         < 4 >  _audio_set_volume()
         < 5 >  _audio_set_demodulation_select()
         < 6 >  _audio_set_data_samples_requested()
-
 */
 
 #include "../rsa306b_class.h"
@@ -286,13 +285,13 @@ int rsa306b_class::_audio_set_data_samples_requested()
         #endif
         return this->_vars.constants.CALL_FAILURE;
     }
-    if (this->vars.audio.data_samples_requested < 1                   ||
-        this->vars.audio.data_samples_requested > AUDIO_DATA_LENGTH_MAX)
+    if (this->vars.audio.data_samples_requested < 1               ||
+        this->vars.audio.data_samples_requested > AUDIO_DATA_LENGTH)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tsamples requested { %u }  ,  out of range [ 1 , %d ]\n",
                 this->vars.audio.data_samples_requested,
-                AUDIO_DATA_LENGTH_MAX);
+                AUDIO_DATA_LENGTH);
         #endif
         return this->_vars.constants.CALL_FAILURE;
     }

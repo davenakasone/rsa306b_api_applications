@@ -13,8 +13,7 @@
         < 6 >  _audio_copy_demodulation_select()
         < 7 >  _audio_copy_data()
         < 8 >  _audio_copy_data_samples_requested()
-        < 9 >  _aduio_copy_data_samples_output()
-
+        < 9 >  _aduio_copy_data_samples_acquired()
 */
 
 #include "../rsa306b_class.h"
@@ -37,7 +36,7 @@ void rsa306b_class::_audio_copy_vars()
     this->_audio_copy_demodulation_select();
     this->_audio_copy_data();
     this->_audio_copy_data_samples_requested();
-    this->_audio_copy_data_samples_output();
+    this->_audio_copy_data_samples_acquired();
 }
 
 
@@ -139,7 +138,7 @@ void rsa306b_class::_audio_copy_data()
         __LINE__, __FILE__, __func__);
 #endif  
 
-    for (int ii = 0; ii < AUDIO_DATA_LENGTH_MAX; ii++)
+    for (int ii = 0; ii < AUDIO_DATA_LENGTH; ii++)
     {
         this->_vars.audio.data[ii] = this->_vars.audio.data[ii];
     }
@@ -169,14 +168,14 @@ void rsa306b_class::_audio_copy_data_samples_requested()
 /*
     < 9 > private
 */
-void rsa306b_class::_audio_copy_data_samples_output()
+void rsa306b_class::_audio_copy_data_samples_acquired()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif  
 
-    this->vars.audio.data_samples_output = this->_vars.audio.data_samples_output;
+    this->vars.audio.data_samples_acquired = this->_vars.audio.data_samples_acquired;
 }
 
 ////////~~~~~~~~END>  rsa306b_audio_copy.cpp

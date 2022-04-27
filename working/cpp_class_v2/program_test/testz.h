@@ -35,6 +35,7 @@ void unit_test_4   (void);    // test 'AUDIO' section
 void unit_test_5   (void);    // test 'TRIG' section
 void unit_test_6   (void);    // test 'REFTIME' section
 void unit_test_7   (void);    // test 'CONFIG' section
+void unit_test_8   (void);    // test 'SPECTRUM' section
 
 void task_998 (void);    // test the cpu_timer_class
 void task_999 (void);    // test bench          

@@ -6,7 +6,6 @@
     
     private :
         < 1 >  _config_init()
-
 */
 
 #include "../rsa306b_class.h"

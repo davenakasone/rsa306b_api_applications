@@ -12,6 +12,8 @@
             < 3 >  _gp_copy_holder()
             < 4 >  _gp_copy_call_status()
             < 5 >  _gp_copy_api_status()
+            < 6 >  _gp_copy_was_good_acquisition()
+            < 7 >  _gp_copy_acquistion_message()
 */
 
 #include "../rsa306b_class.h"
@@ -62,6 +64,8 @@ void rsa306b_class::_gp_copy_vars()
     this->_gp_copy_holder();
     this->_gp_copy_call_status();
     this->_gp_copy_api_status();
+    this->_gp_copy_acquisition_code();
+    this->_gp_copy_acquistion_message();
 }
 
 
@@ -131,5 +135,40 @@ void rsa306b_class::_gp_copy_api_status()
 
     this->vars.gp.api_status = this->_vars.gp.api_status;
 }
+
+
+////~~~~
+
+
+/*
+    < 6 > private
+*/
+void rsa306b_class::_gp_copy_acquisition_code()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    this->vars.gp.acquisition_code = this->_vars.gp.acquisition_code;
+}
+
+
+////~~~~
+
+
+/*
+    < 7 > private
+*/
+void rsa306b_class::_gp_copy_acquistion_message()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif
+
+    strcpy(this->vars.gp.acquisition_message, this->_vars.gp.acquisition_message);
+}
+
 
 ////////~~~~~~~~END>  rsa306b_gp_copy.cpp

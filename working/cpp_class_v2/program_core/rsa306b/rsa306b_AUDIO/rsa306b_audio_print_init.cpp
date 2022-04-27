@@ -6,7 +6,6 @@
     
     private :
         < 1 >  _audio_init()
-
 */
 
 #include "../rsa306b_class.h"
@@ -40,7 +39,7 @@ void rsa306b_class::print_audio()
     }
     printf("\tdata[0]                 :  %d\n", this->_vars.audio.data[0]);
     printf("\tdata samples requested  :  %u\n", this->_vars.audio.data_samples_requested);
-    printf("\tdata samples output     :  %u\n", this->_vars.audio.data_samples_output);
+    printf("\tdata samples aquired    :  %u\n", this->_vars.audio.data_samples_acquired);
 }
 
 
@@ -58,13 +57,13 @@ void rsa306b_class::_audio_init()
         __LINE__, __FILE__, __func__);
 #endif  
 
-    for (int ii = 0; ii < AUDIO_DATA_LENGTH_MAX; ii++)
+    for (int ii = 0; ii < AUDIO_DATA_LENGTH; ii++)
     {
         this->_vars.audio.data[ii] = this->_vars.constants.INIT_INT;
     }
 
-    this->_vars.audio.data_samples_output = 0;
-    this->_vars.audio.data_samples_requested = AUDIO_DATA_LENGTH_MAX;
+    this->_vars.audio.data_samples_acquired = 0;
+    this->_vars.audio.data_samples_requested = AUDIO_DATA_LENGTH;
     this->_vars.audio.demodulation_select = RSA_API::ADM_AM_8KHZ;
     this->_vars.audio.frequency_offset_hz = this->_vars.constants.AUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz;
     this->_vars.audio.is_demodulating = false;

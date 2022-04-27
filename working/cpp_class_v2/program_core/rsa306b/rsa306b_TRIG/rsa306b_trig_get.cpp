@@ -11,7 +11,6 @@
         < 4 >  _trig_get_position_percent()
         < 5 >  _trig_get_source_select()
         < 6 >  _trig_get_transition_select()
-
 */
 
 #include "../rsa306b_class.h"

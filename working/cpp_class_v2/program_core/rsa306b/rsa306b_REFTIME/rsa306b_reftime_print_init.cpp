@@ -6,7 +6,6 @@
     
     private :
         < 1 >  _init_reftime()
-
 */
 
 #include "../rsa306b_class.h"

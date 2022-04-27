@@ -28,6 +28,7 @@
                 _gp_confirm_api_status()
                 _gp_confirm_call_status()
                 _gp_confirm_return()
+                _gp_confirm_aquisition_code()
             - rsa306b_gp_copy.cpp
                 get_everything()
                 _gp_copy_vars()
@@ -35,6 +36,8 @@
                 _gp_copy_holder()
                 _gp_copy_call_status()
                 _gp_copy_api_status()
+                _gp_copy_acquisition_code()
+                _gp_copy_acquistion_message()
             - rsa306b_gp_init.cpp
                 _init_everything()
                 _gp_init()
@@ -83,7 +86,7 @@
                 _audio_copy_demodulation_select()
                 _audio_copy_data()
                 _audio_copy_data_samples_requested()
-                _audio_copy_data_samples_output()
+                _audio_copy_data_samples_acquired()
             - rsa306b_audio_get.cpp
                 _audio_get_vars()
                 _audio_get_is_demodulating()
@@ -201,6 +204,23 @@
                 reftime_time_2_timestamp()
                 _reftime_make_dts()
             
+        "./program_core/rsa306b/rsa306_SPECTRUM/"
+            - rsa306b_spectrum_struct.h
+                struct rsa306b_spectrum_struct
+            - rsa306b_spectrum_init.cpp
+                _spectrum_init()
+            - rsa306b_spectrum_print.cpp
+                print_spectrum()
+
+
+
+
+
+
+
+
+
+            
         "./program_core/rsa306b/rsa306_TRIG/"
             - rsa306b_trig_struct.h
                 struct rsa306b_trig_struct
@@ -265,9 +285,11 @@
 #include "rsa306b_struct.h"
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class rsa306b_class
 {
     public :
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         rsa306b_struct vars;    // public variables
 
@@ -314,30 +336,43 @@ class rsa306b_class
         void reftime_get_vars();            // gets all the "REFTIME" variables
         void reftime_timestamp_2_time();    // set "vars.reftime.helper.timestamp", then call, updates time_t and uint64_t
         void reftime_time_2_timestamp();    // set "vars.reftime.helper.seconds  and nanos", then call, updates timestamp
+    
+    // API group "SPECTRUM"
+        void print_spectrum();              // prints the "SPECTRUM" variables to stdout, using the private struct
+        void spectrum_set_vars();           // user changes "SPECTRUM" variables in public struct, then calls to set new values
+        void spectrum_default();            // apply API default spectrum settings
+        void spectrum_aquire();             // gets all active traces
+        void spectrum_find_peak_index();    // gets peak index of active traces
+        void spectrum_write_csv();          // dumps trace data into a CSV file (see constants class for output path)
 
     // API group "TRIG"
         void print_trig();       // prints the "TRIG" variables to stdout, using the private struct
         void trig_set_vars();    // user changes "TRIG" variables in public struct, then calls to set new values
         void trig_force();       // a trigger event is forced, user calls "device_run()" before and "device_stop()" after
 
-        
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
     private : 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        rsa306b_struct _vars;    // private variables
-    
+        rsa306b_struct _vars;    // private variables, structured
+        FILE* _fptr_write;       // a general purpose file pointer to write data
+
     // general purpose
         void _init_everything();    // initialize all class variables
         void _gp_init();            // initialize the "general purpose" variables
         // monitor the program
-        void _gp_confirm_api_status();     // called to check error conditions after API function calls     
-        void _gp_confirm_call_status();    // called to check error conditions in the class
-        int _gp_confirm_return();          // called to provide a return value corresponding to the API status
+        void _gp_confirm_api_status();         // called to check error conditions after API function calls     
+        void _gp_confirm_call_status();        // called to check error conditions in the class
+        int _gp_confirm_return();              // called to provide a return value corresponding to the API status
+        void _gp_confirm_aquisition_code();    // bit-checks status code after a data aquisition
         // copiers, private --> public
         void _gp_copy_vars();
         void _gp_copy_helper();
         void _gp_copy_holder();
         void _gp_copy_call_status();
         void _gp_copy_api_status();
+        void _gp_copy_acquisition_code();
+        void _gp_copy_acquistion_message();
     
     // API group "AUDIO"
         void _audio_init();
@@ -350,7 +385,7 @@ class rsa306b_class
         void _audio_copy_demodulation_select();
         void _audio_copy_data();
         void _audio_copy_data_samples_requested();
-        void _audio_copy_data_samples_output();
+        void _audio_copy_data_samples_acquired();
         // getters, API is used
         void _audio_get_vars();                     // calls the getters
         void _audio_get_is_demodulating();          // determine if demodulation is occuring
@@ -423,6 +458,35 @@ class rsa306b_class
         void _device_get_is_over_temperature();    // query temerature warning
         void _device_get_event();                  // query an event of interest
     
+    // API group "SPECTRUM"
+        void _spectrum_init();
+        void _spectrum_make_array_frequency();
+        // copiers, private --> public
+        void _spectrum_copy_vars();
+        void _spectrum_copy_is_enabled_measurement();
+        void _spectrum_copy_settings_type();
+        void _spectrum_copy_limits_type();
+        void _spectrum_copy_trace_points_aquired();
+        void _spectrum_copy_array_frequency();
+        void _spectrum_copy_is_enabled_trace();
+        void _spectrum_copy_traces_select();
+        void _spectrum_copy_detectors_select();
+        void _spectrum_copy_trace_info_type();
+        void _spectrum_copy_array_power();
+        void _spectrum_copy_peak_index();
+        // getters, uses API
+        void _spectrum_get_vars();
+        void _spectrum_get_is_enabled_measurement();
+        void _spectrum_get_limits_type();
+        void _spectrum_get_settings_type();
+        void _spectrum_get_trace_info_type();
+        void _spectrum_get_trace_type();
+        // setters, uses API
+        void _spectrum_set_vars();
+        void _spectrum_set_is_enabled_measurement();
+        void _spectrum_set_settings_type();
+        void _spectrum_set_trace_type();
+
     // API group "REFTIME"
         void _reftime_init();
         void _reftime_make_dts();  // makes a date time stamp using the current time
@@ -466,10 +530,13 @@ class rsa306b_class
         int _trig_set_position_percent();
         int _trig_set_source_select();
         int _trig_set_transition_select();
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 };
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 #endif
 
 
-////////~~~~~~~~END>  rsa306b.h
+////////~~~~~~~~END>  rsa306b_class.h

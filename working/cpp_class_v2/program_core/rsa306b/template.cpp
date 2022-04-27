@@ -6,7 +6,6 @@
     
     private :
         < 1 >  _xxx()
-
 */
 
 #include "../rsa306b_class.h"

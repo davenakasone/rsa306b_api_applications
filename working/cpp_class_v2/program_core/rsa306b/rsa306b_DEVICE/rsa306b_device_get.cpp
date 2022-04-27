@@ -185,7 +185,7 @@ void rsa306b_class::_device_get_event()
     }
     if (this->_vars.device.is_running == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tdevice is not running\n");
         #endif
         return;

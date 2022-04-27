@@ -9,7 +9,6 @@
         < 2 >  _config_set_reference_level_dbm()
         < 3 >  _config_set_center_frequency_hz()
         < 4 >  _config_set_external_reference_frequency_source_select()
-
 */
 
 #include "../rsa306b_class.h"

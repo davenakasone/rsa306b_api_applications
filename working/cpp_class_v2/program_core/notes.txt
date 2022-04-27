@@ -33,3 +33,6 @@ the "TRIG" group has 2 functions that are not documented:
 	RSA_API_DLL ReturnStatus TRIG_GetTriggerTime(time_t* startTimeSec, uint64_t* startTimeNsec, uint64_t* repeatTimeNsec);
 not sure if they work with the RSA306b, find out 
 
+the "AUDIO" group most likely requires adjusting GetData(), Run(), and Stop()
+prove it on a function generator
+

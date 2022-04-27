@@ -91,8 +91,9 @@ void rsa306b_class::device_connect()
     #endif
     this->device_stop();
     this->align_run();
+    
+    this->_gp_confirm_aquisition_code();
     this->config_preset(); // also calls "get_everything()"
-
     // INSERT
 }
 

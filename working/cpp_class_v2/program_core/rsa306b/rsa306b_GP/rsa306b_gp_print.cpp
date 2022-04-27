@@ -91,10 +91,22 @@ void rsa306b_class::print_gp()
 #endif
 
     printf("\n'general purpose' group >>>\n");
-    printf("\thelper       :  %s\n", this->_vars.gp.helper);
-    printf("\tholder       :  %s\n", this->_vars.gp.holder);
-    printf("\tcall status  :  %d\n", this->_vars.gp.call_status);
-    printf("\tAPI status   :  %d\n", (int)this->_vars.gp.api_status);
+    printf("\tcall status          :  %d\n", this->_vars.gp.call_status);
+    if (this->_vars.device.is_connected == true)
+    {
+        this->_device_get_error_string();
+        printf("\tAPI status           :  %d  (%s)\n", 
+            (int)this->_vars.gp.api_status,
+            this->_vars.device.error_string);
+    }
+    else
+    {
+        printf("\tAPI status           :  %d  (not connected) \n", (int)this->_vars.gp.api_status);
+    }
+    printf("\tacquistion  code     :  0x%X\n", this->_vars.gp.acquisition_code);
+    printf("\tacquisition message  :  %s\n", this->_vars.gp.acquisition_message);
+    printf("\thelper               :  %s\n", this->_vars.gp.helper);
+    printf("\tholder               :  %s\n", this->_vars.gp.holder);
 }
 
 

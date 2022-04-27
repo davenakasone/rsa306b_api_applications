@@ -7,7 +7,6 @@
     
     private :
         #  none
-
 */
 
 #include "../rsa306b_class.h"
@@ -69,16 +68,16 @@ void rsa306b_class::audio_acquire_data()
         return;
     }
     if (this->_vars.audio.data_samples_requested < 1 ||
-        this->_vars.audio.data_samples_requested > AUDIO_DATA_LENGTH_MAX)
+        this->_vars.audio.data_samples_requested > AUDIO_DATA_LENGTH)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tsamples requested { %u }  ,  out of range [ 1 , %d ]\n",
                 this->_vars.audio.data_samples_requested,
-                AUDIO_DATA_LENGTH_MAX);
+                AUDIO_DATA_LENGTH);
         #endif
         return;
     }
-    this->_vars.audio.data_samples_output = 0;
+    this->_vars.audio.data_samples_acquired = 0;
     this->device_run();
 
     this->_audio_get_is_demodulating();
@@ -92,7 +91,7 @@ void rsa306b_class::audio_acquire_data()
     this->_vars.gp.api_status = RSA_API::AUDIO_GetData(
         this->_vars.audio.data, 
         this->_vars.audio.data_samples_requested, 
-        &this->_vars.audio.data_samples_output);
+        &this->_vars.audio.data_samples_acquired);
     this->_gp_confirm_api_status();
     this->_audio_get_data();
     

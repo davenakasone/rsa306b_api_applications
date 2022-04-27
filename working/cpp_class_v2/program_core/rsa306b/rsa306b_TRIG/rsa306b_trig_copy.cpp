@@ -11,7 +11,6 @@
         < 4 >  _trig_copy_position_percent()
         < 5 >  _trig_copy_source_select()
         < 6 >  _trig_copy_transition_select()
-
 */
 
 #include "../rsa306b_class.h"

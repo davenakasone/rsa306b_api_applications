@@ -11,7 +11,6 @@
         < 4 >  _reftime_get_running_duration()
         < 5 >  _reftime_get_source_select()
         < 6 >  _reftime_get_timestamp_rate()
-
 */
 
 #include "../rsa306b_class.h"

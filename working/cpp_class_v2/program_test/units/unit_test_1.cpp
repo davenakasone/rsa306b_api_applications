@@ -34,6 +34,9 @@ void unit_test_1 (void)
         printf("\nseems good, keep updating this section, time:  %lf s\n",
             cpu.get_time_split());
         
+        rsa.device_connect();
+        rsa.print_gp();
+        
     }
     printf("\n%s()  ,  test complete\n", __func__);
     wait_enter_clear();

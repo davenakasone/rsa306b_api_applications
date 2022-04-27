@@ -202,12 +202,14 @@ void rsa306b_class::_audio_get_data()
     }
     if (this->_vars.audio.is_demodulating == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\taudio demodulation was not activated\n");
         #endif
         return;
     }
-    if (this->_vars.audio.data_samples_output == 0)
+    this->_audio_copy_data_samples_acquired();
+    
+    if (this->_vars.audio.data_samples_acquired == 0)
     {
         #ifdef DEBUG_MAX
             printf("\n\tno audio data was acquired\n");
@@ -215,11 +217,11 @@ void rsa306b_class::_audio_get_data()
         return;
     }
 
-    for (int ii = 0; ii < this->_vars.audio.data_samples_output; ii++)
+    for (int ii = 0; ii < this->_vars.audio.data_samples_acquired; ii++)
     {
         this->vars.audio.data[ii] = this->_vars.audio.data[ii];
     }
-    this->vars.audio.data_samples_output = this->_vars.audio.data_samples_output;
+    this->vars.audio.data_samples_acquired = this->_vars.audio.data_samples_acquired;
 }
 
 ////////~~~~~~~~END>  rsa306b_audio_get.cpp
