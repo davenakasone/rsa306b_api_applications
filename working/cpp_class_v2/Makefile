@@ -62,6 +62,7 @@ $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_copy.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_get.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_print_init.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_user.cpp \
+$(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_copy.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_init.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_print.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_copy.cpp \

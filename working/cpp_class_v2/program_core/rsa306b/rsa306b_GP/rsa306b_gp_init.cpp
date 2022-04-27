@@ -31,6 +31,7 @@ void rsa306b_class::_init_everything()
     this->_config_init();
     this->_device_init();
     this->_reftime_init();
+    this->_spectrum_init();
     this->_trig_init();
 
     // INSERT

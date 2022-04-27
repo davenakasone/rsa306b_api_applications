@@ -211,7 +211,19 @@
                 _spectrum_init()
             - rsa306b_spectrum_print.cpp
                 print_spectrum()
-
+            - rsa306b_spectrum_copy.cpp
+                _spectrum_copy_vars()
+                _spectrum_copy_is_enabled_measurement()
+                _spectrum_copy_settings_type()
+                _spectrum_copy_limits_type()
+                _spectrum_copy_trace_points_aquired()
+                _spectrum_copy_array_frequency()
+                _spectrum_copy_is_enabled_trace()
+                _spectrum_copy_traces_select()
+                _spectrum_copy_detectors_select()
+                _spectrum_copy_trace_info_type()
+                _spectrum_copy_array_power()
+                _spectrum_copy_peak_index()
 
 
 
