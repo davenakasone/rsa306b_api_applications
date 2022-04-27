@@ -3,7 +3,9 @@
     the API does not monitor the CPU clock
     use an instance of this object as another reference for timing considerations
 
-    "processing time" required, not wall clock
+    "clock_t" is processing time required, not wall clock
+    "struct timespec" has seconds and nano seconds, it is a decent wall clock
+        but don't trust the nano second resolution
 */
 
 #include "../control/resourcez.h"
@@ -17,27 +19,37 @@ class cpu_timer_class
         ~cpu_timer_class();
 
         // user action
-        void time_split_start();     // updates "trail" to mark beginning of a time split
-        void time_split_stop();      // interval is stopped and duration is calculated
-        void print_time_split();     // message with timesplit to stdout
+        void time_split_start();      // updates "trail" to mark beginning of a time split
+        void time_split_stop();       // interval is stopped and duration is calculated
+        void print_time_split();      // message with timesplit to stdout
         void print_running_time();    // message with total running time to stdout
 
-        // getters
+        // get variable of interest
         double get_time_split();
+        double get_time_split_w();
         double get_running_time();
+        double get_running_time_w();
     
     private :
 
-        bool _split_is_marked;                // tracks if user properly initiated a time split request
-        clock_t _begin;                       // marks time object was created
-        clock_t _lead;                        // set to current time, always ahead of "trail"
-        clock_t _trail;                       // marks a past time, always behind "lead"
-        double _running;                      // CPU time converted to seconds, current - begin
-        double _split;                        // CPU time converted to seconds, current - trail
-        double _temp;                         // helper
-        const double _SPLIT_FAIL = -11.11;    // returned when state is unknown
-
         void _timer_init();    // initializes the timer
+
+        bool _split_is_marked;                
+        const double _SPLIT_FAIL = -11.11;    
+
+        // CPU timing
+        double _running;                      
+        double _split;                        
+        clock_t _begin;                       
+        clock_t _lead;                        
+        double _trail;                       
+        
+        // wall-clock timing "w"
+        double _w_running;                    
+        double _w_split;                      
+        struct timespec _w_begin;            
+        struct timespec _w_lead;                      
+        double _w_trail;      
 };
 
 

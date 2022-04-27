@@ -27,17 +27,12 @@ void rsa306b_class::print_everything()
 #endif
 
     this->print_constants();
-
     this->print_gp();
-    
     this->print_align();
-    
     this->print_audio();
-
+    this->print_config();
     this->print_device();
-
     this->print_reftime();
-
     this->print_trig();
 
     // INSERT

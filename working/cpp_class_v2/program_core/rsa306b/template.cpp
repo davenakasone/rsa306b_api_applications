@@ -13,9 +13,9 @@
 
 
 /*
-    < x > public
+    < 1 > public
 */
-void rsa306b_class::xxx()
+void rsa306b_class::
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -28,9 +28,9 @@ void rsa306b_class::xxx()
 
 
 /*
-    < x > private
+    < 1 > private
 */
-void rsa306b_class::xxx()
+void rsa306b_class::
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -39,7 +39,7 @@ void rsa306b_class::xxx()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;

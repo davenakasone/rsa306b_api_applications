@@ -8,8 +8,8 @@
 
 // turn off to run all unit tests
 // turn on and change UT_NUMBER to run a specific unit test
-#define UNIT_TEST_BY_NUMBER 6    // select unit test # here
-// sections        "unit_test_#"  : 0, 1, 2, 3, 4, 5, 6
+#define UNIT_TEST_BY_NUMBER 7    // select unit test # here
+// sections        "unit_test_#"  : 0, 1, 2, 3, 4, 5, 6, 7
 // specific tasks  "task_#"       : 999, 998
 
 
@@ -20,11 +20,12 @@ int main
     char** envp
 )
 {
-    cpu_timer_class runner;
-    int objSize = 0;
+    cpu_timer_class dummy_cpu;
+    int objSize[2];
     {
-        rsa306b_class dummy;
-        objSize = (int)sizeof(dummy);
+        rsa306b_class dummy_rsa;
+        objSize[0] = (int)sizeof(dummy_rsa);
+        objSize[1] = (int)sizeof(dummy_cpu);
     }
     
     #ifdef UNIT_TEST_BY_NUMBER
@@ -56,7 +57,10 @@ int main
                 __GNUC__, __GNUC_MINOR__);
         #endif
     #endif
-    printf("\nthe 'rsa306b' object size:  %d bytes\n\n", objSize);
+    printf("\n");
+    printf("the 'rsa306b' object size    :  %d bytes\n", objSize[0]);
+    printf("the 'cpu_timer' object size  :  %d bytes\n", objSize[1]);
+    printf("\n");
     return EXIT_SUCCESS;
 }
 

@@ -41,6 +41,11 @@ $(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_copy.cpp \
 $(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_get.cpp \
 $(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_print_init.cpp \
 $(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_set.cpp \
+$(SDIR)rsa306b/rsa306b_CONFIG/rsa306b_config_copy.cpp \
+$(SDIR)rsa306b/rsa306b_CONFIG/rsa306b_config_get.cpp \
+$(SDIR)rsa306b/rsa306b_CONFIG/rsa306b_config_print_init.cpp \
+$(SDIR)rsa306b/rsa306b_CONFIG/rsa306b_config_set.cpp \
+$(SDIR)rsa306b/rsa306b_CONFIG/rsa306b_config_user.cpp \
 $(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_user.cpp \
 $(SDIR)rsa306b/rsa306b_CONST/rsa306b_constants_cons_dest.cpp \
 $(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_copy.cpp \
@@ -70,6 +75,7 @@ $(TDIR_U)unit_test_3.cpp \
 $(TDIR_U)unit_test_4.cpp \
 $(TDIR_U)unit_test_5.cpp \
 $(TDIR_U)unit_test_6.cpp \
+$(TDIR_U)unit_test_7.cpp \
 $(TDIR)test_selector.cpp \
 $(TDIR)unit_test_0.cpp \
 $(TDIR)wait_enter_clear.cpp

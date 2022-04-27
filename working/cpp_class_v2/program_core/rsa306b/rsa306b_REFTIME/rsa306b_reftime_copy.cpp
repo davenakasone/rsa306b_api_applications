@@ -5,16 +5,14 @@
         #  none
     
     private :
-        < 1 >   _reftime_copy_vars()
-        < 2 >   _reftime_copy_current()
-        < 3 >   _reftime_copy_start()
-        < 4 >   _reftime_copy_helper()
-        < 5 >   _reftime_copy_dts()
-        < 6 >   _reftime_copy_running_duration()
-        < 7 >   _reftime_copy_split_duration()
-        < 8 >   _reftime_copy_split_trail()
-        < 9 >   _reftime_copy_source_select()
-        < 10 >  _reftime_copy_timestamp_rate()
+        < 1 >  _reftime_copy_vars()
+        < 2 >  _reftime_copy_current()
+        < 3 >  _reftime_copy_start()
+        < 4 >  _reftime_copy_helper()
+        < 5 >  _reftime_copy_dts()
+        < 6 >  _reftime_copy_running_duration()
+        < 7 >  _reftime_copy_source_select()
+        < 8 >  _reftime_copy_timestamp_rate()
 
 */
 
@@ -36,8 +34,6 @@ void rsa306b_class::_reftime_copy_vars()
     this->_reftime_copy_helper();
     this->_reftime_copy_dts();
     this->_reftime_copy_running_duration();
-    this->_reftime_copy_split_duration();
-    this->_reftime_copy_split_trail();
     this->_reftime_copy_source_select();
     this->_reftime_copy_timestamp_rate();
 }
@@ -140,40 +136,6 @@ void rsa306b_class::_reftime_copy_running_duration()
 /*
     < 7 > private
 */
-void rsa306b_class::_reftime_copy_split_duration()
-{
-#ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
-        __LINE__, __FILE__, __func__);
-#endif  
-
-    this->vars.reftime.split_duration = this->_vars.reftime.split_duration;
-}
-
-
-////~~~~
-
-
-/*
-    < 8 > private
-*/
-void rsa306b_class::_reftime_copy_split_trail()
-{
-#ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
-        __LINE__, __FILE__, __func__);
-#endif  
-
-    this->vars.reftime.split_trail = this->_vars.reftime.split_trail;
-}
-  
-
-////~~~~
-
-
-/*
-    < 9 > private
-*/
 void rsa306b_class::_reftime_copy_source_select()
 {
 #ifdef DEBUG_CLI
@@ -189,7 +151,7 @@ void rsa306b_class::_reftime_copy_source_select()
 
 
 /*
-    < 10 > private
+    < 8 > private
 */
 void rsa306b_class::_reftime_copy_timestamp_rate()
 {

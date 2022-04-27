@@ -28,7 +28,7 @@ void rsa306b_class::device_check_run_state()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;
@@ -54,7 +54,7 @@ void rsa306b_class::device_check_temperature()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;
@@ -83,7 +83,7 @@ void rsa306b_class::device_check_event()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;
@@ -118,7 +118,7 @@ void rsa306b_class::device_prepare_for_run()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;
@@ -147,7 +147,7 @@ void rsa306b_class::device_start_frame_transfer()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;

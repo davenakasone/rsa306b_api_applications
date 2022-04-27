@@ -103,6 +103,37 @@
                 audio_set_vars()
                 audio_acquire_data()
 
+        "./program_core/rsa306b/rsa306_CONFIG/"
+            - rsa306b_config_struct.h
+                struct rsa306b_config_struct    
+            - rsa306b_config_print_init.cpp
+                print_config()
+                _config_init()
+            - rsa306b_config_copy.cpp
+                _config_copy_vars()
+                _config_copy_reference_level_dbm()
+                _config_copy_center_frequency_hz()
+                _config_copy_min_center_frequency_hz()
+                _config_copy_max_center_frequency_hz()
+                _config_copy_external_reference_frequency_hz()
+                _config_copy_frequency_reference_source_select()
+            - rsa306b_config_get.cpp
+                _config_get_vars()
+                _config_get_reference_level_dbm()
+                _config_get_center_frequency_hz()
+                _config_get_min_center_frequency_hz()
+                _config_get_max_center_frequency_hz()
+                _config_get_external_reference_frequency_hz()
+                _config_get_frequency_reference_source_select()
+            - rsa306b_config_set.cpp
+                _config_set_vars()
+                _config_set_reference_level_dbm()
+                _config_set_center_frequency_hz()
+                _config_set_external_reference_frequency_source_select()
+            - rsa306b_config_user.cpp
+                config_preset()
+                config_set_vars()
+
         "./program_core/rsa306b/rsa306_DEVICE/"
             - rsa306b_device_struct.h
                 struct rsa306b_device_struct
@@ -154,8 +185,6 @@
                 _reftime_copy_helper()
                 _reftime_copy_dts()
                 _reftime_copy_running_duration()
-                _reftime_copy_split_duration()
-                _reftime_copy_split_trail()
                 _reftime_copy_source_select()
                 _reftime_copy_timestamp_rate()
             - rsa306b_reftime_get.cpp
@@ -170,14 +199,8 @@
                 reftime_get_vars()
                 reftime_timestamp_2_time()
                 reftime_time_2_timestamp()
-                reftime_make_dts()
-                reftime_split_begin()
-                reftime_split_end()
-
-
-
-
-
+                _reftime_make_dts()
+            
         "./program_core/rsa306b/rsa306_TRIG/"
             - rsa306b_trig_struct.h
                 struct rsa306b_trig_struct
@@ -267,6 +290,11 @@ class rsa306b_class
         void audio_set_vars();        // user changes "AUDIO" variables in public struct, then calls to set new values
         void audio_acquire_data();    // audio demodulation produces data, automatic start/stop
 
+    // API group "CONFIG"
+        void print_config();       // prints the "CONFIG" variables to stdout, using the private struct
+        void config_preset();      // the default "preset" conditions are applied to the spectrum analyzer
+        void config_set_vars();    // user changes "CONFIG" variables in public struct, then calls to set new values
+
     // API group "DEVICE"
         void print_device();                   // prints the "DEVICE" variables to stdout, using the private struct
         void device_connect();                 // searches and connects to a device, must call to use spectum analyzer
@@ -281,14 +309,11 @@ class rsa306b_class
         void device_start_frame_transfer();    // initiates run, data transfer begins
     
     // API group "REFTIME"
-        void print_reftime();  // prints the "REFTIME" variables to stdout, using the private struct
-        void reftime_reset();  // resets start time of the device
-        void reftime_get_vars(); // gets all the "REFTIME" variables, time split and dts are not updated
-        void reftime_timestamp_2_time(); // set "vars.reftime.helper.timestamp", then call, updates time_t and uint64_t
-        void reftime_time_2_timestamp(); // set "vars.reftime.helper.seconds  and nanos", then call, updates timestamp
-        void reftime_make_dts(); // makes a date time stamp using the current time
-        void reftime_split_begin(); // split start is marked
-        void reftime_split_end(); // split stop is marked, "vars.reftime.split_duration" is updated
+        void print_reftime();               // prints the "REFTIME" variables to stdout, using the private struct
+        void reftime_reset();               // resets start time of the device
+        void reftime_get_vars();            // gets all the "REFTIME" variables
+        void reftime_timestamp_2_time();    // set "vars.reftime.helper.timestamp", then call, updates time_t and uint64_t
+        void reftime_time_2_timestamp();    // set "vars.reftime.helper.seconds  and nanos", then call, updates timestamp
 
     // API group "TRIG"
         void print_trig();       // prints the "TRIG" variables to stdout, using the private struct
@@ -353,6 +378,30 @@ class rsa306b_class
         void _align_get_is_needed();    // query "alignment is needed", with API
         void _align_get_is_warmed();    // query "device is warmed-up", with API
 
+    // API group "CONFIG"
+        void _config_init();
+        // copiers, private --> public
+        void _config_copy_vars();
+        void _config_copy_reference_level_dbm();
+        void _config_copy_center_frequency_hz();
+        void _config_copy_min_center_frequency_hz();
+        void _config_copy_max_center_frequency_hz();
+        void _config_copy_external_reference_frequency_hz();
+        void _config_copy_frequency_reference_source_select();
+        // getters, API is used
+        void _config_get_vars();
+        void _config_get_reference_level_dbm();
+        void _config_get_center_frequency_hz();
+        void _config_get_min_center_frequency_hz();
+        void _config_get_max_center_frequency_hz();
+        void _config_get_external_reference_frequency_hz();
+        void _config_get_frequency_reference_source_select();
+        // setters, API is used
+        int _config_set_vars();
+        int _config_set_reference_level_dbm();
+        int _config_set_center_frequency_hz();
+        int _config_set_external_reference_frequency_source_select();
+
     // API group "DEVICE"
         void _device_init();
         // copiers, private --> public
@@ -376,6 +425,7 @@ class rsa306b_class
     
     // API group "REFTIME"
         void _reftime_init();
+        void _reftime_make_dts();  // makes a date time stamp using the current time
         // copiers, private --> public
         void _reftime_copy_vars();
         void _reftime_copy_current();
@@ -383,8 +433,6 @@ class rsa306b_class
         void _reftime_copy_helper();
         void _reftime_copy_dts();
         void _reftime_copy_running_duration();
-        void _reftime_copy_split_duration();
-        void _reftime_copy_split_trail();
         void _reftime_copy_source_select();
         void _reftime_copy_timestamp_rate();
         // getters, uses API

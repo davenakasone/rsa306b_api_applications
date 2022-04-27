@@ -1,31 +1,33 @@
 /*
-    API group "AUDIO", getters
+    API group "CONFIG", getters
 
     public :
         #  none
     
     private :
-        < 1 >  _audio_get_vars()
-        < 2 >  _audio_get_is_demodulating()
-        < 3 >  _audio_get_is_mute()
-        < 4 >  _audio_get_frequency_offset_hz()
-        < 5 >  _audio_get_volume()
-        < 6 >  _audio_get_demodulation_select()
-        < 7 >  _audio_get_data()
+        < 1 >  _config_get_vars()
+        < 2 >  _config_get_reference_level_dbm()
+        < 3 >  _config_get_center_frequency_hz()
+        < 4 >  _config_get_min_center_frequency_hz()
+        < 5 >  _config_get_max_center_frequency_hz()
+        < 6 >  _config_get_external_reference_frequency_hz()
+        < 7 >  _config_get_frequency_reference_source_select()
+
 */
 
 #include "../rsa306b_class.h"
 
 
+
 /*
     < 1 > private
 */
-void rsa306b_class::_audio_get_vars()
+void rsa306b_class::_config_get_vars()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
-#endif
+#endif  
 
     if (this->_vars.device.is_connected == false)
     {
@@ -34,12 +36,14 @@ void rsa306b_class::_audio_get_vars()
         #endif
         return;
     }
-    this->_audio_get_is_demodulating();
-    this->_audio_get_is_mute();
-    this->_audio_get_frequency_offset_hz();
-    this->_audio_get_volume();
-    this->_audio_get_demodulation_select();
-    this->_audio_get_data();
+    this->device_stop();
+
+    this->_config_get_reference_level_dbm();
+    this->_config_get_center_frequency_hz();
+    this->_config_get_min_center_frequency_hz();
+    this->_config_get_max_center_frequency_hz();
+    this->_config_get_external_reference_frequency_hz();
+    this->_config_get_frequency_reference_source_select();
 }
 
 
@@ -49,7 +53,7 @@ void rsa306b_class::_audio_get_vars()
 /*
     < 2 > private
 */
-void rsa306b_class::_audio_get_is_demodulating()
+void rsa306b_class::_config_get_reference_level_dbm()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -63,10 +67,13 @@ void rsa306b_class::_audio_get_is_demodulating()
         #endif
         return;
     }
+    this->device_stop();
+
     this->_vars.gp.api_status = 
-        RSA_API::AUDIO_GetEnable(&this->_vars.audio.is_demodulating);
+        RSA_API::CONFIG_GetReferenceLevel(
+            &this->_vars.config.reference_level_dbm);
     this->_gp_confirm_api_status();
-    this->_audio_copy_is_demodulating();
+    this->_config_copy_reference_level_dbm();
 }
 
 
@@ -76,7 +83,7 @@ void rsa306b_class::_audio_get_is_demodulating()
 /*
     < 3 > private
 */
-void rsa306b_class::_audio_get_is_mute()
+void rsa306b_class::_config_get_center_frequency_hz()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -90,10 +97,13 @@ void rsa306b_class::_audio_get_is_mute()
         #endif
         return;
     }
+    this->device_stop();
+
     this->_vars.gp.api_status = 
-        RSA_API::AUDIO_GetMute(&this->_vars.audio.is_mute);
+        RSA_API::CONFIG_GetCenterFreq(
+            &this->_vars.config.center_frequency_hz);
     this->_gp_confirm_api_status();
-    this->_audio_copy_is_mute();
+    this->_config_copy_center_frequency_hz();
 }
 
 
@@ -103,7 +113,7 @@ void rsa306b_class::_audio_get_is_mute()
 /*
     < 4 > private
 */
-void rsa306b_class::_audio_get_frequency_offset_hz()
+void rsa306b_class::_config_get_min_center_frequency_hz()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -117,10 +127,13 @@ void rsa306b_class::_audio_get_frequency_offset_hz()
         #endif
         return;
     }
+    this->device_stop();
+
     this->_vars.gp.api_status = 
-        RSA_API::AUDIO_GetFrequencyOffset(&this->_vars.audio.frequency_offset_hz);
+        RSA_API::CONFIG_GetMinCenterFreq(
+            &this->_vars.config.min_center_frequency_hz);
     this->_gp_confirm_api_status();
-    this->_audio_copy_frequecny_offset_hz();
+    this->_config_copy_min_center_frequency_hz();
 }
 
 
@@ -130,7 +143,7 @@ void rsa306b_class::_audio_get_frequency_offset_hz()
 /*
     < 5 > private
 */
-void rsa306b_class::_audio_get_volume()
+void rsa306b_class::_config_get_max_center_frequency_hz()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -144,10 +157,13 @@ void rsa306b_class::_audio_get_volume()
         #endif
         return;
     }
+    this->device_stop();
+
     this->_vars.gp.api_status = 
-        RSA_API::AUDIO_GetVolume(&this->_vars.audio.volume);
+        RSA_API::CONFIG_GetMaxCenterFreq(
+            &this->_vars.config.max_center_frequency_hz);
     this->_gp_confirm_api_status();
-    this->_audio_copy_volume();
+    this->_config_copy_max_center_frequency_hz();
 }
 
 
@@ -157,7 +173,7 @@ void rsa306b_class::_audio_get_volume()
 /*
     < 6 > private
 */
-void rsa306b_class::_audio_get_demodulation_select()
+void rsa306b_class::_config_get_external_reference_frequency_hz()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -171,10 +187,13 @@ void rsa306b_class::_audio_get_demodulation_select()
         #endif
         return;
     }
+    this->device_stop();
+
     this->_vars.gp.api_status = 
-        RSA_API::AUDIO_GetMode(&this->_vars.audio.demodulation_select);
+        RSA_API::CONFIG_GetExternalRefFrequency(
+            &this->_vars.config.external_reference_frequency_hz);
     this->_gp_confirm_api_status();
-    this->_audio_copy_demodulation_select();
+    this->_config_copy_external_reference_frequency_hz();
 }
 
 
@@ -183,10 +202,8 @@ void rsa306b_class::_audio_get_demodulation_select()
 
 /*
     < 7 > private
-    does not use an API call
-    populates the user's struct after aquiring audio data
 */
-void rsa306b_class::_audio_get_data()
+void rsa306b_class::_config_get_frequency_reference_source_select()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -200,26 +217,14 @@ void rsa306b_class::_audio_get_data()
         #endif
         return;
     }
-    if (this->_vars.audio.is_demodulating == false)
-    {
-        #ifdef DEBUG_MAX
-            printf("\n\taudio demodulation was not activated\n");
-        #endif
-        return;
-    }
-    if (this->_vars.audio.data_samples_output == 0)
-    {
-        #ifdef DEBUG_MAX
-            printf("\n\tno audio data was acquired\n");
-        #endif
-        return;
-    }
+    this->device_stop();
 
-    for (int ii = 0; ii < this->_vars.audio.data_samples_output; ii++)
-    {
-        this->vars.audio.data[ii] = this->_vars.audio.data[ii];
-    }
-    this->vars.audio.data_samples_output = this->_vars.audio.data_samples_output;
+    this->_vars.gp.api_status = 
+        RSA_API::CONFIG_GetFrequencyReferenceSource(
+            &this->_vars.config.frequency_reference_source_select);
+    this->_gp_confirm_api_status();
+    this->_config_copy_frequency_reference_source_select();
 }
 
-////////~~~~~~~~END>  rsa306b_audio_get.cpp
+
+////////~~~~~~~~END>  rsa306b_config_get.cpp

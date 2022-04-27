@@ -29,38 +29,89 @@ int rsa306b_class::_trig_set_vars()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return this->_vars.constants.CALL_FAILURE;
     }
     this->device_stop();
 
-    this->_vars.gp.call_status = this->_trig_set_if_power_level();
-    if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+    // vars.gp.call_status
+    if (this->vars.trig.if_power_level == this->_vars.trig.if_power_level)
     {
-        return this->_vars.constants.CALL_FAILURE;
+        #ifdef DEBUG_MAX
+            printf("\n\ttrig IF power level already set\n");
+        #endif
     }
-    this->_vars.gp.call_status = this->_trig_set_mode_select();
-    if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+    else
     {
-        return this->_vars.constants.CALL_FAILURE;
+        this->_vars.gp.call_status = this->_trig_set_if_power_level();
+        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        {
+            return this->_vars.constants.CALL_FAILURE;
+        }
     }
-    this->_vars.gp.call_status = this->_trig_set_position_percent();
-    if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+    // vars.trig.mode_select
+    if (this->vars.trig.mode_select == this->_vars.trig.mode_select)
     {
-        return this->_vars.constants.CALL_FAILURE;
+        #ifdef DEBUG_MAX
+            printf("\n\ttrig mode already set\n");
+        #endif
     }
-    this->_vars.gp.call_status = this->_trig_set_source_select();
-    if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+    else
     {
-        return this->_vars.constants.CALL_FAILURE;
+        this->_vars.gp.call_status = this->_trig_set_mode_select();
+        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        {
+            return this->_vars.constants.CALL_FAILURE;
+        }
     }
-    this->_vars.gp.call_status = this->_trig_set_transition_select();
-    if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+    // vars.trig.position_percent
+    if (this->vars.trig.position_percent == this->_vars.trig.position_percent)
     {
-        return this->_vars.constants.CALL_FAILURE;
+        #ifdef DEBUG_MAX
+            printf("\n\ttrig position percent already set\n");
+        #endif
     }
+    else
+    {
+        this->_vars.gp.call_status = this->_trig_set_position_percent();
+        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        {
+            return this->_vars.constants.CALL_FAILURE;
+        }
+    }
+    // vars.trig.source_select
+    if (this->vars.trig.source_select == this->_vars.trig.source_select)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\ttrig source select already set\n");
+        #endif
+    }
+    else
+    {
+        this->_vars.gp.call_status = this->_trig_set_source_select();
+        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        {
+            return this->_vars.constants.CALL_FAILURE;
+        }
+    }
+    // vars.trig.transition_select
+    if (this->vars.trig.transition_select == this->_vars.trig.transition_select)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\ttrig transition select already set\n");
+        #endif
+    }
+    else
+    {
+        this->_vars.gp.call_status = this->_trig_set_transition_select();
+        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        {
+            return this->_vars.constants.CALL_FAILURE;
+        }
+    }
+    
     return this->_vars.constants.CALL_SUCCESS;
 }
 
@@ -78,16 +129,9 @@ int rsa306b_class::_trig_set_if_power_level()
         __LINE__, __FILE__, __func__);
 #endif
 
-    if (this->vars.trig.if_power_level == this->_vars.trig.if_power_level)
-    {
-        #ifdef DEBUG_MAX
-            printf("\n\ttrig IF power level already set\n");
-        #endif
-        return this->_vars.constants.CALL_SUCCESS;
-    }
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return this->_vars.constants.CALL_FAILURE;
@@ -96,15 +140,13 @@ int rsa306b_class::_trig_set_if_power_level()
         this->vars.trig.if_power_level > this->_vars.constants.REFERENCE_LEVEL_MAX_dbm  )
     {
         #ifdef DEBUG_MIN
-            printf("\n\tpower level{ %lf }  ,  out of range [ %lf , %lf ]\n",
+            printf("\n\tpower level { %lf }  ,  out of range [ %lf , %lf ]\n",
                 this->vars.trig.if_power_level,
                 this->_vars.constants.REFERENCE_LEVEL_MIN_dbm,
                 this->_vars.constants.REFERENCE_LEVEL_MIN_dbm);
         #endif
         return this->_vars.constants.CALL_FAILURE;
     }
-    this->device_stop();
-
     this->_vars.gp.api_status = 
         RSA_API::TRIG_SetIFPowerTriggerLevel(this->vars.trig.if_power_level);
     this->_gp_confirm_api_status();
@@ -126,16 +168,9 @@ int rsa306b_class::_trig_set_mode_select()
         __LINE__, __FILE__, __func__);
 #endif
 
-    if (this->vars.trig.mode_select == this->_vars.trig.mode_select)
-    {
-        #ifdef DEBUG_MAX
-            printf("\n\ttrig mode already set\n");
-        #endif
-        return this->_vars.constants.CALL_SUCCESS;
-    }
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return this->_vars.constants.CALL_FAILURE;
@@ -148,8 +183,6 @@ int rsa306b_class::_trig_set_mode_select()
         #endif
         return this->_vars.constants.CALL_FAILURE;
     }
-    this->device_stop();
-
     this->_vars.gp.api_status = 
         RSA_API::TRIG_SetTriggerMode(this->vars.trig.mode_select);
     this->_gp_confirm_api_status();
@@ -172,16 +205,9 @@ int rsa306b_class::_trig_set_position_percent()
         __LINE__, __FILE__, __func__);
 #endif
 
-    if (this->vars.trig.position_percent == this->_vars.trig.position_percent)
-    {
-        #ifdef DEBUG_MAX
-            printf("\n\ttrig position percent already set\n");
-        #endif
-        return this->_vars.constants.CALL_SUCCESS;
-    }
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return this->_vars.constants.CALL_FAILURE;
@@ -197,8 +223,6 @@ int rsa306b_class::_trig_set_position_percent()
         #endif
         return this->_vars.constants.CALL_FAILURE;
     }
-    this->device_stop();
-
     this->_vars.gp.api_status = 
         RSA_API::TRIG_SetTriggerPositionPercent(this->vars.trig.position_percent);
     this->_gp_confirm_api_status();
@@ -220,16 +244,9 @@ int rsa306b_class::_trig_set_source_select()
         __LINE__, __FILE__, __func__);
 #endif
 
-    if (this->vars.trig.source_select== this->_vars.trig.source_select)
-    {
-        #ifdef DEBUG_MAX
-            printf("\n\ttrig source select already set\n");
-        #endif
-        return this->_vars.constants.CALL_SUCCESS;
-    }
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return this->_vars.constants.CALL_FAILURE;
@@ -243,8 +260,6 @@ int rsa306b_class::_trig_set_source_select()
         #endif
         return this->_vars.constants.CALL_FAILURE;
     }
-    this->device_stop();
-
     this->_vars.gp.api_status = 
         RSA_API::TRIG_SetTriggerSource(this->vars.trig.source_select);
     this->_gp_confirm_api_status();
@@ -266,16 +281,9 @@ int rsa306b_class::_trig_set_transition_select()
         __LINE__, __FILE__, __func__);
 #endif
 
-    if (this->vars.trig.transition_select == this->_vars.trig.transition_select)
-    {
-        #ifdef DEBUG_MAX
-            printf("\n\ttrig transition select already set\n");
-        #endif
-        return this->_vars.constants.CALL_SUCCESS;
-    }
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return this->_vars.constants.CALL_FAILURE;
@@ -289,8 +297,6 @@ int rsa306b_class::_trig_set_transition_select()
         #endif
         return this->_vars.constants.CALL_FAILURE;
     }
-    this->device_stop();
-
     this->_vars.gp.api_status = 
         RSA_API::TRIG_SetTriggerTransition(this->vars.trig.transition_select);
     this->_gp_confirm_api_status();

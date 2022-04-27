@@ -28,7 +28,7 @@ void rsa306b_class::audio_set_vars()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;
@@ -68,12 +68,26 @@ void rsa306b_class::audio_acquire_data()
         #endif
         return;
     }
-
+    if (this->_vars.audio.data_samples_requested < 1 ||
+        this->_vars.audio.data_samples_requested > AUDIO_DATA_LENGTH_MAX)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\tsamples requested { %u }  ,  out of range [ 1 , %d ]\n",
+                this->_vars.audio.data_samples_requested,
+                AUDIO_DATA_LENGTH_MAX);
+        #endif
+        return;
+    }
     this->_vars.audio.data_samples_output = 0;
     this->device_run();
-    this->_vars.gp.api_status = RSA_API::AUDIO_Start();
-    this->_gp_confirm_api_status();
-    this->_vars.audio.is_demodulating = true;
+
+    this->_audio_get_is_demodulating();
+    if (this->_vars.audio.is_demodulating == false)
+    {
+        this->_vars.gp.api_status = RSA_API::AUDIO_Start();
+        this->_gp_confirm_api_status();
+    }
+    this->_audio_get_is_demodulating();
 
     this->_vars.gp.api_status = RSA_API::AUDIO_GetData(
         this->_vars.audio.data, 
@@ -81,11 +95,11 @@ void rsa306b_class::audio_acquire_data()
         &this->_vars.audio.data_samples_output);
     this->_gp_confirm_api_status();
     this->_audio_get_data();
-
-    this->_vars.gp.api_status = RSA_API::AUDIO_Stop();
-    this->_vars.audio.is_demodulating = false;
-    this->_gp_confirm_api_status();
+    
     this->device_stop();
+    this->_vars.gp.api_status = RSA_API::AUDIO_Stop();
+    this->_audio_get_is_demodulating();
+    this->_gp_confirm_api_status();
 }
 
 

@@ -6,12 +6,9 @@
         < 2 >  reftime_get_vars()
         < 3 >  reftime_timestamp_2_time()
         < 4 >  reftime_time_2_timestamp()
-        < 5 >  reftime_make_dts()
-        < 6 >  reftime_split_begin()
-        < 7 >  reftime_split_end()
     
     private :
-        #  none
+        < 1 >  _reftime_make_dts()
 
 */
 
@@ -30,7 +27,7 @@ void rsa306b_class::reftime_reset()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;
@@ -57,12 +54,11 @@ void rsa306b_class::reftime_get_vars()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;
     }
-    this->reftime_make_dts();
     this->_reftime_get_vars();
 }
 
@@ -82,11 +78,12 @@ void rsa306b_class::reftime_timestamp_2_time()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;
     }
+    this->_vars.reftime.helper.timestamp = this->vars.reftime.helper.timestamp;
     this->_vars.gp.api_status =
         RSA_API::REFTIME_GetTimeFromTimestamp(
             this->_vars.reftime.helper.timestamp,
@@ -112,11 +109,13 @@ void rsa306b_class::reftime_time_2_timestamp()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;
     }
+    this->_vars.reftime.helper.seconds = this->vars.reftime.helper.seconds;
+    this->_vars.reftime.helper.seconds = this->vars.reftime.helper.seconds;
     this->_vars.gp.api_status =
         RSA_API::REFTIME_GetTimestampFromTime(
             this->_vars.reftime.helper.seconds,
@@ -131,9 +130,9 @@ void rsa306b_class::reftime_time_2_timestamp()
 
 
 /*
-    < 5 > public
+    < 1 > public
 */
-void rsa306b_class::reftime_make_dts()
+void rsa306b_class::_reftime_make_dts()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -142,7 +141,7 @@ void rsa306b_class::reftime_make_dts()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;
@@ -166,58 +165,5 @@ void rsa306b_class::reftime_make_dts()
     this->_reftime_copy_dts();
 }
 
-
-////~~~~
-
-
-/*
-    < 6 > public
-*/
-void rsa306b_class::reftime_split_begin()
-{
-#ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
-        __LINE__, __FILE__, __func__);
-#endif  
-
-    if (this->_vars.device.is_connected == false)
-    {
-        #ifdef DEBUG_MAX
-            printf("\n\tno device connected\n");
-        #endif
-        return;
-    }
-    this->_reftime_get_running_duration();
-    this->_vars.reftime.split_trail = this->_vars.reftime.running_duration;
-    this->_reftime_copy_split_trail();
-}
-
-
-////~~~~
-
-
-/*
-    < 7 > public
-*/
-void rsa306b_class::reftime_split_end()
-{
-#ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
-        __LINE__, __FILE__, __func__);
-#endif  
-
-    if (this->_vars.device.is_connected == false)
-    {
-        #ifdef DEBUG_MAX
-            printf("\n\tno device connected\n");
-        #endif
-        return;
-    }
-    this->_reftime_get_running_duration();
-    this->_vars.reftime.split_duration = 
-        this->_vars.reftime.running_duration - this->_vars.reftime.split_trail;
-    this->_reftime_copy_split_duration();
-}
-        
 
 ////////~~~~~~~~END>  rsa306b_reftime_user.cpp

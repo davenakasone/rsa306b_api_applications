@@ -32,38 +32,89 @@ int rsa306b_class::_audio_set_vars()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return this->_vars.constants.CALL_FAILURE;
     }
     this->device_stop();
 
-    this->_vars.gp.call_status = this->_audio_set_is_mute();
-    if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+    // vars.audio.is_mute
+    if (this->vars.audio.is_mute == this->_vars.audio.is_mute)
     {
-        return this->_vars.constants.CALL_FAILURE;
+        #ifdef DEBUG_MAX
+            printf("\n\taudio already muted\n");
+        #endif
     }
-    this->_vars.gp.call_status = this->_audio_set_frequency_offset_hz();
-    if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+    else
     {
-        return this->_vars.constants.CALL_FAILURE;
+        this->_vars.gp.call_status = this->_audio_set_is_mute();
+        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        {
+            return this->_vars.constants.CALL_FAILURE;
+        }
     }
-    this->_vars.gp.call_status = this->_audio_set_volume();
-    if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+    // vars.audio.frequency_offset_hz
+    if (this->vars.audio.frequency_offset_hz == this->_vars.audio.frequency_offset_hz)
     {
-        return this->_vars.constants.CALL_FAILURE;
+        #ifdef DEBUG_MAX
+            printf("\n\taudio frequency offset already set\n");
+        #endif
     }
-    this->_vars.gp.call_status = this->_audio_set_demodulation_select();
-    if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+    else
     {
-        return this->_vars.constants.CALL_FAILURE;
+        this->_vars.gp.call_status = this->_audio_set_frequency_offset_hz();
+        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        {
+            return this->_vars.constants.CALL_FAILURE;
+        }
     }
-    this->_vars.gp.call_status = this->_audio_set_data_samples_requested();
-    if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+    // vars.audio.volume
+    if (this->vars.audio.volume == this->_vars.audio.volume)
     {
-        return this->_vars.constants.CALL_FAILURE;
+        #ifdef DEBUG_MAX
+            printf("\n\taudio volume already set\n");
+        #endif
     }
+    else
+    {
+        this->_vars.gp.call_status = this->_audio_set_volume();
+        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        {
+            return this->_vars.constants.CALL_FAILURE;
+        }
+    }
+    // vars.audio.demodulation_select
+    if (this->vars.audio.demodulation_select == this->_vars.audio.demodulation_select)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\taudio demodulation already set\n");
+        #endif
+    }
+    else
+    {
+        this->_vars.gp.call_status = this->_audio_set_demodulation_select();
+        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        {
+            return this->_vars.constants.CALL_FAILURE;
+        }
+    }
+    // vars.data_samples_requested
+    if (this->vars.audio.data_samples_requested == this->_vars.audio.data_samples_requested)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\taudio data samples requested already set\n");
+        #endif
+    }
+    else
+    {
+        this->_vars.gp.call_status = this->_audio_set_data_samples_requested();
+        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        {
+            return this->_vars.constants.CALL_FAILURE;
+        }
+    }
+    
     return this->_vars.constants.CALL_SUCCESS;
 }
 
@@ -83,22 +134,13 @@ int rsa306b_class::_audio_set_is_mute()
         __LINE__, __FILE__, __func__);
 #endif
 
-    if (this->vars.audio.is_mute == this->_vars.audio.is_mute)
-    {
-        #ifdef DEBUG_MAX
-            printf("\n\taudio already muted\n");
-        #endif
-        return this->_vars.constants.CALL_SUCCESS;
-    }
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return this->_vars.constants.CALL_FAILURE;
     }
-    this->device_stop();
-
     this->_vars.gp.api_status = 
         RSA_API::AUDIO_SetMute(&this->vars.audio.is_mute);
     this->_gp_confirm_api_status();
@@ -120,16 +162,9 @@ int rsa306b_class::_audio_set_frequency_offset_hz()
         __LINE__, __FILE__, __func__);
 #endif
 
-    if (this->vars.audio.frequency_offset_hz == this->_vars.audio.frequency_offset_hz)
-    {
-        #ifdef DEBUG_MAX
-            printf("\n\taudio frequency offset already set\n");
-        #endif
-        return this->_vars.constants.CALL_SUCCESS;
-    }
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return this->_vars.constants.CALL_FAILURE;
@@ -145,8 +180,6 @@ int rsa306b_class::_audio_set_frequency_offset_hz()
         #endif
         return this->_vars.constants.CALL_FAILURE;
     }
-    this->device_stop();
-
     this->_vars.gp.api_status = 
         RSA_API::AUDIO_SetFrequencyOffset(this->vars.audio.frequency_offset_hz);
     this->_gp_confirm_api_status();
@@ -168,16 +201,9 @@ int rsa306b_class::_audio_set_volume()
         __LINE__, __FILE__, __func__);
 #endif
 
-    if (this->vars.audio.volume == this->_vars.audio.volume)
-    {
-        #ifdef DEBUG_MAX
-            printf("\n\taudio volume already set\n");
-        #endif
-        return this->_vars.constants.CALL_SUCCESS;
-    }
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return this->_vars.constants.CALL_FAILURE;
@@ -193,8 +219,6 @@ int rsa306b_class::_audio_set_volume()
         #endif
         return this->_vars.constants.CALL_FAILURE;
     }
-    this->device_stop();
-
     this->_vars.gp.api_status = 
         RSA_API::AUDIO_SetVolume(this->vars.audio.volume);
     this->_gp_confirm_api_status();
@@ -216,16 +240,9 @@ int rsa306b_class::_audio_set_demodulation_select()
         __LINE__, __FILE__, __func__);
 #endif
 
-    if (this->vars.audio.demodulation_select == this->_vars.audio.demodulation_select)
-    {
-        #ifdef DEBUG_MAX
-            printf("\n\taudio demodulation already set\n");
-        #endif
-        return this->_vars.constants.CALL_SUCCESS;
-    }
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return this->_vars.constants.CALL_FAILURE;
@@ -241,8 +258,6 @@ int rsa306b_class::_audio_set_demodulation_select()
         #endif
         return this->_vars.constants.CALL_FAILURE;
     }
-    this->device_stop();
-
     this->_vars.gp.api_status = 
         RSA_API::AUDIO_SetMode(this->vars.audio.demodulation_select);
     this->_gp_confirm_api_status();
@@ -264,16 +279,9 @@ int rsa306b_class::_audio_set_data_samples_requested()
         __LINE__, __FILE__, __func__);
 #endif
 
-    if (this->vars.audio.data_samples_requested == this->_vars.audio.data_samples_requested)
-    {
-        #ifdef DEBUG_MAX
-            printf("\n\taudio data samples requested already set\n");
-        #endif
-        return this->_vars.constants.CALL_SUCCESS;
-    }
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return this->_vars.constants.CALL_FAILURE;
@@ -288,7 +296,6 @@ int rsa306b_class::_audio_set_data_samples_requested()
         #endif
         return this->_vars.constants.CALL_FAILURE;
     }
-    
     this->_vars.audio.data_samples_requested = 
         this->vars.audio.data_samples_requested;
     return this->_vars.constants.CALL_SUCCESS;

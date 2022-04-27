@@ -89,10 +89,11 @@ void rsa306b_class::device_connect()
     #ifdef DEBUG_MIN
         printf("\n\t^^^ CONNECTED ^^^\n");
     #endif
-
+    this->device_stop();
     this->align_run();
+    this->config_preset(); // also calls "get_everything()"
 
-    this->get_everything();
+    // INSERT
 }
 
 
@@ -193,7 +194,7 @@ void rsa306b_class::device_stop()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;
@@ -236,7 +237,7 @@ void rsa306b_class::device_reset()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;

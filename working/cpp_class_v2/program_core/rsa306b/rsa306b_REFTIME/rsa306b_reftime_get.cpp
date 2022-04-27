@@ -29,12 +29,12 @@ void rsa306b_class::_reftime_get_vars()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;
     }
-    this->_reftime_get_current();
+    this->_reftime_make_dts();    // calls _reftime_get_current
     this->_reftime_get_start();
     this->_reftime_get_running_duration();
     this->_reftime_get_source_select();
@@ -57,7 +57,7 @@ void rsa306b_class::_reftime_get_current()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;
@@ -87,7 +87,7 @@ void rsa306b_class::_reftime_get_start()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;
@@ -117,7 +117,7 @@ void rsa306b_class::_reftime_get_running_duration()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;
@@ -144,7 +144,7 @@ void rsa306b_class::_reftime_get_source_select()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;
@@ -171,7 +171,7 @@ void rsa306b_class::_reftime_get_timestamp_rate()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
         return;

@@ -15,8 +15,8 @@
 //#define UT6_a 1    // basic test
 //#define UT6_b 2    // timestamp conversions
 //#define UT6_c 3    // dts
-//#define UT6_d 4    // test wall clock and cpu timers   ...it is a split since last timestamp was made
-#define UT6_e 5    // reset
+//#define UT6_d 4    // reset
+#define UT6_e 5 // compare time splits ... it is unresponsive to sleep?
 
 
 void unit_test_6 (void)
@@ -42,9 +42,6 @@ void unit_test_6 (void)
             
             wait_enter_clear();
 
-            rsa.vars.reftime.helper.seconds = 0;
-            rsa.vars.reftime.helper.nanos = 0;
-            rsa.print_reftime();
             rsa.reftime_get_vars();
             rsa.print_reftime();
             rsa.vars.reftime.helper.seconds = rsa.vars.reftime.current.seconds;
@@ -54,27 +51,34 @@ void unit_test_6 (void)
         #endif
         #ifdef UT6_c
             rsa.device_connect();
-            rsa.reftime_make_dts();
+            rsa.reftime_get_vars();
             printf("\n%s\n", rsa.vars.reftime.dts);
         #endif
         #ifdef UT6_d
-            int discard;
-            rsa.device_connect();
-            cpu.time_split_start();
-            rsa.reftime_split_begin();
-            sleep(3);
-            rsa.reftime_split_end();
-            cpu.time_split_stop();
-            printf("\nwall clock :  %12lf  ,  started:  %0.12lf\n", 
-                rsa.vars.reftime.split_duration, rsa.vars.reftime.split_trail);
-            printf("\ncpu clock  :  %12lf\n", cpu.get_running_time());
-        #endif
-        #ifdef UT6_e
             rsa.device_connect();
             rsa.print_reftime();
+            sleep(1);
             rsa.reftime_reset();
             rsa.print_reftime();
         #endif
+        #ifdef UT6_e
+            rsa.device_connect();
+            double lead = 0;
+            double trail = 0;
+            int waiting = 4; // change
+            printf("\ncomparing a %d second sleep cylce...\n", waiting);
+
+            cpu.time_split_start();
+            rsa.reftime_get_vars();
+            trail = (double)rsa.vars.reftime.current.seconds + (double)rsa.vars.reftime.current.nanos / 1.0e9;
+            sleep(waiting);
+            cpu.time_split_stop();
+            rsa.reftime_get_vars();
+            lead = (double)rsa.vars.reftime.current.seconds + (double)rsa.vars.reftime.current.nanos / 1.0e9;
+            printf("rsa306 time split:  %0.12lf\n", lead - trail);
+            cpu.print_time_split();
+        #endif
+        printf("\ndestructors....\n");
     }
     printf("\n%s()  ,  test complete\n", __func__);
     wait_enter_clear();
@@ -82,12 +86,3 @@ void unit_test_6 (void)
 
 
 ////////~~~~~~~~END>  unit_test_6.cpp
-/*
-reftime_reset()
-reftime_get_vars()
-reftime_timestamp_2_time()
-reftime_time_2_timestamp()
-reftime_make_dts()
-reftime_split_begin()
-reftime_split_end()
-*/

@@ -34,10 +34,8 @@ void rsa306b_class::print_reftime()
     printf("\thelper time (timestamp)     :  %lu\n", this->_vars.reftime.helper.timestamp);
     printf("\tdate time stamp             :  %s\n", this->_vars.reftime.dts);
     printf("\trunning duration (seconds)  :  %lf\n", this->_vars.reftime.running_duration);
-    printf("\tsplit duration (seconds)    :  %lf\n", this->_vars.reftime.split_duration);
-    printf("\tsplit trail (seconds)       :  %lf\n", this->_vars.reftime.split_trail);
     printf("\ttimestamp rate              :  %lu\n", this->_vars.reftime.timestamp_rate);
-    printf("\ttime source                 : ");
+    printf("\ttime source                 :  ");
     switch (this->_vars.reftime.source_select)
     {
         case (RSA_API::RTSRC_NONE)   : printf("none\n"); break;
@@ -62,28 +60,24 @@ void rsa306b_class::_reftime_init()
         __LINE__, __FILE__, __func__);
 #endif  
 
-    this->_vars.reftime.current.nanos = 0;
-    this->_vars.reftime.current.seconds = 0;
-    this->_vars.reftime.current.timestamp = 0;
+    this->_vars.reftime.current.nanos = this->_vars.constants.INIT_UINT;
+    this->_vars.reftime.current.seconds = this->_vars.constants.INIT_UINT;
+    this->_vars.reftime.current.timestamp = this->_vars.constants.INIT_UINT;
 
-    this->_vars.reftime.start.nanos = 0;
-    this->_vars.reftime.start.seconds = 0;
-    this->_vars.reftime.start.timestamp = 0;
+    this->_vars.reftime.start.nanos = this->_vars.constants.INIT_UINT;
+    this->_vars.reftime.start.seconds = this->_vars.constants.INIT_UINT;
+    this->_vars.reftime.start.timestamp = this->_vars.constants.INIT_UINT;
 
-    this->_vars.reftime.helper.nanos = 0;
-    this->_vars.reftime.helper.seconds = 0;
-    this->_vars.reftime.helper.timestamp = 0;
+    this->_vars.reftime.helper.nanos = this->_vars.constants.INIT_UINT;
+    this->_vars.reftime.helper.seconds = this->_vars.constants.INIT_UINT;
+    this->_vars.reftime.helper.timestamp = this->_vars.constants.INIT_UINT;
     
     memset(this->_vars.reftime.dts, '\0', BUF_C);
     strncpy(this->_vars.reftime.dts, this->_vars.constants.INIT_STR, BUF_C-1);
 
     this->_vars.reftime.running_duration = this->_vars.constants.INIT_DOUBLE;
-    this->_vars.reftime.split_duration = this->_vars.constants.INIT_DOUBLE;
-    this->_vars.reftime.split_trail = this->_vars.constants.INIT_DOUBLE;
-
     this->_vars.reftime.source_select = RSA_API::RTSRC_USER;
-
-    this->_vars.reftime.timestamp_rate = 0;
+    this->_vars.reftime.timestamp_rate = this->_vars.constants.INIT_UINT;
 }
 
 
