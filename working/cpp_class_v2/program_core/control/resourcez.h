@@ -36,6 +36,8 @@
 #define TRACES_AVAILABLE 3           // the RSA-306B has three traces that can be used
 #define SPECTRUM_DATA_LENGTH 2048    // spectrum aquisitions, go dynamic if needed
 #define AUDIO_DATA_LENGTH 1024       // maximum audio data points, 2^16 - 1, go dynamic if needed
+#define IFSTREAM_SUFFIX -1           // control file suffix name for IFSTREAM group, {0:increment, -1:timestamp, -2:none}
+#define IFSTREAM_VECTOR_LENGTH 3     // correction vectors for the IFSTREAM data, a set of tripplets
 
 
 #endif

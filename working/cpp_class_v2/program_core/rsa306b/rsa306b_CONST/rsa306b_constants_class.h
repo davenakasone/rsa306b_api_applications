@@ -43,6 +43,9 @@ class rsa306b_constants_class
         const float AUDIO_VOLUME_MIN = 0.0;                           // minimum audio volume API will accept
         const double AUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz = 20e6;     // highest audio demodulator API accepts
         const double AUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz = -20e6;    // highest audio demodulator API accepts
+
+        // files
+        const char SPECTRUM_CSV_PATH[BUF_B] = "./program_test/data/outputs_txt/";  // where "spectrum_write_csv()" goes
 };
 
 

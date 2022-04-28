@@ -52,6 +52,8 @@ void rsa306b_class::_gp_init()
         __LINE__, __FILE__, __func__);
 #endif
 
+    this->_fptr_write = NULL;
+    
     this->_vars.gp.acquisition_code = 0x00;
     memset(this->_vars.gp.acquisition_message, '\0', BUF_B);
     strcpy(this->_vars.gp.acquisition_message, this->_vars.constants.INIT_STR);

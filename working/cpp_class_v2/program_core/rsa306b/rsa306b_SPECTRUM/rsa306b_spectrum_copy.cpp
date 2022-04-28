@@ -9,8 +9,8 @@
         < 2 >   _spectrum_copy_is_enabled_measurement()
         < 3 >   _spectrum_copy_settings_type()
         < 4 >   _spectrum_copy_limits_type()
-        < 5 >   _spectrum_copy_trace_points_aquired()
-        < 6 >   _spectrum_copy_array_frequency()
+        < 5 >   _spectrum_copy_array_frequency()
+        < 6 >   _spectrum_copy_trace_points_aquired()
         < 7 >   _spectrum_copy_is_enabled_trace()
         < 8 >   _spectrum_copy_traces_select()
         < 9 >   _spectrum_copy_detectors_select()
@@ -35,14 +35,18 @@ void rsa306b_class::_spectrum_copy_vars()
     this->_spectrum_copy_is_enabled_measurement();
     this->_spectrum_copy_settings_type();
     this->_spectrum_copy_limits_type();
-    this->_spectrum_copy_trace_points_aquired();
     this->_spectrum_copy_array_frequency();
-    this->_spectrum_copy_is_enabled_trace();
-    this->_spectrum_copy_traces_select();
-    this->_spectrum_copy_detectors_select();
-    this->_spectrum_copy_trace_info_type();
-    this->_spectrum_copy_array_power();
-    this->_spectrum_copy_peak_index();
+    
+    for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
+    {
+        this->_spectrum_copy_trace_points_aquired(ii);
+        this->_spectrum_copy_traces_select(ii);
+        this->_spectrum_copy_trace_info_type(ii);
+        this->_spectrum_copy_is_enabled_trace(ii);
+        this->_spectrum_copy_detectors_select(ii);
+        this->_spectrum_copy_array_power(ii);
+        this->_spectrum_copy_peak_index(ii);
+    }
 }
 
 
@@ -58,6 +62,8 @@ void rsa306b_class::_spectrum_copy_is_enabled_measurement()
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif  
+
+    this->vars.spectrum.is_enabled_measurement = this->_vars.spectrum.is_enabled_measurement;
 }
 
 
@@ -74,7 +80,19 @@ void rsa306b_class::_spectrum_copy_settings_type()
         __LINE__, __FILE__, __func__);
 #endif  
 
-    // fill here
+    this->vars.spectrum.settings_type.actualFreqStepSize = this->_vars.spectrum.settings_type.actualFreqStepSize;
+    this->vars.spectrum.settings_type.actualNumIQSamples = this->_vars.spectrum.settings_type.actualNumIQSamples;
+    this->vars.spectrum.settings_type.actualRBW = this->_vars.spectrum.settings_type.actualRBW;
+    this->vars.spectrum.settings_type.actualStartFreq = this->_vars.spectrum.settings_type.actualStartFreq;
+    this->vars.spectrum.settings_type.actualStopFreq = this->_vars.spectrum.settings_type.actualStopFreq;
+    this->vars.spectrum.settings_type.actualVBW = this->_vars.spectrum.settings_type.actualVBW;
+    this->vars.spectrum.settings_type.enableVBW = this->_vars.spectrum.settings_type.enableVBW;
+    this->vars.spectrum.settings_type.rbw = this->_vars.spectrum.settings_type.rbw;
+    this->vars.spectrum.settings_type.span = this->_vars.spectrum.settings_type.span;
+    this->vars.spectrum.settings_type.traceLength = this->_vars.spectrum.settings_type.traceLength;
+    this->vars.spectrum.settings_type.vbw = this->_vars.spectrum.settings_type.vbw;
+    this->vars.spectrum.settings_type.verticalUnit = this->_vars.spectrum.settings_type.verticalUnit;
+    this->vars.spectrum.settings_type.window = this->_vars.spectrum.settings_type.window;
 }
 
 
@@ -108,23 +126,6 @@ void rsa306b_class::_spectrum_copy_limits_type()
 /*
     < 5 > private
 */
-void rsa306b_class::_spectrum_copy_trace_points_aquired()
-{
-#ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
-        __LINE__, __FILE__, __func__);
-#endif  
-
-    this->vars.spectrum.trace_points_acquired = this->_vars.spectrum.trace_points_acquired;
-}
-
-
-////~~~~
-
-
-/*
-    < 6 > private
-*/
 void rsa306b_class::_spectrum_copy_array_frequency()
 {
 #ifdef DEBUG_CLI
@@ -143,19 +144,33 @@ void rsa306b_class::_spectrum_copy_array_frequency()
 
 
 /*
+    < 6 > private
+*/
+void rsa306b_class::_spectrum_copy_trace_points_aquired(int trace_index)
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif  
+
+    this->vars.spectrum.trace_points_acquired[trace_index] = this->_vars.spectrum.trace_points_acquired[trace_index];
+}
+
+
+////~~~~
+
+
+/*
     < 7 > private
 */
-void rsa306b_class::_spectrum_copy_is_enabled_trace()
+void rsa306b_class::_spectrum_copy_is_enabled_trace(int trace_index)
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif 
 
-    for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
-    {
-        this->vars.spectrum.is_enabled_trace[ii] = this->_vars.spectrum.is_enabled_trace[ii];
-    }
+    this->vars.spectrum.is_enabled_trace[trace_index] = this->_vars.spectrum.is_enabled_trace[trace_index];
 }
 
 
@@ -165,17 +180,14 @@ void rsa306b_class::_spectrum_copy_is_enabled_trace()
 /*
     < 8 > private
 */
-void rsa306b_class::_spectrum_copy_traces_select()
+void rsa306b_class::_spectrum_copy_traces_select(int trace_index)
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif  
 
-    for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
-    {
-        this->vars.spectrum.traces_select[ii] = this->_vars.spectrum.traces_select[ii];
-    }
+    this->vars.spectrum.traces_select[trace_index] = this->_vars.spectrum.traces_select[trace_index];
 }
 
 
@@ -185,17 +197,14 @@ void rsa306b_class::_spectrum_copy_traces_select()
 /*
     < 9 > private
 */
-void rsa306b_class::_spectrum_copy_detectors_select()
+void rsa306b_class::_spectrum_copy_detectors_select(int trace_index)
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif  
 
-    for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
-    {
-        this->vars.spectrum.detectors_select[ii] = this->_vars.spectrum.detectors_select[ii];
-    }
+    this->vars.spectrum.detectors_select[trace_index] = this->_vars.spectrum.detectors_select[trace_index];
 }
 
 
@@ -205,15 +214,15 @@ void rsa306b_class::_spectrum_copy_detectors_select()
 /*
     < 10 > private
 */
-void rsa306b_class::_spectrum_copy_trace_info_type()
+void rsa306b_class::_spectrum_copy_trace_info_type(int trace_index)
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif  
 
-    this->vars.spectrum.trace_info_type->acqDataStatus = this->_vars.spectrum.trace_info_type->acqDataStatus;
-    this->vars.spectrum.trace_info_type->timestamp = this->_vars.spectrum.trace_info_type->timestamp;
+    this->vars.spectrum.trace_info_type[trace_index].acqDataStatus = this->_vars.spectrum.trace_info_type[trace_index].acqDataStatus;
+    this->vars.spectrum.trace_info_type[trace_index].timestamp = this->_vars.spectrum.trace_info_type[trace_index].timestamp;
 }
 
 
@@ -223,19 +232,16 @@ void rsa306b_class::_spectrum_copy_trace_info_type()
 /*
     < 11 > private
 */
-void rsa306b_class::_spectrum_copy_array_power()
+void rsa306b_class::_spectrum_copy_array_power(int trace_index)
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif  
 
-    for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
+    for (int ii = 0; ii < SPECTRUM_DATA_LENGTH; ii++)
     {
-        for (int jj = 0; jj < SPECTRUM_DATA_LENGTH; jj++)
-        {
-            this->_vars.spectrum.array_power[ii][jj] = this->_vars.spectrum.array_power[ii][jj];
-        }
+       this->vars.spectrum.array_power[trace_index][ii] = this->_vars.spectrum.array_power[trace_index][ii];
     }
 }
     
@@ -246,17 +252,14 @@ void rsa306b_class::_spectrum_copy_array_power()
 /*
     < 12 > private
 */
-void rsa306b_class::_spectrum_copy_peak_index()
+void rsa306b_class::_spectrum_copy_peak_index(int trace_index)
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif  
 
-    for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
-    {
-        this->vars.spectrum.peak_index[ii] = this->_vars.spectrum.peak_index[ii];
-    }
+    this->vars.spectrum.peak_index[trace_index] = this->_vars.spectrum.peak_index[trace_index];
 }
 
 

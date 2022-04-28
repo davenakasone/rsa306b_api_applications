@@ -63,8 +63,11 @@ $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_get.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_print_init.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_user.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_copy.cpp \
-$(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_init.cpp \
+$(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_get.cpp \
+$(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_init_default.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_print.cpp \
+$(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_set.cpp \
+$(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_user.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_copy.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_get.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_print_init.cpp \
@@ -132,7 +135,8 @@ clear_outputs :
 # input file directories are deleted, removing all input files
 # empty input file directories are made
 # output file directories are preserved
-#    requires input:  unit_test_xxx.cpp
+#    requires input:  
+#		unit_test_xxx()
 clear_inputs :
 	clear
 	rm -f $(EXEC)
@@ -159,6 +163,8 @@ clear_inputs :
 # the executable is deleted
 # input and output file directories are deleted, removing all output files
 # issue "make clean" if files are too large for github
+#	makes output:
+#		unit_test_8 ()
 clean : clear_inputs clear_outputs
 	clear
 	@echo 'inputs and outputs are cleared'

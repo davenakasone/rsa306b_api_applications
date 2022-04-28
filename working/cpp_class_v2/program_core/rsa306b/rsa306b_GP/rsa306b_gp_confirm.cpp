@@ -140,7 +140,7 @@ void rsa306b_class::_gp_confirm_aquisition_code()
             "ADC over overating range { 0x%X }",
             this->_vars.gp.acquisition_code);
         this->_gp_copy_acquistion_message();
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\tacquisition message:  %s\n",
                 this->_vars.gp.acquisition_message);
         #endif
@@ -153,7 +153,7 @@ void rsa306b_class::_gp_confirm_aquisition_code()
             "lost oscillator lock { 0x%X }",
             this->_vars.gp.acquisition_code);
         this->_gp_copy_acquistion_message();
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\tacquisition message:  %s\n",
                 this->_vars.gp.acquisition_message);
         #endif
@@ -166,7 +166,7 @@ void rsa306b_class::_gp_confirm_aquisition_code()
             "USB power failure detected { 0x%X }",
             this->_vars.gp.acquisition_code);
         this->_gp_copy_acquistion_message();
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\tacquisition message:  %s\n",
                 this->_vars.gp.acquisition_message);
         #endif
@@ -179,7 +179,7 @@ void rsa306b_class::_gp_confirm_aquisition_code()
             "ADC lost data frame samples { 0x%X }",
             this->_vars.gp.acquisition_code);
         this->_gp_copy_acquistion_message();
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\tacquisition message:  %s\n",
                 this->_vars.gp.acquisition_message);
         #endif
@@ -190,7 +190,7 @@ void rsa306b_class::_gp_confirm_aquisition_code()
         "!!! program failure { 0x%X } !!!",
         this->_vars.gp.acquisition_code);
     this->_gp_copy_acquistion_message();
-    #ifdef DEBUG_MIN
+    #ifdef DEBUG_MAX
         printf("\n\tacquisition message:  %s\n",
             this->_vars.gp.acquisition_message);
     #endif

@@ -91,9 +91,9 @@ void rsa306b_class::device_connect()
     #endif
     this->device_stop();
     this->align_run();
-    
-    this->_gp_confirm_aquisition_code();
     this->config_preset(); // also calls "get_everything()"
+    this->spectrum_default();
+    this->_gp_confirm_aquisition_code();
     // INSERT
 }
 
@@ -158,6 +158,8 @@ void rsa306b_class::device_run()
         #endif
         return;
     }
+
+    this->_device_get_is_running();
     if (this->_vars.device.is_running == true)
     {
         #ifdef DEBUG_MAX
@@ -165,7 +167,6 @@ void rsa306b_class::device_run()
         #endif
         return;
     }
-
     this->_vars.gp.api_status = RSA_API::DEVICE_Run();
     if (this->_vars.gp.api_status != RSA_API::noError)
     {

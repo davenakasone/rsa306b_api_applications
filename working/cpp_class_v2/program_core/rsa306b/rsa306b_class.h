@@ -7,8 +7,17 @@
     only one instance of this class can connect to the spectrum analyzer
     for most use cases, only one instance of this class is required
 
+    Purpose of this class:
+        - automate API by abstracting mandatory procedures
+        - enforce correct use of the API 
+        - foundation for implementing future spectrum analyzer API interface needs
+        - easy use, while meeting speed requirements
+
     see documentation for general details
     see the test section for examples 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 
     Class source files, 
     
@@ -174,6 +183,35 @@
                 device_prepare_for_run()
                 device_start_frame_transfer()
 
+
+
+
+
+
+
+
+
+
+        "./program_core/rsa306b/rsa306_IFSTREAM/"
+            - rsa306b_ifstream_struct.h
+                struct rsa306b_ifstream_struct
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         "./program_core/rsa306b/rsa306_REFTIME/"
             - rsa306b_reftime_struct.h
                 struct rsa306b_reftime_struct
@@ -207,10 +245,14 @@
         "./program_core/rsa306b/rsa306_SPECTRUM/"
             - rsa306b_spectrum_struct.h
                 struct rsa306b_spectrum_struct
-            - rsa306b_spectrum_init.cpp
+            - rsa306b_spectrum_init_default.cpp
+                spectrum_default()
+                _spectrum_default()
                 _spectrum_init()
             - rsa306b_spectrum_print.cpp
                 print_spectrum()
+                _print_spectrum_traces_long()
+                _print_spectrum_traces_compact()
             - rsa306b_spectrum_copy.cpp
                 _spectrum_copy_vars()
                 _spectrum_copy_is_enabled_measurement()
@@ -224,15 +266,25 @@
                 _spectrum_copy_trace_info_type()
                 _spectrum_copy_array_power()
                 _spectrum_copy_peak_index()
+            - rsa306b_spectrum_get.cpp
+                _spectrum_get_vars()
+                _spectrum_get_is_enabled_measurement()
+                _spectrum_get_limits_type()
+                _spectrum_get_settings_type()
+                _spectrum_get_trace_info_type()
+                _spectrum_get_trace_type()
+            - rsa306b_spectrum_set.cpp
+                spectrum_set_vars()
+                _spectrum_set_vars()
+                _spectrum_set_is_enabled_measurement()
+                _spectrum_set_settings_type()
+                _spectrum_set_trace_type()
+            - rsa306b_spectrum_user.cpp
+                spectrum_aquire()
+                spectrum_find_peak_index()
+                spectrum_write_csv()
+                _spectrum_make_array_frequency()
 
-
-
-
-
-
-
-
-            
         "./program_core/rsa306b/rsa306_TRIG/"
             - rsa306b_trig_struct.h
                 struct rsa306b_trig_struct
@@ -264,13 +316,134 @@
                 trig_set_vars()
                 trig_force()
 
-// INSERT POINTS: device_connect(), _init_everything(), print_everything(), get_everything()
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 
+        // INSERT POINTS: device_connect(), _init_everything(), print_everything(), get_everything()
 
-    Purpose of this class:
-        - automate API by abstracting mandatory procedures
-        - enforce correct use of the API 
-        - foundation for implementing future spectrum analyzer API interface needs
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+    functions used, by API group:
+
+        Alignment
+            ALIGN_GetAlignmentNeeded()
+            ALIGN_GetWarmupStatus()
+            ALIGN_RunAlignment()
+
+        Audio
+            AUDIO_SetFrequencyOffset()
+            AUDIO_GetFrequencyOffset()
+            AUDIO_GetEnable()
+            AUDIO_GetData()
+            AUDIO_GetMode()
+            AUDIO_GetMute()
+            AUDIO_GetVolume()
+            AUDIO_SetMode()
+            AUDIO_SetMute()
+            AUDIO_SetVolume()
+            AUDIO_Start()
+            AUDIO_Stop()
+
+        Configure
+            GetCenterFreq()
+            GetFrequecnyReferenceSource()
+            GetMaxCenterFreq()
+            GetMinCenterFreq()
+            GetReferenceLevel()
+            Preset()
+            SetCenterFreq()
+            SetFrequencyReferenceSource()
+            SetReferenceLevel()
+
+        Device 
+            DEVICE_Connect()
+            DEVICE_Disconnect()
+            DEVICE_GetEnable()
+            DEVICE_GetErrorString()
+            DEVICE_GetInfo()
+            DEVICE_GetOverTemperatureStatus()
+            DEVICE_PrepareForRun()
+            DEVICE_Reset()
+            DEVICE_Run()
+            DEVICE_Search()
+            DEVICE_StartFrameTransfer()
+            DEVICE_Stop()
+
+        DPX
+            DPX_Configure()
+            DPX_FinishFrameBuffer()
+            DPX_GetEnable()
+            DPX_GetFrameBuffer()
+            DPX_GetFrameInfo()
+            DPX_GetRBWRange()
+            DPX_GetSettings()
+            DPX_GetSogramHiResLine()
+            DPX_GetSogramHiResLineCountLatest()
+            DPX_GetSogramHiResLineTimestamp()
+            DPX_GetSogramHiResLineTriggered()
+            DPX_GetSogramSettings()
+            DPX_IsFrameBufferAvailable()
+            DPX_Reset()
+            DPX_SetEnable()
+            DPX_SetParameters()
+            DPX_SetSogramParameters()
+            DPX_SetSogramTraceType()
+            DPX_SetSpectrumTraceType()
+            DPX_WaitForReady()
+            
+        GNSS # not used, only the RSA500/600 has position data
+
+        IF Streaming
+
+        IQ Block
+
+        IQ Streaming
+
+        Playback
+
+        Power # not used, only for the RSA500 series
+
+        Spectrum
+            SPECTRUM_AquireTrace()
+            SPECTRUM_GetEnable()
+            SPECTRUM_GetLimits()
+            SPECTRUM_GetSettings()
+            SPECTRUM_GetTrace()
+            SPECTRUM_GetTraceInfo()
+            SPECTRUM_GetTraceType()
+            SPECTRUM_SetDefault()
+            SPECTRUM_SetEnable()
+            SPECTRUM_SetSettings()
+            SPECTRUM_SetTraceType()
+            SPECTRUM_WaitForTraceReady()
+
+        Time
+            REFTIME_GetReferenceTime()
+            REFTIME_GetCurrentTime()
+            REFTIME_GetIntervalSinceRefTimeSet()
+            REFTIME_GetReferenceTimeSource()
+            REFTIME_GetTimeFromTimestamp()
+            REFTIME_GetTimestampFromTime()
+            REFTIME_GetTimestampRate()
+
+        Tracking # not used, only for RSA500/600 series
+
+        Trigger
+            TRIG_ForceTrigger()
+            TRIG_GetIFPowerTriggerLevel()
+            TRIG_GetTriggerMode()
+            TRIG_GetTriggerPositionPercent()
+            TRIG_GetTriggerSource()
+            TRIG_GetTriggerTransition()
+            TRIG_SetIFPowerTriggerLevel()
+            TRIG_SetTriggerMode()
+            TRIG_SetTriggerPositionPercent()
+            TRIG_SetTriggerSource()
+            TRIG_SetTriggerTransition()
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
     TODO:
         # clock_t CPU timer class
@@ -282,6 +455,7 @@
         # keep building and testing the API function groups
         # time series, spectrogram, and other user requests
         # worker thread, request thread --> mutex control
+
         # DPX
         # IFSTREAM
         # IQBLK
@@ -342,6 +516,16 @@ class rsa306b_class
         void device_prepare_for_run();         // make the device ready to run / trigger
         void device_start_frame_transfer();    // initiates run, data transfer begins
     
+
+    // API group "IFSTREAM"
+        void print_ifstream();
+        void ifstream_set_vars();
+
+
+
+
+
+
     // API group "REFTIME"
         void print_reftime();               // prints the "REFTIME" variables to stdout, using the private struct
         void reftime_reset();               // resets start time of the device
@@ -469,35 +653,18 @@ class rsa306b_class
         void _device_get_info_type();              // fill strings with device information
         void _device_get_is_over_temperature();    // query temerature warning
         void _device_get_event();                  // query an event of interest
-    
-    // API group "SPECTRUM"
-        void _spectrum_init();
-        void _spectrum_make_array_frequency();
+
+    // API group "IFSTREAM"
+        void _ifstream_init();
         // copiers, private --> public
-        void _spectrum_copy_vars();
-        void _spectrum_copy_is_enabled_measurement();
-        void _spectrum_copy_settings_type();
-        void _spectrum_copy_limits_type();
-        void _spectrum_copy_trace_points_aquired();
-        void _spectrum_copy_array_frequency();
-        void _spectrum_copy_is_enabled_trace();
-        void _spectrum_copy_traces_select();
-        void _spectrum_copy_detectors_select();
-        void _spectrum_copy_trace_info_type();
-        void _spectrum_copy_array_power();
-        void _spectrum_copy_peak_index();
+        void _ifstream_copy_vars();
         // getters, uses API
-        void _spectrum_get_vars();
-        void _spectrum_get_is_enabled_measurement();
-        void _spectrum_get_limits_type();
-        void _spectrum_get_settings_type();
-        void _spectrum_get_trace_info_type();
-        void _spectrum_get_trace_type();
+        void _ifstream_get_vars();
         // setters, uses API
-        void _spectrum_set_vars();
-        void _spectrum_set_is_enabled_measurement();
-        void _spectrum_set_settings_type();
-        void _spectrum_set_trace_type();
+        void _ifstream_set_vars();
+
+
+
 
     // API group "REFTIME"
         void _reftime_init();
@@ -518,6 +685,38 @@ class rsa306b_class
         void _reftime_get_running_duration();
         void _reftime_get_source_select();
         void _reftime_get_timestamp_rate();
+    
+    // API group "SPECTRUM"
+        void _spectrum_default();
+        void _spectrum_init();
+        void _print_spectrum_traces_long();
+        void _print_spectrum_traces_compact();
+        void _spectrum_make_array_frequency();
+        // copiers, private --> public
+        void _spectrum_copy_vars();
+        void _spectrum_copy_is_enabled_measurement();
+        void _spectrum_copy_settings_type();
+        void _spectrum_copy_limits_type();
+        void _spectrum_copy_array_frequency();
+        void _spectrum_copy_trace_points_aquired(int trace_index);
+        void _spectrum_copy_is_enabled_trace(int trace_index);
+        void _spectrum_copy_traces_select(int trace_index);
+        void _spectrum_copy_detectors_select(int trace_index);
+        void _spectrum_copy_trace_info_type(int trace_index);
+        void _spectrum_copy_array_power(int trace_index);
+        void _spectrum_copy_peak_index(int trace_index);
+        // getters, uses API
+        void _spectrum_get_vars();
+        void _spectrum_get_is_enabled_measurement();
+        void _spectrum_get_limits_type();
+        void _spectrum_get_settings_type();
+        void _spectrum_get_trace_info_type(int trace_index);
+        void _spectrum_get_trace_type(int trace_index);
+        // setters, uses API
+        void _spectrum_set_vars();
+        void _spectrum_set_is_enabled_measurement();
+        void _spectrum_set_settings_type();
+        void _spectrum_set_trace_type();
 
     // API group "TRIG"
         void _trig_init();

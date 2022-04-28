@@ -1,18 +1,70 @@
 /*
-    API group "SPECTRUM"
+    API group "SPECTRUM", initializing
 
     public :
-        #  none
+        < 1 >  spectrum_default()
     
     private :
-        < 1 >  _spectrum_init()
+        < 1 >  _spectrum_default()
+        < 2 >  _spectrum_init()
 */
 
 #include "../rsa306b_class.h"
 
 
 /*
+    < 1 > public
+*/
+void rsa306b_class::spectrum_default()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif  
+
+    if (this->_vars.device.is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tno device connected\n");
+        #endif
+        return;
+    }
+    this->_spectrum_default();
+}
+
+
+////~~~~
+
+
+/*
     < 1 > private
+*/
+void rsa306b_class::_spectrum_default()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif  
+
+    if (this->_vars.device.is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tno device connected\n");
+        #endif
+        return;
+    }
+    this->device_stop();
+    this->_vars.gp.api_status = RSA_API::SPECTRUM_SetDefault();
+    this->_gp_confirm_api_status();
+    this->_spectrum_get_vars();
+}
+
+
+////~~~~
+
+
+/*
+    < 2 > private
     don't need to touch "trace_info_type" or "limits_type"
 */
 void rsa306b_class::_spectrum_init()
@@ -29,11 +81,11 @@ void rsa306b_class::_spectrum_init()
 
     // everything else is as usual
     this->_vars.spectrum.is_enabled_measurement = false;
-    this->_vars.spectrum.trace_points_acquired = this->_vars.constants.INIT_INT;
 
     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
     {
         this->_vars.spectrum.is_enabled_trace[ii] = false;
+        this->_vars.spectrum.trace_points_acquired[ii] = this->_vars.constants.INIT_INT;
         this->_vars.spectrum.peak_index[ii] = this->_vars.constants.INIT_INT;
         this->_vars.spectrum.detectors_select[ii] = RSA_API::SpectrumDetector_AverageVRMS;
         for(int jj = 0; jj < SPECTRUM_DATA_LENGTH; jj++)
@@ -57,4 +109,4 @@ void rsa306b_class::_spectrum_init()
 }
 
 
-////////~~~~~~~~END>  rsa306b_spectrum_init.cpp
+////////~~~~~~~~END>  rsa306b_spectrum_init_default.cpp
