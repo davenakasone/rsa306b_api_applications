@@ -26,9 +26,9 @@ char g_apiVersion[200];         // from original search_connect()
 
 double g_cf = 2.4453e9;                              // from original if_stream_example()
 double g_refLevel = -30;                             // from original if_stream_example()
-char g_fileDir [SMALL_WIDTH] = "./";                 // from original if_stream_example()
+char g_fileDir [SMALL_WIDTH] = "./test_out/";                 // from original if_stream_example()
 char g_fileName [SMALL_WIDTH] = "if_stream_test";    // from original if_stream_example()
-int g_durationMsec = 1000;                           // from original if_stream_example()
+int g_durationMsec = 10;                           // from original if_stream_example()
 int g_waitTime = 10;                                 // from original if_stream_example()
 
 void search_and_connect (void);
@@ -139,6 +139,9 @@ void if_stream_example
 	std::cin >> holder;
 	RSA_API::DEVICE_Disconnect();
 }
+
+
+////~~~~
 
 
 void if_playback

@@ -13,7 +13,8 @@
 //#define UT8_a 1    // basic use
 //#define UT8_b 2    // make some settings
 //#define UT8_c 3    // read a spectrum trace, find peak
-#define UT8_d 4    // read a spectrum trace, write to csv
+//#define UT8_d 4    // read a spectrum trace, write to csv
+#define UT8_e 5    // scan, and move
 
 void unit_test_8 (void)
 {
@@ -91,6 +92,33 @@ void unit_test_8 (void)
                 rsa.vars.spectrum.peak_index[0],
                 rsa.vars.spectrum.array_power[0][rsa.vars.spectrum.peak_index[0]]);
             rsa.spectrum_write_csv();
+        #endif
+        #ifdef UT8_e
+            int steps = 20;
+            double step_size = 20e6;
+            rsa.vars.config.center_frequency_hz = 100e6;
+            rsa.vars.config.reference_level_dbm = -41.9;
+            rsa.config_set_vars();
+
+            rsa.vars.spectrum.settings_type.rbw = 10e3;
+            rsa.vars.spectrum.settings_type.span = 100e6;
+            rsa.vars.spectrum.settings_type.traceLength = 919;
+            rsa.spectrum_set_vars();
+
+            for (int ii = 0; ii < steps; ii++)
+            {
+                rsa.vars.config.center_frequency_hz = 100e6 + ii * step_size;
+                rsa.config_set_vars();
+
+                rsa.spectrum_aquire();
+                rsa.spectrum_find_peak_index();
+                printf("\ncenter freq:  %lf  ,  freq[%d]:  %lf  ,  pow[%d]:  %f\n",
+                    rsa.vars.config.center_frequency_hz,
+                    rsa.vars.spectrum.peak_index[0],
+                    rsa.vars.spectrum.array_frequency[rsa.vars.spectrum.peak_index[0]],
+                    rsa.vars.spectrum.peak_index[0],
+                    rsa.vars.spectrum.array_power[0][rsa.vars.spectrum.peak_index[0]]);
+            }
         #endif
     }
     printf("\n%s()  ,  test complete\n", __func__);

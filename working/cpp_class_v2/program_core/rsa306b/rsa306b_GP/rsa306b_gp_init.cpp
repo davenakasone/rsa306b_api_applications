@@ -30,6 +30,7 @@ void rsa306b_class::_init_everything()
     this->_audio_init();
     this->_config_init();
     this->_device_init();
+    this->_ifstream_init();
     this->_reftime_init();
     this->_spectrum_init();
     this->_trig_init();

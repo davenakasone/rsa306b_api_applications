@@ -8,8 +8,8 @@
 
 // turn off to run all unit tests
 // turn on and change UT_NUMBER to run a specific unit test
-#define UNIT_TEST_BY_NUMBER 8    // select unit test # here
-// sections        "unit_test_#"  : 0, 1, 2, 3, 4, 5, 6, 7, 8
+#define UNIT_TEST_BY_NUMBER 9    // select unit test # here
+// sections        "unit_test_#"  : 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 // specific tasks  "task_#"       : 999, 998
 
 
@@ -40,7 +40,8 @@ int main
         test_selector(6);      // test 'REFTIME' section
         test_selector(7);      // test 'CONFIG' section
         test_selector(8);      // test 'SPECTRUM' section
-        
+        test_selector(9);      // test 'IFSTREAM' section
+
         test_selector(998);    // test the cpu_timer_class
         test_selector(999);    // test bench
     #endif

@@ -14,7 +14,7 @@ BLANK_IO = clear.txt
 BLANK_MSG = directory cleared
 
 EXEC = oo
-CFLAGS = -Wall -lpthread -std=c++14 -I $(IDIR)
+CFLAGS = -Wall -lpthread -std=c++17 -I $(IDIR)
 LDFLAGS	= -L $(LDIR)
 LDLIBS = -lRSA_API
 LDLIUSBS = -lcyusb_shared
@@ -33,6 +33,11 @@ INPUTS_TXT = $(TDIR)$(TDIR_IO)inputs_txt/
 
 SOURCE_FILES = $(SDIR)main.cpp \
 $(SDIR)control/globalz.cpp \
+$(SDIR)r3f_manager/r3fc_file_decode.cpp \
+$(SDIR)r3f_manager/r3fc_file_process.cpp \
+$(SDIR)r3f_manager/r3fc_plot_maker.cpp \
+$(SDIR)r3f_manager/r3fc_private.cpp \
+$(SDIR)r3f_manager/r3fc_public.cpp \
 $(SDIR)cpu_timer/cpu_timer_class.cpp \
 $(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_get_copy.cpp \
 $(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_print_init.cpp \
@@ -58,6 +63,11 @@ $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_confirm.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_copy.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_init.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_print.cpp \
+$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_copy.cpp \
+$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_get.cpp \
+$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_print_init.cpp \
+$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_set.cpp \
+$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_user1.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_copy.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_get.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_print_init.cpp \
@@ -83,6 +93,7 @@ $(TDIR_U)unit_test_5.cpp \
 $(TDIR_U)unit_test_6.cpp \
 $(TDIR_U)unit_test_7.cpp \
 $(TDIR_U)unit_test_8.cpp \
+$(TDIR_U)unit_test_9.cpp \
 $(TDIR)test_selector.cpp \
 $(TDIR)unit_test_0.cpp \
 $(TDIR)wait_enter_clear.cpp

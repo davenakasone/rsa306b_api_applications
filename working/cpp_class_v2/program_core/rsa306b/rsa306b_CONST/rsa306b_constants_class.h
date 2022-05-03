@@ -45,7 +45,16 @@ class rsa306b_constants_class
         const double AUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz = -20e6;    // highest audio demodulator API accepts
 
         // files
-        const char SPECTRUM_CSV_PATH[BUF_B] = "./program_test/data/outputs_txt/";  // where "spectrum_write_csv()" goes
+        const char SPECTRUM_CSV_PATH[BUF_B] = "./program_test/data/outputs_txt/";    // where "spectrum_write_csv()" goes
+
+        const int IFSTREAM_SUFFIX = -2;    // control file suffix name for IFSTREAM group, {0:increment, -1:timestamp, -2:none}
+        const char IFSTREAM_FILE_PATH[BUF_B] = "./program_test/data/outputs_r3f/";   // IFSTREAM output directory
+        const char IFSTREAM_FILE_NAME_BASE[BUF_A] = "ifstream";                      // IFSTREAM base file name
+        const int IFSTREAM_MAX_MS = 1000;                                            // limit in milli-seconds for "*.r3f" file
+        const int IFSTREAM_DEFAULT_MS = 10;                                          // default recording length for "*.r3f" files, in ms
+        const int IFSTREAM_DEFAULT_FILE_COUNT = 1;                                   // IFSTREAM files to produce
+
+        ///home/unlv/Desktop/rsa306b_api_applications/working/cpp_class_v2/program_test/data
 };
 
 

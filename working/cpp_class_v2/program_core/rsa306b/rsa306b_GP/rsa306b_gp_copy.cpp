@@ -39,6 +39,7 @@ void rsa306b_class::get_everything()
     this->_audio_get_vars();
     this->_config_get_vars();
     this->_device_get_vars();
+    this->_ifstream_get_vars();
     this->_reftime_get_vars();
     this->_spectrum_get_vars();
     this->_trig_get_vars();

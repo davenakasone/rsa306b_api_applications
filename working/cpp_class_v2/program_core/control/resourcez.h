@@ -5,13 +5,25 @@
     libraries and other resources are consolidate here
 
     avoid the circular reference
+
+    std==c++17 appears to be safe, but don't try to use > c++14 on the RSA_API
 */
 
 #ifndef H_resourcez
 #define H_resourcez
 
-
+// for C++ use cases
+#include <cmath>
+#include <queue>
+#include <stack>
 #include <iostream>
+#include <string>
+#include <vector>
+
+// for interfacing with C ABI
+#include <dirent.h>
+#include <float.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -36,7 +48,6 @@
 #define TRACES_AVAILABLE 3           // the RSA-306B has three traces that can be used
 #define SPECTRUM_DATA_LENGTH 2048    // spectrum aquisitions, go dynamic if needed
 #define AUDIO_DATA_LENGTH 1024       // maximum audio data points, 2^16 - 1, go dynamic if needed
-#define IFSTREAM_SUFFIX -1           // control file suffix name for IFSTREAM group, {0:increment, -1:timestamp, -2:none}
 #define IFSTREAM_VECTOR_LENGTH 3     // correction vectors for the IFSTREAM data, a set of tripplets
 
 

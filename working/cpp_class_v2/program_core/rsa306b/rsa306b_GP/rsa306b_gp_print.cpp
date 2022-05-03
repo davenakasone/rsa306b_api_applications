@@ -32,6 +32,7 @@ void rsa306b_class::print_everything()
     this->print_audio();
     this->print_config();
     this->print_device();
+    this->print_ifstream();
     this->print_reftime();
     this->print_spectrum();
     this->print_trig();
@@ -74,6 +75,13 @@ void rsa306b_class::print_constants()
     printf("\tAUDIO_VOLUME_MIN                      :  %f\n", this->_vars.constants.AUDIO_VOLUME_MIN);
     printf("\tAUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz  :  %lf\n", this->_vars.constants.AUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz);
     printf("\tAUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz  :  %lf\n", this->_vars.constants.AUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz);
+    printf("\tSPECTRUM_CSV_PATH                     :  %s\n", this->_vars.constants.SPECTRUM_CSV_PATH);
+    printf("\tIFSTREAM_SUFFIX                       :  %d\n", this->_vars.constants.IFSTREAM_SUFFIX);
+    printf("\tIFSTREAM_FILE_PATH                    :  %s\n", this->_vars.constants.IFSTREAM_FILE_PATH);
+    printf("\tIFSTREAM_FILE_NAME_BASE               :  %s\n", this->_vars.constants.IFSTREAM_FILE_NAME_BASE);
+    printf("\tIFSTREAM_MAX_MS                       :  %d\n", this->_vars.constants.IFSTREAM_MAX_MS);
+    printf("\tIFSTREAM_DEFAULT_MS                   :  %d\n", this->_vars.constants.IFSTREAM_DEFAULT_MS);
+    printf("\tIFSTREAM_DEFAULT_FILE_COUNT           :  %d\n", this->_vars.constants.IFSTREAM_DEFAULT_FILE_COUNT);
 }
 
 

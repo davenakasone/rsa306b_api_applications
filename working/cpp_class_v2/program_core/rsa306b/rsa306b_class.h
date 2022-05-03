@@ -183,34 +183,37 @@
                 device_prepare_for_run()
                 device_start_frame_transfer()
 
-
-
-
-
-
-
-
-
-
         "./program_core/rsa306b/rsa306_IFSTREAM/"
             - rsa306b_ifstream_struct.h
                 struct rsa306b_ifstream_struct
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            - rsa306b_ifstream_print_init.cpp
+                print_reftime()
+                _reftime_init()
+            - rsa306b_ifstream_copy.cpp
+                _ifstream_copy_vars()
+                _ifstream_copy_file_name_suffix()
+                _ifstream_copy_file_path()
+                _ifstream_copy_file_name_base()
+                _ifstream_copy_file_length_ms()
+                _ifstream_copy_file_count()
+                _ifstream_copy_output_configuration_select()
+                _ifstream_copy_is_enabled_adc()
+                _ifstream_copy_is_active()
+            - rsa306b_ifstream_get.cpp
+                _ifstream_get_vars()
+                _ifstream_get_is_active()
+            - rsa306b_ifstream_set.cpp
+                _ifstream_set_vars()
+                _ifstream_set_file_name_suffix()
+                _ifstream_set_file_path()
+                _ifstream_set_file_name_base()
+                _ifstream_set_file_length_ms()
+                _ifstream_set_file_count()
+                _ifstream_set_output_configuration_select()
+                _ifstream_set_is_enabled_adc()
+            - rsa306b_ifstream_user1.cpp
+                ifstream_set_vars()
+                ifstream_record_file()
 
         "./program_core/rsa306b/rsa306_REFTIME/"
             - rsa306b_reftime_struct.h
@@ -395,6 +398,14 @@
         GNSS # not used, only the RSA500/600 has position data
 
         IF Streaming
+            IFSTREAM_GetActiveStatus()
+            IFSTREAM_SetDiskFileCount()
+            IFSTREAM_SetDiskFileLength()
+            IFSTREAM_SetDiskFilenameBase()
+            IFSTREAM_SetDiskFilenameSuffix()
+            IFSTREAM_SetDiskFilePath()
+            IFSTREAM_SetOutoutConfiguration()
+            IFSTREAM_SetEnable()
 
         IQ Block
 
@@ -516,15 +527,10 @@ class rsa306b_class
         void device_prepare_for_run();         // make the device ready to run / trigger
         void device_start_frame_transfer();    // initiates run, data transfer begins
     
-
     // API group "IFSTREAM"
         void print_ifstream();
         void ifstream_set_vars();
-
-
-
-
-
+        void ifstream_record_file();
 
     // API group "REFTIME"
         void print_reftime();               // prints the "REFTIME" variables to stdout, using the private struct
@@ -658,13 +664,26 @@ class rsa306b_class
         void _ifstream_init();
         // copiers, private --> public
         void _ifstream_copy_vars();
+        void _ifstream_copy_file_name_suffix();
+        void _ifstream_copy_file_path();
+        void _ifstream_copy_file_name_base();
+        void _ifstream_copy_file_length_ms();
+        void _ifstream_copy_file_count();
+        void _ifstream_copy_output_configuration_select();
+        void _ifstream_copy_is_enabled_adc();
+        void _ifstream_copy_is_active();
         // getters, uses API
         void _ifstream_get_vars();
+        void _ifstream_get_is_active();
         // setters, uses API
         void _ifstream_set_vars();
-
-
-
+        void _ifstream_set_file_name_suffix();
+        void _ifstream_set_file_path();
+        void _ifstream_set_file_name_base();
+        void _ifstream_set_file_length_ms();
+        void _ifstream_set_file_count();
+        void _ifstream_set_output_configuration_select();
+        void _ifstream_set_is_enabled_adc();
 
     // API group "REFTIME"
         void _reftime_init();

@@ -202,7 +202,7 @@ void rsa306b_class::_audio_get_data()
     }
     if (this->_vars.audio.is_demodulating == false)
     {
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\taudio demodulation was not activated\n");
         #endif
         return;
