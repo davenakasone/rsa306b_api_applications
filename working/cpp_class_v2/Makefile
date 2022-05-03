@@ -35,6 +35,7 @@ SOURCE_FILES = $(SDIR)main.cpp \
 $(SDIR)control/globalz.cpp \
 $(SDIR)r3f_manager/r3fc_file_decode.cpp \
 $(SDIR)r3f_manager/r3fc_file_process.cpp \
+$(SDIR)r3f_manager/r3fc_handle_adc.cpp \
 $(SDIR)r3f_manager/r3fc_plot_maker.cpp \
 $(SDIR)r3f_manager/r3fc_private.cpp \
 $(SDIR)r3f_manager/r3fc_public.cpp \

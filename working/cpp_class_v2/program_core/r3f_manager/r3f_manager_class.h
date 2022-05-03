@@ -21,7 +21,15 @@
 
     "r3fc_file_decode.cpp"
         file_decode()
-
+    
+    "r3fc_plot_maker.cpp"
+        prepare_plot_from_header()
+        prepare_plot_from_iq()
+        
+    "r3fc_handle_adc.cpp"
+        prepare_plot_from_adc()
+        _adc_helper()
+        _process_header_direct()
 
     this object is made for "*.r3f" files
     it will extract the IF data and place it into an output file
@@ -93,8 +101,8 @@ class r3f_manager_class
 
         // further processing
         void prepare_plot_from_header(const char* output_file);                          // frequecny: amplitude and phase
-        void prepare_plot_from_data(const char* input_file, const char* output_file);    // time : I and Q
-    
+        void prepare_plot_from_iq(const char* input_file, const char* output_file);    // time : I and Q
+        void prepare_plot_from_adc(const char* input_file_path, const char* output_file_path); // raw ADC, input file found automatically
 
     private :
         
@@ -124,6 +132,8 @@ class r3f_manager_class
         void _process_header(bool print_while_processing);                  // helps "file_process()"
         void _process_data(bool print_while_processing);                    // helps "file_process()"
         void _store_field(bool print_while_processing);                     // helps all processing functions
+        void _adc_helper(const char* input_fpn, const char* output_fpn);    // assits in preparing the ADC raw plot
+        void _process_header_direct();                                      // processing of header with no output generation,
 };
 
 

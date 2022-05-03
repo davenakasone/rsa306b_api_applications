@@ -21,11 +21,13 @@ int main
 )
 {
     cpu_timer_class dummy_cpu;
-    int objSize[2];
+    int objSize[3];
     {
         rsa306b_class dummy_rsa;
+        r3f_manager_class dummy_r3f;
         objSize[0] = (int)sizeof(dummy_rsa);
         objSize[1] = (int)sizeof(dummy_cpu);
+        objSize[2] = (int)sizeof(dummy_r3f);
     }
     
     #ifdef UNIT_TEST_BY_NUMBER
@@ -61,8 +63,9 @@ int main
         #endif
     #endif
     printf("\n");
-    printf("the 'rsa306b' object size    :  %d bytes\n", objSize[0]);
-    printf("the 'cpu_timer' object size  :  %d bytes\n", objSize[1]);
+    printf("the 'rsa306b' object size      :  %d bytes\n", objSize[0]);
+    printf("the 'cpu_timer' object size    :  %d bytes\n", objSize[1]);
+    printf("the 'r3f_manager' object size  :  %d bytes\n", objSize[2]);
     printf("\n");
     return EXIT_SUCCESS;
 }

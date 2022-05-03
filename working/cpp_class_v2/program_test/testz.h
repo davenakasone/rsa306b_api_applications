@@ -22,6 +22,7 @@
 #include "../program_core/control/resourcez.h"
 #include "../program_core/rsa306b/rsa306b_class.h"
 #include "../program_core/cpu_timer/cpu_timer_class.h"
+#include "../program_core/r3f_manager/r3f_manager_class.h"
 
 
 void test_selector (int test_number);    // controls the unit test being performed

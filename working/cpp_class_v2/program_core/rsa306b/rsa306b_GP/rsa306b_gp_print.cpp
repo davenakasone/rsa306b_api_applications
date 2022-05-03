@@ -82,6 +82,7 @@ void rsa306b_class::print_constants()
     printf("\tIFSTREAM_MAX_MS                       :  %d\n", this->_vars.constants.IFSTREAM_MAX_MS);
     printf("\tIFSTREAM_DEFAULT_MS                   :  %d\n", this->_vars.constants.IFSTREAM_DEFAULT_MS);
     printf("\tIFSTREAM_DEFAULT_FILE_COUNT           :  %d\n", this->_vars.constants.IFSTREAM_DEFAULT_FILE_COUNT);
+    printf("\tIFSTREAM_CSV_PATH                     :  %s\n", this->_vars.constants.IFSTREAM_CSV_PATH);
 }
 
 

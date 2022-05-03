@@ -12,7 +12,8 @@
 #include "../testz.h"
 
 //#define UT9_a 1    // basic test
-#define UT9_b 2    // make an output file
+//#define UT9_b 2      // make an output file
+#define UT9_c 3      // make several output files and process them to raw ADC
 
 
 void unit_test_9 (void)
@@ -21,6 +22,7 @@ void unit_test_9 (void)
     {
         rsa306b_class rsa;
         cpu_timer_class cpu;
+        r3f_manager_class r3f;
         rsa.device_connect();
 
         #ifdef UT9_a
@@ -53,6 +55,25 @@ void unit_test_9 (void)
 
             rsa.ifstream_record_file(); // using default settings
             rsa.print_ifstream();
+        #endif
+        #ifdef UT9_c
+            rsa.vars.config.reference_level_dbm = -45;
+            rsa.vars.config.center_frequency_hz = 150e6;
+            rsa.config_set_vars();
+            rsa.print_config();
+
+            rsa.vars.ifstream.file_length_ms = 10;
+            rsa.vars.ifstream.file_name_suffix = RSA_API::IFSSDFN_SUFFIX_TIMESTAMP;
+            rsa.vars.ifstream.output_configuration_select = RSA_API::IFSOD_FILE_R3F;
+            rsa.ifstream_set_vars();
+            rsa.print_ifstream();
+
+            int repz = 5;
+            for (int ii = 0; ii < repz; ii++)
+            {
+                rsa.ifstream_record_file();
+            }
+            r3f.prepare_plot_from_adc(rsa.vars.ifstream.file_path, rsa.vars.constants.IFSTREAM_CSV_PATH);
         #endif
     }
     printf("\n%s()  ,  test complete\n", __func__);
