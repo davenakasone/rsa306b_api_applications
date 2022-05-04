@@ -1,12 +1,13 @@
 %{
     1  :  try plotting the corection data from the "*.r3f" 
     2  :  try plotting the block data from the "*.r3f" 
+    3  :  frequency vs power, spectrum of single trace
 
 %}
 close all;
 clear all;
 clc;
-select = 2;
+select = 3;
 
 %-----------------------------------------------------------------------------------------------------
 if select == 1
@@ -88,6 +89,28 @@ if select == 2
     hold off;
 end
 
+
+%-----------------------------------------------------------------------------------------------------
+if select == 3
+    in_data = readtable("freq_v_pow.csv");
+    var_freq = in_data.Var1 / 1e6;
+    var_pow = in_data.Var2;
+    temp = size(var_freq);
+    f_pow = kaiser(temp(1));
+
+    figure;
+    hold on;
+    grid on;
+    title("Frequency vs. Power", FontSize=20);
+    xlabel("frequency (MHz)", FontSize=14);
+    ylabel("power (dBM)", FontSize=14);
+    for ii = 1:10:temp(1)
+        stem(var_freq(ii), var_pow(ii), "c.", MarkerSize=5, LineWidth=3);
+        stem(var_freq(ii), ff_pow(ii), "r.", MarkerSize=5, LineWidth=3);
+    end
+    hold off;
+
+end
 
 %-----------------------------------------------------------------------------------------------------
 if select == 99

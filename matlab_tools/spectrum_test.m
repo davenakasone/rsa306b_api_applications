@@ -9,7 +9,7 @@
 close all;
 clear;
 clc;
-select = 4;
+select = 1;
 
 
 %-----------------------------------------------------------------------------------------------------
@@ -17,8 +17,8 @@ if select == 1
     %read_file = 'plot_header.csv';
     read_file = 'plot_data.csv';
     data = readtable(read_file);
-    var_amp = data.Var2;
-    spectrogram(var_amp);
+    var_amp = data.Var1;
+    spectrogram(fft(var_amp),'yaxis');
     %{
     N = 1024;
     n = 0:N-1;

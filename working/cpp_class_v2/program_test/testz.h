@@ -39,6 +39,7 @@ void unit_test_7   (void);    // test 'CONFIG' section
 void unit_test_8   (void);    // test 'SPECTRUM' section
 void unit_test_9   (void);    // test 'IFSTREAM' section
 
+void task_996 (void);    // get CSV for model
 void task_997 (void);    // DSP demonstration
 void task_998 (void);    // test the cpu_timer_class
 void task_999 (void);    // test bench          

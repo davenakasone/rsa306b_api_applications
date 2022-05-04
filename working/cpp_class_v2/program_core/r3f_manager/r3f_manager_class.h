@@ -30,6 +30,9 @@
         prepare_plot_from_adc()
         _adc_helper()
         _process_header_direct()
+    
+    r3fc_past_present_adc_csy.cpp
+        past_present_adc_csv()
 
     this object is made for "*.r3f" files
     it will extract the IF data and place it into an output file
@@ -103,7 +106,8 @@ class r3f_manager_class
         void prepare_plot_from_header(const char* output_file);                          // frequecny: amplitude and phase
         void prepare_plot_from_iq(const char* input_file, const char* output_file);    // time : I and Q
         void prepare_plot_from_adc(const char* input_file_path, const char* output_file_path); // raw ADC, input file found automatically
-
+        //void past_present_adc_csv(const char* input_file_path_name, const char* output_file_path_name); // time series ADC
+        
     private :
         
         int _return_status;             // communication between member functions

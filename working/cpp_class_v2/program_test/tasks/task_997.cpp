@@ -13,7 +13,7 @@ void task_997()
         cpu_timer_class cpu;
         r3f_manager_class r3f;
         rsa.device_connect();
-    /*
+    
     // < 1 >  display data aquisition components
         printf("\n\tprimary variables and constants in use:\n");
         rsa.print_everything();
@@ -47,7 +47,7 @@ void task_997()
         }
             
     wait_enter_clear();
-    */
+    
     // < 3 >  IFSTREAM, decode, and parse
         rsa.vars.config.reference_level_dbm = -25;
         rsa.vars.config.center_frequency_hz = 100e6;
