@@ -1,19 +1,107 @@
-
-clc;
-% spectrum test
-%read_file = 'plot_header.csv';
-read_file = 'plot_data.csv';
-
-data = readtable(read_file);
-var_in = data.Var1;
-
-spectrogram(var_amp)
-
 %{
-N = 1024;
-n = 0:N-1;
-w0 = 2*pi/5;
-x = sin(w0*n)+10*sin(2*w0*n);
-s = spectrogram(x);
-spectrogram(x,'yaxis')
+    1  :  corrected IFSTREAM, using I, Q, time
+    2  :  raw ADC data to spectrogram
+    3  :  observer where antenna gets highest power, appears to be FM band
+    4  :  custom spectrogram
+
+    use a Gabor or Hilber transform
 %}
+close all;
+clear;
+clc;
+select = 4;
+
+
+%-----------------------------------------------------------------------------------------------------
+if select == 1
+    %read_file = 'plot_header.csv';
+    read_file = 'plot_data.csv';
+    data = readtable(read_file);
+    var_amp = data.Var2;
+    spectrogram(var_amp);
+    %{
+    N = 1024;
+    n = 0:N-1;
+    w0 = 2*pi/5;
+    x = sin(w0*n)+10*sin(2*w0*n);
+    s = spectrogram(x);
+    spectrogram(x,'yaxis')
+    %}
+end
+
+
+%-----------------------------------------------------------------------------------------------------
+if select == 2
+    read_file = 'adc_ifstream_raw.csv';
+    data = readtable(read_file);
+    raw_sample = data.Var1; % there is only 1
+
+    raw_fft = fft(raw_sample);
+
+    figure(Name="no FFT");
+    hold on;
+    spectrogram(raw_sample, 86, 1, 'yaxis');
+    title("no FFT", FontSize=20);
+    hold off;
+
+    figure(Name="with FFT");
+    hold on;
+    spectrogram(raw_fft, 86, 1, 'yaxis');
+    title("with FFT", FontSize=20);
+    hold off;
+
+    tic;
+    adc_mean = mean(raw_sample);
+    adc_stdev = var(raw_sample);
+    t_c = toc;
+    temp = size(raw_sample);
+    fprintf("%d samples, mean:  %0.1f  ,  stdev:  %0.1f  ,  processing time:  %0.3f\n",...
+        temp(1), adc_mean, adc_stdev, t_c);
+end
+
+
+%-----------------------------------------------------------------------------------------------------
+if select == 3
+    read_file = 'freq_v_pow.csv';
+    data = readtable(read_file)
+    max_freq = data.Var1;
+    max_ampl = data.Var2;
+
+    figure(Position=[20, 20, 800, 800]);
+    hold on;
+    grid on;
+    title("Frequency vs Power over range", FontSize=20);
+    xlabel("frequency (MHz)", FontSize=14);
+    ylabel("power (dBm)", FontSize=14);
+    for ii = 1:200
+        plot(max_freq(ii) / 1e6, max_ampl(ii), "gx", LineWidth=3, MarkerSize= 10);
+    end
+    hold off;
+end
+
+
+%-----------------------------------------------------------------------------------------------------
+if select == 4
+    data = readmatrix("freq_pow_time.csv");
+    data_size = size(data);
+    data_time = 1:1:data_size(1);
+
+    figure;
+    view(45,120);
+    xlabel("time", FonstSize=14)
+    hold on;
+        for ii = 1:1:data_size(1)
+            for jj = 1:1:data_size(1)
+                plot3(data_time(ii), data(1,jj), data(ii,jj), "r.", MarkerSize=5);
+            end
+        end
+    hold off;
+
+end
+
+
+%-----------------------------------------------------------------------------------------------------
+if select == 99
+
+end
+%%%%%%%%~~~~~~~~END>  spectrum_test.m

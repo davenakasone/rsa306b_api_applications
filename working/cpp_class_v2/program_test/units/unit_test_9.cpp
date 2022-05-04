@@ -68,7 +68,7 @@ void unit_test_9 (void)
             rsa.ifstream_set_vars();
             rsa.print_ifstream();
 
-            int repz = 5;
+            int repz = 3;
             for (int ii = 0; ii < repz; ii++)
             {
                 rsa.ifstream_record_file();

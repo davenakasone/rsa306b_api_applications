@@ -197,9 +197,9 @@ void rsa306b_class::_spectrum_make_array_frequency()
         double temp = this->_vars.spectrum.array_frequency
                         [this->_vars.spectrum.settings_type.traceLength-1] -
                         this->vars.spectrum.settings_type.actualStopFreq;
-        if ((temp > 1) || (temp < 1))
+        if ((temp > 1) || (temp < -1))
         {
-            printf("\n\tmistached frequency array\n");
+            printf("\n\tmismatched frequency array:  %lf\n", temp);
         }
     #endif
     this->_spectrum_copy_array_frequency();

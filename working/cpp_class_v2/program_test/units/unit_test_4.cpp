@@ -33,7 +33,7 @@ void unit_test_4 (void)
             rsa.vars.audio.demodulation_select = RSA_API::ADM_FM_75KHZ;
             rsa.vars.audio.frequency_offset_hz = 8e3;
             rsa.vars.audio.volume = 0.6;
-            rsa.vars.audio.is_mute = true;
+            rsa.vars.audio.is_mute = false;
             rsa.audio_set_vars();
 
             rsa.audio_acquire_data();

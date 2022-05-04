@@ -55,8 +55,6 @@ void r3f_manager_class::prepare_plot_from_adc
 
     DIR* dir;
     struct dirent* diread;
-    char* token;
-    char ext[5]= ".r3f";
     std::vector<std::string> input_file_list;
     std::vector<std::string> output_file_list;
     dir = opendir(input_file_path);
@@ -83,11 +81,14 @@ void r3f_manager_class::prepare_plot_from_adc
             compare_to[3] = this->_helper[string_length-1];
             if (strcmp(compare_to, ".r3f") == 0)
             {
-                input_file_list.push_back(this->_helper);
-                token = strtok(diread->d_name, ext);
-                snprintf(this->_helper, BUF_E-1, "%s%s.txt",
-                    output_file_path, token);
-                output_file_list.push_back(this->_helper);
+                std::string temp(this->_helper);
+                input_file_list.push_back(temp);
+                snprintf(this->_helper, BUF_E-1, "%sadc_%s",
+                    output_file_path, diread->d_name);
+                temp = this->_helper;
+                temp.resize(temp.length()-4);
+                temp.append(".csv");
+                output_file_list.push_back(temp);
             }
         }
     }
@@ -104,7 +105,7 @@ void r3f_manager_class::prepare_plot_from_adc
     for (long unsigned int fdx = 0; fdx < input_file_list.size(); fdx++)
     {
         snprintf(this->_helper, BUF_E-1, "%s", input_file_list[fdx].c_str());
-        snprintf(this->_holder, BUF_F-1, "%s.txt", output_file_list[fdx].c_str());
+        snprintf(this->_holder, BUF_F-1, "%s", output_file_list[fdx].c_str());
         this->_adc_helper(this->_helper, this->_holder);
     }    
 }
@@ -132,7 +133,13 @@ void r3f_manager_class::_adc_helper
         #endif
         return;
     }
+    fseek(this->_fptr_read, 0L, SEEK_END);
+    this->_bytes_in_file = ftell(this->_fptr_read);
+    fseek(this->_fptr_read, 0L, SEEK_SET);
+    this->_byte_index = ftell(this->_fptr_read);
     this->_process_header_direct();
+
+    fseek(this->_fptr_read, 0L, SEEK_SET);
     this->_fptr_write = fopen(output_fpn, "w");
     
     int total_data_frames = (this->_bytes_in_file - 
@@ -151,7 +158,7 @@ void r3f_manager_class::_adc_helper
         for (int jj = 0; jj < this->_vars.number_of_samples_per_frame; jj++)
         {
             fread(&sample_getter, sizeof(int16_t), 1, this->_fptr_read);
-            snprintf(this->_helper, BUF_E-1, "%u,\n", sample_getter);
+            snprintf(this->_helper, BUF_E-1, "%d,\n", sample_getter);
             fputs(this->_helper, this->_fptr_write);
         }
     }
