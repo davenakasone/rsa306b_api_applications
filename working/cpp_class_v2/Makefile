@@ -84,6 +84,7 @@ $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_get.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_print_init.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_set.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_user.cpp \
+$(TDIR_T)task_995.cpp \
 $(TDIR_T)task_996.cpp \
 $(TDIR_T)task_997.cpp \
 $(TDIR_T)task_998.cpp \
@@ -141,7 +142,7 @@ clear_outputs :
 	printf '$(BLANK_MSG)' > $(OUTPUTS_SIG)$(BLANK_IO)
 	printf '$(BLANK_MSG)' > $(OUTPUTS_TXT)$(BLANK_IO)
 	clear
-	@echo 'outputs are cleared'
+	@echo 'all outputs were deleted'
 
 
 # stdout is cleared
@@ -170,7 +171,7 @@ clear_inputs :
 	printf '$(BLANK_MSG)' > $(INPUTS_SIG)$(BLANK_IO)
 	printf '$(BLANK_MSG)' > $(INPUTS_TXT)$(BLANK_IO)
 	clear
-	@echo 'inputs are cleared'
+	@echo 'all inputs were deleted'
 
 
 # stdout is cleared
@@ -181,4 +182,4 @@ clear_inputs :
 #		unit_test_8 ()
 clean : clear_inputs clear_outputs
 	clear
-	@echo 'inputs and outputs are cleared'
+	@echo 'all inputs and outputs were deleted'

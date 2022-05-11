@@ -125,7 +125,8 @@ void rsa306b_class::spectrum_find_peak_index()
 /*
     < 3 > public
     does not nead a connected device, 
-    just writes arrats to file as is
+    just writes arrays to file as is
+    might want to allow user to select a file-path-name and trace?
 */
 void rsa306b_class::spectrum_write_csv()
 {

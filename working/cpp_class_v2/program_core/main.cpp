@@ -8,9 +8,9 @@
 
 // turn off to run all unit tests
 // turn on and change UT_NUMBER to run a specific unit test
-#define UNIT_TEST_BY_NUMBER 996    // select unit test # here
+#define UNIT_TEST_BY_NUMBER 995    // select unit test # here
 // sections        "unit_test_#"  : 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
-// specific tasks  "task_#"       : 999, 998, 997
+// specific tasks  "task_#"       : 999, 998, 997, 996, 995
 
 
 int main
@@ -44,6 +44,9 @@ int main
         test_selector(8);      // test 'SPECTRUM' section
         test_selector(9);      // test 'IFSTREAM' section
 
+        test_selector(995);    // test YK3000 @ 315 MHz
+        test_selector(996);    // get CSV for model
+        test_selector(997);    // DSP demonstration
         test_selector(998);    // test the cpu_timer_class
         test_selector(999);    // test bench
     #endif
