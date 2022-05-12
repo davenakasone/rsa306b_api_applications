@@ -12,8 +12,8 @@
 #include "../testz.h"
 
 //#define UT5_a 1    // basic test
-//#define UT5_b 2    // set trigger
-#define UT5_c 3    // a few forces
+#define UT5_b 2    // set trigger
+//#define UT5_c 3    // a few forces
 
 
 void unit_test_5 (void)
@@ -30,14 +30,27 @@ void unit_test_5 (void)
             rsa.print_trig();
         #endif
         #ifdef UT5_b
-            rsa.print_trig();
             rsa.vars.trig.if_power_level = 6;
             rsa.vars.trig.mode_select = RSA_API::triggered;
             rsa.vars.trig.position_percent = 20.2222;
-            rsa.vars.trig.source_select = RSA_API::TriggerSourceExternal;
             rsa.vars.trig.transition_select = RSA_API::TriggerTransitionEither;
             rsa.trig_set_vars();
             rsa.print_trig();
+
+            rsa.vars.config.reference_level_dbm = -35;
+            rsa.vars.config.center_frequency_hz = 100e6;
+            rsa.config_set_vars();
+
+            rsa.vars.spectrum.settings_type.rbw = 1e3;
+            rsa.vars.spectrum.settings_type.span = 1e6;
+            rsa.spectrum_set_vars();
+
+            for(int ii = 0; ii < 9; ii++)
+            {
+                rsa.trig_force();
+                printf("%3d)  trigger forced\n", ii);
+            }
+            
         #endif
         #ifdef UT5_c
             //rsa.trig_force();

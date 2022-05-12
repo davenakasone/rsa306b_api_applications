@@ -14,7 +14,7 @@
 //#define UT8_b 2    // make some settings
 //#define UT8_c 3    // read a spectrum trace, find peak
 //#define UT8_d 4    // read a spectrum trace, write to csv
-//#define UT8_e 5      // scan, and move, graph output and look at antenna
+#define UT8_e 5      // scan, and move, graph output and look at antenna
 #define UT8_f 6    // a custom spectogram is produced as a 2D matrix
 
 
@@ -22,6 +22,8 @@ void unit_test_8 (void)
 {
     printf("\n%s()  ,  API group 'SPECTRUM'\n", __func__);
     {
+        FILE* fptr = NULL;
+
         rsa306b_class rsa;
         cpu_timer_class cpu;
         rsa.device_connect();
@@ -102,9 +104,8 @@ void unit_test_8 (void)
             rsa.vars.config.reference_level_dbm = -25.9;
             rsa.config_set_vars();
 
-            char outp[BUF_B] = "./program_test/data/outputs_txt/freq_v_pow.csv";
-            FILE* fptr = fopen(outp, "w");
-            char hold[BUF_F];
+            snprintf(rsa.vars.gp.helper, BUF_E-1, "./program_test/data/outputs_txt/freq_v_pow.csv");
+            fptr = fopen(rsa.vars.gp.helper, "w");
 
             rsa.vars.spectrum.settings_type.rbw = 1e3;
             rsa.vars.spectrum.settings_type.span = 5e6;
@@ -125,13 +126,13 @@ void unit_test_8 (void)
                     rsa.vars.spectrum.peak_index[0],
                     rsa.vars.spectrum.array_power[0][rsa.vars.spectrum.peak_index[0]]);
                 
-                snprintf(hold, BUF_F-1, "%0.3lf,%0.3f,\n", 
+                snprintf(rsa.vars.gp.holder, BUF_F-1, "%0.3lf,%0.3f,\n", 
                     rsa.vars.spectrum.array_frequency[rsa.vars.spectrum.peak_index[0]], 
                     rsa.vars.spectrum.array_power[0][rsa.vars.spectrum.peak_index[0]]);
-                fputs(hold, fptr);
+                fputs(rsa.vars.gp.holder, fptr);
             }
             fclose(fptr); fptr = NULL;
-            fprintf("\n\tsee:  '%s'\n", outp);
+            printf("\n\tsee:  '%s'\n", rsa.vars.gp.helper);
         #endif
         #ifdef UT8_f
             int periods = 919;
@@ -139,9 +140,8 @@ void unit_test_8 (void)
             rsa.vars.config.reference_level_dbm = -25.9;
             rsa.config_set_vars();
 
-            char outp[BUF_B] = "./program_test/data/outputs_txt/freq_pow_time.csv";
-            FILE* fptr = fopen(outp, "w");
-            char hold[BUF_F];
+            snprintf(rsa.vars.gp.helper, BUF_E-1, "./program_test/data/outputs_txt/freq_pow_time.csv");
+            fptr = fopen(rsa.vars.gp.helper, "w");
 
             rsa.vars.spectrum.settings_type.rbw = 1e3;
             rsa.vars.spectrum.settings_type.span = 20e6;
@@ -150,23 +150,23 @@ void unit_test_8 (void)
             for (int ii = 0; ii < periods; ii++)
             {
                 rsa.spectrum_aquire();
-                snprintf(hold, BUF_F-1, "%0.3lf,", rsa.vars.spectrum.array_frequency[ii]);
-                fputs(hold, fptr);
+                snprintf(rsa.vars.gp.holder, BUF_F-1, "%0.3lf,", rsa.vars.spectrum.array_frequency[ii]);
+                fputs(rsa.vars.gp.holder, fptr);
                 for (int jj = 0; jj < periods; jj++)
                 {
                     if (jj == periods-1)
                     {
-                        snprintf(hold, BUF_F-1, "%0.3f\n", rsa.vars.spectrum.array_power[0][jj]);
+                        snprintf(rsa.vars.gp.holder, BUF_F-1, "%0.3f\n", rsa.vars.spectrum.array_power[0][jj]);
                     }
                     else
                     {
-                        snprintf(hold, BUF_F-1, "%0.3f,", rsa.vars.spectrum.array_power[0][jj]);
+                        snprintf(rsa.vars.gp.holder, BUF_F-1, "%0.3f,", rsa.vars.spectrum.array_power[0][jj]);
                     }
-                    fputs(hold, fptr);
+                    fputs(rsa.vars.gp.holder, fptr);
                 }
             }
             fclose(fptr); fptr = NULL;
-            printf("\n\tsee:  '%s'\n", outp);
+            printf("\n\tsee:  '%s'\n", rsa.vars.gp.helper);
         #endif
     }
     printf("\n%s()  ,  test complete\n", __func__);

@@ -10,8 +10,8 @@
 
 #include "../testz.h"
 
-//#define UT4_a 1    // basic test
-#define UT4_b 2    // test getting audio data
+#define UT4_a 1    // basic test
+//#define UT4_b 2    // test getting audio data, work on this
 
 
 void unit_test_4 (void)
