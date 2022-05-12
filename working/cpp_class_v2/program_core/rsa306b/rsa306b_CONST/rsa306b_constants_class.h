@@ -18,11 +18,11 @@ class rsa306b_constants_class
         rsa306b_constants_class();
         ~rsa306b_constants_class();
 
-        // status of internal non-API function calls
+    // status of internal non-API function calls
         const int CALL_SUCCESS = 7777;    // the function call was successful
         const int CALL_FAILURE = -777;    // the function call failed
 
-        // common initialization values, by data type
+    // common initialization values, by data type
         const char INIT_CHAR = 'Z';
         const char INIT_STR[6] = "ZZZZZ";
         const double INIT_DOUBLE = -99.123;
@@ -30,7 +30,7 @@ class rsa306b_constants_class
         const int INIT_INT = -99;
         const uint8_t INIT_UINT = 99;
 
-        // device limits for the RSA-306B
+    // device limits for the RSA-306B
         const double EXTERNAL_FREQUENCY = 10e6;                       // external reference frequency, required
         const double EXTERNAL_AMPLITUDE_dbm = 10;                     // allows +/- 10 dbm maximum amplitude  
         const double REFERENCE_LEVEL_MAX_dbm = 30;                    // highest measurable signal power
@@ -44,7 +44,12 @@ class rsa306b_constants_class
         const double AUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz = 20e6;     // highest audio demodulator API accepts
         const double AUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz = -20e6;    // highest audio demodulator API accepts
 
-        // files
+    // sizing the STL and Boost data structures
+        const size_t SAMPLES_IN_BUFFER = 260e6;       // ADC samples internal buffer is capable of storing before overflow
+        const size_t ADC_SAMPLES_PER_FRAME = 8178;    // ADC buffer size, number of 16-bit signed data samples per frame
+        const size_t FRAMES_IN_BUFFER = 32000;        // max IF frames the internal buffer can hold
+
+    // generating output files
         const char SPECTRUM_CSV_PATH[BUF_B] = "./program_test/data/outputs_txt/";    // where "spectrum_write_csv()" goes
 
         const int IFSTREAM_SUFFIX = -1;    // control file suffix name for IFSTREAM group, {0:increment, -1:timestamp, -2:none}
