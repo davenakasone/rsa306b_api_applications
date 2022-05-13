@@ -39,6 +39,7 @@ void unit_test_7   (void);    // test 'CONFIG' section
 void unit_test_8   (void);    // test 'SPECTRUM' section
 void unit_test_9   (void);    // test 'IFSTREAM' section
 
+void task_993 (void);    // generate spectrum and raw ADC for learning
 void task_994 (void);    // develop IF stream direct to client
 void task_995 (void);    // test YK3000 @ 315 MHz
 void task_996 (void);    // get CSV for model

@@ -45,9 +45,12 @@ class rsa306b_constants_class
         const double AUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz = -20e6;    // highest audio demodulator API accepts
 
     // sizing the STL and Boost data structures
-        const size_t SAMPLES_IN_BUFFER = 260e6;       // ADC samples internal buffer is capable of storing before overflow
+        const size_t SAMPLES_IN_BUFFER = 260e6;       // ADC samples internal buffer is capable of storing before overflow, usally 130,848
         const size_t ADC_SAMPLES_PER_FRAME = 8178;    // ADC buffer size, number of 16-bit signed data samples per frame
         const size_t FRAMES_IN_BUFFER = 32000;        // max IF frames the internal buffer can hold
+        const size_t CORRECTION_POINTS = 501;         // size of the correction points
+        const size_t BYTES_PER_FRAME = 16384;         // size of a frame, 2^14 bytes, includes footer
+        //const size_t FOOTER_BYTES = 28;               // bytes per frame less 2*samples per frame
 
     // generating output files
         const char SPECTRUM_CSV_PATH[BUF_B] = "./program_test/data/outputs_txt/";    // where "spectrum_write_csv()" goes

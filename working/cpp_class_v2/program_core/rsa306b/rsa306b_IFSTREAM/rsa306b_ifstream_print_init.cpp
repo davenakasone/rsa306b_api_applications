@@ -22,7 +22,7 @@ void rsa306b_class::print_ifstream()
 #endif
 
     printf("\n'IFSTREAM' group >>>\n");
-    printf("\tfile name suffix      :  %d  ", this->_vars.ifstream.file_name_suffix);
+    printf("\tfile_name_suffix                          :  %d  ", this->_vars.ifstream.file_name_suffix);
     switch (this->_vars.ifstream.file_name_suffix)
     {
         case (RSA_API::IFSSDFN_SUFFIX_NONE)          : printf("{none}\n");                break;
@@ -30,11 +30,11 @@ void rsa306b_class::print_ifstream()
         case (RSA_API::IFSSDFN_SUFFIX_INCRINDEX_MIN) : printf("{minimal, auto-index}\n"); break;
         default                                      : printf("{! UNKNOWN !}\n");         break;
     }
-    printf("\tfile path             :  %s\n", this->_vars.ifstream.file_path);
-    printf("\tfile base name        :  %s\n", this->_vars.ifstream.file_name_base);
-    printf("\tfile length (ms)      :  %d\n", this->_vars.ifstream.file_length_ms);
-    printf("\tfile count            :  %d\n", this->_vars.ifstream.file_count);
-    printf("\toutput configuration  :  %d  ", this->_vars.ifstream.output_configuration_select);
+    printf("\tfile_path                                 :  %s\n", this->_vars.ifstream.file_path);
+    printf("\tfile_base_name                            :  %s\n", this->_vars.ifstream.file_name_base);
+    printf("\tfile_length_ms                            :  %d\n", this->_vars.ifstream.file_length_ms);
+    printf("\tfile_count                                :  %d\n", this->_vars.ifstream.file_count);
+    printf("\toutput_configuration_select               :  %d  ", this->_vars.ifstream.output_configuration_select);
     switch (this->_vars.ifstream.output_configuration_select)
     {
         case (RSA_API::IFSOD_CLIENT)         : printf("{output direct to client, no file written}\n");                   break;
@@ -44,8 +44,33 @@ void rsa306b_class::print_ifstream()
         case (RSA_API::IFSOD_FILE_MIDAS_DET) : printf("{Midas CDIF+DET file output, separate header and data files}\n"); break;
         default                              : printf("{! UNKNOWN !}\n");                                                break;
     }
-    printf("\tis enabled ADC        :  %d\n", this->_vars.ifstream.is_enabled_adc);
-	printf("\tis active streaming   :  %d\n", this->_vars.ifstream.is_active);		 
+    printf("\tis_enabled_ADC                            :  %d\n", this->_vars.ifstream.is_enabled_adc);
+	printf("\tis_active_streaming                       :  %d\n", this->_vars.ifstream.is_active);	
+    //printf("\tif_data_getter, address                   :  %p\n", this->_vars.ifstream.if_data_getter);
+    printf("\tif_stream_data_length                     :  %d\n", this->_vars.ifstream.if_data_length);
+    printf("\tdata_info_type, 'acqStatus'               :  %u\n", this->_vars.ifstream.data_info_type.acqStatus);
+    printf("\tdata_info_type, 'timestamp'               :  %ld\n", this->_vars.ifstream.data_info_type.timestamp);
+    printf("\tdata_info_type, 'triggerCount'            :  %d\n",this->_vars.ifstream.data_info_type.triggerCount);
+    printf("\tdata_info_type, 'triggerIndices' address  :  %p\n", this->_vars.ifstream.data_info_type.triggerIndices);
+    printf("\tadc_data_v[0]                             :  %d\n", this->_vars.ifstream.adc_data_v[0]);
+    //printf("\tframe_data, address                       :  %p\n", this->_vars.ifstream.frame_data);
+    printf("\tframe_bytes                               :  %d\n", this->_vars.ifstream.frame_bytes);
+    printf("\tnumber_of_frames                          :  %d\n", this->_vars.ifstream.number_of_frames);
+    printf("\tframed_adc_data_v[0][0]                     :  %u\n", this->_vars.ifstream.framed_adc_data_v[0][0]);
+    printf("\tbuffer_size_bytes                         :  %d\n", this->_vars.ifstream.buffer_size_bytes);
+    printf("\tnumber_of_samples                         :  %d\n", this->_vars.ifstream.number_of_samples);
+    printf("\tpoints_in_equalization_buffer             :  %d\n", this->_vars.ifstream.points_in_equalization_buffer);
+    //printf("\teq_frequency_getter, address              :  %p\n", this->_vars.ifstream.eq_frequency_getter);
+    printf("\teq_frequency_v[0]                         :  %f\n", this->_vars.ifstream.eq_frequency_v[0]);
+    //printf("\teq_amplitude_getter, address              :  %p\n", this->_vars.ifstream.eq_amplitude_getter);
+    printf("\teq_amplitude_v[0]                         :  %f\n", this->_vars.ifstream.eq_amplitude_v[0]);
+    //printf("\teq_phase_getter, address                  :  %p\n", this->_vars.ifstream.eq_phase_getter);
+    printf("\teq_phase_v[0]                             :  %f\n", this->_vars.ifstream.eq_phase_v[0]);
+    printf("\tscale_factor                              :  %lf\n", this->_vars.ifstream.scale_factor);
+    printf("\tscale_frequency                           :  %lf\n", this->_vars.ifstream.scale_frequency);
+    printf("\tif_bandwidth_hz                           :  %lf\n", this->_vars.ifstream.if_bandwidth_hz);
+    printf("\tsamples_per_second                        :  %lf\n", this->_vars.ifstream.samples_per_second);
+    printf("\tif_center_frequency                       :  %lf\n", this->_vars.ifstream.if_center_frequency); 
 }
 
 
@@ -62,81 +87,59 @@ void rsa306b_class::_ifstream_init()
         __LINE__, __FILE__, __func__);
 #endif  
 
+// variables for IF stream managment
     this->_vars.ifstream.output_configuration_select = RSA_API::IFSOD_FILE_R3F;
     this->_vars.ifstream.is_enabled_adc = false;
     this->_vars.ifstream.is_active = false;
 
+// variables for output file handling
     this->_vars.ifstream.file_name_suffix = this->_vars.constants.IFSTREAM_SUFFIX;
     strcpy(this->_vars.ifstream.file_path, this->_vars.constants.IFSTREAM_FILE_PATH);
     strcpy(this->_vars.ifstream.file_name_base, this->_vars.constants.IFSTREAM_FILE_NAME_BASE);
     this->_vars.ifstream.file_length_ms = this->_vars.constants.IFSTREAM_DEFAULT_MS;
     this->_vars.ifstream.file_count = this->_vars.constants.IFSTREAM_DEFAULT_FILE_COUNT;
-    
-    this->_vars.ifstream.if_data_getter = NULL;
+
+// variables for acquiring IF stream directly
+    //this->_vars.ifstream.if_data_getter = NULL;
     this->_vars.ifstream.if_data_length = this->_vars.constants.INIT_INT;
     this->_vars.ifstream.data_info_type.acqStatus = this->_vars.constants.INIT_UINT;
     this->_vars.ifstream.data_info_type.timestamp = this->_vars.constants.INIT_UINT;
     this->_vars.ifstream.data_info_type.triggerCount = this->_vars.constants.INIT_INT;
     this->_vars.ifstream.data_info_type.triggerIndices = NULL;
-    //this->_vars.ifstream.adc_data.push_back(this->_vars.constants.INIT_UINT);
-    //this->_vars.ifstream.adc_data.reserve(this->_vars.constants.SAMPLES_IN_BUFFER);
-    this->_vars.ifstream.frame_data = NULL;
+    this->_vars.ifstream.adc_data_v.resize(this->_vars.constants.SAMPLES_IN_BUFFER);
+
+    //this->_vars.ifstream.frame_data = NULL;
     this->_vars.ifstream.frame_bytes = this->_vars.constants.INIT_INT;
     this->_vars.ifstream.number_of_frames = this->_vars.constants.INIT_INT;
-    for (int ii = 0; ii < 3; ii++)
+    this->_vars.ifstream.framed_adc_data_v.resize(this->_vars.constants.FRAMES_IN_BUFFER);
+    for (size_t ii = 0; ii < this->_vars.constants.FRAMES_IN_BUFFER; ii++)
     {
-       this->_vars.ifstream.framed_adc_data[ii].push_back(this->_vars.constants.INIT_UINT);
-       this->_vars.ifstream.framed_adc_data[ii].push_back(this->_vars.constants.INIT_UINT);
-       this->_vars.ifstream.framed_adc_data[ii].push_back(this->_vars.constants.INIT_UINT);
+        this->_vars.ifstream.framed_adc_data_v[ii].resize(
+            this->_vars.constants.ADC_SAMPLES_PER_FRAME, this->_vars.constants.INIT_UINT);
     }
-    for (int ii = 0; ii < 3; ii++)
-    {
-        printf("%d , %d , %d\n", 
-            this->_vars.ifstream.framed_adc_data[ii][0],
-            this->_vars.ifstream.framed_adc_data[ii][1],
-            this->_vars.ifstream.framed_adc_data[ii][2]);
-    }
+    
+    this->_vars.ifstream.buffer_size_bytes = this->_vars.constants.INIT_INT;
+    this->_vars.ifstream.number_of_samples = this->_vars.constants.INIT_INT;
 
+    this->_vars.ifstream.points_in_equalization_buffer = this->_vars.constants.INIT_INT;
+    //this->_vars.ifstream.eq_frequency_getter = NULL;
+    //this->_vars.ifstream.eq_amplitude_getter = NULL;
+    //this->_vars.ifstream.eq_phase_getter = NULL;
+    
 
+    this->_vars.ifstream.eq_frequency_v.resize(this->_vars.constants.CORRECTION_POINTS, this->_vars.constants.INIT_FLOAT);
+    this->_vars.ifstream.eq_amplitude_v.resize(this->_vars.constants.CORRECTION_POINTS, this->_vars.constants.INIT_FLOAT);
+    this->_vars.ifstream.eq_phase_v.resize(this->_vars.constants.CORRECTION_POINTS, this->_vars.constants.INIT_FLOAT);
+    
+    this->_vars.ifstream.scale_factor = this->_vars.constants.INIT_DOUBLE;
+    this->_vars.ifstream.scale_frequency = this->_vars.constants.INIT_DOUBLE;
+
+    this->_vars.ifstream.if_bandwidth_hz = this->_vars.constants.INIT_DOUBLE;
+    this->_vars.ifstream.samples_per_second = this->_vars.constants.INIT_DOUBLE;
+    this->_vars.ifstream.if_center_frequency = this->_vars.constants.INIT_DOUBLE;
 
     this->_ifstream_copy_vars();
 }
 
 
 ////////~~~~~~~~END>  rsa306b_ifstream_print_init.cpp
-/*
-    // GetIFData(), retrieves the entire ADC buffer
-    // the API struct "IFSTRMDATAINFO" is what would be in the footer of a "*.r3f" file
-    int16_t* if_data_getter;                   // receives data buffer as a block, usually 8178 samples per block
-    int if_data_length;                        // number of signed 16-bit samples returned
-    RSA_API::IFSTRMDATAINFO data_info_type;    // contains aquisition information, "aqcStatus" needs a bit check
-    //std::vector<uint16_t> adc_data;            // collects internal buffer "if_data_getter" is placed on
-
-    // GetIFFrames(), retrieves availible frames
-    uint8_t* frame_data;                               // do not have to allocate, pointer to buffer with IF frames
-    int frame_bytes;                                   // frame data length, in bytes (includes data + footer)
-    int number_of_frames;                              // number of of frames acquired
-    std::vector<std::vector<int16_t>> framed_adc_data; // frame index and ADC sample value
-    
-    // GetIFDataBufferSize(), call to prepare "GetIFData()"
-    int buffer_size_bytes;    // size in bytes for "if_data_getter" when calling "GetIFData()" .../2
-    int number_of_samples;    // number of 16-bit samples "GetIFData()" will return
-
-    // GetEQParameters(), this correction data is used for proper analysis
-    int points_in_equalization_buffer;    // number of points in the equalization buffer
-    float** eq_frequency_getter;          // receives internal buffer, EQ frequency, x-axis in Hz
-    float** eq_amplitude_getter;          // receives internal buffer, EQ amplitude correction in dB
-    float** eq_phase_getter;              // receives internal buffer, EQ phase correction in degrees
-    std::vector<float> eq_frequency_v;    // collects "freq_getter" in Hz
-    std::vector<float> eq_amplitude_v;    // collects "ampl_getter" in dB
-    std::vector<float> eq_phase_v;        // collects "phase_getter" in degrees
-
-    // GetScalingParameters(), to align data
-    double scale_factor;       // multiply ADC data for equivelent of 50 ohm termination
-    double scale_frequency;    // IF frequency the scale factor applies
-
-    //GetAcqParameters(), for the client to get data
-    double if_bandwidth_hz;        // usuable IF signal bandwidth in Hz
-    double samples_per_second;     // IF data sample rate in samples per second
-    double if_center_frequency;    // IF frequency where original center frequency was translated
-*/

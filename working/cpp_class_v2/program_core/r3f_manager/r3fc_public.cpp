@@ -24,12 +24,12 @@
 r3f_manager_class::r3f_manager_class()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    printf("\n<%d> %s/%s()  ,  constructor\n",
         __LINE__, __FILE__, __func__);
 #endif
 
     this->_cpu_start = clock();
-    #ifdef DEBUG_MIN
+    #ifdef DEBUG_MAX
         printf("\n\tinstance constructed\n");
     #endif
     this->_initialize();
@@ -46,11 +46,11 @@ r3f_manager_class::r3f_manager_class()
 r3f_manager_class::~r3f_manager_class()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    printf("\n<%d> %s/%s()  ,  destructor\n",
         __LINE__, __FILE__, __func__);
 #endif
 
-    #ifdef DEBUG_MIN
+    #ifdef DEBUG_MAX
         printf("\n\tinstance destructed, total running time:  %lf seconds\n",
             this->get_running_time());
     #endif

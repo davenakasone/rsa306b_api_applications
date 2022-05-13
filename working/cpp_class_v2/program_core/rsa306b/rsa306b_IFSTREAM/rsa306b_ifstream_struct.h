@@ -45,16 +45,16 @@ struct rsa306b_ifstream_struct
 
     // GetIFData(), retrieves the entire ADC buffer
     // the API struct "IFSTRMDATAINFO" is what would be in the footer of a "*.r3f" file
-    int16_t* if_data_getter;                   // receives data buffer as a block, usually 8178 samples per block
+    //int16_t* if_data_getter;                   // receives data buffer as a block, usually 8178 samples per block
     int if_data_length;                        // number of signed 16-bit samples returned
     RSA_API::IFSTRMDATAINFO data_info_type;    // contains aquisition information, "aqcStatus" needs a bit check
-    //std::vector<uint16_t> adc_data;            // collects internal buffer "if_data_getter" is placed on
+    std::vector<int16_t> adc_data_v;            // collects internal buffer "if_data_getter" is placed on
 
     // GetIFFrames(), retrieves availible frames
-    uint8_t* frame_data;                                  // do not have to allocate, pointer to buffer with IF frames
+    //uint8_t** frame_data;                                  // do not have to allocate, pointer to buffer with IF frames
     int frame_bytes;                                      // frame data length, in bytes (includes data + footer)
     int number_of_frames;                                 // number of of frames acquired
-    std::vector<std::vector<int16_t>> framed_adc_data;    // frame index and ADC sample value
+    std::vector<std::vector<int16_t>> framed_adc_data_v;    // frame index and ADC sample value
     
     // GetIFDataBufferSize(), call to prepare "GetIFData()"
     int buffer_size_bytes;    // size in bytes for "if_data_getter" when calling "GetIFData()" .../2
@@ -62,9 +62,9 @@ struct rsa306b_ifstream_struct
 
     // GetEQParameters(), this correction data is used for proper analysis
     int points_in_equalization_buffer;    // number of points in the equalization buffer
-    float** eq_frequency_getter;          // receives internal buffer, EQ frequency, x-axis in Hz
-    float** eq_amplitude_getter;          // receives internal buffer, EQ amplitude correction in dB
-    float** eq_phase_getter;              // receives internal buffer, EQ phase correction in degrees
+    //float** eq_frequency_getter;          // receives internal buffer, EQ frequency, x-axis in Hz
+    //float** eq_amplitude_getter;          // receives internal buffer, EQ amplitude correction in dB
+    //float** eq_phase_getter;              // receives internal buffer, EQ phase correction in degrees
     std::vector<float> eq_frequency_v;    // collects "freq_getter" in Hz
     std::vector<float> eq_amplitude_v;    // collects "ampl_getter" in dB
     std::vector<float> eq_phase_v;        // collects "phase_getter" in degrees

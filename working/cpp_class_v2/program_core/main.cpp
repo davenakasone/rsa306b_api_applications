@@ -8,9 +8,9 @@
 
 // turn off to run all unit tests
 // turn on and change UT_NUMBER to run a specific unit test
-#define UNIT_TEST_BY_NUMBER 994    // select unit test # here
+#define UNIT_TEST_BY_NUMBER 993    // select unit test # here
 // sections        "unit_test_#"  : 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
-// specific tasks  "task_#"       : 999, 998, 997, 996, 995, 994
+// specific tasks  "task_#"       : 999, 998, 997, 996, 995, 994, 993
 
 
 int main
@@ -43,7 +43,9 @@ int main
         test_selector(7);      // test 'CONFIG' section
         test_selector(8);      // test 'SPECTRUM' section
         test_selector(9);      // test 'IFSTREAM' section
-
+        
+        test_selector(993);    // generate spectrum and raw ADC for learning
+        test_selector(994);    // develop IF stream direct to client
         test_selector(995);    // test YK3000 @ 315 MHz
         test_selector(996);    // get CSV for model
         test_selector(997);    // DSP demonstration

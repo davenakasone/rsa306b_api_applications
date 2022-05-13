@@ -214,6 +214,8 @@
             - rsa306b_ifstream_user1.cpp
                 ifstream_set_vars()
                 ifstream_record_file()
+                ifstream_acquire_adc_data()
+                ifstream_acquire_adc_frames()
 
         "./program_core/rsa306b/rsa306_REFTIME/"
             - rsa306b_reftime_struct.h
@@ -406,6 +408,12 @@
             IFSTREAM_SetDiskFilePath()
             IFSTREAM_SetOutoutConfiguration()
             IFSTREAM_SetEnable()
+            IFSTREAM_GetAcqParameters()
+            IFSTREAM_GetEQParameters()
+            IFSTREAM_GetIFData()
+            IFSTREAM_GetIFDataBufferSize()
+            IFSTREAM_GetIFFrames()
+            IFSTREAM_GetScalingParameters()
 
         IQ Block
 
@@ -531,6 +539,8 @@ class rsa306b_class
         void print_ifstream();
         void ifstream_set_vars();
         void ifstream_record_file();
+        void ifstream_acquire_adc_data();
+        void ifstream_acquire_adc_frames();
 
     // API group "REFTIME"
         void print_reftime();               // prints the "REFTIME" variables to stdout, using the private struct
