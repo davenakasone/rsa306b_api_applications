@@ -24,12 +24,14 @@ struct rsa306b_ifstream_struct
 
 
 // used internally to enable IF stream and query transfer status
+// user should not alter, but can reference
+
     bool is_active;         // status of streaming to disk      , GetActiveStatus()
     bool is_enabled_adc;    // ADC is enabled for streaming data, SetEnable()
 
 
 // for writting IF stream to a file
-// <file path> <filename base> <suffix> . <ext>  // use ".r3f"
+// <file path> <filename base> <suffix> . <ext> , use ".r3f"
 // see "rsa306b_constants_class.h" for default settings
 
     int file_name_suffix;          // determines file suffix appended to output files, SetDiskFilenameSuffix()
@@ -42,29 +44,25 @@ struct rsa306b_ifstream_struct
 // for receiving the IF stream directly into the program
 // client must take internal buffers before they overflow
 // check rate, and don't do to much processing until data is acquired
+// internal dynamically allocated data types are supplemented with safer STL data types
 
     // GetIFData(), retrieves the entire ADC buffer
     // the API struct "IFSTRMDATAINFO" is what would be in the footer of a "*.r3f" file
-    //int16_t* if_data_getter;                   // receives data buffer as a block, usually 8178 samples per block
     int if_data_length;                        // number of signed 16-bit samples returned
     RSA_API::IFSTRMDATAINFO data_info_type;    // contains aquisition information, "aqcStatus" needs a bit check
-    std::vector<int16_t> adc_data_v;            // collects internal buffer "if_data_getter" is placed on
+    std::vector<int16_t> adc_data_v;           // collects internal buffer "if_data_getter" is placed on
 
-    // GetIFFrames(), retrieves availible frames
-    //uint8_t** frame_data;                                  // do not have to allocate, pointer to buffer with IF frames
-    int frame_bytes;                                      // frame data length, in bytes (includes data + footer)
-    int number_of_frames;                                 // number of of frames acquired
-    std::vector<std::vector<int16_t>> framed_adc_data_v;    // frame index and ADC sample value
-    
     // GetIFDataBufferSize(), call to prepare "GetIFData()"
     int buffer_size_bytes;    // size in bytes for "if_data_getter" when calling "GetIFData()" .../2
     int number_of_samples;    // number of 16-bit samples "GetIFData()" will return
 
+    // GetIFFrames(), retrieves availible frames
+    int frame_bytes;                                        // frame data length, in bytes (includes data + footer)
+    int number_of_frames;                                   // number of of frames acquired
+    std::vector<std::vector<int16_t>> framed_adc_data_v;    // frame index and ADC sample value
+    
     // GetEQParameters(), this correction data is used for proper analysis
     int points_in_equalization_buffer;    // number of points in the equalization buffer
-    //float** eq_frequency_getter;          // receives internal buffer, EQ frequency, x-axis in Hz
-    //float** eq_amplitude_getter;          // receives internal buffer, EQ amplitude correction in dB
-    //float** eq_phase_getter;              // receives internal buffer, EQ phase correction in degrees
     std::vector<float> eq_frequency_v;    // collects "freq_getter" in Hz
     std::vector<float> eq_amplitude_v;    // collects "ampl_getter" in dB
     std::vector<float> eq_phase_v;        // collects "phase_getter" in degrees

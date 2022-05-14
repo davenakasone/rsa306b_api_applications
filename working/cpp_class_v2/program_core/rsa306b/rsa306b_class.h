@@ -1,9 +1,9 @@
 /*
     this is the top-level class of the program
     subordinate classes (included by composition) not designed to be used independently
-    this class uses a provided API to interface with the RSA-306B Spectrum Analyzer
+    this class uses the provided API to interface with the RSA-306B Spectrum Analyzer
     Tektronix requires 2 shared objects (dynamic libraries) to be linked and the RSA_API.h header
-    the API is designed to run on a 64-bit Linux OS using an intel processor
+    the API is designed to run on a 64-bit Linux OS using an Intel processor (or AMD)
     only one instance of this class can connect to the spectrum analyzer
     for most use cases, only one instance of this class is required
 
@@ -199,9 +199,36 @@
                 _ifstream_copy_output_configuration_select()
                 _ifstream_copy_is_enabled_adc()
                 _ifstream_copy_is_active()
+                _ifstream_copy_if_data()
+                _ifstream_copy_if_data_length()
+                _ifstream_copy_data_info_type()
+                _ifstream_copy_adc_data_v()
+                _ifstream_copy_if_frames()
+                _ifstream_copy_frame_bytes()
+                _ifstream_copy_number_of_frames()
+                _ifstream_copy_framed_adc_data_v()
+                _ifstream_copy_eq_parameters()
+                _ifstream_copy_points_in_equalization_buffer()
+                _ifstream_copy_eq_frequency_v()
+                _ifstream_copy_eq_amplitude_v()
+                _ifstream_copy_eq_phase_v()
+                _ifstream_copy_scaling_parameters()
+                _ifstream_copy_scale_factor()
+                _ifstream_copy_scale_frequency()
+                _ifstream_copy_acq_parameters()
+                _ifstream_copy_if_bandwidth_hz()
+                _ifstream_copy_samples_per_second()
+                _ifstream_copy_if_center_frequency()
+                _ifstream_copy_buffer_size()
+                _ifstream_copy_buffer_size_bytes()
+                _ifstream_copy_number_of_samples()
             - rsa306b_ifstream_get.cpp
                 _ifstream_get_vars()
                 _ifstream_get_is_active()
+                _ifstream_get_acq_parameters()
+                _ifstream_get_buffer_size()
+                _ifstream_get_eq_parameters()
+                _ifstream_get_scaling_parameters()
             - rsa306b_ifstream_set.cpp
                 _ifstream_set_vars()
                 _ifstream_set_file_name_suffix()
@@ -211,12 +238,12 @@
                 _ifstream_set_file_count()
                 _ifstream_set_output_configuration_select()
                 _ifstream_set_is_enabled_adc()
-            - rsa306b_ifstream_user1.cpp
+            - rsa306b_ifstream_user.cpp
                 ifstream_set_vars()
                 ifstream_record_file()
                 ifstream_acquire_adc_data()
                 ifstream_acquire_adc_frames()
-
+                
         "./program_core/rsa306b/rsa306_REFTIME/"
             - rsa306b_reftime_struct.h
                 struct rsa306b_reftime_struct
@@ -401,19 +428,19 @@
 
         IF Streaming
             IFSTREAM_GetActiveStatus()
-            IFSTREAM_SetDiskFileCount()
-            IFSTREAM_SetDiskFileLength()
-            IFSTREAM_SetDiskFilenameBase()
-            IFSTREAM_SetDiskFilenameSuffix()
-            IFSTREAM_SetDiskFilePath()
-            IFSTREAM_SetOutoutConfiguration()
-            IFSTREAM_SetEnable()
             IFSTREAM_GetAcqParameters()
             IFSTREAM_GetEQParameters()
             IFSTREAM_GetIFData()
             IFSTREAM_GetIFDataBufferSize()
             IFSTREAM_GetIFFrames()
             IFSTREAM_GetScalingParameters()
+            IFSTREAM_SetDiskFileCount()
+            IFSTREAM_SetDiskFileLength()
+            IFSTREAM_SetDiskFilenameBase()
+            IFSTREAM_SetDiskFilenameSuffix()
+            IFSTREAM_SetDiskFilePath()
+            IFSTREAM_SetEnable()
+            IFSTREAM_SetOutoutConfiguration()
 
         IQ Block
 
@@ -476,7 +503,6 @@
         # worker thread, request thread --> mutex control
 
         # DPX
-        # IFSTREAM
         # IQBLK
         # IQSTREAM
         # PLAYBACK
@@ -536,11 +562,11 @@ class rsa306b_class
         void device_start_frame_transfer();    // initiates run, data transfer begins
     
     // API group "IFSTREAM"
-        void print_ifstream();
-        void ifstream_set_vars();
-        void ifstream_record_file();
-        void ifstream_acquire_adc_data();
-        void ifstream_acquire_adc_frames();
+        void print_ifstream();                 // prints the "IFSTREAM" variables to stdout, using the private struct
+        void ifstream_set_vars();              // user changes "IFSTREAM" variables in public struct, then calls to set new values
+        void ifstream_record_file();           // output "*.r3f" file is produced according to the user settings
+        void ifstream_acquire_adc_data();      // gets the entire ADC buffer, user struct updated
+        void ifstream_acquire_adc_frames();    // gets the entire ADC buffer, by frame, user struct updated
 
     // API group "REFTIME"
         void print_reftime();               // prints the "REFTIME" variables to stdout, using the private struct
@@ -682,9 +708,36 @@ class rsa306b_class
         void _ifstream_copy_output_configuration_select();
         void _ifstream_copy_is_enabled_adc();
         void _ifstream_copy_is_active();
+        void _ifstream_copy_if_data();
+        void _ifstream_copy_if_data_length();
+        void _ifstream_copy_data_info_type();
+        void _ifstream_copy_adc_data_v();
+        void _ifstream_copy_if_frames();
+        void _ifstream_copy_frame_bytes();
+        void _ifstream_copy_number_of_frames();
+        void _ifstream_copy_framed_adc_data_v();
+        void _ifstream_copy_eq_parameters();
+        void _ifstream_copy_points_in_equalization_buffer();
+        void _ifstream_copy_eq_frequency_v();
+        void _ifstream_copy_eq_amplitude_v();
+        void _ifstream_copy_eq_phase_v();
+        void _ifstream_copy_scaling_parameters();
+        void _ifstream_copy_scale_factor();
+        void _ifstream_copy_scale_frequency();
+        void _ifstream_copy_acq_parameters();
+        void _ifstream_copy_if_bandwidth_hz();
+        void _ifstream_copy_samples_per_second();
+        void _ifstream_copy_if_center_frequency();
+        void _ifstream_copy_buffer_size();
+        void _ifstream_copy_buffer_size_bytes();
+        void _ifstream_copy_number_of_samples();
         // getters, uses API
         void _ifstream_get_vars();
         void _ifstream_get_is_active();
+        void _ifstream_get_acq_parameters();
+        void _ifstream_get_buffer_size();
+        void _ifstream_get_eq_parameters();
+        void _ifstream_get_scaling_parameters();
         // setters, uses API
         void _ifstream_set_vars();
         void _ifstream_set_file_name_suffix();

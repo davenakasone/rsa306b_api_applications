@@ -68,7 +68,7 @@ $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_copy.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_get.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_print_init.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_set.cpp \
-$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_user1.cpp \
+$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_user.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_copy.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_get.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_print_init.cpp \
@@ -84,6 +84,7 @@ $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_get.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_print_init.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_set.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_user.cpp \
+$(TDIR_T)task_992.cpp \
 $(TDIR_T)task_993.cpp \
 $(TDIR_T)task_994.cpp \
 $(TDIR_T)task_995.cpp \

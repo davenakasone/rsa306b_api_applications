@@ -242,6 +242,7 @@ void rsa306b_class::_ifstream_set_is_enabled_adc()
         RSA_API::IFSTREAM_SetEnable(
             this->_vars.ifstream.is_enabled_adc);
     this->_gp_confirm_api_status();
+    this->_ifstream_copy_is_enabled_adc();
 }
 
 

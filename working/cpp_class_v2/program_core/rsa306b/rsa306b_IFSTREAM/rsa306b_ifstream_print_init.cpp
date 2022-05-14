@@ -46,25 +46,20 @@ void rsa306b_class::print_ifstream()
     }
     printf("\tis_enabled_ADC                            :  %d\n", this->_vars.ifstream.is_enabled_adc);
 	printf("\tis_active_streaming                       :  %d\n", this->_vars.ifstream.is_active);	
-    //printf("\tif_data_getter, address                   :  %p\n", this->_vars.ifstream.if_data_getter);
     printf("\tif_stream_data_length                     :  %d\n", this->_vars.ifstream.if_data_length);
     printf("\tdata_info_type, 'acqStatus'               :  %u\n", this->_vars.ifstream.data_info_type.acqStatus);
     printf("\tdata_info_type, 'timestamp'               :  %ld\n", this->_vars.ifstream.data_info_type.timestamp);
     printf("\tdata_info_type, 'triggerCount'            :  %d\n",this->_vars.ifstream.data_info_type.triggerCount);
     printf("\tdata_info_type, 'triggerIndices' address  :  %p\n", this->_vars.ifstream.data_info_type.triggerIndices);
     printf("\tadc_data_v[0]                             :  %d\n", this->_vars.ifstream.adc_data_v[0]);
-    //printf("\tframe_data, address                       :  %p\n", this->_vars.ifstream.frame_data);
     printf("\tframe_bytes                               :  %d\n", this->_vars.ifstream.frame_bytes);
     printf("\tnumber_of_frames                          :  %d\n", this->_vars.ifstream.number_of_frames);
-    printf("\tframed_adc_data_v[0][0]                     :  %u\n", this->_vars.ifstream.framed_adc_data_v[0][0]);
+    printf("\tframed_adc_data_v[0][0]                   :  %u\n", this->_vars.ifstream.framed_adc_data_v[0][0]);
     printf("\tbuffer_size_bytes                         :  %d\n", this->_vars.ifstream.buffer_size_bytes);
     printf("\tnumber_of_samples                         :  %d\n", this->_vars.ifstream.number_of_samples);
     printf("\tpoints_in_equalization_buffer             :  %d\n", this->_vars.ifstream.points_in_equalization_buffer);
-    //printf("\teq_frequency_getter, address              :  %p\n", this->_vars.ifstream.eq_frequency_getter);
     printf("\teq_frequency_v[0]                         :  %f\n", this->_vars.ifstream.eq_frequency_v[0]);
-    //printf("\teq_amplitude_getter, address              :  %p\n", this->_vars.ifstream.eq_amplitude_getter);
     printf("\teq_amplitude_v[0]                         :  %f\n", this->_vars.ifstream.eq_amplitude_v[0]);
-    //printf("\teq_phase_getter, address                  :  %p\n", this->_vars.ifstream.eq_phase_getter);
     printf("\teq_phase_v[0]                             :  %f\n", this->_vars.ifstream.eq_phase_v[0]);
     printf("\tscale_factor                              :  %lf\n", this->_vars.ifstream.scale_factor);
     printf("\tscale_frequency                           :  %lf\n", this->_vars.ifstream.scale_frequency);
@@ -100,7 +95,6 @@ void rsa306b_class::_ifstream_init()
     this->_vars.ifstream.file_count = this->_vars.constants.IFSTREAM_DEFAULT_FILE_COUNT;
 
 // variables for acquiring IF stream directly
-    //this->_vars.ifstream.if_data_getter = NULL;
     this->_vars.ifstream.if_data_length = this->_vars.constants.INIT_INT;
     this->_vars.ifstream.data_info_type.acqStatus = this->_vars.constants.INIT_UINT;
     this->_vars.ifstream.data_info_type.timestamp = this->_vars.constants.INIT_UINT;
@@ -108,7 +102,6 @@ void rsa306b_class::_ifstream_init()
     this->_vars.ifstream.data_info_type.triggerIndices = NULL;
     this->_vars.ifstream.adc_data_v.resize(this->_vars.constants.SAMPLES_IN_BUFFER);
 
-    //this->_vars.ifstream.frame_data = NULL;
     this->_vars.ifstream.frame_bytes = this->_vars.constants.INIT_INT;
     this->_vars.ifstream.number_of_frames = this->_vars.constants.INIT_INT;
     this->_vars.ifstream.framed_adc_data_v.resize(this->_vars.constants.FRAMES_IN_BUFFER);
@@ -122,11 +115,6 @@ void rsa306b_class::_ifstream_init()
     this->_vars.ifstream.number_of_samples = this->_vars.constants.INIT_INT;
 
     this->_vars.ifstream.points_in_equalization_buffer = this->_vars.constants.INIT_INT;
-    //this->_vars.ifstream.eq_frequency_getter = NULL;
-    //this->_vars.ifstream.eq_amplitude_getter = NULL;
-    //this->_vars.ifstream.eq_phase_getter = NULL;
-    
-
     this->_vars.ifstream.eq_frequency_v.resize(this->_vars.constants.CORRECTION_POINTS, this->_vars.constants.INIT_FLOAT);
     this->_vars.ifstream.eq_amplitude_v.resize(this->_vars.constants.CORRECTION_POINTS, this->_vars.constants.INIT_FLOAT);
     this->_vars.ifstream.eq_phase_v.resize(this->_vars.constants.CORRECTION_POINTS, this->_vars.constants.INIT_FLOAT);
