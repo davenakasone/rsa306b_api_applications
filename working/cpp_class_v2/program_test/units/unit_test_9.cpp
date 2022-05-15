@@ -80,6 +80,7 @@ void unit_test_9 (void)
             r3f.prepare_plot_from_adc(rsa.vars.ifstream.file_path, rsa.vars.constants.IFSTREAM_CSV_PATH);
         #endif
         #ifdef UT9_d
+            printf("\n");
             rsa.vars.config.reference_level_dbm = -30;
             rsa.vars.config.center_frequency_hz = 100e6;
             rsa.config_set_vars();
@@ -122,6 +123,7 @@ void unit_test_9 (void)
             rsa.print_ifstream();
         #endif
         #ifdef UT9_e
+            printf("\n");
             rsa.vars.config.reference_level_dbm = -30;
             rsa.vars.config.center_frequency_hz = 100e6;
             rsa.config_set_vars();
