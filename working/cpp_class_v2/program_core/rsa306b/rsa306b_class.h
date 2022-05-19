@@ -443,6 +443,20 @@
             IFSTREAM_SetOutoutConfiguration()
 
         IQ Block
+            IQBLK_GetAcqInfo()
+            IQBLK_AcquireIQData()
+            IQBLK_GetIQBandwidth()
+            IQBLK_GetIQData()
+            IQBLK_GetIQDataCplx()
+            IQBLK_GetIQDataDeinterleaved()
+            IQBLK_GetRecordLength()
+            IQBLK_GetIQSampleRate()
+            IQBLK_GetMaxIQBandwidth()
+            IQBLK_GetMaxIQRecordLength()
+            IQBLK_GetMinIQBandwidth()
+            IQBLK_SetIQBandwidth()
+            IQBLK_SetIQRecordLength()
+            IQBLK_WaitForIQDataReady()
 
         IQ Streaming
 
