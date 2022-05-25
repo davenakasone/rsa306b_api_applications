@@ -14,6 +14,7 @@
 #include "./rsa306b_CONFIG/rsa306b_config_struct.h"
 #include "./rsa306b_DEVICE/rsa306b_device_struct.h"
 #include "./rsa306b_IFSTREAM/rsa306b_ifstream_struct.h"
+#include "./rsa306b_IQBLK/rsa306b_iqblk_struct.h"
 #include "./rsa306b_REFTIME/rsa306b_reftime_struct.h"
 #include "./rsa306b_SPECTRUM/rsa306b_spectrum_struct.h"
 #include "./rsa306b_TRIG/rsa306b_trig_struct.h"
@@ -34,6 +35,8 @@ struct rsa306b_struct
     rsa306b_device_struct device;         // API group "DEVICE" variables
 
     rsa306b_ifstream_struct ifstream;     // API group "IFSTREAM" variables
+
+    rsa306b_iqblk_struct iqblk;           // API group "IQBLK" variables
 
     rsa306b_reftime_struct reftime;       // API group "REFTIME" variables
 

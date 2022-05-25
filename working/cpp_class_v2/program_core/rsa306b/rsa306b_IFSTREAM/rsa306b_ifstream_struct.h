@@ -4,6 +4,8 @@
     make sure DEVICE_Run() is called at least once before using
 
     start and stop the IFSTREAM and DEVICE enables in sequence
+
+    where is the bit-check?
 */
 
 #ifndef H_rsa306b_ifstream_struct

@@ -29,7 +29,7 @@
 
         "./program_core/rsa306b/rsa306_GP/"
             - rsa306b_gp_struct.h
-                struct rsa306b_gp_struct
+                rsa306b_gp_struct
             - rsa306b_class_cons_dest.cpp
                 rsa306b_class()
                 ~rsa306b_class()
@@ -57,14 +57,14 @@
 
         "./program_core/rsa306b/rsa306b_CONST"
             - rsa306b_constants_class.h
-                class rsa306b_constants_class
+                rsa306b_constants_class
             - rsa306b_constants_constructor.cpp
                 rsa306b_constants_class()
                 ~rsa306b_constants_class()
         
         "./program_core/rsa306b/rsa306_ALIGN"
             - rsa306b_align_struct.h
-                struct rsa306b_align_struct
+                rsa306b_align_struct
             - rsa306b_align_print_init.cpp
                 print_align()
                 _align_init()
@@ -82,7 +82,7 @@
         
         "./program_core/rsa306b/rsa306_AUDIO"
             - rsa306b_audio_struct.h
-                struct rsa306b_audio_struct
+                rsa306b_audio_struct
             - rsa306b_audio_print_init.cpp
                 print_audio()
                 _audio_init()
@@ -117,7 +117,7 @@
 
         "./program_core/rsa306b/rsa306_CONFIG/"
             - rsa306b_config_struct.h
-                struct rsa306b_config_struct    
+                rsa306b_config_struct    
             - rsa306b_config_print_init.cpp
                 print_config()
                 _config_init()
@@ -148,7 +148,7 @@
 
         "./program_core/rsa306b/rsa306_DEVICE/"
             - rsa306b_device_struct.h
-                struct rsa306b_device_struct
+                rsa306b_device_struct
             - rsa306b_device_print_init.cpp
                 print_device()
                 _device_init()
@@ -185,7 +185,7 @@
 
         "./program_core/rsa306b/rsa306_IFSTREAM/"
             - rsa306b_ifstream_struct.h
-                struct rsa306b_ifstream_struct
+                rsa306b_ifstream_struct
             - rsa306b_ifstream_print_init.cpp
                 print_reftime()
                 _reftime_init()
@@ -243,11 +243,28 @@
                 ifstream_record_file()
                 ifstream_acquire_adc_data()
                 ifstream_acquire_adc_frames()
-                
+        
+        "./program_core/rsa306b/rsa306_IQBLK/"
+            - rsa306b_iqblk_struct.h
+                rsa306b_iqblk_struct
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
         "./program_core/rsa306b/rsa306_REFTIME/"
             - rsa306b_reftime_struct.h
-                struct rsa306b_reftime_struct
-                struct reftime_type
+                rsa306b_reftime_struct
+                reftime_type
             - rsa306b_reftime_print_init.cpp
                 print_reftime()
                 _reftime_init()
@@ -276,7 +293,7 @@
             
         "./program_core/rsa306b/rsa306_SPECTRUM/"
             - rsa306b_spectrum_struct.h
-                struct rsa306b_spectrum_struct
+                rsa306b_spectrum_struct
             - rsa306b_spectrum_init_default.cpp
                 spectrum_default()
                 _spectrum_default()
@@ -319,7 +336,7 @@
 
         "./program_core/rsa306b/rsa306_TRIG/"
             - rsa306b_trig_struct.h
-                struct rsa306b_trig_struct
+                rsa306b_trig_struct
             - rsa306b_trig_print_init.cpp
                 print_trig()
                 _trig_init()
