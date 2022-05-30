@@ -38,6 +38,7 @@ void unit_test_6   (void);    // test 'REFTIME' section
 void unit_test_7   (void);    // test 'CONFIG' section
 void unit_test_8   (void);    // test 'SPECTRUM' section
 void unit_test_9   (void);    // test 'IFSTREAM' section
+void unit_test_10  (void);    // test 'IQBLK' section
 
 void task_992 (void);    // get 100MHz and 315 MHz, spectrum and ADC
 void task_993 (void);    // generate spectrum and raw ADC for learning

@@ -247,10 +247,37 @@
         "./program_core/rsa306b/rsa306_IQBLK/"
             - rsa306b_iqblk_struct.h
                 rsa306b_iqblk_struct
-            
-
-
-
+            - rsa306b_iqblk_print_init_check.cpp
+                print_iqblk()
+                _iqblk_init()
+                _iqblk_bitcheck()
+            - rsa306b_iqblk_copy.cpp
+                _iqblk_copy_vars()
+                _iqblk_copy_getter()
+                _iqblk_copy_actual_buffer_samples()
+                _iqblk_copy_sample_pairs_requested()
+                _iqblk_copy_cplx32_v()
+                _iqblk_copy_acq_info_type()
+                _iqblk_copy_bitcheck()
+                _iqblk_copy_sample_rate()
+                _iqblk_copy_bandwidth_hz()
+                _iqblk_copy_max_bandwidth_hz()
+                _iqblk_copy_min_bandwidth_hz()
+                _iqblk_copy_record_length()
+                _iqblk_copy_max_record_length()
+            - rsa306b_iqblk_get.cpp
+                _iqblk_get_vars()
+                _iqblk_get_acq_info_type()
+                _iqblk_get_sample_rate()
+                _iqblk_get_bandwidth_hz()
+                _iqblk_get_max_bandwidth_hz()
+                _iqblk_get_min_bandwidth_hz()
+                _iqblk_get_max_record_length()
+            - rsa306b_iqblk_set.cpp
+                _iqblk_set_vars()
+                _iqblk_set_getter()
+                _iqblk_set_bandwidth_hz()
+                _iqblk_set_record_length()
 
 
 
@@ -597,6 +624,13 @@ class rsa306b_class
         void ifstream_acquire_adc_data();      // gets the entire ADC buffer, user struct updated
         void ifstream_acquire_adc_frames();    // gets the entire ADC buffer, by frame, user struct updated
 
+    // API group "IQBLK"
+        void print_iqblk();           // prints the "IQBLK" variables to stdout, using the private struct
+        void iqblk_set_vars();        // user changes "IQBLK" variables in public struct, then calls to set new values
+        void iqblk_acquire_data();    // the "IQBLK" data is acquired into "vars.iqblk.cplx32_v"
+
+
+
     // API group "REFTIME"
         void print_reftime();               // prints the "REFTIME" variables to stdout, using the private struct
         void reftime_reset();               // resets start time of the device
@@ -780,7 +814,33 @@ class rsa306b_class
     // API group "IQBLK"
         void _iqblk_init();
         void _iqblk_bitcheck();
-        
+        // copiers, private --> public
+        void _iqblk_copy_vars();
+        void _iqblk_copy_getter();
+        void _iqblk_copy_actual_buffer_samples();
+        void _iqblk_copy_sample_pairs_requested();
+        void _iqblk_copy_cplx32_v();
+        void _iqblk_copy_acq_info_type();
+        void _iqblk_copy_bitcheck();
+        void _iqblk_copy_sample_rate();
+        void _iqblk_copy_bandwidth_hz();
+        void _iqblk_copy_max_bandwidth_hz();
+        void _iqblk_copy_min_bandwidth_hz();
+        void _iqblk_copy_record_length();
+        void _iqblk_copy_max_record_length();
+        // getters, uses API
+        void _iqblk_get_vars();
+        void _iqblk_get_acq_info_type();
+        void _iqblk_get_sample_rate();
+        void _iqblk_get_bandwidth_hz();
+        void _iqblk_get_max_bandwidth_hz();
+        void _iqblk_get_min_bandwidth_hz();
+        void _iqblk_get_max_record_length();
+        // setters
+        void _iqblk_set_vars();
+        void _iqblk_set_getter();           // does not use API
+        void _iqblk_set_bandwidth_hz();
+        void _iqblk_set_record_length();
 
     // API group "REFTIME"
         void _reftime_init();

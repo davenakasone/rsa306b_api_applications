@@ -8,8 +8,8 @@
 
 // turn off to run all unit tests
 // turn on and change UT_NUMBER to run a specific unit test
-#define UNIT_TEST_BY_NUMBER 9    // select unit test # here
-// sections        "unit_test_#"  : 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+#define UNIT_TEST_BY_NUMBER 10    // select unit test # here
+// sections        "unit_test_#"  : 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 // specific tasks  "task_#"       : 999, 998, 997, 996, 995, 994, 993, 992
 
 
@@ -43,6 +43,7 @@ int main
         test_selector(7);      // test 'CONFIG' section
         test_selector(8);      // test 'SPECTRUM' section
         test_selector(9);      // test 'IFSTREAM' section
+        test_selector(10);     // test 'IQBLK' section
         test_selector(992);    // get 100MHz and 315 MHz, spectrum and ADC
         test_selector(993);    // generate spectrum and raw ADC for learning
         test_selector(994);    // develop IF stream direct to client

@@ -67,14 +67,16 @@ class rsa306b_constants_class
         const char IFSTREAM_CSV_PATH[BUF_B] = "./program_test/data/outputs_txt/";    // where raw ADC data from IFSTREAM goes
 
     // IQBLK constants
-        const char IQBLK_BIT_0[BUF_B] = "ADC input over range during acquisition";
-        const char IQBLK_BIT_1[BUF_B] = "Frequency reference unlocked during acquisition";
-        const char IQBLK_BIT_2[BUF_B] = "Internal oscillator unlocked / power failure during acquisition";
-        const char IQBLK_BIT_3[BUF_B] = "USB frame transfer error detected during acquisition";
+        const char IQBLK_BIT_PASS[BUF_B] = "GOOD BITCHECK";
+        const char IQBLK_BIT_0[BUF_B] = "*ADC input over range during acquisition*";
+        const char IQBLK_BIT_1[BUF_B] = "*Frequency reference unlocked during acquisition*";
+        const char IQBLK_BIT_2[BUF_B] = "*oscillator unlocked / power failure during acquisition*";
+        const char IQBLK_BIT_3[BUF_B] = "*USB frame transfer error detected during acquisition*";
         const int IQBLK_MIN_PAIRS = 2;
+        const int IQBLK_STARTING_PAIRS = 1000;
         const int IQBLK_MAX_PAIRS = 104857600;
-        const double IQBLK_MIN_BANDWIDTH = 1e6;
-        const double IQBLK_MAX_BANDWIDTH = 30e6;
+        const double IQBLK_STARTING_BANDWIDTH = 1e6;
+        uint32_t IQBLK_BIT_SUCCESS = 0; // bitcheck with no error
 };
 
 

@@ -59,7 +59,7 @@ struct rsa306b_iqblk_struct
         // has a range [ 2 : 104.8576e6 ] sample pairs, [public sets, private gets]
     int record_length; // the number of IQ data samples generated on each acquisition
     // IQBLK_GetMaxIQRecordLength()
-        // 2 seconds is the min, bandwidth dependent
+        // 2 seconds is the max, bandwidth dependent
     int max_record_length;    // largest IQ record length can be for 1 block "max samples"
 };
 typedef struct rsa306b_iqblk_struct rsa306b_iqblk_struct;
@@ -92,21 +92,21 @@ typedef struct rsa306b_iqblk_struct rsa306b_iqblk_struct;
 */
 
 /*
-    int getter;                               
-    int actual_buffer_samples;                
+    int getter;                             
+    int actual_buffer_samples;          
     int sample_pairs_requested;               
-    std::vector<RSA_API::Cplx32> cplx32_v; 
+    std::vector<RSA_API::Cplx32> cplx32_v;    
     RSA_API::IQBLK_ACQINFO acq_info_type;    
-    double sample_rate;   
+    char bitcheck[BUF_D];                    
+    double sample_rate;    
     double bandwidth_hz;        
-    double max_bandwidth_hz;   
-    double min_bandwidth_hz;   
-    int record_length;
+    double max_bandwidth_hz; 
+    double min_bandwidth_hz; 
+    int record_length; 
     int max_record_length;
 */
 
 /*
-
     // Complex data type definitions
 		typedef struct
 		{

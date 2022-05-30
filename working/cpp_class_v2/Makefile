@@ -69,6 +69,8 @@ $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_get.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_print_init.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_set.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_user.cpp \
+$(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_copy.cpp \
+$(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_print_init_check.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_copy.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_get.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_print_init.cpp \
@@ -101,6 +103,7 @@ $(TDIR_U)unit_test_6.cpp \
 $(TDIR_U)unit_test_7.cpp \
 $(TDIR_U)unit_test_8.cpp \
 $(TDIR_U)unit_test_9.cpp \
+$(TDIR_U)unit_test_10.cpp \
 $(TDIR)test_selector.cpp \
 $(TDIR)unit_test_0.cpp \
 $(TDIR)wait_enter_clear.cpp
