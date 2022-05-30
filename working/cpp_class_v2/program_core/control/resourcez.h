@@ -2,11 +2,11 @@
     macros of the program are restricted to this header file (except testing macros)
     these macros determine the flow and control of the core program
 
-    libraries and other resources are consolidate here
+    libraries and other resources are consolidated here
 
     avoid the circular reference
 
-    std==c++17 appears to be safe, but don't try to use > c++14 on the RSA_API
+    std=c++17 appears to be safe, but don't try to use > c++17 on the RSA_API
 */
 
 #ifndef H_resourcez
@@ -21,7 +21,7 @@
 #include <string>
 #include <vector>
 
-// for interfacing with C ABI
+// for interfacing with the C ABI
 #include <dirent.h>
 #include <float.h>
 #include <stdbool.h>
@@ -49,8 +49,13 @@
 #define TRACES_AVAILABLE 3           // the RSA-306B has three traces that can be used
 #define SPECTRUM_DATA_LENGTH 2048    // spectrum aquisitions, go dynamic if needed
 #define AUDIO_DATA_LENGTH 1024       // maximum audio data points, 2^16 - 1, go dynamic if needed
-#define IFSTREAM_VECTOR_LENGTH 3     // correction vectors for the IFSTREAM data, a set of tripplets
+#define IFSTREAM_VECTOR_LENGTH 3     // correction vectors for the IFSTREAM data, a set of triplets
 
+// setting "int getter" in "struct rsa306b_iqblk_struct" determines method to aquire IQBLK data
+// use the fastest API call or method most appropriate for the use case
+#define IQBLK_GET_IQ_DATA 0                   // use RSA_API::IQBLK_GetIQData() for acquisition
+#define IQBLK_GET_IQ_DATA_CPLX 1              // use RSA_API::IQBLK_GetIQDataCplx() for acquisition
+#define IQBLK_GET_IQ_DATA_DEINETERLEAVED 2    // use RSA_API::IQBLK_GetIQDataDeinterleaved() for acquisition
 
 #endif
 

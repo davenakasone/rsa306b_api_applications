@@ -523,8 +523,6 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
     TODO:
-        # clock_t CPU timer class
-        # bring in the "*.r3f" class
         # bring in the "*.sig" class
         # bring in the spectrogram handler
         # DEBUG logger .txt
@@ -778,6 +776,11 @@ class rsa306b_class
         void _ifstream_set_file_count();
         void _ifstream_set_output_configuration_select();
         void _ifstream_set_is_enabled_adc();
+
+    // API group "IQBLK"
+        void _iqblk_init();
+        void _iqblk_bitcheck();
+        
 
     // API group "REFTIME"
         void _reftime_init();

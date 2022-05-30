@@ -1,6 +1,9 @@
 /*
     this class maintians the consants used in "rsa306b" object instances
     these constants are specific to the RSA-306B 
+
+    route data through relative or absolute path:
+        /home/unlv/Desktop/rsa306b_api_applications/working/cpp_class_v2/program_test/data
 */
 
 
@@ -63,7 +66,15 @@ class rsa306b_constants_class
         const int IFSTREAM_DEFAULT_FILE_COUNT = 1;                                   // IFSTREAM files to produce
         const char IFSTREAM_CSV_PATH[BUF_B] = "./program_test/data/outputs_txt/";    // where raw ADC data from IFSTREAM goes
 
-        ///home/unlv/Desktop/rsa306b_api_applications/working/cpp_class_v2/program_test/data
+    // IQBLK constants
+        const char IQBLK_BIT_0[BUF_B] = "ADC input over range during acquisition";
+        const char IQBLK_BIT_1[BUF_B] = "Frequency reference unlocked during acquisition";
+        const char IQBLK_BIT_2[BUF_B] = "Internal oscillator unlocked / power failure during acquisition";
+        const char IQBLK_BIT_3[BUF_B] = "USB frame transfer error detected during acquisition";
+        const int IQBLK_MIN_PAIRS = 2;
+        const int IQBLK_MAX_PAIRS = 104857600;
+        const double IQBLK_MIN_BANDWIDTH = 1e6;
+        const double IQBLK_MAX_BANDWIDTH = 30e6;
 };
 
 

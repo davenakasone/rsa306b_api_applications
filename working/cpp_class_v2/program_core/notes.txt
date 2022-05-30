@@ -16,7 +16,7 @@ usually avoided:
     virtualization                          // not needed
     template - meta programming             // only used if STL or if Boost uses it
     polymorphisim                           // not needed
-    raw pointers with dynamic allocation    // let a proven STL or Boost data structure do that
+    raw pointers with dynamic allocation    // let a proven STL or Boost data structure do that, scoped if used
 
 common use:
     macros activate and deactivate specific sections and features of the program
@@ -35,4 +35,9 @@ not sure if they work with the RSA306b, find out
 
 the "AUDIO" group most likely requires adjusting GetData(), Run(), and Stop()
 prove it on a function generator
+
+the "IQBLK" group has 1 function that is not documented:
+    RSA_API_DLL ReturnStatus IQBLK_FinishedIQData(void);
+probably not needed?
+
 
