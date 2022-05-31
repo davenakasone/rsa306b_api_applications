@@ -11,7 +11,8 @@
 
 #include "../testz.h"
 
-#define UT10_a 1    // basic test  
+#define UT10_a 1    // basic test, get, set, print
+ 
 
 void unit_test_10 (void)
 {
@@ -22,6 +23,13 @@ void unit_test_10 (void)
         rsa.device_connect();
 
         #ifdef UT10_a
+            rsa.print_iqblk();
+
+            rsa.vars.iqblk.getter = IQBLK_GET_IQ_DATA_CPLX;
+            rsa.vars.iqblk.record_length = 4444;
+            rsa.vars.iqblk.bandwidth_hz = 1234.5678;
+            rsa.iqblk_set_vars();
+
             rsa.print_iqblk();
         #endif
     }

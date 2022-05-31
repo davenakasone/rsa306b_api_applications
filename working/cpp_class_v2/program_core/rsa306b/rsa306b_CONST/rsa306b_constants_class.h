@@ -74,7 +74,8 @@ class rsa306b_constants_class
         const char IQBLK_BIT_3[BUF_B] = "*USB frame transfer error detected during acquisition*";
         const int IQBLK_MIN_PAIRS = 2;
         const int IQBLK_STARTING_PAIRS = 1000;
-        const int IQBLK_MAX_PAIRS = 104857600;
+        //const int IQBLK_MAX_PAIRS = 104857600;
+        const int IQBLK_GETTER_DEFAULT = IQBLK_GET_IQ_DATA_DEINETERLEAVED;
         const double IQBLK_STARTING_BANDWIDTH = 1e6;
         uint32_t IQBLK_BIT_SUCCESS = 0; // bitcheck with no error
 };

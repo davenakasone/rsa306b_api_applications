@@ -31,9 +31,9 @@ void rsa306b_class::config_preset()
     }
     this->device_stop();
 
-    this->_vars.gp.api_status = RSA_API::CONFIG_Preset();
+    this->_vars.gp.api_status = RSA_API::CONFIG_Preset();    // effects other API groups
     this->_gp_confirm_api_status();
-    this->get_everything();    // it effects other API groups
+    this->get_everything();                                  // "get" to ensure preset values    
 }
 
 

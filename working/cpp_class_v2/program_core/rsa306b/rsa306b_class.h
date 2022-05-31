@@ -273,12 +273,13 @@
                 _iqblk_get_max_bandwidth_hz()
                 _iqblk_get_min_bandwidth_hz()
                 _iqblk_get_max_record_length()
+                _iqblk_get_record_length()
             - rsa306b_iqblk_set.cpp
+                iqblk_set_vars()
                 _iqblk_set_vars()
                 _iqblk_set_getter()
                 _iqblk_set_bandwidth_hz()
                 _iqblk_set_record_length()
-
 
 
 
@@ -836,6 +837,7 @@ class rsa306b_class
         void _iqblk_get_max_bandwidth_hz();
         void _iqblk_get_min_bandwidth_hz();
         void _iqblk_get_max_record_length();
+        void _iqblk_get_record_length();
         // setters
         void _iqblk_set_vars();
         void _iqblk_set_getter();           // does not use API
