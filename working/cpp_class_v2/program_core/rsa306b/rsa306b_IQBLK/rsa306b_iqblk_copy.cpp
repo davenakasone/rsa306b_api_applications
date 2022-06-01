@@ -8,7 +8,7 @@
         < 1 >   _iqblk_copy_vars()
         < 2 >   _iqblk_copy_getter()
         < 3 >   _iqblk_copy_actual_buffer_samples()
-        < 4 >   _iqblk_copy_sample_pairs_requested()
+        //< 4 >   _iqblk_copy_sample_pairs_requested()
         < 5 >   _iqblk_copy_cplx32_v()
         < 6 >   _iqblk_copy_acq_info_type()
         < 7 >   _iqblk_copy_bitcheck()
@@ -35,7 +35,7 @@ void rsa306b_class::_iqblk_copy_vars()
 
     this->_iqblk_copy_getter();
     this->_iqblk_copy_actual_buffer_samples();
-    this->_iqblk_copy_sample_pairs_requested();
+    //this->_iqblk_copy_sample_pairs_requested();
     this->_iqblk_copy_cplx32_v();
     this->_iqblk_copy_acq_info_type();
     this->_iqblk_copy_bitcheck();
@@ -87,7 +87,7 @@ void rsa306b_class::_iqblk_copy_actual_buffer_samples()
 
 /*
     < 4 > private
-*/
+
 void rsa306b_class::_iqblk_copy_sample_pairs_requested()
 {
 #ifdef DEBUG_CLI
@@ -97,7 +97,7 @@ void rsa306b_class::_iqblk_copy_sample_pairs_requested()
 
     this->vars.iqblk.sample_pairs_requested = this->_vars.iqblk.sample_pairs_requested;
 }
-
+*/
 
 ////~~~~
 

@@ -34,7 +34,7 @@ void rsa306b_class::print_iqblk()
     printf("\trecord_length                     :  %d\n", this->_vars.iqblk.record_length);
     printf("\tmax_record_length                 :  %d\n", this->_vars.iqblk.max_record_length);
     printf("\tactual_buffer_samples             :  %d\n", this->_vars.iqblk.actual_buffer_samples);
-    printf("\tsample_pairs_requested            :  %d\n", this->_vars.iqblk.sample_pairs_requested);
+    //printf("\tsample_pairs_requested            :  %d\n", this->_vars.iqblk.sample_pairs_requested);
     printf("\tcplx32.size()                     :  %ld\n", this->_vars.iqblk.cplx32_v.size());    
     printf("\tcplx32[0].i                       :  %0.3f\n", this->_vars.iqblk.cplx32_v[0].i);    
     printf("\tcplx32[0].q                       :  %0.3f\n", this->_vars.iqblk.cplx32_v[0].q);   
@@ -65,7 +65,7 @@ void rsa306b_class::_iqblk_init()
 
     this->_vars.iqblk.getter                 = this->_vars.constants.IQBLK_GETTER_DEFAULT;
     this->_vars.iqblk.actual_buffer_samples  = this->_vars.constants.INIT_INT;
-    this->_vars.iqblk.sample_pairs_requested = this->_vars.constants.INIT_INT;
+    //this->_vars.iqblk.sample_pairs_requested = this->_vars.constants.INIT_INT;
     this->_vars.iqblk.max_record_length      = this->_vars.constants.INIT_INT;      
     this->_vars.iqblk.record_length          = this->_vars.constants.IQBLK_STARTING_PAIRS;     
 
@@ -117,6 +117,7 @@ void rsa306b_class::_iqblk_bitcheck()
             "acqStatus:  %d  ,  %s", 
             this->_vars.iqblk.acq_info_type.acqStatus, 
             this->_vars.constants.IQBLK_BIT_PASS);
+        this->_iqblk_copy_bitcheck();
         return;
     }
 
@@ -154,6 +155,7 @@ void rsa306b_class::_iqblk_bitcheck()
             this->_vars.constants.IQBLK_BIT_3, 
             BUF_B);
     }
+    this->_iqblk_copy_bitcheck();
 }
 
 

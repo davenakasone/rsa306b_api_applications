@@ -280,14 +280,12 @@
                 _iqblk_set_getter()
                 _iqblk_set_bandwidth_hz()
                 _iqblk_set_record_length()
-
-
-
-
-
-
-
-
+            - rsa306b_iqblk_user.cpp
+                iqblk_acquire_data()
+                iqblk_make_csv()
+                _iqblk_get_iq_data()
+                _iqblk_get_iq_data_cplx()
+                _iqblk_get_iq_data_deinterleaved()
 
         "./program_core/rsa306b/rsa306_REFTIME/"
             - rsa306b_reftime_struct.h
@@ -626,11 +624,10 @@ class rsa306b_class
         void ifstream_acquire_adc_frames();    // gets the entire ADC buffer, by frame, user struct updated
 
     // API group "IQBLK"
-        void print_iqblk();           // prints the "IQBLK" variables to stdout, using the private struct
-        void iqblk_set_vars();        // user changes "IQBLK" variables in public struct, then calls to set new values
-        void iqblk_acquire_data();    // the "IQBLK" data is acquired into "vars.iqblk.cplx32_v"
-
-
+        void print_iqblk();                           // prints the "IQBLK" variables to stdout, using the private struct
+        void iqblk_set_vars();                        // user changes "IQBLK" variables in public struct, then calls to set new values
+        void iqblk_acquire_data();                    // the "IQBLK" data is acquired into "vars.iqblk.cplx32_v"
+        void iqblk_make_csv(char* file_path_name);    // call after acquring data, "*.csv" is produced
 
     // API group "REFTIME"
         void print_reftime();               // prints the "REFTIME" variables to stdout, using the private struct
@@ -657,7 +654,7 @@ class rsa306b_class
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         rsa306b_struct _vars;    // private variables, structured
-        FILE* _fptr_write;       // a general purpose file pointer to write data
+        FILE* _fptr_write;       // helper file pointer for writing data
 
     // general purpose
         void _init_everything();    // initialize all class variables
@@ -843,6 +840,10 @@ class rsa306b_class
         void _iqblk_set_getter();           // does not use API
         void _iqblk_set_bandwidth_hz();
         void _iqblk_set_record_length();
+        // data acquisiton, uses API
+        void _iqblk_get_iq_data();
+        void _iqblk_get_iq_data_cplx();
+        void _iqblk_get_iq_data_deinterleaved();
 
     // API group "REFTIME"
         void _reftime_init();

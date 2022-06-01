@@ -6,6 +6,9 @@
 
 #include "../program_test/testz.h"
 
+// if the blinking green light won't go away (data being transfered)
+//#define CRASH_AND_RESET 456    // forces reset, program crashes, but device gets reset
+
 // turn off to run all unit tests
 // turn on and change UT_NUMBER to run a specific unit test
 #define UNIT_TEST_BY_NUMBER 10    // select unit test # here
@@ -24,6 +27,10 @@ int main
     int objSize[3];
     {
         rsa306b_class dummy_rsa;
+        #ifdef CRASH_AND_RESET
+            dummy_rsa.device_connect();
+            dummy_rsa.device_reset();
+        #endif
         r3f_manager_class dummy_r3f;
         objSize[0] = (int)sizeof(dummy_rsa);
         objSize[1] = (int)sizeof(dummy_cpu);

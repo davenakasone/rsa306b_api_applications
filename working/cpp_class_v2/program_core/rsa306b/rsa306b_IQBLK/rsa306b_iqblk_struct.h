@@ -20,7 +20,7 @@ struct rsa306b_iqblk_struct
     // all acquistions handle "errorDataNotReady"
     int getter;                               // determines the API function to get data, see "resourcez.h"
     int actual_buffer_samples;                // actual number of IQ sample pairs returned in IQ buffer
-    int sample_pairs_requested;               // IQ pairs requested by the user, max set in "IQBLK_SetIQRecordLength()"
+    //int sample_pairs_requested;               // IQ pairs requested by the user, max set in "IQBLK_SetIQRecordLength()"
     std::vector<RSA_API::Cplx32> cplx32_v;    // "Cplx32" structs, all API acquistion functions are transfered here
         // IQBLK_GetIQData()
             // for getting a single IQ array
@@ -69,58 +69,3 @@ typedef struct rsa306b_iqblk_struct rsa306b_iqblk_struct;
 
 
 ////////~~~~~~~~END>  rsa306b_iqblk_struct.h
-
-/*
-    IQBLK_GetAcqInfo()
-    IQBLK_AquireData()
-    IQBLK_WaitForIQDataReady()
-
-    IQBLK_GetIQData()
-    IQBLK_GetIQDataCplx()
-    IQBLK_GetIQDataDeinterleaved()
-
-    IQBLK_GetIQBandwidth()
-    IQBLK_GetMaxIQBandwidth()
-    IQBLK_GetMinIQBandwidth()
-    IQBLK_SetIQBandwidth()
-
-    IQBLK_GetIQRecordLength()
-    IQBLK_GetMaxIQRecordLength()
-    IQBLK_SetIARecordLength()
-
-    IQBLK_GetIQSampleRate()
-*/
-
-/*
-    int getter;                             
-    int actual_buffer_samples;          
-    int sample_pairs_requested;               
-    std::vector<RSA_API::Cplx32> cplx32_v;    
-    RSA_API::IQBLK_ACQINFO acq_info_type;    
-    char bitcheck[BUF_D];                    
-    double sample_rate;    
-    double bandwidth_hz;        
-    double max_bandwidth_hz; 
-    double min_bandwidth_hz; 
-    int record_length; 
-    int max_record_length;
-*/
-
-/*
-    // Complex data type definitions
-		typedef struct
-		{
-			float i;
-			float q;
-		} Cplx32;
-		typedef struct
-		{
-			int32_t i;
-			int32_t q;
-		} CplxInt32;
-		typedef struct
-		{
-			int16_t i;
-			int16_t q;
-		} CplxInt16;
-*/

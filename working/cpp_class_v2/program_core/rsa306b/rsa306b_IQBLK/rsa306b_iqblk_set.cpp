@@ -89,6 +89,7 @@ void rsa306b_class::_iqblk_set_getter()
         #endif
         return;
     }
+
     if (this->vars.iqblk.getter != IQBLK_GET_IQ_DATA               &&
         this->vars.iqblk.getter != IQBLK_GET_IQ_DATA_CPLX          &&
         this->vars.iqblk.getter != IQBLK_GET_IQ_DATA_DEINETERLEAVED )
@@ -109,6 +110,7 @@ void rsa306b_class::_iqblk_set_getter()
 
 /*
     < 3 > private
+    should be set first
 */
 void rsa306b_class::_iqblk_set_bandwidth_hz()
 {
@@ -124,6 +126,14 @@ void rsa306b_class::_iqblk_set_bandwidth_hz()
         #endif
         return;
     }
+    if (this->vars.iqblk.bandwidth_hz == this->_vars.iqblk.bandwidth_hz)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\tbandwidth already set\n");
+        #endif
+        return;
+    }
+
     if (this->vars.iqblk.bandwidth_hz < this->_vars.iqblk.min_bandwidth_hz ||
         this->vars.iqblk.bandwidth_hz > this->_vars.iqblk.max_bandwidth_hz  )
     {
@@ -149,7 +159,7 @@ void rsa306b_class::_iqblk_set_bandwidth_hz()
 
 /*
     < 4 > private
-
+    should be called after setting bandwidth
 */
 void rsa306b_class::_iqblk_set_record_length()
 {
@@ -165,6 +175,14 @@ void rsa306b_class::_iqblk_set_record_length()
         #endif
         return;
     }
+    if (this->vars.iqblk.record_length == this->_vars.iqblk.record_length)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\trecord length already set\n");
+        #endif
+        return;
+    }
+
     this->_iqblk_get_max_record_length();
     if (this->vars.iqblk.record_length < this->_vars.constants.IQBLK_MIN_PAIRS ||
         this->vars.iqblk.record_length > this->_vars.iqblk.max_record_length    )

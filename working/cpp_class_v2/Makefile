@@ -73,6 +73,7 @@ $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_copy.cpp \
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_get.cpp \
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_print_init_check.cpp \
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_set.cpp \
+$(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_user.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_copy.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_get.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_print_init.cpp \

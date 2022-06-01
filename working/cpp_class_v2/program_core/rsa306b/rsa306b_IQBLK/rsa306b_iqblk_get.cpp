@@ -69,6 +69,7 @@ void rsa306b_class::_iqblk_get_acq_info_type()
         RSA_API::IQBLK_GetIQAcqInfo(
             &this->_vars.iqblk.acq_info_type);
     this->_gp_confirm_api_status();
+    this->_iqblk_bitcheck();
     this->_iqblk_copy_acq_info_type();
 }
 
