@@ -11,7 +11,8 @@
 
 #include "../testz.h"
 
-#define CYCLEZ 1    // files of each acquisition method to write
+#define CYCLEZ 4        // files of each acquisition method to write
+#define TEST_INDEX 5    // arbitrary index to observe the IQBLK std::vector<float>
 
 //#define UT10_a 1    // basic test, get, set, print
 #define UT10_b 2    // testing 3 data acquisition methods
@@ -66,7 +67,58 @@ void unit_test_10 (void)
                     ii);
                 rsa.iqblk_acquire_data();
                 rsa.iqblk_make_csv(rsa.vars.gp.holder);
+
                 printf(">>>%s\n", rsa.vars.gp.holder);
+                printf("\trequested:  %d  ,  actual:  %d\n", 
+                    rsa.vars.iqblk.record_length, 
+                    rsa.vars.iqblk.actual_buffer_samples);
+                printf("\t\tstd::vector,  cplx_v[%d].i=  %0.7f  ,  cplx_v[%d].q=  %0.7f\n", 
+                    TEST_INDEX, 
+                    rsa.vars.iqblk.cplx32_v[TEST_INDEX].i,
+                    TEST_INDEX, 
+                    rsa.vars.iqblk.cplx32_v[TEST_INDEX].q);
+            }
+            printf("\n");
+            for (int ii = 0; ii < CYCLEZ; ii ++)
+            {
+                rsa.vars.iqblk.getter = IQBLK_GET_IQ_DATA_CPLX;
+                rsa.iqblk_set_vars();
+                snprintf(rsa.vars.gp.holder, BUF_F, "%sgetIQdataCplx%d.csv",
+                    rsa.vars.gp.helper,
+                    ii);
+                rsa.iqblk_acquire_data();
+                rsa.iqblk_make_csv(rsa.vars.gp.holder);
+
+                printf(">>>%s\n", rsa.vars.gp.holder);
+                printf("\trequested:  %d  ,  actual:  %d\n", 
+                    rsa.vars.iqblk.record_length, 
+                    rsa.vars.iqblk.actual_buffer_samples);
+                printf("\t\tstd::vector,  cplx_v[%d].i=  %0.7f  ,  cplx_v[%d].q=  %0.7f\n", 
+                    TEST_INDEX, 
+                    rsa.vars.iqblk.cplx32_v[TEST_INDEX].i,
+                    TEST_INDEX, 
+                    rsa.vars.iqblk.cplx32_v[TEST_INDEX].q);
+            }
+            printf("\n");
+            for (int ii = 0; ii < CYCLEZ; ii ++)
+            {
+                rsa.vars.iqblk.getter = IQBLK_GET_IQ_DATA_DEINETERLEAVED;
+                rsa.iqblk_set_vars();
+                snprintf(rsa.vars.gp.holder, BUF_F, "%sgetIQdataDeinterleaved%d.csv",
+                    rsa.vars.gp.helper,
+                    ii);
+                rsa.iqblk_acquire_data();
+                rsa.iqblk_make_csv(rsa.vars.gp.holder);
+
+                printf(">>>%d  %s\n", ii, rsa.vars.gp.holder);
+                printf("\trequested:  %d  ,  actual:  %d\n", 
+                    rsa.vars.iqblk.record_length, 
+                    rsa.vars.iqblk.actual_buffer_samples);
+                printf("\t\tstd::vector,  cplx_v[%d].i=  %0.7f  ,  cplx_v[%d].q=  %0.7f\n", 
+                    TEST_INDEX, 
+                    rsa.vars.iqblk.cplx32_v[TEST_INDEX].i,
+                    TEST_INDEX, 
+                    rsa.vars.iqblk.cplx32_v[TEST_INDEX].q);
             }
             printf("\n");
 

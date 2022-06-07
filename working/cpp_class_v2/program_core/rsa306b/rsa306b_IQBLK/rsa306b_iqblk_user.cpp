@@ -128,7 +128,6 @@ void rsa306b_class::_iqblk_get_iq_data()
     this->device_run();
     this->_vars.gp.api_status = RSA_API::IQBLK_AcquireIQData();
     this->_gp_confirm_api_status();
-
     while (data_is_ready == false)
     {
         this->_vars.gp.api_status = 
@@ -144,7 +143,7 @@ void rsa306b_class::_iqblk_get_iq_data()
             &this->_vars.iqblk.actual_buffer_samples,
             this->_vars.iqblk.record_length);
     this->_gp_confirm_api_status();
-printf("\nrequested:  %d  ,  actual:  %d\n", this->_vars.iqblk.record_length, this->_vars.iqblk.actual_buffer_samples);
+
     this->_vars.iqblk.cplx32_v.resize(this->_vars.iqblk.actual_buffer_samples);
     int idx = 0;
     while(idx < 2 * this->_vars.iqblk.actual_buffer_samples)
@@ -153,13 +152,12 @@ printf("\nrequested:  %d  ,  actual:  %d\n", this->_vars.iqblk.record_length, th
         idx++;
         this->_vars.iqblk.cplx32_v[idx/2].q = data_iq[idx]; 
         idx++;
-printf("data_iq[%5d,%5d]= %0.7f,%0.7f  ...  cplx_v[%5d]i,q= [%0.7f,%0.7f]\n", 
-idx-2, idx-1, data_iq[idx-1], data_iq[idx], 
-(idx-1)/2, this->_vars.iqblk.cplx32_v[(idx-2)/2].i, this->_vars.iqblk.cplx32_v[(idx-1)/2].q);
     }
 
     this->device_stop();
     this->_iqblk_copy_cplx32_v();
+    this->_iqblk_copy_actual_buffer_samples();
+    this->_iqblk_get_vars();
     delete [] data_iq;
     data_iq = NULL;
 }
@@ -185,6 +183,50 @@ void rsa306b_class::_iqblk_get_iq_data_cplx()
         #endif
         return;
     }
+    int timeout_ms = 1;
+    bool data_is_ready = false;
+    RSA_API::Cplx32* cplx32 = NULL;
+
+    this->_iqblk_get_record_length();
+    cplx32 = new RSA_API::Cplx32[this->_vars.iqblk.record_length];
+    if (cplx32 == NULL) 
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tallocation failure\n");
+        #endif
+    }
+
+    this->device_run();
+    this->_vars.gp.api_status = RSA_API::IQBLK_AcquireIQData();
+    this->_gp_confirm_api_status();
+    while (data_is_ready == false)
+    {
+        this->_vars.gp.api_status = 
+            RSA_API::IQBLK_WaitForIQDataReady(
+                timeout_ms, 
+                &data_is_ready);
+        this->_gp_confirm_api_status();
+    }
+
+    this->_vars.gp.api_status =
+        RSA_API::IQBLK_GetIQDataCplx(
+            cplx32,
+            &this->_vars.iqblk.actual_buffer_samples,
+            this->_vars.iqblk.record_length);
+    this->_gp_confirm_api_status();
+
+    this->_vars.iqblk.cplx32_v.resize(this->_vars.iqblk.actual_buffer_samples);
+    for (int ii = 0; ii < this->_vars.iqblk.actual_buffer_samples; ii++)
+    {
+        this->_vars.iqblk.cplx32_v[ii].i = cplx32[ii].i;
+        this->_vars.iqblk.cplx32_v[ii].q = cplx32[ii].q;
+    }
+    this->device_stop();
+    this->_iqblk_copy_cplx32_v();
+    this->_iqblk_copy_actual_buffer_samples();
+    this->_iqblk_get_vars();
+    delete [] cplx32;
+    cplx32 = NULL;
 }
 
 
@@ -208,6 +250,61 @@ void rsa306b_class::_iqblk_get_iq_data_deinterleaved()
         #endif
         return;
     }
+    int timeout_ms = 1;
+    bool data_is_ready = false;
+    float* data_i = NULL;
+    float* data_q = NULL;
+
+    this->_iqblk_get_record_length();
+    data_i = new float[this->_vars.iqblk.record_length];
+    if (data_i == NULL) 
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tallocation failure\n");
+        #endif
+    }
+    data_q = new float[this->_vars.iqblk.record_length];
+    if (data_q == NULL) 
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tallocation failure\n");
+        #endif
+    }
+
+    this->device_run();
+    this->_vars.gp.api_status = RSA_API::IQBLK_AcquireIQData();
+    this->_gp_confirm_api_status();
+    while (data_is_ready == false)
+    {
+        this->_vars.gp.api_status = 
+            RSA_API::IQBLK_WaitForIQDataReady(
+                timeout_ms, 
+                &data_is_ready);
+        this->_gp_confirm_api_status();
+    }
+
+    this->_vars.gp.api_status =
+        RSA_API::IQBLK_GetIQDataDeinterleaved(
+            data_i,
+            data_q,
+            &this->_vars.iqblk.actual_buffer_samples,
+            this->_vars.iqblk.record_length);
+    this->_gp_confirm_api_status();
+
+    this->_vars.iqblk.cplx32_v.resize(this->_vars.iqblk.actual_buffer_samples);
+    for (int ii = 0; ii < this->_vars.iqblk.actual_buffer_samples; ii++)
+    {
+        this->_vars.iqblk.cplx32_v[ii].i = data_i[ii];
+        this->_vars.iqblk.cplx32_v[ii].q = data_q[ii];
+    }
+    this->device_stop();
+    this->_iqblk_copy_cplx32_v();
+    this->_iqblk_copy_actual_buffer_samples();
+    this->_iqblk_get_vars();
+    delete [] data_i;
+    data_i = NULL;
+    delete [] data_q;
+    data_q = NULL;
 }
 
 
