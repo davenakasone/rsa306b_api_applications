@@ -558,7 +558,6 @@
         # worker thread, request thread --> mutex control
 
         # DPX
-        # IQBLK
         # IQSTREAM
         # PLAYBACK
 */
@@ -628,6 +627,8 @@ class rsa306b_class
         void iqblk_set_vars();                        // user changes "IQBLK" variables in public struct, then calls to set new values
         void iqblk_acquire_data();                    // the "IQBLK" data is acquired into "vars.iqblk.cplx32_v"
         void iqblk_make_csv(char* file_path_name);    // call after acquring data, "*.csv" is produced
+
+    // API group "IQSTREAM"
 
     // API group "REFTIME"
         void print_reftime();               // prints the "REFTIME" variables to stdout, using the private struct
@@ -845,6 +846,8 @@ class rsa306b_class
         void _iqblk_get_iq_data_cplx();
         void _iqblk_get_iq_data_deinterleaved();
 
+    // API group "IQSTREAM"
+    
     // API group "REFTIME"
         void _reftime_init();
         void _reftime_make_dts();  // makes a date time stamp using the current time

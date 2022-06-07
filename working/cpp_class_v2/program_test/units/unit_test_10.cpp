@@ -68,8 +68,8 @@ void unit_test_10 (void)
                 rsa.iqblk_acquire_data();
                 rsa.iqblk_make_csv(rsa.vars.gp.holder);
 
-                printf(">>>%s\n", rsa.vars.gp.holder);
-                printf("\trequested:  %d  ,  actual:  %d\n", 
+                printf(">>>%d  %s\n", ii, rsa.vars.gp.holder);
+                printf("\t\trequested:  %d  ,  actual:  %d\n", 
                     rsa.vars.iqblk.record_length, 
                     rsa.vars.iqblk.actual_buffer_samples);
                 printf("\t\tstd::vector,  cplx_v[%d].i=  %0.7f  ,  cplx_v[%d].q=  %0.7f\n", 
@@ -89,8 +89,8 @@ void unit_test_10 (void)
                 rsa.iqblk_acquire_data();
                 rsa.iqblk_make_csv(rsa.vars.gp.holder);
 
-                printf(">>>%s\n", rsa.vars.gp.holder);
-                printf("\trequested:  %d  ,  actual:  %d\n", 
+                printf(">>>%d  %s\n", ii, rsa.vars.gp.holder);
+                printf("\t\trequested:  %d  ,  actual:  %d\n", 
                     rsa.vars.iqblk.record_length, 
                     rsa.vars.iqblk.actual_buffer_samples);
                 printf("\t\tstd::vector,  cplx_v[%d].i=  %0.7f  ,  cplx_v[%d].q=  %0.7f\n", 
@@ -111,7 +111,7 @@ void unit_test_10 (void)
                 rsa.iqblk_make_csv(rsa.vars.gp.holder);
 
                 printf(">>>%d  %s\n", ii, rsa.vars.gp.holder);
-                printf("\trequested:  %d  ,  actual:  %d\n", 
+                printf("\t\trequested:  %d  ,  actual:  %d\n", 
                     rsa.vars.iqblk.record_length, 
                     rsa.vars.iqblk.actual_buffer_samples);
                 printf("\t\tstd::vector,  cplx_v[%d].i=  %0.7f  ,  cplx_v[%d].q=  %0.7f\n", 
