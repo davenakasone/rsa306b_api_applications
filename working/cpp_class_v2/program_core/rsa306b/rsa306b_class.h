@@ -287,6 +287,16 @@
                 _iqblk_get_iq_data_cplx()
                 _iqblk_get_iq_data_deinterleaved()
 
+        "./program_core/rsa306b/rsa306_IQSTREAM/"
+            - rsa306b_iqstream_struct.h
+                rsa306b_iqstream_struct
+
+
+
+
+
+                
+
         "./program_core/rsa306b/rsa306_REFTIME/"
             - rsa306b_reftime_struct.h
                 rsa306b_reftime_struct
@@ -502,6 +512,24 @@
             IQBLK_WaitForIQDataReady()
 
         IQ Streaming
+            IQSTREAM_GetMaxAcqBandwidth()
+            IQSTREAM_GetMinAcqBandwidth()
+            IQSTREAM_ClearAcqStatus()
+            IQSTREAM_GetAcqParameters()
+            IQSTREAM_GetDiskFileInfo()
+            IQSTREAM_GetDiskFileWriteStatus()
+            IQSTREAM_GetEnable()
+            IQSTREAM_GetIQData()
+            IQSTREAM_GetIQDataBufferSize()
+            IQSTREAM_SetAcqBandwidth()
+            IQSTREAM_SetDiskFileLength()
+            IQSTREAM_SetDiskFilenameBase()
+            IQSTREAM_SetDiskFilenameSuffix()
+            IQSTREAM_SetDataBufferSize()
+            IQSTREAM_SetOutputConfiguration()
+            IQSTREAM_Start()
+            IQSTREAM_Stop()
+            IQSTREAM_WaitForIQDataReady()
 
         Playback
 
@@ -847,7 +875,7 @@ class rsa306b_class
         void _iqblk_get_iq_data_deinterleaved();
 
     // API group "IQSTREAM"
-    
+
     // API group "REFTIME"
         void _reftime_init();
         void _reftime_make_dts();  // makes a date time stamp using the current time
