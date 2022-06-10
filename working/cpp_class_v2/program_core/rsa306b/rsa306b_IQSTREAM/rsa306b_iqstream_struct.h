@@ -69,8 +69,8 @@ struct rsa306b_iqstream_struct
         // triggerTimestamp: timestamp of the trigger event, only valid if trigger enabled
         // filenames: uses a wchar_t**, [0]= file name, [1]= header file name, handle the wide character
             // stored in an internal static buffer
-            // char* name_of_file[BUF_C];      // for file_info.filenames[0], UTF8 to ASCII
-            // char* name_of_header[BUF_C];    // for file_info.filenames[1], UTF8 to ASCII
+            char name_of_file[BUF_C];      // for file_info.filenames[0], UTF8 to ASCII
+            char name_of_header[BUF_C];    // for file_info.filenames[1], UTF8 to ASCII
         // acqStatus: status for the run interval, sticky and running bit-check required
 
 // IQSTREAM_GetEnable()
@@ -119,7 +119,7 @@ struct rsa306b_iqstream_struct
 // IQSTREAM_SetDiskFilenameBase()
 // not using the wide character function
 // do not include extension, that is automatically placed
-    char* file_name_base[BUF_C];
+    char* filename_base[BUF_C];
 
 // IQSTREAM_SetDiskFilenameSuffix()
 // determine what is appended to the base filename
@@ -141,8 +141,8 @@ struct rsa306b_iqstream_struct
 // any valid destination
 // any valid data type, but use the existing types
 // stream is interleaved IQIQIQ...
-    RSA_API::IQSOUTDEST destination;    // where the stream will be sent
-    RSA_API::IQSOUTDTYPE data_type;     // what data type to stream
+    RSA_API::IQSOUTDEST destination_select;    // where the stream will be sent
+    RSA_API::IQSOUTDTYPE datatype_select;     // what data type to stream
 };
 typedef struct rsa306b_iqstream_struct rsa306b_iqstream_struct;
 
@@ -151,3 +151,27 @@ typedef struct rsa306b_iqstream_struct rsa306b_iqstream_struct;
 
 
 ////////~~~~~~~~END>  rsa306b_iqstream_struct.h
+
+/*
+    double bandwidth_hz;  
+    double max_bandwidth_hz;   
+    double min_bandwidth_hz;   
+    double sample_rate;         
+    RSA_API::IQSTRMFILEINFO file_info_type;  
+        char name_of_file[BUF_C];
+        char name_of_header[BUF_C];     
+    bool is_enabled;    
+    void* iq_data;                         
+    int iq_length_pairs;                 
+    RSA_API::IQSTRMIQINFO iq_info_type;   
+    std::vector<RSA_API::Cplx32> cplx32_v;
+    std::vector<RSA_API::CplxInt16> cplxInt16_v;
+    std::vector<RSA_API::CplxInt32> cplxInt32_v;
+    int max_iq_pairs;
+    int record_ms; 
+    char* filename_base[BUF_C];
+    int suffix_control;
+    int pairs_requested;
+    RSA_API::IQSOUTDEST destination_select;  
+    RSA_API::IQSOUTDTYPE datatype_select;    
+*/
