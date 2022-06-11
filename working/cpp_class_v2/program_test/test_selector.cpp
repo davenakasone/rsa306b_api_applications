@@ -26,7 +26,9 @@ void test_selector
         case (8)   : unit_test_8()   ; break;
         case (9)   : unit_test_9()   ; break;
         case (10)  : unit_test_10()  ; break;
+        case (11)  : unit_test_11()  ; break;
 
+        case (991) : task_991()      ; break;
         case (992) : task_992()      ; break;
         case (993) : task_993()      ; break;
         case (994) : task_994()      ; break;

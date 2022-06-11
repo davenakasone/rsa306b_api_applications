@@ -10,7 +10,7 @@
     it is the basis for "unit_test_*" and "task_*" testing files
 */
 
-#include "testz.h"
+#include "../testz.h"
 
 
 void unit_test_0 (void)

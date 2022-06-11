@@ -20,6 +20,7 @@
 #include <iterator>
 #include <string>
 #include <vector>
+#include <cwchar>
 
 // for interfacing with the C ABI
 #include <dirent.h>

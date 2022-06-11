@@ -5,6 +5,8 @@
 
     this group places a heavy load on the CPU
     watch acqStatus to ensure speed is sufficient
+    unique acqStatus bit-check will be needed
+    general purpose wchar_t to char will be needed
 */
 
 #ifndef H_rsa306b_iqstream_struct
@@ -84,8 +86,8 @@ struct rsa306b_iqstream_struct
 // don't poll "iq_length_pairs" in a tight loop
 // must collect data to keep up with (samples per second / max size)
 // internal buffer can only hold 500 msec of IQ stream
-    void* iq_data;                         // pointer to the IQ buffer
-    int iq_length_pairs;                   // sample IQ pairs copied from the IQ buffer, 0= no data availible
+    void* iq_data;       // pointer to the IQ buffer
+    int pairs_copied;    // sample IQ pairs copied from the IQ buffer, 0= no data availible
     RSA_API::IQSTRMIQINFO iq_info_type;    // struct with stream information, NULL if not wanted
         // timestamp: timestamp of the first sample in the block
         // triggerCount: number of trigger events that occured in the block, max of 100 allowed
@@ -102,12 +104,12 @@ struct rsa306b_iqstream_struct
 // only applicable if client receives the IQ stream directly
 // to set buffer size, first IQSTREAM_SetAcqBandwidth()
 // before calling, use IQSTREAM_SetIQBufferSize()
-    int max_iq_pairs;
+    int pairs_max;
 
 // IQSTREAM_SetDiskFileLength()
 // 0: no time limit, must call IQSTREAM_Stop() to terminate storage
 // >0: file output ends after specified milli-seconds
-    int record_ms;    // time period in milli-seconds IQ stream is written to file
+    int record_time_ms;    // time period in milli-seconds IQ stream is written to file
 
 
 // complete output file:  <filenameBase><suffix><.ext>
@@ -153,25 +155,25 @@ typedef struct rsa306b_iqstream_struct rsa306b_iqstream_struct;
 ////////~~~~~~~~END>  rsa306b_iqstream_struct.h
 
 /*
-    double bandwidth_hz;  
-    double max_bandwidth_hz;   
-    double min_bandwidth_hz;   
-    double sample_rate;         
-    RSA_API::IQSTRMFILEINFO file_info_type;  
-        char name_of_file[BUF_C];
-        char name_of_header[BUF_C];     
-    bool is_enabled;    
-    void* iq_data;                         
-    int iq_length_pairs;                 
+    double bandwidth_hz;    
+    double max_bandwidth_hz;    
+    double min_bandwidth_hz;  
+    double sample_rate;            
+    RSA_API::IQSTRMFILEINFO file_info_type;    
+    char name_of_file[BUF_C];      
+    char name_of_header[BUF_C];    
+    bool is_enabled;
+    void* iq_data;       
+    int pairs_copied;    
     RSA_API::IQSTRMIQINFO iq_info_type;   
     std::vector<RSA_API::Cplx32> cplx32_v;
     std::vector<RSA_API::CplxInt16> cplxInt16_v;
     std::vector<RSA_API::CplxInt32> cplxInt32_v;
-    int max_iq_pairs;
-    int record_ms; 
+    int pairs_max;
+    int record_time_ms;    
     char* filename_base[BUF_C];
     int suffix_control;
     int pairs_requested;
-    RSA_API::IQSOUTDEST destination_select;  
-    RSA_API::IQSOUTDTYPE datatype_select;    
+    RSA_API::IQSOUTDEST destination_select;
+    RSA_API::IQSOUTDTYPE datatype_select;
 */

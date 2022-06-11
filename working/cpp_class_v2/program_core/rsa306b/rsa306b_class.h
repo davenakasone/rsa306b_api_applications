@@ -54,6 +54,8 @@
                 print_everything()
                 print_constants()
                 print_gp()
+            - rsa306b_gp_utility.cpp
+                gp_wchar_2_char()
 
         "./program_core/rsa306b/rsa306b_CONST"
             - rsa306b_constants_class.h
@@ -607,13 +609,14 @@ class rsa306b_class
         rsa306b_struct vars;    // public variables
 
     // general purpose
-        rsa306b_class();            // constructor
-        ~rsa306b_class();           // destructor
-        void get_everything();      // updates user's variable struct
-        void print_everything();    // prints all variables, using the private struct
-        void print_constants();     // prints the constant variables of the class
-        void print_gp();            // prints the "general purpose" variables, using the private struct
-    
+        rsa306b_class();                                             // constructor
+        ~rsa306b_class();                                            // destructor
+        void get_everything();                                       // updates user's variable struct
+        void print_everything();                                     // prints all variables, using the private struct
+        void print_constants();                                      // prints the constant variables of the class
+        void print_gp();                                             // prints the "general purpose" variables, using the private struct
+        void gp_wchar_2_char(wchar_t* source, char* destination);    // utility, as needed
+
     // API group "ALIGN"
         void print_align();              // prints the "ALIGN" variables to stdout, using the private struct
         void align_check_is_needed();    // see if the spectrum analyzer needs to be aligned
