@@ -49,18 +49,18 @@ struct rsa306b_iqstream_struct
 // sets to closest legal range, see table p.78
 // determines output sample rate when set, should be first parameter set
 // instrument must stop, then set the bandwidth; new setting takes effect next run()
-    double bandwidth_hz;    // bandwidth of acquisition in Hz
+    double bandwidth;    // bandwidth of acquisition in Hz
 
 // IQSTREAM_GetMaxAcqBandwidth()
-    double max_bandwidth_hz;    // highest IQ bandwidt the stream can support
+    double bandwidth_max;    // highest IQ bandwidt the stream can support
 
 // IQSTREAM_GetMinAcqBandwidth()
-    double min_bandwidth_hz;    // lowest IQ bandwidth the stream can support
+    double bandwidth_min;    // lowest IQ bandwidth the stream can support
 
 // IQSTREAM_GetAcqParameters()
 // reports processing parameters, given requested bandwidth (set first)
     //share "bandwidth_hz"
-    double sample_rate;            // sample rate of IQ stream in samples per second
+    double sample_rate;    // sample rate of IQ stream in samples per second
 
 // IQSTREAM_GetDiskFileInfo()
 // returns information about previous file output operation
@@ -86,9 +86,9 @@ struct rsa306b_iqstream_struct
 // don't poll "iq_length_pairs" in a tight loop
 // must collect data to keep up with (samples per second / max size)
 // internal buffer can only hold 500 msec of IQ stream
-    void* iq_data;       // pointer to the IQ buffer
-    int pairs_copied;    // sample IQ pairs copied from the IQ buffer, 0= no data availible
-    RSA_API::IQSTRMIQINFO iq_info_type;    // struct with stream information, NULL if not wanted
+    void* data_buffer;    // pointer to the IQ buffer
+    int pairs_copied;     // sample IQ pairs copied from the IQ buffer, 0= no data availible
+    RSA_API::IQSTRMIQINFO info_type;    // struct with stream information, NULL if not wanted
         // timestamp: timestamp of the first sample in the block
         // triggerCount: number of trigger events that occured in the block, max of 100 allowed
         // triggerIndices: list of sample indices where trigger occured, overwritten after 100
@@ -144,7 +144,7 @@ struct rsa306b_iqstream_struct
 // any valid data type, but use the existing types
 // stream is interleaved IQIQIQ...
     RSA_API::IQSOUTDEST destination_select;    // where the stream will be sent
-    RSA_API::IQSOUTDTYPE datatype_select;     // what data type to stream
+    RSA_API::IQSOUTDTYPE datatype_select;      // what data type to stream
 };
 typedef struct rsa306b_iqstream_struct rsa306b_iqstream_struct;
 
@@ -155,25 +155,24 @@ typedef struct rsa306b_iqstream_struct rsa306b_iqstream_struct;
 ////////~~~~~~~~END>  rsa306b_iqstream_struct.h
 
 /*
-    double bandwidth_hz;    
-    double max_bandwidth_hz;    
-    double min_bandwidth_hz;  
-    double sample_rate;            
-    RSA_API::IQSTRMFILEINFO file_info_type;    
+    double bandwidth;
+    double bandwidth_max;    
+    double bandwidth_min;
+    double sample_rate;
     char name_of_file[BUF_C];      
-    char name_of_header[BUF_C];    
-    bool is_enabled;
-    void* iq_data;       
+    char name_of_header[BUF_C];   
+    bool is_enabled;   
+    void* data_buffer;         
     int pairs_copied;    
-    RSA_API::IQSTRMIQINFO iq_info_type;   
+    RSA_API::IQSTRMIQINFO info_type;    
     std::vector<RSA_API::Cplx32> cplx32_v;
     std::vector<RSA_API::CplxInt16> cplxInt16_v;
     std::vector<RSA_API::CplxInt32> cplxInt32_v;
     int pairs_max;
-    int record_time_ms;    
+    int record_time_ms;
     char* filename_base[BUF_C];
     int suffix_control;
     int pairs_requested;
     RSA_API::IQSOUTDEST destination_select;
-    RSA_API::IQSOUTDTYPE datatype_select;
+    RSA_API::IQSOUTDTYPE datatype_select;      
 */

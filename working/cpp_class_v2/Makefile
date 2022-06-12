@@ -64,6 +64,7 @@ $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_confirm.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_copy.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_init.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_print.cpp \
+$(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_utility.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_copy.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_get.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_print_init.cpp \
@@ -74,6 +75,7 @@ $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_get.cpp \
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_print_init_check.cpp \
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_set.cpp \
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_user.cpp \
+$(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_istream_print_init_check.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_copy.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_get.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_print_init.cpp \

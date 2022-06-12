@@ -42,9 +42,35 @@ void rsa306b_class::gp_wchar_2_char
         #endif
         return;
     }
-    size_t s_len = wcslen(source);
+    int w_len = (int)wcslen(source);
+    int idx = 0;
+    if (source[idx] == '\0' ||
+        w_len == 0           )
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\tno string to convert\n");
+        #endif
+        memset(destination, '\0', 2);    // ensure NULL termination
+        return;
+    }
 
-
+    while (idx < w_len)
+    {
+        if (source[idx] <= 127 &&
+            source[idx] >= 0   )    // ASCII range is 0:255
+        {
+            destination[idx] = source[idx];
+        }
+        else
+        {
+            #ifdef DEBUG_MIN
+                printf("\n\t wchar_t* to char* not possible\n");
+            #endif
+            return;
+        }
+        idx++;
+    }
+    destination[idx] = '\0';    // ensure NULL termination
 }
 
 

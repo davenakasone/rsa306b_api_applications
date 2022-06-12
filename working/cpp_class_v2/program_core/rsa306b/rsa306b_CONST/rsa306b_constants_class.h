@@ -32,6 +32,7 @@ class rsa306b_constants_class
         const float INIT_FLOAT = -99.4;
         const int INIT_INT = -99;
         const uint8_t INIT_UINT = 99;
+        const size_t INIT_LENGTH_STL = 3;    // for std::vector, std::queue, ...
 
     // device limits for the RSA-306B
         const double EXTERNAL_FREQUENCY = 10e6;                       // external reference frequency, required
@@ -78,6 +79,9 @@ class rsa306b_constants_class
         const int IQBLK_GETTER_DEFAULT = IQBLK_GET_IQ_DATA_DEINETERLEAVED;
         const double IQBLK_STARTING_BANDWIDTH = 1e6;
         uint32_t IQBLK_BIT_SUCCESS = 0; // bitcheck with no error
+    
+    // IQSTREAM constants
+        
 };
 
 

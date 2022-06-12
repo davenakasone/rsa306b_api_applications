@@ -292,8 +292,9 @@
         "./program_core/rsa306b/rsa306_IQSTREAM/"
             - rsa306b_iqstream_struct.h
                 rsa306b_iqstream_struct
-
-
+            - rsa306b_iqstream_print_init_check.cpp
+                print_iqstream()
+                _iqstream_init()
 
 
 
@@ -579,13 +580,17 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
     TODO:
-        # bring in the "*.sig" class
+        # bring in the "*.siq" class
         # bring in the spectrogram handler
         # DEBUG logger .txt
         # helper classes by composition
         # keep building and testing the API function groups
         # time series, spectrogram, and other user requests
         # worker thread, request thread --> mutex control
+        # there should be a restructing of all the functions
+        # clean the flow of this class in V3
+        # try out std::function instead of the 3/4 buffer
+        # clean up the constants and controlls
 
         # DPX
         # IQSTREAM
@@ -660,6 +665,7 @@ class rsa306b_class
         void iqblk_make_csv(char* file_path_name);    // call after acquring data, "*.csv" is produced
 
     // API group "IQSTREAM"
+        void print_iqstream();    // prints the "IQSTREAM" variables to stdout, using the private struct
 
     // API group "REFTIME"
         void print_reftime();               // prints the "REFTIME" variables to stdout, using the private struct
@@ -878,6 +884,11 @@ class rsa306b_class
         void _iqblk_get_iq_data_deinterleaved();
 
     // API group "IQSTREAM"
+        void _iqstream_init();
+        void _iqstream_bitcheck();
+        // copiers, private --> public
+
+        
 
     // API group "REFTIME"
         void _reftime_init();
