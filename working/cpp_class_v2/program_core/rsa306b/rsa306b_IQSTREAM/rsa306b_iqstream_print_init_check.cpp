@@ -22,9 +22,20 @@ void rsa306b_class::print_iqstream()
 #endif
 
     printf("\n'IQSTREAM' group >>>\n");
-    printf("\nbandwidth      :  %lf\n", this->_vars.iqstream.bandwidth);
-    printf("\nbandwidth_max  :  %lf\n", this->_vars.iqstream.bandwidth_max);
-    printf("\nbandwidth_min  :  %lf\n", this->_vars.iqstream.bandwidth_min);
+    printf("\tbandwidth       :  %lf\n", this->_vars.iqstream.bandwidth);
+    printf("\tbandwidth_max   :  %lf\n", this->_vars.iqstream.bandwidth_max);
+    printf("\tbandwidth_min   :  %lf\n", this->_vars.iqstream.bandwidth_min);
+    printf("\tsample_rate     :  %lf\n", this->_vars.iqstream.sample_rate);
+    printf("\tpairs_max       :  %d\n", this->_vars.iqstream.pairs_max);
+    printf("\trecord_time_ms  :  %d\n", this->_vars.iqstream.record_time_ms);
+    printf("\tsuffix_control  :  %d  ,  ", this->_vars.iqstream.suffix_control);
+    switch (this->_vars.iqstream.suffix_control)
+    {
+        case (RSA_API::IQSSDFN_SUFFIX_NONE)          : printf("none\n");           break;
+        case (RSA_API::IQSSDFN_SUFFIX_TIMESTAMP)     : printf("timestamp\n");      break;
+        case (RSA_API::IQSSDFN_SUFFIX_INCRINDEX_MIN) : printf("auto-increment\n"); break;
+        default                                      : printf("unknown\n");        break;
+    }
 }
 
 

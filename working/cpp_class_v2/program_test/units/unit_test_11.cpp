@@ -23,8 +23,6 @@ void unit_test_11 (void)
         #ifdef UT11a
             rsa.print_iqstream();
         #endif
-
-        printf("\n\ttest executes...\n");
     }
     printf("\n%s()  ,  test complete\n", __func__);
     wait_enter_clear();
