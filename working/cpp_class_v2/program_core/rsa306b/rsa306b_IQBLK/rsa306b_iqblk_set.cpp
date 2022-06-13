@@ -140,7 +140,7 @@ void rsa306b_class::_iqblk_set_bandwidth_hz()
         this->vars.iqblk.bandwidth_hz = this->_vars.iqblk.max_bandwidth_hz / 2;
         #ifdef DEBUG_MAX
             printf("\n\tinvalid IQ bandwidth, using:  %lf Hz\n", 
-                this->vars.iqblk.bandwidth_hz)
+                this->vars.iqblk.bandwidth_hz);
         #endif
     }
     this->_vars.iqblk.bandwidth_hz = this->vars.iqblk.bandwidth_hz;

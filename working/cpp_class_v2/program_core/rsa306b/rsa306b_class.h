@@ -591,6 +591,12 @@
         # clean the flow of this class in V3
         # try out std::function instead of the 3/4 buffer
         # clean up the constants and controlls
+        # CSV --> HDF5 format
+        # take out c-style code and use c++
+        # catch all return values...
+        # union wrapping annonymous struct for memcopy of static buffers
+        # space the source code?
+        # resolve the bitcheck string...
 
         # DPX
         # IQSTREAM
@@ -663,6 +669,9 @@ class rsa306b_class
         void iqblk_set_vars();                        // user changes "IQBLK" variables in public struct, then calls to set new values
         void iqblk_acquire_data();                    // the "IQBLK" data is acquired into "vars.iqblk.cplx32_v"
         void iqblk_make_csv(char* file_path_name);    // call after acquring data, "*.csv" is produced
+        // const std::string& more memory efficient
+        // validation-->   try, catch, throw
+        // always return something (fail silently is bad)
 
     // API group "IQSTREAM"
         void print_iqstream();    // prints the "IQSTREAM" variables to stdout, using the private struct
@@ -887,8 +896,27 @@ class rsa306b_class
         void _iqstream_init();
         void _iqstream_bitcheck();
         // copiers, private --> public
-
-        
+        void _iqstream_copy_vars();
+        void _iqstream_copy_bandwidth();
+        void _iqstream_copy_bandwidth_max();
+        void _iqstream_copy_bandwidth_min();
+        void _iqstream_copy_sample_rate();
+        void _iqstream_copy_name_of_file();      
+        void _iqstream_copy_name_of_header();   
+        void _iqstream_copy_is_enabled();   
+        void _iqstream_copy_data_buffer();         
+        void _iqstream_copy_pairs_copied();    
+        void _iqstream_copy_info_type();    
+        void _iqstream_copy_cplx32_v();
+        void _iqstream_copy_cplxInt16_v();
+        void _iqstream_copy_cplxInt32_v();
+        void _iqstream_copy_pairs_max();
+        void _iqstream_copy_record_time_ms();
+        void _iqstream_copy_filename_base();
+        void _iqstream_copy_suffix_control();
+        void _iqstream_copy_pairs_requested();
+        void _iqstream_copy_destination_select();
+        void _iqstream_copy_datatype_select(); 
 
     // API group "REFTIME"
         void _reftime_init();

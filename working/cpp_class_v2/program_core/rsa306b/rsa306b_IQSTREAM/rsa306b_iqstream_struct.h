@@ -121,7 +121,7 @@ struct rsa306b_iqstream_struct
 // IQSTREAM_SetDiskFilenameBase()
 // not using the wide character function
 // do not include extension, that is automatically placed
-    char* filename_base[BUF_C];
+    char filename_base[BUF_C];
 
 // IQSTREAM_SetDiskFilenameSuffix()
 // determine what is appended to the base filename
@@ -159,6 +159,7 @@ typedef struct rsa306b_iqstream_struct rsa306b_iqstream_struct;
     double bandwidth_max;    
     double bandwidth_min;
     double sample_rate;
+    RSA_API::IQSTRMFILEINFO file_info_type;
     char name_of_file[BUF_C];      
     char name_of_header[BUF_C];   
     bool is_enabled;   
@@ -170,7 +171,7 @@ typedef struct rsa306b_iqstream_struct rsa306b_iqstream_struct;
     std::vector<RSA_API::CplxInt32> cplxInt32_v;
     int pairs_max;
     int record_time_ms;
-    char* filename_base[BUF_C];
+    char filename_base[BUF_C];
     int suffix_control;
     int pairs_requested;
     RSA_API::IQSOUTDEST destination_select;

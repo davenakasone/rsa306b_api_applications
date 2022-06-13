@@ -7,6 +7,8 @@
         -  
 */
 
+#define UT11a 1    // basic test of the group
+
 #include "../testz.h"
 
 
@@ -16,7 +18,12 @@ void unit_test_11 (void)
     {
         rsa306b_class rsa;
         cpu_timer_class cpu;
-        
+        rsa.device_connect();
+
+        #ifdef UT11a
+            rsa.print_iqstream();
+        #endif
+
         printf("\n\ttest executes...\n");
     }
     printf("\n%s()  ,  test complete\n", __func__);

@@ -32,6 +32,7 @@ void rsa306b_class::_init_everything()
     this->_device_init();
     this->_ifstream_init();
     this->_iqblk_init();
+    this->_iqstream_init();
     this->_reftime_init();
     this->_spectrum_init();
     this->_trig_init();

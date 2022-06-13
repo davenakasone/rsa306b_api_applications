@@ -1,6 +1,8 @@
 # child shell can't control the parent shell
 #     so, be sure to export and source after making the target
 #     or, change .bashrc / make a bash script
+# issue "$ make -j" to build on all availible cores (slow compile time)
+# "CFLAGS = -Wall -lpthread -std=c++17 -O3 -I $(IDIR)" for maximum optimization
 SHELL := /bin/bash
 CC = g++
 IDIR = ./api_resourcez/
@@ -75,7 +77,7 @@ $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_get.cpp \
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_print_init_check.cpp \
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_set.cpp \
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_user.cpp \
-$(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_istream_print_init_check.cpp \
+$(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_print_init_check.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_copy.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_get.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_print_init.cpp \

@@ -39,7 +39,7 @@ struct rsa306b_struct
 
     rsa306b_iqblk_struct iqblk;           // API group "IQBLK" variables
 
-    rsa306b_iqblk_struct iqstream;        // API group "IQSTREAM" variables
+    rsa306b_iqstream_struct iqstream;     // API group "IQSTREAM" variables
 
     rsa306b_reftime_struct reftime;       // API group "REFTIME" variables
 
