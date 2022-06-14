@@ -295,7 +295,7 @@
             - rsa306b_iqstream_print_init_check.cpp
                 print_iqstream()
                 _iqstream_init()
-
+                _iqstream_bitcheck()
 
 
                 

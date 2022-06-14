@@ -14,8 +14,8 @@
 #define CYCLEZ 4        // files of each acquisition method to write
 #define TEST_INDEX 5    // arbitrary index to observe the IQBLK std::vector<float>
 
-//#define UT10_a 1    // basic test, get, set, print
-#define UT10_b 2    // testing 3 data acquisition methods
+#define UT10_a 1    // basic test, get, set, print
+//#define UT10_b 2    // testing 3 data acquisition methods
 
 void unit_test_10 (void)
 {

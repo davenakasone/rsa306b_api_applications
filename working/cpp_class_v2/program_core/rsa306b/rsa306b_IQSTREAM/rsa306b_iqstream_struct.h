@@ -18,6 +18,8 @@
 
 struct rsa306b_iqstream_struct
 {
+    char acqStatus_bit[IQSTREAM_BITCHECKS][BUF_D];    // maintains results of acqStatus bitcheck
+
 // IQSTREAM_Start()
 // initializes the IQ stream and begins data output
 // check for allocation and correct file opening

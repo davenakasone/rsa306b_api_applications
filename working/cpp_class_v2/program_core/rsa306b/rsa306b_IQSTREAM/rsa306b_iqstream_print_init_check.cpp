@@ -6,6 +6,7 @@
     
     private :
         < 1 >  _iqstream_init()
+        < 2 >  _iqstream_bitcheck();
 */
 
 #include "../rsa306b_class.h"
@@ -36,6 +37,55 @@ void rsa306b_class::print_iqstream()
         case (RSA_API::IQSSDFN_SUFFIX_INCRINDEX_MIN) : printf("auto-increment\n"); break;
         default                                      : printf("unknown\n");        break;
     }
+    printf("\tpairs_requested       :  %d\n", this->_vars.iqstream.pairs_requested);
+    printf("\tpairs_copied          :  %d\n", this->_vars.iqstream.pairs_copied);
+    printf("\tdata_buffer           :  %p\n", this->_vars.iqstream.data_buffer);
+    printf("\tname_of_file          :  %s\n", this->_vars.iqstream.name_of_file);
+    printf("\tname_of_header        :  %s\n", this->_vars.iqstream.name_of_header);
+    printf("\tcplx32_v.size()       :  %lu\n", this->_vars.iqstream.cplx32_v.size());    
+    printf("\t    cplx32_v[0].i     :  %f\n", this->_vars.iqstream.cplx32_v[0].i);    
+    printf("\t    cplx32_v[0].q     :  %f\n", this->_vars.iqstream.cplx32_v[0].q);
+    printf("\tcplxInt32_v.size()    :  %lu\n", this->_vars.iqstream.cplxInt32_v.size());    
+    printf("\t    cplxInt32_v[0].i  :  %d\n", this->_vars.iqstream.cplxInt32_v[0].i);    
+    printf("\t    cplxInt32_v[0].q  :  %d\n", this->_vars.iqstream.cplxInt32_v[0].q);
+    printf("\tcplxInt16_v.size()    :  %lu\n", this->_vars.iqstream.cplxInt16_v.size());    
+    printf("\t    cplxInt16_v[0].i  :  %d\n", this->_vars.iqstream.cplxInt16_v[0].i);    
+    printf("\t    cplxInt16_v[0].q  :  %d\n", this->_vars.iqstream.cplxInt16_v[0].q);
+    printf("destination_select      :  %d  ,  ", this->_vars.iqstream.destination_select);
+    switch (this->_vars.iqstream.destination_select)
+    {
+        case(RSA_API::IQSOD_CLIENT)         : printf("output direct to client, no file written\n");                   break;
+        case(RSA_API::IQSOD_FILE_TIQ)       : printf("TIQ file output\n");                                            break;
+        case(RSA_API::IQSOD_FILE_SIQ)       : printf("SIQ file output, combined header+data\n");                      break;
+        case(RSA_API::IQSOD_FILE_SIQ_SPLIT) : printf("SIQH+SIQD file output, split header and data\n");               break;
+        case(RSA_API::IQSOD_FILE_MIDAS)     : printf("Midas CDIF file output, combined header+data file\n");          break;
+        case(RSA_API::IQSOD_FILE_MIDAS_DET) : printf("Midas CDIF+DET file output, separate header and data files\n"); break;
+        default : printf("unknown\n"); break;
+    }
+    printf("datatype_select      :  %d  ,  ", this->_vars.iqstream.datatype_select);
+    switch (this->_vars.iqstream.datatype_select)
+    {
+        case(RSA_API::IQSODT_SINGLE)             : printf("float32, scaled to volts/50 ohms\n"); break;
+        case(RSA_API::IQSODT_INT32)              : printf("Int32\n");                            break;
+        case(RSA_API::IQSODT_INT16)              : printf("Int16\n");                            break;
+        case(RSA_API::IQSODT_SINGLE_SCALE_INT32) : printf("float32, scaled to int32 range\n");   break;
+        default : printf("unknown\n"); break;
+    }
+    printf("\tinfo_type.acqStatus  :  %u\n", this->_vars.iqstream.info_type.acqStatus);
+    printf("\tinfo_type.scaleFactor  :  %lf\n", this->_vars.iqstream.info_type.scaleFactor);
+    printf("\tinfo_type.timestamp  :  %lu\n", this->_vars.iqstream.info_type.timestamp);
+    printf("\tinfo_type.triggerCount  :  %d\n", this->_vars.iqstream.info_type.triggerCount);
+    printf("\tinfo_type.triggerIndices :  %p\n", this->_vars.iqstream.info_type.triggerIndices);
+
+    printf("\t\n",)
+    
+
+    this->_vars.iqstream.file_info_type.acqStatus          = this->_vars.constants.INIT_UINT;
+    this->_vars.iqstream.file_info_type.numberSamples      = this->_vars.constants.INIT_UINT;
+    this->_vars.iqstream.file_info_type.sample0Timestamp   = this->_vars.constants.INIT_UINT;
+    this->_vars.iqstream.file_info_type.triggerSampleIndex = this->_vars.constants.INIT_UINT;
+    this->_vars.iqstream.file_info_type.triggerTimestamp   = this->_vars.constants.INIT_UINT;
+    this->_vars.iqstream.file_info_type.filenames          = NULL;
 }
 
 
@@ -73,6 +123,11 @@ void rsa306b_class::_iqstream_init()
     strcpy(this->_vars.iqstream.name_of_header, this->_vars.constants.INIT_STR);
     memset(this->_vars.iqstream.filename_base, '\0', BUF_C);
     strcpy(this->_vars.iqstream.filename_base, this->_vars.constants.INIT_STR);
+    for (int ii = 0; ii < IQSTREAM_BITCHECKS; ii++)
+    {
+        memset(this->_vars.iqstream.acqStatus_bit[ii], '\0', BUF_D);
+        strcpy(this->_vars.iqstream.acqStatus_bit[ii], this->_vars.constants.INIT_STR);
+    }
 
     this->_vars.iqstream.cplx32_v.resize(this->_vars.constants.INIT_STL_LENGTH);
     this->_vars.iqstream.cplxInt16_v.resize(this->_vars.constants.INIT_STL_LENGTH);
@@ -104,6 +159,28 @@ void rsa306b_class::_iqstream_init()
     this->_vars.iqstream.file_info_type.filenames          = NULL;
 
     //copy...
+}
+
+
+////~~~~
+
+
+/*
+    < 2 > private
+*/
+void rsa306b_class::_iqstream_bitcheck()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif  
+
+    for (int ii = 0; ii < IQSTREAM_BITCHECKS; ii++)
+    {
+        memset(this->_vars.iqstream.acqStatus_bit[ii], '\0', BUF_D);
+        strcpy(this->_vars.iqstream.acqStatus_bit[ii], this->_vars.constants.INIT_STR);
+    }
+
 }
 
 

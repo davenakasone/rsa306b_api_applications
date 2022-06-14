@@ -79,10 +79,16 @@ class rsa306b_constants_class
         //const int IQBLK_MAX_PAIRS         = 104857600;
         const int IQBLK_GETTER_DEFAULT        = IQBLK_GET_IQ_DATA_DEINETERLEAVED;
         const double IQBLK_STARTING_BANDWIDTH = 1e6;
-        uint32_t IQBLK_BIT_SUCCESS            = 0;    // bitcheck with no error
+
+        uint32_t BIT_SUCCESS            = 0;    // bitcheck with no error
     
     // IQSTREAM constants
-        
+        const char IQSTREAM_FAIL_BIT_0[BUF_C] = "RF input overrange detected (non-sticky(client): in this block; sticky(client+file): in entire run)";
+        const char IQSTREAM_FAIL_BIT_1[BUF_C] = "Continuity error (gap) detected in IF frame transfers";
+        const char IQSTREAM_FAIL_BIT_2[BUF_C] = "Input buffer >= 75 %% full, indicates IQ processing may have difficulty keeping up with IF sample stream";
+        const char IQSTREAM_FAIL_BIT_3[BUF_C] = "";
+        const char IQSTREAM_FAIL_BIT_4[BUF_C] = "";
+        const char IQSTREAM_FAIL_BIT_5[BUF_C] = "";
 };
 
 
@@ -90,3 +96,15 @@ class rsa306b_constants_class
 
 
 ////////~~~~~~~~END>  rsa306b_constants_class.h
+
+
+enum {
+			IQSTRM_STATUS_OVERRANGE = (1 << 0),         // RF input overrange detected (non-sticky(client): in this block; sticky(client+file): in entire run)
+			IQSTRM_STATUS_XFER_DISCONTINUITY = (1 << 1),// Continuity error (gap) detected in IF frame transfers 
+			IQSTRM_STATUS_IBUFF75PCT = (1 << 2),        // Input buffer >= 75 % full, indicates IQ processing may have difficulty keeping up with IF sample stream
+			IQSTRM_STATUS_IBUFFOVFLOW = (1 << 3),       // Input buffer overflow, IQ processing cannot keep up with IF sample stream, input samples dropped
+			IQSTRM_STATUS_OBUFF75PCT = (1 << 4),        // Output buffer >= 75% full, indicates output sink (disk or client) may have difficulty keeping up with IQ output stream
+			IQSTRM_STATUS_OBUFFOVFLOW = (1 << 5),       // Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped
+			IQSTRM_STATUS_NONSTICKY_SHIFT = 0,          // Non-sticky status bits are shifted this many bits left from LSB
+			IQSTRM_STATUS_STICKY_SHIFT = 16             // Sticky status bits are shifted this many bits left from LSB
+		};

@@ -35,9 +35,9 @@ void rsa306b_class::print_iqblk()
     printf("\tmax_record_length                 :  %d\n", this->_vars.iqblk.max_record_length);
     printf("\tactual_buffer_samples             :  %d\n", this->_vars.iqblk.actual_buffer_samples);
     //printf("\tsample_pairs_requested            :  %d\n", this->_vars.iqblk.sample_pairs_requested);
-    printf("\tcplx32.size()                     :  %ld\n", this->_vars.iqblk.cplx32_v.size());    
-    printf("\tcplx32[0].i                       :  %0.3f\n", this->_vars.iqblk.cplx32_v[0].i);    
-    printf("\tcplx32[0].q                       :  %0.3f\n", this->_vars.iqblk.cplx32_v[0].q);   
+    printf("\tcplx32_v.size()                   :  %ld\n", this->_vars.iqblk.cplx32_v.size());    
+    printf("\t    cplx32_v[0].i                 :  %0.3f\n", this->_vars.iqblk.cplx32_v[0].i);    
+    printf("\t    cplx32_v[0].q                 :  %0.3f\n", this->_vars.iqblk.cplx32_v[0].q);   
     printf("\tbitcheck                          :  %s\n", this->_vars.iqblk.bitcheck);
     printf("\tacq_info_type.acqStatus           :  %u\n", this->_vars.iqblk.acq_info_type.acqStatus);
     printf("\tacq_info_type.sample0Timestamp    :  %lu\n", this->_vars.iqblk.acq_info_type.sample0Timestamp);
@@ -111,7 +111,7 @@ void rsa306b_class::_iqblk_bitcheck()
             (uint32_t)RSA_API::IQBLK_STATUS_FREQREF_UNLOCKED  &
             (uint32_t)RSA_API::IQBLK_STATUS_ACQ_SYS_ERROR     &
             (uint32_t)RSA_API::IQBLK_STATUS_DATA_XFER_ERROR) == 
-            this->_vars.constants.IQBLK_BIT_SUCCESS )
+            this->_vars.constants.BIT_SUCCESS                 )
     {
         snprintf(this->_vars.iqblk.bitcheck, BUF_D, 
             "acqStatus:  %d  ,  %s", 
@@ -125,7 +125,7 @@ void rsa306b_class::_iqblk_bitcheck()
         this->_vars.iqblk.acq_info_type.acqStatus);
     if ((this->_vars.iqblk.acq_info_type.acqStatus            & 
             (uint32_t)RSA_API::IQBLK_STATUS_INPUT_OVERRANGE) !=
-            this->_vars.constants.IQBLK_BIT_SUCCESS           )
+            this->_vars.constants.BIT_SUCCESS                 )
     {
         strncat(this->_vars.iqblk.bitcheck, 
             this->_vars.constants.IQBLK_BIT_0, 
@@ -133,7 +133,7 @@ void rsa306b_class::_iqblk_bitcheck()
     }
     if ((this->_vars.iqblk.acq_info_type.acqStatus             & 
             (uint32_t)RSA_API::IQBLK_STATUS_FREQREF_UNLOCKED) !=
-            this->_vars.constants.IQBLK_BIT_SUCCESS            )
+            this->_vars.constants.BIT_SUCCESS                  )
     {
         strncat(this->_vars.iqblk.bitcheck, 
             this->_vars.constants.IQBLK_BIT_1, 
@@ -141,7 +141,7 @@ void rsa306b_class::_iqblk_bitcheck()
     }
     if ((this->_vars.iqblk.acq_info_type.acqStatus          & 
             (uint32_t)RSA_API::IQBLK_STATUS_ACQ_SYS_ERROR) !=
-            this->_vars.constants.IQBLK_BIT_SUCCESS         )
+            this->_vars.constants.BIT_SUCCESS               )
     {
         strncat(this->_vars.iqblk.bitcheck, 
             this->_vars.constants.IQBLK_BIT_2, 
@@ -149,7 +149,7 @@ void rsa306b_class::_iqblk_bitcheck()
     }
     if ((this->_vars.iqblk.acq_info_type.acqStatus            & 
             (uint32_t)RSA_API::IQBLK_STATUS_DATA_XFER_ERROR) !=
-            this->_vars.constants.IQBLK_BIT_SUCCESS           )
+            this->_vars.constants.BIT_SUCCESS                 )
     {
         strncat(this->_vars.iqblk.bitcheck, 
             this->_vars.constants.IQBLK_BIT_3, 
