@@ -135,8 +135,8 @@ void rsa306b_class::_iqstream_init()
     strcpy(this->_vars.iqstream.filename_base, this->constants.INIT_STR);
     for (int ii = 0; ii < IQSTREAM_BITCHECKS; ii++)
     {
-        memset(this->_vars.iqstream.acqStatus_bit[ii], '\0', BUF_D);
-        strcpy(this->_vars.iqstream.acqStatus_bit[ii], this->constants.INIT_STR);
+        memset(this->_vars.iqstream.acqStatus_message[ii], '\0', BUF_D);
+        strcpy(this->_vars.iqstream.acqStatus_message[ii], this->constants.INIT_STR);
     }
 
     this->_vars.iqstream.cplx32_v.resize(this->constants.INIT_STL_LENGTH);
@@ -187,9 +187,10 @@ void rsa306b_class::_iqstream_bitcheck()
 
     for (int ii = 0; ii < IQSTREAM_BITCHECKS; ii++)
     {
-        memset(this->_vars.iqstream.acqStatus_bit[ii], '\0', BUF_D);
-        strcpy(this->_vars.iqstream.acqStatus_bit[ii], this->constants.INIT_STR);
+        memset(this->_vars.iqstream.acqStatus_message[ii], '\0', BUF_D);
+        strcpy(this->_vars.iqstream.acqStatus_message[ii], this->constants.INIT_STR);
     }
+
 
 }
 
