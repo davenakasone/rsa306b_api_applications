@@ -55,9 +55,9 @@
 
 // setting "int getter" in "struct rsa306b_iqblk_struct" determines method to aquire IQBLK data
 // use the fastest API call or method most appropriate for the use case
-#define IQBLK_GET_IQ_DATA 0                   // use RSA_API::IQBLK_GetIQData() for acquisition
-#define IQBLK_GET_IQ_DATA_CPLX 1              // use RSA_API::IQBLK_GetIQDataCplx() for acquisition
-#define IQBLK_GET_IQ_DATA_DEINETERLEAVED 2    // use RSA_API::IQBLK_GetIQDataDeinterleaved() for acquisition
+//#define IQBLK_GET_IQ_DATA 0                   // use RSA_API::IQBLK_GetIQData() for acquisition
+//#define IQBLK_GET_IQ_DATA_CPLX 1              // use RSA_API::IQBLK_GetIQDataCplx() for acquisition
+//#define IQBLK_GET_IQ_DATA_DEINETERLEAVED 2    // use RSA_API::IQBLK_GetIQDataDeinterleaved() for acquisition
 
 #endif
 

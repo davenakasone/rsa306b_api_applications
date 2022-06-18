@@ -21,9 +21,12 @@ class rsa306b_constants_class
         rsa306b_constants_class();
         ~rsa306b_constants_class();
 
-    // status of internal non-API function calls
-        const int CALL_SUCCESS = 7777;    // the function call was successful
-        const int CALL_FAILURE = -777;    // the function call failed
+    // status
+        const int CALL_SUCCESS                       = 7777;    // successful, non-API function calls
+        const int CALL_FAILURE                       = -777;    // failed, non-API function calls (must be different)
+        const uint32_t ACQ_STATUS_SUCCESS            = 0;       // successful value for API bit checks
+        const char ACQ_STATUS_SUCCESS_MESSAGE[BUF_B] = "GOOD BITCHECK";
+
 
     // initialization values and sizes
         const char    INIT_CHAR            = 'Z';
@@ -69,26 +72,26 @@ class rsa306b_constants_class
         const char IFSTREAM_CSV_PATH[BUF_B]       = "./program_test/data/outputs_txt/";   // where raw ADC data from IFSTREAM goes
 
     // IQBLK constants
-        const char IQBLK_BIT_PASS[BUF_B]      = "GOOD BITCHECK";
-        const char IQBLK_BIT_0[BUF_B]         = "*ADC input over range during acquisition*";
-        const char IQBLK_BIT_1[BUF_B]         = "*Frequency reference unlocked during acquisition*";
-        const char IQBLK_BIT_2[BUF_B]         = "*oscillator unlocked / power failure during acquisition*";
-        const char IQBLK_BIT_3[BUF_B]         = "*USB frame transfer error detected during acquisition*";
-        const int IQBLK_MIN_PAIRS             = 2;
-        const int IQBLK_STARTING_PAIRS        = 1000;
-        //const int IQBLK_MAX_PAIRS         = 104857600;
-        const int IQBLK_GETTER_DEFAULT        = IQBLK_GET_IQ_DATA_DEINETERLEAVED;
-        const double IQBLK_STARTING_BANDWIDTH = 1e6;
-
-        uint32_t BIT_SUCCESS            = 0;    // bitcheck with no error
+        const uint8_t IQBLK_GET_IQ_DATA                = 0;    // selects RSA_API::IQBLK_GetIQData() for acquisition
+        const uint8_t IQBLK_GET_IQ_DATA_CPLX           = 1;    // selects RSA_API::IQBLK_GetIQDataCplx() for acquisition
+        const uint8_t IQBLK_GET_IQ_DATA_DEINETERLEAVED = 2;    // selects RSA_API::IQBLK_GetIQDataDeinterleaved() for acquisition
+        const char IQBLK_BIT_0[BUF_B]                  = "*ADC input over range during acquisition*";
+        const char IQBLK_BIT_1[BUF_B]                  = "*Frequency reference unlocked during acquisition*";
+        const char IQBLK_BIT_2[BUF_B]                  = "*oscillator unlocked / power failure during acquisition*";
+        const char IQBLK_BIT_3[BUF_B]                  = "*USB frame transfer error detected during acquisition*";
+        const int IQBLK_MIN_PAIRS                      = 2;
+        const int IQBLK_STARTING_PAIRS                 = 1000;
+        const int IQBLK_GETTER_DEFAULT                 = IQBLK_GET_IQ_DATA_DEINETERLEAVED;
+        const double IQBLK_STARTING_BANDWIDTH          = 1e6;
+        //const int IQBLK_MAX_PAIRS = 104857600;
     
     // IQSTREAM constants
         const char IQSTREAM_FAIL_BIT_0[BUF_C] = "RF input overrange detected (non-sticky(client): in this block; sticky(client+file): in entire run)";
         const char IQSTREAM_FAIL_BIT_1[BUF_C] = "Continuity error (gap) detected in IF frame transfers";
         const char IQSTREAM_FAIL_BIT_2[BUF_C] = "Input buffer >= 75 %% full, indicates IQ processing may have difficulty keeping up with IF sample stream";
-        const char IQSTREAM_FAIL_BIT_3[BUF_C] = "";
-        const char IQSTREAM_FAIL_BIT_4[BUF_C] = "";
-        const char IQSTREAM_FAIL_BIT_5[BUF_C] = "";
+        const char IQSTREAM_FAIL_BIT_3[BUF_C] = "Input buffer overflow, IQ processing cannot keep up with IF sample stream, input samples dropped";
+        const char IQSTREAM_FAIL_BIT_4[BUF_C] = "Output buffer >= 75%% full, indicates output sink (disk or client) may have difficulty keeping up with IQ output stream";
+        const char IQSTREAM_FAIL_BIT_5[BUF_C] = "Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped";
 };
 
 
@@ -96,15 +99,3 @@ class rsa306b_constants_class
 
 
 ////////~~~~~~~~END>  rsa306b_constants_class.h
-
-
-enum {
-			IQSTRM_STATUS_OVERRANGE = (1 << 0),         // RF input overrange detected (non-sticky(client): in this block; sticky(client+file): in entire run)
-			IQSTRM_STATUS_XFER_DISCONTINUITY = (1 << 1),// Continuity error (gap) detected in IF frame transfers 
-			IQSTRM_STATUS_IBUFF75PCT = (1 << 2),        // Input buffer >= 75 % full, indicates IQ processing may have difficulty keeping up with IF sample stream
-			IQSTRM_STATUS_IBUFFOVFLOW = (1 << 3),       // Input buffer overflow, IQ processing cannot keep up with IF sample stream, input samples dropped
-			IQSTRM_STATUS_OBUFF75PCT = (1 << 4),        // Output buffer >= 75% full, indicates output sink (disk or client) may have difficulty keeping up with IQ output stream
-			IQSTRM_STATUS_OBUFFOVFLOW = (1 << 5),       // Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped
-			IQSTRM_STATUS_NONSTICKY_SHIFT = 0,          // Non-sticky status bits are shifted this many bits left from LSB
-			IQSTRM_STATUS_STICKY_SHIFT = 16             // Sticky status bits are shifted this many bits left from LSB
-		};

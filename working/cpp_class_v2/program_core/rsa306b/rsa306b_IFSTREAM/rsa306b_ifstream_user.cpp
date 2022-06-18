@@ -195,13 +195,13 @@ void rsa306b_class::ifstream_acquire_adc_frames()
     for (int ii = 0; ii < this->_vars.ifstream.number_of_frames; ii++)
     {
         this->_vars.ifstream.framed_adc_data_v[ii].resize(
-            this->_vars.constants.ADC_SAMPLES_PER_FRAME);
+            this->constants.ADC_SAMPLES_PER_FRAME);
         for (int jj = 0; jj < bytes_per_frame; jj++)
         {
             this->_vars.ifstream.framed_adc_data_v[ii][placer] = 
                 (int16_t)((frame_data[ii*jj + jj] << 8) | (frame_data[ii*jj + jj + 1] << 0));
             placer++;
-            if (placer == this->_vars.constants.ADC_SAMPLES_PER_FRAME -1) 
+            if (placer == this->constants.ADC_SAMPLES_PER_FRAME -1) 
             {
                 placer = 0;
                 break;

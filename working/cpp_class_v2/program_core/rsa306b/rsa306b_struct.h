@@ -23,8 +23,6 @@
 
 struct rsa306b_struct
 {
-    rsa306b_constants_class constants;    // important constants for the spectrum analyzer
-
     rsa306b_gp_struct gp;                 // common use class variables "general purpose"
 
     rsa306b_align_struct align;           // API group "ALIGN" variables

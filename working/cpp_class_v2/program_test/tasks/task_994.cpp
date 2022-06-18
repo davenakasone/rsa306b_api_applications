@@ -90,7 +90,7 @@ void task_994()
 
             printf("\nframe_data[end]  =  %u  ,  ADC samples:  %lu\n", 
                 frame_data[rsa.vars.ifstream.frame_bytes-1], 
-                rsa.vars.ifstream.number_of_frames*rsa.vars.constants.ADC_SAMPLES_PER_FRAME);
+                rsa.vars.ifstream.number_of_frames*rsa.constants.ADC_SAMPLES_PER_FRAME);
             printf("frame_bytes      =  %d\n", rsa.vars.ifstream.frame_bytes);
             printf("number_frames    =  %d\n", rsa.vars.ifstream.number_of_frames);
             int samples_for_frame = rsa.vars.ifstream.frame_bytes / rsa.vars.ifstream.number_of_frames;
@@ -98,13 +98,13 @@ void task_994()
             rsa.vars.ifstream.framed_adc_data_v.resize(rsa.vars.ifstream.number_of_frames);
             for (int ii = 0; ii < rsa.vars.ifstream.number_of_frames; ii++)
             {
-                rsa.vars.ifstream.framed_adc_data_v[ii].resize(rsa.vars.constants.ADC_SAMPLES_PER_FRAME);
+                rsa.vars.ifstream.framed_adc_data_v[ii].resize(rsa.constants.ADC_SAMPLES_PER_FRAME);
                 for (int jj = 0; jj < samples_for_frame; jj++)
                 {
                     rsa.vars.ifstream.framed_adc_data_v[ii][placer] = 
                         frame_data[ii*jj + jj] | frame_data[ii*jj + jj + 1];
                     placer++;
-                    if (placer == rsa.vars.constants.ADC_SAMPLES_PER_FRAME -1) 
+                    if (placer == rsa.constants.ADC_SAMPLES_PER_FRAME -1) 
                     {
                         placer = 0;
                         break;
@@ -117,7 +117,7 @@ void task_994()
             {
                 sprintf(rsa.vars.gp.helper, "./program_test/data/outputs_txt/getifframe_%d.txt", ii);
                 fptr = fopen(rsa.vars.gp.helper, "w");
-                for (long unsigned int jj = 0; jj < rsa.vars.constants.ADC_SAMPLES_PER_FRAME; jj++)
+                for (long unsigned int jj = 0; jj < rsa.constants.ADC_SAMPLES_PER_FRAME; jj++)
                 {
                     sprintf(rsa.vars.gp.holder, "%d\n", rsa.vars.ifstream.framed_adc_data_v[ii][jj]);
                     fputs(rsa.vars.gp.holder, fptr);

@@ -77,7 +77,7 @@ void unit_test_9 (void)
             {
                 rsa.ifstream_record_file();
             }
-            r3f.prepare_plot_from_adc(rsa.vars.ifstream.file_path, rsa.vars.constants.IFSTREAM_CSV_PATH);
+            r3f.prepare_plot_from_adc(rsa.vars.ifstream.file_path, rsa.constants.IFSTREAM_CSV_PATH);
         #endif
         #ifdef UT9_d
             printf("\n");
@@ -142,7 +142,7 @@ void unit_test_9 (void)
                     ii, 
                     rsa.vars.ifstream.frame_bytes, 
                     rsa.vars.ifstream.number_of_frames, 
-                    rsa.vars.constants.ADC_SAMPLES_PER_FRAME*rsa.vars.ifstream.number_of_frames);
+                    rsa.constants.ADC_SAMPLES_PER_FRAME*rsa.vars.ifstream.number_of_frames);
                 fputs(rsa.vars.gp.holder, fptr);
 
                 for (long unsigned int jj = 0; jj < rsa.vars.ifstream.framed_adc_data_v.size(); jj++)

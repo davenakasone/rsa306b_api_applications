@@ -59,16 +59,16 @@ void rsa306b_class::_audio_init()
 
     for (int ii = 0; ii < AUDIO_DATA_LENGTH; ii++)
     {
-        this->_vars.audio.data[ii] = this->_vars.constants.INIT_INT;
+        this->_vars.audio.data[ii] = this->constants.INIT_INT;
     }
 
     this->_vars.audio.data_samples_acquired = 0;
     this->_vars.audio.data_samples_requested = AUDIO_DATA_LENGTH;
     this->_vars.audio.demodulation_select = RSA_API::ADM_AM_8KHZ;
-    this->_vars.audio.frequency_offset_hz = this->_vars.constants.AUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz;
+    this->_vars.audio.frequency_offset_hz = this->constants.AUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz;
     this->_vars.audio.is_demodulating = false;
     this->_vars.audio.is_mute = true;
-    this->_vars.audio.volume = this->_vars.constants.AUDIO_VOLUME_MIN;
+    this->_vars.audio.volume = this->constants.AUDIO_VOLUME_MIN;
 
     this->_audio_copy_vars();
 }

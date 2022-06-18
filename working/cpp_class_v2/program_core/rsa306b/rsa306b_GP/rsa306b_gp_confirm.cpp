@@ -57,7 +57,7 @@ void rsa306b_class::_gp_confirm_call_status()
 #endif
 
     if (this->_vars.gp.call_status      != 
-        this->_vars.constants.CALL_SUCCESS)
+        this->constants.CALL_SUCCESS)
     {
         #if defined (DEBUG_ERR) || (DEBUG_MIN) || (DEBUG_MAX)
             printf("\n\t###   !!! ERROR  IN THE OBJECT !!!   ###\n");
@@ -83,11 +83,11 @@ int rsa306b_class::_gp_confirm_return()
 
     if (this->_vars.gp.api_status == RSA_API::noError)
     {
-        return this->_vars.constants.CALL_SUCCESS;
+        return this->constants.CALL_SUCCESS;
     }
     else
     {
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
 }
 

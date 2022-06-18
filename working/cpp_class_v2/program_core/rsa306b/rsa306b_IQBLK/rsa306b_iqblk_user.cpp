@@ -32,22 +32,25 @@ void rsa306b_class::iqblk_acquire_data()
         #endif
         return;
     }
-    switch (this->_vars.iqblk.getter)
+
+    if (this->_vars.iqblk.getter == this->constants.IQBLK_GET_IQ_DATA)
     {
-        case (IQBLK_GET_IQ_DATA) : 
-            this->_iqblk_get_iq_data();               
-            break;
-        case (IQBLK_GET_IQ_DATA_CPLX) : 
-            this->_iqblk_get_iq_data_cplx();          
-            break;
-        case (IQBLK_GET_IQ_DATA_DEINETERLEAVED) : 
-            this->_iqblk_get_iq_data_deinterleaved(); 
-            break;
-        default : 
-            #ifdef DEBUG_MIN
-                printf("\n\terror in acquisition method\n");
-            #endif
-            return;
+        this->_iqblk_get_iq_data();  
+    }
+    else if (this->_vars.iqblk.getter == this->constants.IQBLK_GET_IQ_DATA_CPLX)
+    {
+        this->_iqblk_get_iq_data_cplx(); 
+    }
+    else if (this->_vars.iqblk.getter == this->constants.IQBLK_GET_IQ_DATA_DEINETERLEAVED)
+    {
+        this->_iqblk_get_iq_data_deinterleaved(); 
+    }
+    else
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\terror in acquisition method\n");
+        #endif
+        return;
     }
     this->_iqblk_get_acq_info_type();
 }

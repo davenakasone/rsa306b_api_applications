@@ -90,14 +90,14 @@ void rsa306b_class::_iqblk_set_getter()
         return;
     }
 
-    if (this->vars.iqblk.getter != IQBLK_GET_IQ_DATA               &&
-        this->vars.iqblk.getter != IQBLK_GET_IQ_DATA_CPLX          &&
-        this->vars.iqblk.getter != IQBLK_GET_IQ_DATA_DEINETERLEAVED )
+    if (this->vars.iqblk.getter != this->constants.IQBLK_GET_IQ_DATA               &&
+        this->vars.iqblk.getter != this->constants.IQBLK_GET_IQ_DATA_CPLX          &&
+        this->vars.iqblk.getter != this->constants.IQBLK_GET_IQ_DATA_DEINETERLEAVED )
     {
         #ifdef DEBUG_MAX
             printf("\n\tinvalid selection, using default from const class\n");
         #endif
-        this->_vars.iqblk.getter = this->_vars.constants.IQBLK_GETTER_DEFAULT;
+        this->_vars.iqblk.getter = this->constants.IQBLK_GETTER_DEFAULT;
         this->_iqblk_copy_getter();
         return;
     }
@@ -184,7 +184,7 @@ void rsa306b_class::_iqblk_set_record_length()
     }
 
     this->_iqblk_get_max_record_length();
-    if (this->vars.iqblk.record_length < this->_vars.constants.IQBLK_MIN_PAIRS ||
+    if (this->vars.iqblk.record_length < this->constants.IQBLK_MIN_PAIRS ||
         this->vars.iqblk.record_length > this->_vars.iqblk.max_record_length    )
     {
         this->vars.iqblk.record_length = this->_vars.iqblk.max_record_length / 2;
@@ -205,8 +205,8 @@ void rsa306b_class::_iqblk_set_record_length()
         (size_t)this->_vars.iqblk.record_length);
     for (size_t ii = 0; ii < this->_vars.iqblk.cplx32_v.size(); ii++)
     {
-        this->_vars.iqblk.cplx32_v[ii].i = this->_vars.constants.INIT_FLOAT;
-        this->_vars.iqblk.cplx32_v[ii].q = this->_vars.constants.INIT_FLOAT;
+        this->_vars.iqblk.cplx32_v[ii].i = this->constants.INIT_FLOAT;
+        this->_vars.iqblk.cplx32_v[ii].q = this->constants.INIT_FLOAT;
     }
     this->_iqblk_copy_cplx32_v();
 }

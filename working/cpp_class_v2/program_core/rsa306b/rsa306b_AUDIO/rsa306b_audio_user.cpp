@@ -35,7 +35,7 @@ void rsa306b_class::audio_set_vars()
 
     this->_vars.gp.call_status = this->_audio_set_vars();
     this->_gp_copy_call_status();
-    if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+    if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
     {
         #ifdef DEBUG_MIN
             printf("\terror setting audio parameters\n");

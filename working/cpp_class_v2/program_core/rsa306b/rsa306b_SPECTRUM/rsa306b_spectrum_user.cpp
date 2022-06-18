@@ -61,7 +61,7 @@ void rsa306b_class::spectrum_aquire()
         else
         {
             this->_vars.spectrum.trace_points_acquired[ii] = 
-                this->_vars.constants.INIT_INT;
+                this->constants.INIT_INT;
         }
         this->_spectrum_copy_trace_points_aquired(ii);
     }
@@ -98,7 +98,7 @@ void rsa306b_class::spectrum_find_peak_index()
     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
     {
         if (this->_vars.spectrum.trace_points_acquired[ii] != 
-            this->_vars.constants.INIT_INT                  )
+            this->constants.INIT_INT                  )
         {
             this->_vars.spectrum.peak_index[ii] = 0;
             for (int jj = 0; jj < this->_vars.spectrum.trace_points_acquired[ii]; jj++)
@@ -112,7 +112,7 @@ void rsa306b_class::spectrum_find_peak_index()
         }
         else
         {
-            this->_vars.spectrum.peak_index[ii] = this->_vars.constants.INIT_INT;
+            this->_vars.spectrum.peak_index[ii] = this->constants.INIT_INT;
         }
         this->_spectrum_copy_peak_index(ii);
     }
@@ -138,10 +138,10 @@ void rsa306b_class::spectrum_write_csv()
     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
     {
         if (this->_vars.spectrum.trace_points_acquired[ii] != 
-            this->_vars.constants.INIT_INT                  )
+            this->constants.INIT_INT                  )
         {
             snprintf(this->_vars.gp.holder, BUF_E-1, "%strace%d_%ld.txt",
-                this->_vars.constants.SPECTRUM_CSV_PATH,
+                this->constants.SPECTRUM_CSV_PATH,
                 ii+1,
                 this->_vars.spectrum.trace_info_type[ii].timestamp);
             this->_fptr_write = fopen(this->_vars.gp.holder, "w");

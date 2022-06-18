@@ -24,12 +24,21 @@ void rsa306b_class::print_iqblk()
 
     printf("\n'IQBLK' group >>>\n");
     printf("\tgetter                            :  %d  ,  ", this->_vars.iqblk.getter);
-    switch (this->_vars.iqblk.getter)
+    if (this->_vars.iqblk.getter == this->constants.IQBLK_GET_IQ_DATA)
     {
-        case (IQBLK_GET_IQ_DATA)                : printf("IQBLK_GetIQData()\n");              break;
-        case (IQBLK_GET_IQ_DATA_CPLX)           : printf("IQBLK_GetIQDataCplx()\n");          break;
-        case (IQBLK_GET_IQ_DATA_DEINETERLEAVED) : printf("IQBLK_GetIQDataDeinterleaved()\n"); break;
-        default                                 : printf("unknown\n");                        break;
+        printf("IQBLK_GetIQData()\n");
+    }
+    else if (this->_vars.iqblk.getter == this->constants.IQBLK_GET_IQ_DATA_CPLX)
+    {
+        printf("IQBLK_GetIQDataCplx()\n");
+    }
+    else if (this->_vars.iqblk.getter == this->constants.IQBLK_GET_IQ_DATA_DEINETERLEAVED)
+    {
+        printf("IQBLK_GetIQDataDeinterleaved()\n");
+    }
+    else
+    {
+        printf("unknown\n"); 
     }
     printf("\trecord_length                     :  %d\n", this->_vars.iqblk.record_length);
     printf("\tmax_record_length                 :  %d\n", this->_vars.iqblk.max_record_length);
@@ -63,29 +72,29 @@ void rsa306b_class::_iqblk_init()
         __LINE__, __FILE__, __func__);
 #endif  
 
-    this->_vars.iqblk.getter                 = this->_vars.constants.IQBLK_GETTER_DEFAULT;
-    this->_vars.iqblk.actual_buffer_samples  = this->_vars.constants.INIT_INT;
-    //this->_vars.iqblk.sample_pairs_requested = this->_vars.constants.INIT_INT;
-    this->_vars.iqblk.max_record_length      = this->_vars.constants.INIT_INT;      
-    this->_vars.iqblk.record_length          = this->_vars.constants.IQBLK_STARTING_PAIRS;     
+    this->_vars.iqblk.getter                 = this->constants.IQBLK_GETTER_DEFAULT;
+    this->_vars.iqblk.actual_buffer_samples  = this->constants.INIT_INT;
+    //this->_vars.iqblk.sample_pairs_requested = this->constants.INIT_INT;
+    this->_vars.iqblk.max_record_length      = this->constants.INIT_INT;      
+    this->_vars.iqblk.record_length          = this->constants.IQBLK_STARTING_PAIRS;     
 
     this->_vars.iqblk.cplx32_v.resize((size_t)this->_vars.iqblk.record_length);
     for (size_t ii = 0; ii < this->_vars.iqblk.cplx32_v.size(); ii++)    
     {
-        this->_vars.iqblk.cplx32_v[ii].i = this->_vars.constants.INIT_FLOAT;
-        this->_vars.iqblk.cplx32_v[ii].q = this->_vars.constants.INIT_FLOAT;
+        this->_vars.iqblk.cplx32_v[ii].i = this->constants.INIT_FLOAT;
+        this->_vars.iqblk.cplx32_v[ii].q = this->constants.INIT_FLOAT;
     }             
                    
-    this->_vars.iqblk.acq_info_type.sample0Timestamp   = this->_vars.constants.INIT_UINT;
-    this->_vars.iqblk.acq_info_type.triggerSampleIndex = this->_vars.constants.INIT_UINT;
-    this->_vars.iqblk.acq_info_type.triggerTimestamp   = this->_vars.constants.INIT_UINT;
-    this->_vars.iqblk.acq_info_type.acqStatus          = this->_vars.constants.IQBLK_BIT_SUCCESS;
+    this->_vars.iqblk.acq_info_type.sample0Timestamp   = this->constants.INIT_UINT;
+    this->_vars.iqblk.acq_info_type.triggerSampleIndex = this->constants.INIT_UINT;
+    this->_vars.iqblk.acq_info_type.triggerTimestamp   = this->constants.INIT_UINT;
+    this->_vars.iqblk.acq_info_type.acqStatus          = this->constants.ACQ_STATUS_SUCCESS;
     this->_iqblk_bitcheck();    // updates "bitcheck"
 
-    this->_vars.iqblk.sample_rate      = this->_vars.constants.INIT_DOUBLE;
-    this->_vars.iqblk.bandwidth_hz     = this->_vars.constants.IQBLK_STARTING_BANDWIDTH;
-    this->_vars.iqblk.min_bandwidth_hz = this->_vars.constants.INIT_DOUBLE;
-    this->_vars.iqblk.max_bandwidth_hz = this->_vars.constants.INIT_DOUBLE;
+    this->_vars.iqblk.sample_rate      = this->constants.INIT_DOUBLE;
+    this->_vars.iqblk.bandwidth_hz     = this->constants.IQBLK_STARTING_BANDWIDTH;
+    this->_vars.iqblk.min_bandwidth_hz = this->constants.INIT_DOUBLE;
+    this->_vars.iqblk.max_bandwidth_hz = this->constants.INIT_DOUBLE;
 
     this->_iqblk_copy_vars();
 }
@@ -111,12 +120,12 @@ void rsa306b_class::_iqblk_bitcheck()
             (uint32_t)RSA_API::IQBLK_STATUS_FREQREF_UNLOCKED  &
             (uint32_t)RSA_API::IQBLK_STATUS_ACQ_SYS_ERROR     &
             (uint32_t)RSA_API::IQBLK_STATUS_DATA_XFER_ERROR) == 
-            this->_vars.constants.BIT_SUCCESS                 )
+            this->constants.ACQ_STATUS_SUCCESS          )
     {
         snprintf(this->_vars.iqblk.bitcheck, BUF_D, 
             "acqStatus:  %d  ,  %s", 
             this->_vars.iqblk.acq_info_type.acqStatus, 
-            this->_vars.constants.IQBLK_BIT_PASS);
+            this->constants.ACQ_STATUS_SUCCESS_MESSAGE);
         this->_iqblk_copy_bitcheck();
         return;
     }
@@ -125,34 +134,34 @@ void rsa306b_class::_iqblk_bitcheck()
         this->_vars.iqblk.acq_info_type.acqStatus);
     if ((this->_vars.iqblk.acq_info_type.acqStatus            & 
             (uint32_t)RSA_API::IQBLK_STATUS_INPUT_OVERRANGE) !=
-            this->_vars.constants.BIT_SUCCESS                 )
+            this->constants.ACQ_STATUS_SUCCESS                )
     {
         strncat(this->_vars.iqblk.bitcheck, 
-            this->_vars.constants.IQBLK_BIT_0, 
+            this->constants.IQBLK_BIT_0, 
             BUF_B);
     }
     if ((this->_vars.iqblk.acq_info_type.acqStatus             & 
             (uint32_t)RSA_API::IQBLK_STATUS_FREQREF_UNLOCKED) !=
-            this->_vars.constants.BIT_SUCCESS                  )
+            this->constants.ACQ_STATUS_SUCCESS           )
     {
         strncat(this->_vars.iqblk.bitcheck, 
-            this->_vars.constants.IQBLK_BIT_1, 
+            this->constants.IQBLK_BIT_1, 
             BUF_B);
     }
     if ((this->_vars.iqblk.acq_info_type.acqStatus          & 
             (uint32_t)RSA_API::IQBLK_STATUS_ACQ_SYS_ERROR) !=
-            this->_vars.constants.BIT_SUCCESS               )
+            this->constants.ACQ_STATUS_SUCCESS        )
     {
         strncat(this->_vars.iqblk.bitcheck, 
-            this->_vars.constants.IQBLK_BIT_2, 
+            this->constants.IQBLK_BIT_2, 
             BUF_B);
     }
     if ((this->_vars.iqblk.acq_info_type.acqStatus            & 
             (uint32_t)RSA_API::IQBLK_STATUS_DATA_XFER_ERROR) !=
-            this->_vars.constants.BIT_SUCCESS                 )
+            this->constants.ACQ_STATUS_SUCCESS          )
     {
         strncat(this->_vars.iqblk.bitcheck, 
-            this->_vars.constants.IQBLK_BIT_3, 
+            this->constants.IQBLK_BIT_3, 
             BUF_B);
     }
     this->_iqblk_copy_bitcheck();

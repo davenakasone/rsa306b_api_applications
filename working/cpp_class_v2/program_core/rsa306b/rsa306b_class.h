@@ -609,6 +609,7 @@
 
 #include "../control/resourcez.h"
 #include "rsa306b_struct.h"
+#include "./rsa306b_CONST/rsa306b_constants_class.h"
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -617,7 +618,8 @@ class rsa306b_class
     public :
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        rsa306b_struct vars;    // public variables
+        rsa306b_struct vars;                  // public variables
+        rsa306b_constants_class constants;    // important constants for the spectrum analyzer
 
     // general purpose
         rsa306b_class();                                             // constructor

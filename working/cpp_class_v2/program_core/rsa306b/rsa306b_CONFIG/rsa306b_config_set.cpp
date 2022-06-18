@@ -29,7 +29,7 @@ int rsa306b_class::_config_set_vars()
         #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
     this->device_stop();
 
@@ -43,9 +43,9 @@ int rsa306b_class::_config_set_vars()
     else
     {
         this->_vars.gp.call_status = this->_config_set_reference_level_dbm();
-        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
         {
-            return this->_vars.constants.CALL_FAILURE;
+            return this->constants.CALL_FAILURE;
         }
     }
     // vars.config.center_frequency_hz
@@ -58,9 +58,9 @@ int rsa306b_class::_config_set_vars()
     else
     {
         this->_vars.gp.call_status = this->_config_set_center_frequency_hz();
-        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
         {
-            return this->_vars.constants.CALL_FAILURE;
+            return this->constants.CALL_FAILURE;
         }
     }
     // vars.config.frequency_reference_source_select
@@ -73,9 +73,9 @@ int rsa306b_class::_config_set_vars()
     else
     {
         this->_vars.gp.call_status = this->_config_set_external_reference_frequency_source_select();
-        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
         {
-            return this->_vars.constants.CALL_FAILURE;
+            return this->constants.CALL_FAILURE;
         }
         if (this->_vars.config.frequency_reference_source_select == RSA_API::FRS_EXTREF)
         {
@@ -85,12 +85,12 @@ int rsa306b_class::_config_set_vars()
                 #ifdef DEBUG_MIN
                     printf("\n\tfailure reading external reference frequency\n");
                 #endif
-                return this->_vars.constants.CALL_FAILURE;
+                return this->constants.CALL_FAILURE;
             }
         }
     }
 
-    return this->_vars.constants.CALL_SUCCESS;
+    return this->constants.CALL_SUCCESS;
 }
 
 
@@ -112,18 +112,18 @@ int rsa306b_class::_config_set_reference_level_dbm()
         #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
-    if (this->vars.config.reference_level_dbm < this->_vars.constants.REFERENCE_LEVEL_MIN_dbm ||
-        this->vars.config.reference_level_dbm > this->_vars.constants.REFERENCE_LEVEL_MAX_dbm  )
+    if (this->vars.config.reference_level_dbm < this->constants.REFERENCE_LEVEL_MIN_dbm ||
+        this->vars.config.reference_level_dbm > this->constants.REFERENCE_LEVEL_MAX_dbm  )
     {
         #ifdef DEBUG_MIN
             printf("\n\treference level { %lf }  ,  out of range [ %lf , %lf ]\n",
                 this->vars.config.reference_level_dbm,
-                this->_vars.constants.REFERENCE_LEVEL_MIN_dbm,
-                this->_vars.constants.REFERENCE_LEVEL_MAX_dbm);
+                this->constants.REFERENCE_LEVEL_MIN_dbm,
+                this->constants.REFERENCE_LEVEL_MAX_dbm);
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
     this->device_stop();
 
@@ -153,7 +153,7 @@ int rsa306b_class::_config_set_center_frequency_hz()
         #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
     if (this->vars.config.center_frequency_hz < this->_vars.config.min_center_frequency_hz ||
         this->vars.config.center_frequency_hz > this->_vars.config.max_center_frequency_hz  )
@@ -164,7 +164,7 @@ int rsa306b_class::_config_set_center_frequency_hz()
                 this->_vars.config.min_center_frequency_hz,
                 this->_vars.config.max_center_frequency_hz);
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
     this->device_stop();
 
@@ -195,7 +195,7 @@ int rsa306b_class::_config_set_external_reference_frequency_source_select()
         #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
     if (this->vars.config.frequency_reference_source_select != RSA_API::FRS_EXTREF &&
         this->vars.config.frequency_reference_source_select != RSA_API::FRS_INTERNAL)
@@ -203,7 +203,7 @@ int rsa306b_class::_config_set_external_reference_frequency_source_select()
         #ifdef DEBUG_MIN
             printf("\n\tinvlaid frequency reference source\n");
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
     this->device_stop();
 

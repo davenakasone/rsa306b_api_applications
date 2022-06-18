@@ -79,8 +79,8 @@ void task_992()
         fclose(fptr); fptr = NULL;
         printf("  samples:  %d  ,  frames:  %d  ,  samples per frame:  %ld\n", 
             rsa.vars.ifstream.if_data_length,
-            (int)(rsa.vars.ifstream.if_data_length/rsa.vars.constants.ADC_SAMPLES_PER_FRAME),
-            rsa.vars.constants.ADC_SAMPLES_PER_FRAME);
+            (int)(rsa.vars.ifstream.if_data_length/rsa.constants.ADC_SAMPLES_PER_FRAME),
+            rsa.constants.ADC_SAMPLES_PER_FRAME);
 
 // get the ADC data, train
         #ifdef CF315
@@ -129,8 +129,8 @@ void task_992()
         fclose(fptr); fptr = NULL;
         printf("  samples:  %d  ,  frames:  %d  ,  samples per frame:  %ld\n", 
             rsa.vars.ifstream.if_data_length*reps,
-            (int)(rsa.vars.ifstream.if_data_length/rsa.vars.constants.ADC_SAMPLES_PER_FRAME),
-            rsa.vars.constants.ADC_SAMPLES_PER_FRAME);
+            (int)(rsa.vars.ifstream.if_data_length/rsa.constants.ADC_SAMPLES_PER_FRAME),
+            rsa.constants.ADC_SAMPLES_PER_FRAME);
 
 // get the spectrum data
         #ifdef CF315

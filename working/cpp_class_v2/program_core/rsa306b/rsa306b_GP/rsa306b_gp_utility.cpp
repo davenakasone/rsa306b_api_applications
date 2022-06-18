@@ -57,7 +57,7 @@ void rsa306b_class::gp_wchar_2_char
     while (idx < w_len)
     {
         if (source[idx] <= 127 &&
-            source[idx] >= 0   )    // ASCII range is 0:255
+            source[idx] >= 0   )    // ASCII range is 0:127
         {
             destination[idx] = source[idx];
         }

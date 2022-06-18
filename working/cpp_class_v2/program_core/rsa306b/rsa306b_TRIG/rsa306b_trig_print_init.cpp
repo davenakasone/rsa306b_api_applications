@@ -63,8 +63,8 @@ void rsa306b_class::_trig_init()
         __LINE__, __FILE__, __func__);
 #endif  
 
-    this->_vars.trig.if_power_level = this->_vars.constants.INIT_DOUBLE;
-    this->_vars.trig.position_percent = this->_vars.constants.INIT_DOUBLE;
+    this->_vars.trig.if_power_level = this->constants.INIT_DOUBLE;
+    this->_vars.trig.position_percent = this->constants.INIT_DOUBLE;
 
     this->_vars.trig.mode_select = RSA_API::triggered;
     this->_vars.trig.source_select = RSA_API::TriggerSourceTime;

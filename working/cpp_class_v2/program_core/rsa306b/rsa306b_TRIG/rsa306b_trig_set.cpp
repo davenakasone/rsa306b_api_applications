@@ -31,7 +31,7 @@ int rsa306b_class::_trig_set_vars()
         #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
     this->device_stop();
 
@@ -45,9 +45,9 @@ int rsa306b_class::_trig_set_vars()
     else
     {
         this->_vars.gp.call_status = this->_trig_set_if_power_level();
-        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
         {
-            return this->_vars.constants.CALL_FAILURE;
+            return this->constants.CALL_FAILURE;
         }
     }
     // vars.trig.mode_select
@@ -60,9 +60,9 @@ int rsa306b_class::_trig_set_vars()
     else
     {
         this->_vars.gp.call_status = this->_trig_set_mode_select();
-        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
         {
-            return this->_vars.constants.CALL_FAILURE;
+            return this->constants.CALL_FAILURE;
         }
     }
     // vars.trig.position_percent
@@ -75,9 +75,9 @@ int rsa306b_class::_trig_set_vars()
     else
     {
         this->_vars.gp.call_status = this->_trig_set_position_percent();
-        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
         {
-            return this->_vars.constants.CALL_FAILURE;
+            return this->constants.CALL_FAILURE;
         }
     }
     // vars.trig.source_select
@@ -90,9 +90,9 @@ int rsa306b_class::_trig_set_vars()
     else
     {
         this->_vars.gp.call_status = this->_trig_set_source_select();
-        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
         {
-            return this->_vars.constants.CALL_FAILURE;
+            return this->constants.CALL_FAILURE;
         }
     }
     // vars.trig.transition_select
@@ -105,13 +105,13 @@ int rsa306b_class::_trig_set_vars()
     else
     {
         this->_vars.gp.call_status = this->_trig_set_transition_select();
-        if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
         {
-            return this->_vars.constants.CALL_FAILURE;
+            return this->constants.CALL_FAILURE;
         }
     }
     
-    return this->_vars.constants.CALL_SUCCESS;
+    return this->constants.CALL_SUCCESS;
 }
 
 
@@ -133,18 +133,18 @@ int rsa306b_class::_trig_set_if_power_level()
         #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
-    if (this->vars.trig.if_power_level < this->_vars.constants.REFERENCE_LEVEL_MIN_dbm ||
-        this->vars.trig.if_power_level > this->_vars.constants.REFERENCE_LEVEL_MAX_dbm  )
+    if (this->vars.trig.if_power_level < this->constants.REFERENCE_LEVEL_MIN_dbm ||
+        this->vars.trig.if_power_level > this->constants.REFERENCE_LEVEL_MAX_dbm  )
     {
         #ifdef DEBUG_MIN
             printf("\n\tpower level { %lf }  ,  out of range [ %lf , %lf ]\n",
                 this->vars.trig.if_power_level,
-                this->_vars.constants.REFERENCE_LEVEL_MIN_dbm,
-                this->_vars.constants.REFERENCE_LEVEL_MIN_dbm);
+                this->constants.REFERENCE_LEVEL_MIN_dbm,
+                this->constants.REFERENCE_LEVEL_MIN_dbm);
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
     this->_vars.gp.api_status = 
         RSA_API::TRIG_SetIFPowerTriggerLevel(this->vars.trig.if_power_level);
@@ -172,7 +172,7 @@ int rsa306b_class::_trig_set_mode_select()
         #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
     if (this->vars.trig.mode_select != RSA_API::freeRun  &&
         this->vars.trig.mode_select != RSA_API::triggered )
@@ -180,7 +180,7 @@ int rsa306b_class::_trig_set_mode_select()
         #ifdef DEBUG_MIN
             printf("\n\tinvalid trigger mode selected\n");
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
     this->_vars.gp.api_status = 
         RSA_API::TRIG_SetTriggerMode(this->vars.trig.mode_select);
@@ -209,18 +209,18 @@ int rsa306b_class::_trig_set_position_percent()
         #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
-    if (this->vars.trig.position_percent < this->_vars.constants.POSITION_PERCENT_MIN ||
-        this->vars.trig.position_percent > this->_vars.constants.POSITION_PERCENT_MAX  )
+    if (this->vars.trig.position_percent < this->constants.POSITION_PERCENT_MIN ||
+        this->vars.trig.position_percent > this->constants.POSITION_PERCENT_MAX  )
     {
         #ifdef DEBUG_MIN
             printf("\n\tposition percentage { %lf }  ,  out of range [ %lf , %lf ]\n",
                 this->vars.trig.if_power_level,
-                this->_vars.constants.POSITION_PERCENT_MIN,
-                this->_vars.constants.POSITION_PERCENT_MAX);
+                this->constants.POSITION_PERCENT_MIN,
+                this->constants.POSITION_PERCENT_MAX);
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
     this->_vars.gp.api_status = 
         RSA_API::TRIG_SetTriggerPositionPercent(this->vars.trig.position_percent);
@@ -248,7 +248,7 @@ int rsa306b_class::_trig_set_source_select()
         #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
     if (this->vars.trig.source_select != RSA_API::TriggerSourceExternal     &&
         this->vars.trig.source_select != RSA_API::TriggerSourceIFPowerLevel &&
@@ -257,7 +257,7 @@ int rsa306b_class::_trig_set_source_select()
         #ifdef DEBUG_MIN
             printf("\n\tinvalid trigger source selected\n");
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
     this->_vars.gp.api_status = 
         RSA_API::TRIG_SetTriggerSource(this->vars.trig.source_select);
@@ -285,7 +285,7 @@ int rsa306b_class::_trig_set_transition_select()
         #ifdef DEBUG_MIN
             printf("\n\tno device connected\n");
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
     if (this->vars.trig.transition_select != RSA_API::TriggerTransitionLH   &&
         this->vars.trig.transition_select != RSA_API::TriggerTransitionHL   &&
@@ -294,7 +294,7 @@ int rsa306b_class::_trig_set_transition_select()
         #ifdef DEBUG_MIN
             printf("\n\tinvalid trigger transition selected\n");
         #endif
-        return this->_vars.constants.CALL_FAILURE;
+        return this->constants.CALL_FAILURE;
     }
     this->_vars.gp.api_status = 
         RSA_API::TRIG_SetTriggerTransition(this->vars.trig.transition_select);

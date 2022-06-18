@@ -75,8 +75,8 @@ void task_993()
         fclose(fptr); fptr = NULL;
         printf("  samples:  %d  ,  frames:  %d  ,  samples per frame:  %ld\n", 
             rsa.vars.ifstream.if_data_length,
-            (int)(rsa.vars.ifstream.if_data_length/rsa.vars.constants.ADC_SAMPLES_PER_FRAME),
-            rsa.vars.constants.ADC_SAMPLES_PER_FRAME);
+            (int)(rsa.vars.ifstream.if_data_length/rsa.constants.ADC_SAMPLES_PER_FRAME),
+            rsa.constants.ADC_SAMPLES_PER_FRAME);
 
 // get the raw data, training
         sprintf(rsa.vars.gp.helper, "./program_test/data/outputs_txt/atrain_data.csv");
@@ -121,8 +121,8 @@ void task_993()
         fclose(fptr); fptr = NULL;
         printf("  samples:  %d  ,  frames:  %d  ,  samples per frame:  %ld\n", 
             rsa.vars.ifstream.if_data_length*reps,
-            (int)(rsa.vars.ifstream.if_data_length/rsa.vars.constants.ADC_SAMPLES_PER_FRAME),
-            rsa.vars.constants.ADC_SAMPLES_PER_FRAME);
+            (int)(rsa.vars.ifstream.if_data_length/rsa.constants.ADC_SAMPLES_PER_FRAME),
+            rsa.constants.ADC_SAMPLES_PER_FRAME);
 
     #endif
     #ifdef GENERATE_SPECTRUM

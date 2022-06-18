@@ -59,24 +59,24 @@ void rsa306b_class::_reftime_init()
         __LINE__, __FILE__, __func__);
 #endif  
 
-    this->_vars.reftime.current.nanos = this->_vars.constants.INIT_UINT;
-    this->_vars.reftime.current.seconds = this->_vars.constants.INIT_UINT;
-    this->_vars.reftime.current.timestamp = this->_vars.constants.INIT_UINT;
+    this->_vars.reftime.current.nanos = this->constants.INIT_UINT;
+    this->_vars.reftime.current.seconds = this->constants.INIT_UINT;
+    this->_vars.reftime.current.timestamp = this->constants.INIT_UINT;
 
-    this->_vars.reftime.start.nanos = this->_vars.constants.INIT_UINT;
-    this->_vars.reftime.start.seconds = this->_vars.constants.INIT_UINT;
-    this->_vars.reftime.start.timestamp = this->_vars.constants.INIT_UINT;
+    this->_vars.reftime.start.nanos = this->constants.INIT_UINT;
+    this->_vars.reftime.start.seconds = this->constants.INIT_UINT;
+    this->_vars.reftime.start.timestamp = this->constants.INIT_UINT;
 
-    this->_vars.reftime.helper.nanos = this->_vars.constants.INIT_UINT;
-    this->_vars.reftime.helper.seconds = this->_vars.constants.INIT_UINT;
-    this->_vars.reftime.helper.timestamp = this->_vars.constants.INIT_UINT;
+    this->_vars.reftime.helper.nanos = this->constants.INIT_UINT;
+    this->_vars.reftime.helper.seconds = this->constants.INIT_UINT;
+    this->_vars.reftime.helper.timestamp = this->constants.INIT_UINT;
     
     memset(this->_vars.reftime.dts, '\0', BUF_C);
-    strncpy(this->_vars.reftime.dts, this->_vars.constants.INIT_STR, BUF_C-1);
+    strncpy(this->_vars.reftime.dts, this->constants.INIT_STR, BUF_C-1);
 
-    this->_vars.reftime.running_duration = this->_vars.constants.INIT_DOUBLE;
+    this->_vars.reftime.running_duration = this->constants.INIT_DOUBLE;
     this->_vars.reftime.source_select = RSA_API::RTSRC_USER;
-    this->_vars.reftime.timestamp_rate = this->_vars.constants.INIT_UINT;
+    this->_vars.reftime.timestamp_rate = this->constants.INIT_UINT;
 }
 
 

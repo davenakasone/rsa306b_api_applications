@@ -18,7 +18,7 @@ struct rsa306b_iqblk_struct
 {
     // managing the 3 API data acquistion functions for the IQBLK group
     // all acquistions handle "errorDataNotReady"
-    int getter;                               // determines the API function to get data, see "resourcez.h"
+    uint8_t getter;                               // determines the API function to get data, see "resourcez.h"
     int actual_buffer_samples;                // actual number of IQ sample pairs returned in IQ buffer
     //int sample_pairs_requested;               // IQ pairs requested by the user, max set in "IQBLK_SetIQRecordLength()"
     std::vector<RSA_API::Cplx32> cplx32_v;    // "Cplx32" structs, all API acquistion functions are transfered here

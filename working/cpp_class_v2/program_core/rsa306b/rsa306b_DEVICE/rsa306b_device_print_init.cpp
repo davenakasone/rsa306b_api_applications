@@ -68,25 +68,25 @@ void rsa306b_class::_device_init()
     this->_vars.device.event_occured = false;
 
     memset(this->_vars.device.error_string, '\0', BUF_D);
-    strncpy(this->_vars.device.error_string, this->_vars.constants.INIT_STR, BUF_D-1);
+    strncpy(this->_vars.device.error_string, this->constants.INIT_STR, BUF_D-1);
 
-    this->_vars.device.id = this->_vars.constants.INIT_INT;
-    this->_vars.device.event_id = this->_vars.constants.INIT_INT;
+    this->_vars.device.id = this->constants.INIT_INT;
+    this->_vars.device.event_id = this->constants.INIT_INT;
 
     memset(this->_vars.device.info_type.apiVersion, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    strncpy(this->_vars.device.info_type.apiVersion, this->_vars.constants.INIT_STR, RSA_API::DEVINFO_MAX_STRLEN-1);
+    strncpy(this->_vars.device.info_type.apiVersion, this->constants.INIT_STR, RSA_API::DEVINFO_MAX_STRLEN-1);
     memset(this->_vars.device.info_type.fpgaVersion, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    strncpy(this->_vars.device.info_type.fpgaVersion, this->_vars.constants.INIT_STR, RSA_API::DEVINFO_MAX_STRLEN-1);
+    strncpy(this->_vars.device.info_type.fpgaVersion, this->constants.INIT_STR, RSA_API::DEVINFO_MAX_STRLEN-1);
     memset(this->_vars.device.info_type.fwVersion, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    strncpy(this->_vars.device.info_type.fwVersion, this->_vars.constants.INIT_STR, RSA_API::DEVINFO_MAX_STRLEN-1);
+    strncpy(this->_vars.device.info_type.fwVersion, this->constants.INIT_STR, RSA_API::DEVINFO_MAX_STRLEN-1);
     memset(this->_vars.device.info_type.hwVersion, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    strncpy(this->_vars.device.info_type.hwVersion, this->_vars.constants.INIT_STR, RSA_API::DEVINFO_MAX_STRLEN-1);
+    strncpy(this->_vars.device.info_type.hwVersion, this->constants.INIT_STR, RSA_API::DEVINFO_MAX_STRLEN-1);
     memset(this->_vars.device.info_type.nomenclature, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    strncpy(this->_vars.device.info_type.nomenclature, this->_vars.constants.INIT_STR, RSA_API::DEVINFO_MAX_STRLEN-1);
+    strncpy(this->_vars.device.info_type.nomenclature, this->constants.INIT_STR, RSA_API::DEVINFO_MAX_STRLEN-1);
     memset(this->_vars.device.info_type.serialNum, '\0', RSA_API::DEVINFO_MAX_STRLEN);
-    strncpy(this->_vars.device.info_type.serialNum, this->_vars.constants.INIT_STR, RSA_API::DEVINFO_MAX_STRLEN-1);
+    strncpy(this->_vars.device.info_type.serialNum, this->constants.INIT_STR, RSA_API::DEVINFO_MAX_STRLEN-1);
     
-    this->_vars.device.event_timestamp = this->_vars.constants.INIT_INT;
+    this->_vars.device.event_timestamp = this->constants.INIT_INT;
 
     this->_device_copy_vars();
 }

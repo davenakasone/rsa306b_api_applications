@@ -33,7 +33,7 @@ void rsa306b_class::trig_set_vars()
     }
 
     this->_vars.gp.call_status = this->_trig_set_vars();
-    if (this->_vars.gp.call_status != this->_vars.constants.CALL_SUCCESS)
+    if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
     {
         #ifdef DEBUG_MIN
             printf("\terror setting 'TRIG' parameters\n");

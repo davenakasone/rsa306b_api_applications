@@ -11,10 +11,10 @@
 
 #include "../testz.h"
 
-#define UT2_a 1    // basic connection
+//#define UT2_a 1    // basic connection
 //#define UT2_b 2    // sporadic connect/disconnect
 //#define UT2_c 3    // run, stop, checks    (need to configure before checking for events)
-//#define UT2_d 4    // prepare and aquire
+#define UT2_d 4    // prepare and aquire
 //#define UT2_e 5    // just don't do it
 
 
