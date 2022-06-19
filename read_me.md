@@ -6,7 +6,7 @@ when successful interfacing is achived, power equipment can be monitored
 other enhancements are possible when interfacing is satisfactory
 
 ## Resources
-- this repository          : (here)[https://github.com/davenakasone/rsa306b_api_applications]
+- this repository          : [here](https://github.com/davenakasone/rsa306b_api_applications)
 - youtube                  : (here)[https://www.youtube.com/playlist?list=PLFYKagNjVg0VuUz5Fuu-ekX6TbwMRO9uI]
 - pictures and video       : (here)[https://photos.app.goo.gl/BEBcb8ixF9oWZtsN8]
 - additional documentation : (here)[https://drive.google.com/drive/folders/1-Yi1jUahgB7YDmauL3ozKffGKSb-tnm9?usp=sharing]
