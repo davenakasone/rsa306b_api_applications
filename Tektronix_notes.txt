@@ -73,7 +73,7 @@ the API may use "true" == anything except 0, or true == 1
 it is safe to assume "false" == 0 for this API
 
 do not use smart pointers or boost pointers (for API interaction)
-C++ needs good use of "new" and "delete"
+C++ needs good use of "new" and "delete", then place data into an STL or boose data structure
 C needs malloc()/calloc()/realloc()... with a matching free()
 there does not appear to be any hidden allocators, but there is use of internal buffers
 see the API documentation to ensure that allocations are properly made
@@ -87,5 +87,5 @@ dynamic/shared libraries are not connected to client's code;
 [ .a ] is a static "archive" static
 [ .so ] is a "shared object" dynamic
 
-need a way to compile and link 2 different library paths
+need a way to compile and link 2 different library paths (change library path variable)
 

@@ -296,6 +296,7 @@
                 print_iqstream()
                 _iqstream_init()
                 _iqstream_bitcheck()
+                
 
 
                 
@@ -896,7 +897,7 @@ class rsa306b_class
 
     // API group "IQSTREAM"
         void _iqstream_init();
-        void _iqstream_bitcheck();
+        void _iqstream_bitcheck(uint32_t acqStatus);
         // copiers, private --> public
         void _iqstream_copy_vars();
         void _iqstream_copy_bandwidth();
@@ -919,6 +920,13 @@ class rsa306b_class
         void _iqstream_copy_pairs_requested();
         void _iqstream_copy_destination_select();
         void _iqstream_copy_datatype_select(); 
+
+
+
+
+
+
+
 
     // API group "REFTIME"
         void _reftime_init();

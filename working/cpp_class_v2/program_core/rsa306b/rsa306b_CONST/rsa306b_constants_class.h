@@ -86,7 +86,7 @@ class rsa306b_constants_class
         //const int IQBLK_MAX_PAIRS = 104857600;
     
     // IQSTREAM constants
-        const char IQSTREAM_FAIL_BIT_0[BUF_C] = "RF input overrange detected (non-sticky(client): in this block; sticky(client+file): in entire run)";
+        const char IQSTREAM_FAIL_BIT_0[BUF_C] = "bit[0], IQSTRM_STATUS_OVERRANGE, RF input overrange detected (non-sticky(client): in this block; sticky(client+file): in entire run)";
         const char IQSTREAM_FAIL_BIT_1[BUF_C] = "Continuity error (gap) detected in IF frame transfers";
         const char IQSTREAM_FAIL_BIT_2[BUF_C] = "Input buffer >= 75 %% full, indicates IQ processing may have difficulty keeping up with IF sample stream";
         const char IQSTREAM_FAIL_BIT_3[BUF_C] = "Input buffer overflow, IQ processing cannot keep up with IF sample stream, input samples dropped";

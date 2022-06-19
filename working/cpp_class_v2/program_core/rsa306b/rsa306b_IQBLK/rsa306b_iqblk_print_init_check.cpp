@@ -120,7 +120,7 @@ void rsa306b_class::_iqblk_bitcheck()
             (uint32_t)RSA_API::IQBLK_STATUS_FREQREF_UNLOCKED  &
             (uint32_t)RSA_API::IQBLK_STATUS_ACQ_SYS_ERROR     &
             (uint32_t)RSA_API::IQBLK_STATUS_DATA_XFER_ERROR) == 
-            this->constants.ACQ_STATUS_SUCCESS          )
+            this->constants.ACQ_STATUS_SUCCESS                )
     {
         snprintf(this->_vars.iqblk.bitcheck, BUF_D, 
             "acqStatus:  %d  ,  %s", 

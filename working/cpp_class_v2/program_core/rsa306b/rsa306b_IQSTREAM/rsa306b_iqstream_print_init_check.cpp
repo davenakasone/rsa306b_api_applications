@@ -6,7 +6,7 @@
     
     private :
         < 1 >  _iqstream_init()
-        < 2 >  _iqstream_bitcheck();
+        < 2 >  _iqstream_bitcheck()
 */
 
 #include "../rsa306b_class.h"
@@ -81,7 +81,7 @@ void rsa306b_class::print_iqstream()
     printf("\tinfo_type.timestamp               :  %lu\n", this->_vars.iqstream.info_type.timestamp);
     printf("\tinfo_type.triggerCount            :  %d\n", this->_vars.iqstream.info_type.triggerCount);
     printf("\tinfo_type.triggerIndices          :  %p\n", this->_vars.iqstream.info_type.triggerIndices);
-
+    
     printf("\tfile_info_type.acqStatus          : %u\n", this->_vars.iqstream.file_info_type.acqStatus);
     printf("\tfile_info_type.numberSamples      : %ld\n", this->_vars.iqstream.file_info_type.numberSamples);
     printf("\tfile_info_type.sample0Timestamp   : %ld\n", this->_vars.iqstream.file_info_type.sample0Timestamp);
@@ -96,6 +96,13 @@ void rsa306b_class::print_iqstream()
         printf("\tfile_info_type.filenames[0]       : %s\n", this->_vars.iqstream.name_of_file);
         printf("\tfile_info_type.filenames[1]       : %s\n", this->_vars.iqstream.name_of_header);
     }
+    for (int ii = 0; ii < IQSTREAM_BITCHECKS; ii++)
+    {
+        printf("\t  acqstatus_message, bit %d        :  %s\n", 
+        ii,
+        this->_vars.iqstream.acqStatus_message[ii]);
+    }
+    
 }
 
 
@@ -178,7 +185,10 @@ void rsa306b_class::_iqstream_init()
 /*
     < 2 > private
 */
-void rsa306b_class::_iqstream_bitcheck()
+void rsa306b_class::_iqstream_bitcheck
+(
+    uint32_t acqStatus
+)
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -191,7 +201,16 @@ void rsa306b_class::_iqstream_bitcheck()
         strcpy(this->_vars.iqstream.acqStatus_message[ii], this->constants.INIT_STR);
     }
 
-
+    if ((acqStatus & RSA_API::IQSTRM_STATUS_OVERRANGE)
+            == this->constants.ACQ_STATUS_SUCCESS    )
+    {
+        snprintf(this->_vars.iqstream.acqStatus_message[RSA_API::IQSTRM_STATUS_OVERRANGE],
+            this->constants.IQSTREAM_FAIL_BIT_0)
+    }
+    if ((acqStatus & RSA_API::IQSTRM_STATUS_OVERRANGE) &
+        acqStatus & RSA_API::IQSTRM_STATUS_XFER_DISCONTINUITY &&
+        acqStatus & RSA_API::IQSTRM_STATUS_IBUFF75PCT &&
+        acqStatus & RSA_API::IQSTRM_STATUS_IBUFF75PCT &&)
 }
 
 
