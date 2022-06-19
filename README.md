@@ -1,9 +1,9 @@
 # Program Concept
--the goal is to make a program that can interface with the Tekronix RSA306B Spectrum Analyzer
--scanning a range of 0.5 GHz to 1.5 GHz is the likely range of partial discharges
--field testing will be needed to determine a specific range and power
--when successful interfacing is achived, power equipment can be monitored
--other enhancements are possible when interfacing is satisfactory
+- the goal is to make a program that can interface with the Tekronix RSA306B Spectrum Analyzer
+- scanning a range of 0.5 GHz to 1.5 GHz is the likely range of partial discharges
+- field testing will be needed to determine a specific range and power
+- when successful interfacing is achived, power equipment can be monitored
+- other enhancements are possible when interfacing is satisfactory
 
 ## Resources
 - this repository          : [here](https://github.com/davenakasone/rsa306b_api_applications)
@@ -40,13 +40,13 @@ rsa306b_api_applications/
     fundamentals            // building blocks that can be used, also a sandbox
 
 ## API Information
--API Version          :  1.0.0014
--FPGA Version         :  V2.1
--Firmware Version     :  V1.7
--Hardware Version     :  V7
--Nomenclature         :  RSA306B
--Serial Number        :  B037150
+- API Version          :  1.0.0014
+- FPGA Version         :  V2.1
+- Firmware Version     :  V1.7
+- Hardware Version     :  V7
+- Nomenclature         :  RSA306B
+- Serial Number        :  B037150
 
 ## License
--Licenses for software are available for $643,000,000.00 per user per year
--Contact us for details [here](mailto:nakasd3@unlv.nevada.edu)
+- Licenses for software are available for $643,000,000.00 per user per year
+- Contact us for details [here](mailto:nakasd3@unlv.nevada.edu)
