@@ -51,7 +51,7 @@
 #define SPECTRUM_DATA_LENGTH 2048    // spectrum aquisitions, go dynamic if needed
 #define AUDIO_DATA_LENGTH 1024       // maximum audio data points, 2^16 - 1, go dynamic if needed
 #define IFSTREAM_VECTOR_LENGTH 3     // correction vectors for the IFSTREAM data, a set of triplets
-#define IQSTREAM_BITCHECKS 7         // 8 status bit + success condition
+#define IQSTREAM_BITCHECKS 6         // status bits [0:5] for both "*acqStatus" variables in the API group
 
 // setting "int getter" in "struct rsa306b_iqblk_struct" determines method to aquire IQBLK data
 // use the fastest API call or method most appropriate for the use case

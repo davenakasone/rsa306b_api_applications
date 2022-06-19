@@ -18,8 +18,8 @@
 
 struct rsa306b_iqstream_struct
 {
-    char file_info_type_acqStatus[IQSTREAM_BITCHECKS][BUF_D];    // maintains results of acqStatus bitcheck
-    char info_type_acqStatus[IQSTREAM_BITCHECKS][BUF_D];    // maintains results of acqStatus bitcheck
+    char acqStatus_message[IQSTREAM_BITCHECKS][BUF_D];    // maintains results of both "acqStatus" vars
+
 // IQSTREAM_Start()
 // initializes the IQ stream and begins data output
 // check for allocation and correct file opening
@@ -88,8 +88,8 @@ struct rsa306b_iqstream_struct
 // don't poll "iq_length_pairs" in a tight loop
 // must collect data to keep up with (samples per second / max size)
 // internal buffer can only hold 500 msec of IQ stream
-    void* data_buffer;    // pointer to the IQ buffer
-    int pairs_copied;     // sample IQ pairs copied from the IQ buffer, 0= no data availible
+    void* data_buffer;                  // pointer to the IQ buffer
+    int pairs_copied;                   // sample IQ pairs copied from the IQ buffer, 0= no data availible
     RSA_API::IQSTRMIQINFO info_type;    // struct with stream information, NULL if not wanted
         // timestamp: timestamp of the first sample in the block
         // triggerCount: number of trigger events that occured in the block, max of 100 allowed
@@ -112,7 +112,6 @@ struct rsa306b_iqstream_struct
 // 0: no time limit, must call IQSTREAM_Stop() to terminate storage
 // >0: file output ends after specified milli-seconds
     int record_time_ms;    // time period in milli-seconds IQ stream is written to file
-
 
 // complete output file:  <filenameBase><suffix><.ext>
 // <filenameBase> is set by IQSTREAM_SetDiskFilenameBase()
