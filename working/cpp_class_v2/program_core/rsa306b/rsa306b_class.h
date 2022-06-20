@@ -296,7 +296,35 @@
                 print_iqstream()
                 _iqstream_init()
                 _iqstream_bitcheck()
-                
+            - rsa306b_iqstream_copy.cpp
+                _iqstream_copy_vars()
+                _iqstream_copy_acqStatus_message()
+                _iqstream_copy_bandwidth()
+                _iqstream_copy_bandwidth_max()
+                _iqstream_copy_bandwidth_min()
+                _iqstream_copy_sample_rate()
+                _iqstream_copy_fileinfo_type() 
+                _iqstream_copy_is_enabled()       
+                _iqstream_copy_pairs_copied()   
+                _iqstream_copy_info_type() 
+                _iqstream_copy_cplx32_v()
+                _iqstream_copy_cplxInt16_v()
+                _iqstream_copy_cplxInt32_v()
+                _iqstream_copy_pairs_max()
+                _iqstream_copy_record_time_ms()
+                _iqstream_copy_filename_base()
+                _iqstream_copy_suffix_control()
+                _iqstream_copy_pairs_requested()
+                _iqstream_copy_destination_select()
+                _iqstream_copy_datatype_select()
+            - rsa306b_iqstream_get.cpp
+                _iqstream_get_vars()
+                _iqstream_get_bandwidth_min()
+                _iqstream_get_bandwidth_max()
+                _iqstream_get_acq_parameters()
+                _iqstream_get_disk_fileinfo()
+                _iqstream_get_is_enabled()
+                _iqstream_get_pairs_max()
 
 
                 
@@ -900,14 +928,13 @@ class rsa306b_class
         void _iqstream_bitcheck(uint32_t acqStatus);
         // copiers, private --> public
         void _iqstream_copy_vars();
+        void _iqstream_copy_acqStatus_message();
         void _iqstream_copy_bandwidth();
         void _iqstream_copy_bandwidth_max();
         void _iqstream_copy_bandwidth_min();
         void _iqstream_copy_sample_rate();
-        void _iqstream_copy_name_of_file();      
-        void _iqstream_copy_name_of_header();   
-        void _iqstream_copy_is_enabled();   
-        void _iqstream_copy_data_buffer();         
+        void _iqstream_copy_fileinfo_type();  
+        void _iqstream_copy_is_enabled();           
         void _iqstream_copy_pairs_copied();    
         void _iqstream_copy_info_type();    
         void _iqstream_copy_cplx32_v();
@@ -920,9 +947,13 @@ class rsa306b_class
         void _iqstream_copy_pairs_requested();
         void _iqstream_copy_destination_select();
         void _iqstream_copy_datatype_select(); 
-
-
-
+        // getters, uses API
+        void _iqstream_get_vars();
+        void _iqstream_get_bandwidth();
+        void _iqstream_get_acq_parameters();
+        void _iqstream_get_disk_fileinfo();
+        void _iqstream_get_is_enabled();
+        void _iqstream_get_pairs_max();
 
 
 

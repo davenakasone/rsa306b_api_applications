@@ -77,6 +77,7 @@ $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_get.cpp \
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_print_init_check.cpp \
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_set.cpp \
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_user.cpp \
+$(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_copy.cpp \
 $(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_print_init_check.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_copy.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_get.cpp \
@@ -93,6 +94,7 @@ $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_get.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_print_init.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_set.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_user.cpp \
+$(TDIR_T)task_500.cpp \
 $(TDIR_T)task_991.cpp \
 $(TDIR_T)task_992.cpp \
 $(TDIR_T)task_993.cpp \

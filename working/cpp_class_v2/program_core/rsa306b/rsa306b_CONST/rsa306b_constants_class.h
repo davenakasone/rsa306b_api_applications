@@ -35,7 +35,7 @@ class rsa306b_constants_class
         const float   INIT_FLOAT           = -99.4;
         const int     INIT_INT             = -99;
         const std::size_t  INIT_STL_LENGTH = 3;    // for std::vector, std::queue, ...
-        const uint8_t INIT_UINT            = 99;
+        const uint8_t INIT_UINT            = 0xFF;
         const wchar_t INIT_WCHAR[6]        = L"w_str";
 
     // device limits for the RSA-306B
@@ -71,7 +71,7 @@ class rsa306b_constants_class
         const int IFSTREAM_DEFAULT_FILE_COUNT     = 1;                                    // IFSTREAM files to produce
         const char IFSTREAM_CSV_PATH[BUF_B]       = "./program_test/data/outputs_txt/";   // where raw ADC data from IFSTREAM goes
 
-    // IQBLK constants
+    // IQBLK constants...clean this acqStatus
         const uint8_t IQBLK_GET_IQ_DATA                = 0;    // selects RSA_API::IQBLK_GetIQData() for acquisition
         const uint8_t IQBLK_GET_IQ_DATA_CPLX           = 1;    // selects RSA_API::IQBLK_GetIQDataCplx() for acquisition
         const uint8_t IQBLK_GET_IQ_DATA_DEINETERLEAVED = 2;    // selects RSA_API::IQBLK_GetIQDataDeinterleaved() for acquisition
@@ -85,13 +85,56 @@ class rsa306b_constants_class
         const double IQBLK_STARTING_BANDWIDTH          = 1e6;
         //const int IQBLK_MAX_PAIRS = 104857600;
     
-    // IQSTREAM constants
-        const char IQSTREAM_FAIL_BIT_0[BUF_C] = "bit[0], IQSTRM_STATUS_OVERRANGE, RF input overrange detected (non-sticky(client): in this block; sticky(client+file): in entire run)";
-        const char IQSTREAM_FAIL_BIT_1[BUF_C] = "Continuity error (gap) detected in IF frame transfers";
-        const char IQSTREAM_FAIL_BIT_2[BUF_C] = "Input buffer >= 75 %% full, indicates IQ processing may have difficulty keeping up with IF sample stream";
-        const char IQSTREAM_FAIL_BIT_3[BUF_C] = "Input buffer overflow, IQ processing cannot keep up with IF sample stream, input samples dropped";
-        const char IQSTREAM_FAIL_BIT_4[BUF_C] = "Output buffer >= 75%% full, indicates output sink (disk or client) may have difficulty keeping up with IQ output stream";
-        const char IQSTREAM_FAIL_BIT_5[BUF_C] = "Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped";
+    // IQSTREAM constants, [0:5] for sample, [6:11] sticky, [12] summary
+        enum
+        {
+            IQS_BIT_0 = 0,
+            IQS_BIT_1 = 1,
+            IQS_BIT_2 = 2,
+            IQS_BIT_3 = 3,
+            IQS_BIT_4 = 4,
+            IQS_BIT_5 = 5,
+            IQS_BIT_16 = 6,
+            IQS_BIT_17 = 7,
+            IQS_BIT_18 = 8,
+            IQS_BIT_19 = 9,
+            IQS_BIT_20 = 10,
+            IQS_BIT_21  = 11,
+            IQS_BIT_SUMMARY = 12
+        };
+        const char IQSTREAM_FAIL_BIT[IQSTREAM_BITCHECKS][BUF_C] =
+        {
+            "b0 {this sample} RF input overrange detected",
+            "b1 {this sample} USB data stream discontinuity error, gap detected in IF frame transfers",
+            "b2 {this sample} Input buffer >= 75 %% full, IQ processing may have difficulty keeping up with IF sample stream",
+            "b3 {this sample} Input buffer overflow, IQ processing cannot keep up with IF sample stream, data loss occured",
+            "b4 {this sample} Output buffer >= 75%% full, output sink (disk/client) falling behind unloading data",
+            "b5 {this sample} Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped",
+            "b16 {sticky} RF input overrange detected",
+            "b17 {sticky} USB data stream discontinuity error, gap detected in IF frame transfers",
+            "b18 {sticky} Input buffer >= 75 %% full, IQ processing may have difficulty keeping up with IF sample stream",
+            "b19 {sticky} Input buffer overflow, IQ processing cannot keep up with IF sample stream, data loss occured",
+            "b20 {sticky} Output buffer >= 75%% full, output sink (disk/client) falling behind unloading data",
+            "b21 {sticky} Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped",
+            "acqStatus bitcheck failures: "
+        };
+        /*
+        const char IQSTREAM_FAIL_BIT_0[BUF_C] = "b0 {this sample} RF input overrange detected";
+        const char IQSTREAM_FAIL_BIT_1[BUF_C] = "b1 {this sample} USB data stream discontinuity error, gap detected in IF frame transfers";
+        const char IQSTREAM_FAIL_BIT_2[BUF_C] = "b2 {this sample} Input buffer >= 75 %% full, IQ processing may have difficulty keeping up with IF sample stream";
+        const char IQSTREAM_FAIL_BIT_3[BUF_C] = "b3 {this sample} Input buffer overflow, IQ processing cannot keep up with IF sample stream, data loss occured";
+        const char IQSTREAM_FAIL_BIT_4[BUF_C] = "b4 {this sample} Output buffer >= 75%% full, output sink (disk/client) falling behind unloading data";
+        const char IQSTREAM_FAIL_BIT_5[BUF_C] = "b5 {this sample} Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped";
+
+        const char IQSTREAM_FAIL_BIT_16[BUF_C] = "b16 {sticky} RF input overrange detected";
+        const char IQSTREAM_FAIL_BIT_17[BUF_C] = "b17 {sticky} USB data stream discontinuity error, gap detected in IF frame transfers";
+        const char IQSTREAM_FAIL_BIT_18[BUF_C] = "b18 {sticky} Input buffer >= 75 %% full, IQ processing may have difficulty keeping up with IF sample stream";
+        const char IQSTREAM_FAIL_BIT_19[BUF_C] = "b19 {sticky} Input buffer overflow, IQ processing cannot keep up with IF sample stream, data loss occured";
+        const char IQSTREAM_FAIL_BIT_20[BUF_C] = "b20 {sticky} Output buffer >= 75%% full, output sink (disk/client) falling behind unloading data";
+        const char IQSTREAM_FAIL_BIT_21[BUF_C] = "b21 {sticky} Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped";
+
+        const char IQSTREAM_FAIL_BITS[BUF_C] = "acqStatus bitcheck failures: ";
+        */
 };
 
 

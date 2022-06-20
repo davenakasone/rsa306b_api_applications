@@ -34,6 +34,7 @@ void rsa306b_class::print_everything()
     this->print_device();
     this->print_ifstream();
     this->print_iqblk();
+    this->print_iqstream();
     this->print_reftime();
     this->print_spectrum();
     this->print_trig();
