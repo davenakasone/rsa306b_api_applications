@@ -6,11 +6,12 @@
     
     private :
         < 1 >  _iqstream_get_vars()
-        < 2 >  _iqstream_get_bandwidth()
-        < 3 >  _iqstream_get_acq_parameters()
-        < 4 >  _iqstream_get_disk_fileinfo()
-        < 5 >  _iqstream_get_is_enabled()
-        < 6 >  _iqstream_get_pairs_max()
+        < 2 >  _iqstream_get_max_acq_bandwidth()
+        < 3 >  _iqstream_get_min_bandwidth()
+        < 4 >  _iqstream_get_acq_parameters()
+        < 5 >  _iqstream_get_disk_fileinfo()
+        < 6 >  _iqstream_get_enabled()
+        < 7 >  _iqstream_get_iq_data_buffer_size()
 */
 
 #include "../rsa306b_class.h"
@@ -34,12 +35,12 @@ void rsa306b_class::_iqstream_get_vars()
         return;
     }
     
-    this->_iqstream_get_vars();
-    this->_iqstream_get_bandwidth();
+    this->_iqstream_get_max_acq_bandwidth();
+    this->_iqstream_get_min_bandwidth();
     this->_iqstream_get_acq_parameters();
     this->_iqstream_get_disk_fileinfo();
-    this->_iqstream_get_is_enabled();
-    this->_iqstream_get_pairs_max();
+    this->_iqstream_get_enabled();
+    this->_iqstream_get_iq_data_buffer_size();
 }
 
 
@@ -49,7 +50,7 @@ void rsa306b_class::_iqstream_get_vars()
 /*
     < 2 > private
 */
-void rsa306b_class::_iqstream_get_bandwidth()
+void rsa306b_class::_iqstream_get_max_acq_bandwidth()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -63,6 +64,11 @@ void rsa306b_class::_iqstream_get_bandwidth()
         #endif
         return;
     }
+    this->_vars.gp.api_status = 
+        RSA_API::IQSTREAM_GetMaxAcqBandwidth(
+            &this->_vars.iqstream.bandwidth_max);
+    this->_gp_confirm_api_status();
+    this->_iqstream_copy_bandwidth_max();
 }
 
 
@@ -71,6 +77,34 @@ void rsa306b_class::_iqstream_get_bandwidth()
 
 /*
     < 3 > private
+*/
+void rsa306b_class::_iqstream_get_min_bandwidth()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif  
+
+    if (this->_vars.device.is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tno device connected\n");
+        #endif
+        return;
+    }
+    this->_vars.gp.api_status = 
+        RSA_API::IQSTREAM_GetMinAcqBandwidth(
+            &this->_vars.iqstream.bandwidth_min);
+    this->_gp_confirm_api_status();
+    this->_iqstream_copy_bandwidth_min();
+}
+
+
+////~~~~
+
+
+/*
+    < 4 > private
 */
 void rsa306b_class::_iqstream_get_acq_parameters()
 {
@@ -86,6 +120,13 @@ void rsa306b_class::_iqstream_get_acq_parameters()
         #endif
         return;
     }
+    this->_vars.gp.api_status = 
+        RSA_API::IQSTREAM_GetAcqParameters(
+            &this->_vars.iqstream.bandwidth,
+            &this->_vars.iqstream.sample_rate);
+    this->_gp_confirm_api_status();
+    this->_iqstream_copy_bandwidth();
+    this->_iqstream_copy_sample_rate();
 }
 
 
@@ -93,7 +134,7 @@ void rsa306b_class::_iqstream_get_acq_parameters()
 
 
 /*
-    < 4 > private
+    < 5 > private
 */
 void rsa306b_class::_iqstream_get_disk_fileinfo()
 {
@@ -109,29 +150,13 @@ void rsa306b_class::_iqstream_get_disk_fileinfo()
         #endif
         return;
     }
-}
-
-
-////~~~~
-
-
-/*
-    < 5 > private
-*/
-void rsa306b_class::_iqstream_get_is_enabled()
-{
-#ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
-        __LINE__, __FILE__, __func__);
-#endif  
-
-    if (this->_vars.device.is_connected == false)
-    {
-        #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
-        #endif
-        return;
-    }
+    this->_vars.gp.api_status = 
+        RSA_API::IQSTREAM_GetDiskFileInfo(
+            &this->_vars.iqstream.fileinfo_type);
+    this->_gp_confirm_api_status();
+    this->_iqstream_bitcheck(
+        this->_vars.iqstream.fileinfo_type.acqStatus);
+    this->_iqstream_copy_fileinfo_type();
 }
 
 
@@ -141,7 +166,7 @@ void rsa306b_class::_iqstream_get_is_enabled()
 /*
     < 6 > private
 */
-void rsa306b_class::_iqstream_get_pairs_max()
+void rsa306b_class::_iqstream_get_enabled()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
@@ -155,7 +180,44 @@ void rsa306b_class::_iqstream_get_pairs_max()
         #endif
         return;
     }
+    this->_vars.gp.api_status = 
+        RSA_API::IQSTREAM_GetEnable(
+            &this->_vars.iqstream.is_enabled);
+    this->_gp_confirm_api_status();
+    this->_iqstream_copy_is_enabled();
+}
+
+
+////~~~~
+
+
+/*
+    < 7 > private
+    use the preset or RSA_API::IQSTREAM_SetIQDataBufferSize() before
+    the number is samples to allocate
+    bytes to allocates depend on data type used
+*/
+void rsa306b_class::_iqstream_get_iq_data_buffer_size()
+{
+#ifdef DEBUG_CLI
+    printf("\n<%d> %s/%s()\n",
+        __LINE__, __FILE__, __func__);
+#endif  
+
+    if (this->_vars.device.is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tno device connected\n");
+        #endif
+        return;
+    }
+    this->_vars.gp.api_status =
+        RSA_API::IQSTREAM_GetIQDataBufferSize(
+            &this->_vars.iqstream.pairs_max);
+    this->_gp_confirm_api_status();
+    this->_iqstream_copy_pairs_max();
 }
 
 
 ////////~~~~~~~~END>  rsa306b_iqstream_get.cpp
+ 

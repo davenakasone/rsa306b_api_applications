@@ -319,12 +319,12 @@
                 _iqstream_copy_datatype_select()
             - rsa306b_iqstream_get.cpp
                 _iqstream_get_vars()
-                _iqstream_get_bandwidth_min()
-                _iqstream_get_bandwidth_max()
+                _iqstream_get_max_acq_bandwidth()
+                _iqstream_get_min_bandwidth()
                 _iqstream_get_acq_parameters()
                 _iqstream_get_disk_fileinfo()
-                _iqstream_get_is_enabled()
-                _iqstream_get_pairs_max()
+                _iqstream_get_enabled()
+                _iqstream_get_iq_data_buffer_size()
 
 
                 
@@ -949,11 +949,12 @@ class rsa306b_class
         void _iqstream_copy_datatype_select(); 
         // getters, uses API
         void _iqstream_get_vars();
-        void _iqstream_get_bandwidth();
-        void _iqstream_get_acq_parameters();
-        void _iqstream_get_disk_fileinfo();
-        void _iqstream_get_is_enabled();
-        void _iqstream_get_pairs_max();
+        void _iqstream_get_max_acq_bandwidth();      // updates "bandwidth_min"
+        void _iqstream_get_min_bandwidth();          // updates "bandwidth_max"
+        void _iqstream_get_acq_parameters();         // updates "bandwidth" and "sample_rate"
+        void _iqstream_get_disk_fileinfo();          // updates "fileinfo_type"
+        void _iqstream_get_enabled();                // updates "is_enabled"
+        void _iqstream_get_iq_data_buffer_size();    // updates "pairs max"
 
 
 

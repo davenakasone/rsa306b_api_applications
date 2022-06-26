@@ -99,7 +99,7 @@ void rsa306b_class::print_iqstream()
     printf("\t%s\n", this->_vars.iqstream.acqStatus_message[IQSTREAM_BITCHECKS-1]);
     for (int ii = 0; ii < IQSTREAM_BITCHECKS-1; ii++)
     {
-        printf("\t  acqstatus_message [%2d]  :  %s\n", 
+        printf("\t  acqstatus_message [%2d]   :  %s\n", 
         ii,
         this->_vars.iqstream.acqStatus_message[ii]);
     }
@@ -360,7 +360,7 @@ void rsa306b_class::_iqstream_bitcheck
         strcat(this->_vars.iqstream.acqStatus_message[IQSTREAM_BITCHECKS-1], "b21 ");
     }
 
-    this->_iqstream_copy_vars();
+    this->_iqstream_copy_acqStatus_message();
 }
 
 
