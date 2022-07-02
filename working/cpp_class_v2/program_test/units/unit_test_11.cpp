@@ -22,6 +22,10 @@ void unit_test_11 (void)
 
         #ifdef UT11a
             rsa.print_iqstream();
+            rsa.vars.iqstream.bandwidth = 11.222e6;
+            rsa.vars.iqstream.record_time_ms = 3;
+            rsa.iqstream_set_vars();
+            rsa.print_iqstream();
         #endif
     }
     printf("\n%s()  ,  test complete\n", __func__);

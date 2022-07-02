@@ -63,7 +63,6 @@ void rsa306b_class::print_iqstream()
 
     printf("\tpairs_requested                   :  %d\n", this->_vars.iqstream.pairs_requested);
     printf("\tpairs_copied                      :  %d\n", this->_vars.iqstream.pairs_copied);
-    //printf("\tdata_buffer                       :  %p\n", this->_vars.iqstream.data_buffer);
     printf("\tname_of_file                      :  %s\n", this->_vars.iqstream.name_of_file);
     printf("\tname_of_header                    :  %s\n", this->_vars.iqstream.name_of_header);
     printf("\tcplx32_v.size()                   :  %lu\n", this->_vars.iqstream.cplx32_v.size());    

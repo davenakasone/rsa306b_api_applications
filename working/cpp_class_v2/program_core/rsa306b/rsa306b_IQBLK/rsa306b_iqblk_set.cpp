@@ -55,6 +55,8 @@ void rsa306b_class::_iqblk_set_vars()
         #endif
         return;
     }
+    this->device_stop();
+    
     this->_iqblk_set_getter();
     this->_iqblk_set_bandwidth_hz();
     this->_iqblk_set_record_length();
@@ -94,7 +96,7 @@ void rsa306b_class::_iqblk_set_getter()
         this->vars.iqblk.getter != this->constants.IQBLK_GET_IQ_DATA_CPLX          &&
         this->vars.iqblk.getter != this->constants.IQBLK_GET_IQ_DATA_DEINETERLEAVED )
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tinvalid selection, using default from const class\n");
         #endif
         this->_vars.iqblk.getter = this->constants.IQBLK_GETTER_DEFAULT;
@@ -138,7 +140,7 @@ void rsa306b_class::_iqblk_set_bandwidth_hz()
         this->vars.iqblk.bandwidth_hz > this->_vars.iqblk.max_bandwidth_hz  )
     {
         this->vars.iqblk.bandwidth_hz = this->_vars.iqblk.max_bandwidth_hz / 2;
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             printf("\n\tinvalid IQ bandwidth, using:  %lf Hz\n", 
                 this->vars.iqblk.bandwidth_hz);
         #endif

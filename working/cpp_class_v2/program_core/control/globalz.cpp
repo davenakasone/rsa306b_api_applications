@@ -1,7 +1,7 @@
 /*
     use sparingly
     the entire program can see this
-    extern into desired location
+    extern into desired location as needed
 */
 
 

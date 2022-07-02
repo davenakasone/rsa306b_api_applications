@@ -24,13 +24,13 @@ LDLIUSBS = -lcyusb_shared
 OUTPUTS_BIN = $(TDIR)$(TDIR_IO)outputs_bin/
 OUTPUTS_DPX = $(TDIR)$(TDIR_IO)outputs_dpx/
 OUTPUTS_R3F = $(TDIR)$(TDIR_IO)outputs_r3f/
-OUTPUTS_SIG = $(TDIR)$(TDIR_IO)outputs_sig/
+OUTPUTS_SIG = $(TDIR)$(TDIR_IO)outputs_siq/
 OUTPUTS_TXT = $(TDIR)$(TDIR_IO)outputs_txt/
 
 INPUTS_BIN = $(TDIR)$(TDIR_IO)inputs_bin/
 INPUTS_DPX = $(TDIR)$(TDIR_IO)inputs_dpx/
 INPUTS_R3F = $(TDIR)$(TDIR_IO)inputs_r3f/
-INPUTS_SIG = $(TDIR)$(TDIR_IO)inputs_sig/
+INPUTS_SIG = $(TDIR)$(TDIR_IO)inputs_siq/
 INPUTS_TXT = $(TDIR)$(TDIR_IO)inputs_txt/
 
 SOURCE_FILES = $(SDIR)main.cpp \
@@ -80,6 +80,7 @@ $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_user.cpp \
 $(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_copy.cpp \
 $(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_get.cpp \
 $(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_print_init_check.cpp \
+$(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_set.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_copy.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_get.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_print_init.cpp \

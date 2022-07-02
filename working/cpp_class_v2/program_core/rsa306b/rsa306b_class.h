@@ -320,12 +320,20 @@
             - rsa306b_iqstream_get.cpp
                 _iqstream_get_vars()
                 _iqstream_get_max_acq_bandwidth()
-                _iqstream_get_min_bandwidth()
+                _iqstream_get_min_acq_bandwidth()
                 _iqstream_get_acq_parameters()
                 _iqstream_get_disk_fileinfo()
                 _iqstream_get_enabled()
                 _iqstream_get_iq_data_buffer_size()
-
+            - rsa306b_iqstream_set.cpp
+                iqstream_set_vars()
+                _iqstream_set_vars()
+                _iqstream_set_acq_bandwidth()
+                _iqstream_set_disk_file_length()
+                _iqstream_set_disk_filename_base()
+                _iqstream_set_filename_suffix()
+                _iqstream_set_iq_data_buffer_size()
+                _iqstream_set_output_configuration()
 
                 
 
@@ -608,7 +616,8 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
-    TODO:
+    TODO :
+        # the IFSTREAM and IQSTREAM are the best places to send direct to client
         # bring in the "*.siq" class
         # bring in the spectrogram handler
         # DEBUG logger .txt
@@ -620,12 +629,25 @@
         # clean the flow of this class in V3
         # try out std::function instead of the 3/4 buffer
         # clean up the constants and controlls
-        # CSV --> HDF5 format
+        # CSV --> HDF5 format {or apache parquett?}
         # take out c-style code and use c++
         # catch all return values...
         # union wrapping annonymous struct for memcopy of static buffers
         # space the source code?
         # resolve the bitcheck string...
+        # version3, refine more
+            - document the group structs better [user, setter, getter, ...every category] + API info
+            - data directory to the source, reduce to "inputs" and "outputs"
+            - setters pass public to API, take out copying unless API getter not possible
+            - user only has 1 set point, so 1 stop call is all that is needed...
+            - constants include defualt values
+            - constants enforce naming convention to match API group
+            - struct variables enforce naming convention to match API function association
+            - debug log?
+            - clean the file handler objects, output something more efficient than CSV
+            - parameterize file handlers with path/name (don't rely on struct set "3/4" buffer)
+            - the 3/4 buffer should only be applied to API variables
+            !!! unit tests are absolute, every object capability is stimulated
 
         # DPX
         # IQSTREAM
@@ -705,7 +727,8 @@ class rsa306b_class
         // always return something (fail silently is bad)
 
     // API group "IQSTREAM"
-        void print_iqstream();    // prints the "IQSTREAM" variables to stdout, using the private struct
+        void print_iqstream();       // prints the "IQSTREAM" variables to stdout, using the private struct
+        void iqstream_set_vars();    // user changes "IQSTREAM" variables in public struct, then calls to set new values
 
     // API group "REFTIME"
         void print_reftime();               // prints the "REFTIME" variables to stdout, using the private struct
@@ -741,7 +764,7 @@ class rsa306b_class
         void _gp_confirm_api_status();         // called to check error conditions after API function calls     
         void _gp_confirm_call_status();        // called to check error conditions in the class
         int _gp_confirm_return();              // called to provide a return value corresponding to the API status
-        void _gp_confirm_aquisition_code();    // bit-checks status code after a data aquisition
+        void _gp_confirm_aquisition_code();    // bit-checks status code after a data aquisition {change in v3}
         // copiers, private --> public
         void _gp_copy_vars();
         void _gp_copy_helper();
@@ -950,12 +973,19 @@ class rsa306b_class
         // getters, uses API
         void _iqstream_get_vars();
         void _iqstream_get_max_acq_bandwidth();      // updates "bandwidth_min"
-        void _iqstream_get_min_bandwidth();          // updates "bandwidth_max"
+        void _iqstream_get_min_acq_bandwidth();      // updates "bandwidth_max"
         void _iqstream_get_acq_parameters();         // updates "bandwidth" and "sample_rate"
         void _iqstream_get_disk_fileinfo();          // updates "fileinfo_type"
         void _iqstream_get_enabled();                // updates "is_enabled"
         void _iqstream_get_iq_data_buffer_size();    // updates "pairs max"
-
+        // setters, uses API
+        void _iqstream_set_vars();
+        void _iqstream_set_acq_bandwidth();
+        void _iqstream_set_disk_file_length();
+        void _iqstream_set_disk_filename_base();
+        void _iqstream_set_filename_suffix();
+        void _iqstream_set_iq_data_buffer_size();
+        void _iqstream_set_output_configuration();
 
 
 

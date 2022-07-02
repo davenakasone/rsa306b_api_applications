@@ -7,7 +7,7 @@
     private :
         < 1 >  _iqstream_get_vars()
         < 2 >  _iqstream_get_max_acq_bandwidth()
-        < 3 >  _iqstream_get_min_bandwidth()
+        < 3 >  _iqstream_get_min_acq_bandwidth()
         < 4 >  _iqstream_get_acq_parameters()
         < 5 >  _iqstream_get_disk_fileinfo()
         < 6 >  _iqstream_get_enabled()
@@ -36,7 +36,7 @@ void rsa306b_class::_iqstream_get_vars()
     }
     
     this->_iqstream_get_max_acq_bandwidth();
-    this->_iqstream_get_min_bandwidth();
+    this->_iqstream_get_min_acq_bandwidth();
     this->_iqstream_get_acq_parameters();
     this->_iqstream_get_disk_fileinfo();
     this->_iqstream_get_enabled();
@@ -78,7 +78,7 @@ void rsa306b_class::_iqstream_get_max_acq_bandwidth()
 /*
     < 3 > private
 */
-void rsa306b_class::_iqstream_get_min_bandwidth()
+void rsa306b_class::_iqstream_get_min_acq_bandwidth()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",

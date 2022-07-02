@@ -85,7 +85,11 @@ class rsa306b_constants_class
         const double IQBLK_STARTING_BANDWIDTH          = 1e6;
         //const int IQBLK_MAX_PAIRS = 104857600;
     
-    // IQSTREAM constants, [0:5] for sample, [6:11] sticky, [12] summary
+    // IQSTREAM constants
+        const int IQSTREAM_MSEC_MIN = 1;       // if this is 0, then infinite recording occurs, p79
+        const int IQSTREAM_MSEC_MAX = 1000;    // limit for disc space, the files are huge
+        const charIQSTREAM_FILENAME_BASE[BUF_C] = "./program_test/data/outputs_sig";
+        // [0:5] for sample, [6:11] sticky, [12] summary, common to both "acqStatus" checks
         enum
         {
             IQS_BIT_0 = 0,
@@ -118,23 +122,6 @@ class rsa306b_constants_class
             "b21 {sticky} Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped",
             "acqStatus bitcheck failures: "
         };
-        /*
-        const char IQSTREAM_FAIL_BIT_0[BUF_C] = "b0 {this sample} RF input overrange detected";
-        const char IQSTREAM_FAIL_BIT_1[BUF_C] = "b1 {this sample} USB data stream discontinuity error, gap detected in IF frame transfers";
-        const char IQSTREAM_FAIL_BIT_2[BUF_C] = "b2 {this sample} Input buffer >= 75 %% full, IQ processing may have difficulty keeping up with IF sample stream";
-        const char IQSTREAM_FAIL_BIT_3[BUF_C] = "b3 {this sample} Input buffer overflow, IQ processing cannot keep up with IF sample stream, data loss occured";
-        const char IQSTREAM_FAIL_BIT_4[BUF_C] = "b4 {this sample} Output buffer >= 75%% full, output sink (disk/client) falling behind unloading data";
-        const char IQSTREAM_FAIL_BIT_5[BUF_C] = "b5 {this sample} Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped";
-
-        const char IQSTREAM_FAIL_BIT_16[BUF_C] = "b16 {sticky} RF input overrange detected";
-        const char IQSTREAM_FAIL_BIT_17[BUF_C] = "b17 {sticky} USB data stream discontinuity error, gap detected in IF frame transfers";
-        const char IQSTREAM_FAIL_BIT_18[BUF_C] = "b18 {sticky} Input buffer >= 75 %% full, IQ processing may have difficulty keeping up with IF sample stream";
-        const char IQSTREAM_FAIL_BIT_19[BUF_C] = "b19 {sticky} Input buffer overflow, IQ processing cannot keep up with IF sample stream, data loss occured";
-        const char IQSTREAM_FAIL_BIT_20[BUF_C] = "b20 {sticky} Output buffer >= 75%% full, output sink (disk/client) falling behind unloading data";
-        const char IQSTREAM_FAIL_BIT_21[BUF_C] = "b21 {sticky} Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped";
-
-        const char IQSTREAM_FAIL_BITS[BUF_C] = "acqStatus bitcheck failures: ";
-        */
 };
 
 

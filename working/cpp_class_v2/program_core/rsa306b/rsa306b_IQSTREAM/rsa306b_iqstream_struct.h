@@ -54,7 +54,7 @@ struct rsa306b_iqstream_struct
     double bandwidth;    // bandwidth of acquisition in Hz
 
 // IQSTREAM_GetMaxAcqBandwidth()
-    double bandwidth_max;    // highest IQ bandwidt the stream can support
+    double bandwidth_max;    // highest IQ bandwidth the stream can support
 
 // IQSTREAM_GetMinAcqBandwidth()
     double bandwidth_min;    // lowest IQ bandwidth the stream can support
