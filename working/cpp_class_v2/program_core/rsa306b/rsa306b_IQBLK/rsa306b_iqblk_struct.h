@@ -11,7 +11,7 @@
 #define H_rsa306b_iqblk_struct
 
 
-#include "../../control/resourcez.h"
+#include "../rsa306b_constants.h"
 
 
 struct rsa306b_iqblk_struct

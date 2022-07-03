@@ -55,7 +55,6 @@ $(SDIR)rsa306b/rsa306b_CONFIG/rsa306b_config_print_init.cpp \
 $(SDIR)rsa306b/rsa306b_CONFIG/rsa306b_config_set.cpp \
 $(SDIR)rsa306b/rsa306b_CONFIG/rsa306b_config_user.cpp \
 $(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_user.cpp \
-$(SDIR)rsa306b/rsa306b_CONST/rsa306b_constants_cons_dest.cpp \
 $(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_copy.cpp \
 $(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_get.cpp \
 $(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_print_init.cpp \

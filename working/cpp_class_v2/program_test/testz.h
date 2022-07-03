@@ -13,13 +13,17 @@
     "task_*"      are for specific tasks such as: development ideas, demonstrations, and corner cases
     no test should ever be broken
     passing all tests validates the program/class
+
+    when validated, the top-level module can interact with this program through:
+        - main()
+        - as a library
+        - a library that has python bindings
 */
 
 #ifndef H_testz
 #define H_testz
 
 
-#include "../program_core/control/resourcez.h"
 #include "../program_core/rsa306b/rsa306b_class.h"
 #include "../program_core/cpu_timer/cpu_timer_class.h"
 #include "../program_core/r3f_manager/r3f_manager_class.h"

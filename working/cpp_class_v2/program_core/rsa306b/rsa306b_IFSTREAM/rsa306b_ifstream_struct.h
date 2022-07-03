@@ -12,7 +12,7 @@
 #define H_rsa306b_ifstream_struct
 
 
-#include "../../control/resourcez.h"
+#include "../rsa306b_constants.h"
 
 
 struct rsa306b_ifstream_struct

@@ -6,7 +6,7 @@
 #define H_rsa306b_reftime_struct
 
 
-#include "../../control/resourcez.h"
+#include "../rsa306b_constants.h"
 
 
 struct rt_type

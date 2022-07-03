@@ -4,7 +4,6 @@
         private instance of the struct is kept, for operations
 */
 
-
 #ifndef H_r3f_manager_struct
 #define H_r3f_manager_struct
 

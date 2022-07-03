@@ -314,7 +314,7 @@
                 _iqstream_copy_record_time_ms()
                 _iqstream_copy_filename_base()
                 _iqstream_copy_suffix_control()
-                _iqstream_copy_pairs_requested()
+                _iqstream_copy_buffer_multiplier()
                 _iqstream_copy_destination_select()
                 _iqstream_copy_datatype_select()
             - rsa306b_iqstream_get.cpp
@@ -660,9 +660,7 @@
 #define H_rsa306b_class
 
 
-#include "../control/resourcez.h"
-#include "rsa306b_struct.h"
-#include "./rsa306b_CONST/rsa306b_constants_class.h"
+#include "rsa306b_struct.h"    // for variables, constants, and resources
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -672,7 +670,8 @@ class rsa306b_class
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         rsa306b_struct vars;                  // public variables
-        rsa306b_constants_class constants;    // important constants for the spectrum analyzer
+        //rsa306b_constants_class constants;    // important constants for the spectrum analyzer
+        rsa306b_constants constants;    // important constants for the spectrum analyzer
 
     // general purpose
         rsa306b_class();                                             // constructor
@@ -919,7 +918,7 @@ class rsa306b_class
         void _iqblk_copy_vars();
         void _iqblk_copy_getter();
         void _iqblk_copy_actual_buffer_samples();
-        void _iqblk_copy_sample_pairs_requested();
+        void _iqstream_copy_sample_pairs_requested();
         void _iqblk_copy_cplx32_v();
         void _iqblk_copy_acq_info_type();
         void _iqblk_copy_bitcheck();
@@ -969,7 +968,7 @@ class rsa306b_class
         void _iqstream_copy_record_time_ms();
         void _iqstream_copy_filename_base();
         void _iqstream_copy_suffix_control();
-        void _iqstream_copy_pairs_requested();
+        void _iqstream_copy_buffer_multiplier();
         void _iqstream_copy_destination_select();
         void _iqstream_copy_datatype_select(); 
         // getters, uses API

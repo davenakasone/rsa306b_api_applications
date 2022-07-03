@@ -13,7 +13,7 @@
 #define H_rsa306b_iqstream_struct
 
 
-#include "../../control/resourcez.h"
+#include "../rsa306b_constants.h"
 
 
 struct rsa306b_iqstream_struct
@@ -106,7 +106,7 @@ struct rsa306b_iqstream_struct
 // only applicable if client receives the IQ stream directly
 // to set buffer size, first IQSTREAM_SetAcqBandwidth()
 // buffer size depends on bandwidth
-    int pairs_max;    
+    int pairs_max;   // depends on buffer multiple, user only needs multiple 
 
 // IQSTREAM_SetDiskFileLength()
 // 0: no time limit, must call IQSTREAM_Stop() to terminate storage
@@ -137,9 +137,8 @@ struct rsa306b_iqstream_struct
 // 1: resets to minimum size
 // 1,000,000: resets to maximum size...see p82
 // only valid if the client directly receives the IQ stream
-    //int pairs_requested; 
-    
-    //IQSTREAM_BUFFER
+    // works with pairs max 
+    int buffer_multiplier;
 
 // IQSTREAM_SetOutputConfiguration()
 // output destination and type
@@ -156,27 +155,3 @@ typedef struct rsa306b_iqstream_struct rsa306b_iqstream_struct;
 
 
 ////////~~~~~~~~END>  rsa306b_iqstream_struct.h
-
-/*
-    char acqStatus_message[IQSTREAM_BITCHECKS][BUF_C];   
-    double bandwidth;
-    double bandwidth_max;   
-    double bandwidth_min; 
-    double sample_rate;  
-    RSA_API::IQSTRMFILEINFO fileinfo_type;    
-    char name_of_file[BUF_C];      
-    char name_of_header[BUF_C];   
-    bool is_enabled;                    
-    int pairs_copied;                   
-    RSA_API::IQSTRMIQINFO info_type;   
-    std::vector<RSA_API::Cplx32> cplx32_v;
-    std::vector<RSA_API::CplxInt16> cplxInt16_v;
-    std::vector<RSA_API::CplxInt32> cplxInt32_v;
-    int pairs_max;
-    int record_time_ms;
-    char filename_base[BUF_C];
-    int suffix_control;
-    int pairs_requested;   
-    RSA_API::IQSOUTDEST destination_select;  
-    RSA_API::IQSOUTDTYPE datatype_select;     
-*/    

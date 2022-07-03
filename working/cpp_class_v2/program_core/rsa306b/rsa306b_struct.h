@@ -1,13 +1,22 @@
 /*
     the member variables for the "rsa306b" class are contained
-    composes function group variables to provide organized user access
+    API function group variables are composed into a master variable struct
+
+    this master struct is provided as a public and private member to the class
+    together, the public and private instance create the basis for the 3/4 buffer
+
+    generally, user is free to manipulate the public instance of the struct
+    the private struct instance only updates if a correct value is provided
+
+    struct for the "GP" group is the only non API variable contanier
+    the class contains several variables outside of these structs 
+        becuase the user has no need to touch them
 */
 
 #ifndef H_rsa306b_struct
 #define H_rsa306b_struct
 
 
-#include "./rsa306b_CONST/rsa306b_constants_class.h"
 #include "./rsa306b_GP/rsa306b_gp_struct.h"
 #include "./rsa306b_ALIGN/rsa306b_align_struct.h"
 #include "./rsa306b_AUDIO/rsa306b_audio_struct.h"

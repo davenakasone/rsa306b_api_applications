@@ -1,12 +1,12 @@
 /*
-    variables needed for the API group "TRIG" 
+    variables needed for the API group "TRIG"
 */
 
 #ifndef H_rsa306b_trig_struct
 #define H_rsa306b_trig_struct
 
 
-#include "../../control/resourcez.h"
+#include "../rsa306b_constants.h"
 
 
 struct rsa306b_trig_struct

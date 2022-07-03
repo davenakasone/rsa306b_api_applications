@@ -4,7 +4,6 @@
     extern the variables when needed
 */
 
-
 #ifndef H_globalz
 #define H_globalz
 
@@ -13,6 +12,5 @@
 
 
 #endif
-
 
 ////////~~~~~~~~END>  globalz.h

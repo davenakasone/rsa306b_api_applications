@@ -12,6 +12,7 @@
 #ifndef H_resourcez
 #define H_resourcez
 
+
 // for C++ use cases
 #include <cmath>
 #include <queue>
@@ -32,8 +33,9 @@
 #include <unistd.h>
 
 #include "../../api_resourcez/RSA_API.h"    // has <time.h> and <stdint.h> 
+//#include "rsa306b_constants.h"              // device constants for operating the RSA-306B
 
-#define GET_NAME(var) #var
+#define GET_NAME(var) #var    // debug utility for identifying variable name
 
 #define DEBUG_MIN 1917    // when activated, prints essential information
 //#define DEBUG_MAX 1787    // when activated, prints additional information (keep DEBUG_MIN on if using)
@@ -47,17 +49,6 @@
 #define BUF_E 512                   // .....
 #define BUF_F 1024                  // a long general purpose buffer
 
-#define TRACES_AVAILABLE 3           // the RSA-306B has three traces that can be used
-#define SPECTRUM_DATA_LENGTH 2048    // spectrum aquisitions, go dynamic if needed
-#define AUDIO_DATA_LENGTH 1024       // maximum audio data points, 2^16 - 1, go dynamic if needed
-#define IFSTREAM_VECTOR_LENGTH 3     // correction vectors for the IFSTREAM data, a set of triplets
-#define IQSTREAM_BITCHECKS 13        // status bits [0:5], [16:21], + summary, for both "*acqStatus" variables in the API group
-
-// setting "int getter" in "struct rsa306b_iqblk_struct" determines method to aquire IQBLK data
-// use the fastest API call or method most appropriate for the use case
-//#define IQBLK_GET_IQ_DATA 0                   // use RSA_API::IQBLK_GetIQData() for acquisition
-//#define IQBLK_GET_IQ_DATA_CPLX 1              // use RSA_API::IQBLK_GetIQDataCplx() for acquisition
-//#define IQBLK_GET_IQ_DATA_DEINETERLEAVED 2    // use RSA_API::IQBLK_GetIQDataDeinterleaved() for acquisition
 
 #endif
 

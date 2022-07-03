@@ -1,27 +1,26 @@
 /*
-    this class maintians the consants used in "rsa306b" object instances
+    this struct maintians the consants used in "rsa306b" object instances
     these constants are specific to the RSA-306B 
 
     route data through relative or absolute path:
         /home/unlv/Desktop/rsa306b_api_applications/working/cpp_class_v2/program_test/data
 */
 
-
-#ifndef H_rsa306b_constants_class
-#define H_rsa306b_constants_class
-
-
-#include "../../control/resourcez.h"
+#ifndef H_rsa306b_constants
+#define H_rsa306b_constants
 
 
-class rsa306b_constants_class
-//struct rsa306b_constants
+#include "../control/resourcez.h"    // includes external libraries and other resources
+
+#define TRACES_AVAILABLE 3           // the RSA-306B has three traces that can be used
+#define SPECTRUM_DATA_LENGTH 2048    // spectrum aquisitions, go dynamic if needed
+#define AUDIO_DATA_LENGTH 1024       // maximum audio data points, 2^16 - 1, go dynamic if needed
+#define IFSTREAM_VECTOR_LENGTH 3     // correction vectors for the IFSTREAM data, a set of triplets
+#define IQSTREAM_BITCHECKS 13        // status bits [0:5], [16:21], + summary, for both "*acqStatus" variables in the API group
+#define IQSTREAM_ROW_RANGES 10       // ranges to infer buffer size from current bandwidth
+
+struct rsa306b_constants
 {
-    public :
-        
-        rsa306b_constants_class();
-        ~rsa306b_constants_class();
-
     // status
         const int CALL_SUCCESS                       = 7777;    // successful, non-API function calls
         const int CALL_FAILURE                       = -777;    // failed, non-API function calls (must be different)
@@ -92,7 +91,11 @@ class rsa306b_constants_class
         const char IQSTREAM_FILENAME_BASE[BUF_C] = "./program_test/data/outputs_sig";    // for writing output
         
         // setting the buffer size, direct acquisition, see p82
-        typedef enum
+        const int IQSTREAM_BUFFER_SIZE_LARGE  = 65536;                            // for 2.5 MHz to 40 MHz
+        const int IQSTREAM_BUFFER_SIZE_MEDIUM = 32768;                            // for 96765.625 Hz to 2.5 MHz
+        const int IQSTREAM_BUFFER_SIZE_SMALL  = 128;                              // for < 96765.625 Hz
+        const int IQSTREAM_DIV[8]             = {1, 2, 4, 8, 16, 32, 64, 128};    // dividers for base size inference
+        enum
         {
             IQSTREAM_BUFFER_X_1 = 1,    // the minimum size
             IQSTREAM_BUFFER_X_2 = 2,    // the default size
@@ -102,19 +105,20 @@ class rsa306b_constants_class
             IQSTREAM_BUFFER_X_6 = 6,
             IQSTREAM_BUFFER_X_7 = 7,
             IQSTREAM_BUFFER_X_8 = 8     // the maximum size
-        } IQSTREAM_BUFFER_SIZE;
-        const double IQSTREAM_BANDWIDTH_RANGES[10][2] =
+        };
+        const double IQSTREAM_BANDWIDTH_RANGES[IQSTREAM_ROW_RANGES][2] =
         {
-            {2.5e6, 40e6},
-            {1.25e6/1, 2.5e6/1},
-            {1.25e6/2, 2.5e6/2},
-            {1.25e6/4, 2.5e6/4},
-            {1.25e6/8, 2.5e6/8},
-            {1.25e6/16, 2.5e6/16},
-            {1.25e6/32, 2.5e6/32},
-            {1.25e6/64, 2.5e6/64},
-            {1.25e6/128, 2.5e6/128},
-            {SPAN_MIN_HZ, 9765.625}
+            {1.25e6 / IQSTREAM_DIV[0], 2.5e6 / IQSTREAM_DIV[0]},    // divided by 2^0
+            {1.25e6 / IQSTREAM_DIV[1], 2.5e6 / IQSTREAM_DIV[1]},    // divided by 2^1...
+            {1.25e6 / IQSTREAM_DIV[2], 2.5e6 / IQSTREAM_DIV[2]},
+            {1.25e6 / IQSTREAM_DIV[3], 2.5e6 / IQSTREAM_DIV[3]},
+            {1.25e6 / IQSTREAM_DIV[4], 2.5e6 / IQSTREAM_DIV[4]},
+            {1.25e6 / IQSTREAM_DIV[5], 2.5e6 / IQSTREAM_DIV[5]},
+            {1.25e6 / IQSTREAM_DIV[6], 2.5e6 / IQSTREAM_DIV[6]},      
+            {1.25e6 / IQSTREAM_DIV[7], 2.5e6 / IQSTREAM_DIV[7]},    // divided by 2^7
+            {SPAN_MIN_HZ, 9765.625},                                // lowest bandwidth range, smallest sample pairs
+            {2.5e6, 40e6}                                           // highest bandwidth range, largest sample pairs
+            
         };
         
         // [0:5] for sample, [6:11] sticky, [12] summary, common to both "acqStatus" checks
@@ -150,10 +154,10 @@ class rsa306b_constants_class
             "b21 {sticky} Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped",
             "acqStatus bitcheck failures: "
         };
-}; //typedef struct rsa306b_constants rsa306b_constants;
+}; typedef struct rsa306b_constants rsa306b_constants;
 
 
 #endif
 
 
-////////~~~~~~~~END>  rsa306b_constants_class.h
+////////~~~~~~~~END>  rsa306b_constants.h

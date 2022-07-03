@@ -22,7 +22,7 @@
         < 15 >  _iqstream_copy_record_time_ms()
         < 16 >  _iqstream_copy_filename_base()
         < 17 >  _iqstream_copy_suffix_control()
-        < 18 >  _iqstream_copy_pairs_requested()
+        < 18 >  _iqstream_copy_buffer_multiplier()
         < 19 >  _iqstream_copy_destination_select()
         < 20 >  _iqstream_copy_datatype_select()
 */
@@ -55,7 +55,7 @@ void rsa306b_class::_iqstream_copy_vars()
     this->_iqstream_copy_record_time_ms();
     this->_iqstream_copy_filename_base();
     this->_iqstream_copy_suffix_control();
-    this->_iqstream_copy_pairs_requested();
+    this->_iqstream_copy_buffer_multiplier();
     this->_iqstream_copy_destination_select();
     this->_iqstream_copy_datatype_select();
 }
@@ -384,14 +384,14 @@ void rsa306b_class::_iqstream_copy_suffix_control()
 /*
     < 18 > private
 */
-void rsa306b_class::_iqstream_copy_pairs_requested()
+void rsa306b_class::_iqstream_copy_buffer_multiplier()
 {
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif  
 
-    this->vars.iqstream.suffix_control = this->_vars.iqstream.suffix_control;
+    this->vars.iqstream.buffer_multiplier = this->_vars.iqstream.buffer_multiplier;
 }
 
 

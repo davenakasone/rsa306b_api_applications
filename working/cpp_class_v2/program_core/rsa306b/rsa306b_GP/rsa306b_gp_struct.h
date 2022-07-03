@@ -3,7 +3,8 @@
     these variables are used in multiple API function groups
 */
 
-#include "../../control/resourcez.h"
+
+#include "../rsa306b_constants.h"
 
 
 struct rsa306b_gp_struct
