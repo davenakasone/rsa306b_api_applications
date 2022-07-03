@@ -66,11 +66,11 @@ void rsa306b_class::print_constants()
     printf("\tINIT_UINT                             :  %u\n", this->constants.INIT_UINT);
     printf("\tINIT_STR                              :  %s\n", this->constants.INIT_STR);
     printf("\tEXTERNAL_FREQUENCY                    :  %lf  Hz\n", this->constants.EXTERNAL_FREQUENCY);
-    printf("\tEXTERNAL_AMPLITUDE_dbm                :  %lf +/- dbm\n", this->constants.EXTERNAL_AMPLITUDE_dbm);
-    printf("\tREFERENCE_LEVEL_MAX_dbm               :  %lf  dbm\n", this->constants.REFERENCE_LEVEL_MAX_dbm);
-    printf("\tREFERENCE_LEVEL_MIN_dbm               :  %lf  dbm\n", this->constants.REFERENCE_LEVEL_MIN_dbm);
-    printf("\tSPAN_MAX_Hz                           :  %lf  Hz\n", this->constants.SPAN_MAX_Hz);
-    printf("\tSPAN_MIN_Hz                           :  %lf  Hz\n", this->constants.SPAN_MIN_Hz);
+    printf("\tEXTERNAL_AMPLITUDE_dbm                :  %lf +/- dbm\n", this->constants.EXTERNAL_AMPLITUDE_DBM);
+    printf("\tREFERENCE_LEVEL_MAX_dbm               :  %lf  dbm\n", this->constants.REFERENCE_LEVEL_MAX_DBM);
+    printf("\tREFERENCE_LEVEL_MIN_dbm               :  %lf  dbm\n", this->constants.REFERENCE_LEVEL_MIN_DBM);
+    printf("\tSPAN_MAX_Hz                           :  %lf  Hz\n", this->constants.SPAN_MAX_HZ);
+    printf("\tSPAN_MIN_Hz                           :  %lf  Hz\n", this->constants.SPAN_MIN_HZ);
     printf("\tPOSITION_PERCENT_MAX                  :  %lf  Hz\n", this->constants.POSITION_PERCENT_MAX);
     printf("\tPOSITION_PERCENT_MIN                  :  %lf  Hz\n", this->constants.POSITION_PERCENT_MIN);
     printf("\tAUDIO_VOLUME_MAX                      :  %f\n", this->constants.AUDIO_VOLUME_MAX);

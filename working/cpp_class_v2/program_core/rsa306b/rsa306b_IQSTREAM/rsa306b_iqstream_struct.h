@@ -105,8 +105,8 @@ struct rsa306b_iqstream_struct
 // maximum number of IQ samples IQSTREAM_GetIQData() can return
 // only applicable if client receives the IQ stream directly
 // to set buffer size, first IQSTREAM_SetAcqBandwidth()
-// before calling, use IQSTREAM_SetIQBufferSize()
-    int pairs_max;
+// buffer size depends on bandwidth
+    int pairs_max;    
 
 // IQSTREAM_SetDiskFileLength()
 // 0: no time limit, must call IQSTREAM_Stop() to terminate storage
@@ -135,9 +135,11 @@ struct rsa306b_iqstream_struct
 // user requests IQ sample pairs to be returned
 // 0: resets to default
 // 1: resets to minimum size
-// 1,000,000: resets to maximum size
+// 1,000,000: resets to maximum size...see p82
 // only valid if the client directly receives the IQ stream
-    int pairs_requested;    // verify through "file_info_type.numberSamples"
+    //int pairs_requested; 
+    
+    //IQSTREAM_BUFFER
 
 // IQSTREAM_SetOutputConfiguration()
 // output destination and type

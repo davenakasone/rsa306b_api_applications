@@ -135,14 +135,14 @@ int rsa306b_class::_trig_set_if_power_level()
         #endif
         return this->constants.CALL_FAILURE;
     }
-    if (this->vars.trig.if_power_level < this->constants.REFERENCE_LEVEL_MIN_dbm ||
-        this->vars.trig.if_power_level > this->constants.REFERENCE_LEVEL_MAX_dbm  )
+    if (this->vars.trig.if_power_level < this->constants.REFERENCE_LEVEL_MIN_DBM ||
+        this->vars.trig.if_power_level > this->constants.REFERENCE_LEVEL_MAX_DBM  )
     {
         #ifdef DEBUG_MIN
             printf("\n\tpower level { %lf }  ,  out of range [ %lf , %lf ]\n",
                 this->vars.trig.if_power_level,
-                this->constants.REFERENCE_LEVEL_MIN_dbm,
-                this->constants.REFERENCE_LEVEL_MIN_dbm);
+                this->constants.REFERENCE_LEVEL_MIN_DBM,
+                this->constants.REFERENCE_LEVEL_MIN_DBM);
         #endif
         return this->constants.CALL_FAILURE;
     }

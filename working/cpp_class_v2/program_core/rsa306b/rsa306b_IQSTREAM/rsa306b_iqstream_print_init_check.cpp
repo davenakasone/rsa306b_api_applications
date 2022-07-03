@@ -29,7 +29,7 @@ void rsa306b_class::print_iqstream()
     printf("\tsample_rate                       :  %lf\n", this->_vars.iqstream.sample_rate);
     printf("\tpairs_max                         :  %d\n", this->_vars.iqstream.pairs_max);
     printf("\trecord_time_ms                    :  %d\n", this->_vars.iqstream.record_time_ms);
-    
+    printf("\tfilename_base                     :  %s\n", this->_vars.iqstream.filename_base);
     printf("\tsuffix_control                    :  %d  ,  ", this->_vars.iqstream.suffix_control);
     switch (this->_vars.iqstream.suffix_control)
     {
@@ -61,7 +61,7 @@ void rsa306b_class::print_iqstream()
         default : printf("unknown\n"); break;
     }
 
-    printf("\tpairs_requested                   :  %d\n", this->_vars.iqstream.pairs_requested);
+    //printf("\tpairs_requested                   :  %d\n", this->_vars.iqstream.pairs_requested);
     printf("\tpairs_copied                      :  %d\n", this->_vars.iqstream.pairs_copied);
     printf("\tname_of_file                      :  %s\n", this->_vars.iqstream.name_of_file);
     printf("\tname_of_header                    :  %s\n", this->_vars.iqstream.name_of_header);
@@ -128,7 +128,7 @@ void rsa306b_class::_iqstream_init()
     this->_vars.iqstream.pairs_max       = this->constants.INIT_INT;
     this->_vars.iqstream.record_time_ms  = this->constants.INIT_INT;
     this->_vars.iqstream.suffix_control  = this->constants.INIT_INT;
-    this->_vars.iqstream.pairs_requested = this->constants.INIT_INT;
+    //this->_vars.iqstream.pairs_requested = this->constants.INIT_INT;
     this->_vars.iqstream.pairs_copied    = this->constants.INIT_INT;
 
     //this->_vars.iqstream.data_buffer = NULL;
@@ -200,162 +200,162 @@ void rsa306b_class::_iqstream_bitcheck
         strcpy(this->_vars.iqstream.acqStatus_message[ii], this->constants.INIT_STR);
     }
     strcpy(this->_vars.iqstream.acqStatus_message[IQSTREAM_BITCHECKS-1], 
-        this->constants.IQSTREAM_FAIL_BIT[this->constants.IQS_BIT_SUMMARY]);
+        this->constants.IQSTREAM_FAIL_BITS[this->constants.IQSTREAM_BIT_SUMMARY]);
 
     // bit 0
     if ((acqStatus & RSA_API::IQSTRM_STATUS_OVERRANGE) 
             == this->constants.ACQ_STATUS_SUCCESS    )
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_0],
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_0],
             this->constants.ACQ_STATUS_SUCCESS_MESSAGE, BUF_C);
     }
     else
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_0],
-            this->constants.IQSTREAM_FAIL_BIT[this->constants.IQS_BIT_0], BUF_C);
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_0],
+            this->constants.IQSTREAM_FAIL_BITS[this->constants.IQSTREAM_BIT_0], BUF_C);
         strcat(this->_vars.iqstream.acqStatus_message[IQSTREAM_BITCHECKS-1], "b0 ");
     }
     // bit 1
     if ((acqStatus & RSA_API::IQSTRM_STATUS_XFER_DISCONTINUITY) 
             == this->constants.ACQ_STATUS_SUCCESS             )
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_1],
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_1],
             this->constants.ACQ_STATUS_SUCCESS_MESSAGE, BUF_C);
     }
     else
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_1],
-            this->constants.IQSTREAM_FAIL_BIT[this->constants.IQS_BIT_1], BUF_C);
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_1],
+            this->constants.IQSTREAM_FAIL_BITS[this->constants.IQSTREAM_BIT_1], BUF_C);
         strcat(this->_vars.iqstream.acqStatus_message[IQSTREAM_BITCHECKS-1], "b1 ");
     }
     // bit 2
     if ((acqStatus & RSA_API::IQSTRM_STATUS_IBUFF75PCT) 
             == this->constants.ACQ_STATUS_SUCCESS     )
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_2],
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_2],
             this->constants.ACQ_STATUS_SUCCESS_MESSAGE, BUF_C);
     }
     else
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_2],
-            this->constants.IQSTREAM_FAIL_BIT[this->constants.IQS_BIT_2], BUF_C);
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_2],
+            this->constants.IQSTREAM_FAIL_BITS[this->constants.IQSTREAM_BIT_2], BUF_C);
         strcat(this->_vars.iqstream.acqStatus_message[IQSTREAM_BITCHECKS-1], "b2 ");
     }
     // bit 3
     if ((acqStatus & RSA_API::IQSTRM_STATUS_IBUFFOVFLOW) 
             == this->constants.ACQ_STATUS_SUCCESS      )
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_3],
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_3],
             this->constants.ACQ_STATUS_SUCCESS_MESSAGE, BUF_C);
     }
     else
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_3],
-            this->constants.IQSTREAM_FAIL_BIT[this->constants.IQS_BIT_3], BUF_C);
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_3],
+            this->constants.IQSTREAM_FAIL_BITS[this->constants.IQSTREAM_BIT_3], BUF_C);
         strcat(this->_vars.iqstream.acqStatus_message[IQSTREAM_BITCHECKS-1], "b3 ");
     }
     // bit 4
     if ((acqStatus & RSA_API::IQSTRM_STATUS_OBUFF75PCT) 
             == this->constants.ACQ_STATUS_SUCCESS      )
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_4],
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_4],
             this->constants.ACQ_STATUS_SUCCESS_MESSAGE, BUF_C);
     }
     else
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_4],
-            this->constants.IQSTREAM_FAIL_BIT[this->constants.IQS_BIT_4], BUF_C);
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_4],
+            this->constants.IQSTREAM_FAIL_BITS[this->constants.IQSTREAM_BIT_4], BUF_C);
         strcat(this->_vars.iqstream.acqStatus_message[IQSTREAM_BITCHECKS-1], "b4 ");
     }
     // bit 5
     if ((acqStatus & RSA_API::IQSTRM_STATUS_OBUFF75PCT) 
             == this->constants.ACQ_STATUS_SUCCESS      )
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_5],
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_5],
             this->constants.ACQ_STATUS_SUCCESS_MESSAGE, BUF_C);
     }
     else
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_5],
-            this->constants.IQSTREAM_FAIL_BIT[this->constants.IQS_BIT_5], BUF_C);
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_5],
+            this->constants.IQSTREAM_FAIL_BITS[this->constants.IQSTREAM_BIT_5], BUF_C);
         strcat(this->_vars.iqstream.acqStatus_message[IQSTREAM_BITCHECKS-1], "b5 ");
     }
     // bit 16
     if ((acqStatus & (RSA_API::IQSTRM_STATUS_OVERRANGE << RSA_API::IQSTRM_STATUS_STICKY_SHIFT)) 
             == this->constants.ACQ_STATUS_SUCCESS                                             )
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_16],
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_16],
             this->constants.ACQ_STATUS_SUCCESS_MESSAGE, BUF_C);
     }
     else
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_16],
-            this->constants.IQSTREAM_FAIL_BIT[this->constants.IQS_BIT_16], BUF_C);
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_16],
+            this->constants.IQSTREAM_FAIL_BITS[this->constants.IQSTREAM_BIT_16], BUF_C);
         strcat(this->_vars.iqstream.acqStatus_message[IQSTREAM_BITCHECKS-1], "b16 ");
     }
     // bit 17
     if ((acqStatus & (RSA_API::IQSTRM_STATUS_XFER_DISCONTINUITY << RSA_API::IQSTRM_STATUS_STICKY_SHIFT)) 
             == this->constants.ACQ_STATUS_SUCCESS                                                      )
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_17],
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_17],
             this->constants.ACQ_STATUS_SUCCESS_MESSAGE, BUF_C);
     }
     else
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_17],
-            this->constants.IQSTREAM_FAIL_BIT[this->constants.IQS_BIT_17], BUF_C);
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_17],
+            this->constants.IQSTREAM_FAIL_BITS[this->constants.IQSTREAM_BIT_17], BUF_C);
         strcat(this->_vars.iqstream.acqStatus_message[IQSTREAM_BITCHECKS-1], "b17 ");
     }
     // bit 18
     if ((acqStatus & (RSA_API::IQSTRM_STATUS_IBUFF75PCT << RSA_API::IQSTRM_STATUS_STICKY_SHIFT)) 
             == this->constants.ACQ_STATUS_SUCCESS                                              )
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_18],
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_18],
             this->constants.ACQ_STATUS_SUCCESS_MESSAGE, BUF_C);
     }
     else
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_18],
-            this->constants.IQSTREAM_FAIL_BIT[this->constants.IQS_BIT_18], BUF_C);
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_18],
+            this->constants.IQSTREAM_FAIL_BITS[this->constants.IQSTREAM_BIT_18], BUF_C);
         strcat(this->_vars.iqstream.acqStatus_message[IQSTREAM_BITCHECKS-1], "b18 ");
     }
     // bit 19
     if ((acqStatus & (RSA_API::IQSTRM_STATUS_IBUFFOVFLOW << RSA_API::IQSTRM_STATUS_STICKY_SHIFT)) 
             == this->constants.ACQ_STATUS_SUCCESS                                               )
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_19],
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_19],
             this->constants.ACQ_STATUS_SUCCESS_MESSAGE, BUF_C);
     }
     else
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_19],
-            this->constants.IQSTREAM_FAIL_BIT[this->constants.IQS_BIT_19], BUF_C);
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_19],
+            this->constants.IQSTREAM_FAIL_BITS[this->constants.IQSTREAM_BIT_19], BUF_C);
         strcat(this->_vars.iqstream.acqStatus_message[IQSTREAM_BITCHECKS-1], "b19 ");
     }
     // bit 20
     if ((acqStatus & (RSA_API::IQSTRM_STATUS_OBUFF75PCT << RSA_API::IQSTRM_STATUS_STICKY_SHIFT)) 
             == this->constants.ACQ_STATUS_SUCCESS                                              )
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_20],
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_20],
             this->constants.ACQ_STATUS_SUCCESS_MESSAGE, BUF_C);
     }
     else
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_20],
-            this->constants.IQSTREAM_FAIL_BIT[this->constants.IQS_BIT_20], BUF_C);
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_20],
+            this->constants.IQSTREAM_FAIL_BITS[this->constants.IQSTREAM_BIT_20], BUF_C);
         strcat(this->_vars.iqstream.acqStatus_message[IQSTREAM_BITCHECKS-1], "b20 ");
     }
     // bit 21
     if ((acqStatus & (RSA_API::IQSTRM_STATUS_OBUFFOVFLOW << RSA_API::IQSTRM_STATUS_STICKY_SHIFT)) 
             == this->constants.ACQ_STATUS_SUCCESS                                               )
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_21],
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_21],
             this->constants.ACQ_STATUS_SUCCESS_MESSAGE, BUF_C);
     }
     else
     {
-        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQS_BIT_21],
-            this->constants.IQSTREAM_FAIL_BIT[this->constants.IQS_BIT_21], BUF_C);
+        strncpy(this->_vars.iqstream.acqStatus_message[this->constants.IQSTREAM_BIT_21],
+            this->constants.IQSTREAM_FAIL_BITS[this->constants.IQSTREAM_BIT_21], BUF_C);
         strcat(this->_vars.iqstream.acqStatus_message[IQSTREAM_BITCHECKS-1], "b21 ");
     }
 

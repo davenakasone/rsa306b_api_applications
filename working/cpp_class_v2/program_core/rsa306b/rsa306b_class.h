@@ -444,7 +444,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
 
-        // INSERT POINTS: device_connect(), _init_everything(), print_everything(), get_everything()
+        // INSERT POINTS: device_connect(), _init_everything(), print_everything(), get_everything(), print_constants()
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
@@ -636,9 +636,11 @@
         # space the source code?
         # resolve the bitcheck string...
         # version3, refine more
+            - lots of uneeded constants, remove and consolidate
+            - center source code "=", frame paramters of API calls (), like other functions
             - document the group structs better [user, setter, getter, ...every category] + API info
             - data directory to the source, reduce to "inputs" and "outputs"
-            - setters pass public to API, take out copying unless API getter not possible
+            - setters pass public to API, take out copying unless API getter not possible ? must be same flow
             - user only has 1 set point, so 1 stop call is all that is needed...
             - constants include defualt values
             - constants enforce naming convention to match API group

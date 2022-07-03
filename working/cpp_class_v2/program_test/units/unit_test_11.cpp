@@ -24,6 +24,8 @@ void unit_test_11 (void)
             rsa.print_iqstream();
             rsa.vars.iqstream.bandwidth = 11.222e6;
             rsa.vars.iqstream.record_time_ms = 3;
+            sprintf(rsa.vars.iqstream.filename_base, "potatoe");
+            rsa.vars.iqstream.suffix_control = RSA_API::IQSSDFN_SUFFIX_TIMESTAMP;
             rsa.iqstream_set_vars();
             rsa.print_iqstream();
         #endif

@@ -114,14 +114,14 @@ int rsa306b_class::_config_set_reference_level_dbm()
         #endif
         return this->constants.CALL_FAILURE;
     }
-    if (this->vars.config.reference_level_dbm < this->constants.REFERENCE_LEVEL_MIN_dbm ||
-        this->vars.config.reference_level_dbm > this->constants.REFERENCE_LEVEL_MAX_dbm  )
+    if (this->vars.config.reference_level_dbm < this->constants.REFERENCE_LEVEL_MIN_DBM ||
+        this->vars.config.reference_level_dbm > this->constants.REFERENCE_LEVEL_MAX_DBM  )
     {
         #ifdef DEBUG_MIN
             printf("\n\treference level { %lf }  ,  out of range [ %lf , %lf ]\n",
                 this->vars.config.reference_level_dbm,
-                this->constants.REFERENCE_LEVEL_MIN_dbm,
-                this->constants.REFERENCE_LEVEL_MAX_dbm);
+                this->constants.REFERENCE_LEVEL_MIN_DBM,
+                this->constants.REFERENCE_LEVEL_MAX_DBM);
         #endif
         return this->constants.CALL_FAILURE;
     }

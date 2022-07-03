@@ -161,11 +161,13 @@ void rsa306b_class::_iqstream_set_disk_file_length()
         #endif
         return;    // old recording time remains
     }
-    this->_vars.gp.api_status =
-        RSA_API::IQSTREAM_SetDiskFileLength(
-            this->vars.iqstream.record_time_ms);
-    this->_gp_confirm_api_status();
     this->_vars.iqstream.record_time_ms = this->vars.iqstream.record_time_ms;
+    this->_vars.gp.api_status =
+        RSA_API::IQSTREAM_SetDiskFileLength
+        (
+            this->_vars.iqstream.record_time_ms
+        );
+    this->_gp_confirm_api_status();
 }
 
 
@@ -174,6 +176,7 @@ void rsa306b_class::_iqstream_set_disk_file_length()
 
 /*
     < 4 > private
+    no API use to get after set
 */
 void rsa306b_class::_iqstream_set_disk_filename_base()
 {
@@ -189,7 +192,27 @@ void rsa306b_class::_iqstream_set_disk_filename_base()
         #endif
         return;
     }
-    if (this->vars)
+    if (this->vars.iqstream.filename_base == NULL)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\trequested filename base not allocated\n");
+        #endif
+        return;    // no set occurs
+    }
+    if (strcmp(this->vars.iqstream.filename_base, this->_vars.iqstream.filename_base) == 0)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\trequested filename base unchanged\n");
+        #endif
+        return;    // no set occurs
+    }
+    strcpy(this->_vars.iqstream.filename_base, this->vars.iqstream.filename_base);
+    this->_vars.gp.api_status =
+        RSA_API::IQSTREAM_SetDiskFilenameBase
+        (
+            this->_vars.iqstream.filename_base
+        );
+    this->_gp_confirm_api_status();
 }
 
 
@@ -198,12 +221,14 @@ void rsa306b_class::_iqstream_set_disk_filename_base()
 
 /*
     < 5 > private
+    no API use to get after set
 */
 void rsa306b_class::_iqstream_set_filename_suffix()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
-        __LINE__, __FILE__, __func__);
+    printf
+        ("\n<%d> %s/%s()\n",
+            __LINE__, __FILE__, __func__);
 #endif  
 
     if (this->_vars.device.is_connected == false)
@@ -213,6 +238,35 @@ void rsa306b_class::_iqstream_set_filename_suffix()
         #endif
         return;
     }
+    if (this->vars.iqstream.suffix_control < 
+        (int)RSA_API::IQSSDFN_SUFFIX_NONE  )
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tsuffix not in range,  requested { %d }  ,  required { %d, %d, or >= %d}\n",
+                static_cast<int>(this->vars.iqstream.suffix_control),
+                (int)RSA_API::IQSSDFN_SUFFIX_NONE,
+                (int)RSA_API::IQSSDFN_SUFFIX_TIMESTAMP,
+                static_cast<int>(RSA_API::IQSSDFN_SUFFIX_INCRINDEX_MIN));
+        #endif
+        return;    // no set occurs
+
+    }
+    if (this->vars.iqstream.suffix_control == this->_vars.iqstream.suffix_control)
+    {
+        #ifdef DEBUG_MAX
+            printf("\n\tsuffix already set,  requested { %d }  ,  using { %d }\n",
+                this->vars.iqstream.suffix_control,
+                this->_vars.iqstream.suffix_control);
+        #endif
+        return;    // no set occurs
+    }
+    this->_vars.iqstream.suffix_control = this->vars.iqstream.suffix_control;
+    this->_vars.gp.api_status = 
+        RSA_API::IQSTREAM_SetDiskFilenameSuffix
+        (
+            this->_vars.iqstream.suffix_control
+        );
+    this->_gp_confirm_api_status();
 }
 
 

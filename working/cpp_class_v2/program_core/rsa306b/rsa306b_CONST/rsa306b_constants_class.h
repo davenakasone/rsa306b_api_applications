@@ -15,6 +15,7 @@
 
 
 class rsa306b_constants_class
+//struct rsa306b_constants
 {
     public :
         
@@ -40,11 +41,11 @@ class rsa306b_constants_class
 
     // device limits for the RSA-306B
         const double EXTERNAL_FREQUENCY                   = 10e6;     // external reference frequency, required
-        const double EXTERNAL_AMPLITUDE_dbm               = 10;       // allows +/- 10 dbm maximum amplitude  
-        const double REFERENCE_LEVEL_MAX_dbm              = 30;       // highest measurable signal power
-        const double REFERENCE_LEVEL_MIN_dbm              = -130;     // smallest measurable signal power
-        const double SPAN_MAX_Hz                          = 40e6;     // largest measurable bandwith
-        const double SPAN_MIN_Hz                          = 100;      // smallest measurable bandwith 
+        const double EXTERNAL_AMPLITUDE_DBM               = 10;       // allows +/- 10 dbm maximum amplitude  
+        const double REFERENCE_LEVEL_MAX_DBM              = 30;       // highest measurable signal power
+        const double REFERENCE_LEVEL_MIN_DBM              = -130;     // smallest measurable signal power
+        const double SPAN_MAX_HZ                          = 40e6;     // largest measurable bandwith
+        const double SPAN_MIN_HZ                          = 100;      // smallest measurable bandwith 
         const double POSITION_PERCENT_MIN                 = 1;        // smallest trigger position percentage
         const double POSITION_PERCENT_MAX                 = 99;       // largest trigger position percentage
         const float AUDIO_VOLUME_MAX                      = 1.0;      // maximum audio volume API will accept
@@ -86,27 +87,54 @@ class rsa306b_constants_class
         //const int IQBLK_MAX_PAIRS = 104857600;
     
     // IQSTREAM constants
-        const int IQSTREAM_MSEC_MIN = 1;       // if this is 0, then infinite recording occurs, p79
-        const int IQSTREAM_MSEC_MAX = 1000;    // limit for disc space, the files are huge
-        const charIQSTREAM_FILENAME_BASE[BUF_C] = "./program_test/data/outputs_sig";
+        const int IQSTREAM_MSEC_MIN              = 1;                                    // if this is 0, then infinite recording occurs, p79
+        const int IQSTREAM_MSEC_MAX              = 1000;                                 // limit for disc space, the files are huge
+        const char IQSTREAM_FILENAME_BASE[BUF_C] = "./program_test/data/outputs_sig";    // for writing output
+        
+        // setting the buffer size, direct acquisition, see p82
+        typedef enum
+        {
+            IQSTREAM_BUFFER_X_1 = 1,    // the minimum size
+            IQSTREAM_BUFFER_X_2 = 2,    // the default size
+            IQSTREAM_BUFFER_X_3 = 3,
+            IQSTREAM_BUFFER_X_4 = 4,
+            IQSTREAM_BUFFER_X_5 = 5,
+            IQSTREAM_BUFFER_X_6 = 6,
+            IQSTREAM_BUFFER_X_7 = 7,
+            IQSTREAM_BUFFER_X_8 = 8     // the maximum size
+        } IQSTREAM_BUFFER_SIZE;
+        const double IQSTREAM_BANDWIDTH_RANGES[10][2] =
+        {
+            {2.5e6, 40e6},
+            {1.25e6/1, 2.5e6/1},
+            {1.25e6/2, 2.5e6/2},
+            {1.25e6/4, 2.5e6/4},
+            {1.25e6/8, 2.5e6/8},
+            {1.25e6/16, 2.5e6/16},
+            {1.25e6/32, 2.5e6/32},
+            {1.25e6/64, 2.5e6/64},
+            {1.25e6/128, 2.5e6/128},
+            {SPAN_MIN_HZ, 9765.625}
+        };
+        
         // [0:5] for sample, [6:11] sticky, [12] summary, common to both "acqStatus" checks
         enum
         {
-            IQS_BIT_0 = 0,
-            IQS_BIT_1 = 1,
-            IQS_BIT_2 = 2,
-            IQS_BIT_3 = 3,
-            IQS_BIT_4 = 4,
-            IQS_BIT_5 = 5,
-            IQS_BIT_16 = 6,
-            IQS_BIT_17 = 7,
-            IQS_BIT_18 = 8,
-            IQS_BIT_19 = 9,
-            IQS_BIT_20 = 10,
-            IQS_BIT_21  = 11,
-            IQS_BIT_SUMMARY = 12
+            IQSTREAM_BIT_0 = 0,
+            IQSTREAM_BIT_1 = 1,
+            IQSTREAM_BIT_2 = 2,
+            IQSTREAM_BIT_3 = 3,
+            IQSTREAM_BIT_4 = 4,
+            IQSTREAM_BIT_5 = 5,
+            IQSTREAM_BIT_16 = 6,
+            IQSTREAM_BIT_17 = 7,
+            IQSTREAM_BIT_18 = 8,
+            IQSTREAM_BIT_19 = 9,
+            IQSTREAM_BIT_20 = 10,
+            IQSTREAM_BIT_21  = 11,
+            IQSTREAM_BIT_SUMMARY = 12
         };
-        const char IQSTREAM_FAIL_BIT[IQSTREAM_BITCHECKS][BUF_C] =
+        const char IQSTREAM_FAIL_BITS[IQSTREAM_BITCHECKS][BUF_C] =
         {
             "b0 {this sample} RF input overrange detected",
             "b1 {this sample} USB data stream discontinuity error, gap detected in IF frame transfers",
@@ -122,7 +150,7 @@ class rsa306b_constants_class
             "b21 {sticky} Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped",
             "acqStatus bitcheck failures: "
         };
-};
+}; //typedef struct rsa306b_constants rsa306b_constants;
 
 
 #endif
