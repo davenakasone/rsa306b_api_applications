@@ -168,6 +168,35 @@ void rsa306b_class::_iqstream_copy_fileinfo_type()
     this->vars.iqstream.fileinfo_type.sample0Timestamp = this->_vars.iqstream.fileinfo_type.sample0Timestamp;
     this->vars.iqstream.fileinfo_type.triggerSampleIndex = this->_vars.iqstream.fileinfo_type.triggerSampleIndex;
     this->vars.iqstream.fileinfo_type.triggerTimestamp = this->_vars.iqstream.fileinfo_type.triggerTimestamp;
+
+    //printf("boom: %s\n", this->_vars.iqstream.fileinfo_type.filenames[0]);
+    //std::wstring temp0(this->_vars.iqstream.fileinfo_type.filenames[0]);
+    //wcstombs(this->_vars.iqstream.name_of_file, this->_vars.iqstream.fileinfo_type.filenames[0], BUF_C);
+    //strcpy(this->vars.iqstream.name_of_file, this->_vars.iqstream.name_of_file);
+    //this->_vars.iqstream.name_of_file.clear();
+    //this->_vars.iqstream.name_of_file.assign()
+    //snprintf(this->vars.iqstream.fileinfo_type.filenames[0])
+    //swprintf(this->vars.iqstream.fileinfo_type.filenames[0], 999, L"%ls", this->_vars.iqstream.fileinfo_type.filenames[0]);
+    //strcpy(this->vars.iqstream.fileinfo_type.filenames[0], )
+    /*
+    wcscpy(this->vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX], 
+        this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX]);
+    wcscpy(this->vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX], 
+        this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX]);
+    */
+    /*
+    this->gp_wchar_2_char(this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX],
+        this->_vars.iqstream.name_of_file);
+    this->gp_wchar_2_char(this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX],
+        this->_vars.iqstream.name_of_header);
+    strcpy(this->vars.iqstream.name_of_file, this->_vars.iqstream.name_of_file);
+    strcpy(this->vars.iqstream.name_of_header, this->_vars.iqstream.name_of_header);
+    wcpcpy(this->vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX], 
+        this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX]);
+    wcpcpy(this->vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX], 
+        this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX]);
+    */
+    /*
     if (this->vars.iqstream.fileinfo_type.filenames == NULL)
     {
         strcpy(this->vars.iqstream.name_of_file, this->constants.INIT_STR);
@@ -186,6 +215,7 @@ void rsa306b_class::_iqstream_copy_fileinfo_type()
         wcpcpy(this->vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX], 
             this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX]);
     }
+    */
 }
 
 

@@ -87,8 +87,9 @@ void rsa306b_class::print_iqstream()
     printf("\t    fileinfo_type.triggerSampleIndex  : %ld\n", this->_vars.iqstream.fileinfo_type.triggerSampleIndex);
     printf("\t    fileinfo_type.triggerTimestamp    : %lu\n", this->_vars.iqstream.fileinfo_type.triggerTimestamp);
     printf("\t    fileinfo_type.filenames           :  %p\n", this->_vars.iqstream.fileinfo_type.filenames);
-    printf("\t    name_of_file                      :  %s\n", this->_vars.iqstream.name_of_file);
-    printf("\t    name_of_header                    :  %s\n", this->_vars.iqstream.name_of_header);
+    //printf("\t    name_of_file                      :  %s\n", this->_vars.iqstream.name_of_file);
+    //printf("\t    name_of_file                      :  %s\n", this->_vars.iqstream.name_of_file.c_str());
+    //printf("\t    name_of_header                    :  %s\n", this->_vars.iqstream.name_of_header);
 
     printf("\t%s\n", this->_vars.iqstream.acqStatus_message[IQSTREAM_BITCHECKS-1]);
     for (int ii = 0; ii < IQSTREAM_BITCHECKS-1; ii++)
@@ -126,10 +127,12 @@ void rsa306b_class::_iqstream_init()
     this->_vars.iqstream.buffer_multiplier = this->constants.IQSTREAM_BUFFER_X_6;
     this->_vars.iqstream.pairs_copied      = this->constants.INIT_INT;
 
-    memset(this->_vars.iqstream.name_of_file, '\0', BUF_C);
-    strcpy(this->_vars.iqstream.name_of_file, this->constants.INIT_STR);
-    memset(this->_vars.iqstream.name_of_header, '\0', BUF_C);
-    strcpy(this->_vars.iqstream.name_of_header, this->constants.INIT_STR);
+    //memset(this->_vars.iqstream.name_of_file, '\0', BUF_C);
+    //strcpy(this->_vars.iqstream.name_of_file, this->constants.INIT_STR);
+    //this->_vars.iqstream.name_of_file.clear();
+    //this->_vars.iqstream.name_of_file.assign(this->constants.INIT_STR);
+    //memset(this->_vars.iqstream.name_of_header, '\0', BUF_C);
+    //strcpy(this->_vars.iqstream.name_of_header, this->constants.INIT_STR);
     memset(this->_vars.iqstream.filename_base, '\0', BUF_C);
     strcpy(this->_vars.iqstream.filename_base, this->constants.INIT_STR);
     for (int ii = 0; ii < IQSTREAM_BITCHECKS; ii++)

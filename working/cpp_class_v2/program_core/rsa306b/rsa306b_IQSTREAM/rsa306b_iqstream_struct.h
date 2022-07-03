@@ -73,8 +73,8 @@ struct rsa306b_iqstream_struct
         // triggerTimestamp: timestamp of the trigger event, only valid if trigger enabled
         // filenames: uses a wchar_t**, [0]= file name, [1]= header file name, handle the wide character
             // stored in an internal static buffer
-            char name_of_file[BUF_C];      // for file_info.filenames[0], UTF8 to ASCII
-            char name_of_header[BUF_C];    // for file_info.filenames[1], UTF8 to ASCII
+            //char name_of_file[BUF_C];      // for file_info.filenames[0], UTF8 to ASCII
+            //char name_of_header[BUF_C];    // for file_info.filenames[1], UTF8 to ASCII
         // acqStatus: status for the run interval, sticky and running bit-check required
 
 // IQSTREAM_GetEnable()
@@ -126,8 +126,8 @@ struct rsa306b_iqstream_struct
 
 // IQSTREAM_SetDiskFilenameSuffix()
 // determine what is appended to the base filename
-// -2:  no suffix, must change output files manually
-// -1:  timestamp as suffix
+// -2  :  no suffix, must change output files manually
+// -1  :  timestamp as suffix
 // >=0 : 5-digit auto incrementing index, each Start()
     int suffix_control;
 

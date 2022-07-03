@@ -21,7 +21,6 @@
 #include <iterator>
 #include <string>
 #include <vector>
-#include <cwchar>
 
 // for interfacing with the C ABI
 #include <dirent.h>
@@ -31,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <wchar.h>
 
 #include "../../api_resourcez/RSA_API.h"    // has <time.h> and <stdint.h> 
 //#include "rsa306b_constants.h"              // device constants for operating the RSA-306B

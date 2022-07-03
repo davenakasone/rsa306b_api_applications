@@ -334,8 +334,13 @@
                 _iqstream_set_filename_suffix()
                 _iqstream_set_iq_data_buffer_size()
                 _iqstream_set_output_configuration()
-
-                
+            - rsa306b_iqstream_user.cpp
+                iqstream_acquire_data()                   
+                iqstream_make_csv()
+                iqstream_clear_sticky()
+            - rsa306b_iqstream_acquire.cpp
+                _iqstream_acquire_data_to_file()
+                _iqstream_acquire_data_direct()
 
         "./program_core/rsa306b/rsa306_REFTIME/"
             - rsa306b_reftime_struct.h
@@ -636,6 +641,8 @@
         # space the source code?
         # resolve the bitcheck string...
         # version3, refine more
+            - API group 'DEVICE' should have user interface reduced...reduce user interface as much as possible
+            - junk/archive everything and leave MVP in top level
             - lots of uneeded constants, remove and consolidate
             - center source code "=", frame paramters of API calls (), like other functions
             - document the group structs better [user, setter, getter, ...every category] + API info
@@ -728,9 +735,12 @@ class rsa306b_class
         // always return something (fail silently is bad)
 
     // API group "IQSTREAM"
-        void print_iqstream();       // prints the "IQSTREAM" variables to stdout, using the private struct
-        void iqstream_set_vars();    // user changes "IQSTREAM" variables in public struct, then calls to set new values
-
+        void print_iqstream();                           // prints the "IQSTREAM" variables to stdout, using the private struct
+        void iqstream_set_vars();                        // user changes "IQSTREAM" variables in public struct, then calls to set new values
+        void iqstream_acquire_data();                    // the "IQSTREAM" data is acquired into "vars.iqstream.cplx*_v", based on setting
+        void iqstream_make_csv(char* file_path_name);    // call after acquring data, "*.csv" is produced
+        void iqstream_clear_sticky();                    // clears the sticky bits of "acqStatus"
+    
     // API group "REFTIME"
         void print_reftime();               // prints the "REFTIME" variables to stdout, using the private struct
         void reftime_reset();               // resets start time of the device
@@ -987,9 +997,9 @@ class rsa306b_class
         void _iqstream_set_filename_suffix();
         void _iqstream_set_iq_data_buffer_size();
         void _iqstream_set_output_configuration();
-
-
-
+        // data acquisiton
+        void _iqstream_acquire_data_to_file();    // uses API
+        void _iqstream_acquire_data_direct();     // uses API
 
     // API group "REFTIME"
         void _reftime_init();
