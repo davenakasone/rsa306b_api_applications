@@ -266,6 +266,8 @@ void rsa306b_class::_iqstream_copy_info_type()
         __LINE__, __FILE__, __func__);
 #endif  
 
+    this->_iqstream_bitcheck(this->_vars.iqstream.info_type.acqStatus);
+
     this->vars.iqstream.info_type.acqStatus = this->_vars.iqstream.info_type.acqStatus;
     this->vars.iqstream.info_type.scaleFactor = this->_vars.iqstream.info_type.scaleFactor;
     this->vars.iqstream.info_type.timestamp = this->_vars.iqstream.info_type.timestamp;

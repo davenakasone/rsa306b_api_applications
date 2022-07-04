@@ -61,7 +61,16 @@ void rsa306b_class::_iqstream_acquire_data_to_file()
     this->_gp_confirm_api_status();
     RSA_API::IQSTREAM_GetDiskFileInfo(&this->_vars.iqstream.fileinfo_type);
     this->_iqstream_get_disk_fileinfo();    // bit check is handeled
+
+    std::wstring filenames_0w(this->_vars.iqstream.fileinfo_type.filenames[0]);
+    std::wstring filenames_1w(this->_vars.iqstream.fileinfo_type.filenames[1]);
+    std::string filenames0s (filenames_0w.begin(), filenames_0w.end());
+    std::string filenames1s (filenames_1w.begin(), filenames_1w.end());
+    strncpy(this->_vars.iqstream.name_of_file, filenames0s.c_str(), BUF_C);
+    printf("%s  ,  %s\n", this->_vars.iqstream.name_of_file, this->_vars.iqstream.n);
+
     this->device_stop();
+    this->_iqstream_get_enabled();
 }
 
 
@@ -84,6 +93,45 @@ void rsa306b_class::_iqstream_acquire_data_direct()
             printf("\n\tno device connected\n");
         #endif
         return;
+    }
+
+    if (this->_vars.iqstream.datatype_select == RSA_API::IQSODT_INT16)    // data to td::vector<CplxInt16>
+    {
+
+    }
+    else if (this->_vars.iqstream.datatype_select == RSA_API::IQSODT_INT32)    // data to std::vector<CplxInt32>
+    {
+
+    }
+    else    // data to std::vector<Cplx32>
+    {
+        this->_iqstream_get_iq_data_buffer_size();
+        RSA_API::Cplx32* p_cplx32 = new RSA_API::Cplx32[this->_vars.iqstream.pairs_max];
+            this->device_run();
+        this->_vars.gp.api_status = 
+            RSA_API::IQSTREAM_Start();
+        this->_gp_confirm_api_status();
+        
+        RSA_API::IQSTREAM_GetIQData
+        (
+            p_cplx32,
+            &this->_vars.iqstream.pairs_copied,
+            &this->_vars.iqstream.info_type
+        );
+
+        this->_vars.iqstream.cplx32_v.resize(this->_vars.iqstream.pairs_copied);
+        for (int kk = 0; kk < this->_vars.iqstream.pairs_copied; kk++)
+        {
+            this->_vars.iqstream.cplx32_v[kk].i = p_cplx32[kk].i;
+            this->_vars.iqstream.cplx32_v[kk].q = p_cplx32[kk].q;
+        }
+        delete [] p_cplx32; p_cplx32 = NULL;
+
+        this->_vars.gp.api_status = 
+            RSA_API::IQSTREAM_Stop();
+        this->_gp_confirm_api_status();
+        //this->_iqstream_
+        this->device_stop();
     }
 }
 

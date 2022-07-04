@@ -7,6 +7,9 @@
     watch acqStatus to ensure speed is sufficient
     unique acqStatus bit-check will be needed
     general purpose wchar_t to char will be needed
+
+    there are 2x "acqStatus", but only one is valid at a time
+    if streaming directly to client, the 
 */
 
 #ifndef H_rsa306b_iqstream_struct
@@ -73,8 +76,8 @@ struct rsa306b_iqstream_struct
         // triggerTimestamp: timestamp of the trigger event, only valid if trigger enabled
         // filenames: uses a wchar_t**, [0]= file name, [1]= header file name, handle the wide character
             // stored in an internal static buffer
-            //char name_of_file[BUF_C];      // for file_info.filenames[0], UTF8 to ASCII
-            //char name_of_header[BUF_C];    // for file_info.filenames[1], UTF8 to ASCII
+            char name_of_file[BUF_C];      // for file_info.filenames[0], UTF8 to ASCII "wchar_t* to char*"
+            char name_of_header[BUF_C];    // for file_info.filenames[1], UTF8 to ASCII "wchar_t* to char*"
         // acqStatus: status for the run interval, sticky and running bit-check required
 
 // IQSTREAM_GetEnable()
