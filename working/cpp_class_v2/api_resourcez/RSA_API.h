@@ -925,6 +925,8 @@ namespace RSA_API   // ...use V2 namespace
 			uint64_t  triggerTimestamp;           // if triggering enabled, timestamp of trigger event
 			uint32_t  acqStatus;                  // 0=acq OK, >0 acq issues; see IQSTRM_STATUS enums to decode...
 			wchar_t** filenames;                  // [0]:data filename, [1]:header filename
+			char filenames_0[512];//added, sized "BUF_E", absorb the wchar_t*
+			char filenames_1[512];//added, sized "BUF_E", absorb the wchar_t*
 		} IQSTRMFILEINFO;
 		RSA_API_DLL ReturnStatus IQSTREAM_GetDiskFileInfo(IQSTRMFILEINFO* fileinfo);
 

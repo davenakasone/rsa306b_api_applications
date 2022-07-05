@@ -89,7 +89,7 @@ struct rsa306b_constants
         const int IQSTREAM_MSEC_MIN              = 1;                                    // if this is 0, then infinite recording occurs, p79
         const int IQSTREAM_MSEC_MAX              = 1000;                                 // limit for disc space, the files are huge
         const char IQSTREAM_FILENAME_BASE[BUF_C] = "./program_test/data/outputs_sig";    // for writing output
-        
+        const int IQSTREAM_TIMEOUT_MS            = 1;
         // setting the buffer size, direct acquisition, see p82
         const int IQSTREAM_BUFFER_SIZE_LARGE  = 65536;                            // for 2.5 MHz to 40 MHz
         const int IQSTREAM_BUFFER_SIZE_MEDIUM = 32768;                            // for 96765.625 Hz to 2.5 MHz
@@ -120,7 +120,6 @@ struct rsa306b_constants
             {2.5e6, 40e6}                                           // highest bandwidth range, largest sample pairs
             
         };
-        
         // [0:5] for sample, [6:11] sticky, [12] summary, common to both "acqStatus" checks
         enum
         {

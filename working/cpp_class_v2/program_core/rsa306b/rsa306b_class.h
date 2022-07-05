@@ -641,6 +641,7 @@
         # space the source code?
         # resolve the bitcheck string...
         # version3, refine more
+            - breakout the inits into each type + init_vars()...
             - API group 'DEVICE' should have user interface reduced...reduce user interface as much as possible
             - junk/archive everything and leave MVP in top level
             - lots of uneeded constants, remove and consolidate

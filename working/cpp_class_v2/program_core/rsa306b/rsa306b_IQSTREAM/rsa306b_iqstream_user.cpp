@@ -59,6 +59,13 @@ void rsa306b_class::iqstream_make_csv
         __LINE__, __FILE__, __func__);
 #endif  
 
+    if (this->_vars.iqstream.destination_select != RSA_API::IQSOD_CLIENT)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tno direct data availible to make CSV\n");
+        #endif
+        return;
+    }
     if (file_path_name == NULL)
     {
         #ifdef DEBUG_MIN
@@ -66,16 +73,9 @@ void rsa306b_class::iqstream_make_csv
         #endif
         return;
     }
-    if (this->_vars.iqstream.cplx32_v.size() <= this->constants.INIT_STL_LENGTH &&
-        this->_vars.iqstream.datatype_select == RSA_API::IQSODT_SINGLE           )
-    {
-        #ifdef DEBUG_MIN
-            printf("\n\tCSV not possible, no data availible\n");
-        #endif
-        return;
-    }
-    if (this->_vars.iqstream.cplx32_v.size() <= this->constants.INIT_STL_LENGTH   &&
-        this->_vars.iqstream.datatype_select == RSA_API::IQSODT_SINGLE_SCALE_INT32 )
+    if (this->_vars.iqstream.cplx32_v.size() <= this->constants.INIT_STL_LENGTH      &&
+        ( this->_vars.iqstream.datatype_select == RSA_API::IQSODT_SINGLE           ||
+          this->_vars.iqstream.datatype_select == RSA_API::IQSODT_SINGLE_SCALE_INT32) )
     {
         #ifdef DEBUG_MIN
             printf("\n\tCSV not possible, no data availible\n");
@@ -107,9 +107,46 @@ void rsa306b_class::iqstream_make_csv
         #endif
         return;
     }
+    snprintf(this->_vars.gp.helper, BUF_E, "i,q,\n");
+    fputs(this->_vars.gp.helper, this->_fptr_write);
 
-    // TODO:  write the CSV here
-
+    if (this->_vars.iqstream.datatype_select == RSA_API::IQSODT_SINGLE            ||
+        this->_vars.iqstream.datatype_select == RSA_API::IQSODT_SINGLE_SCALE_INT32 )
+    {
+        for (std::size_t kk = 0; kk < this->_vars.iqstream.cplx32_v.size(); kk++)
+        {
+            snprintf(this->_vars.gp.helper, BUF_E, "%0.9f,%0.9f\n",
+                this->_vars.iqstream.cplx32_v[kk].i,
+                this->_vars.iqstream.cplx32_v[kk].q);
+            fputs(this->_vars.gp.helper, this->_fptr_write);
+        }
+    }
+    else if (this->_vars.iqstream.datatype_select == RSA_API::IQSODT_INT32)
+    {
+        for (std::size_t kk = 0; kk < this->_vars.iqstream.cplxInt32_v.size(); kk++)
+        {
+            snprintf(this->_vars.gp.helper, BUF_E, "%d,%d\n",
+                this->_vars.iqstream.cplxInt32_v[kk].i,
+                this->_vars.iqstream.cplxInt32_v[kk].q);
+            fputs(this->_vars.gp.helper, this->_fptr_write);
+        }
+    }
+    else if (this->_vars.iqstream.datatype_select == RSA_API::IQSODT_INT16)
+    {
+        for (std::size_t kk = 0; kk < this->_vars.iqstream.cplxInt16_v.size(); kk++)
+        {
+            snprintf(this->_vars.gp.helper, BUF_E, "%d,%d\n",
+                this->_vars.iqstream.cplxInt16_v[kk].i,
+                this->_vars.iqstream.cplxInt16_v[kk].q);
+            fputs(this->_vars.gp.helper, this->_fptr_write);
+        }
+    }
+    else
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tlogice error, CSV failed\n");
+        #endif
+    }
     fclose(this->_fptr_write);
     this->_fptr_write = NULL;
 }

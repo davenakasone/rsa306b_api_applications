@@ -75,9 +75,9 @@ struct rsa306b_iqstream_struct
         // triggerSampleIndex: sample index where the trigger event occured, only valid if trigger enabled
         // triggerTimestamp: timestamp of the trigger event, only valid if trigger enabled
         // filenames: uses a wchar_t**, [0]= file name, [1]= header file name, handle the wide character
-            // stored in an internal static buffer
-            char name_of_file[BUF_C];      // for file_info.filenames[0], UTF8 to ASCII "wchar_t* to char*"
-            char name_of_header[BUF_C];    // for file_info.filenames[1], UTF8 to ASCII "wchar_t* to char*"
+            // stored in an internal static buffer...see addition to "RSA_API.h"
+            //char name_of_file[BUF_D];      // for file_info.filenames[0], UTF8 to ASCII "wchar_t* to char*"
+            //char name_of_header[BUF_D];    // for file_info.filenames[1], UTF8 to ASCII "wchar_t* to char*"
         // acqStatus: status for the run interval, sticky and running bit-check required
 
 // IQSTREAM_GetEnable()

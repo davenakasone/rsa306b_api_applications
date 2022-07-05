@@ -39,7 +39,7 @@
 
 #define DEBUG_MIN 1917    // when activated, prints essential information
 //#define DEBUG_MAX 1787    // when activated, prints additional information (keep DEBUG_MIN on if using)
-//#define DEBUG_CLI 1776    // when activated, prints __LINE__, __FILE__, __func__ for each call
+#define DEBUG_CLI 1776    // when activated, prints __LINE__, __FILE__, __func__ for each call
 //#define DEBUG_ERR 1492    // when activated, prints the occurance of API and class "call checks"
 
 #define BUF_A 32                    // a short general purpose buffer

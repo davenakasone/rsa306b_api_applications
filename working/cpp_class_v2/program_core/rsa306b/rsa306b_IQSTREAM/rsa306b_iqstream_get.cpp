@@ -65,8 +65,10 @@ void rsa306b_class::_iqstream_get_max_acq_bandwidth()
         return;
     }
     this->_vars.gp.api_status = 
-        RSA_API::IQSTREAM_GetMaxAcqBandwidth(
-            &this->_vars.iqstream.bandwidth_max);
+        RSA_API::IQSTREAM_GetMaxAcqBandwidth
+        (
+            &this->_vars.iqstream.bandwidth_max
+        );
     this->_gp_confirm_api_status();
     this->_iqstream_copy_bandwidth_max();
 }
@@ -93,8 +95,10 @@ void rsa306b_class::_iqstream_get_min_acq_bandwidth()
         return;
     }
     this->_vars.gp.api_status = 
-        RSA_API::IQSTREAM_GetMinAcqBandwidth(
-            &this->_vars.iqstream.bandwidth_min);
+        RSA_API::IQSTREAM_GetMinAcqBandwidth
+        (
+            &this->_vars.iqstream.bandwidth_min
+        );
     this->_gp_confirm_api_status();
     this->_iqstream_copy_bandwidth_min();
 }
@@ -121,9 +125,11 @@ void rsa306b_class::_iqstream_get_acq_parameters()
         return;
     }
     this->_vars.gp.api_status = 
-        RSA_API::IQSTREAM_GetAcqParameters(
+        RSA_API::IQSTREAM_GetAcqParameters
+        (
             &this->_vars.iqstream.bandwidth,
-            &this->_vars.iqstream.sample_rate);
+            &this->_vars.iqstream.sample_rate
+        );
     this->_gp_confirm_api_status();
     this->_iqstream_copy_bandwidth();
     this->_iqstream_copy_sample_rate();
@@ -135,6 +141,7 @@ void rsa306b_class::_iqstream_get_acq_parameters()
 
 /*
     < 5 > private
+    double get, no copy, must handle wchar_t
 */
 void rsa306b_class::_iqstream_get_disk_fileinfo()
 {
@@ -151,12 +158,11 @@ void rsa306b_class::_iqstream_get_disk_fileinfo()
         return;
     }
     this->_vars.gp.api_status = 
-        RSA_API::IQSTREAM_GetDiskFileInfo(
-            &this->_vars.iqstream.fileinfo_type);
+        RSA_API::IQSTREAM_GetDiskFileInfo
+        (
+            &this->_vars.iqstream.fileinfo_type
+        );
     this->_gp_confirm_api_status();
-    this->_iqstream_bitcheck(
-        this->_vars.iqstream.fileinfo_type.acqStatus);
-    this->_iqstream_copy_fileinfo_type();
 }
 
 
@@ -181,8 +187,10 @@ void rsa306b_class::_iqstream_get_enabled()
         return;
     }
     this->_vars.gp.api_status = 
-        RSA_API::IQSTREAM_GetEnable(
-            &this->_vars.iqstream.is_enabled);
+        RSA_API::IQSTREAM_GetEnable
+        (
+            &this->_vars.iqstream.is_enabled
+        );
     this->_gp_confirm_api_status();
     this->_iqstream_copy_is_enabled();
 }
@@ -212,8 +220,10 @@ void rsa306b_class::_iqstream_get_iq_data_buffer_size()
         return;
     }
     this->_vars.gp.api_status =
-        RSA_API::IQSTREAM_GetIQDataBufferSize(
-            &this->_vars.iqstream.pairs_max);
+        RSA_API::IQSTREAM_GetIQDataBufferSize
+        (
+            &this->_vars.iqstream.pairs_max
+        );
     this->_gp_confirm_api_status();
     this->_iqstream_copy_pairs_max();
 }
