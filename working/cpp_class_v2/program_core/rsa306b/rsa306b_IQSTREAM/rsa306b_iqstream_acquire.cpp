@@ -64,13 +64,9 @@ void rsa306b_class::_iqstream_acquire_data_to_file()
                 printf("\n\t%d ms elapsed, no trigger detected, no data acquired\n",
                     this->constants.IQSTREAM_TIMEOUT_MS);
             #endif
-            this->_vars.gp.api_status = 
-                RSA_API::IQSTREAM_GetDiskFileInfo
-                (
-                    &this->_vars.iqstream.fileinfo_type
-                );
-            this->_gp_confirm_api_status();
-            this->_iqstream_copy_fileinfo_type();
+            this->_iqstream_get_disk_fileinfo();
+            this->_vars.iqstream.fileinfo_type.numberSamples = 0;
+            this->vars.iqstream.fileinfo_type.numberSamples = this->_vars.iqstream.fileinfo_type.numberSamples;
             return;    // file aborted
         }
         this->_vars.gp.api_status =
@@ -86,13 +82,9 @@ void rsa306b_class::_iqstream_acquire_data_to_file()
             #ifdef DEBUG_MIN
                 printf("\n\tfailed to record IQ data to file\n");
             #endif
-            this->_vars.gp.api_status = 
-                RSA_API::IQSTREAM_GetDiskFileInfo
-                (
-                    &this->_vars.iqstream.fileinfo_type
-                );
-            this->_gp_confirm_api_status();
-            this->_iqstream_copy_fileinfo_type();
+            this->_iqstream_get_disk_fileinfo();
+            this->_vars.iqstream.fileinfo_type.numberSamples = 0;
+            this->vars.iqstream.fileinfo_type.numberSamples = this->_vars.iqstream.fileinfo_type.numberSamples;
             return;  // file aborted
         }
     }
@@ -100,12 +92,7 @@ void rsa306b_class::_iqstream_acquire_data_to_file()
         RSA_API::IQSTREAM_Stop();
     this->_gp_confirm_api_status();
 
-    this->_vars.gp.api_status = 
-        RSA_API::IQSTREAM_GetDiskFileInfo
-        (
-            &this->_vars.iqstream.fileinfo_type
-        );
-    this->_gp_confirm_api_status();
+    this->_iqstream_get_disk_fileinfo();
     this->_iqstream_bitcheck(this->_vars.iqstream.fileinfo_type.acqStatus);
     std::wstring filenames_0w(this->_vars.iqstream.fileinfo_type.filenames[0]);
     std::wstring filenames_1w(this->_vars.iqstream.fileinfo_type.filenames[1]);
@@ -193,8 +180,16 @@ void rsa306b_class::_iqstream_acquire_data_direct()
             }
 
         }
-       
-        RSA_API::CplxInt16* p_cplxInt16 = new RSA_API::CplxInt16[this->_vars.iqstream.pairs_max];       
+        RSA_API::CplxInt16* p_cplxInt16 = NULL;
+        try 
+        {
+            p_cplxInt16 = new RSA_API::CplxInt16[this->_vars.iqstream.pairs_max]; 
+        }
+        catch (std::exception& allocation_status)
+        {
+            std::cout << "allocation failure:  " << allocation_status.what() << std::endl;
+        }
+              
         this->_vars.gp.api_status = 
             RSA_API::IQSTREAM_GetIQData
             (
@@ -272,8 +267,16 @@ void rsa306b_class::_iqstream_acquire_data_direct()
             }
 
         }
-       
-        RSA_API::CplxInt32* p_cplxInt32 = new RSA_API::CplxInt32[this->_vars.iqstream.pairs_max];       
+        RSA_API::CplxInt32* p_cplxInt32 = NULL;
+        try 
+        {
+            p_cplxInt32 = new RSA_API::CplxInt32[this->_vars.iqstream.pairs_max];   
+        }
+        catch (std::exception& allocation_status)
+        {
+            std::cout << "allocation failure:  " << allocation_status.what() << std::endl;
+        }
+
         this->_vars.gp.api_status = 
             RSA_API::IQSTREAM_GetIQData
             (
@@ -351,8 +354,16 @@ void rsa306b_class::_iqstream_acquire_data_direct()
             }
 
         }
-       
-        RSA_API::Cplx32* p_cplx32 = new RSA_API::Cplx32[this->_vars.iqstream.pairs_max];       
+        RSA_API::Cplx32* p_cplx32 = NULL;
+        try
+        {
+            p_cplx32 = new RSA_API::Cplx32[this->_vars.iqstream.pairs_max];
+        }
+        catch(const std::exception& allocation_status)
+        {
+            std::cout << "allocation failure:  " << allocation_status.what() << std::endl;
+        }
+    
         this->_vars.gp.api_status = 
             RSA_API::IQSTREAM_GetIQData
             (

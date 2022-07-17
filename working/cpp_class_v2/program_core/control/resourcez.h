@@ -4,8 +4,6 @@
 
     libraries and other resources are consolidated here
 
-    avoid the circular reference
-
     std=c++17 appears to be safe, but don't try to use > c++17 on the RSA_API
 */
 
@@ -15,6 +13,7 @@
 
 // for C++ use cases
 #include <cmath>
+#include <exception>
 #include <queue>
 #include <stack>
 #include <iostream>

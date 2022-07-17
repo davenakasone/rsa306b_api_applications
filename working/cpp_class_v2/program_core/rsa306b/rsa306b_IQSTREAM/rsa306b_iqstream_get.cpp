@@ -163,6 +163,7 @@ void rsa306b_class::_iqstream_get_disk_fileinfo()
             &this->_vars.iqstream.fileinfo_type
         );
     this->_gp_confirm_api_status();
+    this->_iqstream_copy_fileinfo_type();
 }
 
 

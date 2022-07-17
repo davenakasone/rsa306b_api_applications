@@ -245,6 +245,18 @@ void rsa306b_class::device_reset()
         return;
     }
     this->device_stop();
+
+    try
+    {
+        this->_vars.gp.api_status = RSA_API::DEVICE_Reset(this->_vars.device.id);
+    }
+    catch(...)
+    {
+        sleep(10);
+        this->_vars.device.is_connected = false;
+        this->device_connect();
+    }
+    /*
     this->_vars.gp.api_status = RSA_API::DEVICE_Reset(this->_vars.device.id);
     this->_gp_confirm_api_status();
     if (this->_vars.gp.api_status != RSA_API::noError)
@@ -266,9 +278,11 @@ void rsa306b_class::device_reset()
     if (discard == 0) {exit(0);}
     if (discard == 1)
     {
-        sleep(10);
+        sleep(1);
+        this->_vars.device.is_connected = false;
         this->device_connect();
     }
+    */
 }
 
 
