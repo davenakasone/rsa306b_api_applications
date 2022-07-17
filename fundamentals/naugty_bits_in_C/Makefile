@@ -7,12 +7,12 @@ OUTP = outputz.txt
 
 raw :
 	clear
-	rm -f $(EXC)
+	rm -f $(EXK)
 	$(CC) $(FLAGS) $(EXK) $(SRC)
 	@echo "[ $(EXK) ] is compiled and ready to run"
 
 clean :
 	clear
-	rm -f $(EXC)
+	rm -f $(EXK)
 	rm -f $(OUTP)
 	@echo "executable and outputs were deleted"
