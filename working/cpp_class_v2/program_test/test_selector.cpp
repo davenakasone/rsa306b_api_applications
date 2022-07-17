@@ -30,6 +30,7 @@ void test_selector
 
         case (500) : task_500()      ; break;
 
+        case (990) : task_990()      ; break;
         case (991) : task_991()      ; break;
         case (992) : task_992()      ; break;
         case (993) : task_993()      ; break;

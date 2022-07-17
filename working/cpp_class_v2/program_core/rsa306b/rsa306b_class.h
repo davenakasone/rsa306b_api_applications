@@ -641,7 +641,9 @@
         # space the source code?
         # resolve the bitcheck string...
         # version3, refine more
-            - breakout the inits into each type + init_vars()...
+            - the reset can probably be handled with a try-throw-catch and some sleep time
+            - forget the "wchar_t" handlers...just use STL strings and wstrings, do for char* also
+            - breakout the inits into each type + init_vars()...?
             - API group 'DEVICE' should have user interface reduced...reduce user interface as much as possible
             - junk/archive everything and leave MVP in top level
             - lots of uneeded constants, remove and consolidate

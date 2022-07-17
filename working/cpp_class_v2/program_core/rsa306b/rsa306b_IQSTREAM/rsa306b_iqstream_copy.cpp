@@ -255,7 +255,7 @@ void rsa306b_class::_iqstream_copy_cplx32_v()
 
     this->vars.iqstream.cplx32_v.resize(
         this->_vars.iqstream.cplx32_v.size());
-    this->vars.iqstream.cplx32_v = this->vars.iqstream.cplx32_v;
+    this->vars.iqstream.cplx32_v = this->_vars.iqstream.cplx32_v;
 }
 
 
@@ -274,7 +274,7 @@ void rsa306b_class::_iqstream_copy_cplxInt16_v()
 
     this->vars.iqstream.cplxInt16_v.resize(
         this->_vars.iqstream.cplxInt16_v.size());
-    this->vars.iqstream.cplxInt16_v = this->vars.iqstream.cplxInt16_v;
+    this->vars.iqstream.cplxInt16_v = this->_vars.iqstream.cplxInt16_v;
 }
 
 
@@ -293,7 +293,7 @@ void rsa306b_class::_iqstream_copy_cplxInt32_v()
 
     this->vars.iqstream.cplxInt32_v.resize(
         this->_vars.iqstream.cplxInt32_v.size());
-    this->vars.iqstream.cplxInt32_v = this->vars.iqstream.cplxInt32_v;
+    this->vars.iqstream.cplxInt32_v = this->_vars.iqstream.cplxInt32_v;
 }
 
 

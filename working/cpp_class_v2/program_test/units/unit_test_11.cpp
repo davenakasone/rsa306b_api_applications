@@ -12,7 +12,7 @@
 #define ACQUISITIONS 9
 
 //#define UT11a 1    // basic test of the group
-//#define UT11b 2    // get data to a file, freerun and triggered
+#define UT11b 2    // get data to a file, freerun and triggered
 #define UT11c 3    // get data direct, cplx32 format, freerun and triggered --> CSV
 #define UT11d 4    // get data direct, cplxInt32 format, freerun and triggered --> CSV
 #define UT11e 5    // get data direct, cplxInt16 format, freerun and triggered --> CSV

@@ -98,6 +98,7 @@ $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_print_init.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_set.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_user.cpp \
 $(TDIR_T)task_500.cpp \
+$(TDIR_T)task_990.cpp \
 $(TDIR_T)task_991.cpp \
 $(TDIR_T)task_992.cpp \
 $(TDIR_T)task_993.cpp \

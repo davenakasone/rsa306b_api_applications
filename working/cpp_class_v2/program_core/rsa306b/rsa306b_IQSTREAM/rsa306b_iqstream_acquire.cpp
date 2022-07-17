@@ -113,19 +113,8 @@ void rsa306b_class::_iqstream_acquire_data_to_file()
     std::string filenames1s (filenames_1w.begin(), filenames_1w.end());
     strncpy(this->_vars.iqstream.fileinfo_type.filenames_0, filenames0s.c_str(), BUF_E);
     strncpy(this->_vars.iqstream.fileinfo_type.filenames_1, filenames1s.c_str(), BUF_E);
-
-    this->_vars.gp.api_status = 
-        RSA_API::IQSTREAM_GetDiskFileInfo
-        (
-            &this->vars.iqstream.fileinfo_type
-        );
-    this->_gp_confirm_api_status();
-    std::wstring filenames_0ww(this->vars.iqstream.fileinfo_type.filenames[0]);
-    std::wstring filenames_1ww(this->vars.iqstream.fileinfo_type.filenames[1]);
-    std::string filenames0ss (filenames_0ww.begin(), filenames_0ww.end());
-    std::string filenames1ss (filenames_1ww.begin(), filenames_1ww.end());
-    strncpy(this->vars.iqstream.fileinfo_type.filenames_0, filenames0ss.c_str(), BUF_E);
-    strncpy(this->vars.iqstream.fileinfo_type.filenames_1, filenames1ss.c_str(), BUF_E);
+    strncpy(this->vars.iqstream.fileinfo_type.filenames_0, this->_vars.iqstream.fileinfo_type.filenames_0, BUF_E);
+    strncpy(this->vars.iqstream.fileinfo_type.filenames_1, this->_vars.iqstream.fileinfo_type.filenames_0, BUF_E);
 
     this->device_stop();
     this->_iqstream_get_enabled();

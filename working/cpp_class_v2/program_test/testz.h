@@ -47,6 +47,7 @@ void unit_test_11  (void);    // test 'IQSTREAM' section
 
 void task_500 (void);    // create test data for FPGA analysis
 
+void task_990 (void);    // see if IQSTREAM has a bug in the API
 void task_991 (void);    // test the whchar_t 2 char converter
 void task_992 (void);    // get 100MHz and 315 MHz, spectrum and ADC
 void task_993 (void);    // generate spectrum and raw ADC for learning
