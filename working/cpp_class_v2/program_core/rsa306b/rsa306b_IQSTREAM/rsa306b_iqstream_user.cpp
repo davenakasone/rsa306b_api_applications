@@ -32,14 +32,54 @@ void rsa306b_class::iqstream_acquire_data()
         #endif
         return;
     }
+
+    this->device_run();
+    this->_vars.gp.api_status = 
+        RSA_API::IQSTREAM_Start();
+    this->_gp_confirm_api_status();
+
     if (this->_vars.iqstream.destination_select == RSA_API::IQSOD_CLIENT)
     {
-        this->_iqstream_acquire_data_direct();
+        switch (this->_vars.iqstream.datatype_select)
+        {
+        case (RSA_API::IQSODT_SINGLE) :
+            this->_iqstream_acquire_data_direct_cplx32_v();
+            break;
+        case (RSA_API::IQSODT_SINGLE_SCALE_INT32) :
+            this->_iqstream_acquire_data_direct_cplx32_v();
+            break;
+        case (RSA_API::IQSODT_INT16) :
+            this->_iqstream_acquire_data_direct_cplxInt16_v();
+            break;
+        case (RSA_API::IQSODT_INT32) :
+            this->_iqstream_acquire_data_direct_cplxInt32_v();
+            break;
+        default:
+            #ifdef DEBUG_MIN
+                printf("\n\terror in datatype selection\n");
+            #endif
+            break;
+        }
     }
-    else    // file streaming was requested
+    else 
     {
-        this->_iqstream_acquire_data_to_file();
+        if (this->_vars.iqstream.destination_select == RSA_API::IQSOD_FILE_SIQ)
+        {
+            this->_iqstream_acquire_data_to_file();
+        }
+        else
+        {
+            #ifdef DEBUG_MIN
+                printf("\n\tonly '*.siq' files are available\n");
+            #endif
+        }
     }
+
+    this->_vars.gp.api_status = 
+        RSA_API::IQSTREAM_Stop();
+    this->_gp_confirm_api_status();
+    this->device_stop();
+    this->_iqstream_get_enabled();
 }
 
 

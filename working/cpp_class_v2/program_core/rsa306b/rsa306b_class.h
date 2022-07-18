@@ -15,6 +15,11 @@
 
     see documentation for general details
     see the test section for examples 
+    output files use a seperate file manager in the main program
+        "r3f_manager"
+        "siq_manager"
+    a sperate timer is available: 
+        "cpu_timer"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
@@ -340,7 +345,9 @@
                 iqstream_clear_sticky()
             - rsa306b_iqstream_acquire.cpp
                 _iqstream_acquire_data_to_file()
-                _iqstream_acquire_data_direct()
+                _iqstream_acquire_data_direct_cplx32_v()
+                _iqstream_acquire_data_direct_cplxInt16_v()
+                _iqstream_acquire_data_direct_cplxInt32_v()
 
         "./program_core/rsa306b/rsa306_REFTIME/"
             - rsa306b_reftime_struct.h
@@ -1001,9 +1008,11 @@ class rsa306b_class
         void _iqstream_set_filename_suffix();
         void _iqstream_set_iq_data_buffer_size();
         void _iqstream_set_output_configuration();
-        // data acquisiton
-        void _iqstream_acquire_data_to_file();    // uses API
-        void _iqstream_acquire_data_direct();     // uses API
+        // data acquisiton, uses API
+        void _iqstream_acquire_data_to_file();     
+        void _iqstream_acquire_data_direct_cplx32_v();
+        void _iqstream_acquire_data_direct_cplxInt16_v();
+        void _iqstream_acquire_data_direct_cplxInt32_v();
 
     // API group "REFTIME"
         void _reftime_init();

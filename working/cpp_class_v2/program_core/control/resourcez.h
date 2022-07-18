@@ -12,18 +12,20 @@
 
 
 // for C++ use cases
+#include <chrono>
 #include <cmath>
 #include <exception>
-#include <queue>
-#include <stack>
 #include <iostream>
 #include <iterator>
+#include <queue>
+#include <stack>
 #include <string>
 #include <vector>
 
 // for interfacing with the C ABI
 #include <dirent.h>
 #include <float.h>
+#include <pthread.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>

@@ -6,6 +6,8 @@
     if you are somewhere with no radio reception, then the data will be all 0
 
     note that the ouput file incremeter resets when caller leaves scope
+    tests: a, b, c, and d work fine, test e is the concern
+    test "f" is for future needs
 
     < 0 >  task_990()
     < 1 >  test_a()
@@ -24,7 +26,7 @@
 // task 990 constants
 static const double CONFIG_DBM      = -44.4;                                        // select a power level for the data acquisition, in dBm
 static const double CONFIG_CF       = 100.0e6;                                      // select a center frequency for the data acquisition, in Hz
-static const double IQS_BW          = 4.56e6;                                       // select a bandwidth for the data acquisition, in Hz
+static const double IQS_BW          = 1.56e6;                                       // select a bandwidth for the data acquisition, in Hz
 static const int IQS_ACQZ           = 3;                                            // select number of data acquisitions to perform on each data type
 static const int TIMEOUT_MS         = 1;                                            // select the timeout for triggered data acquisitions
 static const std::size_t V_IDX      = 99;                                           // select an index to display in the std::vector<RSA_API::Cplx*>
@@ -35,7 +37,7 @@ static void test_b(rsa306b_class* obj);    // untriggered, client stream, all 4 
 static void test_c(rsa306b_class* obj);    // triggered, file stream, all 4 datatypes, "IQS_ACQZ" times
 static void test_d(rsa306b_class* obj);    // triggered, client stream, all 4 datatypes, "IQS_ACQZ" times
 static void test_e(rsa306b_class* obj);    // triggered + untriggered, changes everything
-static void test_f(rsa306b_class* obj);    // put the forced trigger here
+//static void test_f(rsa306b_class* obj);    // put the forced trigger here
 
 static void get_stream(rsa306b_class* obj, RSA_API::TriggerMode trig_mode, RSA_API::IQSOUTDEST stream_to);    // call get the stream  
 static void stream_to_file(rsa306b_class* obj);                                                               // helper 
@@ -58,7 +60,7 @@ void task_990()
         rsa.vars.config.center_frequency_hz = CONFIG_CF;     // see "task 990 constants"
         rsa.config_set_vars();
 
-        rsa.vars.trig.if_power_level = CONFIG_DBM + 1.1;
+        rsa.vars.trig.if_power_level = CONFIG_DBM + 10;                        // change some
         rsa.vars.trig.transition_select = RSA_API::TriggerTransitionEither;
         rsa.vars.trig.source_select = RSA_API::TriggerSourceIFPowerLevel;
         rsa.trig_set_vars();
@@ -70,10 +72,10 @@ void task_990()
         rsa.iqstream_set_vars();
 
         // select the test here, use comments to activate and deactivate
-        //test_a(&rsa);
-        //test_b(&rsa);
-        //test_c(&rsa);
-        //test_d(&rsa);
+        test_a(&rsa);
+        test_b(&rsa);
+        test_c(&rsa);
+        test_d(&rsa);
         test_e(&rsa);
         //test_f(&rsa);
     }
@@ -92,6 +94,7 @@ void task_990()
 */
 static void test_a(rsa306b_class* obj)
 {
+    printf("<%d>  %s()\n", __LINE__, __func__);
     for (int ii = 0; ii < IQS_ACQZ; ii++)
     {
         get_stream(obj, RSA_API::freeRun, RSA_API::IQSOD_FILE_SIQ);
@@ -111,6 +114,7 @@ static void test_a(rsa306b_class* obj)
 */
 static void test_b(rsa306b_class* obj)
 {
+    printf("<%d>  %s()\n", __LINE__, __func__);
     for (int ii = 0; ii < IQS_ACQZ; ii++)
     {
         get_stream(obj, RSA_API::freeRun, RSA_API::IQSOD_CLIENT);
@@ -131,6 +135,7 @@ static void test_b(rsa306b_class* obj)
 */
 static void test_c(rsa306b_class* obj)
 {
+    printf("<%d>  %s()\n", __LINE__, __func__);
     for (int ii = 0; ii < IQS_ACQZ; ii++)
     {
         get_stream(obj, RSA_API::triggered, RSA_API::IQSOD_CLIENT);
@@ -225,13 +230,15 @@ static void test_e(rsa306b_class* obj)
 
 
 /*
-    < 5 >
+    < 6 >
     many variations in the IQSTREAM acquisition
-*/
+
 static void test_f(rsa306b_class* obj)
 {
     printf("\nTODO\n");
 }
+*/
+
 
 
 ////~~~~

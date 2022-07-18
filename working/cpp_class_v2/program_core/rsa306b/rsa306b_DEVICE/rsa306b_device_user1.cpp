@@ -248,6 +248,7 @@ void rsa306b_class::device_reset()
 
     try
     {
+        printf("\n\t !!! WITNESS ME !!!\n\n");
         this->_vars.gp.api_status = RSA_API::DEVICE_Reset(this->_vars.device.id);
     }
     catch(...)

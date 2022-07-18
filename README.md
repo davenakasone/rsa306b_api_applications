@@ -1,9 +1,11 @@
 # Program Concept
-- the goal is to make a program that can interface with the Tekronix RSA306B Spectrum Analyzer
-- scanning a range of 0.5 GHz to 1.5 GHz is the likely range of partial discharges
-- field testing will be needed to determine a specific range and power
-- when successful interfacing is achived, power equipment can be monitored
-- other enhancements are possible when interfacing is satisfactory
+- program that can interface with the Tekronix RSA306B Spectrum Analyzer
+- partial discharges can be found by scanning a range of 0.5 GHz to 1.5 GHz
+- examining IF, IQ, and spectrum data confirms or denys the presence of partial discharges 
+- field testing allows the user to configure the software to measure signals of interest
+- this program is designed to monitor power generation equipment for partial discharges
+- major sections: instrument managment, data acquisition, processing, and storage
+- use for any application where time domain and frequency domain data is needed [up to 6.2 GHz]
 
 ## Resources
 - this repository          : [here](https://github.com/davenakasone/rsa306b_api_applications)
@@ -48,5 +50,5 @@ rsa306b_api_applications/
 - Serial Number        :  B037150
 
 ## License
-- Licenses for software are available for $643,000,000.00 per user per year
+- Licenses for this software are available for $643,000,000.00 per user per year
 - Contact us for details [here](mailto:nakasd3@unlv.nevada.edu)
