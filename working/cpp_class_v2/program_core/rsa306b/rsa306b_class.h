@@ -648,6 +648,7 @@
         # space the source code?
         # resolve the bitcheck string...
         # version3, refine more
+            - need value returning functions with own enum...or struct with an int + string
             - refine the triggering capabilities [2 unkown API functions + a pure force through spectrum, IQ, IF]
             - the reset can probably be handled with a try-throw-catch and some sleep time
             - forget the "wchar_t" handlers...just use STL strings and wstrings, do for char* also

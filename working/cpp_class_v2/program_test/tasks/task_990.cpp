@@ -77,7 +77,7 @@ void task_990()
         test_c(&rsa);
         test_d(&rsa);
         test_e(&rsa);
-        //test_f(&rsa);
+        //test_f(&rsa); // for future tests, uncomment prototype and definition
     }
     printf("\n%s()  ,  test complete\n", __func__);
 }
@@ -155,6 +155,7 @@ static void test_c(rsa306b_class* obj)
 */
 static void test_d(rsa306b_class* obj)
 {
+    printf("<%d>  %s()\n", __LINE__, __func__);
     for (int ii = 0; ii < IQS_ACQZ; ii++)
     {
         get_stream(obj, RSA_API::triggered, RSA_API::IQSOD_FILE_SIQ);
@@ -172,25 +173,25 @@ static void test_d(rsa306b_class* obj)
 */
 static void test_e(rsa306b_class* obj)
 {
-    printf("< %d >\n", __LINE__);
+    printf("<%d>  %s()\n", __LINE__, __func__);
     for (int ii = 0; ii < IQS_ACQZ; ii++)
     {
         get_stream(obj, RSA_API::freeRun, RSA_API::IQSOD_CLIENT);
     }
     obj->iqstream_clear_sticky();
-    printf("< %d >\n", __LINE__);
+    printf("<%d>  %s()\n", __LINE__, __func__);
     for (int ii = 0; ii < IQS_ACQZ; ii++)
     {
         get_stream(obj, RSA_API::triggered, RSA_API::IQSOD_CLIENT);
     }
     obj->iqstream_clear_sticky();
-    printf("< %d >\n", __LINE__);
+    printf("<%d>  %s()\n", __LINE__, __func__);
     for (int ii = 0; ii < IQS_ACQZ; ii++)
     {
         get_stream(obj, RSA_API::freeRun, RSA_API::IQSOD_FILE_SIQ);
     }
     obj->iqstream_clear_sticky();
-    printf("< %d >\n", __LINE__);
+    printf("<%d>  %s()\n", __LINE__, __func__);
     for (int ii = 0; ii < IQS_ACQZ; ii++)
     {
         get_stream(obj, RSA_API::triggered, RSA_API::IQSOD_FILE_SIQ);
@@ -199,25 +200,25 @@ static void test_e(rsa306b_class* obj)
     
     // reverse the sequence
     
-    printf("< %d >\n", __LINE__);
+    printf("<%d>  %s()\n", __LINE__, __func__);
     for (int ii = 0; ii < IQS_ACQZ; ii++)
     {
         get_stream(obj, RSA_API::freeRun, RSA_API::IQSOD_FILE_SIQ);
     }
     obj->iqstream_clear_sticky();
-    printf("< %d >\n", __LINE__);
+    printf("<%d>  %s()\n", __LINE__, __func__);
     for (int ii = 0; ii < IQS_ACQZ; ii++)
     {
         get_stream(obj, RSA_API::triggered, RSA_API::IQSOD_FILE_SIQ);
     }
     obj->iqstream_clear_sticky();
-    printf("< %d >\n", __LINE__);
+    printf("<%d>  %s()\n", __LINE__, __func__);
     for (int ii = 0; ii < IQS_ACQZ; ii++)
     {
         get_stream(obj, RSA_API::triggered, RSA_API::IQSOD_CLIENT);
     }
     obj->iqstream_clear_sticky();
-    printf("< %d >\n", __LINE__);
+    printf("<%d>  %s()\n", __LINE__, __func__);
     for (int ii = 0; ii < IQS_ACQZ; ii++)
     {
         get_stream(obj, RSA_API::freeRun, RSA_API::IQSOD_CLIENT);

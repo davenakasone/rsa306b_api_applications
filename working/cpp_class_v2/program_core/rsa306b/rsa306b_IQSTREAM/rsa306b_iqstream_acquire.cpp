@@ -68,20 +68,36 @@ void rsa306b_class::_iqstream_acquire_data_to_file()
             elapsed_ms = static_cast<int>(
                 std::chrono::duration_cast<std::chrono::milliseconds>(current_time - start_time).count());
         }
-        if (is_complete == false && is_writing == false)
+        if (is_complete == false)
         {
             #ifdef DEBUG_MIN
                 printf("\n\ttrigger event never occured...aborting output file\n");
             #endif
-            this->_vars.iqstream.fileinfo_type.numberSamples = 0;
-            this->vars.iqstream.fileinfo_type.numberSamples = this->_vars.iqstream.fileinfo_type.numberSamples;
-            return;
-        }
-        if (is_complete == false && is_writing == true)
-        {
-            #ifdef DEBUG_MIN
-                printf("\n\tsome trigger events, but timeout reached...aborting output file\n");
-            #endif
+            this->_iqstream_get_disk_fileinfo();
+            this->_iqstream_bitcheck(this->_vars.iqstream.fileinfo_type.acqStatus);
+            std::wstring filenames_0w(this->_vars.iqstream.fileinfo_type.filenames[0]);
+            std::wstring filenames_1w(this->_vars.iqstream.fileinfo_type.filenames[1]);
+            std::string filenames0s (filenames_0w.begin(), filenames_0w.end());
+            std::string filenames1s (filenames_1w.begin(), filenames_1w.end());
+            strncpy(this->_vars.iqstream.fileinfo_type.filenames_0, filenames0s.c_str(), BUF_E);
+            strncpy(this->_vars.iqstream.fileinfo_type.filenames_1, filenames1s.c_str(), BUF_E);
+            strncpy(this->vars.iqstream.fileinfo_type.filenames_0, this->_vars.iqstream.fileinfo_type.filenames_0, BUF_E);
+            strncpy(this->vars.iqstream.fileinfo_type.filenames_1, this->_vars.iqstream.fileinfo_type.filenames_0, BUF_E);
+            
+            this->_vars.gp.call_status = remove(this->_vars.iqstream.fileinfo_type.filenames_0);
+            if (this->_vars.gp.call_status != 0)
+            {
+                #ifdef DEBUG_MIN
+                    printf("\n\terror removing: %s  ,  %d\n", 
+                        this->_vars.iqstream.fileinfo_type.filenames_0,
+                        this->_vars.gp.call_status);
+                #endif
+            }
+            else
+            {
+                printf("timed out, deleted  '%s'\n",
+                    this->_vars.iqstream.fileinfo_type.filenames_0);
+            }
             this->_vars.iqstream.fileinfo_type.numberSamples = 0;
             this->vars.iqstream.fileinfo_type.numberSamples = this->_vars.iqstream.fileinfo_type.numberSamples;
             return;
