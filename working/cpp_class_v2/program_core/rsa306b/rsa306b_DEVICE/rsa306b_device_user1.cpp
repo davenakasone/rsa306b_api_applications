@@ -248,11 +248,12 @@ void rsa306b_class::device_reset()
 
     try
     {
-        printf("\n\t !!! WITNESS ME !!!\n\n");
+        printf("\n\t\t-witness\n\n");
         this->_vars.gp.api_status = RSA_API::DEVICE_Reset(this->_vars.device.id);
     }
     catch(...)
     {
+        printf("\nyou did not make it to VAHALLAH\n");
         sleep(10);
         this->_vars.device.is_connected = false;
         this->device_connect();

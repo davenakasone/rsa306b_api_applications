@@ -27,6 +27,7 @@
 #include "../program_core/rsa306b/rsa306b_class.h"
 #include "../program_core/cpu_timer/cpu_timer_class.h"
 #include "../program_core/r3f_manager/r3f_manager_class.h"
+#include "../program_core/siq_manager/siq_manager_class.h"
 
 
 void test_selector (int test_number);    // controls the unit test being performed
@@ -47,6 +48,7 @@ void unit_test_11  (void);    // test 'IQSTREAM' section
 
 void task_500 (void);    // create test data for FPGA analysis
 
+void task_989 (void);    // develop the "siq_manager" file handler
 void task_990 (void);    // see if IQSTREAM has a bug in the API
 void task_991 (void);    // test the whchar_t 2 char converter
 void task_992 (void);    // get 100MHz and 315 MHz, spectrum and ADC
