@@ -1,0 +1,266 @@
+the siq, siqd, and siqh are all valid formats
+the header in the siq and siqh are identical
+this application is better if only siq file formats are output
+other formats will not be used
+
+make a string that gets the info string from the header
+compare this string to the know header lines, making provisions for a rejection if a match is not found
+when the header filed is identified, populate the line with the information
+after the header, get the IQ data until EOF
+have a way to delete the file when done, write a csv, and clear the instance
+an endian check is required, this is very machine dependent
+
+
+HEADER BLOCK
+lines of 8-bit ASCII
+each line terminated by LF/CR "0x0D/0x0A"
+every line
+    <infoIDstring>:<infoValueString>
+header entries can be in any order, but identifier is always first
+{
+    Header Identifier
+        first line of the file (always)
+        only fixed location in the file
+        use this line to index and parse the rest of the file
+        unused header range is always willed with space character 0x20, from last piece of useful data to the end of header
+        for the "siqd" files, ignore the header, it is only data
+        RSASIQHT             // fixed string
+        headerSizeInBytes    // indicates start of the data, before is header data
+        versionNumber        // determines how to parse
+        ie
+            <string>:<headerSizeInBytes>,<verionNumber>
+            RSASIQHT:1024,1
+                parse with: 
+                    header_size_in_bytes, 
+                    version_file
+    FileDateTime
+        not accurate for timing, just when file was created
+            YYYY-MM-DDThh:mm:ss.ms    // formated date-time stamp
+            ie
+                <string>:<YYYY>-<MM>-<DD>T<hh>:<mm>:<ss>.<ms>
+                FileDateTime:2015-04-29T10:12:33.170
+                    parse with: 
+                        file_year
+                        file_month
+                        file_day
+                        file_hour
+                        file_minute
+                        file_second
+                        file_milli_second
+    Hardware
+        InstrNom     // instrument nomenclature
+        SerNum       // serial number
+        ie
+            <string>:<InstrNom>-<SerNum>
+            Hardware:RSA306-B010114
+                parse with:
+                    instrument_nomenclature
+                    serial_number
+    Software/Firmware
+        API_SW               // software version of the API
+        USB_FW               // firmware version of USB driver
+        FPGA_FW              // firmware version of the FPGA
+        BoardID              // board identification
+        ie
+            <string>:<API_SW>-<USB_FW>-<FPGA_FW>-<BoardID>
+            Software/Firmware:3.6.0034-V1.7-V1.1-V3
+                parse with: 
+                    version_api
+                    version_usb
+                    version_fpga
+                    version_board
+    ReferenceLevel
+        RefLeveldBm    // instrument reference level setting in dBm
+        ie
+            <string>:<RefLeveldBm>
+            ReferenceLevel:0.00
+                parse with: 
+                    reference_level_dbm
+    CenterFrequency
+        CFinHz    // instrument center frequency setting in Hz
+        ie
+            <string>:<CFinHz>
+            CenterFrequency:1000000.00
+                parse with: 
+                    center_frequency_hz
+    SampleRate
+        SRinSamples/sec    // data sample rate in samples per second
+        ie
+            <string>:<SRinSamples/sec>
+            SampleRate:56000000.00
+                parse with: 
+                    samples_per_second
+    AcqBandwidth
+        IQ baseband is centered at 0 Hz
+        BWinHz    // acquisition (flat) bandwidth of data in Hz
+        ie
+            <string>:<BWinHz>
+            AcqBandwidth:400000.00
+                parse with: 
+                    bandwidth_hz
+    NumberSamples
+        numSamples    // number of IQ sample pairs stored in the data block
+        ie
+            <string>:<numSamples>
+            NumberSamples:56000
+                parse with: 
+                    iq_sample_pairs
+    NumberFormat
+        this is a very important field to parse the data block correctly
+        note that the absence of the scaled int32 is irrelevant
+        IQ-Single    // the I and Q values use floats , 4-bytes each
+        IQ-Int32     // the I and Q values use int32_t, 4-bytes each
+        IQ-Int16     // the I and Q values use int16_t, 2-bytes each
+        ie
+            <string>:<format>
+            NumberFormat:IQ-Int16
+                parse with: 
+                    data_format
+    DataScale
+        for converting int32_t and int16_t IQ values "volts into 50 ohms"
+        remember that the prescaled int32_t does not require this...it will be "1.0" anyway
+        scaleFactor    // multiple int*_t data types by this
+        ie
+            <string>:<scaleFactor>
+            DataScale:6.2660977E-005
+                parse with: 
+                    scale_factor    # catch this in a double and work it down?
+    DataEndian
+        endian    // indicates if data block stores little or big
+        ie
+            <string>:<endian>
+            DataEndian:Little
+                parse with: 
+                    endian_is_little    # bool...reject big? check?
+    RecordUtcSec
+        this time stamp is in UTC/Z/GMT, time since epoch [midnite, jan 1, 1970]
+        seconds       // time stamp, in UTC seconds, of first sample in the IQ data block
+        naoseconds    // time stamp, in UTC nanoseconds, of first sample in the IQ data block
+        ie
+            <string>:<seconds>.<nanoseconds>
+            RecordUtc-Sec:00143.17705
+                parse with: 
+                    utc_seconds
+                    utc_nano_seconds
+    RecordUtcTime
+        the timestamp for the first IQ sample, UTC zone
+        YYYY-MM-DDThh:mm:ss.ns    // formated date-time stamp...check this
+        ie
+            <string>:<YYYY>-<MM>-<DD>T<hh>:<mm>:<ss>.<ns>
+            RecordUtcTime:2015-04-29T17:12:33.177054669
+                parse with: 
+                    utc_timestamp_year
+                    utc_timestamp_month
+                    utc_timestamp_day
+                    utc_timestamp_hour
+                    utc_timestamp_minute
+                    utc_timestamp_second
+                    utc_timestamp_nano_second
+    RecordLclTime
+        the timestamp for the first IQ sample, local time zone
+        YYYY-MM-DDThh:mm:ss.ns    // formated date-time stamp...check this
+        ie
+            <string>:<YYYY>-<MM>-<DD>T<hh>:<mm>:<ss>.<ns>
+            RecordLclTime:2015-04-29T17:12:33.177054669
+                parse with: 
+                    local_timestamp_year
+                    local_timestamp_month
+                    local_timestamp_day
+                    local_timestamp_hour
+                    local_timestamp_minute
+                    local_timestamp_second
+                    local_timestamp_nano_second
+    TriggerIndex
+        if triggering is not enabled, this index == 0
+        sampleIndex    // the IQ sample index in the data block where the tigger event occured
+        ie
+            TriggerIndex:21733
+                parse with:
+                    trigger_index
+    TriggerUtcSec
+        if triggering is not enabled, these values == RecordUtcSec
+        seconds        // seconds since ephoch, UTC
+        nanoseconds    // nano seconds since epoch, UTC
+        ie
+            <string>:<seconds>.<nanoseconds>
+            TriggerUtcSec:001430327553.177054669
+                parse with:
+                    trigger_seconds
+                    trigger_nano_seconds
+    TriggerUtcTime
+        the timestamp for the first IQ sample trigger, UTC time
+        if triggering is not enabled, this value is RecordUtcTime
+        YYYY-MM-DDThh:mm:ss.ns    // formated date-time stamp...check this
+        ie
+            <string>:<YYYY>-<MM>-<DD>T<hh>:<mm>:<ss>.<ns>
+            TriggerUtcTime:2015-04-29T17:12:33.177054669
+                parse with: 
+                    utc_trigger_timestamp_year
+                    utc_trigger_timestamp_month
+                    utc_trigger_timestamp_day
+                    utc_trigger_timestamp_hour
+                    utc_trigger_timestamp_minute
+                    utc_trigger_timestamp_second
+                    utc_trigger_timestamp_nano_second
+    TriggerLclTime
+        the timestamp for the first IQ sample trigger, local time
+        if triggering is not enabled, this value is RecordLclTime
+        YYYY-MM-DDThh:mm:ss.ns    // formated date-time stamp...check this
+        ie
+            <string>:<YYYY>-<MM>-<DD>T<hh>:<mm>:<ss>.<ns>
+            TriggerLclTime:2015-04-29T17:12:33.177054669
+                parse with: 
+                    local_trigger_timestamp_year
+                    local_trigger_timestamp_month
+                    local_trigger_timestamp_day
+                    local_trigger_timestamp_hour
+                    local_trigger_timestamp_minute
+                    local_trigger_timestamp_second
+                    local_trigger_timestamp_nano_second
+    AcqStatus
+        acqStatusWord    // hex file status
+        ie
+            <string>:<acqStatusWord>
+            AcqStatus:0x00000000
+                parse with:
+                    acq_status
+    RefTimeSource
+        only can be one at a time
+        RSA-306B can't use all options
+        System    // means the API us just using your computer's time    
+        GnssRx    // GNSs receiver is providing timing data
+        UserCa    // the user has made up their own timing system
+        ie
+            <string>:<refTimeSource>
+            RefTimeSource:System
+                parse with: 
+                    reference_time_source
+    FreqRefSource
+        only can be one at a time
+        RSA-306B can't use all options
+        Intern    // the internal reference
+        Extern    // the external reference source (see the SMA)
+        GnssRx    // GNSS receiver provides oscillator
+        UserCa    // user's calibration setting provides oscillator
+        ie
+            <string>:<freqRefSource>
+            FreqRefSource:Intern
+                parse with:
+                    frequency_reference_source
+}
+
+        
+DATA BLOCK
+it is the same format for all of the IQ files
+each IQ sample pair is a complex baseband time-domain sample, at prescribed sample rate
+the result did not make the FFT butterfly yet
+each value is a binary number, matching endieness and size given in the header block
+if the scale factor is not 1.0, the sample can be converted to "volts into 50 ohms" by multiplying
+the single and int32 scaled should already be good
+{
+    given N samples:
+    I(0), Q(0), I(1), Q(1),...,I(N-1), Q(N-1)
+}
+
+    
+////////~~~~~~~~END>  notes.txt
