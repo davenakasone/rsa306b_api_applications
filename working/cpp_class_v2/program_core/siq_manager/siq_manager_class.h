@@ -15,33 +15,32 @@ class siq_manager_class
     public :
         siq_manager_class();
         ~siq_manager_class();
-        int return_status;  // maps to _return_status
         siq_manager_struct vars;    // structured variables for parsing
 
-        void decode_and_write
+        int decode_and_write
         (
             char* input_file, 
             char* output_file,
             unsigned long int byte_start,
             unsigned long int byte_stop
         );                                  
-        void decode_and_print
+        int decode_and_print
         (
             char* input_file,
             unsigned long int byte_start,
             unsigned long int byte_stop
         );
 
-        void load_file(char* input_file); // initiates population of "vars" struct, optional (no writting)
-        void write_iq_header(char* input_file, char* output_file); // write the header section (if any), to an output file
-        void write_iq_data_to_csv(char* input_file, char* output_file); // write the data block to an output file
+        unsigned long int get_file_byte_length(char* input_file);   // provides size in bytes of the input file
+        int load_file(char* input_file); // initiates population of "vars" struct, optional (no writting)
+        int write_iq_to_csv(char* input_file, char* output_file); // write the data block to an output file
 
     private :
         siq_manager_struct _vars;    // structured variables for parsing
         FILE* _fptr_read;
         FILE* _fptr_write;
-        long int _byte_offset;
-        long int _bytes_in_file;
+        unsigned long int _byte_offset;
+        unsigned long int _bytes_in_file;
         char _helper[BUF_E];
         char _holder[BUF_F];
         int _return_status;
