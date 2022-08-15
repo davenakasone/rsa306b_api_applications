@@ -648,6 +648,7 @@
         # space the source code?
         # resolve the bitcheck string...
         # version3, refine more
+            - isolate the structs, always pass the objs....return something as an option
             - pull out the constants class, make it applicable to everything
             - need value returning functions with own enum...or struct with an int + string
             - refine the triggering capabilities [2 unkown API functions + a pure force through spectrum, IQ, IF]

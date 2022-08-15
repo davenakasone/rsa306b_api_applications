@@ -3,10 +3,20 @@
     at some point, make the constants class applicable to all these...
 */
 
+#ifndef H_siq_manager_struct
+#define H_siq_manager_struct
+
 #include "../control/resourcez.h"
 
-#define FIELDS_IN_IQ_FILE 20
+#define IQ_FILE_FIELDS 20         // number of fields in an IQ data file header
+#define IQ_FILE_DATA_FORMATS 3    // number of formats data inside IQ file can take
+#define IQ_FILE_ENDIANS 2         // number of endian configurations contents of IQ file can use
+#define IQ_ERROR_CODES 9          // return status and error code possibilities within the class
 
+const char  error_codes[IQ_ERROR_CODES][BUF_A] =
+{
+    "no error", // 0
+};
 typedef enum
 {
     no_error = 0,
@@ -20,33 +30,43 @@ typedef enum
 typedef struct siq_manager_constants
 {
     const std::size_t INIT_STL = 3;
-    const char INIT_CHAR_PTR[5] = "ZZZZ";
-    const int INIT_NUMBER = 0;
+    const char INIT_CHARP[5] = "ZZZZ";
+    const int INIT_INT = 0;
 
-    const int CORRECT_IQ_FILE_VERSION = 1;
+    
 
-    const char header_fields[FIELDS_IN_IQ_FILE][BUF_A] =
+    const char header_fields[IQ_FILE_FIELDS][BUF_A] =
         {
-            "RSASIQHT",        // 0
-            "FileDateTime",    // 1
-            "Hardware",        // 2
-            "Software/Firmware",  // 3
-            "ReferenceLevel",  // 4
-            "CenterFrequency", // 5
-            "SampleRate", // 6
-            "AcqBandwidth", // 7
-            "NumberSamples", // 8
-            "NumberFormat", // 9
-            "DataScale", // 10
-            "DataEndian", // 11
-            "RecordUtc-Sec", // 12
-            "RecordUtcTime", // 13
+            "RSASIQHT",             // 0
+            "FileDateTime",         // 1
+            "Hardware",             // 2
+            "Software/Firmware",    // 3
+            "ReferenceLevel",       // 4
+            "CenterFrequency",      // 5
+            "SampleRate",           // 6
+            "AcqBandwidth",         // 7
+            "NumberSamples",        // 8
+            "NumberFormat",         // 9
+            "DataScale",            // 10
+            "DataEndian",           // 11
+            "RecordUtc-Sec",        // 12
+            "RecordUtcTime",        // 13
         };
     
-    const char DATA_FORMAT_SINGLE[BUF_A] = "IQ-Single";
-    const char DATA_FORMAT_INT16[BUF_A] = "IQ-Int16";
-    const char DATA_FORMAT_INT32[BUF_A] = "IQ-Int32";
+    const char DATA_FORMATS[IQ_FILE_DATA_FORMATS][BUF_A] =
+    {
+        "IQ-Single",    // 0
+        "IQ-Int16",     // 1
+        "IQ-Int32"      // 2
+    };
+    enum
+    {
+        DATA_FORMAT_SINGLE = 0,
+        DATA_FORMAT_INT16 = 1,
+        DATA_FORMAT_INT32 = 2
+    }
 
+    const char ENDIANS[IQ_FILE_ENDIANS]
     const char ENDIAN_BIG[BUF_A] = "Big";
     const char ENDIAN_LITTLE[BUF_A] = "Little";
 
@@ -58,11 +78,12 @@ typedef struct siq_manager_constants
 
 typedef struct siq_manager_struct
 {
-    // header identifier
+    // 0, header identifier
     size_t header_size_in_bytes;
     int iq_file_version;
+    const int CORRECT_IQ_FILE_VERSION = 1;
 
-    // file date time
+    // 1, file date time
     int file_year;
     int file_month;
     int file_day;
@@ -71,38 +92,38 @@ typedef struct siq_manager_struct
     int file_second;
     int file_milli_second;
 
-    // hardware
+    // 2, hardware
     char instrument_nomenclature[BUF_A];
     char serial_number[BUF_A];
 
-    // Software and Firmware
+    // 3, Software and Firmware
     char version_api[BUF_A];
     char version_usb[BUF_A];
     char version_fpga[BUF_A];
     char version_board[BUF_A];
 
-    // reference level
+    // 4, reference level
     double reference_level_dbm;
 
-    // center frequency
+    // 5, center frequency
     double center_frequency_hz;
 
-    // sample rate
+    // 6, sample rate
     double samples_per_second;
 
-    // acquisition bandwidth
+    // 7, acquisition bandwidth
     double bandwidth_hz;
 
-    // number of samples
+    // 8, number of samples
     size_t iq_sample_pairs;
 
-    // number format
+    // 9, number format
     char data_format[BUF_A];
 
-    // data scale
+    // 10, data scale
     double scale_factor;
 
-    // data endian
+    // 11, data endian
     char edian[BUF_A];
 
     // record time UTC seconds
@@ -122,6 +143,9 @@ typedef struct siq_manager_struct
     std::vector<RSA_API::CplxInt32> data_block_cplxint32_q;
 
 } siq_manager_struct;
+
+
+#endif
 
 
 ////////~~~~~~~~END>  siq_manager_struct.h
