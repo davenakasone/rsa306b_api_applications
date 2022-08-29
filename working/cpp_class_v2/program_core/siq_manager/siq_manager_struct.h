@@ -11,7 +11,7 @@
 #define IQ_FILE_FIELDS 20         // number of fields in an IQ data file header
 #define IQ_FILE_DATA_FORMATS 3    // number of formats data inside IQ file can take
 #define IQ_FILE_ENDIANS 2         // number of endian configurations contents of IQ file can use
-#define IQ_ERROR_CODES 9          // return status and error code possibilities within the class
+#define IQ_ERROR_CODES 9          // return status and error code possibilities within "siq_manager_class"
 
 const char  error_codes[IQ_ERROR_CODES][BUF_A] =
 {
@@ -33,31 +33,31 @@ typedef struct siq_manager_constants
     const char INIT_CHARP[5] = "ZZZZ";
     const int INIT_INT = 0;
 
-    
-
+    // for searching the header of the "siq" file for field entries
     const char header_fields[IQ_FILE_FIELDS][BUF_A] =
         {
-            "RSASIQHT",             // 0
-            "FileDateTime",         // 1
-            "Hardware",             // 2
-            "Software/Firmware",    // 3
-            "ReferenceLevel",       // 4
-            "CenterFrequency",      // 5
-            "SampleRate",           // 6
-            "AcqBandwidth",         // 7
-            "NumberSamples",        // 8
-            "NumberFormat",         // 9
-            "DataScale",            // 10
-            "DataEndian",           // 11
-            "RecordUtc-Sec",        // 12
-            "RecordUtcTime",        // 13
+            "RSASIQHT",             // index 0
+            "FileDateTime",         // index 1
+            "Hardware",             // index 2
+            "Software/Firmware",    // index 3
+            "ReferenceLevel",       // index 4
+            "CenterFrequency",      // index 5
+            "SampleRate",           // index 6
+            "AcqBandwidth",         // index 7
+            "NumberSamples",        // index 8
+            "NumberFormat",         // index 9
+            "DataScale",            // index 10
+            "DataEndian",           // index 11
+            "RecordUtc-Sec",        // index 12
+            "RecordUtcTime",        // index 13
         };
     
+    // field # 9, the number format of data entiries in the "siq" file
     const char DATA_FORMATS[IQ_FILE_DATA_FORMATS][BUF_A] =
     {
-        "IQ-Single",    // 0
-        "IQ-Int16",     // 1
-        "IQ-Int32"      // 2
+        "IQ-Single",    // index 0
+        "IQ-Int16",     // index 1
+        "IQ-Int32"      // index 2
     };
     enum
     {
