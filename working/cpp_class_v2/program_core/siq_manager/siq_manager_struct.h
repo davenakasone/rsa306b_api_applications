@@ -1,263 +1,253 @@
 /*
-    variables for the 'siq_manager_class'
-    at some point, make the constants class applicable to all these...
+    variables, constants, and macros for the 'siq_manager_class'
+    with annonymous enums guarunteed to take "int" datatype
 */
 
 #ifndef H_siq_manager_struct
 #define H_siq_manager_struct
 
+
 #include "../control/resourcez.h"
 
-#define IQ_FILE_FIELDS 20         // number of fields in an IQ data file header
-#define IQ_FILE_DATA_FORMATS 3    // number of formats data inside IQ file can take
-#define IQ_FILE_ENDIANS 2         // number of endian configurations contents of IQ file can use
-#define IQ_ERROR_CODES 9          // return status and error code possibilities within "siq_manager_class"
+#define SIQ_ERROR_CODES 2         // return status and error code possibilities within "siq_manager_class"
+#define SIQ_HEADER_FIELDS 22      // number of fields in an IQ data file header
+#define SIQ_NUMBER_FORMATS 3      // f9 NumberFormat, possible formats data samples in IQ file can use
+#define SIQ_ENDIANS 2             // f11 DataEndian, possible endians data samples in IQ file can use
+#define SIQ_REF_TIME_SOURCES 3    // f20 RefTimeSource, possible time sources IQ file can use 
+#define SIQ_FREQ_REF_SOURCES 4    // f21 FreqRefSource, possible frequency sources IQ file can use
 
-const char  error_codes[IQ_ERROR_CODES][BUF_A] =
+const int CORRECT_IQ_FILE_VERSION = 1;            // f0 RSASIQHT, all "siq" files should be on version #1 for the RSA-306B
+const char GOOD_ACQ_STATUS[11] = "0x00000000";    // f19 AcqStatus, expected field value for a clean acquisition
+
+
+// used for error-return code + associated message
+const char ERROR_CODES[SIQ_ERROR_CODES][BUF_A] =
 {
-    "no error", // 0
+    "no error",    // index 0
+    "bad error"    // index 1
 };
-typedef enum
+typedef enum 
 {
-    no_error = 0,
+    no_error = 0,    // index 0
+    bad_error = 1    // index 1
+} error_code_select;
 
-} return_status_enum;
+// for searching the header of the "siq" file for field entries
+const char header_fields[SIQ_HEADER_FIELDS][BUF_A] =
+{
+    "RSASIQHT",             // index 0
+    "FileDateTime",         // index 1
+    "Hardware",             // index 2
+    "Software/Firmware",    // index 3
+    "ReferenceLevel",       // index 4
+    "CenterFrequency",      // index 5
+    "SampleRate",           // index 6
+    "AcqBandwidth",         // index 7
+    "NumberSamples",        // index 8
+    "NumberFormat",         // index 9
+    "DataScale",            // index 10
+    "DataEndian",           // index 11
+    "RecordUtc-Sec",        // index 12
+    "RecordUtcTime",        // index 13
+    "RecordLclTime",        // index 14
+    "TriggerIndex",         // index 15
+    "TriggerUtcSec",        // index 16
+    "TriggerUtcTime",       // index 17
+    "TriggerLclTime",       // index 18
+    "AcqStatus",            // index 19
+    "RefTimeSource",        // index 20
+    "FreqRefSource"         // index 21
 
+};
+enum
+{
+    RSASIQHT          = 0,     // index 0
+    FileDateTime      = 1,     // index 1
+    Hardware          = 2,     // index 2
+    Software_Firmware = 3,     // index 3
+    ReferenceLevel    = 4,     // index 4
+    CenterFrequency   = 5,     // index 5
+    SampleRate        = 6,     // index 6
+    AcqBandwidth      = 7,     // index 7
+    NumberSamples     = 8,     // index 8
+    NumberFormat      = 9,     // index 9
+    DataScale         = 10,    // index 10
+    DataEndian        = 11,    // index 11
+    RecordUtc_Sec     = 12,    // index 12
+    RecordUtcTime     = 13,    // index 13
+    RecordLclTime     = 14,    // index 14
+    TriggerIndex      = 15,    // index 15
+    TriggerUtcSec     = 16,    // index 16
+    TriggerUtcTime    = 17,    // index 17
+    TriggerLclTime    = 18,    // index 18
+    AcqStatus         = 19,    // index 19
+    RefTimeSource     = 20,    // index 20
+    FreqRefSource     = 21     // index 21
+};
+
+// f9 NumberFormat
+const char NUMBER_FORMATS[SIQ_NUMBER_FORMATS][BUF_A] =
+{
+    "IQ-Single",    // index 0
+    "IQ-Int16",     // index 1
+    "IQ-Int32"      // index 2
+};
+enum
+{
+    NUMBER_FORMAT_SINGLE = 0,    // index 0
+    NUMBER_FORMAT_INT16  = 1,    // index 1
+    NUMBER_FORMAT_INT32  = 2     // index 2
+};
+
+// f11 DataEndian
+const char ENDIANS[SIQ_ENDIANS][BUF_A] =
+{
+    "Little",    // index 0
+    "Big"        // index 1
+};
+enum
+{
+    Little = 0,    // index 0
+    Big = 1        // index 1
+};
+
+// f20 RefTimeSource
+const char REF_TIME_SOURCES[SIQ_REF_TIME_SOURCES][BUF_A] =
+{
+    "System",    // index 0
+    "GnssRx",    // index 1
+    "UserCa"     // index 2
+};
+
+// f21 FreqRefSource
+const char FREQ_REF_SOURCES[SIQ_FREQ_REF_SOURCES][BUF_A] =
+{
+    "Intern",    // index 0
+    "Extern",    // index 1
+    "GnssRx",    // index 2
+    "UserCa"     // index 3
+};
 
 ////~~~~
 
 
-typedef struct siq_manager_constants
+struct siq_manager
 {
-    const std::size_t INIT_STL = 3;
-    const char INIT_CHARP[5] = "ZZZZ";
-    const int INIT_INT = 0;
+    // f0 RSASIQHT , header identifier
+    int f0_header_size_in_bytes;
+    int f0_iq_file_version;
 
-    // for searching the header of the "siq" file for field entries
-    const char header_fields[IQ_FILE_FIELDS][BUF_A] =
-        {
-            "RSASIQHT",             // index 0
-            "FileDateTime",         // index 1
-            "Hardware",             // index 2
-            "Software/Firmware",    // index 3
-            "ReferenceLevel",       // index 4
-            "CenterFrequency",      // index 5
-            "SampleRate",           // index 6
-            "AcqBandwidth",         // index 7
-            "NumberSamples",        // index 8
-            "NumberFormat",         // index 9
-            "DataScale",            // index 10
-            "DataEndian",           // index 11
-            "RecordUtc-Sec",        // index 12
-            "RecordUtcTime",        // index 13
-        };
+    // f1 FileDateTime, file creation date and time
+    int f1_file_year;
+    int f1_file_month;
+    int f1_file_day;
+    int f1_file_hour;
+    int f1_file_minute;
+    int f1_file_second;
+    int f1_file_milli_second;
+
+    // f2 Hardware, hardware information
+    char f2_instrument_nomenclature[BUF_A];
+    char f2_serial_number[BUF_A];
+
+    // f3 Software/Firmware, versions of the software and firmware
+    char f3_version_api[BUF_A];
+    char f3_version_usb[BUF_A];
+    char f3_version_fpga[BUF_A];
+    char f3_version_board[BUF_A];
+
+    // f4 ReferenceLevel, instrument reference level in dBm
+    double f4_reference_level_dbm;
+
+    // f5 CenterFrequency, instrument center frequency in Hz
+    double f5_center_frequency_hz;
+
+    // f6 SampleRate, the data sample rate in samples per second
+    double f6_samples_per_second;
+
+    // f7 AcqBandwidth, flat acquisition bandwidth of data, centered at 0Hz, IQ baseband
+    double f7_bandwidth_hz;
+
+    // f8 NumberSamples, number of IQ sample pairs stored in the data block
+    int f8_iq_sample_pairs;
+
+    // f9 NumberFormat, what format numbers in data block use
+    char f9_number_format[BUF_A];
+
+    // f10 DataScale, scale factor to convert int16_t and int32_t IQ formats 'volts into 50 ohms'
+    double f10_scale_factor;    // the 'Single' or 'float' format will have this == 1
+
+    // f11 DataEndian, indicates endian used to store values in the data block
+    char f11_endian[BUF_A];
+
+    // f12 RecordUtc-Sec, record time UTC seconds of first IQ sample in the data block
+    int f12_first_sample_utc_seconds;
+    int f12_first_sample_utc_nano_seconds;
+
+    // f13 RecordUtcTime, UTC timestamp of first IQ sample in the data block
+    int f13_first_sample_utc_timestamp_year;
+    int f13_first_sample_utc_timestamp_month;
+    int f13_first_sample_utc_timestamp_day;
+    int f13_first_sample_utc_timestamp_hour;
+    int f13_first_sample_utc_timestamp_minute;
+    int f13_first_sample_utc_timestamp_second;
+    int f13_first_sample_utc_timestamp_nano_second;
+
+    // f14 RecordLclTime, Local timestamp of first IQ sample in the data block
+    int f14_local_timestamp_year;
+    int f14_local_timestamp_month;
+    int f14_local_timestamp_day;
+    int f14_local_timestamp_hour;
+    int f14_local_timestamp_minute;
+    int f14_local_timestamp_second;
+    int f14_local_timestamp_nano_second;
+
+    // f15 TriggerIndex, sample index where tigger event occured
+    int f15_tigger_index;    // if triggering is not enabled, == 0
+
+    // f16 TriggerUtcSec, tigger time UTC seconds of sample at trigger index
+    // if triggering is not enabled, == f12_first_sample_utc_*
+    int f16_trigger_seconds;         
+    int f16_trigger_nano_seconds; 
     
-    // field # 9, the number format of data entiries in the "siq" file
-    const char DATA_FORMATS[IQ_FILE_DATA_FORMATS][BUF_A] =
-    {
-        "IQ-Single",    // index 0
-        "IQ-Int16",     // index 1
-        "IQ-Int32"      // index 2
-    };
-    enum
-    {
-        DATA_FORMAT_SINGLE = 0,
-        DATA_FORMAT_INT16 = 1,
-        DATA_FORMAT_INT32 = 2
-    }
+    // f17 TriggerUtcTime, UTC timestamp of the triggering event
+    // if triggering is not enabled, == f13_first_sample_utc_timestamp_*
+    int f17_utc_trigger_timestamp_year;
+    int f17_utc_trigger_timestamp_month;
+    int f17_utc_trigger_timestamp_day;
+    int f17_utc_trigger_timestamp_hour;
+    int f17_utc_trigger_timestamp_minute;
+    int f17_utc_trigger_timestamp_second;
+    int f17_utc_trigger_timestamp_nano_second;
+    
+    // f18 TriggerLclTime, local timestamp of the tiggering event
+    // if triggering is not enabled, == f14_local_timestamp_*
+    int f18_local_trigger_timestamp_year;
+    int f18_local_trigger_timestamp_month;
+    int f18_local_trigger_timestamp_day;
+    int f18_local_trigger_timestamp_hour;
+    int f18_local_trigger_timestamp_minute;
+    int f18_local_trigger_timestamp_second;
+    int f18_local_trigger_timestamp_nano_second;
 
-    const char ENDIANS[IQ_FILE_ENDIANS]
-    const char ENDIAN_BIG[BUF_A] = "Big";
-    const char ENDIAN_LITTLE[BUF_A] = "Little";
+    // f19 AcqStatus, see IQSTRM_STATUS_* enums to decode
+    uint32_t f19_acq_status;
 
-} siq_manager_constants;
+    // f20 RefTimeSource, time source used to set the API
+    char reference_time_source[BUF_A];
 
+    // f21 FreqRefSource, frequency source used to set the API
+    char frequency_reference_source[BUF_A];
 
-////~~~~
-
-
-typedef struct siq_manager_struct
-{
-    // 0, header identifier
-    size_t header_size_in_bytes;
-    int iq_file_version;
-    const int CORRECT_IQ_FILE_VERSION = 1;
-
-    // 1, file date time
-    int file_year;
-    int file_month;
-    int file_day;
-    int file_hour;
-    int file_minute;
-    int file_second;
-    int file_milli_second;
-
-    // 2, hardware
-    char instrument_nomenclature[BUF_A];
-    char serial_number[BUF_A];
-
-    // 3, Software and Firmware
-    char version_api[BUF_A];
-    char version_usb[BUF_A];
-    char version_fpga[BUF_A];
-    char version_board[BUF_A];
-
-    // 4, reference level
-    double reference_level_dbm;
-
-    // 5, center frequency
-    double center_frequency_hz;
-
-    // 6, sample rate
-    double samples_per_second;
-
-    // 7, acquisition bandwidth
-    double bandwidth_hz;
-
-    // 8, number of samples
-    size_t iq_sample_pairs;
-
-    // 9, number format
-    char data_format[BUF_A];
-
-    // 10, data scale
-    double scale_factor;
-
-    // 11, data endian
-    char edian[BUF_A];
-
-    // record time UTC seconds
-    int first_sample_utc_seconds;
-    int first_sample_utc_nano_seconds;
-
-    // record time UTC, timestamp
-    int first_sample_utc_timestamp_year;
-    int first_sample_utc_timestamp_month;
-    int first_sample_utc_timestamp_day;
-    int first_sample_utc_timestamp_hour;
-    int first_sample_utc_timestamp_minute;
-
-    // data block
+    // data block, interleaved... 'n == number of samples' 
+    // I(0), Q(0), I(1), Q(1), ..., I(n-2), Q(n-2), I(n-1), Q(n-1)  
     std::vector<RSA_API::Cplx32> data_block_cplx32_q;
     std::vector<RSA_API::CplxInt16> data_block_cplxint16_q;
     std::vector<RSA_API::CplxInt32> data_block_cplxint32_q;
-
-} siq_manager_struct;
+};
 
 
 #endif
 
 
 ////////~~~~~~~~END>  siq_manager_struct.h
-
-
-
-
-
-    
-    RecordUtcTime
-        the timestamp for the first IQ sample, UTC zone
-        YYYY-MM-DDThh:mm:ss.ns    // formated date-time stamp...check this
-        ie
-            <string>:<YYYY>-<MM>-<DD>T<hh>:<mm>:<ss>.<ns>
-            RecordUtcTime:2015-04-29T17:12:33.177054669
-                parse with: 
-                    utc_timestamp_year
-                    utc_timestamp_month
-                    utc_timestamp_day
-                    utc_timestamp_hour
-                    utc_timestamp_minute
-                    utc_timestamp_second
-                    utc_timestamp_nano_second
-    RecordLclTime
-        the timestamp for the first IQ sample, local time zone
-        YYYY-MM-DDThh:mm:ss.ns    // formated date-time stamp...check this
-        ie
-            <string>:<YYYY>-<MM>-<DD>T<hh>:<mm>:<ss>.<ns>
-            RecordLclTime:2015-04-29T17:12:33.177054669
-                parse with: 
-                    local_timestamp_year
-                    local_timestamp_month
-                    local_timestamp_day
-                    local_timestamp_hour
-                    local_timestamp_minute
-                    local_timestamp_second
-                    local_timestamp_nano_second
-    TriggerIndex
-        if triggering is not enabled, this index == 0
-        sampleIndex    // the IQ sample index in the data block where the tigger event occured
-        ie
-            TriggerIndex:21733
-                parse with:
-                    trigger_index
-    TriggerUtcSec
-        if triggering is not enabled, these values == RecordUtcSec
-        seconds        // seconds since ephoch, UTC
-        nanoseconds    // nano seconds since epoch, UTC
-        ie
-            <string>:<seconds>.<nanoseconds>
-            TriggerUtcSec:001430327553.177054669
-                parse with:
-                    trigger_seconds
-                    trigger_nano_seconds
-    TriggerUtcTime
-        the timestamp for the first IQ sample trigger, UTC time
-        if triggering is not enabled, this value is RecordUtcTime
-        YYYY-MM-DDThh:mm:ss.ns    // formated date-time stamp...check this
-        ie
-            <string>:<YYYY>-<MM>-<DD>T<hh>:<mm>:<ss>.<ns>
-            TriggerUtcTime:2015-04-29T17:12:33.177054669
-                parse with: 
-                    utc_trigger_timestamp_year
-                    utc_trigger_timestamp_month
-                    utc_trigger_timestamp_day
-                    utc_trigger_timestamp_hour
-                    utc_trigger_timestamp_minute
-                    utc_trigger_timestamp_second
-                    utc_trigger_timestamp_nano_second
-    TriggerLclTime
-        the timestamp for the first IQ sample trigger, local time
-        if triggering is not enabled, this value is RecordLclTime
-        YYYY-MM-DDThh:mm:ss.ns    // formated date-time stamp...check this
-        ie
-            <string>:<YYYY>-<MM>-<DD>T<hh>:<mm>:<ss>.<ns>
-            TriggerLclTime:2015-04-29T17:12:33.177054669
-                parse with: 
-                    local_trigger_timestamp_year
-                    local_trigger_timestamp_month
-                    local_trigger_timestamp_day
-                    local_trigger_timestamp_hour
-                    local_trigger_timestamp_minute
-                    local_trigger_timestamp_second
-                    local_trigger_timestamp_nano_second
-    AcqStatus
-        acqStatusWord    // hex file status
-        ie
-            <string>:<acqStatusWord>
-            AcqStatus:0x00000000
-                parse with:
-                    acq_status
-    RefTimeSource
-        only can be one at a time
-        RSA-306B can't use all options
-        System    // means the API us just using your computer's time    
-        GnssRx    // GNSs receiver is providing timing data
-        UserCa    // the user has made up their own timing system
-        ie
-            <string>:<refTimeSource>
-            RefTimeSource:System
-                parse with: 
-                    reference_time_source
-    FreqRefSource
-        only can be one at a time
-        RSA-306B can't use all options
-        Intern    // the internal reference
-        Extern    // the external reference source (see the SMA)
-        GnssRx    // GNSS receiver provides oscillator
-        UserCa    // user's calibration setting provides oscillator
-        ie
-            <string>:<freqRefSource>
-            FreqRefSource:Intern
-                parse with:
-                    frequency_reference_source
-

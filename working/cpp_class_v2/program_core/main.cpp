@@ -28,7 +28,7 @@ int main
 )
 {
     cpu_timer_class dummy_cpu;
-    int objSize[3];
+    int objSize[4];
     {
         rsa306b_class dummy_rsa;
         if (argc == 2)
@@ -37,20 +37,21 @@ int main
                 witness_me:
             #endif
             dummy_rsa.device_connect();
-            
-            dummy_rsa.device_disconnect();
-            RSA_API::DEVICE_Reset(1);
             printf("\n\t!!! WITNESS ME !!!\n");
-            //dummy_rsa.device_reset();
+            dummy_rsa.device_reset();
+            //dummy_rsa.device_disconnect();
+            //RSA_API::DEVICE_Reset(1);
         }
         #ifdef CRASH_AND_RESET
             goto witness_me;
         #endif
 
         r3f_manager_class dummy_r3f;
+        siq_manager_class dummy_siq;
         objSize[0] = (int)sizeof(dummy_rsa);
         objSize[1] = (int)sizeof(dummy_cpu);
         objSize[2] = (int)sizeof(dummy_r3f);
+        objSize[3] = (int)sizeof(dummy_siq);
     }
     
     #ifdef UNIT_TEST_BY_NUMBER
@@ -99,6 +100,7 @@ int main
     printf("the 'rsa306b' object size      :  %d bytes\n", objSize[0]);
     printf("the 'cpu_timer' object size    :  %d bytes\n", objSize[1]);
     printf("the 'r3f_manager' object size  :  %d bytes\n", objSize[2]);
+    printf("the 'siq_manager' object size  :  %d bytes\n", objSize[3]);
     printf("\n");
     return EXIT_SUCCESS;
 }

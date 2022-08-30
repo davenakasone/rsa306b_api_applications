@@ -11,8 +11,6 @@
 
 #include "../testz.h"
 
-#define ACQUISITIONS 9
-
 #define UT11a 1    // basic test of the group
 #define UT11b 2    // calls through to task_990(), handles all client and file stream cases
 #define UT11c 3    // parse some "*.siq files"

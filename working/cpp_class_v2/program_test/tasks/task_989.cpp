@@ -12,6 +12,9 @@ void task_989()
         rsa306b_class rsa;
         cpu_timer_class cpu;
         siq_manager_class siq;
+        rsa.device_connect();
+
+        
 
     }
     printf("\n%s()  ,  test complete\n", __func__);
