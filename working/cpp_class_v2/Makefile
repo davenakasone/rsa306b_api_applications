@@ -97,8 +97,12 @@ $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_get.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_print_init.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_set.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_user.cpp \
-$(SDIR)siq_manager/siq_private.cpp \
-$(SDIR)siq_manager/siq_public.cpp \
+$(SDIR)siq_manager/siq_common.cpp \
+$(SDIR)siq_manager/siq_decode.cpp \
+$(SDIR)siq_manager/siq_error_codes.cpp \
+$(SDIR)siq_manager/siq_init_copy.cpp \
+$(SDIR)siq_manager/siq_loader.cpp \
+$(SDIR)siq_manager/siq_printer.cpp \
 $(TDIR_T)task_500.cpp \
 $(TDIR_T)task_989.cpp \
 $(TDIR_T)task_990.cpp \

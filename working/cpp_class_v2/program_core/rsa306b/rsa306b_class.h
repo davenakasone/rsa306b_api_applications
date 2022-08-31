@@ -648,6 +648,10 @@
         # space the source code?
         # resolve the bitcheck string...
         # version3, refine more
+            - will need a few name spaces
+            - decodes, batch processes, bytes in file...those are all common, see if you can combine
+            - stand alone...stand together {balance}
+            - master error code, enum with isolated char** lookup
             - isolate the structs, always pass the objs....return something as an option
             - pull out the constants class, make it applicable to everything
             - need value returning functions with own enum...or struct with an int + string

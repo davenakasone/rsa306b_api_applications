@@ -27,7 +27,6 @@ struct rsa306b_constants
         const uint32_t ACQ_STATUS_SUCCESS            = 0;       // successful value for API bit checks
         const char ACQ_STATUS_SUCCESS_MESSAGE[BUF_B] = "GOOD BITCHECK";
 
-
     // initialization values and sizes
         const char    INIT_CHAR            = 'Z';
         const char    INIT_STR[6]          = "ZZZZZ";
@@ -87,7 +86,7 @@ struct rsa306b_constants
     
     // IQSTREAM constants
         const int IQSTREAM_MSEC_MIN              = 1;                                    // if this is 0, then infinite recording occurs, p79
-        const int IQSTREAM_MSEC_MAX              = 1000;                                 // limit for disc space, the files are huge
+        const int IQSTREAM_MSEC_MAX              = 1000;                                 // limit for disk space, the files are huge
         const char IQSTREAM_FILENAME_BASE[BUF_C] = "./program_test/data/outputs_sig";    // for writing output
         const int IQSTREAM_TIMEOUT_MS            = 1;
         // setting the buffer size, direct acquisition, see p82
@@ -123,18 +122,18 @@ struct rsa306b_constants
         // [0:5] for sample, [6:11] sticky, [12] summary, common to both "acqStatus" checks
         enum
         {
-            IQSTREAM_BIT_0 = 0,
-            IQSTREAM_BIT_1 = 1,
-            IQSTREAM_BIT_2 = 2,
-            IQSTREAM_BIT_3 = 3,
-            IQSTREAM_BIT_4 = 4,
-            IQSTREAM_BIT_5 = 5,
-            IQSTREAM_BIT_16 = 6,
-            IQSTREAM_BIT_17 = 7,
-            IQSTREAM_BIT_18 = 8,
-            IQSTREAM_BIT_19 = 9,
-            IQSTREAM_BIT_20 = 10,
-            IQSTREAM_BIT_21  = 11,
+            IQSTREAM_BIT_0       = 0,
+            IQSTREAM_BIT_1       = 1,
+            IQSTREAM_BIT_2       = 2,
+            IQSTREAM_BIT_3       = 3,
+            IQSTREAM_BIT_4       = 4,
+            IQSTREAM_BIT_5       = 5,
+            IQSTREAM_BIT_16      = 6,
+            IQSTREAM_BIT_17      = 7,
+            IQSTREAM_BIT_18      = 8,
+            IQSTREAM_BIT_19      = 9,
+            IQSTREAM_BIT_20      = 10,
+            IQSTREAM_BIT_21      = 11,
             IQSTREAM_BIT_SUMMARY = 12
         };
         const char IQSTREAM_FAIL_BITS[IQSTREAM_BITCHECKS][BUF_C] =
