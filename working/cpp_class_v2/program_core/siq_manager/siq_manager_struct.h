@@ -9,7 +9,7 @@
 
 #include "../control/resourcez.h"
 
-#define SIQ_ERROR_CODES 14        // return status and error code possibilities within "siq_manager_class"
+#define SIQ_ERROR_CODES 15        // return status and error code possibilities within "siq_manager_class"
 #define SIQ_HEADER_FIELDS 22      // number of fields in an IQ data file header
 #define SIQ_NUMBER_FORMATS 3      // f9 NumberFormat, possible formats data samples in IQ file can use
 #define SIQ_ENDIANS 2             // f11 DataEndian, possible endians data samples in IQ file can use
@@ -40,7 +40,8 @@ const char ERROR_CODES[SIQ_ERROR_CODES][BUF_A] =
     "fread() failure",                  // index 10
     "output_file not open",             // index 11
     "fputs() failed to write",          // index 12
-    "fgets() nothing"                   // index 13
+    "fgets() nothing",                  // index 13
+    "failure parsing header fields"     // index 14
 };
 typedef enum 
 {
@@ -57,7 +58,8 @@ typedef enum
     fread_failure            = 10,    // index 10
     out_file_not_open        = 11,    // index 11
     fputs_failed_write       = 12,    // index 12
-    fgets_nothing            = 13     // index 13
+    fgets_nothing            = 13,    // index 13
+    failure_parsing_header_fields = 14
 } error_code_select;
 
 // for searching the header of the "siq" file for field entries
