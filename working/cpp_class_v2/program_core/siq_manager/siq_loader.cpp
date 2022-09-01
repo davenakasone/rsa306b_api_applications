@@ -11,6 +11,10 @@
 
 #include "siq_manager_class.h"
 
+#if defined (DEBUG_SIQ_LOADER_HEADER) || (DEBUG_SIQ_LOADER_DATA)
+    static char transfer[BUF_D];
+#endif
+
 
 /*
     < 1 > public
@@ -32,6 +36,14 @@ void siq_manager_class::load_file
     {
         return;
     }
+    
+    #if defined (DEBUG_SIQ_LOADER_HEADER) || (DEBUG_SIQ_LOADER_DATA)
+        if (snprintf(transfer, BUF_D-1, "%s", input_file) <= 0)
+        {
+            this->_set_error_code(snprintf_failed);
+        }
+    #endif
+    
     this->_populate_header();
     this->_populate_data();
     this->_conclude_siq_input();
@@ -55,6 +67,9 @@ void siq_manager_class::_populate_header()
 #ifdef DEBUG_CLI
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
+#endif
+#ifdef DEBUG_SIQ_LOADER_HEADER
+    printf("\nHEADER, for '%s'  >>>\n\n", transfer);
 #endif
 
     uint8_t field_counter = 0;
@@ -116,7 +131,7 @@ void siq_manager_class::_populate_header()
         memset(this->_holder, '\0', BUF_F);
 
         // given the field name on the line read, parse the entry to get the data -->
-        if (strcmp(field_name, HEADER_FIELDS[RSASIQHT]) == 0)
+        if (strcmp(field_name, HEADER_FIELDS[RSASIQHT]) == 0)    // field index 0 of 21
         {
             while (field_stripped[idx] != ',' &&
                    idx < limit_length          )
@@ -136,8 +151,16 @@ void siq_manager_class::_populate_header()
             }
             this->_vars.f0_iq_file_version = atoi(this->_holder);
             checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%d,%d\n",
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f0_header_size_in_bytes,
+                    this->_vars.f0_iq_file_version);
+            #endif
         }
-        else if (strcmp(field_name, HEADER_FIELDS[FileDateTime]) == 0)
+        else if (strcmp(field_name, HEADER_FIELDS[FileDateTime]) == 0)    // field index 1 of 21
         {
             while (field_stripped[idx] != '-' &&
                    idx < limit_length          )
@@ -206,16 +229,736 @@ void siq_manager_class::_populate_header()
                 idx++;
             }
             this->_vars.f1_file_milli_second = atoi(this->_holder);
-
-            printf("%d  %d  %d  --  %d  %d  %d .  %d",
-                this->_vars.f1_file_year,
-                this->_vars.f1_file_month,
-                this->_vars.f1_file_day,
-                this->_vars.f1_file_hour,
-                this->_vars.f1_file_minute,
-                this->_vars.f1_file_second,
-                this->_vars.f1_file_milli_second);
             checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%04d-%02d-%02dT%02d:%02d:%02d.%d\n",
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f1_file_year,
+                    this->_vars.f1_file_month,
+                    this->_vars.f1_file_day,
+                    this->_vars.f1_file_hour,
+                    this->_vars.f1_file_minute,
+                    this->_vars.f1_file_second,
+                    this->_vars.f1_file_milli_second);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[Hardware]) == 0)    // field index 2 of 21
+        {
+            while (field_stripped[idx] != ',' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            idx++;
+            strncpy(this->_vars.f2_instrument_nomenclature, this->_holder, BUF_A-1);
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != ',' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            idx++;
+            strncpy(this->_vars.f2_serial_number, this->_holder, BUF_A-1);
+            memset(this->_holder, '\0', BUF_F);
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            strncpy(this->_vars.f2_version, this->_holder, BUF_A-1);
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%s,%s,%s\n", 
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f2_instrument_nomenclature, 
+                    this->_vars.f2_serial_number,
+                    this->_vars.f2_version);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[Software_Firmware]) == 0)    // field index 3 of 21
+        {
+            while (field_stripped[idx] != ',' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            idx++;
+            strncpy(this->_vars.f3_version_api, this->_holder, BUF_A-1);
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != ',' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            idx++;
+            strncpy(this->_vars.f3_version_usb, this->_holder, BUF_A-1);
+            memset(this->_holder, '\0', BUF_F);
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            strncpy(this->_vars.f3_version_fpga, this->_holder, BUF_A-1);
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%s,%s,%s\n", 
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f3_version_api, 
+                    this->_vars.f3_version_usb,
+                    this->_vars.f3_version_fpga);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[ReferenceLevel]) == 0)    // field index 4 of 21
+        {
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f4_reference_level_dbm = strtod(this->_holder, NULL);
+            if (this->_vars.f4_reference_level_dbm == 0)
+            {
+                this->_set_error_code(strtod_failed);
+                if (errno == ERANGE) {printf("\n\tvalue out of range\n");}
+            }
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%lf\n", 
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f4_reference_level_dbm);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[CenterFrequency]) == 0)    // field index 5 of 21
+        {
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f5_center_frequency_hz = strtod(this->_holder, NULL);
+            if (this->_vars.f5_center_frequency_hz == 0)
+            {
+                this->_set_error_code(strtod_failed);
+                if (errno == ERANGE) {printf("\n\tvalue out of range\n");}
+            }
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%lf\n", 
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f5_center_frequency_hz);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[SampleRate]) == 0)    // field index 6 of 21
+        {
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f6_samples_per_second = strtod(this->_holder, NULL);
+            if (this->_vars.f6_samples_per_second == 0)
+            {
+                this->_set_error_code(strtod_failed);
+                if (errno == ERANGE) {printf("\n\tvalue out of range\n");}
+            }
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%lf\n", 
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f6_samples_per_second);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[AcqBandwidth]) == 0)    // field index 7 of 21
+        {
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f7_bandwidth_hz = strtod(this->_holder, NULL);
+            if (this->_vars.f7_bandwidth_hz == 0)
+            {
+                this->_set_error_code(strtod_failed);
+                if (errno == ERANGE) {printf("\n\tvalue out of range\n");}
+            }
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%lf\n", 
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f7_bandwidth_hz);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[NumberSamples]) == 0)    // field index 8 of 21
+        {
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f8_iq_sample_pairs = atoi(this->_holder);
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%d\n", 
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f8_iq_sample_pairs);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[NumberFormat]) == 0)    // field index 9 of 21
+        {
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            strncpy(this->_vars.f9_number_format, this->_holder, BUF_A-1);
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%s\n", 
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f9_number_format);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[DataScale]) == 0)    // field index 10 of 21
+        {
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f10_scale_factor = strtod(this->_holder, NULL);
+            if (this->_vars.f10_scale_factor == 0)
+            {
+                this->_set_error_code(strtod_failed);
+                if (errno == ERANGE) {printf("\n\tvalue out of range\n");}
+            }
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%lf\n", 
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f10_scale_factor);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[DataEndian]) == 0)    // field index 11 of 21
+        {
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            strncpy(this->_vars.f11_endian, this->_holder, BUF_A-1);
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%s\n", 
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f11_endian);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[RecordUtcSec]) == 0)    // field index 12 of 21
+        {
+            while (field_stripped[idx] != '.' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            idx++;
+            this->_vars.f12_first_sample_utc_seconds = atoi(this->_holder);
+            memset(this->_holder, '\0', BUF_F);
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f12_first_sample_utc_nano_seconds = atoi(this->_holder);
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%d.%d\n", 
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f12_first_sample_utc_seconds,
+                    this->_vars.f12_first_sample_utc_nano_seconds);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[RecordUtcTime]) == 0)    // field index 13 of 21
+        {
+            while (field_stripped[idx] != '-' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f13_first_sample_utc_timestamp_year = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != '-' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f13_first_sample_utc_timestamp_month = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != 'T' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f13_first_sample_utc_timestamp_day = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != ':' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f13_first_sample_utc_timestamp_hour= atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != ':' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f13_first_sample_utc_timestamp_minute = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != '.' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f13_first_sample_utc_timestamp_second = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f13_first_sample_utc_timestamp_nano_second = atoi(this->_holder);
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%04d-%02d-%02dT%02d:%02d:%02d.%d\n",
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f13_first_sample_utc_timestamp_year,
+                    this->_vars.f13_first_sample_utc_timestamp_month,
+                    this->_vars.f13_first_sample_utc_timestamp_day,
+                    this->_vars.f13_first_sample_utc_timestamp_hour,
+                    this->_vars.f13_first_sample_utc_timestamp_minute,
+                    this->_vars.f13_first_sample_utc_timestamp_second,
+                    this->_vars.f13_first_sample_utc_timestamp_nano_second);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[RecordLclTime]) == 0)    // field index 14 of 21
+        {
+            while (field_stripped[idx] != '-' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f14_first_sample_local_timestamp_year = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != '-' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f14_first_sample_local_timestamp_month = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != 'T' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f14_first_sample_local_timestamp_day = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != ':' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f14_first_sample_local_timestamp_hour = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != ':' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f14_first_sample_local_timestamp_minute = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != '.' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f14_first_sample_local_timestamp_second = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f14_first_sample_local_timestamp_nano_second = atoi(this->_holder);
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%04d-%02d-%02dT%02d:%02d:%02d.%d\n",
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f14_first_sample_local_timestamp_year,
+                    this->_vars.f14_first_sample_local_timestamp_month,
+                    this->_vars.f14_first_sample_local_timestamp_day,
+                    this->_vars.f14_first_sample_local_timestamp_hour,
+                    this->_vars.f14_first_sample_local_timestamp_minute,
+                    this->_vars.f14_first_sample_local_timestamp_second,
+                    this->_vars.f14_first_sample_local_timestamp_nano_second);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[TriggerIndex]) == 0)    // field index 15 of 21
+        {
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f15_tigger_index = atoi(this->_holder);
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%d\n", 
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f15_tigger_index);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[TriggerUtcSec]) == 0)    // field index 16 of 21
+        {
+            while (field_stripped[idx] != '.' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            idx++;
+            this->_vars.f16_trigger_utc_seconds = atoi(this->_holder);
+            memset(this->_holder, '\0', BUF_F);
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f16_trigger_utc_nano_seconds = atoi(this->_holder);
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%d.%d\n", 
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f16_trigger_utc_seconds,
+                    this->_vars.f16_trigger_utc_nano_seconds);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[TriggerUtcTime]) == 0)    // field index 17 of 21
+        {
+            while (field_stripped[idx] != '-' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f17_trigger_utc_timestamp_year = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != '-' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f17_trigger_utc_timestamp_month = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != 'T' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f17_trigger_utc_timestamp_day = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != ':' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f17_trigger_utc_timestamp_hour = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != ':' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f17_trigger_utc_timestamp_minute = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != '.' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f17_trigger_utc_timestamp_second = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f17_trigger_utc_timestamp_nano_second = atoi(this->_holder);
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%04d-%02d-%02dT%02d:%02d:%02d.%d\n",
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f17_trigger_utc_timestamp_year,
+                    this->_vars.f17_trigger_utc_timestamp_month,
+                    this->_vars.f17_trigger_utc_timestamp_day,
+                    this->_vars.f17_trigger_utc_timestamp_hour,
+                    this->_vars.f17_trigger_utc_timestamp_minute,
+                    this->_vars.f17_trigger_utc_timestamp_second,
+                    this->_vars.f17_trigger_utc_timestamp_nano_second);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[TriggerLclTime]) == 0)    // field index 18 of 21
+        {
+            while (field_stripped[idx] != '-' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f18_trigger_local_timestamp_year = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != '-' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f18_trigger_local_timestamp_month = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != 'T' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f18_trigger_local_timestamp_day = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != ':' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f18_trigger_local_timestamp_hour = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != ':' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f18_trigger_local_timestamp_minute = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (field_stripped[idx] != '.' &&
+                   idx < limit_length          )
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f18_trigger_local_timestamp_second = atoi(this->_holder);
+            idx++;
+            memset(this->_holder, '\0', BUF_F);
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f18_trigger_local_timestamp_nano_second = atoi(this->_holder);
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%04d-%02d-%02dT%02d:%02d:%02d.%d\n",
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f18_trigger_local_timestamp_year,
+                    this->_vars.f18_trigger_local_timestamp_month,
+                    this->_vars.f18_trigger_local_timestamp_day,
+                    this->_vars.f18_trigger_local_timestamp_hour,
+                    this->_vars.f18_trigger_local_timestamp_minute,
+                    this->_vars.f18_trigger_local_timestamp_second,
+                    this->_vars.f18_trigger_local_timestamp_nano_second);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[AcqStatus]) == 0)    // field index 19 of 21
+        {
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            this->_vars.f19_acq_status = 
+                static_cast<uint32_t>(strtoul(this->_holder, NULL, 0));
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:0x%08X\n", 
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f19_acq_status);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[RefTimeSource]) == 0)    // field index 20 of 21
+        {
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            strncpy(this->_vars.f20_reference_time_source, this->_holder, BUF_A-1);
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%s\n", 
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f20_reference_time_source);
+            #endif
+        }
+        else if (strcmp(field_name, HEADER_FIELDS[FreqRefSource]) == 0)    // field index 21 of 21
+        {
+            while (idx < limit_length)
+            {
+                snprintf(this->_helper, 2, "%c", field_stripped[idx]);
+                strncat(this->_holder, this->_helper, 2);
+                idx++;
+            }
+            strncpy(this->_vars.f21_frequency_reference_source, this->_holder, BUF_A-1);
+            checker[field_counter] = true;
+            #ifdef DEBUG_SIQ_LOADER_HEADER
+                printf("f[%2d of %2d]  %s:%s\n", 
+                    field_counter,
+                    SIQ_HEADER_FIELDS,
+                    field_name,
+                    this->_vars.f21_frequency_reference_source);
+            #endif
         }
         field_counter++;
     }
@@ -224,6 +967,14 @@ void siq_manager_class::_populate_header()
     for (int ii = 0; ii < SIQ_HEADER_FIELDS; ii++)
     {
         result = result && checker[ii];
+        #ifdef DEBUG_MIN
+            if (checker[ii] == false)
+            {
+                printf("\n\tmissing field [%2d of %2d]\n", 
+                ii,
+                SIQ_HEADER_FIELDS);
+            }
+        #endif
     }
     if (result == false)
     {

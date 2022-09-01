@@ -69,11 +69,13 @@ static void basic(siq_manager_class* siq, rsa306b_class* rsa)
 
     printf("\nthe file made has :  %ld  bytes\n",
         siq->get_file_byte_length(rsa->vars.iqstream.fileinfo_type.filenames_0));
-    siq->decode_and_print(rsa->vars.iqstream.fileinfo_type.filenames_0, 0, 1300);
+    siq->decode_and_print(rsa->vars.iqstream.fileinfo_type.filenames_0, 0, 49);
     sprintf(rsa->vars.gp.helper, "%s_decoded.txt", SIQ_OUT);
     siq->decode_and_write(rsa->vars.iqstream.fileinfo_type.filenames_0, rsa->vars.gp.helper, 0, 1500);
 
     siq->load_file(rsa->vars.iqstream.fileinfo_type.filenames_0);
+    siq->print_header();
+    siq->print_data(0, 9);
 }
 
 

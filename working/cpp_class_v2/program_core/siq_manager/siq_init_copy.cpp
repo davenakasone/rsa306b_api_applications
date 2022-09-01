@@ -52,11 +52,13 @@ void siq_manager_class::_init()
     strcpy(this->_vars.f2_instrument_nomenclature, INIT_CHARP);
     memset(this->_vars.f2_serial_number, '\0', BUF_A);
     strcpy(this->_vars.f2_serial_number, INIT_CHARP);
+    memset(this->_vars.f2_version, '\0', BUF_A);
+    strcpy(this->_vars.f2_version, INIT_CHARP);
 
     memset(this->_vars.f3_version_api, '\0', BUF_A);
     strcpy(this->_vars.f3_version_api, INIT_CHARP);
-    memset(this->_vars.f3_version_board, '\0', BUF_A);
-    strcpy(this->_vars.f3_version_board, INIT_CHARP);
+    //memset(this->_vars.f3_version_board, '\0', BUF_A);
+    //strcpy(this->_vars.f3_version_board, INIT_CHARP);
     memset(this->_vars.f3_version_fpga, '\0', BUF_A);
     strcpy(this->_vars.f3_version_fpga, INIT_CHARP);
     memset(this->_vars.f3_version_usb, '\0', BUF_A);
@@ -186,11 +188,13 @@ void siq_manager_class::_copy_vars()
     strcpy(this->vars.f2_instrument_nomenclature, this->_vars.f2_instrument_nomenclature);
     memset(this->vars.f2_serial_number, '\0', BUF_A);
     strcpy(this->vars.f2_serial_number, this->_vars.f2_serial_number);
+    memset(this->vars.f2_version, '\0', BUF_A);
+    strcpy(this->vars.f2_version, this->_vars.f2_version);
     
     memset(this->vars.f3_version_api, '\0', BUF_A);
     strcpy(this->vars.f3_version_api, this->_vars.f3_version_api);
-    memset(this->vars.f3_version_board, '\0', BUF_A);
-    strcpy(this->vars.f3_version_board, this->_vars.f3_version_board);
+    //memset(this->vars.f3_version_board, '\0', BUF_A);
+    //strcpy(this->vars.f3_version_board, this->_vars.f3_version_board);
     memset(this->vars.f3_version_fpga, '\0', BUF_A);
     strcpy(this->vars.f3_version_fpga, this->_vars.f3_version_fpga);
     memset(this->vars.f3_version_usb, '\0', BUF_A);

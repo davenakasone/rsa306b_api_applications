@@ -9,7 +9,7 @@
 
 #include "../control/resourcez.h"
 
-#define SIQ_ERROR_CODES 15        // return status and error code possibilities within "siq_manager_class"
+#define SIQ_ERROR_CODES 18        // return status and error code possibilities within "siq_manager_class"
 #define SIQ_HEADER_FIELDS 22      // number of fields in an IQ data file header
 #define SIQ_NUMBER_FORMATS 3      // f9 NumberFormat, possible formats data samples in IQ file can use
 #define SIQ_ENDIANS 2             // f11 DataEndian, possible endians data samples in IQ file can use
@@ -41,25 +41,31 @@ const char ERROR_CODES[SIQ_ERROR_CODES][BUF_A] =
     "output_file not open",             // index 11
     "fputs() failed to write",          // index 12
     "fgets() nothing",                  // index 13
-    "failure parsing header fields"     // index 14
+    "failure parsing header fields",    // index 14
+    "snprintf() failed",                // index 15
+    "strncat() failed",                 // index 16
+    "strtod() failed"                   // index 17
 };
 typedef enum 
 {
-    no_error                 = 0 ,    // index 0
-    print_data_range_failure = 1 ,    // index 1
-    fptr_read_busy           = 2 ,    // index 2
-    input_file_not_found     = 3 ,    // index 3
-    fseek_returned_non_zero  = 4 ,    // index 4
-    fclose_returned_non_zero = 5 ,    // index 5
-    empty_string             = 6 ,    // index 6
-    input_file_bad           = 7 ,    // index 7
-    invalid_siq_file         = 8 ,    // index 8
-    low_bytes_in_siq_file    = 9 ,    // index 9
-    fread_failure            = 10,    // index 10
-    out_file_not_open        = 11,    // index 11
-    fputs_failed_write       = 12,    // index 12
-    fgets_nothing            = 13,    // index 13
-    failure_parsing_header_fields = 14
+    no_error                      = 0 ,        
+    print_data_range_failure      = 1 ,        
+    fptr_read_busy                = 2 ,         
+    input_file_not_found          = 3 ,         
+    fseek_returned_non_zero       = 4 ,         
+    fclose_returned_non_zero      = 5 ,        
+    empty_string                  = 6 ,         
+    input_file_bad                = 7 ,         
+    invalid_siq_file              = 8 ,         
+    low_bytes_in_siq_file         = 9 ,        
+    fread_failure                 = 10,        
+    out_file_not_open             = 11,         
+    fputs_failed_write            = 12,         
+    fgets_nothing                 = 13,         
+    failure_parsing_header_fields = 14,
+    snprintf_failed               = 15,
+    strncat_failed                = 16,
+    strtod_failed                 = 17             
 } error_code_select;
 
 // for searching the header of the "siq" file for field entries
@@ -77,7 +83,7 @@ const char HEADER_FIELDS[SIQ_HEADER_FIELDS][BUF_A] =
     "NumberFormat",         // index 9
     "DataScale",            // index 10
     "DataEndian",           // index 11
-    "RecordUtc-Sec",        // index 12
+    "RecordUtcSec",         // index 12
     "RecordUtcTime",        // index 13
     "RecordLclTime",        // index 14
     "TriggerIndex",         // index 15
@@ -103,7 +109,7 @@ enum
     NumberFormat      = 9,     // index 9
     DataScale         = 10,    // index 10
     DataEndian        = 11,    // index 11
-    RecordUtc_Sec     = 12,    // index 12
+    RecordUtcSec      = 12,    // index 12
     RecordUtcTime     = 13,    // index 13
     RecordLclTime     = 14,    // index 14
     TriggerIndex      = 15,    // index 15
@@ -179,12 +185,13 @@ struct siq_manager
     // f2 Hardware, hardware information
     char f2_instrument_nomenclature[BUF_A];
     char f2_serial_number[BUF_A];
-
+    char f2_version[BUF_A];
+    
     // f3 Software/Firmware, versions of the software and firmware
     char f3_version_api[BUF_A];
     char f3_version_usb[BUF_A];
     char f3_version_fpga[BUF_A];
-    char f3_version_board[BUF_A];
+    //char f3_version_board[BUF_A];
 
     // f4 ReferenceLevel, instrument reference level in dBm
     double f4_reference_level_dbm;
