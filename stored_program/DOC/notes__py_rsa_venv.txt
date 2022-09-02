@@ -1,7 +1,7 @@
 many of the python examples use different modules over the span of several years
 maintian this virtual environment to ensure correct dependencies are being used
 activate this virtual environment to run any python files in the project
-    better yet, use Docker (did not do because not everyone knows it)
+    better yet, use Docker (TODO)
 
 the virtual enviroment was made (already done)
     $ pip3 install virtualenv
@@ -25,6 +25,6 @@ save the venv so others can use it
     (rsa) unlv@unlv:~/Desktop/rsa306b_api_applications/rsa_venv$ pip freeze --local >requirments.txt
     $ cat requirments.txt    // check it, someone else can use "pip3 install requirments.txt" to make your venv
 
-place the activation path for eash access
+place the activation path for easy access
 pip freeze before passing the venv to someone else
 make sure the wheels stay on (amd64, x86-64)
