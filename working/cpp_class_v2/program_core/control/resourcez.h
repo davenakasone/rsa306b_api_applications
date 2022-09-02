@@ -42,8 +42,8 @@
 //#define DEBUG_MAX 1787           // when activated, prints additional information (keep DEBUG_MIN on if using)
 //#define DEBUG_CLI 1776           // when activated, prints __LINE__, __FILE__, __func__ for each call
 //#define DEBUG_ERR 1492           // when activated, prints the occurance of API and class "call checks"
-#define DEBUG_SIQ_LOADER_HEADER 1941    // when activated, prints SIQ header as loaded, in 'siq_manager' class 
-#define DEBUG_SIQ_LOADER_DATA 1945      // when activated, prints SIQ data as loaded, in 'siq_manager' class
+//#define DEBUG_SIQ_LOADER_HEADER 1941    // when activated, prints SIQ header as loaded, in 'siq_manager' class 
+//#define DEBUG_SIQ_LOADER_DATA 1945      // when activated, prints SIQ data as loaded, in 'siq_manager' class
 
 #define BUF_A 32                    // a short general purpose buffer
 #define BUF_B 64                    // ..

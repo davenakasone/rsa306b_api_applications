@@ -103,6 +103,7 @@ $(SDIR)siq_manager/siq_error_codes.cpp \
 $(SDIR)siq_manager/siq_init_copy.cpp \
 $(SDIR)siq_manager/siq_loader.cpp \
 $(SDIR)siq_manager/siq_printer.cpp \
+$(SDIR)siq_manager/siq_write_csv.cpp \
 $(TDIR_T)task_500.cpp \
 $(TDIR_T)task_989.cpp \
 $(TDIR_T)task_990.cpp \

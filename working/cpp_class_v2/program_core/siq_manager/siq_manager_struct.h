@@ -9,7 +9,7 @@
 
 #include "../control/resourcez.h"
 
-#define SIQ_ERROR_CODES 18        // return status and error code possibilities within "siq_manager_class"
+#define SIQ_ERROR_CODES 23        // return status and error code possibilities within "siq_manager_class"
 #define SIQ_HEADER_FIELDS 22      // number of fields in an IQ data file header
 #define SIQ_NUMBER_FORMATS 3      // f9 NumberFormat, possible formats data samples in IQ file can use
 #define SIQ_ENDIANS 2             // f11 DataEndian, possible endians data samples in IQ file can use
@@ -44,7 +44,11 @@ const char ERROR_CODES[SIQ_ERROR_CODES][BUF_A] =
     "failure parsing header fields",    // index 14
     "snprintf() failed",                // index 15
     "strncat() failed",                 // index 16
-    "strtod() failed"                   // index 17
+    "strtod() failed",                  // index 17
+    "failed to find field",             // index 18
+    "file loaded with no data",         // index 19
+    "data load mismatch",               // index 20
+    "directory not found"               // index 21
 };
 typedef enum 
 {
@@ -65,7 +69,11 @@ typedef enum
     failure_parsing_header_fields = 14,
     snprintf_failed               = 15,
     strncat_failed                = 16,
-    strtod_failed                 = 17             
+    strtod_failed                 = 17,
+    failed_to_find_field          = 18,
+    file_loaded_with_no_data      = 19,
+    data_load_mismatch            = 20,
+    directory_not_found           = 21             
 } error_code_select;
 
 // for searching the header of the "siq" file for field entries

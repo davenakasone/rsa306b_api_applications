@@ -127,7 +127,7 @@ unsigned long int  siq_manager_class::get_file_byte_length
 */
 void siq_manager_class::_verify_siq_extension
 (
-    char* input_file
+    const char* input_file
 )
 {
 #ifdef DEBUG_CLI

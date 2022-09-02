@@ -31,6 +31,7 @@ void siq_manager_class::load_file
         __LINE__, __FILE__, __func__);
 #endif
     
+    this->_init();
     this->_prepare_siq_input(input_file);
     if (this->_ec != no_error)
     {
@@ -152,7 +153,7 @@ void siq_manager_class::_populate_header()
             this->_vars.f0_iq_file_version = atoi(this->_holder);
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%d,%d\n",
+                printf("\tf[%2d of %2d]  %s:%d,%d\n",
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -231,7 +232,7 @@ void siq_manager_class::_populate_header()
             this->_vars.f1_file_milli_second = atoi(this->_holder);
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%04d-%02d-%02dT%02d:%02d:%02d.%d\n",
+                printf("\tf[%2d of %2d]  %s:%04d-%02d-%02dT%02d:%02d:%02d.%d\n",
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -275,7 +276,7 @@ void siq_manager_class::_populate_header()
             strncpy(this->_vars.f2_version, this->_holder, BUF_A-1);
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%s,%s,%s\n", 
+                printf("\tf[%2d of %2d]  %s:%s,%s,%s\n", 
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -315,7 +316,7 @@ void siq_manager_class::_populate_header()
             strncpy(this->_vars.f3_version_fpga, this->_holder, BUF_A-1);
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%s,%s,%s\n", 
+                printf("\tf[%2d of %2d]  %s:%s,%s,%s\n", 
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -340,7 +341,7 @@ void siq_manager_class::_populate_header()
             }
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%lf\n", 
+                printf("\tf[%2d of %2d]  %s:%lf\n", 
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -363,7 +364,7 @@ void siq_manager_class::_populate_header()
             }
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%lf\n", 
+                printf("\tf[%2d of %2d]  %s:%lf\n", 
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -386,7 +387,7 @@ void siq_manager_class::_populate_header()
             }
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%lf\n", 
+                printf("\tf[%2d of %2d]  %s:%lf\n", 
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -409,7 +410,7 @@ void siq_manager_class::_populate_header()
             }
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%lf\n", 
+                printf("\tf[%2d of %2d]  %s:%lf\n", 
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -427,7 +428,7 @@ void siq_manager_class::_populate_header()
             this->_vars.f8_iq_sample_pairs = atoi(this->_holder);
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%d\n", 
+                printf("\tf[%2d of %2d]  %s:%d\n", 
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -445,7 +446,7 @@ void siq_manager_class::_populate_header()
             strncpy(this->_vars.f9_number_format, this->_holder, BUF_A-1);
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%s\n", 
+                printf("\tf[%2d of %2d]  %s:%s\n", 
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -468,7 +469,7 @@ void siq_manager_class::_populate_header()
             }
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%lf\n", 
+                printf("\tf[%2d of %2d]  %s:%lf\n", 
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -486,7 +487,7 @@ void siq_manager_class::_populate_header()
             strncpy(this->_vars.f11_endian, this->_holder, BUF_A-1);
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%s\n", 
+                printf("\tf[%2d of %2d]  %s:%s\n", 
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -514,7 +515,7 @@ void siq_manager_class::_populate_header()
             this->_vars.f12_first_sample_utc_nano_seconds = atoi(this->_holder);
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%d.%d\n", 
+                printf("\tf[%2d of %2d]  %s:%d.%d\n", 
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -593,7 +594,7 @@ void siq_manager_class::_populate_header()
             this->_vars.f13_first_sample_utc_timestamp_nano_second = atoi(this->_holder);
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%04d-%02d-%02dT%02d:%02d:%02d.%d\n",
+                printf("\tf[%2d of %2d]  %s:%04d-%02d-%02dT%02d:%02d:%02d.%d\n",
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -677,7 +678,7 @@ void siq_manager_class::_populate_header()
             this->_vars.f14_first_sample_local_timestamp_nano_second = atoi(this->_holder);
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%04d-%02d-%02dT%02d:%02d:%02d.%d\n",
+                printf("\tf[%2d of %2d]  %s:%04d-%02d-%02dT%02d:%02d:%02d.%d\n",
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -701,7 +702,7 @@ void siq_manager_class::_populate_header()
             this->_vars.f15_tigger_index = atoi(this->_holder);
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%d\n", 
+                printf("\tf[%2d of %2d]  %s:%d\n", 
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -729,7 +730,7 @@ void siq_manager_class::_populate_header()
             this->_vars.f16_trigger_utc_nano_seconds = atoi(this->_holder);
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%d.%d\n", 
+                printf("\tf[%2d of %2d]  %s:%d.%d\n", 
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -808,7 +809,7 @@ void siq_manager_class::_populate_header()
             this->_vars.f17_trigger_utc_timestamp_nano_second = atoi(this->_holder);
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%04d-%02d-%02dT%02d:%02d:%02d.%d\n",
+                printf("\tf[%2d of %2d]  %s:%04d-%02d-%02dT%02d:%02d:%02d.%d\n",
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -892,7 +893,7 @@ void siq_manager_class::_populate_header()
             this->_vars.f18_trigger_local_timestamp_nano_second = atoi(this->_holder);
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%04d-%02d-%02dT%02d:%02d:%02d.%d\n",
+                printf("\tf[%2d of %2d]  %s:%04d-%02d-%02dT%02d:%02d:%02d.%d\n",
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -917,7 +918,7 @@ void siq_manager_class::_populate_header()
                 static_cast<uint32_t>(strtoul(this->_holder, NULL, 0));
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:0x%08X\n", 
+                printf("\tf[%2d of %2d]  %s:0x%08X\n", 
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -935,7 +936,7 @@ void siq_manager_class::_populate_header()
             strncpy(this->_vars.f20_reference_time_source, this->_holder, BUF_A-1);
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%s\n", 
+                printf("\tf[%2d of %2d]  %s:%s\n", 
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
@@ -953,12 +954,16 @@ void siq_manager_class::_populate_header()
             strncpy(this->_vars.f21_frequency_reference_source, this->_holder, BUF_A-1);
             checker[field_counter] = true;
             #ifdef DEBUG_SIQ_LOADER_HEADER
-                printf("f[%2d of %2d]  %s:%s\n", 
+                printf("\tf[%2d of %2d]  %s:%s\n", 
                     field_counter,
                     SIQ_HEADER_FIELDS,
                     field_name,
                     this->_vars.f21_frequency_reference_source);
             #endif
+        }
+        else
+        {
+            this->_set_error_code(failed_to_find_field);
         }
         field_counter++;
     }
@@ -979,7 +984,9 @@ void siq_manager_class::_populate_header()
     if (result == false)
     {
         this->_set_error_code(failure_parsing_header_fields);
+        return;
     }
+    this->_set_error_code(no_error);
 }
 
 
@@ -998,7 +1005,154 @@ void siq_manager_class::_populate_data()
     printf("\n<%d> %s/%s()\n",
         __LINE__, __FILE__, __func__);
 #endif
+#ifdef DEBUG_SIQ_LOADER_DATA
+    printf("\nDATA, for '%s'  >>>\n\n", transfer);
+#endif
 
+    std::size_t idx = 0;
+    std::size_t idx_limit = 0;
+    if (fseek(this->_fptr_read, 0L, SEEK_SET) != 0)
+    {
+        this->_set_error_code(fseek_returned_non_zero);
+        return;
+    }
+    if (fseek(this->_fptr_read, 
+              static_cast<long>(this->_vars.f0_header_size_in_bytes),
+              SEEK_CUR)                                    
+        != 0)
+    {
+        this->_set_error_code(fseek_returned_non_zero);
+        return;
+    }
+
+    if (strcmp(this->_vars.f9_number_format, NUMBER_FORMATS[NUMBER_FORMAT_SINGLE]) == 0)
+    {
+        float temp = 0;
+        this->_vars.data_block_cplx32_v.clear();
+        this->_vars.data_block_cplx32_v.resize(static_cast<std::size_t>(this->_vars.f8_iq_sample_pairs));
+        idx_limit = this->_vars.data_block_cplx32_v.size();
+        if (idx_limit > INIT_STL)
+        {
+             while(idx < idx_limit)
+            {
+                #ifdef DEBUG_SIQ_LOADER_DATA
+                    printf("\tbyte %15ld  ", ftell(this->_fptr_read));
+                #endif
+                fread(
+                    &temp,
+                    sizeof(float),
+                    1, 
+                    this->_fptr_read);
+                this->_vars.data_block_cplx32_v[idx].i = temp;
+                fread(
+                    &temp, 
+                    sizeof(float),
+                    1, 
+                    this->_fptr_read);
+                this->_vars.data_block_cplx32_v[idx].q = temp;
+                idx++;
+                #ifdef DEBUG_SIQ_LOADER_DATA
+                    printf("[%9ld  of  %9ld]  %14.7f, %14.7f\n",
+                    idx,
+                    idx_limit,
+                    this->_vars.data_block_cplx32_v[idx-1].i,
+                    this->_vars.data_block_cplx32_v[idx-1].q);
+                #endif
+            }
+        }
+        else
+        {
+            this->_set_error_code(data_load_mismatch);
+            return;
+        }
+    }
+    else if (strcmp(this->_vars.f9_number_format, NUMBER_FORMATS[NUMBER_FORMAT_INT32]) == 0)
+    {
+        int32_t temp = 0;
+        this->_vars.data_block_cplxint32_v.clear();
+        this->_vars.data_block_cplxint32_v.resize(static_cast<std::size_t>(this->_vars.f8_iq_sample_pairs));
+        idx_limit = this->_vars.data_block_cplxint32_v.size();
+        if (idx_limit > INIT_STL)
+        {
+             while(idx < idx_limit)
+            {
+                #ifdef DEBUG_SIQ_LOADER_DATA
+                    printf("\tbyte %15ld  ", ftell(this->_fptr_read));
+                #endif
+                fread(
+                    &temp, 
+                    sizeof(int32_t),
+                    1, 
+                    this->_fptr_read);
+                this->_vars.data_block_cplxint32_v[idx].i = temp;
+                fread(
+                    &temp, 
+                    sizeof(int32_t),
+                    1, 
+                    this->_fptr_read);
+                this->_vars.data_block_cplxint32_v[idx].q = temp;
+                idx++;
+                #ifdef DEBUG_SIQ_LOADER_DATA
+                    printf("[%9ld  of  %9ld]  %15d, %15d\n",
+                    idx,
+                    idx_limit,
+                    static_cast<int>(this->_vars.data_block_cplxint32_v[idx-1].i),
+                    static_cast<int>(this->_vars.data_block_cplxint32_v[idx-1].q));
+                #endif
+            }
+        }
+        else
+        {
+            this->_set_error_code(data_load_mismatch);
+            return;
+        }
+    }
+    else if (strcmp(this->_vars.f9_number_format, NUMBER_FORMATS[NUMBER_FORMAT_INT16]) == 0)
+    {
+        int16_t temp = 0;
+        this->_vars.data_block_cplxint16_v.resize(static_cast<std::size_t>(this->_vars.f8_iq_sample_pairs));
+        idx_limit = this->_vars.data_block_cplxint16_v.size();
+        if (idx_limit > INIT_STL)
+        {
+             while(idx < idx_limit)
+            {
+                #ifdef DEBUG_SIQ_LOADER_DATA
+                    printf("\tbyte %15ld  ", ftell(this->_fptr_read));
+                #endif
+                fread(
+                    &temp, 
+                    sizeof(int16_t),
+                    1, 
+                    this->_fptr_read);
+                this->_vars.data_block_cplxint16_v[idx].i = temp;
+                fread(
+                    &temp, 
+                    sizeof(int16_t),
+                    1, 
+                    this->_fptr_read);
+                this->_vars.data_block_cplxint16_v[idx].q = temp;
+                idx++;
+                #ifdef DEBUG_SIQ_LOADER_DATA
+                    printf("[%9ld  of  %9ld]  %15d, %15d\n",
+                    idx,
+                    idx_limit,
+                    static_cast<int>(this->_vars.data_block_cplxint16_v[idx-1].i),
+                    static_cast<int>(this->_vars.data_block_cplxint16_v[idx-1].q));
+                #endif
+            }
+        }
+        else
+        {
+            this->_set_error_code(data_load_mismatch);
+            return;
+        }
+    }
+    else
+    {
+        this->_set_error_code(file_loaded_with_no_data);
+        return;
+    }
+    this->_set_error_code(no_error);
 }
 
 

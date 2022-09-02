@@ -31,8 +31,8 @@
         _adc_helper()
         _process_header_direct()
     
-    r3fc_past_present_adc_csy.cpp
-        past_present_adc_csv()
+    //r3fc_past_present_adc_csv.cpp
+    //    past_present_adc_csv()
 
     this object is made for "*.r3f" files
     it will extract the IF data and place it into an output file

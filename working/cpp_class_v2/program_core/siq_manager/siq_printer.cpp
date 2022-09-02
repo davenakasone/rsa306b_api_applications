@@ -49,7 +49,7 @@ void siq_manager_class::print_header()
     printf("\tf7  bandwidth Hz                    :  %lf\n", this->vars.f7_bandwidth_hz);
     printf("\tf8  IQ sample pairs                 :  %d\n", this->vars.f8_iq_sample_pairs);
     printf("\tf9  number format                   :  %s\n", this->vars.f9_number_format);
-    printf("\tf10 scale factor                    :  %lf\n", this->vars.f10_scale_factor);
+    printf("\tf10 scale factor                    :  %0.12lf\n", this->vars.f10_scale_factor);
     printf("\tf11 endian                          :  %s\n", this->vars.f11_endian);
     printf("\tf12 first sample UTC seconds.nanos  :  %d.%d\n",
         this->vars.f12_first_sample_utc_seconds,
@@ -131,19 +131,19 @@ void siq_manager_class::print_data
     {
         idx_begin = idx_start;
         idx_end = idx_stop;
-        if ((idx_start == 0 && idx_stop == 0)                    ||
+        if ((idx_start == 0 && idx_stop == 0)                   ||
             idx_start > this->vars.data_block_cplx32_v.size()-1 ||
             idx_stop > this->vars.data_block_cplx32_v.size()-1   )
         {
             idx_begin = 0;
             idx_end = this->vars.data_block_cplx32_v.size()-1;
         }
-        printf("\nCplx32, elements:  %zu\n", this->vars.data_block_cplx32_v.size());
+        printf("\nCplx32, elements:  %d\n", static_cast<int>(this->vars.data_block_cplx32_v.size()));
         printf("                               I  |  Q\n");
         printf("                ---------------------------------------\n");
         while(idx_begin <= idx_end)
         {
-            printf("                 %15.3f  |  %15.3f\n", 
+            printf("                 %14.7f   |  %14.7f\n", 
                 this->vars.data_block_cplx32_v[idx_begin].i,
                 this->vars.data_block_cplx32_v[idx_begin].q);
             idx_begin++;
@@ -151,7 +151,7 @@ void siq_manager_class::print_data
     }
     else
     {
-        printf("\n the RSA_API::Cplx32 vector does not have data\n");
+        printf("\nthe RSA_API::Cplx32 vector does not have data\n");
     }
     
     // RSA_API::CplxInt32
@@ -159,27 +159,27 @@ void siq_manager_class::print_data
     {
         idx_begin = idx_start;
         idx_end = idx_stop;
-        if ((idx_start == 0 && idx_stop == 0)                       ||
+        if ((idx_start == 0 && idx_stop == 0)                      ||
             idx_start > this->vars.data_block_cplxint32_v.size()-1 ||
             idx_stop > this->vars.data_block_cplxint32_v.size()-1   )
         {
             idx_begin = 0;
             idx_end = this->vars.data_block_cplxint32_v.size()-1;
         }
-        printf("\nCplxInt32, elements:  %zu\n", this->vars.data_block_cplxint32_v.size());
+        printf("\nCplxInt32, elements:  %d\n", static_cast<int>(this->vars.data_block_cplxint32_v.size()));
         printf("                               I  |  Q\n");
         printf("                ---------------------------------------\n");
         while(idx_begin <= idx_end)
         {
-            printf("                 %15u  |  %15u\n", 
-                static_cast<unsigned int>(this->vars.data_block_cplxint32_v[idx_begin].i),
-                static_cast<unsigned int>(this->vars.data_block_cplxint32_v[idx_begin].q));
+            printf("                 %15d  |  %15d\n", 
+                static_cast<int>(this->vars.data_block_cplxint32_v[idx_begin].i),
+                static_cast<int>(this->vars.data_block_cplxint32_v[idx_begin].q));
             idx_begin++;
         }
     }
     else
     {
-        printf("\n the RSA_API::CplxInt32 vector does not have data\n");
+        printf("\nthe RSA_API::CplxInt32 vector does not have data\n");
     }
     
 
@@ -188,27 +188,27 @@ void siq_manager_class::print_data
     {
         idx_begin = idx_start;
         idx_end = idx_stop;
-        if ((idx_start == 0 && idx_stop == 0)                       ||
+        if ((idx_start == 0 && idx_stop == 0)                      ||
             idx_start > this->vars.data_block_cplxint16_v.size()-1 ||
             idx_stop > this->vars.data_block_cplxint16_v.size()-1   )
         {
             idx_begin = 0;
             idx_end = this->vars.data_block_cplxint16_v.size()-1;
         }
-        printf("\nCplxInt16, elements:  %zu\n", this->vars.data_block_cplxint16_v.size());
+        printf("\nCplxInt16, elements:  %d\n", static_cast<int>(this->vars.data_block_cplxint16_v.size()));
         printf("                               I  |  Q\n");
         printf("                ---------------------------------------\n");
         while(idx_begin <= idx_end)
         {
-            printf("                 %15u  |  %15u\n", 
-                static_cast<unsigned int>(this->vars.data_block_cplxint16_v[idx_begin].i),
-                static_cast<unsigned int>(this->vars.data_block_cplxint16_v[idx_begin].q));
+            printf("                 %15d  |  %15d\n", 
+                static_cast<int>(this->vars.data_block_cplxint16_v[idx_begin].i),
+                static_cast<int>(this->vars.data_block_cplxint16_v[idx_begin].q));
             idx_begin++;
         }
     }
     else
     {
-        printf("\n the RSA_API::CplxInt16 vector does not have data\n");
+        printf("\nthe RSA_API::CplxInt16 vector does not have data\n");
     }
     
     this->_set_error_code(no_error);

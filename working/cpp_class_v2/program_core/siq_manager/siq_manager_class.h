@@ -34,6 +34,8 @@
         print_data()
     
     "siq_write_csv.cpp"
+        write_iq_to_csv()
+        write_iq_to_csv_batch()
 */
 
 #include "siq_manager_struct.h"
@@ -84,7 +86,7 @@ class siq_manager_class
         // common helpers
         void _init();                                    // called to place all variables into a known state
         void _copy_vars();                               // copies contents of private struct "_vars" to public struch "vars"
-        void _verify_siq_extension(char* input_file);    // verify that the user provided a "*.siq" file to parse  
+        void _verify_siq_extension(const char* input_file);    // verify that the user provided a "*.siq" file to parse  
         void _prepare_siq_input(char* input_file);       // opens a "*.siq" file for reading
         void _conclude_siq_input();                      // closes a "*.siq" file when reading is complete
         void _prepare_any_output(char* output_file);     // opens any file for text-writing
