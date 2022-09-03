@@ -28,3 +28,8 @@ save the venv so others can use it
 place the activation path for easy access
 pip freeze before passing the venv to someone else
 make sure the wheels stay on (amd64, x86-64)
+
+before running a python script (not a python module)
+    make sure:    #!../py_rsa_venv/bin/python
+    change   :    chmod u+x <file_name>.py
+    run      :    ./<file_name>.py

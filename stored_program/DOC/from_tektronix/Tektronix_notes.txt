@@ -1,0 +1,92 @@
+
+the api needs the .so file
+	2 shared object files are required on Linux, needs Intel 64-bit processor
+    assuming "README_install.txt" was followed correctly,
+        $ cd <your_bld_dir>
+        $ make                                          
+        $ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.    (where ever you put the 2 *.so files)
+        $ ./<your_exe>                                 (run your executable)
+...TODO making a .bash, .sh, or .deb for this
+
+you need the software driver (see page 6 of API .pdf)
+	https://www.tek.com/en/search?keywords=RSA%20API&facets=_templatename%3dSoftware&sort=desc
+
+check library
+	$ sudo gcc -lpthread    // library name you want to use
+don't trust system("pause") or this_thread_sleep(ms), the working thread will be locked out by a mutex
+just trust the API, and don't try and fork the process
+multi-threading may be possible
+
+ensure proper hardware requirements are met before using programs
+measurements are not possible without proper antenna (sensor)
+data acquisition is more limited with the API, compared to the Windows-based software
+C code uses C99; ensure the Makefile is sourcing correctly
+Python script appears to be 2.7, try to modify code for python3 or use virtual env with 2.7
+C++ code should use std=c++14, non of the new C++17, 20, etc will work
+
+The API::
+    RSA Application Programming Interface – API for 64-Bit Linux – V1.0.0014
+    The RSA API is a Linux C/C++ Shared Objects that provides direct access to RSA300/500/600 devices. 
+    It enables full control of the RSA and provides several forms of data and measurements to support custom applications independent of SignalVu-PC. 
+    Included is the API Shared Objects for use on 64-bit Linux, tested on CentOS 7, Debian 10, and Ubuntu 18.04 systems.
+    https://www.tek.com/en/support/software/application/rsa-application-programming-interface--api-for-64bit-linux--v100014
+    (need to make a free account with Tekronix)
+
+Use the manufacturer's software for simple tasks::
+    https://www.tek.com/en/support/software/application/signalvupc-vector-signal-analysis-software--v410022
+
+any Windows based C/C++ code needs Linux wine if it can't be avoided
+try to use the API function without the "w" or windows type ( ie "wchar" "wfopen()" ...)
+
+see the enum for error code
+a common error is #205, your USB port is not fast enough
+
+the status light on the RSA306B should turn green if healthy
+
+use full scope resolution instead of namespace, more typing, but can see source
+    std::cout , RSA_API::YOUR_FUN() , ...
+C++ only, extern C is set in the RSA_API.h
+
+the shared objects were compilied on an x86, x64, or something for an Intel processor
+they do not work on the ARM A72
+Tekronix probably won't give up there source code, and the chance of getting someone to compile on ARM is low
+pick a beater x86 SBC for deployment, something with an i3 or better
+
+Linux, Ubuntu 20.04 LTS appears to be working, 64-bit dual booting on a mac with i7
+
+python appears to be to slow to interact with the API unless Ctypes are optimized, so just use C or C++
+there is not enough time to make an FPGA or CUDA implementation
+C is viable, but requires a lot of work
+C++ with the STL/Boost is very viable; lots of optimizations, make classes, templates, overloads...
+Matlab will probably work, but 
+    - there is not enough funding for a license
+    - too heavy for an SBC
+    - not able to reproduce source code it can produce
+
+if the red LED on the RSA is not turning green, try restarting your computer with the device plugged in
+it needs a restart for the boot configuration to take effect
+(assumes you installed driver correctly)
+
+be careful with "bool" types
+ANSI and ISO C++ will include them
+C99 needs #include<stdbool.h>
+the API may use "true" == anything except 0, or true == 1
+it is safe to assume "false" == 0 for this API
+
+do not use smart pointers or boost pointers (for API interaction)
+C++ needs good use of "new" and "delete", then place data into an STL or boose data structure
+C needs malloc()/calloc()/realloc()... with a matching free()
+there does not appear to be any hidden allocators, but there is use of internal buffers
+see the API documentation to ensure that allocations are properly made
+
+the paths to shared libraries are usually resolved at runtime
+export point LD_LIBRARY_PATH where the 2 shared objects live
+if you need other libraries, like "-lpthread", use the full path when compiling
+static libraries link in phase, but must be replaced if a bug is found
+dynamic/shared libraries are not connected to client's code; 
+    they are dynamically loaded at run-time
+[ .a ] is a static "archive" static
+[ .so ] is a "shared object" dynamic
+
+need a way to compile and link 2 different library paths (change library path variable)
+
