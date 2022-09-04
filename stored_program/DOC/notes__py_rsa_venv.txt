@@ -10,7 +10,7 @@ the virtual enviroment was made (already done)
     $ virtualenv rsa                 // the virtual environment
 
 activate the venv
-    $ source ./rsa/bin/activate
+    $ source ./py_rsa_venv/bin/activate
     $ which python                 // make sure the path is to the venv
     $ python --version             // make sure verion is 3.xx
     $ which pip                    // path and version check pip

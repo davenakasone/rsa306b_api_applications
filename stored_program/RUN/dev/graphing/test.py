@@ -9,16 +9,21 @@ import numpy
 import pandas
 
 
-#input_directory = "../../DATA/data_processed/"
-input_directory = "./"
+input_directory = "../../../DATA/data_processed/"
+#input_directory = "./"
 
-input_file_spectrum = "_12565703927726_freqVpow_trace_0.csv"
-input_file_adc = ""
-input_file_iq = "_12569464859436_int32_freeRun.csv"
+#input_file_spectrum = "_656818283207_freqVpow_trace_0.csv"
+input_file_spectrum = "_1117365912250_freqVpow_trace_0.csv"
+
+input_file_adc = "ifstream_315MHz_2.csv"
+
+input_file_iq = "IQstream_315MHz_6.csv"
+
 input_file_triple = ""
 
+
 def main() :
-    plot_2vars(f"{input_directory}{input_file_spectrum}", "frequency", "power")   # for spectrum files
+    #plot_2vars(f"{input_directory}{input_file_spectrum}", "frequency", "power")   # for spectrum files
     plot_2vars(f"{input_directory}{input_file_iq}", "I", "Q")                     # for IQ files
     print("\n\tDONE\n")
     

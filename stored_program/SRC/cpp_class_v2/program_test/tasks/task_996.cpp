@@ -25,9 +25,9 @@ void task_996()
         task_995();
     }
     printf("\n%s()  ,  demonstration complete\n", __func__);
-    #ifdef WAIT_ENTER_CLEAR
-        wait_enter_clear();
-    #endif
+    // #ifdef WAIT_ENTER_CLEAR
+    //     wait_enter_clear();
+    // #endif
 }
 
 
