@@ -20,11 +20,11 @@ void task_995()
         X_rsa.device_connect();
         
         X_rsa.vars.config.center_frequency_hz = 315e6;
-        X_rsa.vars.config.reference_level_dbm = 1;
+        X_rsa.vars.config.reference_level_dbm = 5;
         X_rsa.config_set_vars();
         
         X_rsa.vars.spectrum.settings_type.rbw = 1e3;
-        X_rsa.vars.spectrum.settings_type.span = 20e6;
+        X_rsa.vars.spectrum.settings_type.span = 35e6;
         X_rsa.vars.spectrum.settings_type.traceLength = 919;
         X_rsa.spectrum_set_vars();
         
@@ -32,15 +32,15 @@ void task_995()
         X_rsa.ifstream_set_vars();
         
         X_rsa.vars.iqblk.record_length = 1001;
-        X_rsa.vars.iqblk.bandwidth_hz = 20e6;
+        X_rsa.vars.iqblk.bandwidth_hz = 35e6;
         X_rsa.vars.iqblk.getter = X_rsa.constants.IQBLK_GET_IQ_DATA_DEINETERLEAVED;
         X_rsa.iqblk_set_vars();
         
         X_rsa.vars.iqstream.datatype_select = RSA_API::IQSODT_SINGLE;
         X_rsa.vars.iqstream.destination_select = RSA_API::IQSOD_CLIENT;
-        X_rsa.vars.iqstream.bandwidth = 20e6;                                     
-        X_rsa.vars.iqstream.record_time_ms = 8;                                       
-        X_rsa.vars.iqstream.buffer_multiplier = X_rsa.constants.IQSTREAM_BUFFER_X_2;     
+        X_rsa.vars.iqstream.bandwidth = 35e6;                                     
+        X_rsa.vars.iqstream.record_time_ms = 5;                                       
+        X_rsa.vars.iqstream.buffer_multiplier = X_rsa.constants.IQSTREAM_BUFFER_X_1;     
         X_rsa.iqstream_set_vars();
 
         // get spectrum data "power vs frequency"

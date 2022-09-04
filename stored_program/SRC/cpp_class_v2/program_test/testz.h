@@ -24,7 +24,7 @@
 #define H_testz
 
 
-#define WAIT_ENTER_CLEAR 111    // if activated, lets wait_enter_clear() be called during testing
+//#define WAIT_ENTER_CLEAR 111    // if activated, lets wait_enter_clear() be called during testing
 
 
 #include "../program_core/cpu_timer/cpu_timer_class.h"
