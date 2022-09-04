@@ -12,19 +12,19 @@ import pandas
 VERBOSE = True    # prints output as processing occurs
 
 # for development
-# input_directory     = "./"
-# input_file_spectrum = "_656818283207_freqVpow_trace_0.csv"
-# input_file_adc      = "ifstream_315MHz_2.csv"
-# input_file_iqb      = "IQblk_315MHz_2.csv"
-# input_file_iqs      = "IQstream_315MHz_2"
+input_directory     = "./"
+input_file_spectrum = "_656818283207_freqVpow_trace_0.csv"
+input_file_adc      = "ifstream_315MHz_2.csv"
+input_file_iqb      = "IQblk_315MHz_2.csv"
+input_file_iqs      = "IQstream_315MHz_2.csv"
 
 
 # real inputs
-input_directory     = "../../../DATA/data_processed/"
-input_file_spectrum = "_204608131306_freqVpow_trace_0.csv"
-input_file_adc      = "ifstream_315MHz_0.csv"
-input_file_iqb      = "IQblk_315MHz_0.csv"
-input_file_iqs      = "IQstream_315MHz_0.csv"
+# input_directory     = "../../../DATA/data_processed/"
+# input_file_spectrum = "_204608131306_freqVpow_trace_0.csv"
+# input_file_adc      = "ifstream_315MHz_0.csv"
+# input_file_iqb      = "IQblk_315MHz_0.csv"
+# input_file_iqs      = "IQstream_315MHz_0.csv"
 
 
 
