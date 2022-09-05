@@ -67,6 +67,8 @@ struct rsa306b_constants
         const int IFSTREAM_DEFAULT_FILE_COUNT     = 1;                                    // IFSTREAM files to produce
         const char DATA_DIRECTORY_RAW[BUF_D]       = "../DATA/data_raw/";
         const char DATA_DIRECTORY_PROCESSED[BUF_D] = "../DATA/data_processed/";
+        // const char DATA_DIRECTORY_RAW[BUF_D]       = "/home/unlv/Desktop/GOOGLE_DRIVE/ee497_498/DATA_IO/data_raw/";
+        // const char DATA_DIRECTORY_PROCESSED[BUF_D] = "/home/unlv/Desktop/GOOGLE_DRIVE/ee497_498/DATA_IO/data_processed/";
 
     // IQBLK constants...clean this acqStatus
         const uint8_t IQBLK_GET_IQ_DATA                = 0;    // selects RSA_API::IQBLK_GetIQData() for acquisition

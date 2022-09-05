@@ -1,0 +1,6 @@
+start by dumping data into a local folder, then let google drive handle the upload:
+https://linuxhint.com/google_drive_installation_ubuntu/
+
+tried it here:
+/home/unlv/Desktop/GOOGLE_DRIVE/ee497_498/DATA_IO/...
+

@@ -23,7 +23,6 @@ extern rsa306b_class X_rsa;
 extern r3f_manager_class X_r3f;
 extern siq_manager_class X_siq;
 
-
 int main
 (
     int argc,

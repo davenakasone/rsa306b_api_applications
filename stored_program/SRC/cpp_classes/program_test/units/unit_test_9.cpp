@@ -176,7 +176,7 @@ void unit_test_9 (void)
             X_rsa.spectrum_set_vars();
             X_rsa.vars.ifstream.output_configuration_select = RSA_API::IFSOD_CLIENT;
             X_rsa.ifstream_set_vars();
-            for (int ii = 0; ii < 3*UT9_e; ii++)
+            for (int ii = 0; ii < 5; ii++)
             {
                 sprintf(X_rsa.vars.gp.helper, "%s/IFdata_frame_%d.csv", 
                     X_rsa.constants.DATA_DIRECTORY_PROCESSED,

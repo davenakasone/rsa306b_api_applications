@@ -3,27 +3,41 @@
 #     or, change .bashrc / make a bash script
 # issue "$ make -j" to build on all availible cores (slow compile time)
 # "CFLAGS = -Wall -lpthread -std=c++17 -O3 -I $(IDIR)" for maximum optimization
+# pthread should be included already, use $ldd on the Tektronix shared objects
+
+########################### TARGETS #############################################################
+# $ make alone                                     compile stand-alone program
+# $ make shared                                    compile shared library
+# $ make all                                       compile stand-alone program and shared library
+# $ make clear_data_processed                      delete "processed data"
+# $ make clear_data_raw                            delete "raw data"
+# $ make clear                                     delete all data
+# $ make clean                                     delete all data and all compiled binaries
+#################################################################################################
+
+
 SHELL := /bin/bash
 CC = g++
-IDIR = ../SRC/cpp_class_v2/api_resourcez/
-LDIR = /home/unlv/Desktop/rsa306b_api_applications/stored_program/RUN/shared_objects/
-SDIR = ../SRC/cpp_class_v2/program_core/
-TDIR = ../SRC/cpp_class_v2/program_test/
-DATA_IO = ../DATA/
-
+CFLAGS = -Wall -std=c++17 -o
 EXEC = ../RUN/oo
-CFLAGS = -Wall -std=c++17 -I $(IDIR)
-LDFLAGS	= -L $(LDIR)
-LIB_1 = -lRSA_API
-LIB_2 = -lcyusb_shared
-LIB_3 = -lpthread
+MY_LIB_SO = ../RUN/shared_objects/libRSA306B.so
+LIB_DIR = /home/unlv/Desktop/rsa306b_api_applications/stored_program/RUN/shared_objects/
+RPATH	= -L $(LIB_DIR)
+LIB_RSA_API = -lRSA_API
+LIB_CYUSB = -lcyusb_shared
 
+SDIR = ../SRC/cpp_classes/program_core/
+TDIR = ../SRC/cpp_classes/program_test/
+PYDIR = ../SRC/cpp_classes/python_interface/
+DATA_IO = ../DATA/
 DATA_IO_PROCESSED = $(DATA_IO)data_processed/
 DATA_IO_RAW = $(DATA_IO)data_raw/
 TDIR_U = $(TDIR)units/
 TDIR_T = $(TDIR)tasks/
 
+
 SOURCE_FILES_SO =\
+$(PYDIR)dummy.cpp \
 $(SDIR)control/globalz.cpp \
 $(SDIR)r3f_manager/r3fc_file_decode.cpp \
 $(SDIR)r3f_manager/r3fc_file_process.cpp \
@@ -96,7 +110,7 @@ $(SDIR)siq_manager/siq_printer.cpp \
 $(SDIR)siq_manager/siq_write_csv.cpp
 
 
-SOURCE_FILES_ALL = $(SDIR)main.cpp \
+SOURCE_FILES_ALL =$(SDIR)main.cpp \
 $(TDIR_T)task_500.cpp \
 $(TDIR_T)task_989.cpp \
 $(TDIR_T)task_990.cpp \
@@ -126,18 +140,37 @@ $(TDIR)wait_enter_clear.cpp \
 $(SOURCE_FILES_SO)
 
 
+# 1st TARGET
 # stdout is cleared
 # the executable is first deleted, then a clean build occurs
 # user must export library path 
-# user must activate the python environmnet (if using python tools)
-raw :
+# designed to be run with unit tests, no python
+alone :
 	clear
 	rm -f $(EXEC)
-	$(CC) -o $(EXEC) $(CFLAGS) $(SOURCE_FILES_ALL) $(LDFLAGS) $(LIB_1) $(LIB_2)	$(LIB_3)
-	@echo [ ${EXEC} ] compiled 
+	$(CC) $(CFLAGS) $(EXEC) $(SOURCE_FILES_ALL) $(RPATH) $(LIB_RSA_API) $(LIB_CYUSB)
+	@echo "[ ${EXEC} ] compiled"
 	@echo "...copy and paste in terminal:"
-	export LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(LDIR)
-#source /home/unlv/Desktop/rsa306b_api_applications/rsa_venv/rsa/bin/activate   use a boost binder 
+	export LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(LIB_DIR)
+
+
+# stdout is cleared
+# shared library "*.so" file is deleted
+# user must export library path 
+# user must activate the python environmnet (if using python tools)
+shared :
+	clear
+	rm -f $(MY_LIB_SO)
+	g++ -std=c++17 -Wall -fPIC -shared -o $(MY_LIB_SO) $(SOURCE_FILES_SO) $(RPATH) $(LIB_RSA_API) $(LIB_CYUSB)
+	@echo "[ ${MY_LIB_SO} ] is compiled and ready"
+	@echo "...copy and paste in terminal:"
+	export LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(LIB_DIR)
+	@echo "source /home/unlv/Desktop/rsa306b_api_applications/stored_program/py_rsa_venv/bin"
+
+
+# builds both binaries
+all : alone shared
+	@echo "built a stand alone executable and shared library"
 
 
 # stdout is cleared
@@ -147,7 +180,6 @@ raw :
 # "data_raw" file directory is preserved
 clear_data_processed :
 	clear
-	rm -f $(EXEC)
 	rm -rf $(DATA_IO_PROCESSED)
 	mkdir $(DATA_IO_PROCESSED)
 	clear
@@ -161,17 +193,25 @@ clear_data_processed :
 # "data_processed" file directory is preserved
 clear_data_raw :
 	clear
-	rm -f $(EXEC)
 	rm -rf $(DATA_IO_RAW)
 	mkdir $(DATA_IO_RAW)
 	clear
 	@echo 'all inputs were deleted'
 
 
+# does not delete executables, just the data
+clear : clear_data_raw clear_data_processed
+	@echo 'all inputs and outputs were deleted'
+
+
 # stdout is cleared
 # the executable is deleted
+# the shared library is delted
 # everything in DATA directory gets deleted (raw and processed data)
 # issue "make clean" if files are too large for github
-clean : clear_data_raw clear_data_processed
+clean : clear
+	rm -f $(EXEC)
+	rm -f $(MY_LIB_SO)
 	clear
 	@echo 'all inputs and outputs were deleted'
+	@echo 'all compiled binaries were deleted'

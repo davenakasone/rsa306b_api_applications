@@ -114,7 +114,7 @@ void unit_test_8 (void)
         #endif
         #ifdef UT8_d
 
-            int steps = 200;
+            int steps = 10;
             double step_size = 5e5;
             X_rsa.vars.config.center_frequency_hz = 50e6;
             X_rsa.vars.config.reference_level_dbm = -25.9;
