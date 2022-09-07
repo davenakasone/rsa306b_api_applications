@@ -25,7 +25,8 @@ def lsf() :
 def stop() :
     sys.exit("\n\n\t\t~ ~ ~ SCRIPT COMPLETE ~ ~ ~\n\n")
 
-HELP_MESSAGE = "$  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/unlv/Desktop/rsa306b_api_applications/stored_program/RUN/shared_objects/"
+HELP_MESSAGE_1 = "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/unlv/Desktop/rsa306b_api_applications/stored_program/RUN/shared_objects/"
+HELP_MESSAGE_2 = "source /home/unlv/Desktop/rsa306b_api_applications/stored_program/py_rsa_venv/bin/activate"
 SO_DIR = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/RUN/shared_objects/libRSA306B.so"
 rsa_so = None
 
@@ -33,11 +34,13 @@ try :
     rsa_so = ctypes.CDLL(SO_DIR)
 except :
     print("\nDid you run this ???")
-    print(f"\t{HELP_MESSAGE}")
+    print(f"\t$ {HELP_MESSAGE_1}")
+    print(f"\t$ {HELP_MESSAGE_2}")
     print("\nIs the file-path-name of the library correct ???")
     print(f"\t{SO_DIR}")
-    sys.exit("\n\tfailed to find the library or path was not exported\n")
+    sys.exit("failed to find the library or path was not exported")
 
+#shelp = ctypes.cast(rsa_so.X_rsa.vars.gp.helper, ctypes.c_char_p)
 rsa_so.dummy_plus_plus_by_val.restype = ctypes.c_int
 clear()
 lsf()
