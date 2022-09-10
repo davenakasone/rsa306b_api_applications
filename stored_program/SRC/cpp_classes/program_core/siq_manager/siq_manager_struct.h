@@ -17,7 +17,7 @@
 #define SIQ_FREQ_REF_SOURCES 4    // f21 FreqRefSource, possible frequency sources IQ file can use
 
 const int CORRECT_IQ_FILE_VERSION = 1;               // f0 RSASIQHT, all "siq" files should be on version #1 for the RSA-306B
-const char GOOD_ACQ_STATUS[11]    = "0x00000000";    // f19 AcqStatus, expected field value for a clean acquisition
+//const char GOOD_ACQ_STATUS[11]    = "0x00000000";    // f19 AcqStatus, expected field value for a clean acquisition
 const std::size_t INIT_STL        = 3;
 const char INIT_CHARP[5]          = "ZZZZ";
 const int INIT_INT                = 0;
@@ -175,7 +175,7 @@ const char FREQ_REF_SOURCES[SIQ_FREQ_REF_SOURCES][BUF_A] =
 ////~~~~
 
 
-struct siq_manager
+struct siq_manager_struct
 {
     // f0 RSASIQHT , header identifier
     int f0_header_size_in_bytes;
@@ -199,7 +199,7 @@ struct siq_manager
     char f3_version_api[BUF_A];
     char f3_version_usb[BUF_A];
     char f3_version_fpga[BUF_A];
-    //char f3_version_board[BUF_A];
+    //char f3_version_board[BUF_A];  does not appear to be in current version
 
     // f4 ReferenceLevel, instrument reference level in dBm
     double f4_reference_level_dbm;

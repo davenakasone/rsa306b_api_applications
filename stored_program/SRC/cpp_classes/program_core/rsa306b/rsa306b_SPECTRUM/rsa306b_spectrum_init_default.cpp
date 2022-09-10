@@ -98,11 +98,11 @@ void rsa306b_class::_spectrum_init()
         }
     }
 
-    this->_vars.spectrum.settings_type.span = this->constants.INIT_DOUBLE;
-    this->_vars.spectrum.settings_type.rbw = this->constants.INIT_DOUBLE;
-    this->_vars.spectrum.settings_type.enableVBW = false;
-    this->_vars.spectrum.settings_type.traceLength = this->constants.INIT_INT;
-    this->_vars.spectrum.settings_type.window = RSA_API::SpectrumWindow_FlatTop;
+    this->_vars.spectrum.settings_type.span         = this->constants.INIT_DOUBLE;
+    this->_vars.spectrum.settings_type.rbw          = this->constants.INIT_DOUBLE;
+    this->_vars.spectrum.settings_type.enableVBW    = false;
+    this->_vars.spectrum.settings_type.traceLength  = this->constants.INIT_INT;
+    this->_vars.spectrum.settings_type.window       = RSA_API::SpectrumWindow_FlatTop;
     this->_vars.spectrum.settings_type.verticalUnit = RSA_API::SpectrumVerticalUnit_Amp;
 
     this->_spectrum_copy_vars();

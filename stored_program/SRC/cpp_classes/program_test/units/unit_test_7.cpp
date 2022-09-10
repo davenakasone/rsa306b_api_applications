@@ -9,14 +9,18 @@
 */
 
 #include "../testz.h"
-extern rsa306b_class X_rsa;
+// extern rsa306b_class X_rsa;
+// extern timer_class X_timer;
 
 
 void unit_test_7 (void)
 {
-    printf("\n%s()  ,  API group 'CONFIG'\n", __func__);
-    {
-        cpu_timer_class cpu;
+#ifdef WAIT_ENTER_CLEAR
+printf("\n%s()  ,  API group 'CONFIG'\n", __func__);
+X_timer.time_split_start();                      
+#endif    
+////~~~~
+
         X_rsa.device_disconnect();
         X_rsa.device_connect();
         
@@ -29,11 +33,14 @@ void unit_test_7 (void)
 
         X_rsa.config_preset();
         X_rsa.print_config();
-    }
-    printf("\n%s()  ,  test complete\n", __func__);
-    #ifdef WAIT_ENTER_CLEAR
-        wait_enter_clear();
-    #endif
+        
+////~~~~
+#ifdef WAIT_ENTER_CLEAR
+X_timer.time_split_stop();
+X_timer.print_both();
+printf("\n%s()  ,  test complete\n", __func__);
+wait_enter_clear();
+#endif
 }
 
 

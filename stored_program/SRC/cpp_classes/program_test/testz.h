@@ -24,10 +24,6 @@
 #define H_testz
 
 
-//#define WAIT_ENTER_CLEAR 111    // if activated, lets wait_enter_clear() be called during testing
-
-
-#include "../program_core/cpu_timer/cpu_timer_class.h"
 #include "../program_core/control/globalz.h"
 
 #ifdef WAIT_ENTER_CLEAR
@@ -35,10 +31,8 @@
 #endif
 
 void test_selector (int test_number);    // controls the unit test being performed
-void unit_test_0 (void);                 // place holder, default
-void task_999 (void);                    // test bench 
 
-
+void unit_test_0   (void);    // place holder, default, template...
 void unit_test_1   (void);    // test 'general purpose' section
 void unit_test_2   (void);    // test 'DEVICE' section
 void unit_test_3   (void);    // test 'ALIGN' section
@@ -51,23 +45,16 @@ void unit_test_9   (void);    // test 'IFSTREAM' section
 void unit_test_10  (void);    // test 'IQBLK' section
 void unit_test_11  (void);    // test 'IQSTREAM' section
 
-void task_500 (void);    // preparing globals for the shared object
-
-void task_989 (void);    // develop the "siq_manager" file handler
-void task_990 (void);    // see if IQSTREAM has a bug in the API
-void task_991 (void);    // test the whchar_t 2 char converter
-void task_992 (void);    // get 100MHz and 315 MHz, spectrum and ADC
-void task_993 (void);    // generate spectrum and raw ADC for learning
-void task_994 (void);    // develop IF stream direct to client
+void task_992 (void);    // develop the "siq_manager" file handler
+void task_993 (void);    // see if IQSTREAM has a bug in the API ?
+void task_994 (void);    // test the whchar_t 2 char converter
 void task_995 (void);    // test YK3000 @ 315 MHz
 void task_996 (void);    // EE 498, Semptember 2022
 void task_997 (void);    // DSP demonstration
 void task_998 (void);    // test the cpu_timer_class
-
+void task_999 (void);    // test bench 
 
          
-
-
 #endif
 
 

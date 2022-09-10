@@ -673,7 +673,6 @@
             !!! unit tests are absolute, every object capability is stimulated
 
         # DPX
-        # IQSTREAM
         # PLAYBACK
 */
 
@@ -682,6 +681,9 @@
 
 
 #include "rsa306b_struct.h"    
+#ifdef DE_BUG
+    #include "../control/de_bug/de_bug.h"
+#endif
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -135,87 +135,91 @@ void r3f_manager_class::_initialize()
     this->_return_status = this->_CALL_FAILURE;
     memset(this->_helper, '\0', BUF_E);
     memset(this->_holder, '\0', BUF_F);
-    this->_fptr_decode = NULL;
-    this->_fptr_read= NULL;
-    this->_fptr_write= NULL;
-    this->_byte_index = 0;
-    this->_bytes_in_file = 0;
+    this->_fptr_decode          = NULL;
+    this->_fptr_read            = NULL;
+    this->_fptr_write           = NULL;
+    this->_byte_index           = 0;
+    this->_bytes_in_file        = 0;
     this->_time_split_is_marked = false;
-    this->_cpu_mark = 0;
-    this->_cpu_now = 0;
+    this->_cpu_mark             = 0;
+    this->_cpu_now              = 0;
     // _cpu_start was already handled in the constructor
 
     // the private struct with processing variables:
     memset(this->_vars.file_id, '\0', BUF_B);
     this->_vars.endian_check = 0;
-    this->_vars.file_format_version = 0;
-    this->_vars.file_format_version_part = 0;
-    this->_vars.file_format_version_sub = 0;
-    this->_vars.api_software_version = 0;
+    this->_vars.file_format_version       = 0;
+    this->_vars.file_format_version_part  = 0;
+    this->_vars.file_format_version_sub   = 0;
+    this->_vars.api_software_version      = 0;
     this->_vars.api_software_version_part = 0;
-    this->_vars.api_software_version_sub = 0;
-    this->_vars.firmware_version = 0;
-    this->_vars.firmware_version_part = 0;
-    this->_vars.firmware_version_sub = 0;
-    this->_vars.fpga_version = 0;
-    this->_vars.fpga_version_part = 0;
-    this->_vars.fpga_version_sub = 0;
+    this->_vars.api_software_version_sub  = 0;
+    this->_vars.firmware_version          = 0;
+    this->_vars.firmware_version_part     = 0;
+    this->_vars.firmware_version_sub      = 0;
+    this->_vars.fpga_version              = 0;
+    this->_vars.fpga_version_part         = 0;
+    this->_vars.fpga_version_sub          = 0;
     memset(this->_vars.device_serial_number, '\0', BUF_B);
     memset(this->_vars.device_nomenclature, '\0', BUF_B);
-    this->_vars.reference_level_dbm = 0;
-    this->_vars.rf_center_frequency_hz = 0;
-    this->_vars.device_temperature_celsius = 0;
-    this->_vars.alignment_state = 0;
-    this->_vars.frequecny_reference_state = 0;
-    this->_vars.trigger_mode = 0;
-    this->_vars.trigger_source = 0;
-    this->_vars.trigger_transition = 0;
-    this->_vars.trigger_level_dbm = 0;
-    this->_vars.file_data_type = 0;
-    this->_vars.byte_offset_to_first_frame = 0;
-    this->_vars.size_of_frame_bytes = 0;
-    this->_vars.byte_offset_to_sample_data_in_frame = 0;
-    this->_vars.number_of_samples_per_frame = 0;
+
+    this->_vars.reference_level_dbm                     = 0;
+    this->_vars.rf_center_frequency_hz                  = 0;
+    this->_vars.device_temperature_celsius              = 0;
+    this->_vars.alignment_state                         = 0;
+    this->_vars.frequecny_reference_state               = 0;
+    this->_vars.trigger_mode                            = 0;
+    this->_vars.trigger_source                          = 0;
+    this->_vars.trigger_transition                      = 0;
+    this->_vars.trigger_level_dbm                       = 0;
+    this->_vars.file_data_type                          = 0;
+    this->_vars.byte_offset_to_first_frame              = 0;
+    this->_vars.size_of_frame_bytes                     = 0;
+    this->_vars.byte_offset_to_sample_data_in_frame     = 0;
+    this->_vars.number_of_samples_per_frame             = 0;
     this->_vars.byte_offset_to_non_sample_data_in_frame = 0;
-    this->_vars.size_of_non_sample_data_in_frame_bytes = 0;
-    this->_vars.center_frequency_if_sampled_hz = 0;
-    this->_vars.samples_per_second = 0;
-    this->_vars.usable_bandwidth = 0;
-    this->_vars.file_data_corrected = 0;
-    this->_vars.reftime_local_source = 0;
+    this->_vars.size_of_non_sample_data_in_frame_bytes  = 0;
+    this->_vars.center_frequency_if_sampled_hz          = 0;
+    this->_vars.samples_per_second                      = 0;
+    this->_vars.usable_bandwidth                        = 0;
+    this->_vars.file_data_corrected                     = 0;
+    this->_vars.reftime_local_source                    = 0;
+    
     for (int ii = 0; ii < REFTIME_ELEMENTS; ii++)
     {
-        this->_vars.reftime_local[ii] = 0;
-        this->_vars.reftime_utc[ii] = 0;
+        this->_vars.reftime_local[ii]        = 0;
+        this->_vars.reftime_utc[ii]          = 0;
         this->_vars.reftime_first_sample[ii] = 0;
     }
-    this->_vars.fpga_sample_count = 0;
+
+    this->_vars.fpga_sample_count                    = 0;
     this->_vars.fpga_sample_counter_ticks_per_second = 0;
-    this->_vars.reftime_source = 0;
-    this->_vars.timestamp_of_first_sample = 0;
-    this->_vars.sample_gain_scaling_factor = 0;
-    this->_vars.signal_path_delay_seconds = 0;
-    this->_vars.channel_correction_type = 0;
-    this->_vars.number_of_table_entries = 0;
+    this->_vars.reftime_source                       = 0;
+    this->_vars.timestamp_of_first_sample            = 0;
+    this->_vars.sample_gain_scaling_factor           = 0;
+    this->_vars.signal_path_delay_seconds            = 0;
+    this->_vars.channel_correction_type              = 0;
+    this->_vars.number_of_table_entries              = 0;
+
     for (int ii = 0; ii < MAX_TABLE_ENTRIES; ii++)
     {
         this->_vars.table_amplitude[ii] = 0;
         this->_vars.table_frequency[ii] = 0;
-        this->_vars.table_phase[ii] = 0;
+        this->_vars.table_phase[ii]     = 0;
     }
-
-    this->_vars.extracted_sample = 0;
 
     for (int ii = 0; ii < FOOTER_DISCARD; ii++)
     {
         this->_vars.discard[ii] = 0;
     }
-    this->_vars.frame_id = 0;
-    this->_vars.trigger_1_index = 0;
-    this->_vars.trigger_2_index = 0;
+    
+    this->_vars.extracted_sample           = 0;
+    this->_vars.frame_id                   = 0;
+    this->_vars.trigger_1_index            = 0;
+    this->_vars.trigger_2_index            = 0;
     this->_vars.time_synchronization_index = 0;
-    this->_vars.frame_status = 0;
-    this->_vars.frame_timestamp = 0;
+    this->_vars.frame_status               = 0;
+    this->_vars.frame_timestamp            = 0;
 
     this->get_vars(&this->members);   // initializes the public struct instance
 }

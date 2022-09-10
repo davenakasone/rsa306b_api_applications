@@ -171,6 +171,7 @@ void siq_manager_class::write_iq_to_csv_batch
     }
 
     std::vector<std::string> input_files;
+    input_files.clear();
     std::vector<std::string> output_files;
     DIR* dir = NULL;
     struct dirent* diread = NULL;

@@ -2,12 +2,10 @@
     source code for the python interface
 */
 
-
-
 #include "dummy.h"
-extern rsa306b_class X_rsa;
-extern r3f_manager_class X_r3f;
-extern siq_manager_class X_siq;
+// extern rsa306b_class X_rsa;
+// extern r3f_manager_class X_r3f;
+// extern siq_manager_class X_siq;
 
 #ifdef __cplusplus 
 extern "C"      
@@ -36,7 +34,10 @@ void print_d()
 //     X_rsa.~rsa306b_class();
 // }
 
+
 #ifdef __cplusplus      
 }
 #endif
+
+
 ////////~~~~~~~~END>  dummy.cpp

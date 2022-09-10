@@ -74,7 +74,8 @@ void r3f_manager_class::prepare_plot_from_adc
                 input_file_path, diread->d_name);
 
             int string_length = (int)strlen(this->_helper);
-            char compare_to[5]; memset(compare_to, '\0', 5);
+            char compare_to[5]; 
+            memset(compare_to, '\0', 5);
             compare_to[0] = this->_helper[string_length-4];
             compare_to[1] = this->_helper[string_length-3];
             compare_to[2] = this->_helper[string_length-2];
@@ -92,7 +93,13 @@ void r3f_manager_class::prepare_plot_from_adc
             }
         }
     }
-    closedir(dir);
+    if (closedir(dir) != 0)
+    {
+        #ifdef DEBUG_MIN
+            printf("\n\tDEBUG_MIN, <%4d> %s/%s()  failed to close directory\n",
+                __LINE__, __FILE__, __func__);
+        #endif
+    }
     if (input_file_list.size() <= 0)
     if (dir == NULL) 
     {

@@ -1,190 +1,229 @@
 /*
-    raw ADC and spectrum
-    one run at 315 MHz,
-    other at 100 MHz
+    used for making the class to parse "*.siq" files
+
+    < 0 >  task_989()
+    < 1 >  basic()
+    < 2 >  parse_siq_batch()
+    < 3 >  demo3()
+    < 9 >  stream_to_file()
 */
 
 #include "../testz.h"
+// extern rsa306b_class X_rsa;
+// extern siq_manager_class X_siq;
 
-#define CF315 315
+static const double CONFIG_DBM         = -44.4;                                        // select a power level for the data acquisition, in dBm
+static const double CONFIG_CF          = 100.0e6;                                      // select a center frequency for the data acquisition, in Hz
+static const double IQS_BW             = 1.56e6;                                       // select a bandwidth for the data acquisition, in Hz
+static const int TIMEOUT_MS            = 1;                                            // select the timeout for triggered data acquisitions
+static const int FILES_MADE            = 1;                                            // SIQ files to generate in batch
+
+static void basic(siq_manager_class* siq, rsa306b_class* rsa);                // basic test
+static void parse_siq_batch(siq_manager_class* siq, rsa306b_class* rsa);      // generates 'FILES_MADE' of all 3 types, both triggered and untriggered
+static void demo3(siq_manager_class* siq, rsa306b_class* rsa);                // makes all 3 SIQ data formats, all 3 files parsed
+static void stream_to_file(rsa306b_class* obj, bool display_outfile);         // called to generate *.siq
+
 
 void task_992()
 {
-    printf("\n%s()  ,  make 100 MHz and 315 MHz, control the macro\n", __func__);
+    printf("\n%s()  ,  testing and making the 'siq_manager'\n", __func__);
     {
-        int reps = 10;    // for ADC and spectrum, for training
-        FILE* fptr = NULL;
-        int16_t* data_getter = NULL;
-        rsa306b_class rsa;
-        rsa.device_connect();
+        timer_class cpu;
+        X_rsa.device_connect();
 
-        #ifdef CF315
-            rsa.vars.config.center_frequency_hz = 315e6;
-            rsa.vars.config.reference_level_dbm = -13;
-            rsa.vars.spectrum.settings_type.rbw = 1e3;
-            rsa.vars.spectrum.settings_type.span = 1e6;
-        #else
-            rsa.vars.config.reference_level_dbm = -35;
-            rsa.vars.config.center_frequency_hz = 100e6;
-            rsa.vars.spectrum.settings_type.rbw = 0.1e6;
-            rsa.vars.spectrum.settings_type.span = 20e6;
-        #endif
-        rsa.config_set_vars();
-        rsa.vars.spectrum.settings_type.traceLength = 1001;
-        rsa.spectrum_set_vars();
-        rsa.vars.ifstream.output_configuration_select = RSA_API::IFSOD_CLIENT;
-        rsa.ifstream_set_vars();
+        // make initial device settings
+        X_rsa.vars.config.reference_level_dbm = CONFIG_DBM;   
+        X_rsa.vars.config.center_frequency_hz = CONFIG_CF;    
+        X_rsa.config_set_vars();
+        X_rsa.vars.trig.if_power_level = CONFIG_DBM + 10;                        
+        X_rsa.vars.trig.transition_select = RSA_API::TriggerTransitionEither;
+        X_rsa.vars.trig.source_select = RSA_API::TriggerSourceIFPowerLevel;
+        X_rsa.trig_set_vars();
+        X_rsa.vars.iqstream.bandwidth = IQS_BW;                                        
+        X_rsa.vars.iqstream.record_time_ms = TIMEOUT_MS;                              
+        X_rsa.vars.iqstream.buffer_multiplier = X_rsa.constants.IQSTREAM_BUFFER_X_1;
+        X_rsa.vars.iqstream.destination_select = RSA_API::IQSOD_FILE_SIQ;     
+        X_rsa.iqstream_set_vars();
 
-// get the ADC data, test
-        #ifdef CF315
-            sprintf(rsa.vars.gp.helper, "./program_test/data/outputs_txt/adc_test_315.csv");
-        #else
-            sprintf(rsa.vars.gp.helper, "./program_test/data/outputs_txt/adc_test_100.csv");
-        #endif
-        printf("\n%s  ,  ", rsa.vars.gp.helper);
-        fptr = fopen(rsa.vars.gp.helper, "w");
-        sprintf(rsa.vars.gp.holder, "x,y,\n");
-        fputs(rsa.vars.gp.holder, fptr);
-        rsa.device_run();
-        RSA_API::IFSTREAM_SetEnable(true);
-        RSA_API::IFSTREAM_GetIFDataBufferSize(
-            &rsa.vars.ifstream.buffer_size_bytes, 
-            &rsa.vars.ifstream.number_of_samples);
-        data_getter = new int16_t[rsa.vars.ifstream.number_of_samples];
-        if (!data_getter)
-        {
-            #ifdef DEBUG_MIN
-                printf("\n\tfailure allocating '%s'\n", GET_NAME(data_getter));
-            #endif
-            RSA_API::IFSTREAM_SetEnable(false);
-            rsa.device_stop();
-            return;
-        }
-        RSA_API::IFSTREAM_GetIFData(
-            data_getter, 
-            &rsa.vars.ifstream.if_data_length, 
-            &rsa.vars.ifstream.data_info_type);
-        rsa.vars.ifstream.adc_data_v.resize(rsa.vars.ifstream.if_data_length);
-        RSA_API::IFSTREAM_SetEnable(false);
-        rsa.device_stop();
-        for (int ii = 0; ii < rsa.vars.ifstream.if_data_length; ii++)
-        {
-            rsa.vars.ifstream.adc_data_v[ii] = data_getter[ii];
-            sprintf(rsa.vars.gp.holder, "%d,%d,\n", 
-                ii,
-                rsa.vars.ifstream.adc_data_v[ii]);
-            fputs(rsa.vars.gp.holder, fptr);
-        }
-        delete[] data_getter; data_getter = NULL;
-        fclose(fptr); fptr = NULL;
-        printf("  samples:  %d  ,  frames:  %d  ,  samples per frame:  %ld\n", 
-            rsa.vars.ifstream.if_data_length,
-            (int)(rsa.vars.ifstream.if_data_length/rsa.constants.ADC_SAMPLES_PER_FRAME),
-            rsa.constants.ADC_SAMPLES_PER_FRAME);
-
-// get the ADC data, train
-        #ifdef CF315
-            sprintf(rsa.vars.gp.helper, "./program_test/data/outputs_txt/adc_train_315.csv");
-        #else
-            sprintf(rsa.vars.gp.helper, "./program_test/data/outputs_txt/adc_train_100.csv");
-        #endif
-        printf("\n%s  ,  ", rsa.vars.gp.helper);
-        fptr = fopen(rsa.vars.gp.helper, "w");
-        sprintf(rsa.vars.gp.holder, "x,y,\n");
-        fputs(rsa.vars.gp.holder, fptr);
-        for (int ii = 0; ii < reps; ii++)
-        {
-            rsa.device_run();
-            RSA_API::IFSTREAM_SetEnable(true);
-            RSA_API::IFSTREAM_GetIFDataBufferSize(
-                &rsa.vars.ifstream.buffer_size_bytes, 
-                &rsa.vars.ifstream.number_of_samples);
-            data_getter = new int16_t[rsa.vars.ifstream.number_of_samples];
-            if (!data_getter)
-            {
-                #ifdef DEBUG_MIN
-                    printf("\n\tfailure allocating '%s'\n", GET_NAME(data_getter));
-                #endif
-                RSA_API::IFSTREAM_SetEnable(false);
-                rsa.device_stop();
-                return;
-            }
-            RSA_API::IFSTREAM_GetIFData(
-                data_getter, 
-                &rsa.vars.ifstream.if_data_length, 
-                &rsa.vars.ifstream.data_info_type);
-            rsa.vars.ifstream.adc_data_v.resize(rsa.vars.ifstream.if_data_length);
-            RSA_API::IFSTREAM_SetEnable(false);
-            rsa.device_stop();
-            for (int jj = 0; jj < rsa.vars.ifstream.if_data_length; jj++)
-            {
-                rsa.vars.ifstream.adc_data_v[jj] = data_getter[jj];
-                sprintf(rsa.vars.gp.holder, "%d,%d,\n", 
-                    jj,
-                    rsa.vars.ifstream.adc_data_v[jj]);
-                fputs(rsa.vars.gp.holder, fptr);
-            }
-            delete[] data_getter; data_getter = NULL;
-        }
-        fclose(fptr); fptr = NULL;
-        printf("  samples:  %d  ,  frames:  %d  ,  samples per frame:  %ld\n", 
-            rsa.vars.ifstream.if_data_length*reps,
-            (int)(rsa.vars.ifstream.if_data_length/rsa.constants.ADC_SAMPLES_PER_FRAME),
-            rsa.constants.ADC_SAMPLES_PER_FRAME);
-
-// get the spectrum data
-        #ifdef CF315
-            sprintf(rsa.vars.gp.helper, "./program_test/data/outputs_txt/spec_test_315.csv");
-        #else
-            sprintf(rsa.vars.gp.helper, "./program_test/data/outputs_txt/spec_test_100.csv");
-        #endif
-        printf("\n%s  ,  ", rsa.vars.gp.helper);
-        fptr = fopen(rsa.vars.gp.helper, "w");
-        sprintf(rsa.vars.gp.holder, "x,y,\n");
-        fputs(rsa.vars.gp.holder, fptr);
-        rsa.spectrum_aquire();
-        for (int ii = 0; ii < rsa.vars.spectrum.trace_points_acquired[0]; ii++)
-        {
-            sprintf(rsa.vars.gp.holder, "%0.3lf,%0.3f,\n",
-                    rsa.vars.spectrum.array_frequency[ii],
-                    rsa.vars.spectrum.array_power[0][ii]);
-                fputs(rsa.vars.gp.holder, fptr);
-        }
-        fclose(fptr); fptr = NULL;
-        printf("  bins:  %d  with  frames:  %d\n",
-            rsa.vars.spectrum.trace_points_acquired[0],
-            rsa.vars.spectrum.trace_points_acquired[0]/rsa.vars.spectrum.settings_type.traceLength);
-
-// get the spectrum data, training
-        #ifdef CF315
-            sprintf(rsa.vars.gp.helper, "./program_test/data/outputs_txt/spec_train_315.csv");
-        #else
-            sprintf(rsa.vars.gp.helper, "./program_test/data/outputs_txt/spec_train_100.csv");
-        #endif
-        printf("\n%s  ,  ", rsa.vars.gp.helper);
-        fptr = fopen(rsa.vars.gp.helper, "w");
-        sprintf(rsa.vars.gp.holder, "x,y,\n");
-        fputs(rsa.vars.gp.holder, fptr);
-        for (int ii = 0; ii < reps; ii++)
-        {
-            rsa.spectrum_aquire();
-            for (int jj = 0; jj < rsa.vars.spectrum.trace_points_acquired[0]; jj++)
-            {
-                sprintf(rsa.vars.gp.holder, "%0.3lf,%0.3f,\n",
-                    rsa.vars.spectrum.array_frequency[jj],
-                    rsa.vars.spectrum.array_power[0][jj]);
-                fputs(rsa.vars.gp.holder, fptr);
-            }
-        }
-        fclose(fptr); fptr = NULL;
-        printf("  bins:  %d  with  frames:  %d\n",
-            rsa.vars.spectrum.trace_points_acquired[0]*reps,
-            rsa.vars.spectrum.trace_points_acquired[0]*reps/rsa.vars.spectrum.settings_type.traceLength);
+        // test the siq_manager
+        basic(&X_siq, &X_rsa);
+        parse_siq_batch(&X_siq, &X_rsa);
     }
-    printf("\n%s()  ,  task complete\n", __func__);
-    #ifdef WAIT_ENTER_CLEAR
-        wait_enter_clear();
-    #endif
+    printf("\n%s()  ,  test complete\n", __func__);
+}
+
+
+////~~~~
+
+
+/*
+    < 1 >
+    acquires data from IQSTREAM
+    displays the "*.siq" file made
+    keep in mind:
+        - stream path is handled by the class
+        - "*.siq" files use same name for header and data (all in one)
+*/
+static void basic(siq_manager_class* siq, rsa306b_class* rsa)
+{
+    printf("<%d>  %s()\n", __LINE__, __func__);
+    siq->print_header();
+    siq->print_data(4,1);
+    printf("executuion success:  %d {0==false}\n", siq->execution_success());
+    siq->print_data(0,0);
+
+    rsa->vars.trig.mode_select = RSA_API::freeRun;
+    rsa->trig_set_vars();
+    rsa->vars.iqstream.datatype_select = RSA_API::IQSODT_SINGLE;
+    rsa->vars.iqstream.suffix_control  = RSA_API::IQSSDFN_SUFFIX_NONE;
+    rsa->iqstream_set_vars();
+    stream_to_file(rsa, true);
+
+    printf("\nthe file made has :  %ld  bytes\n",
+        siq->get_file_byte_length(rsa->vars.iqstream.fileinfo_type.filenames_0));
+    siq->decode_and_print(rsa->vars.iqstream.fileinfo_type.filenames_0, 0, 9);
+    sprintf(rsa->vars.gp.helper, "%s_decoded.txt", rsa->constants.DATA_DIRECTORY_PROCESSED);
+    siq->decode_and_write(rsa->vars.iqstream.fileinfo_type.filenames_0, rsa->vars.gp.helper, 0, 0);
+
+    siq->load_file(rsa->vars.iqstream.fileinfo_type.filenames_0);
+    siq->print_header();
+    siq->print_data(0, 9);
+    siq->write_iq_to_csv(rsa->vars.iqstream.fileinfo_type.filenames_0, NULL);
+}
+
+
+////~~~~
+
+
+/*
+    < 2 >
+    generates triggered and untriggered SIQ files, 
+    all 3 number formats
+    set repeitions with 'FILES_MADE'
+*/
+static void parse_siq_batch(siq_manager_class* siq, rsa306b_class* rsa)
+{
+    rsa->vars.iqstream.suffix_control = RSA_API::IQSSDFN_SUFFIX_INCRINDEX_MIN;
+    for (int xx = 0; xx < FILES_MADE; xx++)
+    {
+        rsa->vars.trig.mode_select = RSA_API::freeRun;
+        rsa->trig_set_vars();
+        demo3(siq, rsa);
+        rsa->vars.trig.mode_select = RSA_API::triggered;
+        rsa->trig_set_vars();
+        demo3(siq, rsa);
+    }
+    strncpy(rsa->vars.gp.helper, rsa->constants.DATA_DIRECTORY_RAW, BUF_E-1);
+    strncpy(rsa->vars.gp.holder, rsa->constants.DATA_DIRECTORY_PROCESSED, BUF_E-1);
+    siq->write_iq_to_csv_batch(rsa->vars.gp.helper, NULL);
+    siq->write_iq_to_csv_batch(rsa->vars.gp.helper, rsa->vars.gp.holder);
+}
+
+
+////~~~~
+
+
+/*
+    < 3 >
+    generates triggered and untriggered SIQ files, 
+    all 3 number formats
+    set repeitions with 'FILES_MADE'
+*/
+static void demo3(siq_manager_class* siq, rsa306b_class* rsa)
+{
+    rsa->vars.iqstream.datatype_select = RSA_API::IQSODT_SINGLE;
+    rsa->iqstream_set_vars();
+    stream_to_file(rsa, false);
+    printf("%s\n", rsa->vars.iqstream.fileinfo_type.filenames_0);
+    rsa->vars.iqstream.datatype_select = RSA_API::IQSODT_INT32;
+    rsa->iqstream_set_vars();
+    stream_to_file(rsa, false);
+    printf("%s\n", rsa->vars.iqstream.fileinfo_type.filenames_0);
+    rsa->vars.iqstream.datatype_select = RSA_API::IQSODT_INT16;
+    rsa->iqstream_set_vars();
+    stream_to_file(rsa, false);
+    printf("%s\n", rsa->vars.iqstream.fileinfo_type.filenames_0);
+}
+
+
+////~~~~
+
+
+/*
+    < 9 >
+    acquires data from IQSTREAM
+    displays the "*.siq" file made
+    keep in mind:
+        - stream path is handled by the class
+        - "*.siq" files use same name for header and data (all in one)
+*/
+static void stream_to_file(rsa306b_class* obj, bool display_outfile)
+{
+    if (obj->vars.iqstream.destination_select != RSA_API::IQSOD_FILE_SIQ)
+    {
+        printf("\n\twrong file type\n");
+        return;
+    }
+
+    switch (obj->vars.iqstream.datatype_select)
+    {
+        case (RSA_API::IQSODT_SINGLE) :
+            if (obj->vars.trig.mode_select == RSA_API::freeRun)
+            {
+                sprintf(obj->vars.iqstream.filename_base, "%s_single_freeRun", obj->constants.DATA_DIRECTORY_RAW);
+            }
+            else
+            {
+                sprintf(obj->vars.iqstream.filename_base, "%s_single_triggered", obj->constants.DATA_DIRECTORY_RAW);
+            }
+            break;
+        case (RSA_API::IQSODT_INT32) :
+            if (obj->vars.trig.mode_select == RSA_API::freeRun)
+            {
+                sprintf(obj->vars.iqstream.filename_base, "%s_int32_freeRun", obj->constants.DATA_DIRECTORY_RAW);
+            }
+            else
+            {
+                sprintf(obj->vars.iqstream.filename_base, "%s_int32_triggered", obj->constants.DATA_DIRECTORY_RAW);
+            }
+            break;
+        case (RSA_API::IQSODT_INT16) :
+            if (obj->vars.trig.mode_select == RSA_API::freeRun)
+            {
+                sprintf(obj->vars.iqstream.filename_base, "%s_int16_freeRun", obj->constants.DATA_DIRECTORY_RAW);
+            }
+            else
+            {
+                sprintf(obj->vars.iqstream.filename_base, "%s_int16_triggered", obj->constants.DATA_DIRECTORY_RAW);
+            }
+            break;
+        case (RSA_API::IQSODT_SINGLE_SCALE_INT32) :
+            if (obj->vars.trig.mode_select == RSA_API::freeRun)
+            {
+                sprintf(obj->vars.iqstream.filename_base, "%s_scaled_freeRun", obj->constants.DATA_DIRECTORY_RAW);
+            }
+            else
+            {
+                sprintf(obj->vars.iqstream.filename_base, "%s_scaled_triggered", obj->constants.DATA_DIRECTORY_RAW);
+            }
+            break;
+        default :
+            printf("\n\t there is a logic error in the IQSTREAM\n");
+            return;
+    }
+
+    obj->iqstream_set_vars();
+    obj->iqstream_acquire_data();
+    if (obj->vars.iqstream.fileinfo_type.numberSamples <= 0)
+    {
+        return;
+    }
+    if (display_outfile == true)
+    {
+        printf("pairs copied  :  %ld\n", obj->vars.iqstream.fileinfo_type.numberSamples);
+        printf("file          :  %s\n", obj->vars.iqstream.fileinfo_type.filenames_0);
+        printf("header        :  %s\n", obj->vars.iqstream.fileinfo_type.filenames_1);
+    }
 }
 
 

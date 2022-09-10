@@ -2,8 +2,8 @@
     this struct maintians the consants used in "rsa306b" object instances
     these constants are specific to the RSA-306B 
 
-    route data through relative or absolute path:
-        /home/unlv/Desktop/rsa306b_api_applications/working/cpp_class_v2/program_test/data
+    there are other constants, common to all classes,
+    these constants are specifically for the "rsa306b_class"
 */
 
 #ifndef H_rsa306b_constants
@@ -12,20 +12,16 @@
 
 #include "../control/resourcez.h"    // includes external libraries and other resources
 
-#define TRACES_AVAILABLE 3           // the RSA-306B has three traces that can be used
-#define SPECTRUM_DATA_LENGTH 2048    // spectrum aquisitions, go dynamic if needed
-#define AUDIO_DATA_LENGTH 1024       // maximum audio data points, 2^16 - 1, go dynamic if needed
-#define IFSTREAM_VECTOR_LENGTH 3     // correction vectors for the IFSTREAM data, a set of triplets
-#define IQSTREAM_BITCHECKS 13        // status bits [0:5], [16:21], + summary, for both "*acqStatus" variables in the API group
-#define IQSTREAM_ROW_RANGES 10       // ranges to infer buffer size from current bandwidth
+
+#define IQSTREAM_BITCHECKS 13        // IQSTREAM, status bits [0:5], [16:21], + summary, for both "*acqStatus" variables in the API group
+#define IQSTREAM_ROW_RANGES 10       // IQSTREAM, ranges to infer buffer size from current bandwidth
+
 
 struct rsa306b_constants
 {
     // status
         const int CALL_SUCCESS                       = 7777;    // successful, non-API function calls
         const int CALL_FAILURE                       = -777;    // failed, non-API function calls (must be different)
-        const uint32_t ACQ_STATUS_SUCCESS            = 0;       // successful value for API bit checks
-        const char ACQ_STATUS_SUCCESS_MESSAGE[BUF_B] = "GOOD BITCHECK";
 
     // initialization values and sizes
         const char    INIT_CHAR            = 'Z';
@@ -33,7 +29,7 @@ struct rsa306b_constants
         const double  INIT_DOUBLE          = -99.123;
         const float   INIT_FLOAT           = -99.4;
         const int     INIT_INT             = -99;
-        const std::size_t  INIT_STL_LENGTH = 3;    // for std::vector, std::queue, ...
+        const std::size_t  INIT_STL_LENGTH = 3;    // for sizing std::vector, std::queue, ...
         const uint8_t INIT_UINT            = 0xFF;
         const wchar_t INIT_WCHAR[6]        = L"w_str";
 
@@ -60,15 +56,17 @@ struct rsa306b_constants
         //const size_t FOOTER_BYTES = 28;                // bytes per frame less 2*samples per frame
 
     // generating output files
-        const int IFSTREAM_SUFFIX                 = -1;                                   // control file suffix name for IFSTREAM group, {0:increment, -1:timestamp, -2:none}
-        const char IFSTREAM_FILE_NAME_BASE[BUF_A] = "ifstream";                           // IFSTREAM base file name
-        const int IFSTREAM_MAX_MS                 = 1000;                                 // limit in milli-seconds for "*.r3f" file
-        const int IFSTREAM_DEFAULT_MS             = 10;                                   // default recording length for "*.r3f" files, in ms
-        const int IFSTREAM_DEFAULT_FILE_COUNT     = 1;                                    // IFSTREAM files to produce
         const char DATA_DIRECTORY_RAW[BUF_D]       = "../DATA/data_raw/";
         const char DATA_DIRECTORY_PROCESSED[BUF_D] = "../DATA/data_processed/";
         // const char DATA_DIRECTORY_RAW[BUF_D]       = "/home/unlv/Desktop/GOOGLE_DRIVE/ee497_498/DATA_IO/data_raw/";
         // const char DATA_DIRECTORY_PROCESSED[BUF_D] = "/home/unlv/Desktop/GOOGLE_DRIVE/ee497_498/DATA_IO/data_processed/";
+
+    // IFSTREAM
+        const int IFSTREAM_SUFFIX                 = -1;            // control file suffix name for IFSTREAM group, {0:increment, -1:timestamp, -2:none}
+        const char IFSTREAM_FILE_NAME_BASE[BUF_A] = "ifstream";    // IFSTREAM base file name
+        const int IFSTREAM_MAX_MS                 = 1000;          // limit in milli-seconds for "*.r3f" file
+        const int IFSTREAM_DEFAULT_MS             = 10;            // default recording length for "*.r3f" files, in ms
+        const int IFSTREAM_DEFAULT_FILE_COUNT     = 1;             // IFSTREAM files to produce
 
     // IQBLK constants...clean this acqStatus
         const uint8_t IQBLK_GET_IQ_DATA                = 0;    // selects RSA_API::IQBLK_GetIQData() for acquisition
@@ -83,12 +81,14 @@ struct rsa306b_constants
         const int IQBLK_GETTER_DEFAULT                 = IQBLK_GET_IQ_DATA_DEINETERLEAVED;
         const double IQBLK_STARTING_BANDWIDTH          = 1e6;
         //const int IQBLK_MAX_PAIRS = 104857600;
-    
+        const uint32_t ACQ_STATUS_SUCCESS            = 0;    // IQBLK,  successful value for API bit checks
+        const char ACQ_STATUS_SUCCESS_MESSAGE[BUF_B] = "GOOD BITCHECK";  
+
     // IQSTREAM constants
         const int IQSTREAM_MSEC_MIN              = 1;                                    // if this is 0, then infinite recording occurs, p79
         const int IQSTREAM_MSEC_MAX              = 1000;                                 // limit for disk space, the files are huge
         const char IQSTREAM_FILENAME_BASE[BUF_C] = "./program_test/data/outputs_sig";    // for writing output
-        const int IQSTREAM_TIMEOUT_MS            = 1;
+        const int IQSTREAM_TIMEOUT_MS            = 100;
         // setting the buffer size, direct acquisition, see p82
         const int IQSTREAM_BUFFER_SIZE_LARGE  = 65536;                            // for 2.5 MHz to 40 MHz
         const int IQSTREAM_BUFFER_SIZE_MEDIUM = 32768;                            // for 96765.625 Hz to 2.5 MHz

@@ -4,7 +4,8 @@
 # issue "$ make -j" to build on all availible cores (slow compile time)
 # "CFLAGS = -Wall -lpthread -std=c++17 -O3 -I $(IDIR)" for maximum optimization
 # pthread should be included already, use $ldd on the Tektronix shared objects
-
+# consider optimizations as performance needs grow (+ macros)
+#
 ########################### TARGETS #############################################################
 # $ make alone                                     compile stand-alone program
 # $ make shared                                    compile shared library
@@ -13,6 +14,7 @@
 # $ make clear_data_raw                            delete "raw data"
 # $ make clear                                     delete all data
 # $ make clean                                     delete all data and all compiled binaries
+# $ make clear_logs                                deletes all the debugging logs
 #################################################################################################
 
 
@@ -21,7 +23,7 @@ CC = g++
 CFLAGS = -Wall -std=c++17 -o
 EXEC = ../RUN/oo
 MY_LIB_SO = ../RUN/shared_objects/libRSA306B.so
-LIB_DIR = /home/unlv/Desktop/rsa306b_api_applications/stored_program/RUN/shared_objects/
+LIB_DIR = ~/Desktop/rsa306b_api_applications/stored_program/RUN/shared_objects/
 RPATH	= -L $(LIB_DIR)
 LIB_RSA_API = -lRSA_API
 LIB_CYUSB = -lcyusb_shared
@@ -29,15 +31,18 @@ LIB_CYUSB = -lcyusb_shared
 SDIR = ../SRC/cpp_classes/program_core/
 TDIR = ../SRC/cpp_classes/program_test/
 PYDIR = ../SRC/cpp_classes/python_interface/
+DDIR = $(SDIR)control/de_bug/
 DATA_IO = ../DATA/
 DATA_IO_PROCESSED = $(DATA_IO)data_processed/
 DATA_IO_RAW = $(DATA_IO)data_raw/
+DLOGZ = ../DOC/debug_logs/
 TDIR_U = $(TDIR)units/
 TDIR_T = $(TDIR)tasks/
 
 
 SOURCE_FILES_SO =\
-$(PYDIR)dummy.cpp \
+$(DDIR)de_bug.cpp \
+$(DDIR)debug_functions.cpp \
 $(SDIR)control/globalz.cpp \
 $(SDIR)r3f_manager/r3fc_file_decode.cpp \
 $(SDIR)r3f_manager/r3fc_file_process.cpp \
@@ -45,7 +50,6 @@ $(SDIR)r3f_manager/r3fc_handle_adc.cpp \
 $(SDIR)r3f_manager/r3fc_plot_maker.cpp \
 $(SDIR)r3f_manager/r3fc_private.cpp \
 $(SDIR)r3f_manager/r3fc_public.cpp \
-$(SDIR)cpu_timer/cpu_timer_class.cpp \
 $(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_get_copy.cpp \
 $(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_print_init.cpp \
 $(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_user.cpp \
@@ -107,14 +111,12 @@ $(SDIR)siq_manager/siq_error_codes.cpp \
 $(SDIR)siq_manager/siq_init_copy.cpp \
 $(SDIR)siq_manager/siq_loader.cpp \
 $(SDIR)siq_manager/siq_printer.cpp \
-$(SDIR)siq_manager/siq_write_csv.cpp
+$(SDIR)siq_manager/siq_write_csv.cpp \
+$(SDIR)timer_class/timer_class.cpp \
+$(PYDIR)dummy.cpp
 
 
 SOURCE_FILES_ALL =$(SDIR)main.cpp \
-$(TDIR_T)task_500.cpp \
-$(TDIR_T)task_989.cpp \
-$(TDIR_T)task_990.cpp \
-$(TDIR_T)task_991.cpp \
 $(TDIR_T)task_992.cpp \
 $(TDIR_T)task_993.cpp \
 $(TDIR_T)task_994.cpp \
@@ -170,7 +172,7 @@ shared :
 
 # builds both binaries
 all : alone shared
-	@echo "built a stand alone executable and shared library"
+	@echo "built a stand alone executable [ $(MY_LIB_SO) ] and a shared library [ $(EXEC) ]"
 
 
 # stdout is cleared
@@ -215,3 +217,11 @@ clean : clear
 	clear
 	@echo 'all inputs and outputs were deleted'
 	@echo 'all compiled binaries were deleted'
+
+# delete all the debug logs
+clear_logs :
+	clear
+	rm -rf $(DLOGZ)
+	mkdir $(DLOGZ)
+	clear
+	@echo 'all debug logs were deleted'

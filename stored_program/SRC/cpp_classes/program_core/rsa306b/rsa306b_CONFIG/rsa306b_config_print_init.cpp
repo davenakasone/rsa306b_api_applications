@@ -62,12 +62,11 @@ void rsa306b_class::_config_init()
         __LINE__, __FILE__, __func__);
 #endif  
 
-    this->_vars.config.reference_level_dbm = this->constants.INIT_DOUBLE;   
-    this->_vars.config.center_frequency_hz = this->constants.INIT_DOUBLE; 
-    this->_vars.config.min_center_frequency_hz = this->constants.INIT_DOUBLE; 
-    this->_vars.config.max_center_frequency_hz= this->constants.INIT_DOUBLE; 
-    this->_vars.config.external_reference_frequency_hz = this->constants.INIT_DOUBLE;  
-
+    this->_vars.config.reference_level_dbm               = this->constants.INIT_DOUBLE;   
+    this->_vars.config.center_frequency_hz               = this->constants.INIT_DOUBLE; 
+    this->_vars.config.min_center_frequency_hz           = this->constants.INIT_DOUBLE; 
+    this->_vars.config.max_center_frequency_hz           = this->constants.INIT_DOUBLE; 
+    this->_vars.config.external_reference_frequency_hz   = this->constants.INIT_DOUBLE;  
     this->_vars.config.frequency_reference_source_select = RSA_API::FRS_USER;
 
     this->_config_copy_vars();

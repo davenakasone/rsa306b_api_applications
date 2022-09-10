@@ -10,9 +10,7 @@
 #ifndef H_dummy
 #define H_dummy
 
-#include "../program_core/r3f_manager/r3f_manager_class.h"
-#include "../program_core/rsa306b/rsa306b_class.h"
-#include "../program_core/siq_manager/siq_manager_class.h"
+#include "../program_core/control/globalz.h"
 
 #ifdef __cplusplus 
 extern "C"      
@@ -37,5 +35,8 @@ void print_d();
 #ifdef __cplusplus      
 }
 #endif
+
 #endif
+
+
 ////////~~~~~~~~END>  dummy.h

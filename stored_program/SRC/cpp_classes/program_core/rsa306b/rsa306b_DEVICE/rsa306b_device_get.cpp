@@ -79,12 +79,10 @@ void rsa306b_class::_device_get_error_string()
         __LINE__, __FILE__, __func__);
 #endif
 
-    const char* temp = NULL;
-    temp = RSA_API::DEVICE_GetErrorString(this->_vars.gp.api_status);
-    snprintf(this->_vars.device.error_string, BUF_D-1, 
-        "error code:  %d  ,  error message:  %s", 
-        this->_vars.gp.api_status, temp);
-    temp = NULL;
+    snprintf(this->_vars.device.error_string, BUF_E-1, 
+        "error code:  %4d  ,  error message:  %s", 
+        this->_vars.gp.api_status, 
+        RSA_API::DEVICE_GetErrorString(this->_vars.gp.api_status));
     this->_device_copy_error_string();
 }
 

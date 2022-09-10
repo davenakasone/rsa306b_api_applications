@@ -114,7 +114,7 @@ void rsa306b_class::iqstream_make_csv
         return;
     }
     if (this->_vars.iqstream.cplx32_v.size() <= this->constants.INIT_STL_LENGTH      &&
-        ( this->_vars.iqstream.datatype_select == RSA_API::IQSODT_SINGLE           ||
+        ( this->_vars.iqstream.datatype_select == RSA_API::IQSODT_SINGLE             ||
           this->_vars.iqstream.datatype_select == RSA_API::IQSODT_SINGLE_SCALE_INT32) )
     {
         #ifdef DEBUG_MIN

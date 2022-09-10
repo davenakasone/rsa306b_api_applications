@@ -1,0 +1,86 @@
+immediate TODO:
+    SPECTRUM ".csv" should include a file-path-name ...base
+    IFSTREAM should include a ".csv" writter, taking file-path-name
+    constants should be moved to [./SRC/program_core/control]
+    constants unique to the structs should be included in the struct header
+    use enums and name spaces
+    the return status enum should be common to all ".so" compiled binaries
+    macros should be easily type-safed into "const <data_type>" + helps with python interface
+    group formats
+    if you look closley enough, many refactoring opportunities are present:
+        - scanning a directory for a file extension
+        - open + close a file for IO
+        - API compatibility (base names, )
+    revisit the structs...variables drive the API, so there is coordination between them...
+
+thoughts for version 3:
+    namespaces
+    ctypes for the python interface (seems best)
+    user features need to be specific
+    data telemetry is too slow with google drive
+    balance between getting the ".so" good and python good...both need to work
+
+important classes:
+    r3f_manager    // for raw "*.r3f" files
+    siq_manager    // for raw "*siq" files
+    rsa306b        // for API control, basic data processing, first measurement storage, and general operation
+
+API Groups:
+    ALIGN
+    AUDIO
+    CONFIG
+    DEVICE
+    DPX
+    IFSTREAM
+    IQBLK
+    IQSTREAM
+    PLAYBACK
+    SPECTRUM
+    REFTIME
+    TRIG
+    * general purpouse
+
+Common Groups:
+    ALIGN
+    CONFIG
+    DEVICE
+    REFTIME
+    TRIG
+    * general purpouse
+
+Data Groups:
+    AUDIO
+    IFSTREAM    // can produce a raw output file "*.r3f" + PLAYBACK
+    IQBLK
+    IQSTREAM    // can produce a raw output file "*.siq"
+    SPECTRUM
+
+Unit tests for the user interface, comprehensive:
+    200 : connect, configure, basic IO
+    201 : API group "AUDIO"
+    202 : API group "IFSTREAM" + "PLAYBACK"
+    203 : API group "IQBLK"
+    204 : API group "IQSTREAM"
+    205 : API group "SPECTRUM"
+
+for the user:
+    monitor
+        after setting, wait for a power level to pass threshold during a specified duration
+        if there was a "trigger", then produce X spectrum, iqs, iqb, ifs outputs...
+    scan
+        specifiy a bandwidth to scan
+        scan the band, producing output when events of interest are detected
+    grapher
+        graph data based on file of interest...
+        applies to spectrum, iqb, iqs, ifs
+        maybe get that DPX in there
+    file auto loader
+        get around that slow upload time
+        file loader works as a daemon/own thread
+
+user, next-step features:
+    printer...
+    logger...
+    GUI???
+    RCNN trained on data (did not work good last time...try again?)
+    GPS, camera, other 

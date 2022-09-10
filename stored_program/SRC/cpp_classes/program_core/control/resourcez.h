@@ -5,6 +5,8 @@
     libraries and other resources are consolidated here
 
     std=c++17 appears to be safe, but don't try to use > c++17 on the RSA_API
+
+    {ON//OFF}  means that the macro should be commented on or off when building
 */
 
 #ifndef H_resourcez
@@ -37,19 +39,47 @@
 
 #define GET_NAME(var) #var    // debug utility for identifying variable name
 
-#define DEBUG_MIN 1917             // when activated, prints essential information
-//#define DEBUG_MAX 1787           // when activated, prints additional information (keep DEBUG_MIN on if using)
-//#define DEBUG_CLI 1776           // when activated, prints __LINE__, __FILE__, __func__ for each call
-//#define DEBUG_ERR 1492           // when activated, prints the occurance of API and class "call checks"
-//#define DEBUG_SIQ_LOADER_HEADER 1941    // when activated, prints SIQ header as loaded, in 'siq_manager' class 
-//#define DEBUG_SIQ_LOADER_DATA 1945      // when activated, prints SIQ data as loaded, in 'siq_manager' class
+#define DE_BUG 22               // {ON//OFF} if activated, debug features are applied
+//#define WAIT_ENTER_CLEAR 111    // {ON//OFF} if activated, calls wait_enter_clear(), stand-alone execution only
 
-#define BUF_A 32                    // a short general purpose buffer
-#define BUF_B 64                    // ..
-#define BUF_C 128                   // ...
-#define BUF_D 256                   // ....
-#define BUF_E 512                   // .....
-#define BUF_F 1024                  // a long general purpose buffer
+#ifdef DE_BUG
+    // pick: none, one, or all
+    #define DEBUGS_WILL_PRINT 44    // {ON//OFF} if activated, debug activity is displayed to stdout
+    #define DEBUGS_WILL_WRITE 55    // {ON//OFF} if activated, debug activity is writen
+
+    // good to have at least "DEBUG_MIN" activated
+    #define DEBUG_MIN 1917                  // {ON//OFF} tracks:  essential information
+    #define DEBUG_MAX 1787                  // {ON//OFF} tracks:  additional information (keep DEBUG_MIN on if using)
+    #define DEBUG_CLI 1776                  // {ON//OFF} tracks:  __LINE__, __FILE__, __func__ for each call
+    //#define DEBUG_CALL_CHECKS 1492          // {ON//OFF} tracks:  API return status checks and other call checks
+    
+    // only needed if there is trouble parsing "*.siq" files
+    //#define DEBUG_SIQ_LOADER_HEADER 1941    // {ON//OFF} when activated, prints SIQ header as loaded, in 'siq_manager' class 
+    //#define DEBUG_SIQ_LOADER_DATA 1945      // {ON//OFF} when activated, prints SIQ data as loaded, in 'siq_manager' class
+
+    #ifdef DEBUG_MIN
+        const char DEBUG_MIN_FORMAT[]         = "DEBUG_MIN        ,  <%4d>  %s/%s()  !!!  %s\n";
+    #endif
+    #ifdef DEBUG_MAX
+        const char DEBUG_MAX_FORMAT[]         = "DEBUG_MAX        ,  <%4d>  %s/%s()  ,  %s\n";
+    #endif
+    #ifdef DEBUG_CLI
+        const char DEBUG_CLI_FORMAT[]         = "DEBUG_CLI        ,  <%4d>  %s/%s()\n";
+    #endif
+    #ifdef DEBUG_CALL_CHECKS
+        const char DEBUG_CALL_CHECKS_FORMAT[] = "DEBUG_CALL_CHECKS,  <%4d>  %s/%s()\n";
+    #endif
+    const char DEBUG_FILEPATH[] = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DOC/debug_logs/";  // may require a change
+
+    #define DEBUG_WIDTH 555    // size of the debug string, used for printing and writting
+#endif
+
+#define BUF_A 32      // a short general purpose buffer
+#define BUF_B 64      // ..
+#define BUF_C 128     // ...
+#define BUF_D 256     // ....
+#define BUF_E 512     // .....
+#define BUF_F 1024    // a long general purpose buffer
 
 
 #endif

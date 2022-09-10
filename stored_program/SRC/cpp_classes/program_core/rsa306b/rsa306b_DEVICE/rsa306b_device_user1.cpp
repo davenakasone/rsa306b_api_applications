@@ -38,10 +38,8 @@ void rsa306b_class::device_connect()
     }
     int devices_found;
     int device_ids[RSA_API::DEVSRCH_MAX_NUM_DEVICES];
-    char device_serials[RSA_API::DEVSRCH_MAX_NUM_DEVICES]
-        [RSA_API::DEVSRCH_SERIAL_MAX_STRLEN];
-    char device_types[RSA_API::DEVSRCH_MAX_NUM_DEVICES]
-        [RSA_API::DEVSRCH_TYPE_MAX_STRLEN];
+    char device_serials[RSA_API::DEVSRCH_MAX_NUM_DEVICES][RSA_API::DEVSRCH_SERIAL_MAX_STRLEN];
+    char device_types[RSA_API::DEVSRCH_MAX_NUM_DEVICES][RSA_API::DEVSRCH_TYPE_MAX_STRLEN];
 
     this->_vars.gp.api_status = 
         RSA_API::DEVICE_Search(

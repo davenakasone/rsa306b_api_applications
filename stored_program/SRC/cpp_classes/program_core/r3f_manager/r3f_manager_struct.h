@@ -114,7 +114,7 @@ struct r3f_manager_struct
     // [12288:16383] reserved, EMPTY ...first data on 16384
 
 // DATA
-    int16_t extracted_sample;    // holds the 16-bit sample
+    int16_t extracted_sample;    // holds the current 16-bit sample
 
 // FOOTER
     uint8_t discard[FOOTER_DISCARD];

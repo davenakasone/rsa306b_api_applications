@@ -7,12 +7,13 @@
 
 rsa306b_class::rsa306b_class()
 {
-#ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s(),  constructor\n",
-        __LINE__, __FILE__, __func__);
+#ifdef DE_BUG
+    debug_init();
 #endif
-#ifdef DEBUG_MIN
-    printf("\n\tinstance constructed\n");
+#ifdef DEBUG_CLI
+    snprintf(X_dstr, DEBUG_WIDTH-1, DEBUG_CLI_FORMAT, 
+        __LINE__, __FILE__, __func__);
+    debug_record();
 #endif
 
     this->_init_everything();
@@ -25,14 +26,19 @@ rsa306b_class::rsa306b_class()
 rsa306b_class::~rsa306b_class()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s(),  destructor\n",
-        __LINE__, __FILE__, __func__);
-#endif
-#ifdef DEBUG_MIN
-    printf("\n\tinstance destroyed\n");
+    if (X_dfp != NULL)
+    {
+        snprintf(X_dstr, DEBUG_WIDTH-1, DEBUG_CLI_FORMAT, 
+            __LINE__, __FILE__, __func__);
+        debug_record();
+    }
 #endif
 
     this->device_disconnect();
+
+#ifdef DE_BUG
+    debug_stop();
+#endif
 }
 
 

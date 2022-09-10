@@ -8,6 +8,9 @@
 
 #include "../rsa306b_constants.h"
 
+#define TRACES_AVAILABLE 3           // the RSA-306B has three traces that can be used
+#define SPECTRUM_DATA_LENGTH 2048    // spectrum aquisitions, go dynamic if needed
+
 
 struct rsa306b_spectrum_struct
 {

@@ -8,6 +8,8 @@
 
 #include "../rsa306b_constants.h"
 
+#define AUDIO_DATA_LENGTH 1024       // maximum audio data points, 2^16 - 1, go dynamic if needed
+
 
 struct rsa306b_audio_struct
 {

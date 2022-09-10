@@ -82,17 +82,17 @@ void rsa306b_class::_spectrum_copy_settings_type()
 
     this->vars.spectrum.settings_type.actualFreqStepSize = this->_vars.spectrum.settings_type.actualFreqStepSize;
     this->vars.spectrum.settings_type.actualNumIQSamples = this->_vars.spectrum.settings_type.actualNumIQSamples;
-    this->vars.spectrum.settings_type.actualRBW = this->_vars.spectrum.settings_type.actualRBW;
-    this->vars.spectrum.settings_type.actualStartFreq = this->_vars.spectrum.settings_type.actualStartFreq;
-    this->vars.spectrum.settings_type.actualStopFreq = this->_vars.spectrum.settings_type.actualStopFreq;
-    this->vars.spectrum.settings_type.actualVBW = this->_vars.spectrum.settings_type.actualVBW;
-    this->vars.spectrum.settings_type.enableVBW = this->_vars.spectrum.settings_type.enableVBW;
-    this->vars.spectrum.settings_type.rbw = this->_vars.spectrum.settings_type.rbw;
-    this->vars.spectrum.settings_type.span = this->_vars.spectrum.settings_type.span;
-    this->vars.spectrum.settings_type.traceLength = this->_vars.spectrum.settings_type.traceLength;
-    this->vars.spectrum.settings_type.vbw = this->_vars.spectrum.settings_type.vbw;
-    this->vars.spectrum.settings_type.verticalUnit = this->_vars.spectrum.settings_type.verticalUnit;
-    this->vars.spectrum.settings_type.window = this->_vars.spectrum.settings_type.window;
+    this->vars.spectrum.settings_type.actualRBW          = this->_vars.spectrum.settings_type.actualRBW;
+    this->vars.spectrum.settings_type.actualStartFreq    = this->_vars.spectrum.settings_type.actualStartFreq;
+    this->vars.spectrum.settings_type.actualStopFreq     = this->_vars.spectrum.settings_type.actualStopFreq;
+    this->vars.spectrum.settings_type.actualVBW          = this->_vars.spectrum.settings_type.actualVBW;
+    this->vars.spectrum.settings_type.enableVBW          = this->_vars.spectrum.settings_type.enableVBW;
+    this->vars.spectrum.settings_type.rbw                = this->_vars.spectrum.settings_type.rbw;
+    this->vars.spectrum.settings_type.span               = this->_vars.spectrum.settings_type.span;
+    this->vars.spectrum.settings_type.traceLength        = this->_vars.spectrum.settings_type.traceLength;
+    this->vars.spectrum.settings_type.vbw                = this->_vars.spectrum.settings_type.vbw;
+    this->vars.spectrum.settings_type.verticalUnit       = this->_vars.spectrum.settings_type.verticalUnit;
+    this->vars.spectrum.settings_type.window             = this->_vars.spectrum.settings_type.window;
 }
 
 
@@ -109,14 +109,14 @@ void rsa306b_class::_spectrum_copy_limits_type()
         __LINE__, __FILE__, __func__);
 #endif  
 
-    this->vars.spectrum.limits_type.maxRBW = this->_vars.spectrum.limits_type.maxRBW;
-    this->vars.spectrum.limits_type.maxSpan = this->_vars.spectrum.limits_type.maxSpan;
+    this->vars.spectrum.limits_type.maxRBW         = this->_vars.spectrum.limits_type.maxRBW;
+    this->vars.spectrum.limits_type.maxSpan        = this->_vars.spectrum.limits_type.maxSpan;
     this->vars.spectrum.limits_type.maxTraceLength = this->_vars.spectrum.limits_type.maxTraceLength;
-    this->vars.spectrum.limits_type.maxVBW = this->_vars.spectrum.limits_type.maxVBW;
-    this->vars.spectrum.limits_type.minRBW = this->_vars.spectrum.limits_type.minRBW;
-    this->vars.spectrum.limits_type.minSpan = this->_vars.spectrum.limits_type.minSpan;
+    this->vars.spectrum.limits_type.maxVBW         = this->_vars.spectrum.limits_type.maxVBW;
+    this->vars.spectrum.limits_type.minRBW         = this->_vars.spectrum.limits_type.minRBW;
+    this->vars.spectrum.limits_type.minSpan        = this->_vars.spectrum.limits_type.minSpan;
     this->vars.spectrum.limits_type.minTraceLength = this->_vars.spectrum.limits_type.minTraceLength;
-    this->vars.spectrum.limits_type.minVBW = this->_vars.spectrum.limits_type.minVBW;
+    this->vars.spectrum.limits_type.minVBW         = this->_vars.spectrum.limits_type.minVBW;
 }
 
 

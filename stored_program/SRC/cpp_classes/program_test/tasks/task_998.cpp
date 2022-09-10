@@ -7,36 +7,48 @@
 */
 
 #include "../testz.h"
+#define T998_REPZ 7
+// extern timer_class X_timer;
 
 
 void task_998()
 {
-    printf("\n%s()  ,  getting the core program structured\n", __func__);
-    {
-        cpu_timer_class cpu;
+#ifdef WAIT_ENTER_CLEAR
+printf("\n%s()  ,  getting the core program structured\n", __func__);                    
+#endif    
+////~~~~
 
-        cpu.time_split_start();
+
+    for (int ii = 0; ii < T998_REPZ; ii++)
+    {
+        X_timer.time_split_start();
         printf("\nsleep 1 second...\n");
         sleep(1);
-        cpu.time_split_stop();
-        printf("split:  %0.12lf  ,  running:  %0.12lf  {CPU}\n",
-            cpu.get_time_split(), cpu.get_running_time());
-        printf("split:  %0.12lf  ,  running:  %0.12lf  {wall}\n",
-            cpu.get_time_split_w(), cpu.get_running_time_w());
-
-        printf("\nsleep 2 seconds...\n");
-        cpu.time_split_start();
-        sleep(2);
-        cpu.time_split_stop();
-        cpu.print_time_split();
-        cpu.print_running_time();
-
-        printf("\ndestructor...\n");
+        X_timer.time_split_stop();
+        printf("\tsplit:  %0.12lf  ,  running:  %0.12lf  {CPU}\n",
+            X_timer.get_time_split(), 
+            X_timer.get_running_time());
+        printf("\tsplit:  %0.12lf  ,  running:  %0.12lf  {wall}\n\n",
+            X_timer.get_time_split_w(), 
+            X_timer.get_running_time_w());
     }
-    printf("\n%s()  ,  test complete\n", __func__);
-    #ifdef WAIT_ENTER_CLEAR
-        wait_enter_clear();
-    #endif
+    
+    for (int ii = 0; ii < T998_REPZ; ii++)
+    {
+        printf("\nsleep 2 seconds...\n");
+        X_timer.time_split_start();
+        sleep(2);
+        X_timer.time_split_stop();
+        X_timer.print_both();
+    }
+
+////~~~~
+#ifdef WAIT_ENTER_CLEAR
+X_timer.time_split_stop();
+X_timer.print_both();
+printf("\n%s()  ,  test complete\n", __func__);
+wait_enter_clear();
+#endif
 }
 
 

@@ -28,11 +28,6 @@ void test_selector
         case (10)  : unit_test_10()  ; break;
         case (11)  : unit_test_11()  ; break;
 
-        case (500) : task_500()      ; break;
-
-        case (989) : task_989()      ; break;
-        case (990) : task_990()      ; break;
-        case (991) : task_991()      ; break;
         case (992) : task_992()      ; break;
         case (993) : task_993()      ; break;
         case (994) : task_994()      ; break;
@@ -41,8 +36,8 @@ void test_selector
         case (997) : task_997()      ; break;
         case (998) : task_998()      ; break;
         case (999) : task_999()      ; break;
-
-        default    : unit_test_0(); break;
+        
+        default    : unit_test_0()   ; break;
     }
 
     printf("\n%s()  ,  end of unit testing\n", __func__); 

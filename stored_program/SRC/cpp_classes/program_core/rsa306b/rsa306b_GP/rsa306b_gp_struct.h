@@ -3,6 +3,9 @@
     these variables are used in multiple API function groups
 */
 
+#ifndef H_rsa306b_gp_struct
+#define H_rsa306b_gp_struct
+
 
 #include "../rsa306b_constants.h"
 
@@ -17,6 +20,9 @@ struct rsa306b_gp_struct
     RSA_API::ReturnStatus api_status;    // enum, all API functions return this
 };
 typedef struct rsa306b_gp_struct rsa306b_gp_struct;
+
+
+#endif
 
 
 ////////~~~~~~~~END>  rsa306b_gp_struct.h

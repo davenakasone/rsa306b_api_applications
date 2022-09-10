@@ -38,16 +38,22 @@
         write_iq_to_csv_batch()
 */
 
-#include "siq_manager_struct.h"
+#ifndef H_siq_manager_class
+#define H_siq_manager_class
 
+
+#include "siq_manager_struct.h"
+#ifdef DE_BUG
+    #include "../control/de_bug/de_bug.h"
+#endif
 
 class siq_manager_class
 {
     public :
 
-        siq_manager_class();        // only constuctor used
-        ~siq_manager_class();       // destructor
-        struct siq_manager vars;    // structured variables for parsing
+        siq_manager_class();               // only constuctor used
+        ~siq_manager_class();              // destructor
+        struct siq_manager_struct vars;    // structured variables for parsing
 
         // diagnostic tools to parse "*.siq" files, byte-by-byte
         void decode_and_write(char* input_file, char* output_file, unsigned long int byte_start, unsigned long int byte_stop);    
@@ -68,8 +74,8 @@ class siq_manager_class
 
     private :
 
-        struct siq_manager _vars;    // structured variables for parsing
-        error_code_select _ec;       // tracks state of calls
+        struct siq_manager_struct _vars;    // structured variables for parsing
+        error_code_select _ec;              // tracks state of calls
 
         FILE* _fptr_read;
         FILE* _fptr_write;
@@ -96,6 +102,9 @@ class siq_manager_class
         void _populate_header();    // helps "_load_file()" parse header
         void _populate_data();      // helps "_load_file()" parse data block
 };
+
+
+#endif
 
 
 ////////~~~~~~~~END>  siq_manager_class.h

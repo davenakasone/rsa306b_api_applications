@@ -70,6 +70,9 @@
 
 
 #include "r3f_manager_struct.h"    // <stdint.h>, <float.h>
+#ifdef DE_BUG
+    #include "../control/de_bug/de_bug.h"
+#endif
 
 
 class r3f_manager_class
@@ -103,9 +106,9 @@ class r3f_manager_class
             bool print_while_decoding);    
 
         // further processing
-        void prepare_plot_from_header(const char* output_file);                          // frequecny: amplitude and phase
-        void prepare_plot_from_iq(const char* input_file, const char* output_file);    // time : I and Q
-        void prepare_plot_from_adc(const char* input_file_path, const char* output_file_path); // raw ADC, input file found automatically
+        void prepare_plot_from_header(const char* output_file);                                   // frequecny: amplitude and phase
+        void prepare_plot_from_iq(const char* input_file, const char* output_file);               // time : I and Q
+        void prepare_plot_from_adc(const char* input_file_path, const char* output_file_path);    // raw ADC, input file found automatically
         //void past_present_adc_csv(const char* input_file_path_name, const char* output_file_path_name); // time series ADC
         
     private :

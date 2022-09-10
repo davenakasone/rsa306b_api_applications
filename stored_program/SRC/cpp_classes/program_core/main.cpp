@@ -1,7 +1,8 @@
 /*
 	main() directs the unit testing
     when the program is validated, 
-        main() will be restricted to the entery point or not used
+        main() is only for stand-alone operation, mostly for testing
+        exclude this file form the shared object
 */
 
 #include "../program_test/testz.h"
@@ -14,14 +15,15 @@
 
 // turn off to run all unit tests
 // turn on and change UT_NUMBER to run a specific unit test
-#define UNIT_TEST_BY_NUMBER 996   // select # here
+#define UNIT_TEST_BY_NUMBER 999   // select # here
 // sections        "unit_test_#"  : 0  , 1  , 2  , 3  , 4  , 5  , 6  , 7  , 8  , 9  , 
 //                                  10 , 11 ,
-// specific tasks  "task_#"       : 999, 998, 997, 996, 995, 994, 993, 992, 991, 990, 
-//                                  989, 500,
-extern rsa306b_class X_rsa;
-extern r3f_manager_class X_r3f;
-extern siq_manager_class X_siq;
+// specific tasks  "task_#"       : 999, 998, 997, 996, 995, 994, 993, 992,
+// extern rsa306b_class X_rsa;
+// extern r3f_manager_class X_r3f;
+// extern siq_manager_class X_siq;
+// extern timer_class X_timer;
+
 
 int main
 (
@@ -30,7 +32,6 @@ int main
     char** envp
 )
 {
-    cpu_timer_class total_time;
     int objSize[4];
     {
         if (argc >= 2)
@@ -46,16 +47,14 @@ int main
             goto witness_me;
         #endif
 
-        r3f_manager_class dummy_r3f;
-        siq_manager_class dummy_siq;
         objSize[0] = static_cast<int>(sizeof(X_rsa));
         objSize[1] = static_cast<int>(sizeof(X_r3f));
         objSize[2] = static_cast<int>(sizeof(X_siq));
-        objSize[3] = static_cast<int>(sizeof(total_time));
+        objSize[3] = static_cast<int>(sizeof(X_timer));
     }
     
     #ifdef UNIT_TEST_BY_NUMBER
-        test_selector(UNIT_TEST_BY_NUMBER); 
+        test_selector(static_cast<int>(UNIT_TEST_BY_NUMBER)); 
     #else
         test_selector(0);      // place holder, default
         test_selector(1);      // test 'general purpose' section
@@ -99,10 +98,10 @@ int main
         #endif
     #endif
     printf("\n");
-    printf("the 'rsa306b' object size      :  %12d bytes\n", objSize[0]);
-    printf("the 'r3f_manager' object size  :  %12d bytes\n", objSize[1]);
-    printf("the 'siq_manager' object size  :  %12d bytes\n", objSize[2]);
-    printf("the 'cpu_timer' object size    :  %12d bytes\n", objSize[3]);
+    printf("the 'rsa306b_class' object size      :  %12d bytes\n", objSize[0]);
+    printf("the 'r3f_manager' object size        :  %12d bytes\n", objSize[1]);
+    printf("the 'siq_manager' object size        :  %12d bytes\n", objSize[2]);
+    printf("the 'timer_class' object size        :  %12d bytes\n", objSize[3]);
     printf("\n");
     return EXIT_SUCCESS;
 }

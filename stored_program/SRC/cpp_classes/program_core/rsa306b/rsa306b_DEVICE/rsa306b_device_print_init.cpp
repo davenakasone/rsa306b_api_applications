@@ -67,8 +67,8 @@ void rsa306b_class::_device_init()
     this->_vars.device.is_running = false;
     this->_vars.device.event_occured = false;
 
-    memset(this->_vars.device.error_string, '\0', BUF_D);
-    strncpy(this->_vars.device.error_string, this->constants.INIT_STR, BUF_D-1);
+    memset(this->_vars.device.error_string, '\0', BUF_E);
+    strncpy(this->_vars.device.error_string, this->constants.INIT_STR, BUF_E-1);
 
     this->_vars.device.id = this->constants.INIT_INT;
     this->_vars.device.event_id = this->constants.INIT_INT;

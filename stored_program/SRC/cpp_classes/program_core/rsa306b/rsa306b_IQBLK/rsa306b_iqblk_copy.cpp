@@ -136,10 +136,10 @@ void rsa306b_class::_iqblk_copy_acq_info_type()
         __LINE__, __FILE__, __func__);
 #endif  
 
-    this->vars.iqblk.acq_info_type.acqStatus = this->_vars.iqblk.acq_info_type.acqStatus;
-    this->vars.iqblk.acq_info_type.sample0Timestamp = this->_vars.iqblk.acq_info_type.sample0Timestamp;
+    this->vars.iqblk.acq_info_type.acqStatus          = this->_vars.iqblk.acq_info_type.acqStatus;
+    this->vars.iqblk.acq_info_type.sample0Timestamp   = this->_vars.iqblk.acq_info_type.sample0Timestamp;
     this->vars.iqblk.acq_info_type.triggerSampleIndex = this->_vars.iqblk.acq_info_type.triggerSampleIndex;
-    this->vars.iqblk.acq_info_type.triggerTimestamp = this->_vars.iqblk.acq_info_type.triggerTimestamp;
+    this->vars.iqblk.acq_info_type.triggerTimestamp   = this->_vars.iqblk.acq_info_type.triggerTimestamp;
 }
 
 

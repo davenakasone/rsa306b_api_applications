@@ -163,11 +163,11 @@ void rsa306b_class::_iqstream_copy_fileinfo_type()
         __LINE__, __FILE__, __func__);
 #endif  
 
-    this->vars.iqstream.fileinfo_type.acqStatus = this->_vars.iqstream.fileinfo_type.acqStatus;
-    this->vars.iqstream.fileinfo_type.numberSamples = this->_vars.iqstream.fileinfo_type.numberSamples;
-    this->vars.iqstream.fileinfo_type.sample0Timestamp = this->_vars.iqstream.fileinfo_type.sample0Timestamp;
+    this->vars.iqstream.fileinfo_type.acqStatus          = this->_vars.iqstream.fileinfo_type.acqStatus;
+    this->vars.iqstream.fileinfo_type.numberSamples      = this->_vars.iqstream.fileinfo_type.numberSamples;
+    this->vars.iqstream.fileinfo_type.sample0Timestamp   = this->_vars.iqstream.fileinfo_type.sample0Timestamp;
     this->vars.iqstream.fileinfo_type.triggerSampleIndex = this->_vars.iqstream.fileinfo_type.triggerSampleIndex;
-    this->vars.iqstream.fileinfo_type.triggerTimestamp = this->_vars.iqstream.fileinfo_type.triggerTimestamp;
+    this->vars.iqstream.fileinfo_type.triggerTimestamp   = this->_vars.iqstream.fileinfo_type.triggerTimestamp;
     
     strcpy(this->vars.iqstream.fileinfo_type.filenames_0, this->_vars.iqstream.fileinfo_type.filenames_0);
     strcpy(this->vars.iqstream.fileinfo_type.filenames_1, this->_vars.iqstream.fileinfo_type.filenames_1);
@@ -223,9 +223,9 @@ void rsa306b_class::_iqstream_copy_info_type()
 
     this->_iqstream_bitcheck(this->_vars.iqstream.info_type.acqStatus);
 
-    this->vars.iqstream.info_type.acqStatus = this->_vars.iqstream.info_type.acqStatus;
-    this->vars.iqstream.info_type.scaleFactor = this->_vars.iqstream.info_type.scaleFactor;
-    this->vars.iqstream.info_type.timestamp = this->_vars.iqstream.info_type.timestamp;
+    this->vars.iqstream.info_type.acqStatus    = this->_vars.iqstream.info_type.acqStatus;
+    this->vars.iqstream.info_type.scaleFactor  = this->_vars.iqstream.info_type.scaleFactor;
+    this->vars.iqstream.info_type.timestamp    = this->_vars.iqstream.info_type.timestamp;
     this->vars.iqstream.info_type.triggerCount = this->_vars.iqstream.info_type.triggerCount;
     
     // take the address to the internal buffer, if availible

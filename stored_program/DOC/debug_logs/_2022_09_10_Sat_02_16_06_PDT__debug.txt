@@ -1,0 +1,12 @@
+LOG OPEN _2022_09_10_Sat_02_16_06_PDT__
+
+[         0.00025 ]  DEBUG_CLI        ,  <  15>  ../SRC/cpp_classes/program_core/rsa306b/rsa306b_GP/rsa306b_class_cons_dest.cpp/rsa306b_class()
+[         2.24002 ]  DEBUG_CLI        ,  <  31>  ../SRC/cpp_classes/program_core/r3f_manager/r3fc_public.cpp/r3f_manager_class()
+[         2.24003 ]  DEBUG_CLI        ,  <  31>  ../SRC/cpp_classes/program_core/siq_manager/siq_common.cpp/siq_manager_class()
+[         2.24004 ]  DEBUG_CLI        ,  <  39>  ../SRC/cpp_classes/program_core/timer_class/timer_class.cpp/timer_class()
+[         7.95594 ]  DEBUG_CLI        ,  <  62>  ../SRC/cpp_classes/program_core/timer_class/timer_class.cpp/~timer_class()
+[         7.95595 ]  DEBUG_CLI        ,  <  52>  ../SRC/cpp_classes/program_core/siq_manager/siq_common.cpp/~siq_manager_class()
+[         7.95597 ]  DEBUG_CLI        ,  <  53>  ../SRC/cpp_classes/program_core/r3f_manager/r3fc_public.cpp/~r3f_manager_class()
+[         7.95597 ]  DEBUG_CLI        ,  <  32>  ../SRC/cpp_classes/program_core/rsa306b/rsa306b_GP/rsa306b_class_cons_dest.cpp/~rsa306b_class()
+
+LOG CLOSED _2022_09_10_Sat_02_16_18_PDT__

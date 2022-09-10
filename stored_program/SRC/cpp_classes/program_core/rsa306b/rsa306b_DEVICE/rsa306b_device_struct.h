@@ -17,7 +17,7 @@ struct rsa306b_device_struct
     bool is_running;                   // status of run state
     bool event_occured;                // used to querry "DEVICE_GetEventStatus()", indicates if event occured
    
-    char error_string[BUF_D];          // device error string, given return status
+    char error_string[BUF_E];          // device error string, given return status
    
     int id;                            // only 1 spectrum analyzer can connect per machine
     int event_id;                      // used to querry "DEVICE_GetEventStatus()", holds event identification number

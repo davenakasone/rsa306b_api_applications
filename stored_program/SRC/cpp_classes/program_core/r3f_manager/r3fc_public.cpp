@@ -23,15 +23,16 @@
 */
 r3f_manager_class::r3f_manager_class()
 {
+#ifdef DE_BUG
+    debug_init();
+#endif
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()  ,  constructor\n",
+    snprintf(X_dstr, DEBUG_WIDTH-1, DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record();
 #endif
 
     this->_cpu_start = clock();
-    #ifdef DEBUG_MAX
-        printf("\n\tinstance constructed\n");
-    #endif
     this->_initialize();
 }
 
@@ -46,14 +47,17 @@ r3f_manager_class::r3f_manager_class()
 r3f_manager_class::~r3f_manager_class()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()  ,  destructor\n",
-        __LINE__, __FILE__, __func__);
+    if (X_dfp != NULL)
+    {
+        snprintf(X_dstr, DEBUG_WIDTH-1, DEBUG_CLI_FORMAT, 
+            __LINE__, __FILE__, __func__);
+        debug_record();
+    }
 #endif
 
-    #ifdef DEBUG_MAX
-        printf("\n\tinstance destructed, total running time:  %lf seconds\n",
-            this->get_running_time());
-    #endif
+#ifdef DE_BUG
+    debug_stop();
+#endif
 }
 
 
@@ -175,63 +179,67 @@ void r3f_manager_class::get_vars
         return;
     }
 
-    strcpy(sptr->file_id, this->_vars.file_id);
-    sptr->endian_check = this->_vars.endian_check;
-    sptr->file_format_version = this->_vars.file_format_version;
-    sptr->file_format_version_part = this->_vars.file_format_version_part;
-    sptr->file_format_version_sub = this->_vars.file_format_version_sub;
-    sptr->api_software_version = this->_vars.api_software_version;
+    sptr->endian_check              = this->_vars.endian_check;
+    sptr->file_format_version       = this->_vars.file_format_version;
+    sptr->file_format_version_part  = this->_vars.file_format_version_part;
+    sptr->file_format_version_sub   = this->_vars.file_format_version_sub;
+    sptr->api_software_version      = this->_vars.api_software_version;
     sptr->api_software_version_part = this->_vars.api_software_version_part;
-    sptr->api_software_version_sub = this->_vars.api_software_version_sub;
-    sptr->firmware_version = this->_vars.firmware_version;
-    sptr->firmware_version_part = this->_vars.firmware_version_part;
-    sptr->firmware_version_sub = this->_vars.firmware_version_sub;
-    sptr->fpga_version = this->_vars.fpga_version;
-    sptr->fpga_version_part = this->_vars.fpga_version_part;
-    sptr->fpga_version_sub = this->_vars.fpga_version_sub;
+    sptr->api_software_version_sub  = this->_vars.api_software_version_sub;
+    sptr->firmware_version          = this->_vars.firmware_version;
+    sptr->firmware_version_part     = this->_vars.firmware_version_part;
+    sptr->firmware_version_sub      = this->_vars.firmware_version_sub;
+    sptr->fpga_version              = this->_vars.fpga_version;
+    sptr->fpga_version_part         = this->_vars.fpga_version_part;
+    sptr->fpga_version_sub          = this->_vars.fpga_version_sub;
+    
     strcpy(sptr->device_nomenclature, this->_vars.device_nomenclature);
     strcpy(sptr->device_serial_number,this->_vars.device_serial_number);
+    strcpy(sptr->file_id, this->_vars.file_id);
    
-    sptr->reference_level_dbm = this->_vars.reference_level_dbm;
-    sptr->rf_center_frequency_hz = this->_vars.rf_center_frequency_hz;
-    sptr->device_temperature_celsius = this->_vars.device_temperature_celsius;
-    sptr->alignment_state = this->_vars.alignment_state;
-    sptr->frequecny_reference_state = this->_vars.frequecny_reference_state;
-    sptr->trigger_mode = this->_vars.trigger_mode;
-    sptr->trigger_source = this->_vars.trigger_source;
-    sptr->trigger_transition = this->_vars.trigger_transition;
-    sptr->trigger_level_dbm = this->_vars.trigger_level_dbm;
-    sptr->file_data_type = this->_vars.file_data_type;
-    sptr->byte_offset_to_first_frame = this->_vars.byte_offset_to_first_frame;
-    sptr->size_of_frame_bytes = this->_vars.size_of_frame_bytes;
-    sptr->byte_offset_to_sample_data_in_frame = this->_vars.byte_offset_to_sample_data_in_frame;
-    sptr->number_of_samples_per_frame = this->_vars.number_of_samples_per_frame;
+    sptr->reference_level_dbm                     = this->_vars.reference_level_dbm;
+    sptr->rf_center_frequency_hz                  = this->_vars.rf_center_frequency_hz;
+    sptr->device_temperature_celsius              = this->_vars.device_temperature_celsius;
+    sptr->alignment_state                         = this->_vars.alignment_state;
+    sptr->frequecny_reference_state               = this->_vars.frequecny_reference_state;
+    sptr->trigger_mode                            = this->_vars.trigger_mode;
+    sptr->trigger_source                          = this->_vars.trigger_source;
+    sptr->trigger_transition                      = this->_vars.trigger_transition;
+    sptr->trigger_level_dbm                       = this->_vars.trigger_level_dbm;
+    sptr->file_data_type                          = this->_vars.file_data_type;
+    sptr->byte_offset_to_first_frame              = this->_vars.byte_offset_to_first_frame;
+    sptr->size_of_frame_bytes                     = this->_vars.size_of_frame_bytes;
+    sptr->byte_offset_to_sample_data_in_frame     = this->_vars.byte_offset_to_sample_data_in_frame;
+    sptr->number_of_samples_per_frame             = this->_vars.number_of_samples_per_frame;
     sptr->byte_offset_to_non_sample_data_in_frame = this->_vars.byte_offset_to_non_sample_data_in_frame;
-    sptr->size_of_non_sample_data_in_frame_bytes = this->_vars.size_of_non_sample_data_in_frame_bytes;
-    sptr->center_frequency_if_sampled_hz = this->_vars.center_frequency_if_sampled_hz;
-    sptr->samples_per_second = this->_vars.samples_per_second;
-    sptr->usable_bandwidth = this->_vars.usable_bandwidth;
-    sptr->file_data_corrected = this->_vars.file_data_corrected;
-    sptr->reftime_local_source = this->_vars.reftime_local_source;
+    sptr->size_of_non_sample_data_in_frame_bytes  = this->_vars.size_of_non_sample_data_in_frame_bytes;
+    sptr->center_frequency_if_sampled_hz          = this->_vars.center_frequency_if_sampled_hz;
+    sptr->samples_per_second                      = this->_vars.samples_per_second;
+    sptr->usable_bandwidth                        = this->_vars.usable_bandwidth;
+    sptr->file_data_corrected                     = this->_vars.file_data_corrected;
+    sptr->reftime_local_source                    = this->_vars.reftime_local_source;
+
     for (int ii = 0; ii < REFTIME_ELEMENTS; ii++)
     {
-        sptr->reftime_local[ii] = this->_vars.reftime_local[ii];
-        sptr->reftime_utc[ii] = this->_vars.reftime_utc[ii];
+        sptr->reftime_local[ii]        = this->_vars.reftime_local[ii];
+        sptr->reftime_utc[ii]          = this->_vars.reftime_utc[ii];
         sptr->reftime_first_sample[ii] = this->_vars.reftime_first_sample[ii];
     }
-    sptr->fpga_sample_count = this->_vars.fpga_sample_count;
+
+    sptr->fpga_sample_count                    = this->_vars.fpga_sample_count;
     sptr->fpga_sample_counter_ticks_per_second = this->_vars.fpga_sample_counter_ticks_per_second;
-    sptr->reftime_source = this->_vars.reftime_source;
-    sptr->timestamp_of_first_sample = this->_vars.timestamp_of_first_sample;
-    sptr->sample_gain_scaling_factor = this->_vars.sample_gain_scaling_factor;
-    sptr->signal_path_delay_seconds = this->_vars.signal_path_delay_seconds;
-    sptr->channel_correction_type = this->_vars.channel_correction_type;
-    sptr->number_of_table_entries = this->_vars.number_of_table_entries;
+    sptr->reftime_source                       = this->_vars.reftime_source;
+    sptr->timestamp_of_first_sample            = this->_vars.timestamp_of_first_sample;
+    sptr->sample_gain_scaling_factor           = this->_vars.sample_gain_scaling_factor;
+    sptr->signal_path_delay_seconds            = this->_vars.signal_path_delay_seconds;
+    sptr->channel_correction_type              = this->_vars.channel_correction_type;
+    sptr->number_of_table_entries              = this->_vars.number_of_table_entries;
+
     for (int ii = 0; ii < MAX_TABLE_ENTRIES; ii++)
     {
         sptr->table_amplitude[ii] = this->_vars.table_amplitude[ii];
         sptr->table_frequency[ii] = this->_vars.table_frequency[ii];
-        sptr->table_phase[ii] = this->_vars.table_phase[ii];
+        sptr->table_phase[ii]     = this->_vars.table_phase[ii];
     }
 }
 

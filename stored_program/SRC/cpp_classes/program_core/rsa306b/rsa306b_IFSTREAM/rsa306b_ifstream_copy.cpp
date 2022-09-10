@@ -254,9 +254,9 @@ void rsa306b_class::_ifstream_copy_data_info_type()
         __LINE__, __FILE__, __func__);
 #endif  
 
-    this->vars.ifstream.data_info_type.acqStatus = this->_vars.ifstream.data_info_type.acqStatus;
-    this->vars.ifstream.data_info_type.timestamp = this->_vars.ifstream.data_info_type.timestamp;
-    this->vars.ifstream.data_info_type.triggerCount = this->_vars.ifstream.data_info_type.triggerCount;
+    this->vars.ifstream.data_info_type.acqStatus      = this->_vars.ifstream.data_info_type.acqStatus;
+    this->vars.ifstream.data_info_type.timestamp      = this->_vars.ifstream.data_info_type.timestamp;
+    this->vars.ifstream.data_info_type.triggerCount   = this->_vars.ifstream.data_info_type.triggerCount;
     this->vars.ifstream.data_info_type.triggerIndices = this->_vars.ifstream.data_info_type.triggerIndices;
 }
 

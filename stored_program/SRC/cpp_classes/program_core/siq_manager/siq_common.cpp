@@ -23,9 +23,13 @@
 */
 siq_manager_class::siq_manager_class()
 {
+#ifdef DE_BUG
+    debug_init();
+#endif
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, DEBUG_WIDTH-1, DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record();
 #endif
 
     this->_init();
@@ -42,11 +46,19 @@ siq_manager_class::siq_manager_class()
 siq_manager_class::~siq_manager_class()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
-        __LINE__, __FILE__, __func__);
-#endif    
+    if (X_dfp != NULL)
+    {
+        snprintf(X_dstr, DEBUG_WIDTH-1, DEBUG_CLI_FORMAT, 
+            __LINE__, __FILE__, __func__);
+        debug_record();
+    }
+#endif
 
     this->_init();
+
+#ifdef DE_BUG
+    debug_stop();
+#endif
 }
 
 

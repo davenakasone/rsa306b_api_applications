@@ -4,22 +4,28 @@
 */
 
 #include "../testz.h"
-extern rsa306b_class X_rsa;
-extern r3f_manager_class X_r3f;
-extern siq_manager_class X_siq;
 
 
 void task_999()
 {
-    printf("\n%s()  ,  test bench\n", __func__);
-    {
-        cpu_timer_class cpu;
-        printf("\n\tdo something\n");
-    }
-    printf("\n%s()  ,  test complete\n", __func__);
-    #ifdef WAIT_ENTER_CLEAR
-        wait_enter_clear();
-    #endif
+#ifdef WAIT_ENTER_CLEAR
+printf("\n%s()  ,  test bench\n", __func__);
+X_timer.time_split_start();                      
+#endif    
+////~~~~
+
+    
+    X_rsa.device_disconnect();
+    X_rsa.device_connect();
+
+
+////~~~~
+#ifdef WAIT_ENTER_CLEAR
+X_timer.time_split_stop();
+X_timer.print_both();
+printf("\n%s()  ,  test complete\n", __func__);
+wait_enter_clear();
+#endif
 }
 
 

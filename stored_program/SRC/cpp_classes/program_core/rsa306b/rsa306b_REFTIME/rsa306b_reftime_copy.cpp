@@ -51,9 +51,9 @@ void rsa306b_class::_reftime_copy_current()
         __LINE__, __FILE__, __func__);
 #endif 
     
-    this->vars.reftime.current.nanos = this->_vars.reftime.current.nanos;
-    this->vars.reftime.current.seconds = this->_vars.reftime.current.seconds;
-    this->vars.reftime.current.timestamp= this->_vars.reftime.current.timestamp;
+    this->vars.reftime.current.nanos     = this->_vars.reftime.current.nanos;
+    this->vars.reftime.current.seconds   = this->_vars.reftime.current.seconds;
+    this->vars.reftime.current.timestamp = this->_vars.reftime.current.timestamp;
 }
 
 
@@ -70,9 +70,9 @@ void rsa306b_class::_reftime_copy_start()
         __LINE__, __FILE__, __func__);
 #endif  
 
-    this->vars.reftime.start.nanos = this->_vars.reftime.start.nanos;
-    this->vars.reftime.start.seconds = this->_vars.reftime.start.seconds;
-    this->vars.reftime.start.timestamp= this->_vars.reftime.start.timestamp;
+    this->vars.reftime.start.nanos     = this->_vars.reftime.start.nanos;
+    this->vars.reftime.start.seconds   = this->_vars.reftime.start.seconds;
+    this->vars.reftime.start.timestamp = this->_vars.reftime.start.timestamp;
 }
 
 
@@ -89,9 +89,9 @@ void rsa306b_class::_reftime_copy_helper()
         __LINE__, __FILE__, __func__);
 #endif  
 
-    this->vars.reftime.helper.nanos = this->_vars.reftime.helper.nanos;
-    this->vars.reftime.helper.seconds = this->_vars.reftime.helper.seconds;
-    this->vars.reftime.helper.timestamp= this->_vars.reftime.helper.timestamp;
+    this->vars.reftime.helper.nanos     = this->_vars.reftime.helper.nanos;
+    this->vars.reftime.helper.seconds   = this->_vars.reftime.helper.seconds;
+    this->vars.reftime.helper.timestamp = this->_vars.reftime.helper.timestamp;
 }
 
 
