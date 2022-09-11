@@ -25,8 +25,9 @@
 void rsa306b_class::device_connect()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == true)
@@ -51,21 +52,27 @@ void rsa306b_class::device_connect()
     if (this->_vars.gp.api_status != RSA_API::noError)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tsearch failure\n");
+            snprintf(X_ddts, sizeof(X_ddts), "search for devices failed");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
     if (devices_found > 1)
     {
         #ifdef DEBUG_MIN
-            printf("\n\ttoo many devices\n");
+            snprintf(X_ddts, sizeof(X_ddts), "too many devices are connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
     if (devices_found < 1)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno devices found\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no devices were found");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -78,15 +85,21 @@ void rsa306b_class::device_connect()
     if (this->_vars.gp.api_status != RSA_API::noError)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tconnection failure\n");
+            snprintf(X_ddts, sizeof(X_ddts), "failed to connect, deviceID:  %d", this->_vars.device.id);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
     this->_vars.device.is_connected = true;    // this is very important
     this->_device_copy_is_connected();
+
     #ifdef DEBUG_MIN
-        printf("\n\t^^^ CONNECTED ^^^\n");
+        snprintf(X_ddts, sizeof(X_ddts), "^^^ CONNECTED ^^^");
+        snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+        debug_record(true);
     #endif
+    
     this->device_stop();
     this->align_run();
     this->config_preset();    // calls "get_everything()"
@@ -107,8 +120,9 @@ void rsa306b_class::device_connect()
 void rsa306b_class::device_disconnect()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
@@ -125,7 +139,9 @@ void rsa306b_class::device_disconnect()
     if (this->_vars.gp.api_status != RSA_API::noError)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tdisconnection failure\n");
+            snprintf(X_ddts, sizeof(X_ddts), "failed to disconnect device");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -145,14 +161,17 @@ void rsa306b_class::device_disconnect()
 void rsa306b_class::device_run()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -169,7 +188,9 @@ void rsa306b_class::device_run()
     if (this->_vars.gp.api_status != RSA_API::noError)
     {
         #ifdef DEBUG_MIN
-            printf("\n\terror running device\n");
+            snprintf(X_ddts, sizeof(X_ddts), "failed to run device");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -188,14 +209,17 @@ void rsa306b_class::device_run()
 void rsa306b_class::device_stop()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -211,7 +235,9 @@ void rsa306b_class::device_stop()
     if (this->_vars.gp.api_status != RSA_API::noError)
     {
         #ifdef DEBUG_MIN
-            printf("\n\terror stopping device\n");
+            snprintf(X_ddts, sizeof(X_ddts), "failed to stop device");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -231,14 +257,17 @@ void rsa306b_class::device_stop()
 void rsa306b_class::device_reset()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }

@@ -22,8 +22,9 @@
 void rsa306b_class::print_everything()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->print_constants();
@@ -53,8 +54,9 @@ void rsa306b_class::print_everything()
 void rsa306b_class::print_constants()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     printf("\n'constants' group >>>\n");
@@ -98,8 +100,9 @@ void rsa306b_class::print_constants()
 void rsa306b_class::print_gp()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     printf("\n'general purpose' group >>>\n");

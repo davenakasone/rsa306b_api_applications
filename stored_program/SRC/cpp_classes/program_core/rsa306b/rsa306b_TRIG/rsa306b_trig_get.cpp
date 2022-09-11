@@ -22,14 +22,17 @@
 void rsa306b_class::_trig_get_vars()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "device not connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -50,14 +53,17 @@ void rsa306b_class::_trig_get_vars()
 void rsa306b_class::_trig_get_if_power_level()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "device not connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -77,14 +83,17 @@ void rsa306b_class::_trig_get_if_power_level()
 void rsa306b_class::_trig_get_mode_select()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "device not connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -105,14 +114,17 @@ void rsa306b_class::_trig_get_mode_select()
 void rsa306b_class::_trig_get_position_percent()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "device not connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -132,14 +144,17 @@ void rsa306b_class::_trig_get_position_percent()
 void rsa306b_class::_trig_get_source_select()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "device not connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -159,14 +174,17 @@ void rsa306b_class::_trig_get_source_select()
 void rsa306b_class::_trig_get_transition_select()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "device not connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }

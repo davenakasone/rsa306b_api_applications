@@ -23,14 +23,17 @@
 void rsa306b_class::_audio_get_vars()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -52,14 +55,17 @@ void rsa306b_class::_audio_get_vars()
 void rsa306b_class::_audio_get_is_demodulating()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -79,14 +85,17 @@ void rsa306b_class::_audio_get_is_demodulating()
 void rsa306b_class::_audio_get_is_mute()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -106,14 +115,17 @@ void rsa306b_class::_audio_get_is_mute()
 void rsa306b_class::_audio_get_frequency_offset_hz()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -133,14 +145,17 @@ void rsa306b_class::_audio_get_frequency_offset_hz()
 void rsa306b_class::_audio_get_volume()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -160,14 +175,17 @@ void rsa306b_class::_audio_get_volume()
 void rsa306b_class::_audio_get_demodulation_select()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -189,14 +207,17 @@ void rsa306b_class::_audio_get_demodulation_select()
 void rsa306b_class::_audio_get_data()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }

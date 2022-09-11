@@ -23,9 +23,10 @@
 */
 void rsa306b_class::_gp_confirm_api_status()
 {
-#ifdef DEBUG_ERR
-    printf("\n<%d> %s/%s()\n",
+#ifdef DEBUG_CALL_CHECKS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.gp.api_status != RSA_API::noError)
@@ -51,9 +52,10 @@ void rsa306b_class::_gp_confirm_api_status()
 */
 void rsa306b_class::_gp_confirm_call_status()
 {
-#ifdef DEBUG_ERR
-    printf("\n<%d> %s/%s()\n",
+#ifdef DEBUG_CALL_CHECKS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.gp.call_status      != 
@@ -76,9 +78,10 @@ void rsa306b_class::_gp_confirm_call_status()
 */
 int rsa306b_class::_gp_confirm_return()
 {
-#ifdef DEBUG_ERR
-    printf("\n<%d> %s/%s()\n",
+#ifdef DEBUG_CALL_CHECKS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.gp.api_status == RSA_API::noError)
@@ -102,9 +105,10 @@ int rsa306b_class::_gp_confirm_return()
 */
 void rsa306b_class::_gp_confirm_aquisition_code()
 {
-#ifdef DEBUG_ERR
-    printf("\n<%d> %s/%s()\n",
+#ifdef DEBUG_CALL_CHECKS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->_gp_copy_acquisition_code();

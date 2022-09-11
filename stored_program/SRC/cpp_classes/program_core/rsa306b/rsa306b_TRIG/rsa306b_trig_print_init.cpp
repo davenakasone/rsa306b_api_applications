@@ -17,8 +17,9 @@
 void rsa306b_class::print_trig()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     printf("\n'TRIG' group >>>\n");
@@ -59,8 +60,9 @@ void rsa306b_class::print_trig()
 void rsa306b_class::_trig_init()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->_vars.trig.if_power_level = this->constants.INIT_DOUBLE;

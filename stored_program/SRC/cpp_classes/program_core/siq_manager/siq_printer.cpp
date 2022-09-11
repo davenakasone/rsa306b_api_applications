@@ -21,8 +21,9 @@
 void siq_manager_class::print_header()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
     
     printf("\nSIQ file Header, total bytes:  %lu  >>>\n", this->_bytes_in_file);
@@ -113,6 +114,12 @@ void siq_manager_class::print_data
     std::size_t idx_stop
 )
 {
+#ifdef DEBUG_CLI
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
+        __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
     if (idx_start < 0 || idx_stop < 0)
     {
         this->_set_error_code(print_data_range_failure);

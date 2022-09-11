@@ -17,8 +17,9 @@
 void rsa306b_class::print_ifstream()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     printf("\n'IFSTREAM' group >>>\n");
@@ -78,8 +79,9 @@ void rsa306b_class::print_ifstream()
 void rsa306b_class::_ifstream_init()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
 // variables for IF stream managment

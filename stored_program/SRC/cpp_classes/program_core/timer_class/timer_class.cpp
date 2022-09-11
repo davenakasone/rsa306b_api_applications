@@ -35,9 +35,9 @@ timer_class::timer_class()
     debug_init();
 #endif
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, DEBUG_WIDTH-1, DEBUG_CLI_FORMAT, 
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
-    debug_record();
+    debug_record(false);
 #endif
 
     this->_begin = clock();                             // wall-clock stating time is recorded
@@ -56,12 +56,9 @@ timer_class::timer_class()
 timer_class::~timer_class()
 {
 #ifdef DEBUG_CLI
-    if (X_dfp != NULL)
-    {
-        snprintf(X_dstr, DEBUG_WIDTH-1, DEBUG_CLI_FORMAT, 
-            __LINE__, __FILE__, __func__);
-        debug_record();
-    }
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
+        __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->print_running_time(true);

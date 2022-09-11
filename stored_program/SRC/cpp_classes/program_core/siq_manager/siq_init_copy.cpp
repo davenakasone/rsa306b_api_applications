@@ -21,8 +21,9 @@
 void siq_manager_class::_init()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     // initialize the private members (error code updates last)
@@ -169,8 +170,9 @@ void siq_manager_class::_init()
 void siq_manager_class::_copy_vars()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->vars.f0_header_size_in_bytes = this->_vars.f0_header_size_in_bytes;

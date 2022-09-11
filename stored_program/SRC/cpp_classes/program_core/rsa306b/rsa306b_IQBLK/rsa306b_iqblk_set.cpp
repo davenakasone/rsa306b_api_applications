@@ -20,14 +20,17 @@
 void rsa306b_class::iqblk_set_vars()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -44,14 +47,17 @@ void rsa306b_class::iqblk_set_vars()
 void rsa306b_class::_iqblk_set_vars()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -73,14 +79,17 @@ void rsa306b_class::_iqblk_set_vars()
 void rsa306b_class::_iqblk_set_getter()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -97,7 +106,9 @@ void rsa306b_class::_iqblk_set_getter()
         this->vars.iqblk.getter != this->constants.IQBLK_GET_IQ_DATA_DEINETERLEAVED )
     {
         #ifdef DEBUG_MIN
-            printf("\n\tinvalid selection, using default from const class\n");
+            snprintf(X_ddts, sizeof(X_ddts), "invalid getting, see const class");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         this->_vars.iqblk.getter = this->constants.IQBLK_GETTER_DEFAULT;
         this->_iqblk_copy_getter();
@@ -117,22 +128,22 @@ void rsa306b_class::_iqblk_set_getter()
 void rsa306b_class::_iqblk_set_bandwidth_hz()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
     if (this->vars.iqblk.bandwidth_hz == this->_vars.iqblk.bandwidth_hz)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\tbandwidth already set\n");
-        #endif
         return;
     }
 
@@ -141,8 +152,10 @@ void rsa306b_class::_iqblk_set_bandwidth_hz()
     {
         this->vars.iqblk.bandwidth_hz = this->_vars.iqblk.max_bandwidth_hz / 2;
         #ifdef DEBUG_MIN
-            printf("\n\tinvalid IQ bandwidth, using:  %lf Hz\n", 
+            snprintf(X_ddts, sizeof(X_ddts), "invalid IQ bandwidth, using:  %lf Hz",
                 this->vars.iqblk.bandwidth_hz);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
     }
     this->_vars.iqblk.bandwidth_hz = this->vars.iqblk.bandwidth_hz;
@@ -166,14 +179,17 @@ void rsa306b_class::_iqblk_set_bandwidth_hz()
 void rsa306b_class::_iqblk_set_record_length()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -191,10 +207,13 @@ void rsa306b_class::_iqblk_set_record_length()
     {
         this->vars.iqblk.record_length = this->_vars.iqblk.max_record_length / 2;
         #ifdef DEBUG_MIN
-            printf("\n\tinvalid IQ record length, using:  %d samples/pairs\n", 
+            snprintf(X_ddts, sizeof(X_ddts), "invalid IQ record length, using:  %d samples/pairs",
                 this->vars.iqblk.record_length);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
     }
+
     this->_vars.iqblk.record_length = this->vars.iqblk.record_length;
     this->_vars.gp.api_status =
         RSA_API::IQBLK_SetIQRecordLength(
@@ -204,7 +223,7 @@ void rsa306b_class::_iqblk_set_record_length()
     this->_iqblk_get_max_record_length();
 
     this->_vars.iqblk.cplx32_v.resize(
-        (size_t)this->_vars.iqblk.record_length);
+        static_cast<std::size_t>(this->_vars.iqblk.record_length));
     for (size_t ii = 0; ii < this->_vars.iqblk.cplx32_v.size(); ii++)
     {
         this->_vars.iqblk.cplx32_v[ii].i = this->constants.INIT_FLOAT;

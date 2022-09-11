@@ -27,9 +27,9 @@ siq_manager_class::siq_manager_class()
     debug_init();
 #endif
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, DEBUG_WIDTH-1, DEBUG_CLI_FORMAT, 
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
-    debug_record();
+    debug_record(false);
 #endif
 
     this->_init();
@@ -46,12 +46,9 @@ siq_manager_class::siq_manager_class()
 siq_manager_class::~siq_manager_class()
 {
 #ifdef DEBUG_CLI
-    if (X_dfp != NULL)
-    {
-        snprintf(X_dstr, DEBUG_WIDTH-1, DEBUG_CLI_FORMAT, 
-            __LINE__, __FILE__, __func__);
-        debug_record();
-    }
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
+        __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->_init();
@@ -72,8 +69,9 @@ siq_manager_class::~siq_manager_class()
 void siq_manager_class::unload_and_clear()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif    
 
     this->_init();
@@ -93,8 +91,9 @@ unsigned long int  siq_manager_class::get_file_byte_length
 )
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif    
 
     if (input_file == NULL)
@@ -143,8 +142,9 @@ void siq_manager_class::_verify_siq_extension
 )
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (input_file == NULL)
@@ -188,8 +188,9 @@ void siq_manager_class::_prepare_siq_input
 )
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->_verify_siq_extension(input_file);
@@ -232,8 +233,9 @@ void siq_manager_class::_prepare_siq_input
 void siq_manager_class::_conclude_siq_input()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_fptr_read == NULL)
@@ -264,8 +266,9 @@ void siq_manager_class::_prepare_any_output
 )
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->_fptr_write = fopen(output_file, "w");
@@ -289,8 +292,9 @@ void siq_manager_class::_prepare_any_output
 void siq_manager_class::_conclude_any_output()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_fptr_write == NULL)

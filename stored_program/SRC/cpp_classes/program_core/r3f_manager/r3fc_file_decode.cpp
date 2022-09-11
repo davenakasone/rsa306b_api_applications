@@ -29,14 +29,17 @@ void r3f_manager_class::file_decode
 ) 
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (decode_path_file_name == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tallocate decoding output file\n");
+            snprintf(X_ddts, sizeof(X_ddts), "allocate file-path-name");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -44,7 +47,9 @@ void r3f_manager_class::file_decode
     if (this->_return_status != _CALL_SUCCESS)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tbad input specification\n");
+            snprintf(X_ddts, sizeof(X_ddts), "not .r3f file:  %s", r3f_input_path_file_name);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -52,7 +57,9 @@ void r3f_manager_class::file_decode
     if (this->_return_status != _CALL_SUCCESS)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tbad file size\n");
+            snprintf(X_ddts, sizeof(X_ddts), "input file too small: %s", r3f_input_path_file_name);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }

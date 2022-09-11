@@ -25,14 +25,17 @@ int r3f_manager_class::_verify_r3f_extension
 )
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (r3f_input_path_file_name == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tallocate the file path and file name\n");
+            snprintf(X_ddts, sizeof(X_ddts), "allocate input file-path-name");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->_CALL_FAILURE;
     }
@@ -41,7 +44,9 @@ int r3f_manager_class::_verify_r3f_extension
     if ( string_length < 5)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tinvalid input file\n");
+            snprintf(X_ddts, sizeof(X_ddts), "input file too small:  %s", r3f_input_path_file_name);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->_CALL_FAILURE;
     }
@@ -54,7 +59,9 @@ int r3f_manager_class::_verify_r3f_extension
     if (strcmp(compare_to, ".r3f") != 0)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tinvalid file extension\n");
+            snprintf(X_ddts, sizeof(X_ddts), "not an .r3f extension:  %s", compare_to);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->_CALL_FAILURE;
     }
@@ -62,7 +69,9 @@ int r3f_manager_class::_verify_r3f_extension
     if (this->_fptr_read == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tfailure in opening the input file\n");
+            snprintf(X_ddts, sizeof(X_ddts), "failed to open input file:  %s", r3f_input_path_file_name);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->_CALL_FAILURE;
     }
@@ -83,14 +92,17 @@ int r3f_manager_class::_verify_r3f_extension
 int r3f_manager_class::_find_input_file_size()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_fptr_read == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tinput file not ready\n");
+            snprintf(X_ddts, sizeof(X_ddts), "FILE* not ready to read");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->_CALL_FAILURE;
     }
@@ -102,14 +114,15 @@ int r3f_manager_class::_find_input_file_size()
     if (this->_bytes_in_file <= 0)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tthe files has:  %ld bytes, not enough to proceed\n",
-                this->_bytes_in_file);
+            snprintf(X_ddts, sizeof(X_ddts), "input file has bytes:  %ld", this->_bytes_in_file);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->_CALL_FAILURE;
     }
     else
     {
-        #ifdef DEBUG_MIN
+        #ifdef DEBUG_MAX
             printf("\n\tthe files has:  %ld bytes\n",
                 this->_bytes_in_file);
         #endif
@@ -128,8 +141,9 @@ int r3f_manager_class::_find_input_file_size()
 void r3f_manager_class::_initialize()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->_return_status = this->_CALL_FAILURE;

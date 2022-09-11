@@ -20,14 +20,17 @@
 void rsa306b_class::ifstream_set_vars()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -46,14 +49,17 @@ void rsa306b_class::ifstream_set_vars()
 void rsa306b_class::ifstream_record_file()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -61,7 +67,9 @@ void rsa306b_class::ifstream_record_file()
         RSA_API::IFSOD_FILE_R3F                           )
     {
         #ifdef DEBUG_MIN
-            printf("\n\tbad output configuration\n");
+            snprintf(X_ddts, sizeof(X_ddts), "must be *.r3f files type");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -102,14 +110,17 @@ void rsa306b_class::ifstream_record_file()
 void rsa306b_class::ifstream_acquire_adc_data()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif 
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -123,7 +134,9 @@ void rsa306b_class::ifstream_acquire_adc_data()
     if (!data_getter)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tfailure allocating '%s'\n", GET_NAME(data_getter));
+            snprintf(X_ddts, sizeof(X_ddts), "dynamic allocation failed");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         this->vars.ifstream.is_enabled_adc = false;
         this->_ifstream_set_is_enabled_adc();
@@ -165,14 +178,17 @@ void rsa306b_class::ifstream_acquire_adc_data()
 void rsa306b_class::ifstream_acquire_adc_frames()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif 
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }

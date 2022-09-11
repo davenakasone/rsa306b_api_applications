@@ -44,12 +44,12 @@
 
 #ifdef DE_BUG
     // pick: none, one, or all
-    #define DEBUGS_WILL_PRINT 44    // {ON//OFF} if activated, debug activity is displayed to stdout
+    //#define DEBUGS_WILL_PRINT 44    // {ON//OFF} if activated, debug activity is displayed to stdout
     #define DEBUGS_WILL_WRITE 55    // {ON//OFF} if activated, debug activity is writen
 
     // good to have at least "DEBUG_MIN" activated
-    #define DEBUG_MIN 1917                  // {ON//OFF} tracks:  essential information
-    #define DEBUG_MAX 1787                  // {ON//OFF} tracks:  additional information (keep DEBUG_MIN on if using)
+    #define DEBUG_MIN 1917                  // {ON//OFF} tracks:  essential information, they will force-print to stdout
+    //#define DEBUG_MAX 1787                  // {ON//OFF} tracks:  additional information (keep DEBUG_MIN on if using)
     #define DEBUG_CLI 1776                  // {ON//OFF} tracks:  __LINE__, __FILE__, __func__ for each call
     //#define DEBUG_CALL_CHECKS 1492          // {ON//OFF} tracks:  API return status checks and other call checks
     

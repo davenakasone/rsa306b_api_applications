@@ -18,8 +18,9 @@
 void rsa306b_class::print_config()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     printf("\n'CONFIG' group >>>\n");
@@ -58,8 +59,9 @@ void rsa306b_class::print_config()
 void rsa306b_class::_config_init()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->_vars.config.reference_level_dbm               = this->constants.INIT_DOUBLE;   

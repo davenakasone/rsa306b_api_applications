@@ -22,14 +22,17 @@
 int rsa306b_class::_trig_set_vars()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "device not connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->constants.CALL_FAILURE;
     }
@@ -124,14 +127,17 @@ int rsa306b_class::_trig_set_vars()
 int rsa306b_class::_trig_set_if_power_level()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "device not connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->constants.CALL_FAILURE;
     }
@@ -139,10 +145,12 @@ int rsa306b_class::_trig_set_if_power_level()
         this->vars.trig.if_power_level > this->constants.REFERENCE_LEVEL_MAX_DBM  )
     {
         #ifdef DEBUG_MIN
-            printf("\n\tpower level { %lf }  ,  out of range [ %lf , %lf ]\n",
+            snprintf(X_ddts, sizeof(X_ddts), "power level { %lf }  ,  out of range [ %lf , %lf ]",
                 this->vars.trig.if_power_level,
                 this->constants.REFERENCE_LEVEL_MIN_DBM,
                 this->constants.REFERENCE_LEVEL_MIN_DBM);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->constants.CALL_FAILURE;
     }
@@ -163,14 +171,17 @@ int rsa306b_class::_trig_set_if_power_level()
 int rsa306b_class::_trig_set_mode_select()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "device not connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->constants.CALL_FAILURE;
     }
@@ -178,7 +189,10 @@ int rsa306b_class::_trig_set_mode_select()
         this->vars.trig.mode_select != RSA_API::triggered )
     {
         #ifdef DEBUG_MIN
-            printf("\n\tinvalid trigger mode selected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "invalid trigger mode: %d", 
+                static_cast<int>(this->vars.trig.mode_select));
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->constants.CALL_FAILURE;
     }
@@ -200,14 +214,17 @@ int rsa306b_class::_trig_set_mode_select()
 int rsa306b_class::_trig_set_position_percent()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "device not connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->constants.CALL_FAILURE;
     }
@@ -215,10 +232,12 @@ int rsa306b_class::_trig_set_position_percent()
         this->vars.trig.position_percent > this->constants.POSITION_PERCENT_MAX  )
     {
         #ifdef DEBUG_MIN
-            printf("\n\tposition percentage { %lf }  ,  out of range [ %lf , %lf ]\n",
+            snprintf(X_ddts, sizeof(X_ddts), "position percentage { %lf }  ,  out of range [ %lf , %lf ]",
                 this->vars.trig.if_power_level,
                 this->constants.POSITION_PERCENT_MIN,
                 this->constants.POSITION_PERCENT_MAX);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->constants.CALL_FAILURE;
     }
@@ -239,14 +258,17 @@ int rsa306b_class::_trig_set_position_percent()
 int rsa306b_class::_trig_set_source_select()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "device not connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->constants.CALL_FAILURE;
     }
@@ -255,7 +277,10 @@ int rsa306b_class::_trig_set_source_select()
         this->vars.trig.source_select != RSA_API::TriggerSourceTime          )
     {
         #ifdef DEBUG_MIN
-            printf("\n\tinvalid trigger source selected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "invalid trigger source: %d",
+                static_cast<int>(this->vars.trig.source_select));
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->constants.CALL_FAILURE;
     }
@@ -276,14 +301,17 @@ int rsa306b_class::_trig_set_source_select()
 int rsa306b_class::_trig_set_transition_select()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "device not connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->constants.CALL_FAILURE;
     }
@@ -292,7 +320,10 @@ int rsa306b_class::_trig_set_transition_select()
         this->vars.trig.transition_select != RSA_API::TriggerTransitionEither)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tinvalid trigger transition selected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "invalid trigger transition: %d",
+                static_cast<int>(this->vars.trig.transition_select));
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->constants.CALL_FAILURE;
     }

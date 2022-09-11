@@ -26,14 +26,17 @@
 void rsa306b_class::iqstream_set_vars()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -50,14 +53,17 @@ void rsa306b_class::iqstream_set_vars()
 void rsa306b_class::_iqstream_set_vars()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -81,24 +87,22 @@ void rsa306b_class::_iqstream_set_vars()
 void rsa306b_class::_iqstream_set_acq_bandwidth()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
     if (this->_vars.iqstream.bandwidth == this->vars.iqstream.bandwidth)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\tbandwidth already set, requested { %lf }  ,  active { %lf }\n",
-                this->vars.iqstream.bandwidth,
-                this->_vars.iqstream.bandwidth);
-        #endif
         return;
     }
     this->_iqstream_get_max_acq_bandwidth();
@@ -107,12 +111,14 @@ void rsa306b_class::_iqstream_set_acq_bandwidth()
         this->vars.iqstream.bandwidth > this->_vars.iqstream.bandwidth_max  )
     {
         #ifdef DEBUG_MIN
-            printf("\n\tbandwidth requested { %0.6lf }  out of range [ %lf : %lf ]\n",
+            snprintf(X_ddts, sizeof(X_ddts), "bandwidth requested { %0.6lf }  out of range [ %lf : %lf ]",
                 this->vars.iqstream.bandwidth,
                 this->_vars.iqstream.bandwidth_min,
                 this->_vars.iqstream.bandwidth_max);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
-        return;    // old bandwidth remains
+        return;
     }
     this->_vars.gp.api_status =
         RSA_API::IQSTREAM_SetAcqBandwidth(
@@ -133,36 +139,36 @@ void rsa306b_class::_iqstream_set_acq_bandwidth()
 void rsa306b_class::_iqstream_set_disk_file_length()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
     if (this->_vars.iqstream.record_time_ms == this->vars.iqstream.record_time_ms)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\trecord time already set, requested { %d }ms  ,  active { %d }ms\n",
-                this->vars.iqstream.record_time_ms,
-                this->_vars.iqstream.record_time_ms);
-        #endif
         return;
     }
     if (this->vars.iqstream.record_time_ms < this->constants.IQSTREAM_MSEC_MIN ||
         this->vars.iqstream.record_time_ms > this->constants.IQSTREAM_MSEC_MAX  )
     {
         #ifdef DEBUG_MIN
-            printf("\n\trecord time ms, requested{ %d }  out of range [ %d : %d ]\n",
+            snprintf(X_ddts, sizeof(X_ddts), "record time ms, requested{ %d }  out of range [ %d : %d ]",
                 this->vars.iqstream.record_time_ms,
                 this->constants.IQSTREAM_MSEC_MIN,
                 this->constants.IQSTREAM_MSEC_MAX);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
-        return;    // old recording time remains
+        return; 
     }
     this->_vars.iqstream.record_time_ms = this->vars.iqstream.record_time_ms;
     this->_vars.gp.api_status =
@@ -184,30 +190,32 @@ void rsa306b_class::_iqstream_set_disk_file_length()
 void rsa306b_class::_iqstream_set_disk_filename_base()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
     if (this->vars.iqstream.filename_base == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\trequested filename base not allocated\n");
+            snprintf(X_ddts, sizeof(X_ddts), "allocate the filename-base");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
-        return;    // no set occurs
+        return; 
     }
     if (strcmp(this->vars.iqstream.filename_base, this->_vars.iqstream.filename_base) == 0)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\trequested filename base unchanged\n");
-        #endif
-        return;    // no set occurs
+        return; 
     }
     strcpy(this->_vars.iqstream.filename_base, this->vars.iqstream.filename_base);
     this->_vars.gp.api_status =
@@ -229,39 +237,37 @@ void rsa306b_class::_iqstream_set_disk_filename_base()
 void rsa306b_class::_iqstream_set_filename_suffix()
 {
 #ifdef DEBUG_CLI
-    printf
-        ("\n<%d> %s/%s()\n",
-            __LINE__, __FILE__, __func__);
-#endif  
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
+        __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
     if (this->vars.iqstream.suffix_control == this->_vars.iqstream.suffix_control)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\tsuffix already set,  requested { %d }  ,  using { %d }\n",
-                this->vars.iqstream.suffix_control,
-                this->_vars.iqstream.suffix_control);
-        #endif
-        return;    // no set occurs
+        return; 
     }
     if (this->vars.iqstream.suffix_control < 
         (int)RSA_API::IQSSDFN_SUFFIX_NONE  )
     {
         #ifdef DEBUG_MIN
-            printf("\n\tsuffix not in range,  requested { %d }  ,  required { %d, %d, or >= %d}\n",
+            snprintf(X_ddts, sizeof(X_ddts), "suffix not in range,  requested { %d }  ,  required { %d, %d, or >= %d}",
                 static_cast<int>(this->vars.iqstream.suffix_control),
                 (int)RSA_API::IQSSDFN_SUFFIX_NONE,
                 (int)RSA_API::IQSSDFN_SUFFIX_TIMESTAMP,
                 static_cast<int>(RSA_API::IQSSDFN_SUFFIX_INCRINDEX_MIN));
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
-        return;    // no set occurs
-
+        return;
     }
     this->_vars.iqstream.suffix_control = this->vars.iqstream.suffix_control;
     this->_vars.gp.api_status = 
@@ -283,25 +289,23 @@ void rsa306b_class::_iqstream_set_filename_suffix()
 void rsa306b_class::_iqstream_set_iq_data_buffer_size()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
     if (this->vars.iqstream.buffer_multiplier == this->_vars.iqstream.buffer_multiplier)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\tbuffer size already set,  requested { %d }  ,  using { %d }\n",
-                this->vars.iqstream.buffer_multiplier,
-                this->_vars.iqstream.buffer_multiplier);
-        #endif
-        return;    // no set occurs
+        return; 
     }
     if (this->vars.iqstream.buffer_multiplier != this->constants.IQSTREAM_BUFFER_X_1 &&
         this->vars.iqstream.buffer_multiplier != this->constants.IQSTREAM_BUFFER_X_2 &&
@@ -313,10 +317,12 @@ void rsa306b_class::_iqstream_set_iq_data_buffer_size()
         this->vars.iqstream.buffer_multiplier != this->constants.IQSTREAM_BUFFER_X_8  )
     {
         #ifdef DEBUG_MIN
-            printf("\n\tinvalid buffer multiple selected:  %d\n",
+            snprintf(X_ddts, sizeof(X_ddts), "invalid buffer multiple selected:  %d",
                 this->vars.iqstream.buffer_multiplier);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
-        return;    // no set occurs
+        return;    
     }
     this->_vars.iqstream.pairs_max = this->constants.INIT_INT;
     for (int ii = 0; ii < IQSTREAM_ROW_RANGES; ii++)
@@ -349,7 +355,9 @@ void rsa306b_class::_iqstream_set_iq_data_buffer_size()
     if (this->_vars.iqstream.pairs_max == this->constants.INIT_INT)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tfailure setting requested pairs\n");
+            snprintf(X_ddts, sizeof(X_ddts), "failed to set requsted pairs");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         this->_vars.iqstream.pairs_max = this->constants.IQSTREAM_BUFFER_SIZE_MEDIUM;
     }
@@ -376,23 +384,24 @@ void rsa306b_class::_iqstream_set_iq_data_buffer_size()
 void rsa306b_class::_iqstream_set_output_configuration()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
     if (this->vars.iqstream.datatype_select == this->_vars.iqstream.datatype_select      &&
         this->vars.iqstream.destination_select == this->_vars.iqstream.destination_select )
     {
-        #ifdef DEBUG_MAX
-            printf("\n\tdestination and data type are already set\n");
-        #endif
+        return;
     }
     if (this->vars.iqstream.datatype_select != RSA_API::IQSODT_SINGLE            &&
         this->vars.iqstream.datatype_select != RSA_API::IQSODT_INT32             &&
@@ -400,7 +409,9 @@ void rsa306b_class::_iqstream_set_output_configuration()
         this->vars.iqstream.datatype_select != RSA_API::IQSODT_SINGLE_SCALE_INT32 )
     {
         #ifdef DEBUG_MIN
-            printf("\n\tinvlaid data type selected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "invalid number format selected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -412,7 +423,9 @@ void rsa306b_class::_iqstream_set_output_configuration()
         this->vars.iqstream.destination_select != RSA_API::IQSOD_FILE_MIDAS_DET  )
     {
         #ifdef DEBUG_MIN
-            printf("\n\tinvlaid output destination selected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "invalid output destination was selected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }

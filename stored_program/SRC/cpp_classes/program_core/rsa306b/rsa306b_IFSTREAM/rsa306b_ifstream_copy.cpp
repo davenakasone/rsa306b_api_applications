@@ -48,8 +48,9 @@
 void rsa306b_class::_ifstream_copy_vars()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->_ifstream_copy_file_name_suffix();
@@ -78,8 +79,9 @@ void rsa306b_class::_ifstream_copy_vars()
 void rsa306b_class::_ifstream_copy_file_name_suffix()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.file_name_suffix = this->_vars.ifstream.file_name_suffix;
@@ -95,8 +97,9 @@ void rsa306b_class::_ifstream_copy_file_name_suffix()
 void rsa306b_class::_ifstream_copy_file_path()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     strcpy(this->vars.ifstream.file_path, this->_vars.ifstream.file_path);
@@ -112,8 +115,9 @@ void rsa306b_class::_ifstream_copy_file_path()
 void rsa306b_class::_ifstream_copy_file_name_base()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     strcpy(this->vars.ifstream.file_name_base, this->_vars.ifstream.file_name_base);
@@ -129,8 +133,9 @@ void rsa306b_class::_ifstream_copy_file_name_base()
 void rsa306b_class::_ifstream_copy_file_length_ms()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.file_length_ms = this->_vars.ifstream.file_length_ms;
@@ -146,8 +151,9 @@ void rsa306b_class::_ifstream_copy_file_length_ms()
 void rsa306b_class::_ifstream_copy_file_count()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.file_count = this->_vars.ifstream.file_count;
@@ -163,8 +169,9 @@ void rsa306b_class::_ifstream_copy_file_count()
 void rsa306b_class::_ifstream_copy_output_configuration_select()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.output_configuration_select = this->_vars.ifstream.output_configuration_select;
@@ -180,8 +187,9 @@ void rsa306b_class::_ifstream_copy_output_configuration_select()
 void rsa306b_class::_ifstream_copy_is_enabled_adc()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.is_enabled_adc = this->_vars.ifstream.is_enabled_adc;
@@ -197,8 +205,9 @@ void rsa306b_class::_ifstream_copy_is_enabled_adc()
 void rsa306b_class::_ifstream_copy_is_active()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.is_active = this->_vars.ifstream.is_active;
@@ -214,8 +223,9 @@ void rsa306b_class::_ifstream_copy_is_active()
 void rsa306b_class::_ifstream_copy_if_data()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->_ifstream_copy_if_data_length();
@@ -233,8 +243,9 @@ void rsa306b_class::_ifstream_copy_if_data()
 void rsa306b_class::_ifstream_copy_if_data_length()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.if_data_length = this->_vars.ifstream.if_data_length;
@@ -250,8 +261,9 @@ void rsa306b_class::_ifstream_copy_if_data_length()
 void rsa306b_class::_ifstream_copy_data_info_type()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.data_info_type.acqStatus      = this->_vars.ifstream.data_info_type.acqStatus;
@@ -270,8 +282,9 @@ void rsa306b_class::_ifstream_copy_data_info_type()
 void rsa306b_class::_ifstream_copy_adc_data_v()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
     
     this->vars.ifstream.adc_data_v.resize(
@@ -289,8 +302,9 @@ void rsa306b_class::_ifstream_copy_adc_data_v()
 void rsa306b_class::_ifstream_copy_if_frames()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->_ifstream_copy_frame_bytes();
@@ -308,8 +322,9 @@ void rsa306b_class::_ifstream_copy_if_frames()
 void rsa306b_class::_ifstream_copy_frame_bytes()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.frame_bytes = this->_vars.ifstream.frame_bytes;
@@ -325,8 +340,9 @@ void rsa306b_class::_ifstream_copy_frame_bytes()
 void rsa306b_class::_ifstream_copy_number_of_frames()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.number_of_frames = this->_vars.ifstream.number_of_frames;
@@ -342,8 +358,9 @@ void rsa306b_class::_ifstream_copy_number_of_frames()
 void rsa306b_class::_ifstream_copy_framed_adc_data_v()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.framed_adc_data_v.resize(
@@ -366,8 +383,9 @@ void rsa306b_class::_ifstream_copy_framed_adc_data_v()
 void rsa306b_class::_ifstream_copy_eq_parameters()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->_ifstream_copy_points_in_equalization_buffer();
@@ -386,8 +404,9 @@ void rsa306b_class::_ifstream_copy_eq_parameters()
 void rsa306b_class::_ifstream_copy_points_in_equalization_buffer()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.points_in_equalization_buffer = this->_vars.ifstream.points_in_equalization_buffer;
@@ -403,8 +422,9 @@ void rsa306b_class::_ifstream_copy_points_in_equalization_buffer()
 void rsa306b_class::_ifstream_copy_eq_frequency_v()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.eq_frequency_v.resize(
@@ -422,8 +442,9 @@ void rsa306b_class::_ifstream_copy_eq_frequency_v()
 void rsa306b_class::_ifstream_copy_eq_amplitude_v()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.eq_amplitude_v.resize(
@@ -441,8 +462,9 @@ void rsa306b_class::_ifstream_copy_eq_amplitude_v()
 void rsa306b_class::_ifstream_copy_eq_phase_v()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.eq_phase_v.resize(
@@ -460,8 +482,9 @@ void rsa306b_class::_ifstream_copy_eq_phase_v()
 void rsa306b_class::_ifstream_copy_scaling_parameters()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->_ifstream_copy_scale_factor();
@@ -478,8 +501,9 @@ void rsa306b_class::_ifstream_copy_scaling_parameters()
 void rsa306b_class::_ifstream_copy_scale_factor()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.scale_factor = this->_vars.ifstream.scale_factor;
@@ -495,8 +519,9 @@ void rsa306b_class::_ifstream_copy_scale_factor()
 void rsa306b_class::_ifstream_copy_scale_frequency()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.scale_frequency = this->_vars.ifstream.scale_frequency;
@@ -512,8 +537,9 @@ void rsa306b_class::_ifstream_copy_scale_frequency()
 void rsa306b_class::_ifstream_copy_acq_parameters()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->_ifstream_copy_if_bandwidth_hz();
@@ -531,8 +557,9 @@ void rsa306b_class::_ifstream_copy_acq_parameters()
 void rsa306b_class::_ifstream_copy_if_bandwidth_hz()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.if_bandwidth_hz = this->_vars.ifstream.if_bandwidth_hz;
@@ -548,8 +575,9 @@ void rsa306b_class::_ifstream_copy_if_bandwidth_hz()
 void rsa306b_class::_ifstream_copy_samples_per_second()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.samples_per_second = this->_vars.ifstream.samples_per_second;
@@ -565,8 +593,9 @@ void rsa306b_class::_ifstream_copy_samples_per_second()
 void rsa306b_class::_ifstream_copy_if_center_frequency()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.if_center_frequency = this->_vars.ifstream.if_center_frequency;
@@ -582,8 +611,9 @@ void rsa306b_class::_ifstream_copy_if_center_frequency()
 void rsa306b_class::_ifstream_copy_buffer_size()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->_ifstream_copy_buffer_size_bytes();
@@ -600,8 +630,9 @@ void rsa306b_class::_ifstream_copy_buffer_size()
 void rsa306b_class::_ifstream_copy_buffer_size_bytes()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.buffer_size_bytes = this->_vars.ifstream.buffer_size_bytes;
@@ -617,8 +648,9 @@ void rsa306b_class::_ifstream_copy_buffer_size_bytes()
 void rsa306b_class::_ifstream_copy_number_of_samples()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.ifstream.number_of_samples = this->_vars.ifstream.number_of_samples;

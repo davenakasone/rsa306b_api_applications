@@ -12,9 +12,9 @@
 # $ make all                                       compile stand-alone program and shared library
 # $ make clear_data_processed                      delete "processed data"
 # $ make clear_data_raw                            delete "raw data"
-# $ make clear                                     delete all data
-# $ make clean                                     delete all data and all compiled binaries
+# $ make clear_data                                delete all data
 # $ make clear_logs                                deletes all the debugging logs
+# $ make clean                                     delete all: data, compiled binaries, and logs
 #################################################################################################
 
 
@@ -185,7 +185,7 @@ clear_data_processed :
 	rm -rf $(DATA_IO_PROCESSED)
 	mkdir $(DATA_IO_PROCESSED)
 	clear
-	@echo 'all outputs were deleted'
+	@echo 'all data outputs were deleted'
 
 
 # stdout is cleared
@@ -198,25 +198,13 @@ clear_data_raw :
 	rm -rf $(DATA_IO_RAW)
 	mkdir $(DATA_IO_RAW)
 	clear
-	@echo 'all inputs were deleted'
+	@echo 'all data inputs were deleted'
 
 
-# does not delete executables, just the data
-clear : clear_data_raw clear_data_processed
-	@echo 'all inputs and outputs were deleted'
+# does not delete executables or debug logs, just the data
+clear_data : clear_data_raw clear_data_processed
+	@echo 'all data inputs and outputs were deleted'
 
-
-# stdout is cleared
-# the executable is deleted
-# the shared library is delted
-# everything in DATA directory gets deleted (raw and processed data)
-# issue "make clean" if files are too large for github
-clean : clear
-	rm -f $(EXEC)
-	rm -f $(MY_LIB_SO)
-	clear
-	@echo 'all inputs and outputs were deleted'
-	@echo 'all compiled binaries were deleted'
 
 # delete all the debug logs
 clear_logs :
@@ -224,4 +212,18 @@ clear_logs :
 	rm -rf $(DLOGZ)
 	mkdir $(DLOGZ)
 	clear
+	@echo 'all debug logs were deleted'
+
+
+# stdout is cleared
+# the executable is deleted
+# the shared library is delted
+# everything in DATA directory gets deleted (raw and processed data)
+# issue "make clean" if files are too large for github
+clean : clear_data clear_logs
+	rm -f $(EXEC)
+	rm -f $(MY_LIB_SO)
+	clear
+	@echo 'all data inputs and outputs were deleted'
+	@echo 'all compiled binaries were deleted'
 	@echo 'all debug logs were deleted'

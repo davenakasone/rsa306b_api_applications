@@ -29,8 +29,9 @@ void siq_manager_class::write_iq_to_csv
 )
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->load_file(input_file);
@@ -160,8 +161,9 @@ void siq_manager_class::write_iq_to_csv_batch
 )
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (input_directory == NULL)
@@ -202,7 +204,14 @@ void siq_manager_class::write_iq_to_csv_batch
             output_files.push_back(temp);
         }
     }
-    closedir(dir);
+    if (closedir(dir) != 0)
+    {
+        #ifdef DEBUG_MIN
+            snprintf(X_ddts, sizeof(X_ddts), "failed to close directory:  %s", input_directory);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
+        #endif
+    }
     dir = NULL;
 
     char f_in[BUF_E];

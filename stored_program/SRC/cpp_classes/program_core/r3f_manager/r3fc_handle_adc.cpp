@@ -26,21 +26,26 @@ void r3f_manager_class::prepare_plot_from_adc
 )
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (input_file_path == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tallocate the input file path\n");
+            snprintf(X_ddts, sizeof(X_ddts), "allocate the input file-path-name");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
     if (output_file_path == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tallocate the output file path name\n");
+            snprintf(X_ddts, sizeof(X_ddts), "allocate the output file-path-name");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -48,7 +53,9 @@ void r3f_manager_class::prepare_plot_from_adc
         this->_fptr_write != NULL )
     {
         #ifdef DEBUG_MIN
-            printf("\n\terror in FILE* members\n");
+            snprintf(X_ddts, sizeof(X_ddts), "FILE* not active");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -61,8 +68,10 @@ void r3f_manager_class::prepare_plot_from_adc
     if (dir == NULL) 
     {
         #ifdef DEBUG_MIN
-            printf("\n\tinput file path not found: %s\n",
-                input_file_path);
+            snprintf(X_ddts, sizeof(X_ddts), "directory not found: %s", input_file_path);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT,
+                __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -96,15 +105,18 @@ void r3f_manager_class::prepare_plot_from_adc
     if (closedir(dir) != 0)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tDEBUG_MIN, <%4d> %s/%s()  failed to close directory\n",
-                __LINE__, __FILE__, __func__);
+            snprintf(X_ddts, sizeof(X_ddts), "failed to close directory:  %s", input_file_path);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
     }
     if (input_file_list.size() <= 0)
     if (dir == NULL) 
     {
         #ifdef DEBUG_MIN
-            printf("\n\tinput data not found\n");
+            snprintf(X_ddts, sizeof(X_ddts), "directory not found:  %s", input_file_path);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -132,11 +144,19 @@ void r3f_manager_class::_adc_helper
     const char* output_fpn
 )
 {
+#ifdef DEBUG_CLI
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
+        __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
     this->_fptr_read = fopen(input_fpn, "r");
     if (this->_fptr_read == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tinput file not found\n");
+            snprintf(X_ddts, sizeof(X_ddts), "input file-path-name not found");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -152,13 +172,11 @@ void r3f_manager_class::_adc_helper
     int total_data_frames = (this->_bytes_in_file - 
                              this->_vars.size_of_frame_bytes) / 
                              this->_vars.size_of_frame_bytes; 
-    long int total_samples = this->_vars.number_of_samples_per_frame *
-                             total_data_frames;
 
     int16_t sample_getter;
     for (long int ii = 1; ii <= total_data_frames; ii++)
     {
-        this->_byte_index = this->_vars.size_of_frame_bytes * ii;
+        this->_byte_index = static_cast<long int>(this->_vars.size_of_frame_bytes * ii);
         fseek(this->_fptr_read, 0L, SEEK_SET);
         fseek(this->_fptr_read, this->_byte_index, SEEK_CUR);
 
@@ -170,7 +188,8 @@ void r3f_manager_class::_adc_helper
         }
     }
 
-    #ifdef DEBUG_MIN
+    #ifdef DEBUG_MAX
+        long int total_samples = this->_vars.number_of_samples_per_frame * total_data_frames;
         printf("\n\traw ADC files '%s' is ready,  %d frames  ,  %ld samples\n",
             output_fpn, total_data_frames, total_samples);
     #endif
@@ -191,8 +210,9 @@ void r3f_manager_class::_adc_helper
 void r3f_manager_class::_process_header_direct()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
    
 // File ID section, 1 field

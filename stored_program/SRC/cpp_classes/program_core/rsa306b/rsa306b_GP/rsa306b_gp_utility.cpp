@@ -24,21 +24,26 @@ void rsa306b_class::gp_wchar_2_char
 )
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (source == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tthe w_string is empty\n");
+            snprintf(X_ddts, sizeof(X_ddts), "the w_string is empty");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
     if (destination == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tthe c_string is empty\n");
+            snprintf(X_ddts, sizeof(X_ddts), "the c_string is empty");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -64,8 +69,11 @@ void rsa306b_class::gp_wchar_2_char
         else
         {
             #ifdef DEBUG_MIN
-                printf("\n\t wchar_t* to char* not possible\n");
+                snprintf(X_ddts, sizeof(X_ddts), "conversion not possible");
+                snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+                debug_record(true);
             #endif
+            destination[0] = '\0';
             return;
         }
         idx++;

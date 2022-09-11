@@ -24,8 +24,9 @@
 void rsa306b_class::_iqstream_acquire_data_to_file()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     bool is_complete = false;
@@ -128,8 +129,9 @@ void rsa306b_class::_iqstream_acquire_data_to_file()
 void rsa306b_class::_iqstream_acquire_data_direct_cplx32_v()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     bool is_ready = false;
@@ -209,8 +211,9 @@ void rsa306b_class::_iqstream_acquire_data_direct_cplx32_v()
 void rsa306b_class::_iqstream_acquire_data_direct_cplxInt16_v()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     bool is_ready = false;
@@ -290,8 +293,9 @@ void rsa306b_class::_iqstream_acquire_data_direct_cplxInt16_v()
 void rsa306b_class::_iqstream_acquire_data_direct_cplxInt32_v()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     bool is_ready = false;

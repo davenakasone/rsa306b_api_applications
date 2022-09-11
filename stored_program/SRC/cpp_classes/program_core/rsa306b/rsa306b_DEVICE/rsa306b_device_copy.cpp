@@ -26,8 +26,9 @@
 void rsa306b_class::_device_copy_vars()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->_device_copy_error_string();
@@ -51,8 +52,9 @@ void rsa306b_class::_device_copy_vars()
 void rsa306b_class::_device_copy_is_connected()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.device.is_connected = this->_vars.device.is_connected;
@@ -68,8 +70,9 @@ void rsa306b_class::_device_copy_is_connected()
 void rsa306b_class::_device_copy_is_over_temperature()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.device.is_over_temperature = this->_vars.device.is_over_temperature;
@@ -85,8 +88,9 @@ void rsa306b_class::_device_copy_is_over_temperature()
 void rsa306b_class::_device_copy_is_running()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.device.is_running = this->_vars.device.is_running;
@@ -102,8 +106,9 @@ void rsa306b_class::_device_copy_is_running()
 void rsa306b_class::_device_copy_event_occured()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.device.event_occured = this->_vars.device.event_occured;
@@ -119,8 +124,9 @@ void rsa306b_class::_device_copy_event_occured()
 void rsa306b_class::_device_copy_error_string()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     strcpy(this->vars.device.error_string, this->_vars.device.error_string);
@@ -136,8 +142,9 @@ void rsa306b_class::_device_copy_error_string()
 void rsa306b_class::_device_copy_id()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.device.id = this->_vars.device.id;
@@ -153,8 +160,9 @@ void rsa306b_class::_device_copy_id()
 void rsa306b_class::_device_copy_event_id()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.device.event_id = this->_vars.device.event_id;
@@ -170,8 +178,9 @@ void rsa306b_class::_device_copy_event_id()
 void rsa306b_class::_device_copy_info_type()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif 
 
     strcpy(this->vars.device.info_type.apiVersion, this->_vars.device.info_type.apiVersion);
@@ -192,8 +201,9 @@ void rsa306b_class::_device_copy_info_type()
 void rsa306b_class::_device_copy_event_timestamp()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->vars.device.event_timestamp = this->_vars.device.event_timestamp;

@@ -18,8 +18,9 @@
 void rsa306b_class::print_iqblk()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     printf("\n'IQBLK' group >>>\n");
@@ -68,8 +69,9 @@ void rsa306b_class::print_iqblk()
 void rsa306b_class::_iqblk_init()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     this->_vars.iqblk.getter                 = this->constants.IQBLK_GETTER_DEFAULT;
@@ -109,8 +111,9 @@ void rsa306b_class::_iqblk_init()
 void rsa306b_class::_iqblk_bitcheck()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     memset(this->_vars.iqblk.bitcheck, '\0', BUF_D);

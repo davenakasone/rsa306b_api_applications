@@ -19,14 +19,17 @@
 void rsa306b_class::spectrum_aquire()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -85,14 +88,17 @@ void rsa306b_class::spectrum_aquire()
 void rsa306b_class::spectrum_find_peak_index()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -134,8 +140,9 @@ void rsa306b_class::spectrum_find_peak_index()
 void rsa306b_class::spectrum_write_csv()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
     
     if (this->_fptr_write != NULL)
@@ -155,7 +162,9 @@ void rsa306b_class::spectrum_write_csv()
             if (this->_fptr_write == NULL)
             {
                 #ifdef DEBUG_MIN
-                    printf("\n\tinvalid output path for CSV\n");
+                    snprintf(X_ddts, sizeof(X_ddts), "fix this");
+                    snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+                    debug_record(true);
                 #endif
                 return;
             }
@@ -197,14 +206,17 @@ void rsa306b_class::spectrum_write_csv()
 void rsa306b_class::_spectrum_make_array_frequency()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -216,15 +228,19 @@ void rsa306b_class::_spectrum_make_array_frequency()
             this->_vars.spectrum.settings_type.actualStartFreq +
             this->_vars.spectrum.settings_type.actualFreqStepSize * ii;
     }
+
     #ifdef DEBUG_MIN
         double temp = this->_vars.spectrum.array_frequency
                         [this->_vars.spectrum.settings_type.traceLength-1] -
                         this->vars.spectrum.settings_type.actualStopFreq;
         if ((temp > 1) || (temp < -1))
         {
-            printf("\n\tmismatched frequency array:  %lf\n", temp);
+            snprintf(X_ddts, sizeof(X_ddts), "mis-matched frequency array");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         }
     #endif
+
     this->_spectrum_copy_array_frequency();
 }
 

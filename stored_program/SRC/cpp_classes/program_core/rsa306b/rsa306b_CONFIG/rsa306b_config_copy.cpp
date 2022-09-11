@@ -23,8 +23,9 @@
 void rsa306b_class::_config_copy_vars()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->_config_copy_reference_level_dbm();
@@ -45,8 +46,9 @@ void rsa306b_class::_config_copy_vars()
 void rsa306b_class::_config_copy_reference_level_dbm()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->vars.config.reference_level_dbm = this->_vars.config.reference_level_dbm;
@@ -62,8 +64,9 @@ void rsa306b_class::_config_copy_reference_level_dbm()
 void rsa306b_class::_config_copy_center_frequency_hz()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->vars.config.center_frequency_hz= this->_vars.config.center_frequency_hz;
@@ -79,8 +82,9 @@ void rsa306b_class::_config_copy_center_frequency_hz()
 void rsa306b_class::_config_copy_min_center_frequency_hz()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->vars.config.min_center_frequency_hz= this->_vars.config.min_center_frequency_hz;
@@ -96,8 +100,9 @@ void rsa306b_class::_config_copy_min_center_frequency_hz()
 void rsa306b_class::_config_copy_max_center_frequency_hz()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->vars.config.max_center_frequency_hz= this->_vars.config.max_center_frequency_hz;
@@ -113,8 +118,9 @@ void rsa306b_class::_config_copy_max_center_frequency_hz()
 void rsa306b_class::_config_copy_external_reference_frequency_hz()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->vars.config.external_reference_frequency_hz = this->_vars.config.external_reference_frequency_hz;
@@ -130,8 +136,9 @@ void rsa306b_class::_config_copy_external_reference_frequency_hz()
 void rsa306b_class::_config_copy_frequency_reference_source_select()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->vars.config.frequency_reference_source_select = this->_vars.config.frequency_reference_source_select;

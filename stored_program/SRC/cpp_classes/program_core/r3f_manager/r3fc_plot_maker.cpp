@@ -31,8 +31,9 @@ void r3f_manager_class::prepare_plot_from_header
 ) 
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (output_file == NULL)
@@ -101,21 +102,26 @@ void r3f_manager_class::prepare_plot_from_iq
 ) 
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (input_file == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tallocate the input file name\n");
+            snprintf(X_ddts, sizeof(X_ddts), "input file-path-name not found");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
     if (output_file == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tallocate the output file name\n");
+            snprintf(X_ddts, sizeof(X_ddts), "output file-path-name not found");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -123,7 +129,9 @@ void r3f_manager_class::prepare_plot_from_iq
         this->_fptr_write != NULL )
     {
         #ifdef DEBUG_MIN
-            printf("\n\terror in FILE* members\n");
+            snprintf(X_ddts, sizeof(X_ddts), "FILE* not placed");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -132,7 +140,9 @@ void r3f_manager_class::prepare_plot_from_iq
     if (this->_fptr_read == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tinput file not found\n");
+            snprintf(X_ddts, sizeof(X_ddts), "failed to open:  %s", input_file);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -175,7 +185,7 @@ void r3f_manager_class::prepare_plot_from_iq
             time_series.pop();
         }
     }
-    #ifdef DEBUG_MIN
+    #ifdef DEBUG_MAX
         printf("\n\ttime series size:  %lu  ,  empty():  %d\n",
             time_series.size(), time_series.empty());
     #endif
@@ -208,7 +218,7 @@ void r3f_manager_class::prepare_plot_from_iq
 
     fclose(this->_fptr_read); this->_fptr_read = NULL;
     fclose(this->_fptr_write); this->_fptr_write = NULL;
-    #ifdef DEBUG_MIN
+    #ifdef DEBUG_MAX
         printf("\n\tIQ(t) data ready to plot, see '%s'\n",
             output_file);
         printf("%d %d %d\n",

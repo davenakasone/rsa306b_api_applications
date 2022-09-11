@@ -46,7 +46,7 @@ void debug_init()
             printf("\n\tfailed to get date-time-stamp\n");
             return;
         }
-        snprintf(X_dstr, DEBUG_WIDTH-1, "%s%sdebug.txt",
+        snprintf(X_dstr, sizeof(X_dstr), "%s%sdebug.txt",
             DEBUG_FILEPATH,
             X_ddts);
         X_dfp = fopen(X_dstr, "w");
@@ -60,7 +60,7 @@ void debug_init()
         {
             printf("%s\n", X_dstr);
         }
-        snprintf(X_dstr, DEBUG_WIDTH-1, "LOG OPEN %s\n\n", X_ddts);
+        snprintf(X_dstr, sizeof(X_dstr), "LOG OPEN %s\n\n", X_ddts);
         fputs(X_dstr, X_dfp);
     #endif
 }
@@ -97,7 +97,7 @@ void debug_stop()
         {
             printf("\n\tfailed to get date-time-stamp\n");
         }
-        snprintf(X_dstr, DEBUG_WIDTH-1, "\nLOG CLOSED %s\n", X_ddts);
+        snprintf(X_dstr, sizeof(X_dstr), "\nLOG CLOSED %s\n", X_ddts);
         fputs(X_dstr, X_dfp);
         fclose(X_dfp);
         X_dfp = NULL;
@@ -120,6 +120,7 @@ char* debug_dts()
         printf("\n\tdid not allocate %s\n", GET_NAME(X_ddts));
         return NULL;
     }
+    memset(X_ddts, '\0', DEBUG_WIDTH);
 
     struct tm * tm_ptr = NULL;
     time_t current;
@@ -145,7 +146,7 @@ char* debug_dts()
     caller should update the debug string "X_ddstr"
     function prints / records the result
 */
-void debug_record()
+void debug_record(bool force_print)
 {
     if (X_dstr[0] == '\0')
     {
@@ -156,7 +157,7 @@ void debug_record()
     double seconds = (static_cast<double>(t_now) - static_cast<double>(X_dstart)) /
         static_cast<double>(CLOCKS_PER_SEC);     
     
-    char temp[2*DEBUG_WIDTH];
+    char temp[3*DEBUG_WIDTH];
     snprintf(temp, sizeof(temp), "[ %15.5lf ]  %s",
         seconds,
         X_dstr);
@@ -166,8 +167,14 @@ void debug_record()
     #endif
     #ifdef DEBUGS_WILL_WRITE
         fputs(temp, X_dfp);
+        if (force_print == true)
+        {
+            printf("%s", X_dstr);
+        }
     #endif
-    memset(X_dstr, '\0', DEBUG_WIDTH);
+
+    memset(X_dstr, '\0', sizeof(X_dstr));
+    memset(X_ddts, '\0', sizeof(X_ddts));
 }
 
 

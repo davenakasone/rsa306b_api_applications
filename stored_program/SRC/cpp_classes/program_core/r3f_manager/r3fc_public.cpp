@@ -27,9 +27,9 @@ r3f_manager_class::r3f_manager_class()
     debug_init();
 #endif
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, DEBUG_WIDTH-1, DEBUG_CLI_FORMAT, 
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
-    debug_record();
+    debug_record(false);
 #endif
 
     this->_cpu_start = clock();
@@ -47,12 +47,9 @@ r3f_manager_class::r3f_manager_class()
 r3f_manager_class::~r3f_manager_class()
 {
 #ifdef DEBUG_CLI
-    if (X_dfp != NULL)
-    {
-        snprintf(X_dstr, DEBUG_WIDTH-1, DEBUG_CLI_FORMAT, 
-            __LINE__, __FILE__, __func__);
-        debug_record();
-    }
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
+        __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
 #ifdef DE_BUG
@@ -72,8 +69,9 @@ r3f_manager_class::~r3f_manager_class()
 long int r3f_manager_class::get_bytes_in_file()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     return this->_bytes_in_file;
@@ -91,8 +89,9 @@ long int r3f_manager_class::get_bytes_in_file()
 void r3f_manager_class::time_split_begin()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->_time_split_is_marked = true;
@@ -113,14 +112,17 @@ void r3f_manager_class::time_split_begin()
 double r3f_manager_class::time_split_end()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_time_split_is_marked == false)
     {
         #ifdef DEBUG_MIN
-            printf("\t\ntime split was not started\n");
+            snprintf(X_ddts, sizeof(X_ddts), "time-split was never started");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return -1;
     }
@@ -142,8 +144,9 @@ double r3f_manager_class::time_split_end()
 double r3f_manager_class::get_running_time()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->_cpu_now = clock();
@@ -167,14 +170,17 @@ void r3f_manager_class::get_vars
 )
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (sptr == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tallocate the struct\n");
+            snprintf(X_ddts, sizeof(X_ddts), "allocate the variable struct");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }

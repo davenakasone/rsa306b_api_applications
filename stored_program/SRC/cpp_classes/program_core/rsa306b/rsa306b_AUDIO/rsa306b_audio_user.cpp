@@ -21,14 +21,17 @@
 void rsa306b_class::audio_set_vars()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -38,7 +41,9 @@ void rsa306b_class::audio_set_vars()
     if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
     {
         #ifdef DEBUG_MIN
-            printf("\terror setting audio parameters\n");
+            snprintf(X_ddts, sizeof(X_ddts), "error setting AUDIO group");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -57,14 +62,17 @@ void rsa306b_class::audio_set_vars()
 void rsa306b_class::audio_acquire_data()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -72,9 +80,11 @@ void rsa306b_class::audio_acquire_data()
         this->_vars.audio.data_samples_requested > AUDIO_DATA_LENGTH)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tsamples requested { %u }  ,  out of range [ 1 , %d ]\n",
+            snprintf(X_ddts, sizeof(X_ddts), "samples requested { %u }  ,  out of range [ 1 , %d ]",
                 this->_vars.audio.data_samples_requested,
                 AUDIO_DATA_LENGTH);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }

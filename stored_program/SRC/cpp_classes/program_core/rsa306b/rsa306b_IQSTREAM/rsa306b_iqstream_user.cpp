@@ -21,14 +21,17 @@
 void rsa306b_class::iqstream_acquire_data()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -56,7 +59,9 @@ void rsa306b_class::iqstream_acquire_data()
             break;
         default:
             #ifdef DEBUG_MIN
-                printf("\n\terror in datatype selection\n");
+                snprintf(X_ddts, sizeof(X_ddts), "invalid IQSTREAM data output destination");
+                snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+                debug_record(true);
             #endif
             break;
         }
@@ -70,7 +75,9 @@ void rsa306b_class::iqstream_acquire_data()
         else
         {
             #ifdef DEBUG_MIN
-                printf("\n\tonly '*.siq' files are available\n");
+                snprintf(X_ddts, sizeof(X_ddts), "only use *.siq files");
+                snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+                debug_record(true);
             #endif
         }
     }
@@ -88,6 +95,7 @@ void rsa306b_class::iqstream_acquire_data()
 
 /*
     < 2 > public
+    designed to be use immidiatley after acquiring data
 */
 void rsa306b_class::iqstream_make_csv
 (
@@ -95,21 +103,26 @@ void rsa306b_class::iqstream_make_csv
 )
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.iqstream.destination_select != RSA_API::IQSOD_CLIENT)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno direct data availible to make CSV\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no data was output direct to client");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
     if (file_path_name == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tallocate 'file_path_name' before calling\n");
+            snprintf(X_ddts, sizeof(X_ddts), "allocate output file-path-name");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -118,7 +131,9 @@ void rsa306b_class::iqstream_make_csv
           this->_vars.iqstream.datatype_select == RSA_API::IQSODT_SINGLE_SCALE_INT32) )
     {
         #ifdef DEBUG_MIN
-            printf("\n\tCSV not possible, no data availible\n");
+            snprintf(X_ddts, sizeof(X_ddts), "cplx32 vector has no data");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -126,7 +141,9 @@ void rsa306b_class::iqstream_make_csv
         this->_vars.iqstream.datatype_select == RSA_API::IQSODT_INT32               )
     {
         #ifdef DEBUG_MIN
-            printf("\n\tCSV not possible, no data availible\n");
+            snprintf(X_ddts, sizeof(X_ddts), "cplxInt32 vector has no data");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -134,7 +151,9 @@ void rsa306b_class::iqstream_make_csv
         this->_vars.iqstream.datatype_select == RSA_API::IQSODT_INT16               )
     {
         #ifdef DEBUG_MIN
-            printf("\n\tCSV not possible, no data availible\n");
+            snprintf(X_ddts, sizeof(X_ddts), "cplxInt16 vector has no data");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -143,7 +162,9 @@ void rsa306b_class::iqstream_make_csv
     if (this->_fptr_write == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tfailed to open CSV for writting\n");
+            snprintf(X_ddts, sizeof(X_ddts), "failed to open:  %s", file_path_name);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -211,7 +232,9 @@ void rsa306b_class::iqstream_make_csv
     else
     {
         #ifdef DEBUG_MIN
-            printf("\n\tlogice error, CSV failed\n");
+            snprintf(X_ddts, sizeof(X_ddts), "logic error");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
     }
     fclose(this->_fptr_write);
@@ -228,14 +251,17 @@ void rsa306b_class::iqstream_make_csv
 void rsa306b_class::iqstream_clear_sticky()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tno device connected\n");
+            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }

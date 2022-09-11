@@ -32,14 +32,17 @@ void r3f_manager_class::file_process
 ) 
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, DEBUG_WIDTH-1, DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (r3f_output_path_file_name == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tallocate the output file\n");
+            snprintf(X_ddts, sizeof(X_ddts), "allocate file-path-name");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -49,7 +52,9 @@ void r3f_manager_class::file_process
     if (this->_return_status != _CALL_SUCCESS)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tbad input specification\n");
+            snprintf(X_ddts, sizeof(X_ddts), "not .r3f file:  %s", r3f_input_path_file_name);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -58,7 +63,9 @@ void r3f_manager_class::file_process
     if (this->_return_status != _CALL_SUCCESS)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tbad file size\n");
+            snprintf(X_ddts, sizeof(X_ddts), "input file too small: %s", r3f_input_path_file_name);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -99,8 +106,9 @@ void r3f_manager_class::_process_header
 )
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, DEBUG_WIDTH-1, DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
    
    if (print_while_processing == true)
@@ -482,8 +490,9 @@ void r3f_manager_class::_process_data
 )
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, DEBUG_WIDTH-1, DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     int samples_to_get = (this->_bytes_in_file - 
@@ -573,8 +582,9 @@ void r3f_manager_class::_store_field
 )
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     if (print_while_processing == true)

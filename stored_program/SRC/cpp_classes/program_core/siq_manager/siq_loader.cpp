@@ -27,8 +27,9 @@ void siq_manager_class::load_file
 )
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
     
     this->_init();
@@ -66,8 +67,9 @@ void siq_manager_class::load_file
 void siq_manager_class::_populate_header()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 #ifdef DEBUG_SIQ_LOADER_HEADER
     printf("\nHEADER, for '%s'  >>>\n\n", transfer);
@@ -975,11 +977,13 @@ void siq_manager_class::_populate_header()
         #ifdef DEBUG_MIN
             if (checker[ii] == false)
             {
-                printf("\n\tmissing field [%2d of %2d]\n", 
-                ii,
-                SIQ_HEADER_FIELDS);
+                snprintf(X_ddts, sizeof(X_ddts), "missing field [%2d of %2d]  %s", 
+                    ii, SIQ_HEADER_FIELDS, HEADER_FIELDS[ii]);
+                snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+                debug_record(true);
             }
         #endif
+        
     }
     if (result == false)
     {
@@ -1002,11 +1006,9 @@ void siq_manager_class::_populate_header()
 void siq_manager_class::_populate_data()
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
-#endif
-#ifdef DEBUG_SIQ_LOADER_DATA
-    printf("\nDATA, for '%s'  >>>\n\n", transfer);
+    debug_record(false);
 #endif
 
     std::size_t idx = 0;

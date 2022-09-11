@@ -24,8 +24,9 @@ void siq_manager_class::decode_and_write
 )
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
     
     this->_prepare_siq_input(input_file);
@@ -115,8 +116,9 @@ void siq_manager_class::decode_and_write
 void siq_manager_class::decode_and_print(char* input_file, unsigned long int byte_start, unsigned long int byte_stop)
 {
 #ifdef DEBUG_CLI
-    printf("\n<%d> %s/%s()\n",
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
         __LINE__, __FILE__, __func__);
+    debug_record(false);
 #endif
 
     this->_prepare_siq_input(input_file);
