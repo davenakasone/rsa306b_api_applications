@@ -31,10 +31,12 @@ void rsa306b_class::_gp_confirm_api_status()
 
     if (this->_vars.gp.api_status != RSA_API::noError)
     {
-        #if defined (DEBUG_ERR) || (DEBUG_MIN) || (DEBUG_MAX)
-            this->_device_get_error_string();
-            printf("\n\t###   !!!   API ERROR   !!!   ###   %s\n", 
+        this->_device_get_error_string();
+        #ifdef DEBUG_MIN
+            snprintf(X_dstr, sizeof(X_dstr), "API ERROR  %4d  !!!  %s", 
+                static_cast<int>(this->_vars.gp.api_status),
                 this->_vars.device.error_string);
+            debug_record(true);
         #endif
     }
     this->_gp_copy_api_status();
@@ -61,8 +63,9 @@ void rsa306b_class::_gp_confirm_call_status()
     if (this->_vars.gp.call_status      != 
         this->constants.CALL_SUCCESS)
     {
-        #if defined (DEBUG_ERR) || (DEBUG_MIN) || (DEBUG_MAX)
-            printf("\n\t###   !!! ERROR  IN THE OBJECT !!!   ###\n");
+        #ifdef DEBUG_MIN
+            snprintf(X_dstr, sizeof(X_dstr), "!!! error in rsa306b_class");
+            debug_record(true);
         #endif
     }
     this->_gp_copy_call_status();
@@ -110,7 +113,7 @@ void rsa306b_class::_gp_confirm_aquisition_code()
         __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+    /*
     this->_gp_copy_acquisition_code();
     if (this->_vars.device.is_connected == false)
     {
@@ -198,6 +201,7 @@ void rsa306b_class::_gp_confirm_aquisition_code()
         printf("\n\tacquisition message:  %s\n",
             this->_vars.gp.acquisition_message);
     #endif
+    */
 }
 
 ////////~~~~~~~~END>  rsa306b_gp_confirm.cpp

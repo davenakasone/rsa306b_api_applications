@@ -15,7 +15,7 @@
 
 // turn off to run all unit tests
 // turn on and change UT_NUMBER to run a specific unit test
-#define UNIT_TEST_BY_NUMBER 999   // select # here
+#define UNIT_TEST_BY_NUMBER 992   // select # here
 // sections        "unit_test_#"  : 0  , 1  , 2  , 3  , 4  , 5  , 6  , 7  , 8  , 9  , 
 //                                  10 , 11 ,
 // specific tasks  "task_#"       : 999, 998, 997, 996, 995, 994, 993, 992,
@@ -68,19 +68,17 @@ int main
         test_selector(9);      // test 'IFSTREAM' section
         test_selector(10);     // test 'IQBLK' section
         test_selector(11);     // test 'IQSTREAM' section
-        test_selector(500);    // preparing globals for the shared object
-        test_selector(989);    // develop the "siq_manager" file handler
-        test_selector(990);    // see if the IQSTREAM API or your code has a bug
-        test_selector(991);    // test the whchar_t 2 char converter
-        test_selector(992);    // get 100MHz and 315 MHz, spectrum and ADC
-        test_selector(993);    // generate spectrum and raw ADC for learning
-        test_selector(994);    // develop IF stream direct to client
+
+        test_selector(992);    // develop the "siq_manager" file handler
+        test_selector(993);    // see if the IQSTREAM API is good
+        test_selector(994);    // test the whchar_t 2 char converter
         test_selector(995);    // test YK3000 @ 315 MHz
         test_selector(996);    // EE 498, Semptember 2022
         test_selector(997);    // DSP demonstration
         test_selector(998);    // test the cpu_timer_class
         test_selector(999);    // test bench
     #endif
+    
     X_rsa.reftime_get_vars();
     printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~    %s\n",
         X_rsa.vars.reftime.dts);

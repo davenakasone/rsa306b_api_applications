@@ -49,12 +49,6 @@ void rsa306b_class::_audio_copy_vars()
 */
 void rsa306b_class::_audio_copy_is_demodulating()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
-
     this->vars.audio.is_demodulating = this->_vars.audio.is_demodulating;
 }
 
@@ -67,12 +61,6 @@ void rsa306b_class::_audio_copy_is_demodulating()
 */
 void rsa306b_class::_audio_copy_is_mute()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
-
     this->vars.audio.is_mute = this->_vars.audio.is_mute;
 }
 
@@ -85,12 +73,6 @@ void rsa306b_class::_audio_copy_is_mute()
 */
 void rsa306b_class::_audio_copy_frequecny_offset_hz()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
-
     this->vars.audio.frequency_offset_hz = this->_vars.audio.frequency_offset_hz;
 }
 
@@ -103,12 +85,6 @@ void rsa306b_class::_audio_copy_frequecny_offset_hz()
 */
 void rsa306b_class::_audio_copy_volume()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
-
     this->vars.audio.volume = this->_vars.audio.volume;
 }
 
@@ -121,12 +97,6 @@ void rsa306b_class::_audio_copy_volume()
 */
 void rsa306b_class::_audio_copy_demodulation_select()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
-
     this->vars.audio.demodulation_select = this->_vars.audio.demodulation_select;
 }
 
@@ -139,12 +109,6 @@ void rsa306b_class::_audio_copy_demodulation_select()
 */
 void rsa306b_class::_audio_copy_data()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
-
     for (int ii = 0; ii < AUDIO_DATA_LENGTH; ii++)
     {
         this->_vars.audio.data[ii] = this->_vars.audio.data[ii];
@@ -160,12 +124,6 @@ void rsa306b_class::_audio_copy_data()
 */
 void rsa306b_class::_audio_copy_data_samples_requested()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
-
     this->vars.audio.data_samples_requested = this->_vars.audio.data_samples_requested;
 }
 
@@ -178,12 +136,6 @@ void rsa306b_class::_audio_copy_data_samples_requested()
 */
 void rsa306b_class::_audio_copy_data_samples_acquired()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
-
     this->vars.audio.data_samples_acquired = this->_vars.audio.data_samples_acquired;
 }
 

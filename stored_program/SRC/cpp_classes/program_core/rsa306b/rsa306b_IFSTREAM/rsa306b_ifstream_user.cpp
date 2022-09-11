@@ -79,13 +79,21 @@ void rsa306b_class::ifstream_record_file()
     this->vars.ifstream.is_enabled_adc = true;
     this->_ifstream_set_is_enabled_adc();
 
-    while(this->_vars.ifstream.is_active == true)
+    // while(this->_vars.ifstream.is_active == true)   ....you need a split timer to break out...
+    // {
+    //     this->_ifstream_get_is_active();
+    // }
+    bool is_active = true;
+    while(is_active == true)
     {
-        this->_ifstream_get_is_active();
+        this->_vars.gp.api_status = 
+            RSA_API::IFSTREAM_GetActiveStatus(&is_active);
     }
+    
 
     this->vars.ifstream.is_enabled_adc = false;
     this->_ifstream_set_is_enabled_adc();
+    this->_ifstream_get_is_active();
     this->device_stop();
 
     #ifdef DEBUG_MAX

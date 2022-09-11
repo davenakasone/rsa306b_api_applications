@@ -83,12 +83,6 @@ void rsa306b_class::_gp_copy_vars()
 */
 void rsa306b_class::_gp_copy_helper()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
-
     strcpy(this->vars.gp.helper, this->_vars.gp.helper);
 }
 
@@ -101,12 +95,6 @@ void rsa306b_class::_gp_copy_helper()
 */
 void rsa306b_class::_gp_copy_holder()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
-
     strcpy(this->vars.gp.holder, this->_vars.gp.holder);
 }
 
@@ -119,12 +107,6 @@ void rsa306b_class::_gp_copy_holder()
 */
 void rsa306b_class::_gp_copy_call_status()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
-
     this->vars.gp.call_status = this->_vars.gp.call_status;
 }
 
@@ -137,12 +119,6 @@ void rsa306b_class::_gp_copy_call_status()
 */
 void rsa306b_class::_gp_copy_api_status()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
-
     this->vars.gp.api_status = this->_vars.gp.api_status;
 }
 
@@ -155,12 +131,6 @@ void rsa306b_class::_gp_copy_api_status()
 */
 void rsa306b_class::_gp_copy_acquisition_code()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
-
     this->vars.gp.acquisition_code = this->_vars.gp.acquisition_code;
 }
 
@@ -173,12 +143,6 @@ void rsa306b_class::_gp_copy_acquisition_code()
 */
 void rsa306b_class::_gp_copy_acquistion_message()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
-
     strcpy(this->vars.gp.acquisition_message, this->_vars.gp.acquisition_message);
 }
 

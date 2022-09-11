@@ -7,14 +7,15 @@
 # consider optimizations as performance needs grow (+ macros)
 #
 ########################### TARGETS #############################################################
-# $ make alone                                     compile stand-alone program
-# $ make shared                                    compile shared library
-# $ make all                                       compile stand-alone program and shared library
-# $ make clear_data_processed                      delete "processed data"
-# $ make clear_data_raw                            delete "raw data"
-# $ make clear_data                                delete all data
-# $ make clear_logs                                deletes all the debugging logs
-# $ make clean                                     delete all: data, compiled binaries, and logs
+# $ make alone                                 compile stand-alone program
+# $ make shared                                compile shared library
+# $ make all                                   compile stand-alone program and shared library
+# $ make clear_data_processed                  delete "processed data"
+# $ make clear_data_raw                        delete "raw data"
+# $ make clear_data                            delete all data
+# $ make clear_logs                            deletes all the debugging logs
+# $ make clear                                 delets data and logs, but keeps compiled binaries
+# $ make clean                                 delete all: data, compiled binaries, and logs
 #################################################################################################
 
 
@@ -215,12 +216,18 @@ clear_logs :
 	@echo 'all debug logs were deleted'
 
 
+# deletes data and debug logs
+clear : clear_data clear_logs
+	clear
+	@echo 'debug logs and data were deleted'
+
+
 # stdout is cleared
 # the executable is deleted
 # the shared library is delted
 # everything in DATA directory gets deleted (raw and processed data)
 # issue "make clean" if files are too large for github
-clean : clear_data clear_logs
+clean : clear
 	rm -f $(EXEC)
 	rm -f $(MY_LIB_SO)
 	clear

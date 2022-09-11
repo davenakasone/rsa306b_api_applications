@@ -65,7 +65,7 @@ struct rsa306b_constants
         const int IFSTREAM_SUFFIX                 = -1;            // control file suffix name for IFSTREAM group, {0:increment, -1:timestamp, -2:none}
         const char IFSTREAM_FILE_NAME_BASE[BUF_A] = "ifstream";    // IFSTREAM base file name
         const int IFSTREAM_MAX_MS                 = 1000;          // limit in milli-seconds for "*.r3f" file
-        const int IFSTREAM_DEFAULT_MS             = 10;            // default recording length for "*.r3f" files, in ms
+        const int IFSTREAM_DEFAULT_MS             = 1;            // default recording length for "*.r3f" files, in ms
         const int IFSTREAM_DEFAULT_FILE_COUNT     = 1;             // IFSTREAM files to produce
 
     // IQBLK constants...clean this acqStatus

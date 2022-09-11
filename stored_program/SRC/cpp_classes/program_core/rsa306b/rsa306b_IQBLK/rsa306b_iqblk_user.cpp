@@ -167,8 +167,8 @@ void rsa306b_class::_iqblk_get_iq_data()
             RSA_API::IQBLK_WaitForIQDataReady(
                 timeout_ms, 
                 &data_is_ready);
-        this->_gp_confirm_api_status();
     }
+    this->_gp_confirm_api_status();
 
     this->_vars.gp.api_status = 
         RSA_API::IQBLK_GetIQData(
@@ -241,8 +241,8 @@ void rsa306b_class::_iqblk_get_iq_data_cplx()
             RSA_API::IQBLK_WaitForIQDataReady(
                 timeout_ms, 
                 &data_is_ready);
-        this->_gp_confirm_api_status();
     }
+    this->_gp_confirm_api_status();
 
     this->_vars.gp.api_status =
         RSA_API::IQBLK_GetIQDataCplx(
@@ -319,8 +319,8 @@ void rsa306b_class::_iqblk_get_iq_data_deinterleaved()
             RSA_API::IQBLK_WaitForIQDataReady(
                 timeout_ms, 
                 &data_is_ready);
-        this->_gp_confirm_api_status();
     }
+    this->_gp_confirm_api_status();
 
     this->_vars.gp.api_status =
         RSA_API::IQBLK_GetIQDataDeinterleaved(

@@ -41,8 +41,8 @@ void rsa306b_class::_iqstream_acquire_data_to_file()
                     &is_complete,
                     &is_writing
                 );
-            this->_gp_confirm_api_status();
         }
+        this->_gp_confirm_api_status();
     }
     else    // triggered mode
     {
@@ -143,9 +143,9 @@ void rsa306b_class::_iqstream_acquire_data_direct_cplx32_v()
             (
                 0, 
                 &is_ready
-            );
-        this->_gp_confirm_api_status();
+            );// need a breakout timer
     }
+    this->_gp_confirm_api_status();
     if (is_ready == false)
     {
         #ifdef DEBUG_MIN
@@ -226,8 +226,8 @@ void rsa306b_class::_iqstream_acquire_data_direct_cplxInt16_v()
                 0, 
                 &is_ready
             );
-        this->_gp_confirm_api_status();
     }
+    this->_gp_confirm_api_status();
     if (is_ready == false)
     {
         #ifdef DEBUG_MIN
@@ -308,8 +308,8 @@ void rsa306b_class::_iqstream_acquire_data_direct_cplxInt32_v()
                 0, 
                 &is_ready
             );
-        this->_gp_confirm_api_status();
     }
+    this->_gp_confirm_api_status();
     if (is_ready == false)
     {
         #ifdef DEBUG_MIN

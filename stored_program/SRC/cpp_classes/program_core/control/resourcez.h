@@ -49,10 +49,13 @@
 
     // good to have at least "DEBUG_MIN" activated
     #define DEBUG_MIN 1917                  // {ON//OFF} tracks:  essential information, they will force-print to stdout
-    //#define DEBUG_MAX 1787                  // {ON//OFF} tracks:  additional information (keep DEBUG_MIN on if using)
-    #define DEBUG_CLI 1776                  // {ON//OFF} tracks:  __LINE__, __FILE__, __func__ for each call
-    //#define DEBUG_CALL_CHECKS 1492          // {ON//OFF} tracks:  API return status checks and other call checks
-    
+    #define DEBUG_MAX 1787                  // {ON//OFF} tracks:  additional information 
+    #define DEBUG_CLI 1776                  // {ON//OFF} tracks:  __LINE__, __FILE__, __func__ for major calls
+    #define DEBUG_CALL_CHECKS 1492          // {ON//OFF} tracks:  API return status checks and other call checks
+    #define DEBUG_GETS 1992                 // {ON//OFF} tracks:  __LINE__, __FILE__, __func__ for getter calls
+    #define DEBUG_SETS 1999                 // {ON//OFF} tracks:  __LINE__, __FILE__, __func__ for setter calls
+    #define DEBUG_COPYS 2000                // {ON//OFF} tracks:  __LINE__, __FILE__, __func__ for copier calls
+
     // only needed if there is trouble parsing "*.siq" files
     //#define DEBUG_SIQ_LOADER_HEADER 1941    // {ON//OFF} when activated, prints SIQ header as loaded, in 'siq_manager' class 
     //#define DEBUG_SIQ_LOADER_DATA 1945      // {ON//OFF} when activated, prints SIQ data as loaded, in 'siq_manager' class
@@ -61,13 +64,22 @@
         const char DEBUG_MIN_FORMAT[]         = "DEBUG_MIN        ,  <%4d>  %s/%s()  !!!  %s\n";
     #endif
     #ifdef DEBUG_MAX
-        const char DEBUG_MAX_FORMAT[]         = "DEBUG_MAX        ,  <%4d>  %s/%s()  ,  %s\n";
+        const char DEBUG_MAX_FORMAT[]         = "DEBUG_MAX        ,%s\n";
     #endif
     #ifdef DEBUG_CLI
         const char DEBUG_CLI_FORMAT[]         = "DEBUG_CLI        ,  <%4d>  %s/%s()\n";
     #endif
     #ifdef DEBUG_CALL_CHECKS
         const char DEBUG_CALL_CHECKS_FORMAT[] = "DEBUG_CALL_CHECKS,  <%4d>  %s/%s()\n";
+    #endif
+    #ifdef DEBUG_GETS
+        const char DEBUG_GETS_FORMAT[] = "DEBUG_GETS,  <%4d>  %s/%s()\n";
+    #endif
+    #ifdef DEBUG_SETS
+        const char DEBUG_SETS_FORMAT[] = "DEBUG_SETS,  <%4d>  %s/%s()\n";
+    #endif
+    #ifdef DEBUG_COPYS
+        const char DEBUG_COPYS_FORMAT[] = "DEBUG_COPYS,  <%4d>  %s/%s()\n";
     #endif
     const char DEBUG_FILEPATH[] = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DOC/debug_logs/";  // may require a change
 
