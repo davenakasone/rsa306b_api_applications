@@ -25,8 +25,7 @@
 int rsa306b_class::_audio_set_vars()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -42,76 +41,41 @@ int rsa306b_class::_audio_set_vars()
     this->device_stop();
 
     // vars.audio.is_mute
-    if (this->vars.audio.is_mute == this->_vars.audio.is_mute)
+    if (this->vars.audio.is_mute != this->_vars.audio.is_mute)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\taudio already muted\n");
-        #endif
-    }
-    else
-    {
-        this->_vars.gp.call_status = this->_audio_set_is_mute();
-        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
+        if (this->_audio_set_is_mute() != this->constants.CALL_SUCCESS)
         {
             return this->constants.CALL_FAILURE;
         }
     }
     // vars.audio.frequency_offset_hz
-    if (this->vars.audio.frequency_offset_hz == this->_vars.audio.frequency_offset_hz)
+    if (this->vars.audio.frequency_offset_hz != this->_vars.audio.frequency_offset_hz)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\taudio frequency offset already set\n");
-        #endif
-    }
-    else
-    {
-        this->_vars.gp.call_status = this->_audio_set_frequency_offset_hz();
-        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
+        if (this->_audio_set_frequency_offset_hz() != this->constants.CALL_SUCCESS)
         {
             return this->constants.CALL_FAILURE;
         }
     }
     // vars.audio.volume
-    if (this->vars.audio.volume == this->_vars.audio.volume)
+    if (this->vars.audio.volume != this->_vars.audio.volume)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\taudio volume already set\n");
-        #endif
-    }
-    else
-    {
-        this->_vars.gp.call_status = this->_audio_set_volume();
-        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
+        if (this->_audio_set_volume() != this->constants.CALL_SUCCESS)
         {
             return this->constants.CALL_FAILURE;
         }
     }
     // vars.audio.demodulation_select
-    if (this->vars.audio.demodulation_select == this->_vars.audio.demodulation_select)
+    if (this->vars.audio.demodulation_select != this->_vars.audio.demodulation_select)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\taudio demodulation already set\n");
-        #endif
-    }
-    else
-    {
-        this->_vars.gp.call_status = this->_audio_set_demodulation_select();
-        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
+        if (this->_audio_set_demodulation_select() != this->constants.CALL_SUCCESS)
         {
             return this->constants.CALL_FAILURE;
         }
     }
     // vars.data_samples_requested
-    if (this->vars.audio.data_samples_requested == this->_vars.audio.data_samples_requested)
+    if (this->vars.audio.data_samples_requested != this->_vars.audio.data_samples_requested)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\taudio data samples requested already set\n");
-        #endif
-    }
-    else
-    {
-        this->_vars.gp.call_status = this->_audio_set_data_samples_requested();
-        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
+        if (this->_audio_set_data_samples_requested() != this->constants.CALL_SUCCESS)
         {
             return this->constants.CALL_FAILURE;
         }
@@ -131,9 +95,8 @@ int rsa306b_class::_audio_set_vars()
 */
 int rsa306b_class::_audio_set_is_mute()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -162,9 +125,8 @@ int rsa306b_class::_audio_set_is_mute()
 */
 int rsa306b_class::_audio_set_frequency_offset_hz()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -181,10 +143,12 @@ int rsa306b_class::_audio_set_frequency_offset_hz()
         this->vars.audio.frequency_offset_hz > this->constants.AUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz  )
     {
         #ifdef DEBUG_MIN
-            printf("\n\taudio frequency offset { %lf }  ,  out of range [ %lf , %lf ]\n",
+            snprintf(X_ddts, sizeof(X_ddts), "audio frequency offset { %lf }  ,  out of range [ %lf , %lf ]",
                 this->vars.audio.frequency_offset_hz,
                 this->constants.AUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz,
                 this->constants.AUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->constants.CALL_FAILURE;
     }
@@ -204,9 +168,8 @@ int rsa306b_class::_audio_set_frequency_offset_hz()
 */
 int rsa306b_class::_audio_set_volume()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -222,11 +185,13 @@ int rsa306b_class::_audio_set_volume()
     if (this->vars.audio.volume < this->constants.AUDIO_VOLUME_MIN ||
         this->vars.audio.volume > this->constants.AUDIO_VOLUME_MAX  )
     {
-        #ifdef DEBUG_MAX
-            printf("\n\taudio volume { %f }  ,  out of range [ %f , %f ]\n",
+        #ifdef DEBUG_MIN
+            snprintf(X_ddts, sizeof(X_ddts), "audio volume { %f }  ,  out of range [ %f , %f ]",
                 this->vars.audio.volume,
                 this->constants.AUDIO_VOLUME_MIN,
                 this->constants.AUDIO_VOLUME_MAX);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->constants.CALL_FAILURE;
     }
@@ -246,9 +211,8 @@ int rsa306b_class::_audio_set_volume()
 */
 int rsa306b_class::_audio_set_demodulation_select()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -267,8 +231,11 @@ int rsa306b_class::_audio_set_demodulation_select()
         this->vars.audio.demodulation_select != RSA_API::ADM_FM_200KHZ &&
         this->vars.audio.demodulation_select != RSA_API::ADM_AM_8KHZ    )
     {
-        #ifdef DEBUG_MAX
-            printf("\n\tinvalid demodulation mode selected\n");
+        #ifdef DEBUG_MIN
+            snprintf(X_ddts, sizeof(X_ddts), "invalid demodulation mode selected:  %d",
+                static_cast<int>(this->vars.audio.demodulation_select));
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return this->constants.CALL_FAILURE;
     }
@@ -288,9 +255,8 @@ int rsa306b_class::_audio_set_demodulation_select()
 */
 int rsa306b_class::_audio_set_data_samples_requested()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 

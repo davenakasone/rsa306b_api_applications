@@ -29,8 +29,7 @@
 void rsa306b_class::_iqblk_copy_vars()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
@@ -57,6 +56,11 @@ void rsa306b_class::_iqblk_copy_vars()
 */
 void rsa306b_class::_iqblk_copy_getter()
 {
+#ifdef DEBUG_COPYS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
     this->vars.iqblk.getter = this->_vars.iqblk.getter;
 }
 
@@ -69,6 +73,11 @@ void rsa306b_class::_iqblk_copy_getter()
 */
 void rsa306b_class::_iqblk_copy_actual_buffer_samples()
 {
+#ifdef DEBUG_COPYS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
     this->vars.iqblk.actual_buffer_samples = this->_vars.iqblk.actual_buffer_samples;
 }
 
@@ -99,6 +108,11 @@ void rsa306b_class::_iqblk_copy_sample_pairs_requested()
 */
 void rsa306b_class::_iqblk_copy_cplx32_v()
 {
+#ifdef DEBUG_COPYS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
     this->vars.iqblk.cplx32_v.resize(
         this->_vars.iqblk.cplx32_v.size());
     for (size_t ii = 0; ii < this->_vars.iqblk.cplx32_v.size(); ii++)
@@ -118,6 +132,11 @@ void rsa306b_class::_iqblk_copy_cplx32_v()
 */
 void rsa306b_class::_iqblk_copy_acq_info_type()
 {
+#ifdef DEBUG_COPYS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
     this->vars.iqblk.acq_info_type.acqStatus          = this->_vars.iqblk.acq_info_type.acqStatus;
     this->vars.iqblk.acq_info_type.sample0Timestamp   = this->_vars.iqblk.acq_info_type.sample0Timestamp;
     this->vars.iqblk.acq_info_type.triggerSampleIndex = this->_vars.iqblk.acq_info_type.triggerSampleIndex;
@@ -133,6 +152,11 @@ void rsa306b_class::_iqblk_copy_acq_info_type()
 */
 void rsa306b_class::_iqblk_copy_bitcheck()
 { 
+#ifdef DEBUG_COPYS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
     strcpy(this->vars.iqblk.bitcheck, this->_vars.iqblk.bitcheck);
 }
 
@@ -145,6 +169,11 @@ void rsa306b_class::_iqblk_copy_bitcheck()
 */
 void rsa306b_class::_iqblk_copy_sample_rate()
 {
+#ifdef DEBUG_COPYS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
     this->vars.iqblk.sample_rate = this->_vars.iqblk.sample_rate;
 }
 
@@ -157,6 +186,11 @@ void rsa306b_class::_iqblk_copy_sample_rate()
 */
 void rsa306b_class::_iqblk_copy_bandwidth_hz()
 {
+#ifdef DEBUG_COPYS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
     this->vars.iqblk.bandwidth_hz = this->_vars.iqblk.bandwidth_hz;
 }
 
@@ -169,6 +203,11 @@ void rsa306b_class::_iqblk_copy_bandwidth_hz()
 */
 void rsa306b_class::_iqblk_copy_max_bandwidth_hz()
 {
+#ifdef DEBUG_COPYS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
     this->vars.iqblk.max_bandwidth_hz = this->_vars.iqblk.max_bandwidth_hz;
 }
 
@@ -181,6 +220,11 @@ void rsa306b_class::_iqblk_copy_max_bandwidth_hz()
 */
 void rsa306b_class::_iqblk_copy_min_bandwidth_hz()
 {
+#ifdef DEBUG_COPYS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
     this->vars.iqblk.min_bandwidth_hz = this->_vars.iqblk.min_bandwidth_hz;
 }
 
@@ -193,6 +237,11 @@ void rsa306b_class::_iqblk_copy_min_bandwidth_hz()
 */
 void rsa306b_class::_iqblk_copy_record_length()
 {
+#ifdef DEBUG_COPYS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
     this->vars.iqblk.record_length = this->_vars.iqblk.record_length;
 }
 
@@ -205,6 +254,11 @@ void rsa306b_class::_iqblk_copy_record_length()
 */
 void rsa306b_class::_iqblk_copy_max_record_length()
 {
+#ifdef DEBUG_COPYS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
     this->vars.iqblk.max_record_length = this->_vars.iqblk.max_record_length;
 }
 

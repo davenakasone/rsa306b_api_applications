@@ -19,8 +19,7 @@
 void rsa306b_class::print_device()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -59,8 +58,7 @@ void rsa306b_class::print_device()
 void rsa306b_class::_device_init()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif 
     

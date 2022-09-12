@@ -39,7 +39,9 @@ void r3f_manager_class::prepare_plot_from_header
     if (output_file == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tallocate the file name\n");
+            snprintf(X_ddts, sizeof(X_ddts), "allocate the file name");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -53,8 +55,11 @@ void r3f_manager_class::prepare_plot_from_header
     if (this->_fptr_write == NULL)
     {
         #ifdef DEBUG_MIN
-            printf("\n\tfailed to open output file for writing\n");
+            snprintf(X_ddts, sizeof(X_ddts), "failed to open output file for writing");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
+        return;
     }
 
     for (int ii = 0; ii < this->_vars.number_of_table_entries; ii++)
@@ -77,9 +82,11 @@ void r3f_manager_class::prepare_plot_from_header
     }
     fclose(this->_fptr_write);
     this->_fptr_write = NULL;
-    #ifdef DEBUG_MIN
-        printf("\n\theader data ready to plot, see '%s'\n",
-            output_file);
+    
+    #ifdef DEBUG_MAX
+        snprintf(X_ddts, sizeof(X_ddts), "header data ready to plot, see '%s'", output_file);
+        snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+        debug_record(false);
     #endif
 }
 
@@ -110,7 +117,7 @@ void r3f_manager_class::prepare_plot_from_iq
     if (input_file == NULL)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "input file-path-name not found");
+            snprintf(X_ddts, sizeof(X_ddts), "input file-path-name not allocated");
             snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
@@ -119,7 +126,7 @@ void r3f_manager_class::prepare_plot_from_iq
     if (output_file == NULL)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "output file-path-name not found");
+            snprintf(X_ddts, sizeof(X_ddts), "output file-path-name not allocated");
             snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
@@ -129,7 +136,7 @@ void r3f_manager_class::prepare_plot_from_iq
         this->_fptr_write != NULL )
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "FILE* not placed");
+            snprintf(X_ddts, sizeof(X_ddts), "FILE* are busy somewhere else");
             snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
@@ -219,12 +226,13 @@ void r3f_manager_class::prepare_plot_from_iq
     fclose(this->_fptr_read); this->_fptr_read = NULL;
     fclose(this->_fptr_write); this->_fptr_write = NULL;
     #ifdef DEBUG_MAX
-        printf("\n\tIQ(t) data ready to plot, see '%s'\n",
-            output_file);
-        printf("%d %d %d\n",
+        snprintf(X_ddts, sizeof(X_ddts), "IQ(t) ready : '%s' , ismpty vecs:  %d %d %d (want 1 1 1)",
+            output_file,
             time_series.empty(),
             in_phase.empty(),
             quadrature.empty());
+        snprintf(X_dstr, sizeof(X_dstr), DEBUG_MAX_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+        debug_record(false);
     #endif
 }
 

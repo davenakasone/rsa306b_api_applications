@@ -22,8 +22,7 @@
 int rsa306b_class::_trig_set_vars()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -39,76 +38,41 @@ int rsa306b_class::_trig_set_vars()
     this->device_stop();
 
     // vars.gp.call_status
-    if (this->vars.trig.if_power_level == this->_vars.trig.if_power_level)
+    if (this->vars.trig.if_power_level != this->_vars.trig.if_power_level)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\ttrig IF power level already set\n");
-        #endif
-    }
-    else
-    {
-        this->_vars.gp.call_status = this->_trig_set_if_power_level();
-        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
+        if (this->_trig_set_if_power_level() != this->constants.CALL_SUCCESS)
         {
             return this->constants.CALL_FAILURE;
         }
     }
     // vars.trig.mode_select
-    if (this->vars.trig.mode_select == this->_vars.trig.mode_select)
+    if (this->vars.trig.mode_select != this->_vars.trig.mode_select)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\ttrig mode already set\n");
-        #endif
-    }
-    else
-    {
-        this->_vars.gp.call_status = this->_trig_set_mode_select();
-        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
+        if (this->_trig_set_mode_select() != this->constants.CALL_SUCCESS)
         {
             return this->constants.CALL_FAILURE;
         }
     }
     // vars.trig.position_percent
-    if (this->vars.trig.position_percent == this->_vars.trig.position_percent)
+    if (this->vars.trig.position_percent != this->_vars.trig.position_percent)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\ttrig position percent already set\n");
-        #endif
-    }
-    else
-    {
-        this->_vars.gp.call_status = this->_trig_set_position_percent();
-        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
+        if (this->_trig_set_position_percent() != this->constants.CALL_SUCCESS)
         {
             return this->constants.CALL_FAILURE;
         }
     }
     // vars.trig.source_select
-    if (this->vars.trig.source_select == this->_vars.trig.source_select)
+    if (this->vars.trig.source_select != this->_vars.trig.source_select)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\ttrig source select already set\n");
-        #endif
-    }
-    else
-    {
-        this->_vars.gp.call_status = this->_trig_set_source_select();
-        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
+        if (this->_trig_set_source_select() != this->constants.CALL_SUCCESS)
         {
             return this->constants.CALL_FAILURE;
         }
     }
     // vars.trig.transition_select
-    if (this->vars.trig.transition_select == this->_vars.trig.transition_select)
+    if (this->vars.trig.transition_select != this->_vars.trig.transition_select)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\ttrig transition select already set\n");
-        #endif
-    }
-    else
-    {
-        this->_vars.gp.call_status = this->_trig_set_transition_select();
-        if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
+        if (this->_trig_set_transition_select() != this->constants.CALL_SUCCESS)
         {
             return this->constants.CALL_FAILURE;
         }
@@ -126,9 +90,8 @@ int rsa306b_class::_trig_set_vars()
 */
 int rsa306b_class::_trig_set_if_power_level()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -170,9 +133,8 @@ int rsa306b_class::_trig_set_if_power_level()
 */
 int rsa306b_class::_trig_set_mode_select()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -213,9 +175,8 @@ int rsa306b_class::_trig_set_mode_select()
 */
 int rsa306b_class::_trig_set_position_percent()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -257,9 +218,8 @@ int rsa306b_class::_trig_set_position_percent()
 */
 int rsa306b_class::_trig_set_source_select()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -300,9 +260,8 @@ int rsa306b_class::_trig_set_source_select()
 */
 int rsa306b_class::_trig_set_transition_select()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 

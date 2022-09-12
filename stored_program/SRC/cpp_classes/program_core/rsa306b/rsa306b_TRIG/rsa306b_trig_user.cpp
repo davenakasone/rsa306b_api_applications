@@ -20,8 +20,7 @@
 void rsa306b_class::trig_set_vars()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -59,8 +58,7 @@ void rsa306b_class::trig_set_vars()
 void rsa306b_class::trig_force()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
@@ -85,8 +83,9 @@ void rsa306b_class::trig_force()
     this->_vars.gp.api_status = RSA_API::TRIG_ForceTrigger();
     this->_gp_confirm_api_status();
     #ifdef DEBUG_MAX
-        printf("\n\ttrigger forced>>>  %s\n",
-            this->_vars.device.error_string);
+        snprintf(X_ddts, sizeof(X_ddts), "trigger forced>>>  %s", this->_vars.device.error_string);
+        snprintf(X_dstr, sizeof(X_dstr), DEBUG_MAX_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+        debug_record(false);
     #endif
 }
 

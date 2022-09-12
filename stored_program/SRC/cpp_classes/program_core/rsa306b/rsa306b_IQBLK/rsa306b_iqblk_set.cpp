@@ -20,8 +20,7 @@
 void rsa306b_class::iqblk_set_vars()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -46,11 +45,10 @@ void rsa306b_class::iqblk_set_vars()
 */
 void rsa306b_class::_iqblk_set_vars()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {
@@ -78,11 +76,10 @@ void rsa306b_class::_iqblk_set_vars()
 */
 void rsa306b_class::_iqblk_set_getter()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {
@@ -127,11 +124,10 @@ void rsa306b_class::_iqblk_set_getter()
 */
 void rsa306b_class::_iqblk_set_bandwidth_hz()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {
@@ -178,11 +174,10 @@ void rsa306b_class::_iqblk_set_bandwidth_hz()
 */
 void rsa306b_class::_iqblk_set_record_length()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {

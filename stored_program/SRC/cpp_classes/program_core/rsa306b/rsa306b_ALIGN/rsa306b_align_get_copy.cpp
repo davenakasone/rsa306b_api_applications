@@ -22,8 +22,7 @@
 void rsa306b_class::_align_get_vars()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -50,9 +49,8 @@ void rsa306b_class::_align_get_vars()
 */
 void rsa306b_class::_align_get_is_needed()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_GETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -81,9 +79,8 @@ void rsa306b_class::_align_get_is_needed()
 */
 void rsa306b_class::_align_get_is_warmed()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_GETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -112,9 +109,8 @@ void rsa306b_class::_align_get_is_warmed()
 */
 void rsa306b_class::_align_copy_vars()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_COPYS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -131,6 +127,11 @@ void rsa306b_class::_align_copy_vars()
 */
 void rsa306b_class::_align_copy_is_needed()
 {
+#ifdef DEBUG_COPYS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
     this->vars.align.is_needed = this->_vars.align.is_needed;
 }
 
@@ -143,6 +144,11 @@ void rsa306b_class::_align_copy_is_needed()
 */
 void rsa306b_class::_align_copy_is_warmed()
 {
+#ifdef DEBUG_COPYS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
     this->vars.align.is_warmed = this->_vars.align.is_warmed;
 }
 

@@ -20,8 +20,7 @@
 void rsa306b_class::spectrum_set_vars()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
@@ -47,8 +46,7 @@ void rsa306b_class::spectrum_set_vars()
 void rsa306b_class::_spectrum_set_vars()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
@@ -75,11 +73,10 @@ void rsa306b_class::_spectrum_set_vars()
 */
 void rsa306b_class::_spectrum_set_is_enabled_measurement()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif 
 
     if (this->_vars.device.is_connected == false)
     {
@@ -106,11 +103,10 @@ void rsa306b_class::_spectrum_set_is_enabled_measurement()
 */
 void rsa306b_class::_spectrum_set_settings_type()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {
@@ -239,11 +235,10 @@ void rsa306b_class::_spectrum_set_settings_type()
 */
 void rsa306b_class::_spectrum_set_trace_type()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {

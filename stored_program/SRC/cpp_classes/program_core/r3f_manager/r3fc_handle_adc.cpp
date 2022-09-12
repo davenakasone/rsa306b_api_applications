@@ -69,8 +69,7 @@ void r3f_manager_class::prepare_plot_from_adc
     {
         #ifdef DEBUG_MIN
             snprintf(X_ddts, sizeof(X_ddts), "directory not found: %s", input_file_path);
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT,
-                __LINE__, __FILE__, __func__, X_ddts);
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;
@@ -190,8 +189,10 @@ void r3f_manager_class::_adc_helper
 
     #ifdef DEBUG_MAX
         long int total_samples = this->_vars.number_of_samples_per_frame * total_data_frames;
-        printf("\n\traw ADC files '%s' is ready,  %d frames  ,  %ld samples\n",
+        snprintf(X_ddts, sizeof(X_ddts), "raw ADC files '%s' is ready,  %d frames  ,  %ld samples", 
             output_fpn, total_data_frames, total_samples);
+        snprintf(X_dstr, sizeof(X_dstr), DEBUG_MAX_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+        debug_record(false);
     #endif
     fclose(this->_fptr_read); this->_fptr_read = NULL;
     fclose(this->_fptr_write); this->_fptr_write = NULL;

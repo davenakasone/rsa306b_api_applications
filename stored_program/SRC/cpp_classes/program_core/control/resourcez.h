@@ -55,6 +55,7 @@
     #define DEBUG_GETS 1992                 // {ON//OFF} tracks:  __LINE__, __FILE__, __func__ for getter calls
     #define DEBUG_SETS 1999                 // {ON//OFF} tracks:  __LINE__, __FILE__, __func__ for setter calls
     #define DEBUG_COPYS 2000                // {ON//OFF} tracks:  __LINE__, __FILE__, __func__ for copier calls
+    #define DEBUG_CUSTOM 1865               // {ON//OFF} tracks: "    ", where ever you want to debug, place anywhere
 
     // only needed if there is trouble parsing "*.siq" files
     //#define DEBUG_SIQ_LOADER_HEADER 1941    // {ON//OFF} when activated, prints SIQ header as loaded, in 'siq_manager' class 
@@ -62,9 +63,10 @@
 
     #ifdef DEBUG_MIN
         const char DEBUG_MIN_FORMAT[]         = "DEBUG_MIN        ,  <%4d>  %s/%s()  !!!  %s\n";
+        
     #endif
     #ifdef DEBUG_MAX
-        const char DEBUG_MAX_FORMAT[]         = "DEBUG_MAX        ,%s\n";
+        const char DEBUG_MAX_FORMAT[]         = "DEBUG_MAX        ,  <%4d>  %s/%s()  %s\n";
     #endif
     #ifdef DEBUG_CLI
         const char DEBUG_CLI_FORMAT[]         = "DEBUG_CLI        ,  <%4d>  %s/%s()\n";
@@ -73,13 +75,16 @@
         const char DEBUG_CALL_CHECKS_FORMAT[] = "DEBUG_CALL_CHECKS,  <%4d>  %s/%s()\n";
     #endif
     #ifdef DEBUG_GETS
-        const char DEBUG_GETS_FORMAT[] = "DEBUG_GETS,  <%4d>  %s/%s()\n";
+        const char DEBUG_GETS_FORMAT[]        = "DEBUG_GETS       ,  <%4d>  %s/%s()\n";
     #endif
     #ifdef DEBUG_SETS
-        const char DEBUG_SETS_FORMAT[] = "DEBUG_SETS,  <%4d>  %s/%s()\n";
+        const char DEBUG_SETS_FORMAT[]        = "DEBUG_SETS       ,  <%4d>  %s/%s()\n";
     #endif
     #ifdef DEBUG_COPYS
-        const char DEBUG_COPYS_FORMAT[] = "DEBUG_COPYS,  <%4d>  %s/%s()\n";
+        const char DEBUG_COPYS_FORMAT[]       = "DEBUG_COPYS      ,  <%4d>  %s/%s()\n";
+    #endif
+    #ifdef DEBUG_CUSTOM
+        const char DEBUG_CUSTOM_FORMAT[]      = "DEBUG_CUSTOM     ,  <%4d>  %s/%s()  ***  %s\n";
     #endif
     const char DEBUG_FILEPATH[] = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DOC/debug_logs/";  // may require a change
 

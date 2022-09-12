@@ -24,8 +24,7 @@
 void rsa306b_class::_config_get_vars()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
@@ -57,11 +56,10 @@ void rsa306b_class::_config_get_vars()
 */
 void rsa306b_class::_config_get_reference_level_dbm()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_GETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {
@@ -90,11 +88,10 @@ void rsa306b_class::_config_get_reference_level_dbm()
 */
 void rsa306b_class::_config_get_center_frequency_hz()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_GETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {
@@ -123,11 +120,10 @@ void rsa306b_class::_config_get_center_frequency_hz()
 */
 void rsa306b_class::_config_get_min_center_frequency_hz()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_GETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {
@@ -156,11 +152,10 @@ void rsa306b_class::_config_get_min_center_frequency_hz()
 */
 void rsa306b_class::_config_get_max_center_frequency_hz()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_GETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {
@@ -189,11 +184,10 @@ void rsa306b_class::_config_get_max_center_frequency_hz()
 */
 void rsa306b_class::_config_get_external_reference_frequency_hz()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_GETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {
@@ -222,11 +216,10 @@ void rsa306b_class::_config_get_external_reference_frequency_hz()
 */
 void rsa306b_class::_config_get_frequency_reference_source_select()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_GETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {

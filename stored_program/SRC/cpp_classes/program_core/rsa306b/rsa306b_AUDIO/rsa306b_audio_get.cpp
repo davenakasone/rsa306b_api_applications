@@ -23,8 +23,7 @@
 void rsa306b_class::_audio_get_vars()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -54,11 +53,10 @@ void rsa306b_class::_audio_get_vars()
 */
 void rsa306b_class::_audio_get_is_demodulating()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_GETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {
@@ -84,11 +82,10 @@ void rsa306b_class::_audio_get_is_demodulating()
 */
 void rsa306b_class::_audio_get_is_mute()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_GETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif 
 
     if (this->_vars.device.is_connected == false)
     {
@@ -114,11 +111,10 @@ void rsa306b_class::_audio_get_is_mute()
 */
 void rsa306b_class::_audio_get_frequency_offset_hz()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_GETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {
@@ -144,11 +140,10 @@ void rsa306b_class::_audio_get_frequency_offset_hz()
 */
 void rsa306b_class::_audio_get_volume()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_GETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {
@@ -174,11 +169,10 @@ void rsa306b_class::_audio_get_volume()
 */
 void rsa306b_class::_audio_get_demodulation_select()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_GETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {
@@ -206,11 +200,10 @@ void rsa306b_class::_audio_get_demodulation_select()
 */
 void rsa306b_class::_audio_get_data()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_GETS
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {
@@ -223,8 +216,10 @@ void rsa306b_class::_audio_get_data()
     }
     if (this->_vars.audio.is_demodulating == false)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\taudio demodulation was not activated\n");
+        #ifdef DEBUG_MIN
+            snprintf(X_ddts, sizeof(X_ddts), "audio demodulation was not activated");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -232,8 +227,10 @@ void rsa306b_class::_audio_get_data()
     
     if (this->_vars.audio.data_samples_acquired == 0)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\tno audio data was acquired\n");
+        #ifdef DEBUG_MIN
+            snprintf(X_ddts, sizeof(X_ddts), "no audio data was acquired");
+            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
         #endif
         return;
     }
@@ -244,5 +241,6 @@ void rsa306b_class::_audio_get_data()
     }
     this->vars.audio.data_samples_acquired = this->_vars.audio.data_samples_acquired;
 }
+
 
 ////////~~~~~~~~END>  rsa306b_audio_get.cpp

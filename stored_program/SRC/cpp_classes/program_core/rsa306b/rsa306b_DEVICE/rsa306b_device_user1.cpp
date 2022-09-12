@@ -25,16 +25,12 @@
 void rsa306b_class::device_connect()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == true)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\tdevice already connected\n");
-        #endif
         return;
     }
     int devices_found;
@@ -95,7 +91,7 @@ void rsa306b_class::device_connect()
     this->_device_copy_is_connected();
 
     #ifdef DEBUG_MIN
-        snprintf(X_ddts, sizeof(X_ddts), "^^^ CONNECTED ^^^");
+        snprintf(X_ddts, sizeof(X_ddts), "CONNECTED");
         snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
         debug_record(true);
     #endif
@@ -120,8 +116,7 @@ void rsa306b_class::device_connect()
 void rsa306b_class::device_disconnect()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
@@ -161,8 +156,7 @@ void rsa306b_class::device_disconnect()
 void rsa306b_class::device_run()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
@@ -179,9 +173,6 @@ void rsa306b_class::device_run()
     this->_device_get_is_running();
     if (this->_vars.device.is_running == true)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\tdevice already running\n");
-        #endif
         return;
     }
     this->_vars.gp.api_status = RSA_API::DEVICE_Run();
@@ -209,8 +200,7 @@ void rsa306b_class::device_run()
 void rsa306b_class::device_stop()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
@@ -226,9 +216,6 @@ void rsa306b_class::device_stop()
     this->_device_get_is_running();
     if (this->_vars.device.is_running == false)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\tdevice was already stopped\n");
-        #endif
         return;
     }
     this->_vars.gp.api_status = RSA_API::DEVICE_Stop();
@@ -257,8 +244,7 @@ void rsa306b_class::device_stop()
 void rsa306b_class::device_reset()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
