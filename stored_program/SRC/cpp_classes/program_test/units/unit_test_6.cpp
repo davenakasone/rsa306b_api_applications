@@ -17,8 +17,6 @@
 #define UT6_c 3    // dts
 #define UT6_d 4    // reset
 #define UT6_e 5 // compare time splits ... it is unresponsive to sleep?
-// extern rsa306b_class X_rsa;
-// extern timer_class X_timer;
 
 
 void unit_test_6 (void)
@@ -71,22 +69,22 @@ printf("\n%s()  ,  API group 'REFTIME'\n", __func__);
         int waiting = 4; // change
         printf("\ncomparing a %d second sleep cylce...\n", waiting);
 
-        X_timer.time_split_start();
-        X_rsa.reftime_get_vars();
+        //X_timer.time_split_start();
+        //X_rsa.reftime_get_vars();
         trail = (double)X_rsa.vars.reftime.current.seconds + (double)X_rsa.vars.reftime.current.nanos / 1.0e9;
         sleep(waiting);
-        X_timer.time_split_stop();
-        X_rsa.reftime_get_vars();
+        // X_timer.time_split_stop();
+        // X_rsa.reftime_get_vars();
         lead = (double)X_rsa.vars.reftime.current.seconds + (double)X_rsa.vars.reftime.current.nanos / 1.0e9;
         printf("rsa306 time split:  %0.12lf", lead - trail);
-        X_timer.print_time_split(true);
+        //X_timer.print_time_split(true);
         X_rsa.print_reftime();
 
     #endif
 
 ////~~~~
 #ifdef WAIT_ENTER_CLEAR
-X_timer.print_running_time(true);
+//X_timer.print_running_time(true);
 printf("\n%s()  ,  test complete\n", __func__);
 wait_enter_clear();
 #endif

@@ -15,14 +15,10 @@
 
 // turn off to run all unit tests
 // turn on and change UT_NUMBER to run a specific unit test
-#define UNIT_TEST_BY_NUMBER 8   // select # here
+#define UNIT_TEST_BY_NUMBER 999   // select # here
 // sections        "unit_test_#"  : 0  , 1  , 2  , 3  , 4  , 5  , 6  , 7  , 8  , 9  , 
 //                                  10 , 11 ,
 // specific tasks  "task_#"       : 999, 998, 997, 996, 995, 994, 993, 992,
-// extern rsa306b_class X_rsa;
-// extern r3f_manager_class X_r3f;
-// extern siq_manager_class X_siq;
-// extern timer_class X_timer;
 
 
 int main
@@ -32,7 +28,7 @@ int main
     char** envp
 )
 {
-    int objSize[4];
+    int objSize[3];
     {
         if (argc >= 2)
         {
@@ -50,7 +46,6 @@ int main
         objSize[0] = static_cast<int>(sizeof(X_rsa));
         objSize[1] = static_cast<int>(sizeof(X_r3f));
         objSize[2] = static_cast<int>(sizeof(X_siq));
-        objSize[3] = static_cast<int>(sizeof(X_timer));
     }
     
     #ifdef UNIT_TEST_BY_NUMBER
@@ -99,7 +94,6 @@ int main
     printf("the 'rsa306b_class' object size      :  %12d bytes\n", objSize[0]);
     printf("the 'r3f_manager' object size        :  %12d bytes\n", objSize[1]);
     printf("the 'siq_manager' object size        :  %12d bytes\n", objSize[2]);
-    printf("the 'timer_class' object size        :  %12d bytes\n", objSize[3]);
     printf("\n");
     return EXIT_SUCCESS;
 }

@@ -134,7 +134,7 @@ void siq_manager_class::print_data
     std::size_t idx_end = 0;
 
     // RSA_API::Cplx32
-    if (this->_vars.data_block_cplx32_v.size() > INIT_STL)
+    if (this->_vars.data_block_cplx32_v.size() > INIT_STL_LENGTH)
     {
         idx_begin = idx_start;
         idx_end = idx_stop;
@@ -162,7 +162,7 @@ void siq_manager_class::print_data
     }
     
     // RSA_API::CplxInt32
-    if (this->_vars.data_block_cplxint32_v.size() > INIT_STL)
+    if (this->_vars.data_block_cplxint32_v.size() > INIT_STL_LENGTH)
     {
         idx_begin = idx_start;
         idx_end = idx_stop;
@@ -191,7 +191,7 @@ void siq_manager_class::print_data
     
 
     // RSA_API::CplxInt16
-    if (this->_vars.data_block_cplxint16_v.size() > INIT_STL)
+    if (this->_vars.data_block_cplxint16_v.size() > INIT_STL_LENGTH)
     {
         idx_begin = idx_start;
         idx_end = idx_stop;

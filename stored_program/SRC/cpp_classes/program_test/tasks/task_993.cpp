@@ -22,7 +22,6 @@
 */
 
 #include "../testz.h"
-// extern rsa306b_class X_rsa;
 
 
 // task 990 constants
@@ -53,7 +52,7 @@ void task_993()
 {
     printf("\n%s()  ,  make sure IQSTREAM can switch\n", __func__);
     {
-        timer_class cpu;
+        //timer_class cpu;
         X_rsa.device_disconnect();
         X_rsa.device_connect();
 
@@ -323,41 +322,41 @@ static void stream_to_file(rsa306b_class* obj)
         case (RSA_API::IQSODT_SINGLE) :
             if (obj->vars.trig.mode_select == RSA_API::freeRun)
             {
-                sprintf(obj->vars.iqstream.filename_base, "%stask993_single_freeRun", obj->constants.DATA_DIRECTORY_RAW);
+                sprintf(obj->vars.iqstream.filename_base, "%stask993_single_freeRun", DATA_DIRECTORY_RAW);
             }
             else
             {
-                sprintf(obj->vars.iqstream.filename_base, "%stask993_single_triggered", obj->constants.DATA_DIRECTORY_RAW);
+                sprintf(obj->vars.iqstream.filename_base, "%stask993_single_triggered", DATA_DIRECTORY_RAW);
             }
             break;
         case (RSA_API::IQSODT_INT32) :
             if (obj->vars.trig.mode_select == RSA_API::freeRun)
             {
-                sprintf(obj->vars.iqstream.filename_base, "%stask993_int32_freeRun", obj->constants.DATA_DIRECTORY_RAW);
+                sprintf(obj->vars.iqstream.filename_base, "%stask993_int32_freeRun", DATA_DIRECTORY_RAW);
             }
             else
             {
-                sprintf(obj->vars.iqstream.filename_base, "%stask993_int32_triggered", obj->constants.DATA_DIRECTORY_RAW);
+                sprintf(obj->vars.iqstream.filename_base, "%stask993_int32_triggered", DATA_DIRECTORY_RAW);
             }
             break;
         case (RSA_API::IQSODT_INT16) :
             if (obj->vars.trig.mode_select == RSA_API::freeRun)
             {
-                sprintf(obj->vars.iqstream.filename_base, "%stask993_int16_freeRun", obj->constants.DATA_DIRECTORY_RAW);
+                sprintf(obj->vars.iqstream.filename_base, "%stask993_int16_freeRun", DATA_DIRECTORY_RAW);
             }
             else
             {
-                sprintf(obj->vars.iqstream.filename_base, "%stask993_int16_triggered",obj->constants.DATA_DIRECTORY_RAW);
+                sprintf(obj->vars.iqstream.filename_base, "%stask993_int16_triggered", DATA_DIRECTORY_RAW);
             }
             break;
         case (RSA_API::IQSODT_SINGLE_SCALE_INT32) :
             if (obj->vars.trig.mode_select == RSA_API::freeRun)
             {
-                sprintf(obj->vars.iqstream.filename_base, "%stask993_scaled_freeRun", obj->constants.DATA_DIRECTORY_RAW);
+                sprintf(obj->vars.iqstream.filename_base, "%stask993_scaled_freeRun", DATA_DIRECTORY_RAW);
             }
             else
             {
-                sprintf(obj->vars.iqstream.filename_base, "%stask993_scaled_triggered", obj->constants.DATA_DIRECTORY_RAW);
+                sprintf(obj->vars.iqstream.filename_base, "%stask993_scaled_triggered", DATA_DIRECTORY_RAW);
             }
             break;
         default :
@@ -400,7 +399,7 @@ static void stream_to_client(rsa306b_class* obj)
     switch (obj->vars.iqstream.datatype_select)
     {
         case (RSA_API::IQSODT_SINGLE) :
-            if (obj->vars.iqstream.cplx32_v.size() <= obj->constants.INIT_STL_LENGTH)
+            if (obj->vars.iqstream.cplx32_v.size() <= INIT_STL_LENGTH)
             {
                 return;
             }
@@ -415,16 +414,18 @@ static void stream_to_client(rsa306b_class* obj)
             if (obj->vars.trig.mode_select == RSA_API::freeRun)
             {
                 snprintf(obj->vars.gp.helper, BUF_E, "%s_%lu_task993_single_freeRun.csv", 
-                    obj->constants.DATA_DIRECTORY_PROCESSED, obj->vars.reftime.current.timestamp);
+                    DATA_DIRECTORY_PROCESSED, 
+                    obj->vars.reftime.current.timestamp);
             }
             else
             {
                 snprintf(obj->vars.gp.helper, BUF_E, "%s_%lu_task993_single_triggered.csv", 
-                    obj->constants.DATA_DIRECTORY_PROCESSED, obj->vars.reftime.current.timestamp);
+                    DATA_DIRECTORY_PROCESSED, 
+                    obj->vars.reftime.current.timestamp);
             }
             break;
         case (RSA_API::IQSODT_INT32) :
-            if (obj->vars.iqstream.cplxInt32_v.size() <= obj->constants.INIT_STL_LENGTH)
+            if (obj->vars.iqstream.cplxInt32_v.size() <= INIT_STL_LENGTH)
             {
                 return;
             }
@@ -439,16 +440,18 @@ static void stream_to_client(rsa306b_class* obj)
             if (obj->vars.trig.mode_select == RSA_API::freeRun)
             {
                 snprintf(obj->vars.gp.helper, BUF_E, "%s_%lu_task993_int32_freeRun.csv", 
-                    obj->constants.DATA_DIRECTORY_PROCESSED, obj->vars.reftime.current.timestamp);
+                    DATA_DIRECTORY_PROCESSED, 
+                    obj->vars.reftime.current.timestamp);
             }
             else
             {
                 snprintf(obj->vars.gp.helper, BUF_E, "%s_%lu_task993_int32_triggered.csv", 
-                    obj->constants.DATA_DIRECTORY_PROCESSED, obj->vars.reftime.current.timestamp);
+                    DATA_DIRECTORY_PROCESSED, 
+                    obj->vars.reftime.current.timestamp);
             }
             break;
         case (RSA_API::IQSODT_INT16) :
-            if (obj->vars.iqstream.cplxInt16_v.size() <= obj->constants.INIT_STL_LENGTH)
+            if (obj->vars.iqstream.cplxInt16_v.size() <= INIT_STL_LENGTH)
             {
                 return;
             }
@@ -463,16 +466,17 @@ static void stream_to_client(rsa306b_class* obj)
             if (obj->vars.trig.mode_select == RSA_API::freeRun)
             {
                 snprintf(obj->vars.gp.helper, BUF_E, "%s_%lu_task993_int16_freeRun.csv", 
-                    obj->constants.DATA_DIRECTORY_PROCESSED, obj->vars.reftime.current.timestamp);
+                    DATA_DIRECTORY_PROCESSED,
+                    obj->vars.reftime.current.timestamp);
             }
             else
             {
                 snprintf(obj->vars.gp.helper, BUF_E, "%s_%lu_task993_int16_triggered.csv", 
-                    obj->constants.DATA_DIRECTORY_PROCESSED, obj->vars.reftime.current.timestamp);
+                    DATA_DIRECTORY_PROCESSED, obj->vars.reftime.current.timestamp);
             }
             break;
         case (RSA_API::IQSODT_SINGLE_SCALE_INT32) :
-            if (obj->vars.iqstream.cplx32_v.size() <= obj->constants.INIT_STL_LENGTH)
+            if (obj->vars.iqstream.cplx32_v.size() <= INIT_STL_LENGTH)
             {
                 return;
             }
@@ -487,12 +491,14 @@ static void stream_to_client(rsa306b_class* obj)
             if (obj->vars.trig.mode_select == RSA_API::freeRun)
             {
                 snprintf(obj->vars.gp.helper, BUF_E, "%s_%lu_task993_scaled_freeRun.csv", 
-                    obj->constants.DATA_DIRECTORY_PROCESSED, obj->vars.reftime.current.timestamp);
+                    DATA_DIRECTORY_PROCESSED, 
+                    obj->vars.reftime.current.timestamp);
             }
             else
             {
                 snprintf(obj->vars.gp.helper, BUF_E, "%s_%lu_task993_scaled_triggered.csv", 
-                    obj->constants.DATA_DIRECTORY_PROCESSED, obj->vars.reftime.current.timestamp);
+                    DATA_DIRECTORY_PROCESSED, 
+                    obj->vars.reftime.current.timestamp);
             }
             break;
         default :

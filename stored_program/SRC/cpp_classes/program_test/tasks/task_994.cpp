@@ -3,15 +3,13 @@
 */
 
 #include "../testz.h"
-// extern rsa306b_class X_rsa;
-// extern timer_class X_timer;
 
 
 void task_994()
 {
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  validate the whchar_t to char utility\n", __func__);
-X_timer.time_split_start();                      
+//X_timer.time_split_start();                      
 #endif    
 ////~~~~
 
@@ -56,8 +54,8 @@ X_timer.time_split_start();
 
 ////~~~~
 #ifdef WAIT_ENTER_CLEAR
-X_timer.time_split_stop();
-X_timer.print_both();
+// X_timer.time_split_stop();
+// X_timer.print_both();
 printf("\n%s()  ,  test complete\n", __func__);
 wait_enter_clear();
 #endif

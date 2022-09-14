@@ -16,15 +16,13 @@
 //#define UT2_c 3    // run, stop, checks    (need to configure before checking for events)
 #define UT2_d 4    // prepare and aquire
 //#define UT2_e 5    // just don't do it
-// extern rsa306b_class X_rsa;
-// extern timer_class X_timer;
 
 
 void unit_test_2 (void)
 {
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  API group 'DEVICE'\n", __func__);
-X_timer.time_split_start();                      
+//X_timer.time_split_start();                      
 #endif    
 ////~~~~
     
@@ -95,8 +93,8 @@ X_timer.time_split_start();
     
 ////~~~~
 #ifdef WAIT_ENTER_CLEAR
-X_timer.time_split_stop();
-X_timer.print_both();
+// X_timer.time_split_stop();
+// X_timer.print_both();
 printf("\n%s()  ,  test complete\n", __func__);
 wait_enter_clear();
 #endif    

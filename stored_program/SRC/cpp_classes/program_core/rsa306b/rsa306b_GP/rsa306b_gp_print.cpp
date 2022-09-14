@@ -60,13 +60,13 @@ void rsa306b_class::print_constants()
 #endif
 
     printf("\n'constants' group >>>\n");
-    printf("\tCALL_SUCCESS                          :  %d\n", this->constants.CALL_SUCCESS);
-    printf("\tCALL_FAILURE                          :  %d\n", this->constants.CALL_FAILURE);
-    printf("\tINIT_CHAR                             :  %c\n", this->constants.INIT_CHAR);
-    printf("\tINIT_DOUBLE                           :  %lf\n", this->constants.INIT_DOUBLE);
-    printf("\tINIT_INT                              :  %d\n", this->constants.INIT_INT);
-    printf("\tINIT_UINT                             :  %u\n", this->constants.INIT_UINT);
-    printf("\tINIT_STR                              :  %s\n", this->constants.INIT_STR);
+    // printf("\tCALL_SUCCESS                          :  %d\n", this->constants.CALL_SUCCESS);
+    // printf("\tCALL_FAILURE                          :  %d\n", this->constants.CALL_FAILURE);
+    // printf("\tINIT_CHAR                             :  %c\n", this->constants.INIT_CHAR);
+    // printf("\tINIT_DOUBLE                           :  %lf\n", this->constants.INIT_DOUBLE);
+    // printf("\tINIT_INT                              :  %d\n", this->constants.INIT_INT);
+    // printf("\tINIT_UINT                             :  %u\n", this->constants.INIT_UINT);
+    // printf("\tINIT_STR                              :  %s\n", this->constants.INIT_STR);
     printf("\tEXTERNAL_FREQUENCY                    :  %lf  Hz\n", this->constants.EXTERNAL_FREQUENCY);
     printf("\tEXTERNAL_AMPLITUDE_dbm                :  %lf +/- dbm\n", this->constants.EXTERNAL_AMPLITUDE_DBM);
     printf("\tREFERENCE_LEVEL_MAX_dbm               :  %lf  dbm\n", this->constants.REFERENCE_LEVEL_MAX_DBM);

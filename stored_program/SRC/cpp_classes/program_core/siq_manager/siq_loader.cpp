@@ -11,7 +11,7 @@
 
 #include "siq_manager_class.h"
 
-#if defined (DEBUG_SIQ_LOADER_HEADER) || (DEBUG_SIQ_LOADER_DATA)
+#if (defined (DEBUG_SIQ_LOADER_HEADER) || defined (DEBUG_SIQ_LOADER_DATA))
     static char transfer[BUF_D];
 #endif
 
@@ -39,7 +39,7 @@ void siq_manager_class::load_file
         return;
     }
     
-    #if defined (DEBUG_SIQ_LOADER_HEADER) || (DEBUG_SIQ_LOADER_DATA)
+    #if (defined (DEBUG_SIQ_LOADER_HEADER) || defined (DEBUG_SIQ_LOADER_DATA))
         if (snprintf(transfer, BUF_D-1, "%s", input_file) <= 0)
         {
             this->_set_error_code(snprintf_failed);
@@ -1033,7 +1033,7 @@ void siq_manager_class::_populate_data()
         this->_vars.data_block_cplx32_v.clear();
         this->_vars.data_block_cplx32_v.resize(static_cast<std::size_t>(this->_vars.f8_iq_sample_pairs));
         idx_limit = this->_vars.data_block_cplx32_v.size();
-        if (idx_limit > INIT_STL)
+        if (idx_limit > INIT_STL_LENGTH)
         {
              while(idx < idx_limit)
             {
@@ -1074,7 +1074,7 @@ void siq_manager_class::_populate_data()
         this->_vars.data_block_cplxint32_v.clear();
         this->_vars.data_block_cplxint32_v.resize(static_cast<std::size_t>(this->_vars.f8_iq_sample_pairs));
         idx_limit = this->_vars.data_block_cplxint32_v.size();
-        if (idx_limit > INIT_STL)
+        if (idx_limit > INIT_STL_LENGTH)
         {
              while(idx < idx_limit)
             {
@@ -1114,7 +1114,7 @@ void siq_manager_class::_populate_data()
         int16_t temp = 0;
         this->_vars.data_block_cplxint16_v.resize(static_cast<std::size_t>(this->_vars.f8_iq_sample_pairs));
         idx_limit = this->_vars.data_block_cplxint16_v.size();
-        if (idx_limit > INIT_STL)
+        if (idx_limit > INIT_STL_LENGTH)
         {
              while(idx < idx_limit)
             {

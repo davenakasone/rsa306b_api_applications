@@ -90,13 +90,13 @@ class siq_manager_class
         void _check_error_code();
 
         // common helpers
-        void _init();                                    // called to place all variables into a known state
-        void _copy_vars();                               // copies contents of private struct "_vars" to public struch "vars"
+        void _init();                                          // called to place all variables into a known state
+        void _copy_vars();                                     // copies contents of private struct "_vars" to public struch "vars"
         void _verify_siq_extension(const char* input_file);    // verify that the user provided a "*.siq" file to parse  
-        void _prepare_siq_input(char* input_file);       // opens a "*.siq" file for reading
-        void _conclude_siq_input();                      // closes a "*.siq" file when reading is complete
-        void _prepare_any_output(char* output_file);     // opens any file for text-writing
-        void _conclude_any_output();                     // closes any file when text-writing is complete
+        void _prepare_siq_input(char* input_file);             // opens a "*.siq" file for reading
+        void _conclude_siq_input();                            // closes a "*.siq" file when reading is complete
+        void _prepare_any_output(char* output_file);           // opens any file for text-writing
+        void _conclude_any_output();                           // closes any file when text-writing is complete
 
         // for loading and parsing *.siq files           
         void _populate_header();    // helps "_load_file()" parse header

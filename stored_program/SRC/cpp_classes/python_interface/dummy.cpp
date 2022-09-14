@@ -3,9 +3,6 @@
 */
 
 #include "dummy.h"
-// extern rsa306b_class X_rsa;
-// extern r3f_manager_class X_r3f;
-// extern siq_manager_class X_siq;
 
 #ifdef __cplusplus 
 extern "C"      

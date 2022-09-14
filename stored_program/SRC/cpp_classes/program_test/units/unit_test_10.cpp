@@ -16,8 +16,6 @@
 
 #define UT10_a 1    // basic test, get, set, print
 #define UT10_b 2    // testing 3 data acquisition methods
-// extern rsa306b_class X_rsa;
-// extern timer_class X_timer;
 
 
 void unit_test_10 (void)
@@ -51,7 +49,7 @@ printf("\n%s()  ,  API group 'IQBLK'\n", __func__);
         #endif
         #ifdef UT10_b
 
-            strcpy(X_rsa.vars.gp.helper, X_rsa.constants.DATA_DIRECTORY_PROCESSED);
+            strcpy(X_rsa.vars.gp.helper, DATA_DIRECTORY_PROCESSED);
             X_rsa.vars.config.center_frequency_hz = 99.5e6;
             X_rsa.vars.config.reference_level_dbm = -35.2;
             X_rsa.config_set_vars();
@@ -65,7 +63,7 @@ printf("\n%s()  ,  API group 'IQBLK'\n", __func__);
             X_rsa.iqblk_set_vars();
 
             printf("\n");
-            X_timer.time_split_start(); 
+            //X_timer.time_split_start(); 
             for (int ii = 0; ii < CYCLEZ; ii ++)
             {
                 X_rsa.vars.iqblk.getter = X_rsa.constants.IQBLK_GET_IQ_DATA;
@@ -86,10 +84,10 @@ printf("\n%s()  ,  API group 'IQBLK'\n", __func__);
                     TEST_INDEX, 
                     X_rsa.vars.iqblk.cplx32_v[TEST_INDEX].q);
             }
-            X_timer.time_split_stop();
-            X_timer.print_time_split(true);
-            printf("\n");
-            X_timer.time_split_start(); 
+            // X_timer.time_split_stop();
+            // X_timer.print_time_split(true);
+            // printf("\n");
+            // X_timer.time_split_start(); 
             for (int ii = 0; ii < CYCLEZ; ii ++)
             {
                 X_rsa.vars.iqblk.getter = X_rsa.constants.IQBLK_GET_IQ_DATA_CPLX;
@@ -110,10 +108,10 @@ printf("\n%s()  ,  API group 'IQBLK'\n", __func__);
                     TEST_INDEX, 
                     X_rsa.vars.iqblk.cplx32_v[TEST_INDEX].q);
             }
-            X_timer.time_split_stop();
-            X_timer.print_time_split(true);
-            printf("\n");
-            X_timer.time_split_start(); 
+            // X_timer.time_split_stop();
+            // X_timer.print_time_split(true);
+            // printf("\n");
+            // X_timer.time_split_start(); 
             for (int ii = 0; ii < CYCLEZ; ii ++)
             {
                 X_rsa.vars.iqblk.getter = X_rsa.constants.IQBLK_GET_IQ_DATA_DEINETERLEAVED;
@@ -134,14 +132,14 @@ printf("\n%s()  ,  API group 'IQBLK'\n", __func__);
                     TEST_INDEX, 
                     X_rsa.vars.iqblk.cplx32_v[TEST_INDEX].q);
             }
-            X_timer.time_split_stop();
-            X_timer.print_time_split(true);
-            printf("\n");
+            // X_timer.time_split_stop();
+            // X_timer.print_time_split(true);
+            // printf("\n");
         #endif
 
 ////~~~~
 #ifdef WAIT_ENTER_CLEAR
-X_timer.print_running_time(true);
+// X_timer.print_running_time(true);
 printf("\n%s()  ,  test complete\n", __func__);
 wait_enter_clear();
 #endif

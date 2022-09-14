@@ -126,7 +126,7 @@ void rsa306b_class::iqstream_make_csv
         #endif
         return;
     }
-    if (this->_vars.iqstream.cplx32_v.size() <= this->constants.INIT_STL_LENGTH      &&
+    if (this->_vars.iqstream.cplx32_v.size() <= INIT_STL_LENGTH                      &&
         ( this->_vars.iqstream.datatype_select == RSA_API::IQSODT_SINGLE             ||
           this->_vars.iqstream.datatype_select == RSA_API::IQSODT_SINGLE_SCALE_INT32) )
     {
@@ -137,8 +137,8 @@ void rsa306b_class::iqstream_make_csv
         #endif
         return;
     }
-    if (this->_vars.iqstream.cplxInt32_v.size() <= this->constants.INIT_STL_LENGTH &&
-        this->_vars.iqstream.datatype_select == RSA_API::IQSODT_INT32               )
+    if (this->_vars.iqstream.cplxInt32_v.size() <= INIT_STL_LENGTH  &&
+        this->_vars.iqstream.datatype_select == RSA_API::IQSODT_INT32)
     {
         #ifdef DEBUG_MIN
             snprintf(X_ddts, sizeof(X_ddts), "cplxInt32 vector has no data");
@@ -147,8 +147,8 @@ void rsa306b_class::iqstream_make_csv
         #endif
         return;
     }
-    if (this->_vars.iqstream.cplxInt16_v.size() <= this->constants.INIT_STL_LENGTH &&
-        this->_vars.iqstream.datatype_select == RSA_API::IQSODT_INT16               )
+    if (this->_vars.iqstream.cplxInt16_v.size() <= INIT_STL_LENGTH   &&
+        this->_vars.iqstream.datatype_select == RSA_API::IQSODT_INT16 )
     {
         #ifdef DEBUG_MIN
             snprintf(X_ddts, sizeof(X_ddts), "cplxInt16 vector has no data");

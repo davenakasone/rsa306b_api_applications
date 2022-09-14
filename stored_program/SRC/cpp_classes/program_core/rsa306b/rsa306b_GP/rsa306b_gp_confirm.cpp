@@ -24,8 +24,7 @@
 void rsa306b_class::_gp_confirm_api_status()
 {
 #ifdef DEBUG_CALL_CHECKS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -82,8 +81,7 @@ void rsa306b_class::_gp_confirm_call_status()
 int rsa306b_class::_gp_confirm_return()
 {
 #ifdef DEBUG_CALL_CHECKS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -109,8 +107,7 @@ int rsa306b_class::_gp_confirm_return()
 void rsa306b_class::_gp_confirm_aquisition_code()
 {
 #ifdef DEBUG_CALL_CHECKS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
     /*

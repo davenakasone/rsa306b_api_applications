@@ -65,11 +65,10 @@ void rsa306b_class::_trig_init()
     debug_record(false);
 #endif  
 
-    this->_vars.trig.if_power_level = this->constants.INIT_DOUBLE;
-    this->_vars.trig.position_percent = this->constants.INIT_DOUBLE;
-
-    this->_vars.trig.mode_select = RSA_API::triggered;
-    this->_vars.trig.source_select = RSA_API::TriggerSourceTime;
+    this->_vars.trig.if_power_level    = INIT_DOUBLE;
+    this->_vars.trig.position_percent  = INIT_DOUBLE;
+    this->_vars.trig.mode_select       = RSA_API::triggered;
+    this->_vars.trig.source_select     = RSA_API::TriggerSourceTime;
     this->_vars.trig.transition_select = RSA_API::TriggerTransitionEither;
 
     this->_trig_copy_vars();

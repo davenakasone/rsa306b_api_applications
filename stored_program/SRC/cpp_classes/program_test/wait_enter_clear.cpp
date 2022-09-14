@@ -5,9 +5,13 @@
         control returns to "test_selector()"
 */
 
+
 #include "testz.h"
 
+
 #ifdef WAIT_ENTER_CLEAR
+
+
     void wait_enter_clear
     (
         void
@@ -26,6 +30,9 @@
         system("clear");
         sleep(1);
     }
+
+
 #endif
+
 
 ////////~~~~~~~~END>  wait_enter_clear.cpp

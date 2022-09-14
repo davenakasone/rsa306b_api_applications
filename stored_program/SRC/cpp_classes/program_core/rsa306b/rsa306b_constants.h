@@ -13,26 +13,12 @@
 #include "../control/resourcez.h"    // includes external libraries and other resources
 
 
-#define IQSTREAM_BITCHECKS 13        // IQSTREAM, status bits [0:5], [16:21], + summary, for both "*acqStatus" variables in the API group
-#define IQSTREAM_ROW_RANGES 10       // IQSTREAM, ranges to infer buffer size from current bandwidth
+constexpr int IQSTREAM_BITCHECKS =  13;    // IQSTREAM, status bits [0:5], [16:21], + summary, for both "*acqStatus" variables in the API group
+constexpr int IQSTREAM_ROW_RANGES = 10;    // IQSTREAM, ranges to infer buffer size from current bandwidth
 
 
 struct rsa306b_constants
 {
-    // status
-        const int CALL_SUCCESS                       = 7777;    // successful, non-API function calls
-        const int CALL_FAILURE                       = -777;    // failed, non-API function calls (must be different)
-
-    // initialization values and sizes
-        const char    INIT_CHAR            = 'Z';
-        const char    INIT_STR[6]          = "ZZZZZ";
-        const double  INIT_DOUBLE          = -99.123;
-        const float   INIT_FLOAT           = -99.4;
-        const int     INIT_INT             = -99;
-        const std::size_t  INIT_STL_LENGTH = 3;    // for sizing std::vector, std::queue, ...
-        const uint8_t INIT_UINT            = 0xFF;
-        const wchar_t INIT_WCHAR[6]        = L"w_str";
-
     // device limits for the RSA-306B
         const double EXTERNAL_FREQUENCY                   = 10e6;     // external reference frequency, required
         const double EXTERNAL_AMPLITUDE_DBM               = 10;       // allows +/- 10 dbm maximum amplitude  
@@ -42,8 +28,8 @@ struct rsa306b_constants
         const double SPAN_MIN_HZ                          = 100;      // smallest measurable bandwith 
         const double POSITION_PERCENT_MIN                 = 1;        // smallest trigger position percentage
         const double POSITION_PERCENT_MAX                 = 99;       // largest trigger position percentage
-        const float AUDIO_VOLUME_MAX                      = 1.0;      // maximum audio volume API will accept
-        const float AUDIO_VOLUME_MIN                      = 0.0;      // minimum audio volume API will accept
+        const float  AUDIO_VOLUME_MAX                     = 1.0;      // maximum audio volume API will accept
+        const float  AUDIO_VOLUME_MIN                     = 0.0;      // minimum audio volume API will accept
         const double AUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz = 20e6;     // highest audio demodulator API accepts
         const double AUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz = -20e6;    // highest audio demodulator API accepts
 
@@ -55,40 +41,34 @@ struct rsa306b_constants
         const size_t BYTES_PER_FRAME       = 16384;    // size of a frame, 2^14 bytes, includes footer
         //const size_t FOOTER_BYTES = 28;                // bytes per frame less 2*samples per frame
 
-    // generating output files
-        const char DATA_DIRECTORY_RAW[BUF_D]       = "../DATA/data_raw/";
-        const char DATA_DIRECTORY_PROCESSED[BUF_D] = "../DATA/data_processed/";
-        // const char DATA_DIRECTORY_RAW[BUF_D]       = "/home/unlv/Desktop/GOOGLE_DRIVE/ee497_498/DATA_IO/data_raw/";
-        // const char DATA_DIRECTORY_PROCESSED[BUF_D] = "/home/unlv/Desktop/GOOGLE_DRIVE/ee497_498/DATA_IO/data_processed/";
-
     // IFSTREAM
-        const int IFSTREAM_SUFFIX                 = -1;            // control file suffix name for IFSTREAM group, {0:increment, -1:timestamp, -2:none}
+        const int  IFSTREAM_SUFFIX                = -1;            // control file suffix name for IFSTREAM group, {0:increment, -1:timestamp, -2:none}
         const char IFSTREAM_FILE_NAME_BASE[BUF_A] = "ifstream";    // IFSTREAM base file name
-        const int IFSTREAM_MAX_MS                 = 1000;          // limit in milli-seconds for "*.r3f" file
-        const int IFSTREAM_DEFAULT_MS             = 1;            // default recording length for "*.r3f" files, in ms
-        const int IFSTREAM_DEFAULT_FILE_COUNT     = 1;             // IFSTREAM files to produce
+        const int  IFSTREAM_MAX_MS                = 1000;          // limit in milli-seconds for "*.r3f" file
+        const int  IFSTREAM_DEFAULT_MS            = 1;             // default recording length for "*.r3f" files, in ms
+        const int  IFSTREAM_DEFAULT_FILE_COUNT    = 1;             // IFSTREAM files to produce
 
     // IQBLK constants...clean this acqStatus
-        const uint8_t IQBLK_GET_IQ_DATA                = 0;    // selects RSA_API::IQBLK_GetIQData() for acquisition
-        const uint8_t IQBLK_GET_IQ_DATA_CPLX           = 1;    // selects RSA_API::IQBLK_GetIQDataCplx() for acquisition
-        const uint8_t IQBLK_GET_IQ_DATA_DEINETERLEAVED = 2;    // selects RSA_API::IQBLK_GetIQDataDeinterleaved() for acquisition
-        const char IQBLK_BIT_0[BUF_B]                  = "*ADC input over range during acquisition*";
-        const char IQBLK_BIT_1[BUF_B]                  = "*Frequency reference unlocked during acquisition*";
-        const char IQBLK_BIT_2[BUF_B]                  = "*oscillator unlocked / power failure during acquisition*";
-        const char IQBLK_BIT_3[BUF_B]                  = "*USB frame transfer error detected during acquisition*";
-        const int IQBLK_MIN_PAIRS                      = 2;
-        const int IQBLK_STARTING_PAIRS                 = 1000;
-        const int IQBLK_GETTER_DEFAULT                 = IQBLK_GET_IQ_DATA_DEINETERLEAVED;
-        const double IQBLK_STARTING_BANDWIDTH          = 1e6;
+        const uint8_t  IQBLK_GET_IQ_DATA                = 0;    // selects RSA_API::IQBLK_GetIQData() for acquisition
+        const uint8_t  IQBLK_GET_IQ_DATA_CPLX           = 1;    // selects RSA_API::IQBLK_GetIQDataCplx() for acquisition
+        const uint8_t  IQBLK_GET_IQ_DATA_DEINETERLEAVED = 2;    // selects RSA_API::IQBLK_GetIQDataDeinterleaved() for acquisition
+        const char     IQBLK_BIT_0[BUF_B]               = "*ADC input over range during acquisition*";
+        const char     IQBLK_BIT_1[BUF_B]               = "*Frequency reference unlocked during acquisition*";
+        const char     IQBLK_BIT_2[BUF_B]               = "*oscillator unlocked / power failure during acquisition*";
+        const char     IQBLK_BIT_3[BUF_B]               = "*USB frame transfer error detected during acquisition*";
+        const int      IQBLK_MIN_PAIRS                  = 2;
+        const int      IQBLK_STARTING_PAIRS             = 1000;
+        const int      IQBLK_GETTER_DEFAULT             = IQBLK_GET_IQ_DATA_DEINETERLEAVED;
+        const double   IQBLK_STARTING_BANDWIDTH         = 1e6;
+        const uint32_t ACQ_STATUS_SUCCESS               = 0;    // IQBLK,  successful value for API bit checks
+        const char     ACQ_STATUS_SUCCESS_MESSAGE[BUF_B] = "GOOD BITCHECK";  
         //const int IQBLK_MAX_PAIRS = 104857600;
-        const uint32_t ACQ_STATUS_SUCCESS            = 0;    // IQBLK,  successful value for API bit checks
-        const char ACQ_STATUS_SUCCESS_MESSAGE[BUF_B] = "GOOD BITCHECK";  
 
     // IQSTREAM constants
-        const int IQSTREAM_MSEC_MIN              = 1;                                    // if this is 0, then infinite recording occurs, p79
-        const int IQSTREAM_MSEC_MAX              = 1000;                                 // limit for disk space, the files are huge
-        const char IQSTREAM_FILENAME_BASE[BUF_C] = "./program_test/data/outputs_sig";    // for writing output
-        const int IQSTREAM_TIMEOUT_MS            = 100;
+        const int  IQSTREAM_MSEC_MIN             = 1;             // if this is 0, then infinite recording occurs, p79
+        const int  IQSTREAM_MSEC_MAX             = 1000;          // limit for disk space, the files are huge
+        const char IQSTREAM_FILENAME_BASE[BUF_C] = "iqstream";    // for writing output
+        const int  IQSTREAM_TIMEOUT_MS           = 100;
         // setting the buffer size, direct acquisition, see p82
         const int IQSTREAM_BUFFER_SIZE_LARGE  = 65536;                            // for 2.5 MHz to 40 MHz
         const int IQSTREAM_BUFFER_SIZE_MEDIUM = 32768;                            // for 96765.625 Hz to 2.5 MHz

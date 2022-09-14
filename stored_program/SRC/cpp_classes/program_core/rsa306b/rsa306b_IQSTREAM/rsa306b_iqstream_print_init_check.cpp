@@ -117,57 +117,57 @@ void rsa306b_class::_iqstream_init()
 
     this->_vars.iqstream.is_enabled = false;
 
-    this->_vars.iqstream.bandwidth     = this->constants.INIT_DOUBLE;
-    this->_vars.iqstream.bandwidth_max = this->constants.INIT_DOUBLE;
-    this->_vars.iqstream.bandwidth_min = this->constants.INIT_DOUBLE;
-    this->_vars.iqstream.sample_rate   = this->constants.INIT_DOUBLE;
+    this->_vars.iqstream.bandwidth     = INIT_DOUBLE;
+    this->_vars.iqstream.bandwidth_max = INIT_DOUBLE;
+    this->_vars.iqstream.bandwidth_min = INIT_DOUBLE;
+    this->_vars.iqstream.sample_rate   = INIT_DOUBLE;
 
-    this->_vars.iqstream.pairs_max         = this->constants.INIT_INT;
-    this->_vars.iqstream.record_time_ms    = this->constants.INIT_INT;
-    this->_vars.iqstream.suffix_control    = this->constants.INIT_INT;
+    this->_vars.iqstream.pairs_max         = INIT_INT;
+    this->_vars.iqstream.record_time_ms    = INIT_INT;
+    this->_vars.iqstream.suffix_control    = INIT_INT;
     this->_vars.iqstream.buffer_multiplier = this->constants.IQSTREAM_BUFFER_X_6;
-    this->_vars.iqstream.pairs_copied      = this->constants.INIT_INT;
+    this->_vars.iqstream.pairs_copied      = INIT_INT;
 
     memset(this->_vars.iqstream.filename_base, '\0', BUF_C);
-    strcpy(this->_vars.iqstream.filename_base, this->constants.INIT_STR);
+    strcpy(this->_vars.iqstream.filename_base, this->constants.INIT_CHARP);
     memset(this->_vars.iqstream.fileinfo_type.filenames_0, '\0', BUF_E);
     memset(this->_vars.iqstream.fileinfo_type.filenames_0, '\0', BUF_E);
-    strcpy(this->_vars.iqstream.fileinfo_type.filenames_0, this->constants.INIT_STR);
-    strcpy(this->_vars.iqstream.fileinfo_type.filenames_0, this->constants.INIT_STR);
+    strcpy(this->_vars.iqstream.fileinfo_type.filenames_0, INIT_CHARP);
+    strcpy(this->_vars.iqstream.fileinfo_type.filenames_0, INIT_CHARP);
 
     for (int ii = 0; ii < IQSTREAM_BITCHECKS; ii++)
     {
         memset(this->_vars.iqstream.acqStatus_message[ii], '\0', BUF_C);
-        strncpy(this->_vars.iqstream.acqStatus_message[ii], this->constants.INIT_STR, BUF_C);
+        strncpy(this->_vars.iqstream.acqStatus_message[ii], INIT_CHARP, BUF_C);
     }
 
-    this->_vars.iqstream.cplx32_v.resize(this->constants.INIT_STL_LENGTH);
-    this->_vars.iqstream.cplxInt16_v.resize(this->constants.INIT_STL_LENGTH);
-    this->_vars.iqstream.cplxInt32_v.resize(this->constants.INIT_STL_LENGTH);
-    for (std::size_t ii = 0; ii < this->constants.INIT_STL_LENGTH; ii++)
+    this->_vars.iqstream.cplx32_v.resize(INIT_STL_LENGTH);
+    this->_vars.iqstream.cplxInt16_v.resize(INIT_STL_LENGTH);
+    this->_vars.iqstream.cplxInt32_v.resize(INIT_STL_LENGTH);
+    for (std::size_t ii = 0; ii < INIT_STL_LENGTH; ii++)
     {
-        this->_vars.iqstream.cplx32_v[ii].i    = this->constants.INIT_FLOAT;
-        this->_vars.iqstream.cplx32_v[ii].q    = this->constants.INIT_FLOAT;
-        this->_vars.iqstream.cplxInt16_v[ii].i = this->constants.INIT_UINT;
-        this->_vars.iqstream.cplxInt16_v[ii].q = this->constants.INIT_UINT;
-        this->_vars.iqstream.cplxInt32_v[ii].i = this->constants.INIT_UINT;
-        this->_vars.iqstream.cplxInt32_v[ii].q = this->constants.INIT_UINT;
+        this->_vars.iqstream.cplx32_v[ii].i    = INIT_FLOAT;
+        this->_vars.iqstream.cplx32_v[ii].q    = INIT_FLOAT;
+        this->_vars.iqstream.cplxInt16_v[ii].i = INIT_UINT;
+        this->_vars.iqstream.cplxInt16_v[ii].q = INIT_UINT;
+        this->_vars.iqstream.cplxInt32_v[ii].i = INIT_UINT;
+        this->_vars.iqstream.cplxInt32_v[ii].q = INIT_UINT;
     }
 
     this->_vars.iqstream.destination_select = RSA_API::IQSOD_FILE_SIQ;
     this->_vars.iqstream.datatype_select    = RSA_API::IQSODT_SINGLE;
 
-    this->_vars.iqstream.info_type.acqStatus      = this->constants.INIT_UINT;
-    this->_vars.iqstream.info_type.scaleFactor    = this->constants.INIT_DOUBLE;
-    this->_vars.iqstream.info_type.timestamp      = this->constants.INIT_UINT;
-    this->_vars.iqstream.info_type.triggerCount   = this->constants.INIT_INT;
+    this->_vars.iqstream.info_type.acqStatus      = INIT_UINT;
+    this->_vars.iqstream.info_type.scaleFactor    = INIT_DOUBLE;
+    this->_vars.iqstream.info_type.timestamp      = INIT_UINT;
+    this->_vars.iqstream.info_type.triggerCount   = INIT_INT;
     this->_vars.iqstream.info_type.triggerIndices = NULL;
 
-    this->_vars.iqstream.fileinfo_type.acqStatus          = this->constants.INIT_UINT;
-    this->_vars.iqstream.fileinfo_type.numberSamples      = this->constants.INIT_UINT;
-    this->_vars.iqstream.fileinfo_type.sample0Timestamp   = this->constants.INIT_UINT;
-    this->_vars.iqstream.fileinfo_type.triggerSampleIndex = this->constants.INIT_UINT;
-    this->_vars.iqstream.fileinfo_type.triggerTimestamp   = this->constants.INIT_UINT;
+    this->_vars.iqstream.fileinfo_type.acqStatus          = INIT_UINT;
+    this->_vars.iqstream.fileinfo_type.numberSamples      = INIT_UINT;
+    this->_vars.iqstream.fileinfo_type.sample0Timestamp   = INIT_UINT;
+    this->_vars.iqstream.fileinfo_type.triggerSampleIndex = INIT_UINT;
+    this->_vars.iqstream.fileinfo_type.triggerTimestamp   = INIT_UINT;
     this->_vars.iqstream.fileinfo_type.filenames          = NULL;
 
     this->_iqstream_copy_vars();
@@ -194,7 +194,7 @@ void rsa306b_class::_iqstream_bitcheck
     for (int ii = 0; ii < IQSTREAM_BITCHECKS; ii++)
     {
         memset(this->_vars.iqstream.acqStatus_message[ii], '\0', BUF_C);
-        strcpy(this->_vars.iqstream.acqStatus_message[ii], this->constants.INIT_STR);
+        strcpy(this->_vars.iqstream.acqStatus_message[ii], INIT_CHARP);
     }
     strcpy(this->_vars.iqstream.acqStatus_message[IQSTREAM_BITCHECKS-1], 
         this->constants.IQSTREAM_FAIL_BITS[this->constants.IQSTREAM_BIT_SUMMARY]);

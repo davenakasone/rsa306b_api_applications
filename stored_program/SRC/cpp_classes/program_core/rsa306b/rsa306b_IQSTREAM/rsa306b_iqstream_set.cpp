@@ -324,7 +324,7 @@ void rsa306b_class::_iqstream_set_iq_data_buffer_size()
         #endif
         return;    
     }
-    this->_vars.iqstream.pairs_max = this->constants.INIT_INT;
+    this->_vars.iqstream.pairs_max = INIT_INT;
     for (int ii = 0; ii < IQSTREAM_ROW_RANGES; ii++)
     {
         if (ii < IQSTREAM_ROW_RANGES-2)
@@ -352,7 +352,7 @@ void rsa306b_class::_iqstream_set_iq_data_buffer_size()
             }
         }
     }
-    if (this->_vars.iqstream.pairs_max == this->constants.INIT_INT)
+    if (this->_vars.iqstream.pairs_max == INIT_INT)
     {
         #ifdef DEBUG_MIN
             snprintf(X_ddts, sizeof(X_ddts), "failed to set requsted pairs");

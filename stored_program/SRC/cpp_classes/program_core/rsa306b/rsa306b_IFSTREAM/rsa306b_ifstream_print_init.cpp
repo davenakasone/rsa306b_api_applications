@@ -90,42 +90,42 @@ void rsa306b_class::_ifstream_init()
     this->_vars.ifstream.is_active                   = false;
 
 // variables for output file handling
-    strcpy(this->_vars.ifstream.file_path     , this->constants.DATA_DIRECTORY_RAW);
+    strcpy(this->_vars.ifstream.file_path     , DATA_DIRECTORY_RAW);
     strcpy(this->_vars.ifstream.file_name_base, this->constants.IFSTREAM_FILE_NAME_BASE);
     this->_vars.ifstream.file_name_suffix = this->constants.IFSTREAM_SUFFIX;
     this->_vars.ifstream.file_length_ms   = this->constants.IFSTREAM_DEFAULT_MS;
     this->_vars.ifstream.file_count       = this->constants.IFSTREAM_DEFAULT_FILE_COUNT;
 
 // variables for acquiring IF stream directly
-    this->_vars.ifstream.if_data_length                = this->constants.INIT_INT;
-    this->_vars.ifstream.data_info_type.acqStatus      = this->constants.INIT_UINT;
-    this->_vars.ifstream.data_info_type.timestamp      = this->constants.INIT_UINT;
-    this->_vars.ifstream.data_info_type.triggerCount   = this->constants.INIT_INT;
+    this->_vars.ifstream.if_data_length                = INIT_INT;
+    this->_vars.ifstream.data_info_type.acqStatus      = INIT_UINT;
+    this->_vars.ifstream.data_info_type.timestamp      = INIT_UINT;
+    this->_vars.ifstream.data_info_type.triggerCount   = INIT_INT;
     this->_vars.ifstream.data_info_type.triggerIndices = NULL;
     this->_vars.ifstream.adc_data_v.resize(this->constants.SAMPLES_IN_BUFFER);
 
-    this->_vars.ifstream.frame_bytes      = this->constants.INIT_INT;
-    this->_vars.ifstream.number_of_frames = this->constants.INIT_INT;
+    this->_vars.ifstream.frame_bytes      = INIT_INT;
+    this->_vars.ifstream.number_of_frames = INIT_INT;
     this->_vars.ifstream.framed_adc_data_v.resize(this->constants.FRAMES_IN_BUFFER);
     for (size_t ii = 0; ii < this->constants.FRAMES_IN_BUFFER; ii++)
     {
         this->_vars.ifstream.framed_adc_data_v[ii].resize(
-            this->constants.ADC_SAMPLES_PER_FRAME, this->constants.INIT_UINT);
+            this->constants.ADC_SAMPLES_PER_FRAME, INIT_UINT);
     }
     
-    this->_vars.ifstream.buffer_size_bytes             = this->constants.INIT_INT;
-    this->_vars.ifstream.number_of_samples             = this->constants.INIT_INT;
-    this->_vars.ifstream.points_in_equalization_buffer = this->constants.INIT_INT;
+    this->_vars.ifstream.buffer_size_bytes             = INIT_INT;
+    this->_vars.ifstream.number_of_samples             = INIT_INT;
+    this->_vars.ifstream.points_in_equalization_buffer = INIT_INT;
 
-    this->_vars.ifstream.eq_frequency_v.resize(this->constants.CORRECTION_POINTS, this->constants.INIT_FLOAT);
-    this->_vars.ifstream.eq_amplitude_v.resize(this->constants.CORRECTION_POINTS, this->constants.INIT_FLOAT);
-    this->_vars.ifstream.eq_phase_v.resize(this->constants.CORRECTION_POINTS    , this->constants.INIT_FLOAT);
+    this->_vars.ifstream.eq_frequency_v.resize(this->constants.CORRECTION_POINTS, INIT_FLOAT);
+    this->_vars.ifstream.eq_amplitude_v.resize(this->constants.CORRECTION_POINTS, INIT_FLOAT);
+    this->_vars.ifstream.eq_phase_v.resize(this->constants.CORRECTION_POINTS    , INIT_FLOAT);
     
-    this->_vars.ifstream.scale_factor        = this->constants.INIT_DOUBLE;
-    this->_vars.ifstream.scale_frequency     = this->constants.INIT_DOUBLE;
-    this->_vars.ifstream.if_bandwidth_hz     = this->constants.INIT_DOUBLE;
-    this->_vars.ifstream.samples_per_second  = this->constants.INIT_DOUBLE;
-    this->_vars.ifstream.if_center_frequency = this->constants.INIT_DOUBLE;
+    this->_vars.ifstream.scale_factor        = INIT_DOUBLE;
+    this->_vars.ifstream.scale_frequency     = INIT_DOUBLE;
+    this->_vars.ifstream.if_bandwidth_hz     = INIT_DOUBLE;
+    this->_vars.ifstream.samples_per_second  = INIT_DOUBLE;
+    this->_vars.ifstream.if_center_frequency = INIT_DOUBLE;
 
     this->_ifstream_copy_vars();
 }

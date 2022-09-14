@@ -18,16 +18,13 @@
 #define UT9_c 3    // make several output files and process them to raw ADC,    macro controls repititions
 #define UT9_d 4    // ADC data direct to client, entire buffer,                 macro controls repititions
 #define UT9_e 5    // ADC data direct to client, entire buffer, frame by frame, macro controls repititions
-// extern rsa306b_class X_rsa;
-// extern r3f_manager_class X_r3f;
-// extern timer_class X_timer;
 
 
 void unit_test_9 (void)
 {
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  API group 'IFSTREAM'\n", __func__);
-X_timer.time_split_start();                      
+// X_timer.time_split_start();                      
 #endif    
 ////~~~~
 
@@ -64,7 +61,7 @@ X_timer.time_split_start();
         X_rsa.vars.ifstream.file_name_suffix            = RSA_API::IFSSDFN_SUFFIX_TIMESTAMP;
         X_rsa.vars.ifstream.output_configuration_select = RSA_API::IFSOD_FILE_R3F;
         strcpy(X_rsa.vars.ifstream.file_name_base, X_rsa.constants.IFSTREAM_FILE_NAME_BASE);
-        strcpy(X_rsa.vars.ifstream.file_path, X_rsa.constants.DATA_DIRECTORY_RAW);
+        strcpy(X_rsa.vars.ifstream.file_path, DATA_DIRECTORY_RAW);
         X_rsa.ifstream_set_vars();
 
         X_rsa.ifstream_record_file(); // using default settings
@@ -91,7 +88,7 @@ X_timer.time_split_start();
             {
                 X_rsa.ifstream_record_file();
             }
-            X_r3f.prepare_plot_from_adc(X_rsa.vars.ifstream.file_path, X_rsa.constants.DATA_DIRECTORY_PROCESSED);
+            X_r3f.prepare_plot_from_adc(X_rsa.vars.ifstream.file_path, DATA_DIRECTORY_PROCESSED);
         
         #if ((defined (UT9_d) || defined (UT9_e)) && (defined (WAIT_ENTER_CLEAR)))
             wait_enter_clear();
@@ -111,7 +108,7 @@ X_timer.time_split_start();
             for (int ii = 0; ii < UT9_d; ii++)
             {
                 sprintf(X_rsa.vars.gp.helper, "%sgotIFdata_%d.csv", 
-                    X_rsa.constants.DATA_DIRECTORY_PROCESSED,
+                    DATA_DIRECTORY_PROCESSED,
                     ii);
                 fptr = fopen(X_rsa.vars.gp.helper, "w");
                 sprintf(X_rsa.vars.gp.helper, "ADC\n");
@@ -158,7 +155,7 @@ X_timer.time_split_start();
             for (int ii = 0; ii < UT9_e; ii++)
             {
                 sprintf(X_rsa.vars.gp.helper, "%s/IFdata_frame_%d.csv", 
-                    X_rsa.constants.DATA_DIRECTORY_PROCESSED,
+                    DATA_DIRECTORY_PROCESSED,
                     ii);
                 fptr = fopen(X_rsa.vars.gp.helper, "w");
                 sprintf(X_rsa.vars.gp.helper, "ADC\n");
@@ -195,8 +192,8 @@ X_timer.time_split_start();
 
 ////~~~~
 #ifdef WAIT_ENTER_CLEAR
-X_timer.time_split_stop();
-X_timer.print_both();
+// X_timer.time_split_stop();
+// X_timer.print_both();
 printf("\n%s()  ,  test complete\n", __func__);
 wait_enter_clear();
 #endif

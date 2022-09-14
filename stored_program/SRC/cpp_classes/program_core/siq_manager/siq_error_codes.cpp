@@ -24,8 +24,7 @@
 bool siq_manager_class::execution_success()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
     if (this->_ec != no_error)
@@ -50,8 +49,7 @@ void siq_manager_class::_set_error_code
 )
 {
 #ifdef DEBUG_CALL_CHECKS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -76,8 +74,7 @@ void siq_manager_class::_set_error_code
 void siq_manager_class::_check_error_code()
 {
 #ifdef DEBUG_CALL_CHECKS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 

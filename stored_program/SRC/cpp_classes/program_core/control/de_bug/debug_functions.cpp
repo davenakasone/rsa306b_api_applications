@@ -169,7 +169,7 @@ void debug_record(bool force_print)
         fputs(temp, X_dfp);
         if (force_print == true)
         {
-            printf("%s", X_dstr);
+            printf("%s", temp);
         }
     #endif
 

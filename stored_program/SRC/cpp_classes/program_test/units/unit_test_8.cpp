@@ -14,15 +14,13 @@
 #define UT8_b 2    // read a spectrum trace, find peak
 #define UT8_c 3    // read a spectrum trace, write to csv
 #define UT8_d 4    // scan, and move, make csv
-// extern rsa306b_class X_rsa;
-// extern timer_class X_timer;
 
 
 void unit_test_8 (void)
 {
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  API group 'SPECTRUM'\n", __func__);
-X_timer.time_split_start();                      
+// X_timer.time_split_start();                      
 #endif    
 ////~~~~
 
@@ -100,7 +98,7 @@ X_timer.time_split_start();
                 X_rsa.vars.spectrum.peak_index[0],
                 X_rsa.vars.spectrum.array_power[0][X_rsa.vars.spectrum.peak_index[0]]);
             X_rsa.spectrum_write_csv();
-            printf("\nsee the CSV that got made:  %s...\n", X_rsa.constants.DATA_DIRECTORY_PROCESSED);
+            printf("\nsee the CSV that got made:  %s...\n", DATA_DIRECTORY_PROCESSED);
         #if ((defined (UT8_d)) && (defined (WAIT_ENTER_CLEAR)))
             wait_enter_clear();
         #endif
@@ -136,8 +134,8 @@ X_timer.time_split_start();
 
 ////~~~~
 #ifdef WAIT_ENTER_CLEAR
-X_timer.time_split_stop();
-X_timer.print_both();
+// X_timer.time_split_stop();
+// X_timer.print_both();
 printf("\n%s()  ,  test complete\n", __func__);
 wait_enter_clear();
 #endif

@@ -6,16 +6,13 @@
 */
 
 #include "../testz.h"
-// extern rsa306b_class X_rsa;
-// extern r3f_manager_class X_r3f;
-// extern timer_class X_timer;
 
 
 void task_997()
 {
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  DSP applications\n", __func__);
-X_timer.time_split_start();                      
+//X_timer.time_split_start();                      
 #endif    
 ////~~~~
 
@@ -70,7 +67,7 @@ X_timer.time_split_start();
     X_rsa.vars.ifstream.file_length_ms              = 30;
     X_rsa.vars.ifstream.file_name_suffix            = RSA_API::IFSSDFN_SUFFIX_NONE;
     X_rsa.vars.ifstream.output_configuration_select = RSA_API::IFSOD_FILE_R3F;
-    strcpy(X_rsa.vars.ifstream.file_path, X_rsa.constants.DATA_DIRECTORY_RAW);
+    strcpy(X_rsa.vars.ifstream.file_path, DATA_DIRECTORY_RAW);
     strcpy(X_rsa.vars.ifstream.file_name_base, "task997_");
     X_rsa.ifstream_set_vars();
     X_rsa.ifstream_record_file();
@@ -80,32 +77,32 @@ X_timer.time_split_start();
         X_rsa.vars.ifstream.file_path, 
         X_rsa.vars.ifstream.file_name_base);
     snprintf(X_rsa.vars.gp.holder, BUF_F-1, "%s%s_decoded.txt", 
-        X_rsa.constants.DATA_DIRECTORY_PROCESSED,
+        DATA_DIRECTORY_PROCESSED,
         X_rsa.vars.ifstream.file_name_base);
     X_r3f.file_decode(X_rsa.vars.gp.helper, X_rsa.vars.gp.holder, 0, 5000, false);
 
     X_r3f.prepare_plot_from_adc(X_rsa.vars.ifstream.file_path, 
-        X_rsa.constants.DATA_DIRECTORY_PROCESSED);
+        DATA_DIRECTORY_PROCESSED);
 
     snprintf(X_rsa.vars.gp.holder, BUF_F-1, "%s%s_processed.txt", 
-        X_rsa.constants.DATA_DIRECTORY_PROCESSED,
+        DATA_DIRECTORY_PROCESSED,
         X_rsa.vars.ifstream.file_name_base);
     X_r3f.file_process(X_rsa.vars.gp.helper, X_rsa.vars.gp.holder, false);
 
     snprintf(X_rsa.vars.gp.holder, BUF_F-1, "%s%s_IQplot.txt", 
-        X_rsa.constants.DATA_DIRECTORY_PROCESSED,
+        DATA_DIRECTORY_PROCESSED,
         X_rsa.vars.ifstream.file_name_base);
     X_r3f.prepare_plot_from_iq(X_rsa.vars.gp.helper, X_rsa.vars.gp.holder);
     
     snprintf(X_rsa.vars.gp.holder, BUF_F-1, "%s%s_header.txt", 
-        X_rsa.constants.DATA_DIRECTORY_PROCESSED,
+        DATA_DIRECTORY_PROCESSED,
         X_rsa.vars.ifstream.file_name_base);
     X_r3f.prepare_plot_from_header(X_rsa.vars.gp.holder);
 
 ////~~~~
 #ifdef WAIT_ENTER_CLEAR
-X_timer.time_split_stop();
-X_timer.print_both();
+// X_timer.time_split_stop();
+// X_timer.print_both();
 printf("\n%s()  ,  demonstration complete\n", __func__);
 wait_enter_clear();
 #endif

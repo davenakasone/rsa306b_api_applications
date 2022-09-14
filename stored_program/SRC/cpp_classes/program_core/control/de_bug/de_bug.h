@@ -24,8 +24,6 @@
         extern clock_t X_dstart;
     #endif
 
-    const int ACTIVE_OBJECTS = 4;    // tracks active object instances to manage constructor/destructor calls
-
     void debug_init();                      // prepare program for debugging feedback
     void debug_stop();                      // end the debug session
     char* debug_dts();                      // places current date-time-stamp in X_ddts

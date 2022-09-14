@@ -59,7 +59,7 @@ void rsa306b_class::_audio_init()
 
     for (int ii = 0; ii < AUDIO_DATA_LENGTH; ii++)
     {
-        this->_vars.audio.data[ii] = this->constants.INIT_INT;
+        this->_vars.audio.data[ii] = INIT_INT;
     }
 
     this->_vars.audio.data_samples_acquired  = 0;

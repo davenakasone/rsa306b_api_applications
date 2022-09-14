@@ -680,7 +680,8 @@
 #define H_rsa306b_class
 
 
-#include "rsa306b_struct.h"    
+#include "rsa306b_struct.h" 
+#include "../common_utility/common_utility.h"   
 #ifdef DE_BUG
     #include "../control/de_bug/de_bug.h"
 #endif
@@ -692,8 +693,8 @@ class rsa306b_class
     public :
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        rsa306b_struct vars;                  // public variables
-        //rsa306b_constants_class constants;    // important constants for the spectrum analyzer
+        rsa306b_struct vars;            // public variables, passed by 3/4 buffer
+        common_utility cutil;           // public class instance, by composition, for common utility needs
         rsa306b_constants constants;    // important constants for the spectrum analyzer
 
     // general purpose

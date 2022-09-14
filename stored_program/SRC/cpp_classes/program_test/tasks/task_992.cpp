@@ -9,8 +9,7 @@
 */
 
 #include "../testz.h"
-// extern rsa306b_class X_rsa;
-// extern siq_manager_class X_siq;
+
 
 static const double CONFIG_DBM         = -44.4;                                        // select a power level for the data acquisition, in dBm
 static const double CONFIG_CF          = 100.0e6;                                      // select a center frequency for the data acquisition, in Hz
@@ -28,7 +27,7 @@ void task_992()
 {
     printf("\n%s()  ,  testing and making the 'siq_manager'\n", __func__);
     {
-        timer_class cpu;
+        //timer_class cpu;
         X_rsa.device_connect();
 
         // make initial device settings
@@ -82,7 +81,7 @@ static void basic(siq_manager_class* siq, rsa306b_class* rsa)
     printf("\nthe file made has :  %ld  bytes\n",
         siq->get_file_byte_length(rsa->vars.iqstream.fileinfo_type.filenames_0));
     siq->decode_and_print(rsa->vars.iqstream.fileinfo_type.filenames_0, 0, 9);
-    sprintf(rsa->vars.gp.helper, "%s_decoded.txt", rsa->constants.DATA_DIRECTORY_PROCESSED);
+    sprintf(rsa->vars.gp.helper, "%s_decoded.txt", DATA_DIRECTORY_PROCESSED);
     siq->decode_and_write(rsa->vars.iqstream.fileinfo_type.filenames_0, rsa->vars.gp.helper, 0, 0);
 
     siq->load_file(rsa->vars.iqstream.fileinfo_type.filenames_0);
@@ -113,8 +112,8 @@ static void parse_siq_batch(siq_manager_class* siq, rsa306b_class* rsa)
         rsa->trig_set_vars();
         demo3(siq, rsa);
     }
-    strncpy(rsa->vars.gp.helper, rsa->constants.DATA_DIRECTORY_RAW, BUF_E-1);
-    strncpy(rsa->vars.gp.holder, rsa->constants.DATA_DIRECTORY_PROCESSED, BUF_E-1);
+    strncpy(rsa->vars.gp.helper, DATA_DIRECTORY_RAW, BUF_E-1);
+    strncpy(rsa->vars.gp.holder, DATA_DIRECTORY_PROCESSED, BUF_E-1);
     siq->write_iq_to_csv_batch(rsa->vars.gp.helper, NULL);
     siq->write_iq_to_csv_batch(rsa->vars.gp.helper, rsa->vars.gp.holder);
 }
@@ -170,41 +169,41 @@ static void stream_to_file(rsa306b_class* obj, bool display_outfile)
         case (RSA_API::IQSODT_SINGLE) :
             if (obj->vars.trig.mode_select == RSA_API::freeRun)
             {
-                sprintf(obj->vars.iqstream.filename_base, "%s_single_freeRun", obj->constants.DATA_DIRECTORY_RAW);
+                sprintf(obj->vars.iqstream.filename_base, "%s_single_freeRun", DATA_DIRECTORY_RAW);
             }
             else
             {
-                sprintf(obj->vars.iqstream.filename_base, "%s_single_triggered", obj->constants.DATA_DIRECTORY_RAW);
+                sprintf(obj->vars.iqstream.filename_base, "%s_single_triggered", DATA_DIRECTORY_RAW);
             }
             break;
         case (RSA_API::IQSODT_INT32) :
             if (obj->vars.trig.mode_select == RSA_API::freeRun)
             {
-                sprintf(obj->vars.iqstream.filename_base, "%s_int32_freeRun", obj->constants.DATA_DIRECTORY_RAW);
+                sprintf(obj->vars.iqstream.filename_base, "%s_int32_freeRun", DATA_DIRECTORY_RAW);
             }
             else
             {
-                sprintf(obj->vars.iqstream.filename_base, "%s_int32_triggered", obj->constants.DATA_DIRECTORY_RAW);
+                sprintf(obj->vars.iqstream.filename_base, "%s_int32_triggered", DATA_DIRECTORY_RAW);
             }
             break;
         case (RSA_API::IQSODT_INT16) :
             if (obj->vars.trig.mode_select == RSA_API::freeRun)
             {
-                sprintf(obj->vars.iqstream.filename_base, "%s_int16_freeRun", obj->constants.DATA_DIRECTORY_RAW);
+                sprintf(obj->vars.iqstream.filename_base, "%s_int16_freeRun", DATA_DIRECTORY_RAW);
             }
             else
             {
-                sprintf(obj->vars.iqstream.filename_base, "%s_int16_triggered", obj->constants.DATA_DIRECTORY_RAW);
+                sprintf(obj->vars.iqstream.filename_base, "%s_int16_triggered", DATA_DIRECTORY_RAW);
             }
             break;
         case (RSA_API::IQSODT_SINGLE_SCALE_INT32) :
             if (obj->vars.trig.mode_select == RSA_API::freeRun)
             {
-                sprintf(obj->vars.iqstream.filename_base, "%s_scaled_freeRun", obj->constants.DATA_DIRECTORY_RAW);
+                sprintf(obj->vars.iqstream.filename_base, "%s_scaled_freeRun", DATA_DIRECTORY_RAW);
             }
             else
             {
-                sprintf(obj->vars.iqstream.filename_base, "%s_scaled_triggered", obj->constants.DATA_DIRECTORY_RAW);
+                sprintf(obj->vars.iqstream.filename_base, "%s_scaled_triggered", DATA_DIRECTORY_RAW);
             }
             break;
         default :

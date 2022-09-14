@@ -75,28 +75,28 @@ void rsa306b_class::_iqblk_init()
 #endif  
 
     this->_vars.iqblk.getter                 = this->constants.IQBLK_GETTER_DEFAULT;
-    this->_vars.iqblk.actual_buffer_samples  = this->constants.INIT_INT;
+    this->_vars.iqblk.actual_buffer_samples  = INIT_INT;
     //this->_vars.iqblk.sample_pairs_requested = this->constants.INIT_INT;
-    this->_vars.iqblk.max_record_length      = this->constants.INIT_INT;      
+    this->_vars.iqblk.max_record_length      = INIT_INT;      
     this->_vars.iqblk.record_length          = this->constants.IQBLK_STARTING_PAIRS;     
 
     this->_vars.iqblk.cplx32_v.resize((size_t)this->_vars.iqblk.record_length);
     for (size_t ii = 0; ii < this->_vars.iqblk.cplx32_v.size(); ii++)    
     {
-        this->_vars.iqblk.cplx32_v[ii].i = this->constants.INIT_FLOAT;
-        this->_vars.iqblk.cplx32_v[ii].q = this->constants.INIT_FLOAT;
+        this->_vars.iqblk.cplx32_v[ii].i = INIT_FLOAT;
+        this->_vars.iqblk.cplx32_v[ii].q = INIT_FLOAT;
     }             
                    
-    this->_vars.iqblk.acq_info_type.sample0Timestamp   = this->constants.INIT_UINT;
-    this->_vars.iqblk.acq_info_type.triggerSampleIndex = this->constants.INIT_UINT;
-    this->_vars.iqblk.acq_info_type.triggerTimestamp   = this->constants.INIT_UINT;
+    this->_vars.iqblk.acq_info_type.sample0Timestamp   = INIT_UINT;
+    this->_vars.iqblk.acq_info_type.triggerSampleIndex = INIT_UINT;
+    this->_vars.iqblk.acq_info_type.triggerTimestamp   = INIT_UINT;
     this->_vars.iqblk.acq_info_type.acqStatus          = this->constants.ACQ_STATUS_SUCCESS;
     this->_iqblk_bitcheck();    // updates "bitcheck"
 
-    this->_vars.iqblk.sample_rate      = this->constants.INIT_DOUBLE;
+    this->_vars.iqblk.sample_rate      = INIT_DOUBLE;
     this->_vars.iqblk.bandwidth_hz     = this->constants.IQBLK_STARTING_BANDWIDTH;
-    this->_vars.iqblk.min_bandwidth_hz = this->constants.INIT_DOUBLE;
-    this->_vars.iqblk.max_bandwidth_hz = this->constants.INIT_DOUBLE;
+    this->_vars.iqblk.min_bandwidth_hz = INIT_DOUBLE;
+    this->_vars.iqblk.max_bandwidth_hz = INIT_DOUBLE;
 
     this->_iqblk_copy_vars();
 }

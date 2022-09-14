@@ -9,20 +9,14 @@
 
 #include "../control/resourcez.h"
 
-#define SIQ_ERROR_CODES 23        // return status and error code possibilities within "siq_manager_class"
-#define SIQ_HEADER_FIELDS 22      // number of fields in an IQ data file header
-#define SIQ_NUMBER_FORMATS 3      // f9 NumberFormat, possible formats data samples in IQ file can use
-#define SIQ_ENDIANS 2             // f11 DataEndian, possible endians data samples in IQ file can use
-#define SIQ_REF_TIME_SOURCES 3    // f20 RefTimeSource, possible time sources IQ file can use 
-#define SIQ_FREQ_REF_SOURCES 4    // f21 FreqRefSource, possible frequency sources IQ file can use
+constexpr int SIQ_ERROR_CODES      = 23;    // return status and error code possibilities within "siq_manager_class"
+constexpr int SIQ_HEADER_FIELDS    = 22;    // number of fields in an IQ data file header
+constexpr int SIQ_NUMBER_FORMATS   = 3;     // f9 NumberFormat, possible formats data samples in IQ file can use
+constexpr int SIQ_ENDIANS          = 2;     // f11 DataEndian, possible endians data samples in IQ file can use
+constexpr int SIQ_REF_TIME_SOURCES = 3;     // f20 RefTimeSource, possible time sources IQ file can use 
+constexpr int SIQ_FREQ_REF_SOURCES = 4;     // f21 FreqRefSource, possible frequency sources IQ file can use
 
-const int CORRECT_IQ_FILE_VERSION = 1;               // f0 RSASIQHT, all "siq" files should be on version #1 for the RSA-306B
-//const char GOOD_ACQ_STATUS[11]    = "0x00000000";    // f19 AcqStatus, expected field value for a clean acquisition
-const std::size_t INIT_STL        = 3;
-const char INIT_CHARP[5]          = "ZZZZ";
-const int INIT_INT                = 0;
-const float INIT_FLOAT            = 0.001;
-const double INIT_DOUBLE          = 0.0001;
+const int CORRECT_IQ_FILE_VERSION = 1;    // f0 RSASIQHT, all "siq" files should be on version #1 for the RSA-306B
 
 // used for error-return code + associated message
 const char ERROR_CODES[SIQ_ERROR_CODES][BUF_A] =
@@ -156,7 +150,7 @@ enum
 };
 
 // f20 RefTimeSource
-const char REF_TIME_SOURCES[SIQ_REF_TIME_SOURCES][BUF_A] =
+constexpr char REF_TIME_SOURCES[SIQ_REF_TIME_SOURCES][BUF_A] =
 {
     "System",    // index 0
     "GnssRx",    // index 1
@@ -164,7 +158,7 @@ const char REF_TIME_SOURCES[SIQ_REF_TIME_SOURCES][BUF_A] =
 };
 
 // f21 FreqRefSource
-const char FREQ_REF_SOURCES[SIQ_FREQ_REF_SOURCES][BUF_A] =
+constexpr char FREQ_REF_SOURCES[SIQ_FREQ_REF_SOURCES][BUF_A] =
 {
     "Intern",    // index 0
     "Extern",    // index 1

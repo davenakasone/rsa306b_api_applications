@@ -92,23 +92,23 @@ void rsa306b_class::_spectrum_init()
     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
     {
         this->_vars.spectrum.is_enabled_trace[ii] = false;
-        this->_vars.spectrum.trace_points_acquired[ii] = this->constants.INIT_INT;
-        this->_vars.spectrum.peak_index[ii] = this->constants.INIT_INT;
+        this->_vars.spectrum.trace_points_acquired[ii] = INIT_INT;
+        this->_vars.spectrum.peak_index[ii] = INIT_INT;
         this->_vars.spectrum.detectors_select[ii] = RSA_API::SpectrumDetector_AverageVRMS;
         for(int jj = 0; jj < SPECTRUM_DATA_LENGTH; jj++)
         {
             if (ii == 0) 
             {
-                this->_vars.spectrum.array_frequency[jj] = this->constants.INIT_DOUBLE;
+                this->_vars.spectrum.array_frequency[jj] = INIT_DOUBLE;
             }
-            this->_vars.spectrum.array_power[ii][jj] = this->constants.INIT_FLOAT;
+            this->_vars.spectrum.array_power[ii][jj] = INIT_FLOAT;
         }
     }
 
-    this->_vars.spectrum.settings_type.span         = this->constants.INIT_DOUBLE;
-    this->_vars.spectrum.settings_type.rbw          = this->constants.INIT_DOUBLE;
+    this->_vars.spectrum.settings_type.span         = INIT_DOUBLE;
+    this->_vars.spectrum.settings_type.rbw          = INIT_DOUBLE;
     this->_vars.spectrum.settings_type.enableVBW    = false;
-    this->_vars.spectrum.settings_type.traceLength  = this->constants.INIT_INT;
+    this->_vars.spectrum.settings_type.traceLength  = INIT_INT;
     this->_vars.spectrum.settings_type.window       = RSA_API::SpectrumWindow_FlatTop;
     this->_vars.spectrum.settings_type.verticalUnit = RSA_API::SpectrumVerticalUnit_Amp;
 

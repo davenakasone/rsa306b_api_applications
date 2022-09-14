@@ -33,6 +33,7 @@ SDIR = ../SRC/cpp_classes/program_core/
 TDIR = ../SRC/cpp_classes/program_test/
 PYDIR = ../SRC/cpp_classes/python_interface/
 DDIR = $(SDIR)control/de_bug/
+UDIR = $(SDIR)common_utility/
 DATA_IO = ../DATA/
 DATA_IO_PROCESSED = $(DATA_IO)data_processed/
 DATA_IO_RAW = $(DATA_IO)data_raw/
@@ -42,6 +43,10 @@ TDIR_T = $(TDIR)tasks/
 
 
 SOURCE_FILES_SO =\
+$(UDIR)cu_codez.cpp \
+$(UDIR)cu_common_utility.cpp \
+$(UDIR)cu_timing.cpp \
+$(UDIR)cu_wchar_2_char.cpp \
 $(DDIR)de_bug.cpp \
 $(DDIR)debug_functions.cpp \
 $(SDIR)control/globalz.cpp \
@@ -74,7 +79,6 @@ $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_confirm.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_copy.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_init.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_print.cpp \
-$(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_utility.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_copy.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_get.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_print_init.cpp \
@@ -113,7 +117,6 @@ $(SDIR)siq_manager/siq_init_copy.cpp \
 $(SDIR)siq_manager/siq_loader.cpp \
 $(SDIR)siq_manager/siq_printer.cpp \
 $(SDIR)siq_manager/siq_write_csv.cpp \
-$(SDIR)timer_class/timer_class.cpp \
 $(PYDIR)dummy.cpp
 
 

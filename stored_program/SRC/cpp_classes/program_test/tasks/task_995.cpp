@@ -5,15 +5,13 @@
 
 #include "../testz.h"
 #define REPZ 7
-// extern rsa306b_class X_rsa;
-// extern timer_class X_timer;
 
 
 void task_995()
 {
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  see if the antenna catches 315 MHz\n", __func__);
-X_timer.time_split_start();                      
+//X_timer.time_split_start();                      
 #endif    
 ////~~~~
 
@@ -63,7 +61,7 @@ X_timer.time_split_start();
     for (int ii = 0; ii < REPZ; ii++)
     {
         sprintf(X_rsa.vars.gp.helper, "%sifstream_315MHz_%d.csv", 
-            X_rsa.constants.DATA_DIRECTORY_PROCESSED,
+            DATA_DIRECTORY_PROCESSED,
             ii);
         fptr = fopen(X_rsa.vars.gp.helper, "w");
         sprintf(X_rsa.vars.gp.helper, "ADC\n");
@@ -106,7 +104,7 @@ X_timer.time_split_start();
             X_rsa.vars.iqblk.cplx32_v[REPZ].q);
         
         snprintf(X_rsa.vars.gp.holder, BUF_F, "%sIQblk_315MHz_%d.csv",
-            X_rsa.constants.DATA_DIRECTORY_PROCESSED,
+            DATA_DIRECTORY_PROCESSED,
             ii);
         X_rsa.iqblk_make_csv(X_rsa.vars.gp.holder);
     }
@@ -124,15 +122,15 @@ X_timer.time_split_start();
             X_rsa.vars.iqstream.cplx32_v[REPZ].q);
 
             snprintf(X_rsa.vars.gp.helper, BUF_E-1, "%sIQstream_315MHz_%d.csv",
-                X_rsa.constants.DATA_DIRECTORY_PROCESSED,
+                DATA_DIRECTORY_PROCESSED,
                 xx);
             X_rsa.iqstream_make_csv(X_rsa.vars.gp.helper);
     }
 
 ////~~~~
 #ifdef WAIT_ENTER_CLEAR
-X_timer.time_split_stop();
-X_timer.print_both();
+// X_timer.time_split_stop();
+// X_timer.print_both();
 printf("\n%s()  ,  task complete, adjust as needed\n", __func__);
 wait_enter_clear();
 #endif

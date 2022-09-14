@@ -55,7 +55,7 @@ void siq_manager_class::write_iq_to_csv
         output_file[strlen(output_file)-1] = 'v';
     }
 
-    if (this->_vars.f8_iq_sample_pairs < static_cast<int>(INIT_STL))
+    if (this->_vars.f8_iq_sample_pairs <= static_cast<int>(INIT_STL_LENGTH))
     {
         this->_set_error_code(file_loaded_with_no_data);
         return;

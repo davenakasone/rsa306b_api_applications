@@ -50,10 +50,10 @@ void siq_manager_class::_init()
 
     memset(this->_vars.f2_instrument_nomenclature, '\0', BUF_A);
     strcpy(this->_vars.f2_instrument_nomenclature, INIT_CHARP);
-    memset(this->_vars.f2_serial_number, '\0', BUF_A);
-    strcpy(this->_vars.f2_serial_number, INIT_CHARP);
-    memset(this->_vars.f2_version, '\0', BUF_A);
-    strcpy(this->_vars.f2_version, INIT_CHARP);
+    memset(this->_vars.f2_serial_number          , '\0', BUF_A);
+    strcpy(this->_vars.f2_serial_number          , INIT_CHARP);
+    memset(this->_vars.f2_version                , '\0', BUF_A);
+    strcpy(this->_vars.f2_version                , INIT_CHARP);
 
     memset(this->_vars.f3_version_api, '\0', BUF_A);
     strcpy(this->_vars.f3_version_api, INIT_CHARP);
@@ -61,8 +61,8 @@ void siq_manager_class::_init()
     //strcpy(this->_vars.f3_version_board, INIT_CHARP);
     memset(this->_vars.f3_version_fpga, '\0', BUF_A);
     strcpy(this->_vars.f3_version_fpga, INIT_CHARP);
-    memset(this->_vars.f3_version_usb, '\0', BUF_A);
-    strcpy(this->_vars.f3_version_usb, INIT_CHARP);
+    memset(this->_vars.f3_version_usb , '\0', BUF_A);
+    strcpy(this->_vars.f3_version_usb , INIT_CHARP);
 
     this->_vars.f4_reference_level_dbm = INIT_DOUBLE;
 
@@ -131,24 +131,24 @@ void siq_manager_class::_init()
     strcpy(this->_vars.f21_frequency_reference_source, INIT_CHARP);
 
     this->_vars.data_block_cplx32_v.clear();
-    this->_vars.data_block_cplx32_v.resize(INIT_STL);
-    for (std::size_t kk = 0; kk < INIT_STL; kk++)
+    this->_vars.data_block_cplx32_v.resize(INIT_STL_LENGTH);
+    for (std::size_t kk = 0; kk < INIT_STL_LENGTH; kk++)
     {
         this->_vars.data_block_cplx32_v[kk].i = INIT_FLOAT;
         this->_vars.data_block_cplx32_v[kk].q = INIT_FLOAT;
     }
 
     this->_vars.data_block_cplxint32_v.clear();
-    this->_vars.data_block_cplxint32_v.resize(INIT_STL);
-    for (std::size_t kk = 0; kk < INIT_STL; kk++)
+    this->_vars.data_block_cplxint32_v.resize(INIT_STL_LENGTH);
+    for (std::size_t kk = 0; kk < INIT_STL_LENGTH; kk++)
     {
         this->_vars.data_block_cplxint32_v[kk].i = INIT_INT;
         this->_vars.data_block_cplxint32_v[kk].q = INIT_INT;
     }
 
     this->_vars.data_block_cplxint16_v.clear();
-    this->_vars.data_block_cplxint16_v.resize(INIT_STL);
-    for (std::size_t kk = 0; kk < INIT_STL; kk++)
+    this->_vars.data_block_cplxint16_v.resize(INIT_STL_LENGTH);
+    for (std::size_t kk = 0; kk < INIT_STL_LENGTH; kk++)
     {
         this->_vars.data_block_cplxint16_v[kk].i = INIT_INT;
         this->_vars.data_block_cplxint16_v[kk].q = INIT_INT;
