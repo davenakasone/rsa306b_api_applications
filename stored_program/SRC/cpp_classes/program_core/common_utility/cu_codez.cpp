@@ -20,7 +20,7 @@
 const char* common_utility::get_status_code_string()
 {
 #ifdef DEBUG_CALL_CHECKS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -39,7 +39,7 @@ const char* common_utility::get_status_code_string()
 int common_utility::get_status_code_number()
 {
 #ifdef DEBUG_CALL_CHECKS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, __LINE__, __FILE__, __func__);
+     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -55,26 +55,29 @@ int common_utility::get_status_code_number()
     < 1 > private
     for private management of the status code
     has provisions for debugging
+    used to update the status code and interface with the debugger
 */
-void common_utility::_report_status_code()
+CODEZ common_utility::_report_status_code(CODEZ current_code)
 {
 #ifdef DEBUG_CALL_CHECKS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, __LINE__, __FILE__, __func__);
+     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
-    if (this->_status_code == CODEZ::_0_no_errors)
+    this->_status_code = current_code;
+
+    if (this->_status_code != CODEZ::_0_no_errors)
     {
-        return;
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_ddts, sizeof(X_ddts), "%4d %s",
+                this->get_status_code_number(),
+                this->get_status_code_string());
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
+        #endif
     }
 
-    #ifdef DEBUG_MIN
-        snprintf(X_ddts, sizeof(X_ddts), "%4d %s",
-            static_cast<int>(this->_status_code),
-            CODEZ_MESSAGES[static_cast<int>(this->_status_code)]);
-        snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-        debug_record(true);
-    #endif
+    return this->_status_code;
 }
 
 

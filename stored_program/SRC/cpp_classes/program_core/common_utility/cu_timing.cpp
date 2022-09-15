@@ -37,29 +37,25 @@
 CODEZ common_utility::timer_split_start()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
-    this->_status_code = this->_timer_set_running_cpu();
-    if (this->_status_code != CODEZ::_0_no_errors)
+    if (this->_timer_set_running_cpu() != CODEZ::_0_no_errors)
     {
-        this->_report_status_code();
         return this->_status_code;
     }
     this->_trail_cpu = this->_running_cpu;
 
-    this->_status_code = this->_timer_set_running_wall();
-    if (this->_status_code != CODEZ::_0_no_errors)
+    if (this->_timer_set_running_wall() != CODEZ::_0_no_errors)
     {
-        this->_report_status_code();
         return this->_status_code;
     }
     this->_trail_wall = this->_running_wall;
 
-    this->_split_cpu       = INIT_DOUBLE;
-    this->_split_wall      = INIT_DOUBLE;
-    return CODEZ::_0_no_errors;
+    this->_split_cpu  = INIT_DOUBLE;
+    this->_split_wall = INIT_DOUBLE;
+    return this->_status_code;
 }
 
 
@@ -83,39 +79,30 @@ CODEZ common_utility::timer_split_start()
 CODEZ common_utility::timer_split_stop()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
     if (this->_trail_cpu < 0 || this->_trail_wall < 0)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "trail timers are negative");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+             (void)snprintf(X_ddts, sizeof(X_ddts), "trail timers are negative");
+             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        this->_status_code = CODEZ::_2_error_in_logic;
-        this->_report_status_code();
-        return this->_status_code;
+        return this->_report_status_code(CODEZ::_2_error_in_logic);
     }
-
-    this->_status_code = this->_timer_set_running_cpu();
-    if (this->_status_code != CODEZ::_0_no_errors)
+    if (this->_timer_set_running_cpu() != CODEZ::_0_no_errors)
     {
-        this->_report_status_code();
         return this->_status_code;
     }
-
-    this->_status_code = this->_timer_set_running_wall();
-    if (this->_status_code != CODEZ::_0_no_errors)
+    if (this->_timer_set_running_wall() != CODEZ::_0_no_errors)
     {
-        this->_report_status_code();
         return this->_status_code;
     }
-
     this->_split_cpu  = this->_running_cpu - this->_trail_cpu;
     this->_split_wall = this->_running_wall - this->_trail_wall;
-    return CODEZ::_0_no_errors;
+    return this->_status_code;
 }
 
 
@@ -132,33 +119,31 @@ CODEZ common_utility::timer_print_split
 )
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
     if (new_lines_begin < 0 || new_lines_end < 0)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "bad parameters:  %d  ,  %d",
+            (void)snprintf(X_ddts, sizeof(X_ddts), "bad parameters:  %d  ,  %d",
                 new_lines_begin,
                 new_lines_end);
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        this->_status_code = CODEZ::_5_called_with_bad_paramerters;
-        this->_report_status_code();
-        return this->_status_code;
+        return this->_report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
     for (int ii = 0; ii < new_lines_begin; ii++)
     {
-        printf("\n");
+        (void)printf("\n");
     }
-    printf(_TIMER_FORMAT_SPLIT, this->_split_cpu, this->_split_wall);
+    (void)printf(_TIMER_FORMAT_SPLIT, this->_split_cpu, this->_split_wall);
     for (int ii = 0; ii < new_lines_end; ii++)
     {
-        printf("\n");
+        (void)printf("\n");
     }
-    return CODEZ::_0_no_errors;
+    return this->_status_code;
 }
 
 
@@ -175,48 +160,42 @@ CODEZ common_utility::timer_print_running
 )
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
     if (new_lines_begin < 0 || new_lines_end < 0)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "bad parameters:  %d  ,  %d",
+            (void)snprintf(X_ddts, sizeof(X_ddts), "bad parameters:  %d  ,  %d",
                 new_lines_begin,
                 new_lines_end);
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        this->_status_code = CODEZ::_5_called_with_bad_paramerters;
-        this->_report_status_code();
+        return this->_report_status_code(CODEZ::_5_called_with_bad_paramerters);
+    }
+
+    if (this->_timer_set_running_cpu()!= CODEZ::_0_no_errors)
+    {
         return this->_status_code;
     }
 
-    this->_status_code = this->_timer_set_running_cpu();
-    if (this->_status_code != CODEZ::_0_no_errors)
+    if (this->_timer_set_running_wall() != CODEZ::_0_no_errors)
     {
-        this->_report_status_code();
-        return this->_status_code;
-    }
-
-    this->_status_code = this->_timer_set_running_wall();
-    if (this->_status_code != CODEZ::_0_no_errors)
-    {
-        this->_report_status_code();
         return this->_status_code;
     }
 
     for (int ii = 0; ii < new_lines_begin; ii++)
     {
-        printf("\n");
+        (void)printf("\n");
     }
-    printf(_TIMER_FORMAT_RUNNING, this->_running_cpu, this->_running_wall);
+    (void)printf(_TIMER_FORMAT_RUNNING, this->_running_cpu, this->_running_wall);
     for (int ii = 0; ii < new_lines_end; ii++)
     {
-        printf("\n");
+        (void)printf("\n");
     }
-    return CODEZ::_0_no_errors;
+    return this->_status_code;
 }
 
 
@@ -233,35 +212,33 @@ CODEZ common_utility::timer_print_both
 )
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
     if (new_lines_begin < 0 || new_lines_end < 0)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "bad parameters:  %d  ,  %d",
+            (void)snprintf(X_ddts, sizeof(X_ddts), "bad parameters:  %d  ,  %d",
                 new_lines_begin,
                 new_lines_end);
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        this->_status_code = CODEZ::_5_called_with_bad_paramerters;
-        this->_report_status_code();
-        return this->_status_code;
+        return this->_report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
 
     for (int ii = 0; ii < new_lines_begin; ii++)
     {
-        printf("\n");
+        (void)printf("\n");
     }
-    this->timer_print_split(0,1);
-    this->timer_print_running(0,1);
+    (void)this->timer_print_split(0,1);
+    (void)this->timer_print_running(0,1);
     for (int ii = 0; ii < new_lines_end; ii++)
     {
-        printf("\n");
+        (void)printf("\n");
     }
-    return CODEZ::_0_no_errors;
+    return this->_status_code;
 }
 
 
@@ -277,26 +254,26 @@ CODEZ common_utility::timer_get_split_cpu
 )
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
     if (this->_split_cpu > 0)
     {
         c_split = this->_split_cpu;
-        return CODEZ::_0_no_errors;
+        return this->_report_status_code(CODEZ::_0_no_errors);
     }
-
-    #ifdef DEBUG_MAX
-        snprintf(X_ddts, sizeof(X_ddts), "returning initialized timesplit:  %lf",
-            this->_split_cpu);
-        snprintf(X_dstr, sizeof(X_dstr), DEBUG_MAX_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-        debug_record(false);
-    #endif
-    c_split = INIT_DOUBLE;
-    this->_status_code = CODEZ::_6_returned_initialized_value;
-    this->_report_status_code();
-    return this->_status_code;
+    else
+    {
+        #ifdef DEBUG_MAX
+            (void)snprintf(X_ddts, sizeof(X_ddts), "returning initialized timesplit:  %lf",
+                this->_split_cpu);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MAX_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(false);
+        #endif
+        c_split = INIT_DOUBLE;
+        return this->_report_status_code(CODEZ::_6_returned_initialized_value);
+    }
 }
 
 
@@ -312,26 +289,26 @@ CODEZ common_utility::timer_get_split_wall
 )
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
     if (this->_split_wall > 0)
     {
         w_split = this->_split_wall;
-        return CODEZ::_0_no_errors;
+        return this->_report_status_code(CODEZ::_0_no_errors);
     }
-
-    #ifdef DEBUG_MAX
-        snprintf(X_ddts, sizeof(X_ddts), "returning initialized timesplit:  %lf",
-            this->_split_wall);
-        snprintf(X_dstr, sizeof(X_dstr), DEBUG_MAX_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-        debug_record(false);
-    #endif
-    w_split = INIT_DOUBLE;
-    this->_status_code = CODEZ::_6_returned_initialized_value;
-    this->_report_status_code();
-    return this->_status_code;
+    else
+    {
+        #ifdef DEBUG_MAX
+            (void)snprintf(X_ddts, sizeof(X_ddts), "returning initialized timesplit:  %lf",
+                this->_split_wall);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MAX_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(false);
+        #endif
+        w_split = INIT_DOUBLE;
+        return this->_report_status_code(CODEZ::_6_returned_initialized_value);
+    }
 }
 
 
@@ -347,13 +324,19 @@ CODEZ common_utility::timer_get_running_cpu
 )
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
-    this->_status_code = this->_timer_set_running_cpu();
-    c_run              = this->_running_cpu;
-    return               this->_status_code;
+    if (this->_timer_set_running_cpu() == CODEZ::_0_no_errors)
+    {
+        c_run = this->_running_cpu;
+    }
+    else
+    {
+        c_run = INIT_DOUBLE;
+    }
+    return this->_status_code;
 }
 
 
@@ -369,13 +352,19 @@ CODEZ common_utility::timer_get_running_wall
 )
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
-    this->_status_code = this->_timer_set_running_wall();
-    w_run              = this->_running_wall;
-    return               this->_status_code;
+    if (this->_timer_set_running_wall() == CODEZ::_0_no_errors)
+    {
+        w_run = this->_running_wall;
+    }
+    else
+    {
+        w_run = INIT_DOUBLE;
+    }
+    return this->_status_code;
 }
 
 
@@ -384,27 +373,30 @@ CODEZ common_utility::timer_get_running_wall
 
 /*
     < 1 > private
+    note that the beginning CPU and wall-clock updated once
+    see the constructor
 */
 CODEZ common_utility::_timer_init()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
-    // "_begin_cpu" was set in constructor
+    this->_begin_cpu = clock();                                  // CPU starting time is recorded
+    (void)clock_gettime(CLOCK_MONOTONIC, &this->_begin_wall);    // wall-clock stating time is recorded
+
     this->_lead_cpu    = clock();
     this->_running_cpu = INIT_DOUBLE;
     this->_split_cpu   = INIT_DOUBLE;
     this->_trail_cpu   = INIT_DOUBLE;
 
-    // "_begin_wall" was set in constructor
-    clock_gettime(CLOCK_MONOTONIC, &this->_lead_wall);
+    (void)clock_gettime(CLOCK_MONOTONIC, &this->_lead_wall);
     this->_running_wall = INIT_DOUBLE;
     this->_split_wall   = INIT_DOUBLE;
     this->_trail_wall   = INIT_DOUBLE;
 
-    return CODEZ::_0_no_errors;
+    return this->_report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -422,7 +414,7 @@ CODEZ common_utility::_timer_init()
 CODEZ common_utility::_timer_set_running_cpu()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -435,8 +427,15 @@ CODEZ common_utility::_timer_set_running_cpu()
     // convert difference from ticks to seconds, and store the result
     this->_running_cpu =  temp / static_cast<double>(CLOCKS_PER_SEC); 
 
-    // successful if a time difference was detected               
-    return (this->_running_cpu > 0) ? CODEZ::_0_no_errors : CODEZ::_3_clock_failed;
+    // evaluate the success of the calculation and return the result
+    if (this->_running_cpu > 0) 
+    {
+        return this->_report_status_code(CODEZ::_0_no_errors);
+    }
+    else
+    {
+        return this->_report_status_code(CODEZ::_3_clock_failed);
+    }
 }
 
 
@@ -449,17 +448,17 @@ CODEZ common_utility::_timer_set_running_cpu()
     calculates difference from current time to object's creation
     result is stored in "_running_wall"
     success is returned if a time difference was detected, 
-        else failure in clock_gettime()
+        else failure in clock_gettime() 
 */
 CODEZ common_utility::_timer_set_running_wall()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
     // store the current time
-    clock_gettime(CLOCK_MONOTONIC, &this->_lead_wall);
+    (void)clock_gettime(CLOCK_MONOTONIC, &this->_lead_wall);
 
     // combined seconds + nano seconds, for both points in time
     double temp_begin = static_cast<double>(this->_begin_wall.tv_sec) + 
@@ -470,8 +469,15 @@ CODEZ common_utility::_timer_set_running_wall()
     // find difference and store the result
     this->_running_wall = temp_lead - temp_begin;
 
-    // successful if a time difference was detected 
-    return (this->_running_cpu > 0) ? CODEZ::_0_no_errors : CODEZ::_4_clock_gettime_failed;
+    // evaluate the success of the calculation and return the result
+    if (this->_running_wall > 0) 
+    {
+        return this->_report_status_code(CODEZ::_0_no_errors);
+    }
+    else
+    {
+        return this->_report_status_code(CODEZ::_4_clock_gettime_failed);
+    }
 }
 
 

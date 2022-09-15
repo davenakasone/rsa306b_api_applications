@@ -68,15 +68,15 @@ class common_utility
         int         get_status_code_number();    // returns current value of status code, casted to "int"
 
         // timer, both CPU and wall-clock
-        CODEZ timer_split_start();                                            // updates "trail" to mark beginning of a time split
-        CODEZ timer_split_stop();                                             // interval is stopped and duration is calculated
-        CODEZ timer_print_split(int new_lines_begin, int new_lines_end);      // message with timesplit to stdout
-        CODEZ timer_print_running(int new_lines_begin, int new_lines_end);    // message with total running time to stdout
-        CODEZ timer_print_both(int new_lines_begin, int new_lines_end);       // message with timesplit and running time to stdout
-        CODEZ timer_get_split_cpu(double& c_split);                           // updates "_split_cpu"
-        CODEZ timer_get_split_wall(double& w_split);                          // updates "_split_wall"
-        CODEZ timer_get_running_cpu(double& c_run);                           // updates "_running_cpu"
-        CODEZ timer_get_running_wall(double& w_run);                          // updates "_running_wall"
+        CODEZ timer_split_start     ();                                          // updates "trail" to mark beginning of a time split
+        CODEZ timer_split_stop      ();                                          // interval is stopped and duration is calculated
+        CODEZ timer_print_split     (int new_lines_begin, int new_lines_end);    // message with timesplit to stdout
+        CODEZ timer_print_running   (int new_lines_begin, int new_lines_end);    // message with total running time to stdout
+        CODEZ timer_print_both      (int new_lines_begin, int new_lines_end);    // message with timesplit and running time to stdout
+        CODEZ timer_get_split_cpu   (double& c_split);                           // updates "_split_cpu"
+        CODEZ timer_get_split_wall  (double& w_split);                           // updates "_split_wall"
+        CODEZ timer_get_running_cpu (double& c_run);                             // updates "_running_cpu"
+        CODEZ timer_get_running_wall(double& w_run);                             // updates "_running_wall"
 
         // string tools
         CODEZ wchar_2_char(const wchar_t* source, char* destination);    // string converter,  wchar_t* to char*
@@ -86,8 +86,8 @@ class common_utility
 
     private :
 
-        CODEZ _status_code;            // status code, usually from most recent call        
-        void  _report_status_code();    // tool to track "_status_code" from the most recent function call
+        CODEZ _status_code;                               // status code, usually from most recent call        
+        CODEZ _report_status_code(CODEZ current_code);    // tool to track and update "_status_code" 
 
     // timer
         CODEZ _timer_init();
