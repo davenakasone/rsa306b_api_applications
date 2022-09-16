@@ -26,10 +26,10 @@
 /*
     < 1 > private
 */
-void rsa306b_class::_iqblk_copy_vars()
+CODEZ rsa306b_class::_iqblk_copy_vars()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
@@ -54,10 +54,10 @@ void rsa306b_class::_iqblk_copy_vars()
 /*
     < 2 > private
 */
-void rsa306b_class::_iqblk_copy_getter()
+CODEZ rsa306b_class::_iqblk_copy_getter()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -71,10 +71,10 @@ void rsa306b_class::_iqblk_copy_getter()
 /*
     < 3 > private
 */
-void rsa306b_class::_iqblk_copy_actual_buffer_samples()
+CODEZ rsa306b_class::_iqblk_copy_actual_buffer_samples()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -88,7 +88,7 @@ void rsa306b_class::_iqblk_copy_actual_buffer_samples()
 /*
     < 4 > private
 
-void rsa306b_class::_iqblk_copy_sample_pairs_requested()
+CODEZ rsa306b_class::_iqblk_copy_sample_pairs_requested()
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
@@ -106,10 +106,10 @@ void rsa306b_class::_iqblk_copy_sample_pairs_requested()
 /*
     < 5 > private
 */
-void rsa306b_class::_iqblk_copy_cplx32_v()
+CODEZ rsa306b_class::_iqblk_copy_cplx32_v()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -130,10 +130,10 @@ void rsa306b_class::_iqblk_copy_cplx32_v()
 /*
     < 6 > private
 */
-void rsa306b_class::_iqblk_copy_acq_info_type()
+CODEZ rsa306b_class::_iqblk_copy_acq_info_type()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -150,10 +150,10 @@ void rsa306b_class::_iqblk_copy_acq_info_type()
 /*
     < 7 > private
 */
-void rsa306b_class::_iqblk_copy_bitcheck()
+CODEZ rsa306b_class::_iqblk_copy_bitcheck()
 { 
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -167,10 +167,10 @@ void rsa306b_class::_iqblk_copy_bitcheck()
 /*
     < 8 > private
 */
-void rsa306b_class::_iqblk_copy_sample_rate()
+CODEZ rsa306b_class::_iqblk_copy_sample_rate()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -184,10 +184,10 @@ void rsa306b_class::_iqblk_copy_sample_rate()
 /*
     < 9 > private
 */
-void rsa306b_class::_iqblk_copy_bandwidth_hz()
+CODEZ rsa306b_class::_iqblk_copy_bandwidth_hz()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -201,10 +201,10 @@ void rsa306b_class::_iqblk_copy_bandwidth_hz()
 /*
     < 10 > private
 */
-void rsa306b_class::_iqblk_copy_max_bandwidth_hz()
+CODEZ rsa306b_class::_iqblk_copy_max_bandwidth_hz()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -218,10 +218,10 @@ void rsa306b_class::_iqblk_copy_max_bandwidth_hz()
 /*
     < 11 > private
 */
-void rsa306b_class::_iqblk_copy_min_bandwidth_hz()
+CODEZ rsa306b_class::_iqblk_copy_min_bandwidth_hz()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -235,10 +235,10 @@ void rsa306b_class::_iqblk_copy_min_bandwidth_hz()
 /*
     < 12 > private
 */
-void rsa306b_class::_iqblk_copy_record_length()
+CODEZ rsa306b_class::_iqblk_copy_record_length()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -252,10 +252,10 @@ void rsa306b_class::_iqblk_copy_record_length()
 /*
     < 13 > private
 */
-void rsa306b_class::_iqblk_copy_max_record_length()
+CODEZ rsa306b_class::_iqblk_copy_max_record_length()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 

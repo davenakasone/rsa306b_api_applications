@@ -21,11 +21,10 @@
     data goes to a "*.siq" file
     make other files types if people need it
 */
-void rsa306b_class::_iqstream_acquire_data_to_file()
+CODEZ rsa306b_class::_iqstream_acquire_data_to_file()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -80,23 +79,23 @@ void rsa306b_class::_iqstream_acquire_data_to_file()
             std::wstring filenames_1w(this->_vars.iqstream.fileinfo_type.filenames[1]);
             std::string filenames0s (filenames_0w.begin(), filenames_0w.end());
             std::string filenames1s (filenames_1w.begin(), filenames_1w.end());
-            strncpy(this->_vars.iqstream.fileinfo_type.filenames_0, filenames0s.c_str(), BUF_E);
-            strncpy(this->_vars.iqstream.fileinfo_type.filenames_1, filenames1s.c_str(), BUF_E);
-            strncpy(this->vars.iqstream.fileinfo_type.filenames_0, this->_vars.iqstream.fileinfo_type.filenames_0, BUF_E);
-            strncpy(this->vars.iqstream.fileinfo_type.filenames_1, this->_vars.iqstream.fileinfo_type.filenames_0, BUF_E);
+            (void)strncpy(this->_vars.iqstream.fileinfo_type.filenames_0, filenames0s.c_str(), BUF_E);
+            (void)strncpy(this->_vars.iqstream.fileinfo_type.filenames_1, filenames1s.c_str(), BUF_E);
+            (void)strncpy(this->vars.iqstream.fileinfo_type.filenames_0, this->_vars.iqstream.fileinfo_type.filenames_0, BUF_E);
+            (void)strncpy(this->vars.iqstream.fileinfo_type.filenames_1, this->_vars.iqstream.fileinfo_type.filenames_0, BUF_E);
             
             this->_vars.gp.call_status = remove(this->_vars.iqstream.fileinfo_type.filenames_0);
             if (this->_vars.gp.call_status != 0)
             {
                 #ifdef DEBUG_MIN
-                    printf("\n\terror removing: %s  ,  %d\n", 
+                    (void)printf("\n\terror removing: %s  ,  %d\n", 
                         this->_vars.iqstream.fileinfo_type.filenames_0,
                         this->_vars.gp.call_status);
                 #endif
             }
             else
             {
-                printf("timed out, deleted  '%s'\n",
+                (void)printf("timed out, deleted  '%s'\n",
                     this->_vars.iqstream.fileinfo_type.filenames_0);
             }
             this->_vars.iqstream.fileinfo_type.numberSamples = 0;
@@ -111,10 +110,10 @@ void rsa306b_class::_iqstream_acquire_data_to_file()
     std::wstring filenames_1w(this->_vars.iqstream.fileinfo_type.filenames[1]);
     std::string filenames0s (filenames_0w.begin(), filenames_0w.end());
     std::string filenames1s (filenames_1w.begin(), filenames_1w.end());
-    strncpy(this->_vars.iqstream.fileinfo_type.filenames_0, filenames0s.c_str(), BUF_E);
-    strncpy(this->_vars.iqstream.fileinfo_type.filenames_1, filenames1s.c_str(), BUF_E);
-    strncpy(this->vars.iqstream.fileinfo_type.filenames_0, this->_vars.iqstream.fileinfo_type.filenames_0, BUF_E);
-    strncpy(this->vars.iqstream.fileinfo_type.filenames_1, this->_vars.iqstream.fileinfo_type.filenames_0, BUF_E);
+    (void)strncpy(this->_vars.iqstream.fileinfo_type.filenames_0, filenames0s.c_str(), BUF_E);
+    (void)strncpy(this->_vars.iqstream.fileinfo_type.filenames_1, filenames1s.c_str(), BUF_E);
+    (void)strncpy(this->vars.iqstream.fileinfo_type.filenames_0, this->_vars.iqstream.fileinfo_type.filenames_0, BUF_E);
+    (void)strncpy(this->vars.iqstream.fileinfo_type.filenames_1, this->_vars.iqstream.fileinfo_type.filenames_0, BUF_E);
 }
 
 
@@ -126,11 +125,10 @@ void rsa306b_class::_iqstream_acquire_data_to_file()
     data to std::vector<Cplx32> 
     trigger timeout is handled by the delay
 */
-void rsa306b_class::_iqstream_acquire_data_direct_cplx32_v()
+CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplx32_v()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
@@ -149,7 +147,7 @@ void rsa306b_class::_iqstream_acquire_data_direct_cplx32_v()
     if (is_ready == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\t%d ms elapsed, no trigger detected, no data acquired\n",
+            (void)printf("\n\t%d ms elapsed, no trigger detected, no data acquired\n",
                 this->constants.IQSTREAM_TIMEOUT_MS);
         #endif
         this->_vars.iqstream.cplx32_v.clear();
@@ -208,11 +206,10 @@ void rsa306b_class::_iqstream_acquire_data_direct_cplx32_v()
     data to std::vector<CplxInt16> 
     trigger timeout is handled by the delay
 */
-void rsa306b_class::_iqstream_acquire_data_direct_cplxInt16_v()
+CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplxInt16_v()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
@@ -231,7 +228,7 @@ void rsa306b_class::_iqstream_acquire_data_direct_cplxInt16_v()
     if (is_ready == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\t%d ms elapsed, no trigger detected, no data acquired\n",
+            (void)printf("\n\t%d ms elapsed, no trigger detected, no data acquired\n",
                 this->constants.IQSTREAM_TIMEOUT_MS);
         #endif
         this->_vars.iqstream.cplxInt16_v.clear();
@@ -290,11 +287,10 @@ void rsa306b_class::_iqstream_acquire_data_direct_cplxInt16_v()
     data to std::vector<CplxInt32> 
     trigger timeout is handled by the delay
 */
-void rsa306b_class::_iqstream_acquire_data_direct_cplxInt32_v()
+CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplxInt32_v()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
@@ -313,7 +309,7 @@ void rsa306b_class::_iqstream_acquire_data_direct_cplxInt32_v()
     if (is_ready == false)
     {
         #ifdef DEBUG_MIN
-            printf("\n\t%d ms elapsed, no trigger detected, no data acquired\n",
+            (void)printf("\n\t%d ms elapsed, no trigger detected, no data acquired\n",
                 this->constants.IQSTREAM_TIMEOUT_MS);
         #endif
         this->_vars.iqstream.cplxInt32_v.clear();

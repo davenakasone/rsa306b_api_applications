@@ -24,7 +24,7 @@
         header is processed first
         data is processed last (second)
 */
-void r3f_manager_class::file_process
+CODEZ r3f_manager_class::file_process
 (
     const char* r3f_input_path_file_name,
     const char* r3f_output_path_file_name,
@@ -99,7 +99,7 @@ void r3f_manager_class::file_process
     validation should have occured before calling
     "field                                              :  value" 
 */
-void r3f_manager_class::_process_header
+CODEZ  r3f_manager_class::_process_header
 (
     bool print_while_processing
 )
@@ -483,7 +483,7 @@ void r3f_manager_class::_process_header
     private < 2 >
     using the header information to get the data
 */
-void r3f_manager_class::_process_data
+CODEZ  r3f_manager_class::_process_data
 (
     bool print_while_processing
 )
@@ -510,7 +510,7 @@ void r3f_manager_class::_process_data
         fseek(this->_fptr_read, this->_byte_index, SEEK_CUR);
         
         snprintf(this->_holder, BUF_F-1, "%s  frame:  %5d of %5d  { %9ld }\n", 
-            this->_BLOCK_SEPERATOR, ii, samples_to_get, ftell(this->_fptr_read));
+            _BLOCK_SEPERATOR, ii, samples_to_get, ftell(this->_fptr_read));
         fputs(this->_holder, this->_fptr_write);
         if (print_while_processing == true)
         {
@@ -575,7 +575,7 @@ void r3f_manager_class::_process_data
     prints to stdout if requested
     writes to the _fptr_write file
 */
-void r3f_manager_class::_store_field
+CODEZ r3f_manager_class::_store_field
 (
     bool print_while_processing
 )

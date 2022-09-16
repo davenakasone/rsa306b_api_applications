@@ -18,7 +18,7 @@
     called for diagnostic printing of the header
     should be called after successfully loading a file
 */
-void siq_manager_class::print_header()
+CODEZ siq_manager_class::print_header()
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
@@ -108,7 +108,7 @@ void siq_manager_class::print_header()
     should be called after successfully loading a file
     call with idx_start==0, idx_stop==0 to print all the data
 */
-void siq_manager_class::print_data
+CODEZ siq_manager_class::print_data
 (
     std::size_t idx_start, 
     std::size_t idx_stop

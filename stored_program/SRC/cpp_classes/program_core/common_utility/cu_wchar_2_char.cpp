@@ -35,7 +35,7 @@ CODEZ common_utility::wchar_2_char
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return this->_report_status_code(CODEZ::_7_parameter_not_allocated);
+        return this->report_status_code(CODEZ::_7_parameter_not_allocated);
     }
     if (destination == NULL)
     {
@@ -44,7 +44,7 @@ CODEZ common_utility::wchar_2_char
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return this->_report_status_code(CODEZ::_7_parameter_not_allocated);
+        return this->report_status_code(CODEZ::_7_parameter_not_allocated);
     }
 
     size_t w_len = wcslen(source);
@@ -52,13 +52,13 @@ CODEZ common_utility::wchar_2_char
     if (source[idx] == '\0' ||
         w_len <= 0           )
     {
-        #ifdef DEBUG_MAX
+        #ifdef DEBUG_MIN
             (void)snprintf(X_ddts, sizeof(X_ddts), "small string, len()=  %lu", w_len);
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MAX_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-            debug_record(false);
+            debug_record(true);
         #endif
         (void)memset(destination, '\0', 2);    // ensure NULL termination
-        return this->_report_status_code(this->_status_code = CODEZ::_8_small_string_length);
+        return this->report_status_code(this->_status_code = CODEZ::_8_small_string_length);
     }
 
     while (idx < w_len)
@@ -70,18 +70,18 @@ CODEZ common_utility::wchar_2_char
         }
         else
         {
-            #ifdef DEBUG_MAX
+            #ifdef DEBUG_MIN
                 (void)snprintf(X_ddts, sizeof(X_ddts), "conversion not possible");
                 (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MAX_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-                debug_record(false);
+                debug_record(true);
             #endif
             destination[0] = '\0';    // ensure NULL termination
-            return this->_report_status_code(this->_status_code = CODEZ::_9_function_call_failed);
+            return this->report_status_code(this->_status_code = CODEZ::_9_function_call_failed);
         }
         idx++;
     }
     destination[idx] = '\0';    // ensure NULL termination
-    return this->_report_status_code(this->_status_code = CODEZ::_0_no_errors);
+    return this->report_status_code(this->_status_code = CODEZ::_0_no_errors);
 }
 
 

@@ -41,6 +41,9 @@ CODEZ common_utility::timer_split_start()
     debug_record(false);
 #endif
 
+    this->_split_cpu  = INIT_DOUBLE;
+    this->_split_wall = INIT_DOUBLE;
+
     if (this->_timer_set_running_cpu() != CODEZ::_0_no_errors)
     {
         return this->_status_code;
@@ -53,8 +56,6 @@ CODEZ common_utility::timer_split_start()
     }
     this->_trail_wall = this->_running_wall;
 
-    this->_split_cpu  = INIT_DOUBLE;
-    this->_split_wall = INIT_DOUBLE;
     return this->_status_code;
 }
 
@@ -90,7 +91,7 @@ CODEZ common_utility::timer_split_stop()
              (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return this->_report_status_code(CODEZ::_2_error_in_logic);
+        return this->report_status_code(CODEZ::_2_error_in_logic);
     }
     if (this->_timer_set_running_cpu() != CODEZ::_0_no_errors)
     {
@@ -132,7 +133,7 @@ CODEZ common_utility::timer_print_split
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return this->_report_status_code(CODEZ::_5_called_with_bad_paramerters);
+        return this->report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
     for (int ii = 0; ii < new_lines_begin; ii++)
     {
@@ -173,10 +174,10 @@ CODEZ common_utility::timer_print_running
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return this->_report_status_code(CODEZ::_5_called_with_bad_paramerters);
+        return this->report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
 
-    if (this->_timer_set_running_cpu()!= CODEZ::_0_no_errors)
+    if (this->_timer_set_running_cpu() != CODEZ::_0_no_errors)
     {
         return this->_status_code;
     }
@@ -225,15 +226,21 @@ CODEZ common_utility::timer_print_both
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return this->_report_status_code(CODEZ::_5_called_with_bad_paramerters);
+        return this->report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
 
     for (int ii = 0; ii < new_lines_begin; ii++)
     {
         (void)printf("\n");
     }
-    (void)this->timer_print_split(0,1);
-    (void)this->timer_print_running(0,1);
+    if (this->timer_print_split(0,1) != CODEZ::_0_no_errors)
+    {
+        return this->_status_code;
+    }
+    if (this->timer_print_running(0,1) != CODEZ::_0_no_errors)
+    {
+        return this->_status_code;
+    }
     for (int ii = 0; ii < new_lines_end; ii++)
     {
         (void)printf("\n");
@@ -261,7 +268,7 @@ CODEZ common_utility::timer_get_split_cpu
     if (this->_split_cpu > 0)
     {
         c_split = this->_split_cpu;
-        return this->_report_status_code(CODEZ::_0_no_errors);
+        return this->report_status_code(CODEZ::_0_no_errors);
     }
     else
     {
@@ -272,7 +279,7 @@ CODEZ common_utility::timer_get_split_cpu
             debug_record(false);
         #endif
         c_split = INIT_DOUBLE;
-        return this->_report_status_code(CODEZ::_6_returned_initialized_value);
+        return this->report_status_code(CODEZ::_6_returned_initialized_value);
     }
 }
 
@@ -296,7 +303,7 @@ CODEZ common_utility::timer_get_split_wall
     if (this->_split_wall > 0)
     {
         w_split = this->_split_wall;
-        return this->_report_status_code(CODEZ::_0_no_errors);
+        return this->report_status_code(CODEZ::_0_no_errors);
     }
     else
     {
@@ -307,7 +314,7 @@ CODEZ common_utility::timer_get_split_wall
             debug_record(false);
         #endif
         w_split = INIT_DOUBLE;
-        return this->_report_status_code(CODEZ::_6_returned_initialized_value);
+        return this->report_status_code(CODEZ::_6_returned_initialized_value);
     }
 }
 
@@ -396,7 +403,7 @@ CODEZ common_utility::_timer_init()
     this->_split_wall   = INIT_DOUBLE;
     this->_trail_wall   = INIT_DOUBLE;
 
-    return this->_report_status_code(CODEZ::_0_no_errors);
+    return this->report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -426,15 +433,15 @@ CODEZ common_utility::_timer_set_running_cpu()
 
     // convert difference from ticks to seconds, and store the result
     this->_running_cpu =  temp / static_cast<double>(CLOCKS_PER_SEC); 
-
+    
     // evaluate the success of the calculation and return the result
     if (this->_running_cpu > 0) 
     {
-        return this->_report_status_code(CODEZ::_0_no_errors);
+        return this->report_status_code(CODEZ::_0_no_errors);
     }
     else
     {
-        return this->_report_status_code(CODEZ::_3_clock_failed);
+        return this->report_status_code(CODEZ::_3_clock_failed);
     }
 }
 
@@ -472,11 +479,11 @@ CODEZ common_utility::_timer_set_running_wall()
     // evaluate the success of the calculation and return the result
     if (this->_running_wall > 0) 
     {
-        return this->_report_status_code(CODEZ::_0_no_errors);
+        return this->report_status_code(CODEZ::_0_no_errors);
     }
     else
     {
-        return this->_report_status_code(CODEZ::_4_clock_gettime_failed);
+        return this->report_status_code(CODEZ::_4_clock_gettime_failed);
     }
 }
 

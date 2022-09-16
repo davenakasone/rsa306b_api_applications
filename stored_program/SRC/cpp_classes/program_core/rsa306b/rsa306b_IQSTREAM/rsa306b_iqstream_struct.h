@@ -26,31 +26,46 @@ struct rsa306b_iqstream_struct
 {
     char acqStatus_message[IQSTREAM_BITCHECKS][BUF_C];    // maintains results of both "acqStatus" vars
    
-// IQSTREAM_Start()
-// initializes the IQ stream and begins data output
-// check for allocation and correct file opening
-// data flow starts after call, have collection point ready
-// use TRIG_ForceTrigger() if trigger event does not occur
+/*
+    IQSTREAM_Start()
+        initializes the IQ stream and begins data output
+        check for allocation and correct file opening
+        data flow starts after call, have collection point ready
+        use TRIG_ForceTrigger() if trigger event does not occur
+*/
 
-// IQSTREAM_Stop()
-// stream halts, output stops
+/*
+    IQSTREAM_Stop()
+        stream halts, output stops
+*/
 
-// IQSTREAM_ClearAcqStatus()
-// resets "sticky" status bits of "acqStatus", good for client and destination
+/*
+    IQSTREAM_ClearAcqStatus()
+        resets "sticky" status bits of "acqStatus"
+        good for client and destination
+*/
 
-// IQSTREAM_WaitForIQDataReady()
-// blocks until IQ stream is ready
-// use a timeout=0 for hard poll
-    // int timeout_ms;
-    // bool is_ready;
+/*
+    IQSTREAM_WaitForIQDataReady()
+        blocks until IQ stream is ready or timeout is reached
+        use a timeout=0 for hard poll
+        local variables :
+            int  timeout_ms
+            bool is_ready
+*/
 
-// IQSTREAM_GetDiskFileWriteStatus()
-// to monitor the output file progress
-// valid after IQSTREAM_Start(), only need "is_complete" if no trigger used
-// infinite file length only is complete when IQSTREAM_Stop() is called
-// when triggering, use "is_writting" to abort if no trigger events occur
-    // bool is_complete;  state of IQ stream file writing
-    // bool is_writing;  useful when triggereing is used, NULL otherwise
+/*
+    IQSTREAM_GetDiskFileWriteStatus()
+        to monitor the output file progress
+        valid after IQSTREAM_Start(), only need "is_complete" if no trigger used
+        infinite file length only is complete when IQSTREAM_Stop() is called
+        when triggering, use "is_writting" to abort if no trigger events occur
+        local variables :    
+            bool is_complete    // state of IQ stream file writing
+            bool is_writing     // useful when triggereing is used, NULL otherwise
+
+*/
+
 
 // IQSTREAM_SetAcqBandwidth()
 // user requests acquisition bandwidth here

@@ -22,7 +22,7 @@
     data is loaded and written to a CSV
     if "output_file" == NULL, then file name remains unchanged
 */
-void siq_manager_class::write_iq_to_csv
+CODEZ siq_manager_class::write_iq_to_csv
 (
     char* input_file, 
     char* output_file
@@ -154,7 +154,7 @@ void siq_manager_class::write_iq_to_csv
     batch processes data after loading and generates equivelent CSV files
     CSV files maintian the same name as SIQ file, but change extension
 */
-void siq_manager_class::write_iq_to_csv_batch
+CODEZ siq_manager_class::write_iq_to_csv_batch
 (
     char* input_directory, 
     char* output_directory

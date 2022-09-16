@@ -18,7 +18,7 @@
     < 1 > private
     initializing class members to known values
 */
-void siq_manager_class::_init()
+CODEZ siq_manager_class::_init()
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
@@ -166,7 +166,7 @@ void siq_manager_class::_init()
     < 2 > private
     assign public struct the values in the private struct
 */
-void siq_manager_class::_copy_vars()
+CODEZ siq_manager_class::_copy_vars()
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);

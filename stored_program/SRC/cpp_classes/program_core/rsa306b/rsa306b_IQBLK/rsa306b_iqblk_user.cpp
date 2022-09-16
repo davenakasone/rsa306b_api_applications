@@ -18,7 +18,7 @@
     < 1 > public
     all settings should have been set before calling
 */
-void rsa306b_class::iqblk_acquire_data()
+CODEZ rsa306b_class::iqblk_acquire_data()
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
@@ -29,11 +29,11 @@ void rsa306b_class::iqblk_acquire_data()
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
 
     if (this->_vars.iqblk.getter == this->constants.IQBLK_GET_IQ_DATA)
@@ -65,7 +65,7 @@ void rsa306b_class::iqblk_acquire_data()
 /*
     < 2 > public
 */
-void rsa306b_class::iqblk_make_csv
+CODEZ rsa306b_class::iqblk_make_csv
 (
     char* file_path_name
 )
@@ -128,7 +128,7 @@ void rsa306b_class::iqblk_make_csv
 /*
     < 1 > private
 */
-void rsa306b_class::_iqblk_get_iq_data()
+CODEZ rsa306b_class::_iqblk_get_iq_data()
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
@@ -139,11 +139,11 @@ void rsa306b_class::_iqblk_get_iq_data()
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     float* data_iq = NULL;
     int timeout_ms = 1;
@@ -202,7 +202,7 @@ void rsa306b_class::_iqblk_get_iq_data()
 /*
     < 2 > private
 */
-void rsa306b_class::_iqblk_get_iq_data_cplx()
+CODEZ rsa306b_class::_iqblk_get_iq_data_cplx()
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
@@ -213,11 +213,11 @@ void rsa306b_class::_iqblk_get_iq_data_cplx()
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     int timeout_ms = 1;
     bool data_is_ready = false;
@@ -272,22 +272,21 @@ void rsa306b_class::_iqblk_get_iq_data_cplx()
 /*
     < 3 > private
 */
-void rsa306b_class::_iqblk_get_iq_data_deinterleaved()
+CODEZ rsa306b_class::_iqblk_get_iq_data_deinterleaved()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     int timeout_ms = 1;
     bool data_is_ready = false;
@@ -299,14 +298,14 @@ void rsa306b_class::_iqblk_get_iq_data_deinterleaved()
     if (data_i == NULL) 
     {
         #ifdef DEBUG_MIN
-            printf("\n\tallocation failure\n");
+            (void)printf("\n\tallocation failure\n");
         #endif
     }
     data_q = new float[this->_vars.iqblk.record_length];
     if (data_q == NULL) 
     {
         #ifdef DEBUG_MIN
-            printf("\n\tallocation failure\n");
+            (void)printf("\n\tallocation failure\n");
         #endif
     }
 

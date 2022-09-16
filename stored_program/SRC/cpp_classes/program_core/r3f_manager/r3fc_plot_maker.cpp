@@ -25,7 +25,7 @@
 
     [ frequency  amplitude  phase ]
 */
-void r3f_manager_class::prepare_plot_from_header
+CODEZ r3f_manager_class::prepare_plot_from_header
 (
     const char* output_file
 ) 
@@ -102,7 +102,7 @@ void r3f_manager_class::prepare_plot_from_header
     don't forget: IQ(t) = I(t) + jQ(t)
     might want to apply more corrections and filter
 */
-void r3f_manager_class::prepare_plot_from_iq
+CODEZ r3f_manager_class::prepare_plot_from_iq
 (
     const char* input_file,
     const char* output_file

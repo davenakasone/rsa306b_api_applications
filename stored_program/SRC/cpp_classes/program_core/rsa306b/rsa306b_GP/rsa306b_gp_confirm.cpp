@@ -21,7 +21,7 @@
     good practice to call after each API function is used, unless speed is needed
     requires DEBUG_CLI or DEBUG_MIN to be activated
 */
-void rsa306b_class::_gp_confirm_api_status()
+CODEZ rsa306b_class::_gp_confirm_api_status()
 {
 #ifdef DEBUG_CALL_CHECKS
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, __LINE__, __FILE__, __func__);
@@ -51,7 +51,7 @@ void rsa306b_class::_gp_confirm_api_status()
     good practice to get the return value, then call
     requires DEBUG_CLI or DEBUG_MIN to be activated
 */
-void rsa306b_class::_gp_confirm_call_status()
+CODEZ rsa306b_class::_gp_confirm_call_status()
 {
 #ifdef DEBUG_CALL_CHECKS
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, 
@@ -78,7 +78,7 @@ void rsa306b_class::_gp_confirm_call_status()
     private < 3 >
     uses API state to select an internal return value
 */
-int rsa306b_class::_gp_confirm_return()
+CODEZ rsa306b_class::_gp_confirm_return()
 {
 #ifdef DEBUG_CALL_CHECKS
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, __LINE__, __FILE__, __func__);
@@ -104,7 +104,7 @@ int rsa306b_class::_gp_confirm_return()
     applies reccomended bit-check
     bits: 0, 1, 4, and 5 are checked
 */
-void rsa306b_class::_gp_confirm_aquisition_code()
+CODEZ rsa306b_class::_gp_confirm_aquisition_code()
 {
 #ifdef DEBUG_CALL_CHECKS
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CALL_CHECKS_FORMAT, __LINE__, __FILE__, __func__);

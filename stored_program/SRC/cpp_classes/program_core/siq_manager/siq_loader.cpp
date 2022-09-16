@@ -21,7 +21,7 @@
     initiates loading the provided *.siq file 
     into the class member variables
 */
-void siq_manager_class::load_file
+CODEZ siq_manager_class::load_file
 (
     char* input_file
 )
@@ -64,7 +64,7 @@ void siq_manager_class::load_file
 
     this is brute force...probably a good place to improve
 */
-void siq_manager_class::_populate_header()
+CODEZ siq_manager_class::_populate_header()
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
@@ -1003,7 +1003,7 @@ void siq_manager_class::_populate_header()
     updates member variables with extracted information
     data block / samples only
 */
-void siq_manager_class::_populate_data()
+CODEZ siq_manager_class::_populate_data()
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 

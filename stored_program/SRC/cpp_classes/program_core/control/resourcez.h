@@ -37,7 +37,7 @@
 
 #include "../../api_resourcez/RSA_API.h"    // has <time.h>, <stdint.h>, <thread.h>, ...
 
-#define DE_BUG 22               // {ON//OFF} if activated, debug features are applied
+#define DE_BUG 22               // {ON//OFF} if activated, debug features are applied, good to have at least "DEBUG_MIN" activated
 #define WAIT_ENTER_CLEAR 111    // {ON//OFF} if activated, calls wait_enter_clear(), stand-alone execution only
 
 #ifdef DE_BUG
@@ -45,44 +45,60 @@
     #define DEBUGS_WILL_PRINT 44    // {ON//OFF} if activated, debug activity is displayed to stdout
     #define DEBUGS_WILL_WRITE 55    // {ON//OFF} if activated, debug activity is writen
 
-    // good to have at least "DEBUG_MIN" activated
-    #define DEBUG_MIN 1917                  // {ON//OFF} tracks:  essential information, force-prints to stdout
-    #define DEBUG_MAX 1787                  // {ON//OFF} tracks:  additional information, not always an error
-    #define DEBUG_CLI 1776                  // {ON//OFF} tracks:  call stack of the executing program, for major calls
-    #define DEBUG_CALL_CHECKS 1492          // {ON//OFF} tracks:  call checks for API and program internal calls
-    #define DEBUG_GETS 1992                 // {ON//OFF} tracks:  for getter calls
-    #define DEBUG_SETS 1999                 // {ON//OFF} tracks:  for setter calls
-    #define DEBUG_COPYS 2000                // {ON//OFF} tracks:  for copier calls
-    #define DEBUG_CUSTOM 1865               // {ON//OFF} tracks:  " ", where ever you want to debug, place anywhere
+        // {ON//OFF} tracks:  essential information, force-prints to stdout, errors that would crash the program
+        #define DEBUG_MIN 1917                  
+        
+        // {ON//OFF} tracks:  additional information, not always an error; usually valuable diagnostic information
+        #define DEBUG_MAX 1787                  
 
-    // only needed if there is trouble parsing "*.siq" files
-    //#define DEBUG_SIQ_LOADER_HEADER 1941    // {ON//OFF} prints SIQ header as loaded, in 'siq_manager' class 
-    //#define DEBUG_SIQ_LOADER_DATA 1945      // {ON//OFF} prints SIQ data as loaded, in 'siq_manager' class
+        // {ON//OFF} tracks:  call sequence of the executing program, for major calls only
+        #define DEBUG_CLI 1776                  
+    
+        // {ON//OFF} tracks:  call sequence WITH internal and API status checks
+        #define DEBUG_CALL_CHECKS 1492 
 
-    #ifdef DEBUG_MIN
-        constexpr char DEBUG_MIN_FORMAT[]         = "DEBUG_MIN        ,  <%4d>  %s/%s()  !!!  %s\n";
-    #endif
-    #ifdef DEBUG_MAX
-        constexpr char DEBUG_MAX_FORMAT[]         = "DEBUG_MAX        ,  <%4d>  %s/%s()  %s\n";
-    #endif
-    #ifdef DEBUG_CLI
-        constexpr char DEBUG_CLI_FORMAT[]         = "DEBUG_CLI        ,  <%4d>  %s/%s()\n";
-    #endif
-    #ifdef DEBUG_CALL_CHECKS
-        constexpr char DEBUG_CALL_CHECKS_FORMAT[] = "DEBUG_CALL_CHECKS,  <%4d>  %s/%s()\n";
-    #endif
-    #ifdef DEBUG_GETS
-        constexpr char DEBUG_GETS_FORMAT[]        = "DEBUG_GETS       ,  <%4d>  %s/%s()\n";
-    #endif
-    #ifdef DEBUG_SETS
-        constexpr char DEBUG_SETS_FORMAT[]        = "DEBUG_SETS       ,  <%4d>  %s/%s()\n";
-    #endif
-    #ifdef DEBUG_COPYS
-        constexpr char DEBUG_COPYS_FORMAT[]       = "DEBUG_COPYS      ,  <%4d>  %s/%s()\n";
-    #endif
-    #ifdef DEBUG_CUSTOM
-        constexpr char DEBUG_CUSTOM_FORMAT[]      = "DEBUG_CUSTOM     ,  <%4d>  %s/%s()  ***  %s\n";
-    #endif
+        // {ON//OFF} tracks:  call sequence WITH getter calls
+        #define DEBUG_GETS 1992                 
+    
+        // {ON//OFF} tracks:  call sequence WITH setter calls
+        #define DEBUG_SETS 1999                 
+    
+        // {ON//OFF} tracks:  call sequence WITH  copier calls
+        #define DEBUG_COPYS 2000                
+    
+        // {ON//OFF} tracks:  " ", where ever you want to debug, place anywhere, usually just temporary
+        #define DEBUG_CUSTOM 1865               
+
+        // {ON//OFF} prints SIQ header as loaded, in 'siq_manager' class 
+        #define DEBUG_SIQ_LOADER_HEADER 1941   
+
+        // {ON//OFF} prints SIQ data as loaded, in 'siq_manager' class 
+        #define DEBUG_SIQ_LOADER_DATA 1945      
+
+        #ifdef DEBUG_MIN
+            constexpr char DEBUG_MIN_FORMAT[]         = "DEBUG_MIN        ,  <%4d>  %s/%s()  !!!  %s\n";
+        #endif
+        #ifdef DEBUG_MAX
+            constexpr char DEBUG_MAX_FORMAT[]         = "DEBUG_MAX        ,  <%4d>  %s/%s()  %s\n";
+        #endif
+        #ifdef DEBUG_CLI
+            constexpr char DEBUG_CLI_FORMAT[]         = "DEBUG_CLI        ,  <%4d>  %s/%s()\n";
+        #endif
+        #ifdef DEBUG_CALL_CHECKS
+            constexpr char DEBUG_CALL_CHECKS_FORMAT[] = "DEBUG_CALL_CHECKS,  <%4d>  %s/%s()\n";
+        #endif
+        #ifdef DEBUG_GETS
+            constexpr char DEBUG_GETS_FORMAT[]        = "DEBUG_GETS       ,  <%4d>  %s/%s()\n";
+        #endif
+        #ifdef DEBUG_SETS
+            constexpr char DEBUG_SETS_FORMAT[]        = "DEBUG_SETS       ,  <%4d>  %s/%s()\n";
+        #endif
+        #ifdef DEBUG_COPYS
+            constexpr char DEBUG_COPYS_FORMAT[]       = "DEBUG_COPYS      ,  <%4d>  %s/%s()\n";
+        #endif
+        #ifdef DEBUG_CUSTOM
+            constexpr char DEBUG_CUSTOM_FORMAT[]      = "DEBUG_CUSTOM     ,  <%4d>  %s/%s()  ***  %s\n";
+        #endif
     
     // may require a change
     constexpr char DEBUG_FILEPATH[] = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DOC/debug_logs/";  
@@ -91,7 +107,7 @@
     constexpr int DEBUG_WIDTH = 555;   
 
     // number of object instances debugger will track
-     constexpr int ACTIVE_OBJECTS = 3; 
+     constexpr int ACTIVE_OBJECTS = 7; 
 
 #endif
 

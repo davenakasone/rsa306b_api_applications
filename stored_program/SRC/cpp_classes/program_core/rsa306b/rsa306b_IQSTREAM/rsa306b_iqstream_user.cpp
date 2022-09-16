@@ -18,22 +18,21 @@
     user should have configured with 
         "iqstream_set_vars()" before acquiring data
 */
-void rsa306b_class::iqstream_acquire_data()
+CODEZ rsa306b_class::iqstream_acquire_data()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
 
     this->device_run();
@@ -59,8 +58,8 @@ void rsa306b_class::iqstream_acquire_data()
             break;
         default:
             #ifdef DEBUG_MIN
-                snprintf(X_ddts, sizeof(X_ddts), "invalid IQSTREAM data output destination");
-                snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+                (void)snprintf(X_ddts, sizeof(X_ddts), "invalid IQSTREAM data output destination");
+                (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
                 debug_record(true);
             #endif
             break;
@@ -75,8 +74,8 @@ void rsa306b_class::iqstream_acquire_data()
         else
         {
             #ifdef DEBUG_MIN
-                snprintf(X_ddts, sizeof(X_ddts), "only use *.siq files");
-                snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+                (void)snprintf(X_ddts, sizeof(X_ddts), "only use *.siq files");
+                (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
                 debug_record(true);
             #endif
         }
@@ -97,22 +96,21 @@ void rsa306b_class::iqstream_acquire_data()
     < 2 > public
     designed to be use immidiatley after acquiring data
 */
-void rsa306b_class::iqstream_make_csv
+CODEZ rsa306b_class::iqstream_make_csv
 (
     char* file_path_name
 )
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.iqstream.destination_select != RSA_API::IQSOD_CLIENT)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no data was output direct to client");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "no data was output direct to client");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;
@@ -120,8 +118,8 @@ void rsa306b_class::iqstream_make_csv
     if (file_path_name == NULL)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "allocate output file-path-name");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "allocate output file-path-name");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;
@@ -131,8 +129,8 @@ void rsa306b_class::iqstream_make_csv
           this->_vars.iqstream.datatype_select == RSA_API::IQSODT_SINGLE_SCALE_INT32) )
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "cplx32 vector has no data");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "cplx32 vector has no data");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;
@@ -141,8 +139,8 @@ void rsa306b_class::iqstream_make_csv
         this->_vars.iqstream.datatype_select == RSA_API::IQSODT_INT32)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "cplxInt32 vector has no data");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "cplxInt32 vector has no data");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;
@@ -151,8 +149,8 @@ void rsa306b_class::iqstream_make_csv
         this->_vars.iqstream.datatype_select == RSA_API::IQSODT_INT16 )
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "cplxInt16 vector has no data");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "cplxInt16 vector has no data");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;
@@ -162,13 +160,13 @@ void rsa306b_class::iqstream_make_csv
     if (this->_fptr_write == NULL)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "failed to open:  %s", file_path_name);
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "failed to open:  %s", file_path_name);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;
     }
-    snprintf(this->_vars.gp.helper, BUF_E, "I,Q\n");
+    (void)snprintf(this->_vars.gp.helper, BUF_E, "I,Q\n");
     fputs(this->_vars.gp.helper, this->_fptr_write);
 
     if (this->_vars.iqstream.datatype_select == RSA_API::IQSODT_SINGLE            ||
@@ -178,13 +176,13 @@ void rsa306b_class::iqstream_make_csv
         {
             if (kk == this->_vars.iqstream.cplx32_v.size()-1)
             {
-                snprintf(this->_vars.gp.helper, BUF_E-1, "%0.9f,%0.9f",
+                (void)snprintf(this->_vars.gp.helper, BUF_E-1, "%0.9f,%0.9f",
                     this->_vars.iqstream.cplx32_v[kk].i,
                     this->_vars.iqstream.cplx32_v[kk].q);
             }
             else
             {
-                snprintf(this->_vars.gp.helper, BUF_E-1, "%0.9f,%0.9f\n",
+                (void)snprintf(this->_vars.gp.helper, BUF_E-1, "%0.9f,%0.9f\n",
                     this->_vars.iqstream.cplx32_v[kk].i,
                     this->_vars.iqstream.cplx32_v[kk].q);
             }
@@ -197,13 +195,13 @@ void rsa306b_class::iqstream_make_csv
         {
             if (kk == this->_vars.iqstream.cplxInt32_v.size())
             {
-                snprintf(this->_vars.gp.helper, BUF_E, "%d,%d",
+                (void)snprintf(this->_vars.gp.helper, BUF_E, "%d,%d",
                     this->_vars.iqstream.cplxInt32_v[kk].i,
                     this->_vars.iqstream.cplxInt32_v[kk].q);
             }
             else
             {
-                snprintf(this->_vars.gp.helper, BUF_E-1, "%d,%d\n",
+                (void)snprintf(this->_vars.gp.helper, BUF_E-1, "%d,%d\n",
                     this->_vars.iqstream.cplxInt32_v[kk].i,
                     this->_vars.iqstream.cplxInt32_v[kk].q);
             }
@@ -216,13 +214,13 @@ void rsa306b_class::iqstream_make_csv
         {
             if (kk == this->_vars.iqstream.cplxInt16_v.size())
             {
-                snprintf(this->_vars.gp.helper, BUF_E-1, "%d,%d",
+                (void)snprintf(this->_vars.gp.helper, BUF_E-1, "%d,%d",
                     this->_vars.iqstream.cplxInt16_v[kk].i,
                     this->_vars.iqstream.cplxInt16_v[kk].q);
             }
             else
             {
-                snprintf(this->_vars.gp.helper, BUF_E-1, "%d,%d\n",
+                (void)snprintf(this->_vars.gp.helper, BUF_E-1, "%d,%d\n",
                     this->_vars.iqstream.cplxInt16_v[kk].i,
                     this->_vars.iqstream.cplxInt16_v[kk].q);
             }
@@ -232,12 +230,12 @@ void rsa306b_class::iqstream_make_csv
     else
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "logic error");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "logic error");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
     }
-    fclose(this->_fptr_write);
+    fclose(this->_fp_write);
     this->_fptr_write = NULL;
 }
 
@@ -248,22 +246,21 @@ void rsa306b_class::iqstream_make_csv
 /*
     < 3 > public
 */
-void rsa306b_class::iqstream_clear_sticky()
+CODEZ rsa306b_class::iqstream_clear_sticky()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     
     RSA_API::IQSTREAM_ClearAcqStatus();    // implemented as void

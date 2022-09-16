@@ -15,22 +15,21 @@
 /*
     < 1 > public
 */
-void rsa306b_class::spectrum_default()
+CODEZ rsa306b_class::spectrum_default()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     this->_spectrum_default();
 }
@@ -42,22 +41,21 @@ void rsa306b_class::spectrum_default()
 /*
     < 1 > private
 */
-void rsa306b_class::_spectrum_default()
+CODEZ rsa306b_class::_spectrum_default()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     this->device_stop();
     this->_vars.gp.api_status = RSA_API::SPECTRUM_SetDefault();
@@ -73,11 +71,10 @@ void rsa306b_class::_spectrum_default()
     < 2 > private
     don't need to touch "trace_info_type" or "limits_type"
 */
-void rsa306b_class::_spectrum_init()
+CODEZ rsa306b_class::_spectrum_init()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 

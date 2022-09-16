@@ -15,7 +15,7 @@
 /*
     < 1 > public
 */
-void siq_manager_class::decode_and_write
+CODEZ siq_manager_class::decode_and_write
 (
     char* input_file, 
     char* output_file, 
@@ -113,7 +113,7 @@ void siq_manager_class::decode_and_write
 /*
     < 2 > public
 */
-void siq_manager_class::decode_and_print(char* input_file, unsigned long int byte_start, unsigned long int byte_stop)
+CODEZ siq_manager_class::decode_and_print(char* input_file, unsigned long int byte_start, unsigned long int byte_stop)
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 

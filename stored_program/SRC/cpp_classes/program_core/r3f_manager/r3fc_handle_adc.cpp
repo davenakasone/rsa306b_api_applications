@@ -19,7 +19,7 @@
     should get all files in the directory
     need a good input path with data already present
 */
-void r3f_manager_class::prepare_plot_from_adc
+CODEZ r3f_manager_class::prepare_plot_from_adc
 (
     const char* input_file_path, 
     const char* output_file_path
@@ -136,7 +136,7 @@ void r3f_manager_class::prepare_plot_from_adc
     makes raw ADC output file as 
     the input files are itterated over
 */
-void r3f_manager_class::_adc_helper
+CODEZ r3f_manager_class::_adc_helper
 (
     const char* input_fpn, 
     const char* output_fpn
@@ -207,7 +207,7 @@ void r3f_manager_class::_adc_helper
     this 16 kB block determines how to get the rest of the data
     processed without producing output file, only populates struct
 */
-void r3f_manager_class::_process_header_direct()
+CODEZ r3f_manager_class::_process_header_direct()
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 

@@ -17,7 +17,6 @@
 #define H_rsa306b_struct
 
 
-#include "./rsa306b_GP/rsa306b_gp_struct.h"
 #include "./rsa306b_ALIGN/rsa306b_align_struct.h"
 #include "./rsa306b_AUDIO/rsa306b_audio_struct.h"
 #include "./rsa306b_CONFIG/rsa306b_config_struct.h"
@@ -32,8 +31,6 @@
 
 struct rsa306b_struct
 {
-    rsa306b_gp_struct gp;                 // common use class variables "general purpose"
-
     rsa306b_align_struct align;           // API group "ALIGN" variables
 
     rsa306b_audio_struct audio;           // API group "AUDIO" variables
@@ -54,7 +51,8 @@ struct rsa306b_struct
 
     rsa306b_trig_struct trig;             // API group "TRIG" variables
 
-}; typedef struct rsa306b_struct rsa306b_struct;
+}; 
+typedef struct rsa306b_struct rsa306b_struct;
 
 
 #endif

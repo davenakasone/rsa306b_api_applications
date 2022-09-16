@@ -45,12 +45,12 @@
 /*
     < 1 > private
 */
-void rsa306b_class::_ifstream_copy_vars()
+CODEZ rsa306b_class::_ifstream_copy_vars()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+#ifdef DEBUG_COPYS
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif
 
     this->_ifstream_copy_file_name_suffix();
     this->_ifstream_copy_file_path();
@@ -75,10 +75,10 @@ void rsa306b_class::_ifstream_copy_vars()
 /*
     < 2 > private
 */
-void rsa306b_class::_ifstream_copy_file_name_suffix()
+CODEZ rsa306b_class::_ifstream_copy_file_name_suffix()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -92,14 +92,14 @@ void rsa306b_class::_ifstream_copy_file_name_suffix()
 /*
     < 3 > private
 */
-void rsa306b_class::_ifstream_copy_file_path()
+CODEZ rsa306b_class::_ifstream_copy_file_path()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
-    strcpy(this->vars.ifstream.file_path, this->_vars.ifstream.file_path);
+    (void)strcpy(this->vars.ifstream.file_path, this->_vars.ifstream.file_path);
 }
 
 
@@ -109,14 +109,14 @@ void rsa306b_class::_ifstream_copy_file_path()
 /*
     < 4 > private
 */
-void rsa306b_class::_ifstream_copy_file_name_base()
+CODEZ rsa306b_class::_ifstream_copy_file_name_base()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
-    strcpy(this->vars.ifstream.file_name_base, this->_vars.ifstream.file_name_base);
+    (void)strcpy(this->vars.ifstream.file_name_base, this->_vars.ifstream.file_name_base);
 }
 
 
@@ -126,10 +126,10 @@ void rsa306b_class::_ifstream_copy_file_name_base()
 /*
     < 5 > private
 */
-void rsa306b_class::_ifstream_copy_file_length_ms()
+CODEZ rsa306b_class::_ifstream_copy_file_length_ms()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -143,10 +143,10 @@ void rsa306b_class::_ifstream_copy_file_length_ms()
 /*
     < 6 > private
 */
-void rsa306b_class::_ifstream_copy_file_count()
+CODEZ rsa306b_class::_ifstream_copy_file_count()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -160,10 +160,10 @@ void rsa306b_class::_ifstream_copy_file_count()
 /*
     < 7 > private
 */
-void rsa306b_class::_ifstream_copy_output_configuration_select()
+CODEZ rsa306b_class::_ifstream_copy_output_configuration_select()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -177,10 +177,10 @@ void rsa306b_class::_ifstream_copy_output_configuration_select()
 /*
     < 8 > private
 */
-void rsa306b_class::_ifstream_copy_is_enabled_adc()
+CODEZ rsa306b_class::_ifstream_copy_is_enabled_adc()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -194,10 +194,10 @@ void rsa306b_class::_ifstream_copy_is_enabled_adc()
 /*
     < 9 > private
 */
-void rsa306b_class::_ifstream_copy_is_active()
+CODEZ rsa306b_class::_ifstream_copy_is_active()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -211,10 +211,10 @@ void rsa306b_class::_ifstream_copy_is_active()
 /*
     < 10 > private
 */
-void rsa306b_class::_ifstream_copy_if_data()
+CODEZ rsa306b_class::_ifstream_copy_if_data()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -230,10 +230,10 @@ void rsa306b_class::_ifstream_copy_if_data()
 /*
     < 11 > private
 */
-void rsa306b_class::_ifstream_copy_if_data_length()
+CODEZ rsa306b_class::_ifstream_copy_if_data_length()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -247,10 +247,10 @@ void rsa306b_class::_ifstream_copy_if_data_length()
 /*
     < 12 > private
 */
-void rsa306b_class::_ifstream_copy_data_info_type()
+CODEZ rsa306b_class::_ifstream_copy_data_info_type()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -267,10 +267,10 @@ void rsa306b_class::_ifstream_copy_data_info_type()
 /*
     < 13 > private
 */
-void rsa306b_class::_ifstream_copy_adc_data_v()
+CODEZ rsa306b_class::_ifstream_copy_adc_data_v()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -286,10 +286,10 @@ void rsa306b_class::_ifstream_copy_adc_data_v()
 /*
     < 14 > private
 */
-void rsa306b_class::_ifstream_copy_if_frames()
+CODEZ rsa306b_class::_ifstream_copy_if_frames()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -305,10 +305,10 @@ void rsa306b_class::_ifstream_copy_if_frames()
 /*
     < 15 > private
 */
-void rsa306b_class::_ifstream_copy_frame_bytes()
+CODEZ rsa306b_class::_ifstream_copy_frame_bytes()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -322,10 +322,10 @@ void rsa306b_class::_ifstream_copy_frame_bytes()
 /*
     < 16 > private
 */
-void rsa306b_class::_ifstream_copy_number_of_frames()
+CODEZ rsa306b_class::_ifstream_copy_number_of_frames()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -339,16 +339,16 @@ void rsa306b_class::_ifstream_copy_number_of_frames()
 /*
     < 17 > private
 */
-void rsa306b_class::_ifstream_copy_framed_adc_data_v()
+CODEZ rsa306b_class::_ifstream_copy_framed_adc_data_v()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
     this->vars.ifstream.framed_adc_data_v.resize(
         this->_vars.ifstream.framed_adc_data_v.size());
-    for (long unsigned int ii = 0; ii < this->_vars.ifstream.framed_adc_data_v.size(); ii++)
+    for (std::size_t ii = 0; ii < this->_vars.ifstream.framed_adc_data_v.size(); ii++)
     {
         this->vars.ifstream.framed_adc_data_v[ii].resize(
             this->_vars.ifstream.framed_adc_data_v[ii].size());
@@ -363,10 +363,10 @@ void rsa306b_class::_ifstream_copy_framed_adc_data_v()
 /*
     < 18 > private
 */
-void rsa306b_class::_ifstream_copy_eq_parameters()
+CODEZ rsa306b_class::_ifstream_copy_eq_parameters()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -383,10 +383,10 @@ void rsa306b_class::_ifstream_copy_eq_parameters()
 /*
     < 19 > private
 */
-void rsa306b_class::_ifstream_copy_points_in_equalization_buffer()
+CODEZ rsa306b_class::_ifstream_copy_points_in_equalization_buffer()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -400,10 +400,10 @@ void rsa306b_class::_ifstream_copy_points_in_equalization_buffer()
 /*
     < 20 > private
 */
-void rsa306b_class::_ifstream_copy_eq_frequency_v()
+CODEZ rsa306b_class::_ifstream_copy_eq_frequency_v()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -419,10 +419,10 @@ void rsa306b_class::_ifstream_copy_eq_frequency_v()
 /*
     < 21 > private
 */
-void rsa306b_class::_ifstream_copy_eq_amplitude_v()
+CODEZ rsa306b_class::_ifstream_copy_eq_amplitude_v()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -438,10 +438,10 @@ void rsa306b_class::_ifstream_copy_eq_amplitude_v()
 /*
     < 22 > private
 */
-void rsa306b_class::_ifstream_copy_eq_phase_v()
+CODEZ rsa306b_class::_ifstream_copy_eq_phase_v()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -457,10 +457,10 @@ void rsa306b_class::_ifstream_copy_eq_phase_v()
 /*
     < 23 > private
 */
-void rsa306b_class::_ifstream_copy_scaling_parameters()
+CODEZ rsa306b_class::_ifstream_copy_scaling_parameters()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -475,10 +475,10 @@ void rsa306b_class::_ifstream_copy_scaling_parameters()
 /*
     < 24 > private
 */
-void rsa306b_class::_ifstream_copy_scale_factor()
+CODEZ rsa306b_class::_ifstream_copy_scale_factor()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -492,10 +492,10 @@ void rsa306b_class::_ifstream_copy_scale_factor()
 /*
     < 25 > private
 */
-void rsa306b_class::_ifstream_copy_scale_frequency()
+CODEZ rsa306b_class::_ifstream_copy_scale_frequency()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -509,10 +509,10 @@ void rsa306b_class::_ifstream_copy_scale_frequency()
 /*
     < 26 > private
 */
-void rsa306b_class::_ifstream_copy_acq_parameters()
+CODEZ rsa306b_class::_ifstream_copy_acq_parameters()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -528,10 +528,10 @@ void rsa306b_class::_ifstream_copy_acq_parameters()
 /*
     < 27 > private
 */
-void rsa306b_class::_ifstream_copy_if_bandwidth_hz()
+CODEZ rsa306b_class::_ifstream_copy_if_bandwidth_hz()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -545,10 +545,10 @@ void rsa306b_class::_ifstream_copy_if_bandwidth_hz()
 /*
     < 28 > private
 */
-void rsa306b_class::_ifstream_copy_samples_per_second()
+CODEZ rsa306b_class::_ifstream_copy_samples_per_second()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -562,10 +562,10 @@ void rsa306b_class::_ifstream_copy_samples_per_second()
 /*
     < 29 > private
 */
-void rsa306b_class::_ifstream_copy_if_center_frequency()
+CODEZ rsa306b_class::_ifstream_copy_if_center_frequency()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -579,10 +579,10 @@ void rsa306b_class::_ifstream_copy_if_center_frequency()
 /*
     < 30 > private
 */
-void rsa306b_class::_ifstream_copy_buffer_size()
+CODEZ rsa306b_class::_ifstream_copy_buffer_size()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -597,10 +597,10 @@ void rsa306b_class::_ifstream_copy_buffer_size()
 /*
     < 31 > private
 */
-void rsa306b_class::_ifstream_copy_buffer_size_bytes()
+CODEZ rsa306b_class::_ifstream_copy_buffer_size_bytes()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -614,10 +614,10 @@ void rsa306b_class::_ifstream_copy_buffer_size_bytes()
 /*
     < 32 > private
 */
-void rsa306b_class::_ifstream_copy_number_of_samples()
+CODEZ rsa306b_class::_ifstream_copy_number_of_samples()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 

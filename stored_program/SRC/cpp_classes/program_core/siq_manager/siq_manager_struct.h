@@ -284,6 +284,7 @@ struct siq_manager_struct
     std::vector<RSA_API::CplxInt16> data_block_cplxint16_v;
     std::vector<RSA_API::CplxInt32> data_block_cplxint32_v;
 };
+typedef struct siq_manager_struct siq_manager_struct;
 
 
 #endif

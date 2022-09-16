@@ -21,12 +21,22 @@
     uses the API to get all 'DEVICE' variables
     updates the public struct
 */
-void rsa306b_class::_device_get_vars()
+CODEZ rsa306b_class::_device_get_vars()
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
+
+    if (this->_vars.device.is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
+    }
 
     this->_device_get_error_string();
     this->_device_get_event();
@@ -42,7 +52,7 @@ void rsa306b_class::_device_get_vars()
 /*
     < 2 > private
 */
-void rsa306b_class::_device_get_is_running()
+CODEZ rsa306b_class::_device_get_is_running()
 {
 #ifdef DEBUG_GETS
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
@@ -52,11 +62,11 @@ void rsa306b_class::_device_get_is_running()
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     this->_vars.gp.api_status = 
         RSA_API::DEVICE_GetEnable(&this->_vars.device.is_running);
@@ -74,14 +84,24 @@ void rsa306b_class::_device_get_is_running()
     the API looks up the message based on the return status
     this is the only function the API that does not use return status
 */
-void rsa306b_class::_device_get_error_string()
+CODEZ rsa306b_class::_device_get_error_string()
 {
 #ifdef DEBUG_GETS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
-    snprintf(this->_vars.device.error_string, BUF_E-1, 
+    if (this->_vars.device.is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
+    }
+    
+    (void)snprintf(this->_vars.device.api_status_string, BUF_E-1, 
         "error code:  %4d  ,  error message:  %s", 
         this->_vars.gp.api_status, 
         RSA_API::DEVICE_GetErrorString(this->_vars.gp.api_status));
@@ -97,21 +117,21 @@ void rsa306b_class::_device_get_error_string()
     the struct of strings is updated by the API
     values are copied into the public variable struct
 */
-void rsa306b_class::_device_get_info_type()
+CODEZ rsa306b_class::_device_get_info_type()
 {
 #ifdef DEBUG_GETS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif 
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     this->_vars.gp.api_status = 
         RSA_API::DEVICE_GetInfo(&this->_vars.device.info_type);
@@ -130,21 +150,21 @@ void rsa306b_class::_device_get_info_type()
         true indicates that the device is too hot
         action should be taken to protect the device
 */
-void rsa306b_class::_device_get_is_over_temperature()
+CODEZ rsa306b_class::_device_get_is_over_temperature()
 {
 #ifdef DEBUG_GETS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     this->_vars.gp.api_status = 
         RSA_API::DEVICE_GetOverTemperatureStatus(&this->_vars.device.is_over_temperature);
@@ -154,8 +174,8 @@ void rsa306b_class::_device_get_is_over_temperature()
     if (this->_vars.device.is_over_temperature == true)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "RSA-306B is too hot, shut it down now");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "RSA-306B is too hot, shut it down now");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
     }
@@ -175,26 +195,26 @@ void rsa306b_class::_device_get_is_over_temperature()
     nothing is relevant unless the bool is true
     only valid if device is running
 */
-void rsa306b_class::_device_get_event()
+CODEZ rsa306b_class::_device_get_event()
 {
 #ifdef DEBUG_GETS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif 
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     if (this->_vars.device.is_running == false)
     {
         #ifdef DEBUG_MAX
-            printf("\n\tdevice is not running\n");
+            (void)printf("\n\tdevice is not running\n");
         #endif
         return;
     }

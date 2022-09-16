@@ -16,22 +16,21 @@
 /*
     < 1 > public
 */
-void rsa306b_class::spectrum_aquire()
+CODEZ rsa306b_class::spectrum_aquire()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
 
     int timeout_ms = 100;
@@ -85,22 +84,21 @@ void rsa306b_class::spectrum_aquire()
 /*
     < 2 > public
 */
-void rsa306b_class::spectrum_find_peak_index()
+CODEZ rsa306b_class::spectrum_find_peak_index()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
 
 
@@ -137,11 +135,10 @@ void rsa306b_class::spectrum_find_peak_index()
     just writes arrays to file as is
     might want to allow user to select a file-path-name and trace?
 */
-void rsa306b_class::spectrum_write_csv()
+CODEZ rsa306b_class::spectrum_write_csv()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
     
@@ -154,7 +151,7 @@ void rsa306b_class::spectrum_write_csv()
         if (this->_vars.spectrum.trace_points_acquired[ii] != this->constants.INIT_INT &&
             this->_vars.spectrum.is_enabled_trace[ii] == true                           )
         {
-            snprintf(this->_vars.gp.holder, BUF_F-1, "%s_%lu_freqVpow_trace_%d.csv",
+            (void)snprintf(this->_vars.gp.holder, BUF_F-1, "%s_%lu_freqVpow_trace_%d.csv",
                 this->constants.DATA_DIRECTORY_PROCESSED,
                 this->_vars.spectrum.trace_info_type[ii].timestamp,
                 ii);
@@ -162,25 +159,25 @@ void rsa306b_class::spectrum_write_csv()
             if (this->_fptr_write == NULL)
             {
                 #ifdef DEBUG_MIN
-                    snprintf(X_ddts, sizeof(X_ddts), "fix this");
-                    snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+                    (void)snprintf(X_ddts, sizeof(X_ddts), "fix this");
+                    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
                     debug_record(true);
                 #endif
                 return;
             }
-            snprintf(this->_vars.gp.helper, BUF_B-1, "frequency,power\n");
+            (void)snprintf(this->_vars.gp.helper, BUF_B-1, "frequency,power\n");
             fputs(this->_vars.gp.helper, this->_fptr_write);
             for (int jj = 0; jj < this->_vars.spectrum.trace_points_acquired[ii]; jj++)
             {
                 if (jj == this->_vars.spectrum.trace_points_acquired[ii])
                 {
-                    snprintf(this->_vars.gp.helper, BUF_E-1, "%lf,%f",
+                    (void)snprintf(this->_vars.gp.helper, BUF_E-1, "%lf,%f",
                         this->_vars.spectrum.array_frequency[jj],
                         this->_vars.spectrum.array_power[ii][jj]);
                 }
                 else
                 {
-                    snprintf(this->_vars.gp.helper, BUF_E-1, "%lf,%f\n",
+                    (void)snprintf(this->_vars.gp.helper, BUF_E-1, "%lf,%f\n",
                         this->_vars.spectrum.array_frequency[jj],
                         this->_vars.spectrum.array_power[ii][jj]);
                 }
@@ -203,22 +200,21 @@ void rsa306b_class::spectrum_write_csv()
 /*
     < 1 > private
 */
-void rsa306b_class::_spectrum_make_array_frequency()
+CODEZ rsa306b_class::_spectrum_make_array_frequency()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
 
     this->_spectrum_get_settings_type();
@@ -235,8 +231,8 @@ void rsa306b_class::_spectrum_make_array_frequency()
                         this->vars.spectrum.settings_type.actualStopFreq;
         if ((temp > 1) || (temp < -1))
         {
-            snprintf(X_ddts, sizeof(X_ddts), "mis-matched frequency array");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "mis-matched frequency array");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         }
     #endif

@@ -14,11 +14,10 @@
 /*
     < 1 > public
 */
-void rsa306b_class::print_trig()
+CODEZ rsa306b_class::print_trig()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -57,11 +56,10 @@ void rsa306b_class::print_trig()
 /*
     < 1 > private
 */
-void rsa306b_class::_trig_init()
+CODEZ rsa306b_class::_trig_init()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 

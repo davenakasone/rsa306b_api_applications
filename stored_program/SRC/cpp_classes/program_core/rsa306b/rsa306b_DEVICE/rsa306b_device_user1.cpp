@@ -22,10 +22,10 @@
     device search begins, device must succesfully connect
     information is taken fromt he device after connection
 */
-void rsa306b_class::device_connect()
+CODEZ rsa306b_class::device_connect()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -48,8 +48,8 @@ void rsa306b_class::device_connect()
     if (this->_vars.gp.api_status != RSA_API::noError)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "search for devices failed");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "search for devices failed");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;
@@ -57,8 +57,8 @@ void rsa306b_class::device_connect()
     if (devices_found > 1)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "too many devices are connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "too many devices are connected");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;
@@ -66,8 +66,8 @@ void rsa306b_class::device_connect()
     if (devices_found < 1)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no devices were found");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "no devices were found");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;
@@ -81,8 +81,8 @@ void rsa306b_class::device_connect()
     if (this->_vars.gp.api_status != RSA_API::noError)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "failed to connect, deviceID:  %d", this->_vars.device.id);
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "failed to connect, deviceID:  %d", this->_vars.device.id);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;
@@ -91,8 +91,8 @@ void rsa306b_class::device_connect()
     this->_device_copy_is_connected();
 
     #ifdef DEBUG_MIN
-        snprintf(X_ddts, sizeof(X_ddts), "CONNECTED");
-        snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+        (void)snprintf(X_ddts, sizeof(X_ddts), "CONNECTED");
+        (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
         debug_record(true);
     #endif
     
@@ -113,10 +113,10 @@ void rsa306b_class::device_connect()
     the device is disconnected, iff it is connected
     member variables are initialzied
 */
-void rsa306b_class::device_disconnect()
+CODEZ rsa306b_class::device_disconnect()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
@@ -134,8 +134,8 @@ void rsa306b_class::device_disconnect()
     if (this->_vars.gp.api_status != RSA_API::noError)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "failed to disconnect device");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "failed to disconnect device");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;
@@ -153,21 +153,21 @@ void rsa306b_class::device_disconnect()
     if error occurs, run state is never activated
     running initiates data transfer
 */
-void rsa306b_class::device_run()
+CODEZ rsa306b_class::device_run()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
 
     this->_device_get_is_running();
@@ -179,8 +179,8 @@ void rsa306b_class::device_run()
     if (this->_vars.gp.api_status != RSA_API::noError)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "failed to run device");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "failed to run device");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;
@@ -197,21 +197,21 @@ void rsa306b_class::device_run()
     the run state is deactivated, if device is connected and running
     errors stopping the device force a return
 */
-void rsa306b_class::device_stop()
+CODEZ rsa306b_class::device_stop()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     this->_device_get_is_running();
     if (this->_vars.device.is_running == false)
@@ -222,8 +222,8 @@ void rsa306b_class::device_stop()
     if (this->_vars.gp.api_status != RSA_API::noError)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "failed to stop device");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "failed to stop device");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;
@@ -241,33 +241,33 @@ void rsa306b_class::device_stop()
     most likely will crash program if resources are not released
     might want to rethink the prompt
 */
-void rsa306b_class::device_reset()
+CODEZ rsa306b_class::device_reset()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     this->device_stop();
 
     try
     {
-        printf("\n\t\t-witness\n\n");
+        (void)printf("\n\t\t-witness\n\n");
         this->_vars.gp.api_status = RSA_API::DEVICE_Reset(this->_vars.device.id);
     }
     catch(...)
     {
-        printf("\nyou did not make it to VAHALLAH\n");
-        sleep(10);
+        (void)printf("\nyou did not make it to VAHALLAH\n");
+        (void)sleep(10);
         this->_vars.device.is_connected = false;
         this->device_connect();
     }

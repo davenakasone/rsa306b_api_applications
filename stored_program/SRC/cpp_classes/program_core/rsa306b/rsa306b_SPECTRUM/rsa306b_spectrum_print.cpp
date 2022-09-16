@@ -17,57 +17,56 @@
     < 1 > private
     only printing first element for large items
 */
-void rsa306b_class::print_spectrum()
+CODEZ rsa306b_class::print_spectrum()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
-    printf("\n'SPECTRUM' group >>>\n");
-    printf("\t{LIMITS}\n");
-    printf("\t\tmaximum span                  :  %lf\n", this->_vars.spectrum.limits_type.maxSpan);
-    printf("\t\tminimum span                  :  %lf\n", this->_vars.spectrum.limits_type.minSpan);
-    printf("\t\tmaximum resolution bandwidth  :  %lf\n", this->_vars.spectrum.limits_type.maxRBW);
-    printf("\t\tminimum resolution bandwidth  :  %lf\n", this->_vars.spectrum.limits_type.minRBW);
-    printf("\t\tmaximum video bandwidth       :  %lf\n", this->_vars.spectrum.limits_type.maxVBW);
-    printf("\t\tminimum video bandwidth       :  %lf\n", this->_vars.spectrum.limits_type.minVBW);
-    printf("\t\tmaximum trace length          :  %d\n", this->_vars.spectrum.limits_type.maxTraceLength);
-    printf("\t\tminimum trace length          :  %d\n", this->_vars.spectrum.limits_type.minTraceLength);
-    printf("\t{ACTUAL SETTINGS}\n");
-    printf("\t\tactual number of IQ samples   :  %d\n", this->_vars.spectrum.settings_type.actualNumIQSamples);
-    printf("\t\tactual starting frequency     :  %lf\n", this->_vars.spectrum.settings_type.actualStartFreq);
-    printf("\t\tactual stopping frequency     :  %lf\n", this->_vars.spectrum.settings_type.actualStopFreq);
-    printf("\t\tactual frequency step size    :  %lf\n", this->_vars.spectrum.settings_type.actualFreqStepSize);
-    printf("\t\tactual resolution bandwidth   :  %lf\n", this->_vars.spectrum.settings_type.actualRBW);
-    printf("\t\tactual video bandwidth        :  %lf\n", this->_vars.spectrum.settings_type.actualVBW);
-    printf("\t{CONFIGURED SETTINGS}\n");
-    printf("\t\tmeasurement is enabled        :  %d\n", this->_vars.spectrum.is_enabled_measurement);
-    printf("\t\tvideo bandwidth enabled       :  %d\n", this->_vars.spectrum.settings_type.enableVBW);
-    printf("\t\tspan                          :  %lf\n", this->_vars.spectrum.settings_type.span);
-    printf("\t\tresolution bandwidth          :  %lf\n", this->_vars.spectrum.settings_type.rbw);
-    printf("\t\ttrace length                  :  %d\n", this->_vars.spectrum.settings_type.traceLength);
-    printf("\t\twindow                        :  ");
+    (void)printf("\n'SPECTRUM' group >>>\n");
+    (void)printf("\t{LIMITS}\n");
+    (void)printf("\t\tmaximum span                  :  %lf\n", this->_vars.spectrum.limits_type.maxSpan);
+    (void)printf("\t\tminimum span                  :  %lf\n", this->_vars.spectrum.limits_type.minSpan);
+    (void)printf("\t\tmaximum resolution bandwidth  :  %lf\n", this->_vars.spectrum.limits_type.maxRBW);
+    (void)printf("\t\tminimum resolution bandwidth  :  %lf\n", this->_vars.spectrum.limits_type.minRBW);
+    (void)printf("\t\tmaximum video bandwidth       :  %lf\n", this->_vars.spectrum.limits_type.maxVBW);
+    (void)printf("\t\tminimum video bandwidth       :  %lf\n", this->_vars.spectrum.limits_type.minVBW);
+    (void)printf("\t\tmaximum trace length          :  %d\n", this->_vars.spectrum.limits_type.maxTraceLength);
+    (void)printf("\t\tminimum trace length          :  %d\n", this->_vars.spectrum.limits_type.minTraceLength);
+    (void)printf("\t{ACTUAL SETTINGS}\n");
+    (void)printf("\t\tactual number of IQ samples   :  %d\n", this->_vars.spectrum.settings_type.actualNumIQSamples);
+    (void)printf("\t\tactual starting frequency     :  %lf\n", this->_vars.spectrum.settings_type.actualStartFreq);
+    (void)printf("\t\tactual stopping frequency     :  %lf\n", this->_vars.spectrum.settings_type.actualStopFreq);
+    (void)printf("\t\tactual frequency step size    :  %lf\n", this->_vars.spectrum.settings_type.actualFreqStepSize);
+    (void)printf("\t\tactual resolution bandwidth   :  %lf\n", this->_vars.spectrum.settings_type.actualRBW);
+    (void)printf("\t\tactual video bandwidth        :  %lf\n", this->_vars.spectrum.settings_type.actualVBW);
+    (void)printf("\t{CONFIGURED SETTINGS}\n");
+    (void)printf("\t\tmeasurement is enabled        :  %d\n", this->_vars.spectrum.is_enabled_measurement);
+    (void)printf("\t\tvideo bandwidth enabled       :  %d\n", this->_vars.spectrum.settings_type.enableVBW);
+    (void)printf("\t\tspan                          :  %lf\n", this->_vars.spectrum.settings_type.span);
+    (void)printf("\t\tresolution bandwidth          :  %lf\n", this->_vars.spectrum.settings_type.rbw);
+    (void)printf("\t\ttrace length                  :  %d\n", this->_vars.spectrum.settings_type.traceLength);
+    (void)printf("\t\twindow                        :  ");
     switch (this->_vars.spectrum.settings_type.window)
     {
-        case (RSA_API::SpectrumWindow_Kaiser)         : printf("Kaiser\n");          break;
-        case (RSA_API::SpectrumWindow_Mil6dB)         : printf("Mil6dB\n");          break;
-        case (RSA_API::SpectrumWindow_BlackmanHarris) : printf("Blackman-Harris\n"); break;
-        case (RSA_API::SpectrumWindow_Rectangle)      : printf("Rectangle\n");       break;
-        case (RSA_API::SpectrumWindow_FlatTop)        : printf("Flat-top\n");        break;
-        case (RSA_API::SpectrumWindow_Hann)           : printf("Hann\n");            break;
-        default                                       : printf("UNKNOWN\n");         break;
+        case (RSA_API::SpectrumWindow_Kaiser)         : (void)printf("Kaiser\n");          break;
+        case (RSA_API::SpectrumWindow_Mil6dB)         : (void)printf("Mil6dB\n");          break;
+        case (RSA_API::SpectrumWindow_BlackmanHarris) : (void)printf("Blackman-Harris\n"); break;
+        case (RSA_API::SpectrumWindow_Rectangle)      : (void)printf("Rectangle\n");       break;
+        case (RSA_API::SpectrumWindow_FlatTop)        : (void)printf("Flat-top\n");        break;
+        case (RSA_API::SpectrumWindow_Hann)           : (void)printf("Hann\n");            break;
+        default                                       : (void)printf("UNKNOWN\n");         break;
     }
     printf("\t\tvertical units                :  ");
     switch (this->_vars.spectrum.settings_type.verticalUnit)
     {
-        case (RSA_API::SpectrumVerticalUnit_dBm)  : printf("dBm\n");    break;
-        case (RSA_API::SpectrumVerticalUnit_Watt) : printf("watt\n");   break;
-        case (RSA_API::SpectrumVerticalUnit_Volt) : printf("volt\n");   break;
-        case (RSA_API::SpectrumVerticalUnit_Amp)  : printf("amp\n");    break;
-        case (RSA_API::SpectrumVerticalUnit_dBmV) : printf("dBmV\n");   break;
-        default                                   : printf("UNKOWN\n"); break;
+        case (RSA_API::SpectrumVerticalUnit_dBm)  : (void)printf("dBm\n");    break;
+        case (RSA_API::SpectrumVerticalUnit_Watt) : (void)printf("watt\n");   break;
+        case (RSA_API::SpectrumVerticalUnit_Volt) : (void)printf("volt\n");   break;
+        case (RSA_API::SpectrumVerticalUnit_Amp)  : (void)printf("amp\n");    break;
+        case (RSA_API::SpectrumVerticalUnit_dBmV) : (void)printf("dBmV\n");   break;
+        default                                   : (void)printf("UNKOWN\n"); break;
     }
     
     // pick one
@@ -82,13 +81,18 @@ void rsa306b_class::print_spectrum()
 /*
     < 1 > 
 */
-void rsa306b_class::_print_spectrum_traces_long()
+CODEZ rsa306b_class::_print_spectrum_traces_long()
 {
+#ifdef DEBUG_CLI
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
     {
-        printf("\t{TRACE #%d}\n", ii+1);
-        printf("\t\tspectrum trace index          :  %d\n", this->_vars.spectrum.traces_select[ii]);
-        printf("\t\tspectrum trace name           :  ");
+        (void)printf("\t{TRACE #%d}\n", ii+1);
+        (void)printf("\t\tspectrum trace index          :  %d\n", this->_vars.spectrum.traces_select[ii]);
+        (void)printf("\t\tspectrum trace name           :  ");
         switch (this->_vars.spectrum.traces_select[ii])
         {
             case (RSA_API::SpectrumTrace1) : printf("SpectrumTrace1\n"); break;
@@ -96,28 +100,28 @@ void rsa306b_class::_print_spectrum_traces_long()
             case (RSA_API::SpectrumTrace3) : printf("SpectrumTrace3\n"); break;
             default                        : printf("UNKNOWN\n");        break;
         }
-        printf("\t\ttrace is enabled              :  %d\n", this->_vars.spectrum.is_enabled_trace[ii]);
-        printf("\t\ttrace points acquired         :  %d\n", this->_vars.spectrum.trace_points_acquired[ii]);
-        printf("\t\tpeak index measured           :  %d\n", this->_vars.spectrum.peak_index[ii]);
-        printf("\t\tdata_frequency[0]             :  %lf\n", this->_vars.spectrum.array_frequency[0]);
-        printf("\t\tdata_power[0]                 :  %f\n", this->_vars.spectrum.array_power[ii][0]);
-        printf("\t\tdetection used                :  ");
+        (void)printf("\t\ttrace is enabled              :  %d\n", this->_vars.spectrum.is_enabled_trace[ii]);
+        (void)printf("\t\ttrace points acquired         :  %d\n", this->_vars.spectrum.trace_points_acquired[ii]);
+        (void)printf("\t\tpeak index measured           :  %d\n", this->_vars.spectrum.peak_index[ii]);
+        (void)printf("\t\tdata_frequency[0]             :  %lf\n", this->_vars.spectrum.array_frequency[0]);
+        (void)printf("\t\tdata_power[0]                 :  %f\n", this->_vars.spectrum.array_power[ii][0]);
+        (void)printf("\t\tdetection used                :  ");
         
         switch (this->_vars.spectrum.detectors_select[ii])
         {
-            case (RSA_API::SpectrumDetector_PosPeak)     : printf("positive peak\n");        break;
-            case (RSA_API::SpectrumDetector_NegPeak)     : printf("negative peak\n");        break;
-            case (RSA_API::SpectrumDetector_AverageVRMS) : printf("average voltage, RMS\n"); break;
-            case (RSA_API::SpectrumDetector_Sample)      : printf("sampled\n");              break;
-            default                                      : printf("UNKNOWN\n");              break;
+            case (RSA_API::SpectrumDetector_PosPeak)     : (void)printf("positive peak\n");        break;
+            case (RSA_API::SpectrumDetector_NegPeak)     : (void)printf("negative peak\n");        break;
+            case (RSA_API::SpectrumDetector_AverageVRMS) : (void)printf("average voltage, RMS\n"); break;
+            case (RSA_API::SpectrumDetector_Sample)      : (void)printf("sampled\n");              break;
+            default                                      : (void)printf("UNKNOWN\n");              break;
         }
         this->_vars.gp.acquisition_code = this->_vars.spectrum.trace_info_type[ii].acqDataStatus;
         this->_gp_confirm_aquisition_code();
-        printf("\t\taquisition status             :  %u { 0x%X }\n", 
+        (void)printf("\t\taquisition status             :  %u { 0x%X }\n", 
             this->_vars.spectrum.trace_info_type[ii].acqDataStatus, 
             this->_vars.spectrum.trace_info_type[ii].acqDataStatus);
-        printf("\t\taquisition status message     :  %s\n", this->_vars.gp.acquisition_message);
-        printf("\t\taquisition timestamp          :  %ld\n", this->_vars.spectrum.trace_info_type[ii].timestamp); 
+        (void)printf("\t\taquisition status message     :  %s\n", this->_vars.gp.acquisition_message);
+        (void)printf("\t\taquisition timestamp          :  %ld\n", this->_vars.spectrum.trace_info_type[ii].timestamp); 
     }
 }
 
@@ -128,40 +132,45 @@ void rsa306b_class::_print_spectrum_traces_long()
 /*
     < 2 > 
 */
-void rsa306b_class::_print_spectrum_traces_compact()
+CODEZ rsa306b_class::_print_spectrum_traces_compact()
 {
-    printf("\t{ TRACE # ");
+#ifdef DEBUG_CLI
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
+    (void)printf("\t{ TRACE # ");
     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
     {
         if (ii < TRACES_AVAILABLE - 1)
         {
-            printf("%d , ", ii+1);
+            (void)printf("%d , ", ii+1);
         }
         else
         {
-            printf("%d }\n", ii+1);
+            (void)printf("%d }\n", ii+1);
         }
         
     }
-    printf("\t\tspectrum trace index          :  ");
+    (void)printf("\t\tspectrum trace index          :  ");
     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
     {
         if (ii == 0)
         {
-            printf("%15d", this->_vars.spectrum.traces_select[ii]);
-            printf("       <> ");
+            (void)printf("%15d", this->_vars.spectrum.traces_select[ii]);
+            (void)printf("       <> ");
         }
         else if (ii == 1)
         {
-            printf("%15d", this->_vars.spectrum.traces_select[ii]);
-            printf("         <> ");
+            (void)printf("%15d", this->_vars.spectrum.traces_select[ii]);
+            (void)printf("         <> ");
         }
         else
         {
-            printf("%15d\n", this->_vars.spectrum.traces_select[ii]);
+            (void)printf("%15d\n", this->_vars.spectrum.traces_select[ii]);
         }
     }
-    printf("\t\tspectrum trace name           :  ");
+    (void)printf("\t\tspectrum trace name           :  ");
     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
     {
         if (ii < TRACES_AVAILABLE - 1)
@@ -185,186 +194,186 @@ void rsa306b_class::_print_spectrum_traces_compact()
             }
         }
     }
-    printf("\t\ttrace is enabled              :  ");
+    (void)printf("\t\ttrace is enabled              :  ");
     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
     {
         if (ii == 0)
         {
-            printf("%15d", this->_vars.spectrum.is_enabled_trace[ii]);
-            printf("       <> ");
+            (void)printf("%15d", this->_vars.spectrum.is_enabled_trace[ii]);
+            (void)printf("       <> ");
         }
         else if (ii == 1)
         {
-            printf("%15d", this->_vars.spectrum.is_enabled_trace[ii]);
-            printf("         <> ");
+            (void)printf("%15d", this->_vars.spectrum.is_enabled_trace[ii]);
+            (void)printf("         <> ");
         }
         else
         {
-            printf("%15d\n", this->_vars.spectrum.is_enabled_trace[ii]);
+            (void)printf("%15d\n", this->_vars.spectrum.is_enabled_trace[ii]);
         }
     }
-    printf("\t\ttrace points acquired         :  ");
+    (void)printf("\t\ttrace points acquired         :  ");
     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
     {
         if (ii == 0)
         {
-            printf("%15d", this->_vars.spectrum.trace_points_acquired[ii]);
-            printf("       <> ");
+            (void)printf("%15d", this->_vars.spectrum.trace_points_acquired[ii]);
+            (void)printf("       <> ");
         }
         else if (ii == 1)
         {
-            printf("%15d", this->_vars.spectrum.trace_points_acquired[ii]);
-            printf("         <> ");
+            (void)printf("%15d", this->_vars.spectrum.trace_points_acquired[ii]);
+            (void)printf("         <> ");
         }
         else
         {
             printf("%15d\n", this->_vars.spectrum.trace_points_acquired[ii]);
         }
     }
-    printf("\t\tpeak index measured           :  ");
+    (void)printf("\t\tpeak index measured           :  ");
     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
     {
         if (ii == 0)
         {
-            printf("%15d", this->_vars.spectrum.peak_index[ii]);
-            printf("       <> ");
+            (void)printf("%15d", this->_vars.spectrum.peak_index[ii]);
+            (void)printf("       <> ");
         }
         else if (ii == 1)
         {
-            printf("%15d", this->_vars.spectrum.peak_index[ii]);
-            printf("         <> ");
+            (void)printf("%15d", this->_vars.spectrum.peak_index[ii]);
+            (void)printf("         <> ");
         }
         else
         {
-            printf("%15d\n", this->_vars.spectrum.peak_index[ii]);
+            (void)printf("%15d\n", this->_vars.spectrum.peak_index[ii]);
         }
     }
-    printf("\t\tdata_frequency[0]             :  ");
+    (void)printf("\t\tdata_frequency[0]             :  ");
     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
     {
         if (ii == 0)
         {
-            printf("%15.3lf", this->_vars.spectrum.array_frequency[0]);
-            printf("       <> ");
+            (void)printf("%15.3lf", this->_vars.spectrum.array_frequency[0]);
+            (void)printf("       <> ");
         }
         else if (ii == 1)
         {
-            printf("%15.3lf", this->_vars.spectrum.array_frequency[0]);
-            printf("         <> ");
+            (void)printf("%15.3lf", this->_vars.spectrum.array_frequency[0]);
+            (void)printf("         <> ");
         }
         else
         {
-            printf("%15.3lf\n", this->_vars.spectrum.array_frequency[0]);
+            (void)printf("%15.3lf\n", this->_vars.spectrum.array_frequency[0]);
         }
     }
-    printf("\t\tdata_power[0]                 :  ");
+    (void)printf("\t\tdata_power[0]                 :  ");
     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
     {
         if (ii == 0)
         {
-            printf("%15.3f", this->_vars.spectrum.array_power[ii][0]);
-            printf("       <>");
+            (void)printf("%15.3f", this->_vars.spectrum.array_power[ii][0]);
+            (void)printf("       <>");
         }
         else if (ii == 1)
         {
-            printf("%15.3f", this->_vars.spectrum.array_power[ii][0]);
-            printf("          <> ");
+            (void)printf("%15.3f", this->_vars.spectrum.array_power[ii][0]);
+            (void)printf("          <> ");
         }
         else
         {
-            printf("%15.3f\n", this->_vars.spectrum.array_power[ii][0]);
+            (void)printf("%15.3f\n", this->_vars.spectrum.array_power[ii][0]);
         }
     }
-    printf("\t\tdetection used                :  ");
+    (void)printf("\t\tdetection used                :  ");
     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
     {
         if (ii < TRACES_AVAILABLE - 1)
         {
             switch (this->_vars.spectrum.detectors_select[ii])
             {
-                case (RSA_API::SpectrumDetector_PosPeak)     : printf("positive peak         <>   "); break;
-                case (RSA_API::SpectrumDetector_NegPeak)     : printf("negative peak         <>   "); break;
-                case (RSA_API::SpectrumDetector_AverageVRMS) : printf("average voltage RMS   <>   "); break;
-                case (RSA_API::SpectrumDetector_Sample)      : printf("sampled               <>   "); break;
-                default                                      : printf("UNKNOWN               <>   "); break;
+                case (RSA_API::SpectrumDetector_PosPeak)     : (void)printf("positive peak         <>   "); break;
+                case (RSA_API::SpectrumDetector_NegPeak)     : (void)printf("negative peak         <>   "); break;
+                case (RSA_API::SpectrumDetector_AverageVRMS) : (void)printf("average voltage RMS   <>   "); break;
+                case (RSA_API::SpectrumDetector_Sample)      : (void)printf("sampled               <>   "); break;
+                default                                      : (void)printf("UNKNOWN               <>   "); break;
             }
         }
         else
         {
             switch (this->_vars.spectrum.detectors_select[ii])
             {
-                case (RSA_API::SpectrumDetector_PosPeak)     : printf("positive peak\n");       break;
-                case (RSA_API::SpectrumDetector_NegPeak)     : printf("negative peak\n");       break;
-                case (RSA_API::SpectrumDetector_AverageVRMS) : printf("average voltage RMS\n"); break;
-                case (RSA_API::SpectrumDetector_Sample)      : printf("sampled\n");             break;
-                default                                      : printf("UNKNOWN\n");             break;
+                case (RSA_API::SpectrumDetector_PosPeak)     : (void)printf("positive peak\n");       break;
+                case (RSA_API::SpectrumDetector_NegPeak)     : (void)printf("negative peak\n");       break;
+                case (RSA_API::SpectrumDetector_AverageVRMS) : (void)printf("average voltage RMS\n"); break;
+                case (RSA_API::SpectrumDetector_Sample)      : (void)printf("sampled\n");             break;
+                default                                      : (void)printf("UNKNOWN\n");             break;
             }
         }
     }
-    printf("\t\taquisition status             :  "); 
+    (void)printf("\t\taquisition status             :  "); 
     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
     {
         this->_vars.gp.acquisition_code = this->_vars.spectrum.trace_info_type[ii].acqDataStatus;
         this->_gp_confirm_aquisition_code();
         if (ii == 0)
         {
-            printf("%5u { 0x%4X }", 
+            (void)printf("%5u { 0x%4X }", 
                 this->_vars.spectrum.trace_info_type[ii].acqDataStatus,
                 this->_vars.spectrum.trace_info_type[ii].acqDataStatus);
-            printf("      <>  ");
+            (void)printf("      <>  ");
         }
         else if (ii == 1)
         {
-            printf("%5u { 0x%4X }", 
+            (void)printf("%5u { 0x%4X }", 
                 this->_vars.spectrum.trace_info_type[ii].acqDataStatus,
                 this->_vars.spectrum.trace_info_type[ii].acqDataStatus);
-            printf("       <> ");
+            (void)printf("       <> ");
         }
         else
         {
-            printf("%5u { 0x%4X }\n", 
+            (void)printf("%5u { 0x%4X }\n", 
                 this->_vars.spectrum.trace_info_type[ii].acqDataStatus,
                 this->_vars.spectrum.trace_info_type[ii].acqDataStatus);
         }
     }
-    printf("\t\taquisition status message     :  ");
+    (void)printf("\t\taquisition status message     :  ");
     char temp[10]; // first 10-1 chars....
     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
     {
         this->_vars.gp.acquisition_code = this->_vars.spectrum.trace_info_type[ii].acqDataStatus;
         this->_gp_confirm_aquisition_code();
-        strncpy(temp, this->_vars.gp.acquisition_message, 10-1);
+        (void)strncpy(temp, this->_vars.gp.acquisition_message, 10-1);
         if (ii == 0)
         {
-            printf("%s", temp);
-            printf("             <>        ");
+            (void)printf("%s", temp);
+            (void)printf("             <>        ");
         }
         else if (ii == 1)
         {
-            printf("%s", temp);
-            printf("        <>        ");
+            (void)printf("%s", temp);
+            (void)printf("        <>        ");
         }
         else
         {
-            printf("%s\n", temp);
+            (void)printf("%s\n", temp);
         }
     }  
-    printf("\t\taquisition timestamp          :  ");
+    (void)printf("\t\taquisition timestamp          :  ");
     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
     {
         if (ii == 0)
         {
-            printf("%15ld", this->_vars.spectrum.trace_info_type[ii].timestamp);
-            printf("       <>   ");
+            (void)printf("%15ld", this->_vars.spectrum.trace_info_type[ii].timestamp);
+            (void)printf("       <>   ");
         }
         else if (ii == 1)
         {
-            printf("%15ld", this->_vars.spectrum.trace_info_type[ii].timestamp);
-            printf("       <>    ");
+            (void)printf("%15ld", this->_vars.spectrum.trace_info_type[ii].timestamp);
+            (void)printf("       <>    ");
         }
         else
         {
-            printf("%15ld\n", this->_vars.spectrum.trace_info_type[ii].timestamp);
+            (void)printf("%15ld\n", this->_vars.spectrum.trace_info_type[ii].timestamp);
         }
     }
 }

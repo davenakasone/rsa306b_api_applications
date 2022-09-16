@@ -66,7 +66,7 @@ siq_manager_class::~siq_manager_class()
     < 3 > public
     clear the instance
 */
-void siq_manager_class::unload_and_clear()
+CODEZ siq_manager_class::unload_and_clear()
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
@@ -136,7 +136,7 @@ unsigned long int  siq_manager_class::get_file_byte_length
     < 1 > private
     confirms that a valid *.siq extension is provided
 */
-void siq_manager_class::_verify_siq_extension
+CODEZ siq_manager_class::_verify_siq_extension
 (
     const char* input_file
 )
@@ -182,7 +182,7 @@ void siq_manager_class::_verify_siq_extension
     gets bytes in file, ensuring enough bytes exist
     the file is opened for reading if successful
 */
-void siq_manager_class::_prepare_siq_input
+CODEZ siq_manager_class::_prepare_siq_input
 (
     char* input_file
 )
@@ -230,7 +230,7 @@ void siq_manager_class::_prepare_siq_input
     < 3 > private
     closes the "*.siq" file when reading is complete
 */
-void siq_manager_class::_conclude_siq_input()
+CODEZ siq_manager_class::_conclude_siq_input()
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
@@ -260,7 +260,7 @@ void siq_manager_class::_conclude_siq_input()
     < 4 > private
     attempts to open and over-write given output file
 */
-void siq_manager_class::_prepare_any_output
+CODEZ siq_manager_class::_prepare_any_output
 (
     char* output_file
 )
@@ -289,7 +289,7 @@ void siq_manager_class::_prepare_any_output
     < 5 > private
     closes the "*.siq" file when reading is complete
 */
-void siq_manager_class::_conclude_any_output()
+CODEZ siq_manager_class::_conclude_any_output()
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 

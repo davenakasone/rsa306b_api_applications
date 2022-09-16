@@ -25,10 +25,10 @@
 /*
     < 1 > private
 */
-void rsa306b_class::_spectrum_copy_vars()
+CODEZ rsa306b_class::_spectrum_copy_vars()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+#ifdef DEBUG_COPYS
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -56,10 +56,10 @@ void rsa306b_class::_spectrum_copy_vars()
 /*
     < 2 > private
 */
-void rsa306b_class::_spectrum_copy_is_enabled_measurement()
+CODEZ rsa306b_class::_spectrum_copy_is_enabled_measurement()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -73,10 +73,10 @@ void rsa306b_class::_spectrum_copy_is_enabled_measurement()
 /*
     < 3 > private
 */
-void rsa306b_class::_spectrum_copy_settings_type()
+CODEZ rsa306b_class::_spectrum_copy_settings_type()
 { 
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -102,10 +102,10 @@ void rsa306b_class::_spectrum_copy_settings_type()
 /*
     < 4 > private
 */
-void rsa306b_class::_spectrum_copy_limits_type()
+CODEZ rsa306b_class::_spectrum_copy_limits_type()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -126,10 +126,10 @@ void rsa306b_class::_spectrum_copy_limits_type()
 /*
     < 5 > private
 */
-void rsa306b_class::_spectrum_copy_array_frequency()
+CODEZ rsa306b_class::_spectrum_copy_array_frequency()
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -146,10 +146,10 @@ void rsa306b_class::_spectrum_copy_array_frequency()
 /*
     < 6 > private
 */
-void rsa306b_class::_spectrum_copy_trace_points_aquired(int trace_index)
+CODEZ rsa306b_class::_spectrum_copy_trace_points_aquired(int trace_index)
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -163,10 +163,10 @@ void rsa306b_class::_spectrum_copy_trace_points_aquired(int trace_index)
 /*
     < 7 > private
 */
-void rsa306b_class::_spectrum_copy_is_enabled_trace(int trace_index)
+CODEZ rsa306b_class::_spectrum_copy_is_enabled_trace(int trace_index)
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -180,10 +180,10 @@ void rsa306b_class::_spectrum_copy_is_enabled_trace(int trace_index)
 /*
     < 8 > private
 */
-void rsa306b_class::_spectrum_copy_traces_select(int trace_index)
+CODEZ rsa306b_class::_spectrum_copy_traces_select(int trace_index)
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -197,10 +197,10 @@ void rsa306b_class::_spectrum_copy_traces_select(int trace_index)
 /*
     < 9 > private
 */
-void rsa306b_class::_spectrum_copy_detectors_select(int trace_index)
+CODEZ rsa306b_class::_spectrum_copy_detectors_select(int trace_index)
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -214,10 +214,10 @@ void rsa306b_class::_spectrum_copy_detectors_select(int trace_index)
 /*
     < 10 > private
 */
-void rsa306b_class::_spectrum_copy_trace_info_type(int trace_index)
+CODEZ rsa306b_class::_spectrum_copy_trace_info_type(int trace_index)
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -232,10 +232,10 @@ void rsa306b_class::_spectrum_copy_trace_info_type(int trace_index)
 /*
     < 11 > private
 */
-void rsa306b_class::_spectrum_copy_array_power(int trace_index)
+CODEZ rsa306b_class::_spectrum_copy_array_power(int trace_index)
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
@@ -252,10 +252,10 @@ void rsa306b_class::_spectrum_copy_array_power(int trace_index)
 /*
     < 12 > private
 */
-void rsa306b_class::_spectrum_copy_peak_index(int trace_index)
+CODEZ rsa306b_class::_spectrum_copy_peak_index(int trace_index)
 {
 #ifdef DEBUG_COPYS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 

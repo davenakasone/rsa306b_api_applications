@@ -17,7 +17,7 @@
 /*
     < 1 > public
 */
-void rsa306b_class::iqblk_set_vars()
+CODEZ rsa306b_class::iqblk_set_vars()
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
@@ -27,11 +27,11 @@ void rsa306b_class::iqblk_set_vars()
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     this->_iqblk_set_vars();
 }
@@ -43,7 +43,7 @@ void rsa306b_class::iqblk_set_vars()
 /*
     < 1 > private
 */
-void rsa306b_class::_iqblk_set_vars()
+CODEZ rsa306b_class::_iqblk_set_vars()
 {
 #ifdef DEBUG_SETS
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
@@ -53,11 +53,11 @@ void rsa306b_class::_iqblk_set_vars()
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     this->device_stop();
     
@@ -74,7 +74,7 @@ void rsa306b_class::_iqblk_set_vars()
     < 2 > private
     does not require API
 */
-void rsa306b_class::_iqblk_set_getter()
+CODEZ rsa306b_class::_iqblk_set_getter()
 {
 #ifdef DEBUG_SETS
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
@@ -84,11 +84,11 @@ void rsa306b_class::_iqblk_set_getter()
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     if (this->vars.iqblk.getter == this->_vars.iqblk.getter)
     {
@@ -122,21 +122,21 @@ void rsa306b_class::_iqblk_set_getter()
     < 3 > private
     should be set first
 */
-void rsa306b_class::_iqblk_set_bandwidth_hz()
+CODEZ rsa306b_class::_iqblk_set_bandwidth_hz()
 {
 #ifdef DEBUG_SETS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     if (this->vars.iqblk.bandwidth_hz == this->_vars.iqblk.bandwidth_hz)
     {
@@ -148,9 +148,9 @@ void rsa306b_class::_iqblk_set_bandwidth_hz()
     {
         this->vars.iqblk.bandwidth_hz = this->_vars.iqblk.max_bandwidth_hz / 2;
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "invalid IQ bandwidth, using:  %lf Hz",
+            (void)snprintf(X_ddts, sizeof(X_ddts), "invalid IQ bandwidth, using:  %lf Hz",
                 this->vars.iqblk.bandwidth_hz);
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
     }
@@ -172,26 +172,26 @@ void rsa306b_class::_iqblk_set_bandwidth_hz()
     < 4 > private
     should be called after setting bandwidth
 */
-void rsa306b_class::_iqblk_set_record_length()
+CODEZ rsa306b_class::_iqblk_set_record_length()
 {
 #ifdef DEBUG_SETS
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     if (this->vars.iqblk.record_length == this->_vars.iqblk.record_length)
     {
         #ifdef DEBUG_MAX
-            printf("\n\trecord length already set\n");
+            (void)printf("\n\trecord length already set\n");
         #endif
         return;
     }
@@ -202,9 +202,9 @@ void rsa306b_class::_iqblk_set_record_length()
     {
         this->vars.iqblk.record_length = this->_vars.iqblk.max_record_length / 2;
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "invalid IQ record length, using:  %d samples/pairs",
+            (void)snprintf(X_ddts, sizeof(X_ddts), "invalid IQ record length, using:  %d samples/pairs",
                 this->vars.iqblk.record_length);
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
     }
@@ -221,8 +221,8 @@ void rsa306b_class::_iqblk_set_record_length()
         static_cast<std::size_t>(this->_vars.iqblk.record_length));
     for (size_t ii = 0; ii < this->_vars.iqblk.cplx32_v.size(); ii++)
     {
-        this->_vars.iqblk.cplx32_v[ii].i = this->constants.INIT_FLOAT;
-        this->_vars.iqblk.cplx32_v[ii].q = this->constants.INIT_FLOAT;
+        this->_vars.iqblk.cplx32_v[ii].i = INIT_FLOAT;
+        this->_vars.iqblk.cplx32_v[ii].q = INIT_FLOAT;
     }
     this->_iqblk_copy_cplx32_v();
 }

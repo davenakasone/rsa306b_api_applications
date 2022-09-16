@@ -23,22 +23,21 @@
 /*
     < 1 > public
 */
-void rsa306b_class::iqstream_set_vars()
+CODEZ rsa306b_class::iqstream_set_vars()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif
+#endif 
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     this->_iqstream_set_vars();
 }
@@ -50,22 +49,21 @@ void rsa306b_class::iqstream_set_vars()
 /*
     < 1 > private
 */
-void rsa306b_class::_iqstream_set_vars()
+CODEZ rsa306b_class::_iqstream_set_vars()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif 
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     this->device_stop();
 
@@ -84,22 +82,21 @@ void rsa306b_class::_iqstream_set_vars()
 /*
     < 2 > private
 */
-void rsa306b_class::_iqstream_set_acq_bandwidth()
+CODEZ rsa306b_class::_iqstream_set_acq_bandwidth()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif 
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     if (this->_vars.iqstream.bandwidth == this->vars.iqstream.bandwidth)
     {
@@ -111,11 +108,11 @@ void rsa306b_class::_iqstream_set_acq_bandwidth()
         this->vars.iqstream.bandwidth > this->_vars.iqstream.bandwidth_max  )
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "bandwidth requested { %0.6lf }  out of range [ %lf : %lf ]",
+            (void)snprintf(X_ddts, sizeof(X_ddts), "bandwidth requested { %0.6lf }  out of range [ %lf : %lf ]",
                 this->vars.iqstream.bandwidth,
                 this->_vars.iqstream.bandwidth_min,
                 this->_vars.iqstream.bandwidth_max);
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;
@@ -136,22 +133,21 @@ void rsa306b_class::_iqstream_set_acq_bandwidth()
     no API use to get after set
     the record time determines the size
 */
-void rsa306b_class::_iqstream_set_disk_file_length()
+CODEZ rsa306b_class::_iqstream_set_disk_file_length()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif 
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     if (this->_vars.iqstream.record_time_ms == this->vars.iqstream.record_time_ms)
     {
@@ -161,11 +157,11 @@ void rsa306b_class::_iqstream_set_disk_file_length()
         this->vars.iqstream.record_time_ms > this->constants.IQSTREAM_MSEC_MAX  )
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "record time ms, requested{ %d }  out of range [ %d : %d ]",
+            (void)snprintf(X_ddts, sizeof(X_ddts), "record time ms, requested{ %d }  out of range [ %d : %d ]",
                 this->vars.iqstream.record_time_ms,
                 this->constants.IQSTREAM_MSEC_MIN,
                 this->constants.IQSTREAM_MSEC_MAX);
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return; 
@@ -187,28 +183,27 @@ void rsa306b_class::_iqstream_set_disk_file_length()
     < 4 > private
     no API use to get after set
 */
-void rsa306b_class::_iqstream_set_disk_filename_base()
+CODEZ rsa306b_class::_iqstream_set_disk_filename_base()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     if (this->vars.iqstream.filename_base == NULL)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "allocate the filename-base");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "allocate the filename-base");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return; 
@@ -234,22 +229,21 @@ void rsa306b_class::_iqstream_set_disk_filename_base()
     < 5 > private
     no API use to get after set
 */
-void rsa306b_class::_iqstream_set_filename_suffix()
+CODEZ rsa306b_class::_iqstream_set_filename_suffix()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif
+#endif 
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     if (this->vars.iqstream.suffix_control == this->_vars.iqstream.suffix_control)
     {
@@ -259,12 +253,12 @@ void rsa306b_class::_iqstream_set_filename_suffix()
         (int)RSA_API::IQSSDFN_SUFFIX_NONE  )
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "suffix not in range,  requested { %d }  ,  required { %d, %d, or >= %d}",
+            (void)snprintf(X_ddts, sizeof(X_ddts), "suffix not in range,  requested { %d }  ,  required { %d, %d, or >= %d}",
                 static_cast<int>(this->vars.iqstream.suffix_control),
                 (int)RSA_API::IQSSDFN_SUFFIX_NONE,
                 (int)RSA_API::IQSSDFN_SUFFIX_TIMESTAMP,
                 static_cast<int>(RSA_API::IQSSDFN_SUFFIX_INCRINDEX_MIN));
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;
@@ -286,22 +280,21 @@ void rsa306b_class::_iqstream_set_filename_suffix()
     < 6 > private
     see p82
 */
-void rsa306b_class::_iqstream_set_iq_data_buffer_size()
+CODEZ rsa306b_class::_iqstream_set_iq_data_buffer_size()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif 
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     if (this->vars.iqstream.buffer_multiplier == this->_vars.iqstream.buffer_multiplier)
     {
@@ -317,9 +310,9 @@ void rsa306b_class::_iqstream_set_iq_data_buffer_size()
         this->vars.iqstream.buffer_multiplier != this->constants.IQSTREAM_BUFFER_X_8  )
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "invalid buffer multiple selected:  %d",
+            (void)snprintf(X_ddts, sizeof(X_ddts), "invalid buffer multiple selected:  %d",
                 this->vars.iqstream.buffer_multiplier);
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;    
@@ -355,8 +348,8 @@ void rsa306b_class::_iqstream_set_iq_data_buffer_size()
     if (this->_vars.iqstream.pairs_max == INIT_INT)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "failed to set requsted pairs");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "failed to set requsted pairs");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         this->_vars.iqstream.pairs_max = this->constants.IQSTREAM_BUFFER_SIZE_MEDIUM;
@@ -381,22 +374,21 @@ void rsa306b_class::_iqstream_set_iq_data_buffer_size()
     < 7 > private
     no API use to get after set
 */
-void rsa306b_class::_iqstream_set_output_configuration()
+CODEZ rsa306b_class::_iqstream_set_output_configuration()
 {
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+#ifdef DEBUG_SETS
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
-#endif  
+#endif 
 
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "no device connected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     if (this->vars.iqstream.datatype_select == this->_vars.iqstream.datatype_select      &&
         this->vars.iqstream.destination_select == this->_vars.iqstream.destination_select )
@@ -409,8 +401,8 @@ void rsa306b_class::_iqstream_set_output_configuration()
         this->vars.iqstream.datatype_select != RSA_API::IQSODT_SINGLE_SCALE_INT32 )
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "invalid number format selected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "invalid number format selected");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;
@@ -423,8 +415,8 @@ void rsa306b_class::_iqstream_set_output_configuration()
         this->vars.iqstream.destination_select != RSA_API::IQSOD_FILE_MIDAS_DET  )
     {
         #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "invalid output destination was selected");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "invalid output destination was selected");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
         return;

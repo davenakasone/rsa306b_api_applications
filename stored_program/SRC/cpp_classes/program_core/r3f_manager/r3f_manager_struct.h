@@ -33,6 +33,8 @@
 #define BI_CHANNEL_CORRECTION_MID 4352L
 #define BI_CHANNEL_CORRECTION_STOP 12287L
 
+constexpr char _BLOCK_SEPERATOR[BUF_C] = "------------------------------------------------------------------------------------------";
+
 
 struct r3f_manager_struct
 {

@@ -15,5 +15,6 @@ r3f_manager_class X_r3f;    // to parse, process, and store "*.r3f" files
 
 siq_manager_class X_siq;    // to parse, process, and store "*.siq" files
 
+common_utility X_util;      // to use common utilities, and not interfere with composition objects
 
 ////////~~~~~~~~END>  globalz.c

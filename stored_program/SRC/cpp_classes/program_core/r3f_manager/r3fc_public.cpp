@@ -31,7 +31,7 @@ r3f_manager_class::r3f_manager_class()
     debug_record(false);
 #endif
 
-    this->_cpu_start = clock();
+    //this->_cpu_start = clock();
     this->_initialize();
 }
 
@@ -64,15 +64,15 @@ r3f_manager_class::~r3f_manager_class()
     returns bytes in file if input file is open
     should be called after calling "r3f_decode" or "r3f_process"
 */
-long int r3f_manager_class::get_bytes_in_file()
-{
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
+// long int r3f_manager_class::get_bytes_in_file()
+// {
+// #ifdef DEBUG_CLI
+//     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+//     debug_record(false);
+// #endif
 
-    return this->_bytes_in_file;
-}
+//     return this->_bytes_in_file;
+// }
 
 
 ////~~~~
@@ -83,16 +83,16 @@ long int r3f_manager_class::get_bytes_in_file()
     private member indicates that time split was marked
     the trailing time marker is set to the CPU clock
 */
-void r3f_manager_class::time_split_begin()
-{
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
+// void r3f_manager_class::time_split_begin()
+// {
+// #ifdef DEBUG_CLI
+//     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+//     debug_record(false);
+// #endif
 
-    this->_time_split_is_marked = true;
-    this->_cpu_mark = clock();
-}
+//     this->_time_split_is_marked = true;
+//     this->_cpu_mark = clock();
+// }
 
 
 ////~~~~
@@ -105,27 +105,27 @@ void r3f_manager_class::time_split_begin()
     else,
     a negative value is returned
 */
-double r3f_manager_class::time_split_end()
-{
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
+// double r3f_manager_class::time_split_end()
+// {
+// #ifdef DEBUG_CLI
+//     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+//     debug_record(false);
+// #endif
 
-    if (this->_time_split_is_marked == false)
-    {
-        #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "time-split was never started");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-            debug_record(true);
-        #endif
-        return -1;
-    }
-    this->_cpu_now = clock();
-    this->_time_split_is_marked = false;
-    double cpu_diff = (double)this->_cpu_now - (double)this->_cpu_mark;
-    return (cpu_diff / CLOCKS_PER_SEC);
-}
+//     if (this->_time_split_is_marked == false)
+//     {
+//         #ifdef DEBUG_MIN
+//             snprintf(X_ddts, sizeof(X_ddts), "time-split was never started");
+//             snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+//             debug_record(true);
+//         #endif
+//         return -1;
+//     }
+//     this->_cpu_now = clock();
+//     this->_time_split_is_marked = false;
+//     double cpu_diff = (double)this->_cpu_now - (double)this->_cpu_mark;
+//     return (cpu_diff / CLOCKS_PER_SEC);
+// }
 
 
 ////~~~~
@@ -136,17 +136,17 @@ double r3f_manager_class::time_split_end()
     returns the running time in seconds,
     since the instance of the object was created
 */
-double r3f_manager_class::get_running_time()
-{
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
+// double r3f_manager_class::get_running_time()
+// {
+// #ifdef DEBUG_CLI
+//     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+//     debug_record(false);
+// #endif
 
-    this->_cpu_now = clock();
-    double cpu_diff = (double)this->_cpu_now - (double)this->_cpu_start;
-    return (cpu_diff / CLOCKS_PER_SEC);
-}
+//     this->_cpu_now = clock();
+//     double cpu_diff = (double)this->_cpu_now - (double)this->_cpu_start;
+//     return (cpu_diff / CLOCKS_PER_SEC);
+// }
 
 
 ////~~~~
@@ -158,25 +158,25 @@ double r3f_manager_class::get_running_time()
     the user has an inert struct for extra needs
     should be called after calling "r3f_decode" or "r3f_process"
 */
-void r3f_manager_class::get_vars
+CODEZ r3f_manager_class::get_vars
 (
-    r3f_manager_struct* sptr
+    //r3f_manager_struct* sptr
 )
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
-    if (sptr == NULL)
-    {
-        #ifdef DEBUG_MIN
-            snprintf(X_ddts, sizeof(X_ddts), "allocate the variable struct");
-            snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-            debug_record(true);
-        #endif
-        return;
-    }
+    // if (sptr == NULL)
+    // {
+    //     #ifdef DEBUG_MIN
+    //         snprintf(X_ddts, sizeof(X_ddts), "allocate the variable struct");
+    //         snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+    //         debug_record(true);
+    //     #endif
+    //     return;
+    // }
 
     sptr->endian_check              = this->_vars.endian_check;
     sptr->file_format_version       = this->_vars.file_format_version;

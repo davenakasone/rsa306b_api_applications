@@ -14,11 +14,27 @@
         "cu_common_utility.cpp"
             common_utility()
             ~common_utility()
-        
+            clear()
+
         "cu_codez.cpp"
-            get_code_string()
-            get_code_number()
-            _report_status()
+            get_status_code_string()
+            get_status_code_number()
+            get_status_code()
+            report_status_code()
+            codez_checker()
+            codez_messages()
+
+        "cu_exe_1.cpp"
+            exe_strcpy()
+            exe_fopen()
+            exe_fseek()
+            exe_ftell()
+
+        "cu_help_1.cpp"
+            h_find_bytes_in_file()
+            h_match_extension()
+            h_decode_print())
+            h_decode_write()
 
         "timing.cpp"
             timer_split_start()
@@ -62,11 +78,32 @@ constexpr char _TIMER_FORMAT_SPLIT[BUF_D]   = "{{{timer}}}  split duration (seco
 class common_utility
 {
     public :
-        common_utility();                        // destructor
-        ~common_utility();                       // constructor
-        const char* get_status_code_string();    // returns string with message describing current status code
-        int         get_status_code_number();    // returns current value of status code, casted to "int"
+        common_utility();                                                             // destructor
+        ~common_utility();                                                            // constructor
+        CODEZ       clear();                                                          // re-initialize the object instance
+        const char* get_status_code_string();                                         // returns string with message describing current status code
+        int         get_status_code_number();                                         // returns current value of status code, casted to "int"
+        CODEZ       get_status_code();                                                // getter for the current status code
+        CODEZ       report_status_code(CODEZ current_code);                           // tool to track and update "_status_code", sets and gets 
+        CODEZ       codez_checker(const CODEZ* codez_list, const int codez_count);    // assess state after receiving several a batch of codez
+        const char* codez_messages(CODEZ lookup);                                     // lookup a status code and get the messages as a char*
 
+        // applying the codez check
+         
+
+        // execute a specific function + verify
+        CODEZ exe_strcpy(char* destination, const char* source); 
+        CODEZ exe_fopen(const char* file_path_name, const char* mode, FILE* fp);
+        CODEZ exe_fseek(FILE* fp, long int offset, int origin);
+        CODEZ exe_ftell(FILE* fp, long int& position);
+        CODEZ exe_fclose(FILE* fp);
+
+        // help for a common task
+        CODEZ h_find_bytes_in_file(const char* file_path_name, long& result);
+        CODEZ h_match_extension(const char* file_path_name, const char* extension);
+        CODEZ h_decode_print(const char* file_path_name, long int start_byte, long int stop_byte);
+        CODEZ h_decode_write(const char* raw_file, const char* output_file, long int& start_byte, long int& stop_byte);
+        
         // timer, both CPU and wall-clock
         CODEZ timer_split_start     ();                                          // updates "trail" to mark beginning of a time split
         CODEZ timer_split_stop      ();                                          // interval is stopped and duration is calculated
@@ -81,13 +118,18 @@ class common_utility
         // string tools
         CODEZ wchar_2_char(const wchar_t* source, char* destination);    // string converter,  wchar_t* to char*
 
+        // for the user's convenience
+        char helper[BUF_E];  
+        char holder[BUF_F];
+
+        
 ////~~~~
 
 
     private :
 
-        CODEZ _status_code;                               // status code, usually from most recent call        
-        CODEZ _report_status_code(CODEZ current_code);    // tool to track and update "_status_code" 
+        CODEZ _status_code;     // status code, usually from most recent call        
+        char _worker[BUF_E];    // string for internal use
 
     // timer
         CODEZ _timer_init();

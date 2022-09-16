@@ -15,36 +15,27 @@
     < 1 > public
     print "AUDIO" group variables to stdout
 */
-void rsa306b_class::print_config()
+CODEZ rsa306b_class::print_config()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
-    printf("\n'CONFIG' group >>>\n");
-    printf("\treference level (dBm)              :  %lf\n", this->_vars.config.reference_level_dbm);
-    printf("\tcenter frequency (Hz)              :  %lf\n", this->_vars.config.center_frequency_hz);
-    printf("\tminimum center frequency (Hz)      :  %lf\n", this->_vars.config.min_center_frequency_hz);
-    printf("\tmaximum center frequency (Hz)      :  %lf\n", this->_vars.config.max_center_frequency_hz);
-    printf("\texternal reference frequency (Hz)  :  %lf\n", this->_vars.config.external_reference_frequency_hz);
-    printf("\tfrequency reference source (Hz)    :  ");
+    (void)printf("\n'CONFIG' group >>>\n");
+    (void)printf("\treference level (dBm)              :  %lf\n", this->_vars.config.reference_level_dbm);
+    (void)printf("\tcenter frequency (Hz)              :  %lf\n", this->_vars.config.center_frequency_hz);
+    (void)printf("\tminimum center frequency (Hz)      :  %lf\n", this->_vars.config.min_center_frequency_hz);
+    (void)printf("\tmaximum center frequency (Hz)      :  %lf\n", this->_vars.config.max_center_frequency_hz);
+    (void)printf("\texternal reference frequency (Hz)  :  %lf\n", this->_vars.config.external_reference_frequency_hz);
+    (void)printf("\tfrequency reference source (Hz)    :  ");
     switch (this->_vars.config.frequency_reference_source_select)
     {
-        case (RSA_API::FRS_INTERNAL) :
-            printf("internal\n");
-            break;
-        case (RSA_API::FRS_EXTREF) :
-            printf("external\n");
-            break;
-        case (RSA_API::FRS_GNSS) :
-            printf("GNSS\n");
-            break;
-        case (RSA_API::FRS_USER) :
-            printf("user-provided\n");
-        default :
-            printf("unknown\n");
+        case (RSA_API::FRS_INTERNAL) : (void)printf("internal\n")     ; break;
+        case (RSA_API::FRS_EXTREF)   : (void)printf("external\n")     ; break;
+        case (RSA_API::FRS_GNSS)     : (void)printf("GNSS\n")         ; break;
+        case (RSA_API::FRS_USER)     : (void)printf("user-provided\n"); break;
+        default                      : (void)printf("unknown\n")      ; break;
     }
 }
 
@@ -56,11 +47,10 @@ void rsa306b_class::print_config()
     < 1 > private
     initialize "CONFIG" group variables to known values
 */
-void rsa306b_class::_config_init()
+CODEZ rsa306b_class::_config_init()
 {
 #ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, 
-        __LINE__, __FILE__, __func__);
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
 

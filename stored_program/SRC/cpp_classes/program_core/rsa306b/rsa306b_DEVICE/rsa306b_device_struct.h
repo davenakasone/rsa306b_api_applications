@@ -11,22 +11,87 @@
 
 struct rsa306b_device_struct
 {
-
-    bool is_connected;                 // device connection status, important
-    bool is_over_temperature;          // status of device over the temperature limit
-    bool is_running;                   // status of run state
-    bool event_occured;                // used to querry "DEVICE_GetEventStatus()", indicates if event occured
-   
-    char error_string[BUF_E];          // device error string, given return status
-   
-    int id;                            // only 1 spectrum analyzer can connect per machine
-    int event_id;                      // used to querry "DEVICE_GetEventStatus()", holds event identification number
-   
-    RSA_API::DEVICE_INFO info_type;    // struct, has 6 strings
-   
-    uint64_t event_timestamp;          // used to querry "DEVICE_GetEventStatus()", holds event time stamp
+/*
+    DEVICE_Connect(), DEVICE_Disconnect()
+*/
+    int  id;              // only 1 spectrum analyzer can connect per machine
+    bool is_connected;    // device connection status, important, not part of API
     
-};
+/*
+    DEVICE_GetEnable()
+*/
+    bool is_running;    // status of run state, only time the device produces data
+
+/*
+    DEVICE_GetErrorString()
+*/
+    char api_status_string[BUF_E];    // device error string, given the current API status code
+    
+/*
+    DEVICE_GetInfo(), calls through -->
+        DEVICE_GetFPGAVersion()
+        DEVICE_GetFWVersion()
+        DEVICE_GetHWVersion()
+        DEVICE_Nomenclature()
+        Device_GetSerialNumber()
+        Device_GetAPIVersion()
+*/
+    RSA_API::DEVICE_INFO info_type;    // struct with 6 strings
+    
+/*
+    DEVICE_PrepareForRun()
+        internal tasks to put system in a known run stated execute
+        device is ready to stream data, but does not initiate a data transfer
+        good for playback mode, lets other parts of application get ready to receive data
+*/
+
+/*
+    DEVICE_GetOverTemperatureStatus()
+        use to monitor the RSA, especially in a hot area
+*/
+    bool is_over_temperature;    // true means device is too hot, and you should shut it down
+    
+/*
+    DEVICE_Reset()
+        this usually crashes the program because of how libusb is used
+        good to call for the blinking green light (data transfer hung, device is frozen)
+*/
+
+/*
+    DEVICE_Run()
+        this will force the data acquisition to occur
+*/
+    
+/*    
+    DEVICE_Search()
+        this search requires the client to provide the storage buffers
+        the class manages this in the "device_connect()" method
+        don't try the other search functions, they are for windows, matlab, ...and pure savagery
+*/
+
+/*
+    DEVICE_StartFrameTransfer()
+        typically used as the trigger to start data streaming, after calling "DEVICE_PrepareForRun()"
+        if the RSA is stopped, it will be placed into the run state
+        no data or setting are changed; if no errors are detected, streaming begins after calling
+*/
+
+/*
+    DEVICE_Stop()
+        calling this ends the data acquisition
+        must be called if settings are changed (value that affects signal is changed)
+*/
+
+/*
+    DEVICE_GetEventStatus()
+        RSA must be running when calling this (only time RSA updates this)
+        DEVEVENT_OVERRANGE: ADC input signal exceeded allowable range, probably have clipping
+        timestamp is most recent transfer frame where over-range was detected
+*/
+    bool event_occured;                // ture indicates that event occured, else false
+    int event_id;                      // see the RSA_API enum "DEVEVENT_OVERRANGE = 0, DEVEVENT_TRIGGER = 1, DEVEVENT_1PPS = 2"
+    uint64_t event_timestamp;          // holds event time stamp, only valid if "event_occured" == true
+}; 
 typedef struct rsa306b_device_struct rsa306b_device_struct;
 
 
