@@ -1,5 +1,6 @@
 /*
     header of the compilation/translational unit for globals
+    when used in the program, be ware that any "X_*" variable is "external" or global
 */
 
 #ifndef H_globalz
@@ -12,11 +13,13 @@
 #include "../common_utility/common_utility.h"
 
 
-// instances:
-extern rsa306b_class X_rsa;
+// global instances :
+
+extern rsa306b_class     X_rsa;
 extern r3f_manager_class X_r3f;    
 extern siq_manager_class X_siq;           
-extern common_utility X_util;
+extern common_utility    X_util;
+
 
 #endif
 

@@ -1,3 +1,6 @@
+git ls-files | xargs wc -l
+    see if you can stay under 10e6 lines of code...
+    
 immediate TODO:
     SPECTRUM ".csv" should include a file-path-name ...base
     IFSTREAM should include a ".csv" writter, taking file-path-name
@@ -84,3 +87,42 @@ user, next-step features:
     GUI???
     RCNN trained on data (did not work good last time...try again?)
     GPS, camera, other 
+
+
+////~~~~  a variable struct:
+
+// description
+# guard
+# includes
+# constexprs <TAG>_<NAME>
+struct
+    // group + description
+    var
+    _VAR  // initializer for var
+    ...
+
+    // limiting constants 
+
+typedef struct
+# close guard
+tag EOF + \n
+
+////~~~~ group implementation
+    1) the public struct and private struct instance are placed in the class to allow the 3/4 buffer
+    2) common utilities are used (when possible), to ensure operations only occur in 1 place + save time
+    3) initializers always clear and init (place variables on known values)
+    4) source files stay in same directory, try to group, but < 1k lines, you probably want to make a new file
+    5) source file template + referenced in the class + Makefile / build system
+    - clear()  -->  _init(), constructor can call through _init()
+    - _copy_vars() --> individual private to public
+    - print(), current state of member variables in the struct
+    - write_vars(), so state of variables can be recorded
+    - get_vars() --> _get_vars()  --> individual var getters --> _copy_vars()
+    - set_vars()  -->  _set_vars()  -->  individual setters copy public to private, set, then _get_vars()
+    - user*()  --> handles the user's needs in a controlled manner
+
+////~~~~ file handlers
+
+    - CODEZ load_file(char* raw_input), receive an input file
+    - CODEZ load the file contents into member variables
+    - 

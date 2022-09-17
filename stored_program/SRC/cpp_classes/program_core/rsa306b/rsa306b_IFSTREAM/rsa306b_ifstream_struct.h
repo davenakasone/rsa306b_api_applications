@@ -14,9 +14,29 @@
 
 #include "../rsa306b_constants.h"
 
-
+/*
+    obsolete :
+        IFSTREAM_
+*/
 struct rsa306b_ifstream_struct
 {
+/*
+    IFSTREAM_SetDiskFilenameSuffix()
+*/
+
+
+
+
+
+
+
+
+
+    char file_name_base[BUF_B];    // base name of the "*.r3f" files
+
+/*
+    IFSTREAM_
+*/
 
 // using "SetOutoutConfiguration()"
 // this determines if a file is produced
@@ -38,7 +58,7 @@ struct rsa306b_ifstream_struct
 
     int file_name_suffix;          // determines file suffix appended to output files, SetDiskFilenameSuffix()
     char file_path[BUF_B];         // path ADC data is saved to                      , SetDiskFilePath()
-    char file_name_base[BUF_B];    // base name of the ADC data files                , SetDiskFilenameBase()
+    
     int file_length_ms;            // sets recording time in ms of the ADC data      , SetDiskFileLength()
     int file_count;                // sets maximum number of files to save           , SetDiskFileCount()
     

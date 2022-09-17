@@ -12,6 +12,7 @@
 #ifndef H_resourcez
 #define H_resourcez
 
+constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  unlv_rsa_<year YYYY>_<month MM>
 
 // for C++ use cases
 #include <chrono>
@@ -115,6 +116,10 @@
 constexpr char DATA_DIRECTORY_RAW[]       = "../DATA/data_raw/";
 constexpr char DATA_DIRECTORY_PROCESSED[] = "../DATA/data_processed/";   // path
 
+// Device Constants
+constexpr std::size_t TRACES_306B = 3UL;    // the RSA-306B has 3 possible traces available
+
+
 #define GET_NAME(var) #var    // debug utility for identifying variable name
 
 // program sizing parameters
@@ -125,15 +130,22 @@ constexpr int BUF_D = 256;     // ....
 constexpr int BUF_E = 512;     // .....
 constexpr int BUF_F = 1024;    // a long general purpose buffer
 
-// program constants
-constexpr char         INIT_CHAR            = 'Z';
-constexpr char         INIT_CHARP[]         = "ZZZ";
-constexpr double       INIT_DOUBLE          = -9999.9999;
-constexpr float        INIT_FLOAT           = -999.999;
-constexpr int          INIT_INT             = -999;
-constexpr std::size_t  INIT_STL_LENGTH      = 3;    // for sizing std::vector, std::queue, ...
-constexpr uint8_t      INIT_UINT            = 0xFF;
-constexpr wchar_t      INIT_WCHARP[]        = L"wchar_t";
+// program initialization values, covers most types
+constexpr char         INIT_CHAR       = 'Z';
+constexpr char         INIT_CHARP[]    = "ZZZ";
+constexpr double       INIT_DOUBLE     = -9.9;
+constexpr float        INIT_FLOAT      = -9.9F;
+constexpr int          INIT_INT        = -9;
+constexpr int8_t       INIT_INT8       = -9;
+constexpr int16_t      INIT_INT16      = -9;
+constexpr int32_t      INIT_INT32      = -9;
+constexpr int64_t      INIT_INT64      = -9L;
+constexpr std::size_t  INIT_STL_LENGTH = 3UL;    // for sizing std::vector, std::queue, ...
+constexpr uint8_t      INIT_UINT8      = 0xFFU;
+constexpr uint16_t     INIT_UINT16     = 0xFFFFU;
+constexpr uint32_t     INIT_UINT32     = 0xFFFFFFFFU;
+constexpr uint64_t     INIT_UINT64     = 0xFFFFFFFFFFFFFFFFLU;
+constexpr wchar_t      INIT_WCHARP[]   = L"wchar_t";
 
 
 #endif

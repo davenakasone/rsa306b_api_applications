@@ -78,6 +78,7 @@ constexpr char _TIMER_FORMAT_SPLIT[BUF_D]   = "{{{timer}}}  split duration (seco
 class common_utility
 {
     public :
+
         common_utility();                                                             // destructor
         ~common_utility();                                                            // constructor
         CODEZ       clear();                                                          // re-initialize the object instance
@@ -87,9 +88,6 @@ class common_utility
         CODEZ       report_status_code(CODEZ current_code);                           // tool to track and update "_status_code", sets and gets 
         CODEZ       codez_checker(const CODEZ* codez_list, const int codez_count);    // assess state after receiving several a batch of codez
         const char* codez_messages(CODEZ lookup);                                     // lookup a status code and get the messages as a char*
-
-        // applying the codez check
-         
 
         // execute a specific function + verify
         CODEZ exe_strcpy(char* destination, const char* source); 

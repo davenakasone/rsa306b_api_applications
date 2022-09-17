@@ -4,6 +4,8 @@
 
     there are other constants, common to all classes,
     these constants are specifically for the "rsa306b_class"
+
+    "_<API group>*" variables are initialization values, all can be adjusted here
 */
 
 #ifndef H_rsa306b_constants
@@ -19,19 +21,29 @@ constexpr int IQSTREAM_ROW_RANGES = 10;    // IQSTREAM, ranges to infer buffer s
 
 struct rsa306b_constants
 {
+    
+        
+        
+        
+
+
+
+
+
+
+
+
+
+
     // device limits for the RSA-306B
         const double EXTERNAL_FREQUENCY                   = 10e6;     // external reference frequency, required
         const double EXTERNAL_AMPLITUDE_DBM               = 10;       // allows +/- 10 dbm maximum amplitude  
-        const double REFERENCE_LEVEL_MAX_DBM              = 30;       // highest measurable signal power
-        const double REFERENCE_LEVEL_MIN_DBM              = -130;     // smallest measurable signal power
+        
         const double SPAN_MAX_HZ                          = 40e6;     // largest measurable bandwith
         const double SPAN_MIN_HZ                          = 100;      // smallest measurable bandwith 
         const double POSITION_PERCENT_MIN                 = 1;        // smallest trigger position percentage
         const double POSITION_PERCENT_MAX                 = 99;       // largest trigger position percentage
-        const float  AUDIO_VOLUME_MAX                     = 1.0;      // maximum audio volume API will accept
-        const float  AUDIO_VOLUME_MIN                     = 0.0;      // minimum audio volume API will accept
-        const double AUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz = 20e6;     // highest audio demodulator API accepts
-        const double AUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz = -20e6;    // highest audio demodulator API accepts
+        
 
     // sizing the STL and Boost data structures
         const size_t SAMPLES_IN_BUFFER     = 260e6;    // ADC samples internal buffer is capable of storing before overflow, usally 130,848
@@ -40,6 +52,9 @@ struct rsa306b_constants
         const size_t CORRECTION_POINTS     = 501;      // size of the correction points
         const size_t BYTES_PER_FRAME       = 16384;    // size of a frame, 2^14 bytes, includes footer
         //const size_t FOOTER_BYTES = 28;                // bytes per frame less 2*samples per frame
+
+    
+    
 
     // IFSTREAM
         const int  IFSTREAM_SUFFIX                = -1;            // control file suffix name for IFSTREAM group, {0:increment, -1:timestamp, -2:none}
