@@ -1,9 +1,20 @@
 /*
     variables needed for the API group "DEVICE" 
+        DEVICE_Connect(), DEVICE_Disconnect()
+        DEVICE_GetEnable()
+        DEVICE_GetErrorString()
+        DEVICE_GetInfo()
+        DEVICE_GetOverTemperatureStatus()
+        DEVICE_PrepareForRun()
+        DEVICE_Reset()
+        DEVICE_Run()
+        DEVICE_Search()
+        DEVICE_StartFrameTransfer()
+        DEVICE_Stop()
 
     constexpr helpers  :  <GROUP>_<CONSTEXPR_NAME>    // with group reference since used outside struct instance
-    initializers       :  _<VARIABLE_NAME>            // leading underscore
     limiting constants :  <CONSTANT_NAME>             // no leading underscore
+    initializers       :  _<VARIABLE_NAME>            // leading underscore
 */
 
 #ifndef H_rsa306b_device_struct
@@ -18,11 +29,17 @@
 
 struct rsa306b_device_struct
 {
+
+
+// NO limiting constants
+
+
 /*
     DEVICE_Connect(), DEVICE_Disconnect()
         the device can't acquire data unless Connect() is called, every API function needs a connected device
         "id" is found after the search, only 1 spectrum analyzer can connect per machine
         "is_connected" is not needed for the API, but good to track connect/disconnect calls
+        when connected, DEVICE_Search() is called, and is the only time this function should be called
 */
     int       id;
     const int _ID = INIT_INT;    // DEFAULT
@@ -33,7 +50,7 @@ struct rsa306b_device_struct
 
 /*
     DEVICE_GetEnable()
-        the device can only produce data (send measurements to your program) when in the reun state
+        the device can only produce data (send measurements to your program) when in the run state
         if device is not running, data acquistion should not be attempted
         "true" means that the device is in the run state
 */
@@ -130,9 +147,9 @@ struct rsa306b_device_struct
         DEVEVENT_TRIGGER  : need to configure the trigger in hardware to use this
         DEVEVENT_1PPS...not for RSA306b
         timestamp is most recent transfer frame where event was detected
-        "event_id"  see the RSA_API enum "DEVEVENT_OVERRANGE = 0, DEVEVENT_TRIGGER = 1, DEVEVENT_1PPS = 2"
-        "event_occured"  true indicates that event occured, else false
-        "event_timestamp"  holds event time stamp, only valid if "event_occured" == true
+        event_id        ;  see the RSA_API enum "DEVEVENT_OVERRANGE = 0, DEVEVENT_TRIGGER = 1, DEVEVENT_1PPS = 2"
+        event_occured   ;  true indicates that event occured, else false
+        event_timestamp ;  holds event time stamp, only valid if "event_occured" == true
 */
     int       event_id;
     const int _EVENT_ID = INIT_INT;                  // DEFAULT
@@ -144,9 +161,6 @@ struct rsa306b_device_struct
     const uint64_t _EVENT_TIMESTAMP = INIT_UINT64;    // DEFAULT   
 
 
-// NO limiting constants
-
-
 }; 
 typedef struct rsa306b_device_struct rsa306b_device_struct;
 
@@ -155,3 +169,15 @@ typedef struct rsa306b_device_struct rsa306b_device_struct;
 
 
 ////////~~~~~~~~END>  rsa306b_device_struct.h
+
+
+// int                  id;
+// bool                 is_connected;    
+// bool                 is_running;
+// char                 api_status_message[BUF_E];
+// RSA_API::DEVICE_INFO info_type;                
+// bool                 is_over_temperature;   
+// int                  event_id;
+// bool                 event_occured;
+// uint64_t             event_timestamp;
+   

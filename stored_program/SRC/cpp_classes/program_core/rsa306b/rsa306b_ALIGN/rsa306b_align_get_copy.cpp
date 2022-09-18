@@ -35,9 +35,15 @@ CODEZ rsa306b_class::_align_get_vars()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    this->device_stop();
-    this->_align_get_is_needed();
-    this->_align_get_is_warmed();
+
+    constexpr int calls = 3;
+    CODEZ caught_call[calls];
+
+    caught_call[0] = this->device_stop();
+    caught_call[1] = this->_align_get_is_needed();
+    caught_call[2] = this->_align_get_is_warmed();
+
+    return this->cutil.codez_checker(caught_call, calls);
 }
 
 
@@ -63,11 +69,16 @@ CODEZ rsa306b_class::_align_get_is_needed()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    this->device_stop();
-    this->_vars.gp.api_status = 
-        RSA_API::ALIGN_GetAlignmentNeeded(&this->_vars.align.is_needed);
-    this->_gp_confirm_api_status();
-    this->_align_copy_is_needed();
+
+    constexpr int calls = 3;
+    CODEZ caught_call[calls];
+
+    caught_call[0]    = this->device_stop();
+    this->_api_status = RSA_API::ALIGN_GetAlignmentNeeded(&this->_vars.align.is_needed);
+    caught_call[1]    = this->_report_api_status();
+    caught_call[2]    = this->_align_copy_is_needed();
+
+    return this->cutil.codez_checker(caught_call, calls);
 }
 
 
@@ -93,11 +104,16 @@ CODEZ rsa306b_class::_align_get_is_warmed()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    this->device_stop();
-    this->_vars.gp.api_status = 
-        RSA_API::ALIGN_GetWarmupStatus(&this->_vars.align.is_warmed);
-    this->_gp_confirm_api_status();
-    this->_align_copy_is_warmed();
+    
+    constexpr int calls = 3;
+    CODEZ caught_call[calls];
+
+    caught_call[0]    = this->device_stop();
+    this->_api_status = RSA_API::ALIGN_GetWarmupStatus(&this->_vars.align.is_warmed);
+    caught_call[1]    = this->_report_api_status();
+    caught_call[2]    = this->_align_copy_is_needed();
+
+    return this->cutil.codez_checker(caught_call, calls);
 }
 
 
@@ -114,8 +130,13 @@ CODEZ rsa306b_class::_align_copy_vars()
     debug_record(false);
 #endif
 
-    this->_align_copy_is_needed();
-    this->_align_copy_is_warmed();
+    constexpr int calls = 2;
+    CODEZ caught_call[calls];
+
+    caught_call[0] = this->_align_copy_is_needed();
+    caught_call[1] = this->_align_copy_is_warmed();
+
+    return this->cutil.codez_checker(caught_call, calls);
 }
 
 
@@ -133,6 +154,7 @@ CODEZ rsa306b_class::_align_copy_is_needed()
 #endif
 
     this->vars.align.is_needed = this->_vars.align.is_needed;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -150,6 +172,8 @@ CODEZ rsa306b_class::_align_copy_is_warmed()
 #endif
 
     this->vars.align.is_warmed = this->_vars.align.is_warmed;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
+
 
 ////////~~~~~~~~END>  rsa306b_align_get_copy.cpp

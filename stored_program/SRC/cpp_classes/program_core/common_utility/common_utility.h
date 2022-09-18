@@ -79,28 +79,32 @@ class common_utility
 {
     public :
 
-        common_utility();                                                             // destructor
-        ~common_utility();                                                            // constructor
-        CODEZ       clear();                                                          // re-initialize the object instance
-        const char* get_status_code_string();                                         // returns string with message describing current status code
-        int         get_status_code_number();                                         // returns current value of status code, casted to "int"
-        CODEZ       get_status_code();                                                // getter for the current status code
-        CODEZ       report_status_code(CODEZ current_code);                           // tool to track and update "_status_code", sets and gets 
-        CODEZ       codez_checker(const CODEZ* codez_list, const int codez_count);    // assess state after receiving several a batch of codez
-        const char* codez_messages(CODEZ lookup);                                     // lookup a status code and get the messages as a char*
+        common_utility  ();    // destructor
+        ~common_utility ();    // constructor
+        CODEZ      clear();    // re-initialize the object instance
+        char helper[BUF_E];    // for the user's convenience
+        char holder[BUF_F];    // for the user's convenience
+
+        // status code management
+        const char* get_status_code_string();                                                  // getter for "_status_code" message
+        int         get_status_code_number();                                                  // getter for "_status_code", casted to "int"
+        CODEZ       get_status_code       ();                                                  // getter for "_status_code"
+        CODEZ       report_status_code    (CODEZ current_code);                                // sets then gets "_status_code"
+        CODEZ       codez_checker         (const CODEZ* codez_list, const int codez_count);    // evaluate batch of codez
+        const char* codez_messages        (CODEZ lookup);                                      // lookup a status code and get char*
 
         // execute a specific function + verify
-        CODEZ exe_strcpy(char* destination, const char* source); 
-        CODEZ exe_fopen(const char* file_path_name, const char* mode, FILE* fp);
-        CODEZ exe_fseek(FILE* fp, long int offset, int origin);
-        CODEZ exe_ftell(FILE* fp, long int& position);
-        CODEZ exe_fclose(FILE* fp);
+        CODEZ exe_strcpy (char* destination, const char* source); 
+        CODEZ exe_fopen  (const char* file_path_name, const char* mode, FILE* fp);
+        CODEZ exe_fseek  (FILE* fp, long int offset, int origin);
+        CODEZ exe_ftell  (FILE* fp, long int& position);
+        CODEZ exe_fclose (FILE* fp);
 
         // help for a common task
         CODEZ h_find_bytes_in_file(const char* file_path_name, long& result);
-        CODEZ h_match_extension(const char* file_path_name, const char* extension);
-        CODEZ h_decode_print(const char* file_path_name, long int start_byte, long int stop_byte);
-        CODEZ h_decode_write(const char* raw_file, const char* output_file, long int& start_byte, long int& stop_byte);
+        CODEZ h_match_extension   (const char* file_path_name, const char* extension);
+        CODEZ h_decode_print      (const char* file_path_name, long int start_byte, long int stop_byte);
+        CODEZ h_decode_write      (const char* raw_file, const char* output_file, long int& start_byte, long int& stop_byte);
         
         // timer, both CPU and wall-clock
         CODEZ timer_split_start     ();                                          // updates "trail" to mark beginning of a time split
@@ -116,11 +120,7 @@ class common_utility
         // string tools
         CODEZ wchar_2_char(const wchar_t* source, char* destination);    // string converter,  wchar_t* to char*
 
-        // for the user's convenience
-        char helper[BUF_E];  
-        char holder[BUF_F];
 
-        
 ////~~~~
 
 

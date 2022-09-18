@@ -12,6 +12,8 @@
 
 #include "../testz.h"
 
+#ifdef UNIT_TESTING
+
 #define UT6_a 1    // basic test
 #define UT6_b 2    // timestamp conversions
 #define UT6_c 3    // dts
@@ -89,6 +91,9 @@ printf("\n%s()  ,  test complete\n", __func__);
 wait_enter_clear();
 #endif
 }
+
+
+#endif
 
 
 ////////~~~~~~~~END>  unit_test_6.cpp

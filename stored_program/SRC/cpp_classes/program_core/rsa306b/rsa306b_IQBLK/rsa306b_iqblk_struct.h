@@ -1,21 +1,48 @@
 /*
     variables needed for the API group "IQBLK" 
+    IQBLK_GetAcqInfo()
+    IQBLK_AcquireIQData()
+    IQBLK_GetIQBandwidth()
+    IQBLK_GetIQData()
+    IQBLK_GetIQDataCplx()
+    IQBLK_GetIQDataDeinterleaved()
+    IQBLK_GetRecordLength()
+    IQBLK_GetIQSampleRate()
+    IQBLK_GetMaxIQBandwidth()
+    IQBLK_GetMaxIQRecordLength()
+    IQBLK_GetMinIQBandwidth()
+    IQBLK_SetIQBandwidth()
+    IQBLK_SetIQRecordLength()
+    IQBLK_WaitForIQDataReady()
+
+    constexpr helpers  :  <GROUP>_<CONSTEXPR_NAME>    // with group reference since used outside struct instance
+    limiting constants :  <CONSTANT_NAME>             // no leading underscore
+    initializers       :  _<VARIABLE_NAME>            // leading underscore
 
     device is configured before use
-
     find out which data getter is fastest, only use that one
     the API has many good options, but speed is the priority
+
+    obsolete :
 */
 
 #ifndef H_rsa306b_iqblk_struct
 #define H_rsa306b_iqblk_struct
 
 
-#include "../rsa306b_constants.h"
+#include "../../control/resourcez.h"
+
+
+// constexpr helpers
 
 
 struct rsa306b_iqblk_struct
 {
+
+
+// limiting constants
+
+
     // managing the 3 API data acquistion functions for the IQBLK group
     // all acquistions handle "errorDataNotReady"
     uint8_t getter;                               // determines the API function to get data, see "resourcez.h"

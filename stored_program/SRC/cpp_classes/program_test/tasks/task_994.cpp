@@ -4,6 +4,8 @@
 
 #include "../testz.h"
 
+#ifdef UNIT_TESTING
+
 
 void task_994()
 {
@@ -60,6 +62,9 @@ printf("\n%s()  ,  test complete\n", __func__);
 wait_enter_clear();
 #endif
 }
+
+
+#endif
 
 
 /////////~~~~~~~~END>  task_994.cpp

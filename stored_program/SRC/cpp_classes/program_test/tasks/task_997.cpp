@@ -7,6 +7,8 @@
 
 #include "../testz.h"
 
+#ifdef UNIT_TESTING
+
 
 void task_997()
 {
@@ -107,6 +109,9 @@ printf("\n%s()  ,  demonstration complete\n", __func__);
 wait_enter_clear();
 #endif
 }
+
+
+#endif
 
 
 /////////~~~~~~~~END>  task_997.cpp

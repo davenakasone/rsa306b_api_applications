@@ -15,7 +15,7 @@
     < 1 > public
     print "AUDIO" group variables to stdout
 */
-CODEZ rsa306b_class::print_audio()
+CODEZ rsa306b_class::audio_print()
 {
 #ifdef DEBUG_CLI
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
@@ -37,9 +37,11 @@ CODEZ rsa306b_class::print_audio()
         case (RSA_API::ADM_AM_8KHZ)   : (void)printf("FM, 8 kHz\n");   break;
         default                       : (void)printf("unknown\n");     break;
     }
-    (void)printf("\tdata[0]                 :  %d\n", this->_vars.audio.data[0]);
+    (void)printf("\tdata[0]                 :  %d\n", this->_vars.audio.data_v[0]);
     (void)printf("\tdata samples requested  :  %u\n", this->_vars.audio.data_samples_requested);
     (void)printf("\tdata samples aquired    :  %u\n", this->_vars.audio.data_samples_acquired);
+
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -57,20 +59,17 @@ CODEZ rsa306b_class::_audio_init()
     debug_record(false);
 #endif  
 
-    for (int ii = 0; ii < AUDIO_DATA_LENGTH; ii++)
-    {
-        this->_vars.audio.data[ii] = INIT_INT;
-    }
+    this->_vars.audio.data_v.assign(this->_vars.audio._DATA_V_size, this->_vars.audio._DATA_V_element);
+    
+    this->_vars.audio.data_samples_acquired  = this->_vars.audio._DATA_SAMPLES_ACQUIRED;
+    this->_vars.audio.data_samples_requested = this->_vars.audio._DATA_SAMPLES_REQUESTED;
+    this->_vars.audio.demodulation_select    = this->_vars.audio._DEMODULATION_SELECT;
+    this->_vars.audio.frequency_offset_hz    = this->_vars.audio._FREQUENCY_OFFSET_HZ;
+    this->_vars.audio.is_demodulating        = this->_vars.audio._IS_DEMODULATING;
+    this->_vars.audio.is_mute                = this->_vars.audio._IS_MUTE;
+    this->_vars.audio.volume                 = this->_vars.audio._VOLUME;
 
-    this->_vars.audio.data_samples_acquired  = 0;
-    this->_vars.audio.data_samples_requested = AUDIO_DATA_LENGTH;
-    this->_vars.audio.demodulation_select    = RSA_API::ADM_AM_8KHZ;
-    this->_vars.audio.frequency_offset_hz    = this->constants.AUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz;
-    this->_vars.audio.is_demodulating        = false;
-    this->_vars.audio.is_mute                = true;
-    this->_vars.audio.volume                 = this->constants.AUDIO_VOLUME_MIN;
-
-    this->_audio_copy_vars();
+    return this->_audio_copy_vars();
 }
 
 

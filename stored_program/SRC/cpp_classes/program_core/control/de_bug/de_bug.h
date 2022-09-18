@@ -1,5 +1,5 @@
 /*
-    the 2 global variables for debugging
+    the global variables for debugging
 
     + debugging functions
 

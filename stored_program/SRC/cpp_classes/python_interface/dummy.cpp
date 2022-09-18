@@ -4,6 +4,8 @@
 
 #include "dummy.h"
 
+#ifdef BUILD_PYTHON
+
 #ifdef __cplusplus 
 extern "C"      
 {
@@ -36,5 +38,6 @@ void print_d()
 }
 #endif
 
+#endif
 
 ////////~~~~~~~~END>  dummy.cpp

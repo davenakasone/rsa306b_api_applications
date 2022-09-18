@@ -9,8 +9,8 @@
 */
 
 #include "../testz.h"
-// extern rsa306b_class X_rsa;
-// extern timer_class X_timer;
+
+#ifdef UNIT_TESTING
 
 
 void unit_test_3 (void)
@@ -39,6 +39,9 @@ printf("\n%s()  ,  test complete\n", __func__);
 wait_enter_clear();
 #endif
 }
+
+
+#endif
 
 
 ////////~~~~~~~~END>  unit_test_3.cpp

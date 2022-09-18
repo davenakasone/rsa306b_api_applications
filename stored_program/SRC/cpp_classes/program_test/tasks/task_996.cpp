@@ -4,6 +4,8 @@
 
 #include "../testz.h"
 
+#ifdef UNIT_TESTING
+
 
 void task_996()
 {
@@ -25,6 +27,9 @@ void task_996()
 
     printf("\n%s()  ,  demonstration complete\n", __func__);
 }
+
+
+#endif
 
 
 /////////~~~~~~~~END>  task_996.cpp

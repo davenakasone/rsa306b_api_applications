@@ -10,6 +10,8 @@
 
 #include "../testz.h"
 
+#ifdef UNIT_TESTING
+
 #define UT4_a 1    // basic test
 
 
@@ -44,6 +46,9 @@ printf("\n%s()  ,  test complete\n", __func__);
 wait_enter_clear();
 #endif
 }
+
+
+#endif
 
 
 ////////~~~~~~~~END>  unit_test_4.cpp

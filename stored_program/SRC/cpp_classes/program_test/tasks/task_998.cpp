@@ -7,8 +7,10 @@
 */
 
 #include "../testz.h"
+
+#ifdef UNIT_TESTING
+
 #define T998_REPZ 7
-// extern timer_class X_timer;
 
 
 void task_998()
@@ -50,6 +52,9 @@ printf("\n%s()  ,  getting the core program structured\n", __func__);
 // wait_enter_clear();
 // #endif
 }
+
+
+#endif
 
 
 /////////~~~~~~~~END>  task_998.cpp

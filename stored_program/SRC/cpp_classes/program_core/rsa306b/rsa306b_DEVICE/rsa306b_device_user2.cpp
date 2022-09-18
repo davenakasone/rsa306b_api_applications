@@ -26,16 +26,7 @@ CODEZ rsa306b_class::device_check_run_state()
     debug_record(false);
 #endif
 
-    if (this->_vars.device.is_connected == false)
-    {
-        #ifdef DEBUG_MIN
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
-                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
-            debug_record(true);
-        #endif
-        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
-    }
-    this->_device_get_is_running();
+    return this->_device_get_is_running();
 }
 
 
@@ -54,16 +45,7 @@ CODEZ rsa306b_class::device_check_temperature()
     debug_record(false);
 #endif  
 
-    if (this->_vars.device.is_connected == false)
-    {
-        #ifdef DEBUG_MIN
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
-                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
-            debug_record(true);
-        #endif
-        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
-    }
-    this->_device_get_is_over_temperature();
+    return this->_device_get_is_over_temperature();
 }
 
 
@@ -72,7 +54,7 @@ CODEZ rsa306b_class::device_check_temperature()
 
 /*
     < 3 > public
-    the user set "vars.device.event_id" before calling
+    the user sets "vars.device.event_id" before calling
     0 = ADC overflow
     1 = trigger occured
     events mean nothing unless "vars.device.event_occured" == true
@@ -85,27 +67,7 @@ CODEZ rsa306b_class::device_check_event()
     debug_record(false);
 #endif  
 
-    if (this->_vars.device.is_connected == false)
-    {
-        #ifdef DEBUG_MIN
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
-                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
-            debug_record(true);
-        #endif
-        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
-    }
-    if (this->vars.device.event_id != RSA_API::DEVEVENT_OVERRANGE && 
-        this->vars.device.event_id != RSA_API::DEVEVENT_TRIGGER    )
-    {
-        #ifdef DEBUG_MIN
-            (void)snprintf(X_ddts, sizeof(X_ddts), "invalid event ID");
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-            debug_record(true);
-        #endif
-        return;
-    }
-    this->_vars.device.event_id = this->vars.device.event_id;
-    this->_device_get_event();
+    return this->_device_get_event();
 }
 
 
@@ -133,10 +95,11 @@ CODEZ rsa306b_class::device_prepare_for_run()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    this->device_stop();
-    this->_vars.gp.api_status = RSA_API::DEVICE_PrepareForRun();
-    this->_gp_confirm_api_status();
-    this->_device_get_is_running();
+
+    (void)this->device_stop();
+    RSA_API::ReturnStatus temp = RSA_API::DEVICE_PrepareForRun();
+    (void)this->_device_get_is_running();
+    return this->_confirm_api_status(temp);
 }
 
 
@@ -164,9 +127,10 @@ CODEZ rsa306b_class::device_start_frame_transfer()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    this->_vars.gp.api_status= RSA_API::DEVICE_StartFrameTransfer();
-    this->_gp_confirm_api_status();
-    this->_device_get_is_running();
+
+    RSA_API::ReturnStatus temp = RSA_API::DEVICE_StartFrameTransfer();
+    (void)this->_device_get_is_running();
+    return this->_confirm_api_status(temp);
 }
 
 

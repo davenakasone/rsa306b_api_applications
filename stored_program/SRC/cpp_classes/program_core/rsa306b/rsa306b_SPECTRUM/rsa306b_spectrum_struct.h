@@ -1,19 +1,44 @@
 /*
     variables needed for the API group "SPECTRUM" 
+    SPECTRUM_AquireTrace()
+    SPECTRUM_GetEnable()
+    SPECTRUM_GetLimits()
+    SPECTRUM_GetSettings()
+    SPECTRUM_GetTrace()
+    SPECTRUM_GetTraceInfo()
+    SPECTRUM_GetTraceType()
+    SPECTRUM_SetDefault()
+    SPECTRUM_SetEnable()
+    SPECTRUM_SetSettings()
+    SPECTRUM_SetTraceType()
+    SPECTRUM_WaitForTraceReady()
+
+    constexpr helpers  :  <GROUP>_<CONSTEXPR_NAME>    // with group reference since used outside struct instance
+    limiting constants :  <CONSTANT_NAME>             // no leading underscore
+    initializers       :  _<VARIABLE_NAME>            // leading underscore
+
+
 */
 
 #ifndef H_rsa306b_spectrum_struct
 #define H_rsa306b_spectrum_struct
 
 
-#include "../rsa306b_constants.h"
+#include "../../control/resourcez.h"
 
 #define TRACES_AVAILABLE 3           // the RSA-306B has three traces that can be used
 #define SPECTRUM_DATA_LENGTH 2048    // spectrum aquisitions, go dynamic if needed
 
+// NO constexpr helpers
+
 
 struct rsa306b_spectrum_struct
 {
+
+
+// limiting constants
+
+
     bool is_enabled_measurement;                     // indicates if the device is enabled for measurement
     RSA_API::Spectrum_Settings settings_type;        // has 2 enums...above
     RSA_API::Spectrum_Limits limits_type;            // all vars

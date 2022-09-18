@@ -10,7 +10,7 @@
         < 3 >   _device_copy_is_over_temperature()
         < 4 >   _device_copy_is_running()
         < 5 >   _device_copy_event_occured()
-        < 6 >   _device_copy_error_string()
+        < 6 >   _device_copy_api_status_message()
         < 7 >   _device_copy_id()
         < 8 >   _device_copy_event_id()
         < 9 >   _device_copy_info_type()
@@ -33,15 +33,15 @@ CODEZ rsa306b_class::_device_copy_vars()
     constexpr int copyz = 9;
     CODEZ codez_copyz[copyz];
 
-    codez_copyz[1]  = this->_device_copy_error_string();
-    codez_copyz[2]  = this->_device_copy_event_id();
-    codez_copyz[3]  = this->_device_copy_event_occured();
-    codez_copyz[4]  = this->_device_copy_event_timestamp();
-    codez_copyz[5]  = this->_device_copy_id();
-    codez_copyz[6]  = this->_device_copy_info_type();
-    codez_copyz[7]  = this->_device_copy_is_connected();
+    codez_copyz[1]  = this->_device_copy_api_status_message ();
+    codez_copyz[2]  = this->_device_copy_event_id           ();
+    codez_copyz[3]  = this->_device_copy_event_occured      ();
+    codez_copyz[4]  = this->_device_copy_event_timestamp    ();
+    codez_copyz[5]  = this->_device_copy_id                 ();
+    codez_copyz[6]  = this->_device_copy_info_type          ();
+    codez_copyz[7]  = this->_device_copy_is_connected       ();
     codez_copyz[8]  = this->_device_copy_is_over_temperature();
-    codez_copyz[9]  = this->_device_copy_is_running();
+    codez_copyz[9]  = this->_device_copy_is_running         ();
 
     return this->cutil.codez_checker(codez_copyz, copyz);
 }
@@ -125,14 +125,14 @@ CODEZ rsa306b_class::_device_copy_event_occured()
 /*
     < 6 > private
 */
-CODEZ rsa306b_class::_device_copy_error_string()
+CODEZ rsa306b_class::_device_copy_api_status_message()
 {
 #ifdef DEBUG_COPYS
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
-    return this->cutil.check_strcpy(this->vars.device.api_status_string, this->_vars.device.api_status_string);
+    return this->cutil.exe_strcpy(this->vars.device.api_status_message, this->_vars.device.api_status_message);
 }
 
 

@@ -1,16 +1,31 @@
 /*
     variables needed for the API group "TRIG"
+    TRIG_ForceTrigger()
+    TRIG_GetIFPowerTriggerLevel()
+    TRIG_GetTriggerMode()
+    TRIG_GetTriggerPositionPercent()
+    TRIG_GetTriggerSource()
+    TRIG_GetTriggerTransition()
+    TRIG_SetIFPowerTriggerLevel()
+    TRIG_SetTriggerMode()
+    TRIG_SetTriggerPositionPercent()
+    TRIG_SetTriggerSource()
+    TRIG_SetTriggerTransition()
 */
 
 #ifndef H_rsa306b_trig_struct
 #define H_rsa306b_trig_struct
 
 
-#include "../rsa306b_constants.h"
+#include "../../control/resourcez.h"
 
+// NO constexpr helpers
 
 struct rsa306b_trig_struct
 {
+
+
+// limiting constants
 
     double if_power_level;                           // power level of IF trigger occurs
     double position_percent;                         // how much data to store before and after trigger event

@@ -74,10 +74,8 @@ $(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_get.cpp \
 $(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_print_init.cpp \
 $(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_user1.cpp \
 $(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_user2.cpp \
-$(SDIR)rsa306b/rsa306b_GP/rsa306b_class_cons_dest.cpp \
+$(SDIR)rsa306b/rsa306b_GP/rsa306b_class.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_confirm.cpp \
-$(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_copy.cpp \
-$(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_init.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_print.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_copy.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_get.cpp \

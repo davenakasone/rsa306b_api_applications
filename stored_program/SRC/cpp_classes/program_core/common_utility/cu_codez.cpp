@@ -142,11 +142,8 @@ CODEZ common_utility::codez_checker
         {
             return report_status_code(codez_list[ii]);    // report first bad code, and exit
         }
-        if (ii == codez_count-1)
-        {
-            return report_status_code(codez_list[ii]);    // will be "_0_no_error" if error free
-        }
     }
+    return report_status_code(CODEZ::_0_no_errors);    // will be "_0_no_error" if error free if it gets here
 }
 
 

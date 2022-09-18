@@ -1,9 +1,28 @@
 /*
     variables needed for the API group "DPX" 
+        DPX_Configure()
+        DPX_FinishFrameBuffer()
+        DPX_GetEnable(), DPX_SetEnable()
+        DPX_GetFrameBuffer()
+        DPX_GetFrameInfo()
+        DPX_GetRBWRange()
+        DPX_GetSettings()
+        DPX_GetSogramHiResLine()
+        DPX_GetSogramHiResLineCountLatest()
+        DPX_GetSogramHiResLineTimestamp()
+        DPX_GetSogramHiResLineTriggered()
+        DPX_GetSogramSettings()
+        DPX_IsFrameBufferAvailable()
+        DPX_Reset()
+        DPX_SetParameters()
+        DPX_SetSogramParameters()
+        DPX_SetSogramTraceType()
+        DPX_SetSpectrumTraceType()
+        DPX_WaitForReady()
 
     constexpr helpers  :  <GROUP>_<CONSTEXPR_NAME>    // with group reference since used outside struct instance
-    initializers       :  _<VARIABLE_NAME>            // leading underscore
     limiting constants :  <CONSTANT_NAME>             // no leading underscore
+    initializers       :  _<VARIABLE_NAME>            // leading underscore
 
     to setup and acquire DPX data :
         1)  stop the device
@@ -46,22 +65,46 @@
 #include "../../control/resourcez.h"
 
 
-// NO constexpr helpers
+// constexpr helpers
+constexpr char DPX_FILE_NAME_BASE[]              = "dpx";
+constexpr char DPX_OUTPUT_TYPE_SOGRAM_BITMAP[]   = "sogram_bitmap";
+constexpr char DPX_OUTPUT_TYPE_SPECTRUM_BITMAP[] = "spectrum_bitmap";
+constexpr char DPX_OUTPUT_TYPE_HI_RES_LINE[]     = "hires_line";
+constexpr int  DPX_BITCHECKS              = 3;
+constexpr char DPX_BITCHECK_MESSAGES[DPX_BITCHECKS][BUF_B] =
+{
+    "b0 : ADC input overrange detected",
+    "b1 : continuity error (gap) detected in IF frames",
+    "acqStatus bitcheck failures: "
+};
 
 
 struct rsa306b_dpx_struct
 {
+
+
+// limiting constants :
+    const uint8_t SOGRAM_DIVISOR          = 254U;          // sogram bitmap: (max - min) / 254, 0: signal level <= minPow, 254: signal level >= maxPow
+    const int16_t SOGRAM_TRIGGER_OCCURED  = 1;             // sogram bitmap trigger array indicates "1" if a trigger occured
+    const int16_t SOGRAM_NO_TRIGGER       = 0;             // sogram bitmap trigger array indicates "0" if there was no trigger
+    const double  FREQUENCY_SPAN_MIN_HZ   = 1e6;           // the frequency span minimum, in Hz, must be > 0 Hz
+    const double  FREQUENCY_SPAN_MAX_HZ   = 39.0e6;        // the frequency span maximum, in Hz, must be < 40.0 MHz
+    const double  RBW_MIN_HZ              = 1e3;           // the RBW must be > 0 Hz
+    const int32_t BITMAP_WIDTH_MIN        = 21;            // bitmap width must be > 0 pixels
+    const int32_t BITMAP_WIDTH_MAX        = 801;           // bitmap width must be <= 801
+    const int32_t TRACE_POINT_PER_PIXEL_1 = 1;             // a valid "trace-points-per-pixel" is 1
+    const int32_t TRACE_POINT_PER_PIXEL_3 = 3;             // a valid "trace-points-per-pixel" is 3
+    const int32_t TRACE_POINT_PER_PIXEL_5 = 5;             // a valid "trace-points-per-pixel" is 5
+    const double  TIME_RESOLUTION_SECONDS_MIN = 1.0e-2;    // time resolution must be >= 1 ms
+
+
 /*
     DPX_Configure()
         enables or disables the spectrum and DPX spectrogram modes
         must be called after any DPX settings changed and the device is in the stop state
         this function configures a lot of hardware
+        the 2x bool variables are in "DPX_SettingsStruct"
 */
-    // bool       enable_spectrum;
-    // const bool _ENABLE_SPECTRUM = false;       // DEFAULT            use the DPX_SettingStruct....
-
-    // bool       enable_spectrogram;
-    // const bool _ENABLE_SPECTROGRAM = false;    // DEFAULT
 
 
 /*
@@ -172,14 +215,10 @@ struct rsa306b_dpx_struct
 
 /*
     DPX_GetFrameInfo()
+        use "DPX_FrameBuffer", it is a struct that has 2 variables for this
         frame_count ; total number of DPX frames, since DPX acquisition started
         fft_count   ; total number of fft operations performed since DPX acquisition started
 */
-    int64_t       frame_count;
-    const int64_t _FRAME_COUNT = INIT_INT64;    // DEFAULT 
-
-    int64_t       fft_count;
-    const int64_t _FFT_COUNT = INIT_INT64;      // DEFAULT 
 
 
 /*
@@ -273,18 +312,16 @@ struct rsa306b_dpx_struct
     DPX_GetSogramHiResLineTimestamp()
         the spectrogram high resolutions always update while DPX is running, so call after stopping DPX
         line_timestamp ; for this given line index, the time stamp is quired
-        line_index     ; the index of the high resolution spectrogram line
+        line_index     ; the index of the high resolution spectrogram line // see DPX_GetSogramHiResLine()
 */
 double       line_timestamp;
 const double _LINE_TIMESTAMP = INIT_DOUBLE;    // DEFAULT
 
-int32_t       line_index;
-const int32_t _LINE_INDEX = INIT_INT32;        // DEFAULT
-
 
 /*
     DPX_GetSogramHiResLineTriggered()
-    line_index     ; the index of the high resolution spectrogram line, already defined
+    the spectrogram high resolutions always update while DPX is running, so call after stopping DPX
+    line_index     ; the index of the high resolution spectrogram line // see DPX_GetSogramHiResLine()
     was_triggered  ; true indicates that the line at specified index was triggered
 */
     bool       was_triggered;
@@ -301,9 +338,9 @@ const int32_t _LINE_INDEX = INIT_INT32;        // DEFAULT
 
 */
     RSA_API::DPX_SogramSettingsStruct sogram_settings_type;
-    const int32_t                     _SOGRAM_SETTINGS_TYPE_bitmapWidth = INIT_INT32;              // DEFAULT
-    const int32_t                     _SOGRAM_SETTINGS_TYPE_bitmapHeight = INIT_INT32;             // DEFAULT
-    const double                      _SOGRAM_SETTINGS_TYPE_sogramTraceLineTime = INIT_DOUBLE;     // DEFAULT
+    const int32_t                     _SOGRAM_SETTINGS_TYPE_bitmapWidth          = INIT_INT32;     // DEFAULT
+    const int32_t                     _SOGRAM_SETTINGS_TYPE_bitmapHeight         = INIT_INT32;     // DEFAULT
+    const double                      _SOGRAM_SETTINGS_TYPE_sogramTraceLineTime  = INIT_DOUBLE;    // DEFAULT
     const double                      _SOGRAM_SETTINGS_TYPE_sogramBitmapLineTime = INIT_DOUBLE;    // DEFAULT
 
 
@@ -328,9 +365,9 @@ const int32_t _LINE_INDEX = INIT_INT32;        // DEFAULT
 /*
     DPX_SetParameters()
         sets a lot of important parameters
-        frequency_span_hz ; defined in "DPX_GetRBWRange()"
-        rbw_hz       ; must be > 0 Hz
-        bitmap_width ; must be > 0 && < 801, bitmap width in pixels
+        frequency_span_hz        ;                                                 // see "DPX_GetRBWRange()"
+        rbw_hz                   ; must be > 0 Hz                                  // see "DPX_SettingsStruct"
+        bitmap_width             ; must be > 0 && < 801, bitmap width in pixels    // see "DPX_SettingsStruct"
         trace_points_per_pixel   ; used to derive "trace_points_total", only 1, 3, and 5 are acceptable 
         trace_points_total       ; trace_points_per_pixel * bitmap_width 
         vertical_unit_select     ; uses RSA enum to select vertical units, stay with dBm...
@@ -348,12 +385,6 @@ const int32_t _LINE_INDEX = INIT_INT32;        // DEFAULT
             TRACE_POINT_PER_PIXEL_5
 
 */
-    double       rbw_hz;
-    const double _RBW_HZ = INIT_DOUBLE;                                                   // DEFAULT
-
-    int32_t       bitmap_width;
-    const int32_t _BITMAP_WIDTH = INIT_INT32;                                             // DEFAULT
-
     int32_t       trace_points_per_pixel;
     const int32_t _TRACE_POINTS_PER_PIXEL = INIT_INT32;                                   // DEFAULT
 
@@ -418,8 +449,8 @@ const int32_t _LINE_INDEX = INIT_INT32;        // DEFAULT
         spectrum_trace_type_select ; can use all values in the enum
 
 */
-    int32_t       trace_index[TRACES_306B];
-    const int32_t _TRACE_INDEX [TRACES_306B] =     // DEFAULT
+    int32_t       spectrum_traces[TRACES_306B];
+    const int32_t _SPECTRUM_TRACES[TRACES_306B] =    // DEFAULT
         {
             static_cast<int32_t>(RSA_API::DPX_TRACEIDX_1),
             static_cast<int32_t>(RSA_API::DPX_TRACEIDX_2),
@@ -448,21 +479,6 @@ const int32_t _LINE_INDEX = INIT_INT32;        // DEFAULT
 
     bool       is_ready;
     const bool _IS_READY = false;    // DEFAULT
-
-
-// limiting constants :
-    const uint8_t SOGRAM_DIVISOR          = 254U;          // sogram bitmap: (max - min) / 254, 0: signal level <= minPow, 254: signal level >= maxPow
-    const int16_t SOGRAM_TRIGGER_OCCURED  = 1;             // sogram bitmap trigger array indicates "1" if a trigger occured
-    const int16_t SOGRAM_NO_TRIGGER       = 0;             // sogram bitmap trigger array indicates "0" if there was no trigger
-    const double  FREQUENCY_SPAN_MIN_HZ   = 1e6;           // the frequency span minimum, in Hz, must be > 0 Hz
-    const double  FREQUENCY_SPAN_MAX_HZ   = 39.0e6;        // the frequency span maximum, in Hz, must be < 40.0 MHz
-    const double  RBW_MIN_HZ              = 1e3;           // the RBW must be > 0 Hz
-    const int32_t BITMAP_WIDTH_MIN        = 21;            // bitmap width must be > 0 pixels
-    const int32_t BITMAP_WIDTH_MAX        = 801;           // bitmap width must be <= 801
-    const int32_t TRACE_POINT_PER_PIXEL_1 = 1;             // a valid "trace-points-per-pixel" is 1
-    const int32_t TRACE_POINT_PER_PIXEL_3 = 3;             // a valid "trace-points-per-pixel" is 3
-    const int32_t TRACE_POINT_PER_PIXEL_5 = 5;             // a valid "trace-points-per-pixel" is 5
-    const double  TIME_RESOLUTION_SECONDS_MIN = 1.0e-2;    // time resolution must be >= 1 ms
 
 
 };

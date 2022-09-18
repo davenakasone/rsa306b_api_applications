@@ -48,7 +48,7 @@ CODEZ common_utility::wchar_2_char
     }
 
     size_t w_len = wcslen(source);
-    int idx = 0;
+    size_t idx = 0;
     if (source[idx] == '\0' ||
         w_len <= 0           )
     {

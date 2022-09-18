@@ -18,8 +18,22 @@
     output files use a seperate file manager in the main program
         "r3f_manager"
         "siq_manager"
-    a sperate timer is available: 
-        "cpu_timer"
+    a utility object is composed into this class: 
+        "cutil"
+    
+    API groups used:
+        ALIGN
+        AUDIO
+        CONFIG
+        DEVICE
+        DPX
+        IFSTREAM
+        IQBLK
+        IQSTREAM
+        PLAYBACK
+        REFTIME
+        SPECTRUM
+        TRIG
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
@@ -38,24 +52,12 @@
                 get_everything()
                 _init_everything()
                 _gp_init()
-
-
-
-
-
-
-
-
-
-
-
-
             - rsa306b_gp_confirm.cpp
-                _gp_confirm_api_status()
-                _gp_confirm_call_status()
-                _gp_confirm_return()
-                _gp_confirm_aquisition_code()
-                
+                get_api_status_number()
+                get_api_status_string()
+                get_api_status       
+                _report_api_status()
+                _confirm_api_status()
             - rsa306b_gp_print.cpp
                 print_everything()
                 print_constants()
@@ -105,7 +107,6 @@
                 _audio_get_frequency_offset_hz()
                 _audio_get_volume()
                 _audio_get_demodulation_select()
-                _audio_get_data()
             - rsa306b_audio_set.cpp
                 _audio_set_vars()
                 _audio_set_is_mute()
@@ -160,7 +161,7 @@
                 _device_copy_is_over_temperature()
                 _device_copy_is_running()
                 _device_copy_event_occured()
-                _device_copy_error_string()
+                _device_copy_api_status_message()
                 _device_copy_id()
                 _device_copy_event_id()
                 _device_copy_info_type()
@@ -168,7 +169,7 @@
             - rsa306b_device_get.cpp
                 _device_get_vars()
                 _device_get_is_running()
-                _device_get_error_string()
+                _device_get_api_status_message()
                 _device_get_info_type()
                 _device_get_is_over_temperature()
                 _device_get_event()
@@ -455,224 +456,6 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
-
-    functions used, by API group:
-
-        Alignment
-            ALIGN_GetAlignmentNeeded()
-            ALIGN_GetWarmupStatus()
-            ALIGN_RunAlignment()
-
-        Audio
-            AUDIO_SetFrequencyOffset()
-            AUDIO_GetFrequencyOffset()
-            AUDIO_GetEnable()
-            AUDIO_GetData()
-            AUDIO_GetMode()
-            AUDIO_GetMute()
-            AUDIO_GetVolume()
-            AUDIO_SetMode()
-            AUDIO_SetMute()
-            AUDIO_SetVolume()
-            AUDIO_Start()
-            AUDIO_Stop()
-
-        Configure
-            GetCenterFreq()
-            GetFrequecnyReferenceSource()
-            GetMaxCenterFreq()
-            GetMinCenterFreq()
-            GetReferenceLevel()
-            Preset()
-            SetCenterFreq()
-            SetFrequencyReferenceSource()
-            SetReferenceLevel()
-
-        Device 
-            DEVICE_Connect()
-            DEVICE_Disconnect()
-            DEVICE_GetEnable()
-            DEVICE_GetErrorString()
-            DEVICE_GetInfo()
-            DEVICE_GetOverTemperatureStatus()
-            DEVICE_PrepareForRun()
-            DEVICE_Reset()
-            DEVICE_Run()
-            DEVICE_Search()
-            DEVICE_StartFrameTransfer()
-            DEVICE_Stop()
-
-        DPX
-            DPX_Configure()
-            DPX_FinishFrameBuffer()
-            DPX_GetEnable()
-            DPX_GetFrameBuffer()
-            DPX_GetFrameInfo()
-            DPX_GetRBWRange()
-            DPX_GetSettings()
-            DPX_GetSogramHiResLine()
-            DPX_GetSogramHiResLineCountLatest()
-            DPX_GetSogramHiResLineTimestamp()
-            DPX_GetSogramHiResLineTriggered()
-            DPX_GetSogramSettings()
-            DPX_IsFrameBufferAvailable()
-            DPX_Reset()
-            DPX_SetEnable()
-            DPX_SetParameters()
-            DPX_SetSogramParameters()
-            DPX_SetSogramTraceType()
-            DPX_SetSpectrumTraceType()
-            DPX_WaitForReady()
-            
-        GNSS # not used, only the RSA500/600 has position data
-
-        IF Streaming
-            IFSTREAM_GetActiveStatus()
-            IFSTREAM_GetAcqParameters()
-            IFSTREAM_GetEQParameters()
-            IFSTREAM_GetIFData()
-            IFSTREAM_GetIFDataBufferSize()
-            IFSTREAM_GetIFFrames()
-            IFSTREAM_GetScalingParameters()
-            IFSTREAM_SetDiskFileCount()
-            IFSTREAM_SetDiskFileLength()
-            IFSTREAM_SetDiskFilenameBase()
-            IFSTREAM_SetDiskFilenameSuffix()
-            IFSTREAM_SetDiskFilePath()
-            IFSTREAM_SetEnable()
-            IFSTREAM_SetOutoutConfiguration()
-
-        IQ Block
-            IQBLK_GetAcqInfo()
-            IQBLK_AcquireIQData()
-            IQBLK_GetIQBandwidth()
-            IQBLK_GetIQData()
-            IQBLK_GetIQDataCplx()
-            IQBLK_GetIQDataDeinterleaved()
-            IQBLK_GetRecordLength()
-            IQBLK_GetIQSampleRate()
-            IQBLK_GetMaxIQBandwidth()
-            IQBLK_GetMaxIQRecordLength()
-            IQBLK_GetMinIQBandwidth()
-            IQBLK_SetIQBandwidth()
-            IQBLK_SetIQRecordLength()
-            IQBLK_WaitForIQDataReady()
-
-        IQ Streaming
-            IQSTREAM_GetMaxAcqBandwidth()
-            IQSTREAM_GetMinAcqBandwidth()
-            IQSTREAM_ClearAcqStatus()
-            IQSTREAM_GetAcqParameters()
-            IQSTREAM_GetDiskFileInfo()
-            IQSTREAM_GetDiskFileWriteStatus()
-            IQSTREAM_GetEnable()
-            IQSTREAM_GetIQData()
-            IQSTREAM_GetIQDataBufferSize()
-            IQSTREAM_SetAcqBandwidth()
-            IQSTREAM_SetDiskFileLength()
-            IQSTREAM_SetDiskFilenameBase()
-            IQSTREAM_SetDiskFilenameSuffix()
-            IQSTREAM_SetDataBufferSize()
-            IQSTREAM_SetOutputConfiguration()
-            IQSTREAM_Start()
-            IQSTREAM_Stop()
-            IQSTREAM_WaitForIQDataReady()
-
-        Playback
-
-        Power # not used, only for the RSA500 series
-
-        Spectrum
-            SPECTRUM_AquireTrace()
-            SPECTRUM_GetEnable()
-            SPECTRUM_GetLimits()
-            SPECTRUM_GetSettings()
-            SPECTRUM_GetTrace()
-            SPECTRUM_GetTraceInfo()
-            SPECTRUM_GetTraceType()
-            SPECTRUM_SetDefault()
-            SPECTRUM_SetEnable()
-            SPECTRUM_SetSettings()
-            SPECTRUM_SetTraceType()
-            SPECTRUM_WaitForTraceReady()
-
-        Time
-            REFTIME_GetReferenceTime()
-            REFTIME_GetCurrentTime()
-            REFTIME_GetIntervalSinceRefTimeSet()
-            REFTIME_GetReferenceTimeSource()
-            REFTIME_GetTimeFromTimestamp()
-            REFTIME_GetTimestampFromTime()
-            REFTIME_GetTimestampRate()
-
-        Tracking # not used, only for RSA500/600 series
-
-        Trigger
-            TRIG_ForceTrigger()
-            TRIG_GetIFPowerTriggerLevel()
-            TRIG_GetTriggerMode()
-            TRIG_GetTriggerPositionPercent()
-            TRIG_GetTriggerSource()
-            TRIG_GetTriggerTransition()
-            TRIG_SetIFPowerTriggerLevel()
-            TRIG_SetTriggerMode()
-            TRIG_SetTriggerPositionPercent()
-            TRIG_SetTriggerSource()
-            TRIG_SetTriggerTransition()
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
-
-    TODO :
-        # the IFSTREAM and IQSTREAM are the best places to send direct to client
-        # bring in the "*.siq" class
-        # bring in the spectrogram handler
-        # DEBUG logger .txt
-        # helper classes by composition
-        # keep building and testing the API function groups
-        # time series, spectrogram, and other user requests
-        # worker thread, request thread --> mutex control
-        # there should be a restructing of all the functions
-        # clean the flow of this class in V3
-        # try out std::function instead of the 3/4 buffer
-        # clean up the constants and controlls
-        # CSV --> HDF5 format {or apache parquett?}
-        # take out c-style code and use c++
-        # catch all return values...
-        # union wrapping annonymous struct for memcopy of static buffers
-        # space the source code?
-        # resolve the bitcheck string...
-        # version3, refine more
-            - will need a few name spaces
-            - decodes, batch processes, bytes in file...those are all common, see if you can combine
-            - stand alone...stand together {balance}
-            - master error code, enum with isolated char** lookup
-            - isolate the structs, always pass the objs....return something as an option
-            - pull out the constants class, make it applicable to everything
-            - need value returning functions with own enum...or struct with an int + string
-            - refine the triggering capabilities [2 unkown API functions + a pure force through spectrum, IQ, IF]
-            - the reset can probably be handled with a try-throw-catch and some sleep time
-            - forget the "wchar_t" handlers...just use STL strings and wstrings, do for char* also
-            - breakout the inits into each type + init_vars()...?
-            - API group 'DEVICE' should have user interface reduced...reduce user interface as much as possible
-            - junk/archive everything and leave MVP in top level
-            - lots of uneeded constants, remove and consolidate
-            - center source code "=", frame paramters of API calls (), like other functions
-            - document the group structs better [user, setter, getter, ...every category] + API info
-            - data directory to the source, reduce to "inputs" and "outputs"
-            - setters pass public to API, take out copying unless API getter not possible ? must be same flow
-            - user only has 1 set point, so 1 stop call is all that is needed...
-            - constants include defualt values
-            - constants enforce naming convention to match API group
-            - struct variables enforce naming convention to match API function association
-            - debug log?
-            - clean the file handler objects, output something more efficient than CSV
-            - parameterize file handlers with path/name (don't rely on struct set "3/4" buffer)
-            - the 3/4 buffer should only be applied to API variables
-            !!! unit tests are absolute, every object capability is stimulated
-
-        # DPX
-        # PLAYBACK
 */
 
 #ifndef H_rsa306b_class
@@ -692,91 +475,106 @@ class rsa306b_class
     public :
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        rsa306b_struct vars;            // public variables, structured in API layers, by group, updated during 3/4 duplex
-        common_utility cutil;           // public class instance, by composition, for "common utility" needs
-        rsa306b_constants constants;    // important constants and initialization values for the spectrum analyzer
+        rsa306b_class ();    // constructor
+        ~rsa306b_class();    // destructor
+
+        rsa306b_struct vars;      // public variables, structured in API layers, by group, updated during 3/4 duplex
+        common_utility cutil;     // public class instance, by composition, for "common utility" needs
 
     // general purpose
-        rsa306b_class ();                 // constructor
-        ~rsa306b_class();                 // destructor
-        CODEZ clear   ();                 // re-initializes the instnace, connection is terminated
-        CODEZ get_everything();           // updates user's variable struct
-        CODEZ print_everything();         // prints all variables, using the private struct
-        CODEZ print_constants();          // prints the constant variables of the class
+        CODEZ clear           ();    // re-initializes the instnace, connection is terminated
+        CODEZ apply_defaults  ();    // connects if unconnected, applies default settings, and updates structs
+        CODEZ get_everything  ();    // updates user's variable struct after calling all API getters
+        CODEZ print_everything();    // prints all variables and constants using the private struct
+        CODEZ print_vars      ();    // prints all variables and constants using the private struct
+        CODEZ print_constants ();    // prints the constant variables of the class
         // monitor the api status
         int                   get_api_status_number();    // returns current RSA status code, casted to "int"
         char*                 get_api_status_string();    // return assoicated message of the current RSA status code
-        RSA_API::ReturnStatus get_api_status();           // returns current RSA API status as original enum
-
+        RSA_API::ReturnStatus get_api_status       ();    // returns current RSA API status as original enum
+        
     // API group "ALIGN"
-        CODEZ print_align();              // prints the "ALIGN" variables to stdout, using the private struct
+        CODEZ align_print          ();    // prints the "ALIGN" variables to stdout, using the private struct
         CODEZ align_check_is_needed();    // see if the spectrum analyzer needs to be aligned
         CODEZ align_check_is_warmed();    // see if the spectrum analyser is warmed-up
-        CODEZ align_run();                // execute the device alignment procedure
+        CODEZ align_run            ();    // execute the device alignment procedure
     
     // API group "AUDIO"
-        CODEZ print_audio();           // prints the "AUDIO" variables to stdout, using the private struct
-        CODEZ audio_set_vars();        // user changes "AUDIO" variables in public struct, then calls to set new values
-        CODEZ audio_acquire_data();    // audio demodulation produces data, automatic start/stop
-
+        CODEZ audio_print                                          ();    // prints the "AUDIO" variables to stdout, using the private struct
+        CODEZ audio_set_vars                                       ();    // user changes "AUDIO" variables in public struct, then calls to set new values
+        CODEZ audio_acquire_data                                   ();    // audio demodulation produces data, automatic start/stop
+        CODEZ audio_write_csv(char* file_path_name, bool use_default);    // call after acquring data, "*.csv" is produced
+    
     // API group "CONFIG"
-        CODEZ print_config();       // prints the "CONFIG" variables to stdout, using the private struct
-        CODEZ config_preset();      // the default "preset" conditions are applied to the spectrum analyzer
+        CODEZ config_print   ();    // prints the "CONFIG" variables to stdout, using the private struct
+        CODEZ config_preset  ();    // the default "preset" conditions are applied to the spectrum analyzer
         CODEZ config_set_vars();    // user changes "CONFIG" variables in public struct, then calls to set new values
 
     // API group "DEVICE"
-        CODEZ print_device();                   // prints the "DEVICE" variables to stdout, using the private struct
-        CODEZ device_connect();                 // searches and connects to a device, must call to use spectum analyzer
-        CODEZ device_disconnect();              // disconnect from the spectrum analyzer
-        CODEZ device_run();                     // the spectrum analyzer runs, configuration should have been applied
-        CODEZ device_stop();                    // stop aquiring data
-        CODEZ device_reset();                   // disconnects, makes spectrum analyzer restart, use sparingly
-        CODEZ device_check_run_state();         // query run state of the spectrum analyzer
-        CODEZ device_check_temperature();       // see if the spectrum analyzer it too hot
-        CODEZ device_check_event();             // determine if an event occurred {0: ADC overange, 1: trigger}
-        CODEZ device_prepare_for_run();         // make the device ready to run / trigger
+        CODEZ device_print               ();    // prints the "DEVICE" variables to stdout, using the private struct
+        CODEZ device_connect             ();    // searches and connects to a device, must call to use spectum analyzer
+        CODEZ device_disconnect          ();    // disconnect from the spectrum analyzer
+        CODEZ device_run                 ();    // the spectrum analyzer runs, configuration should have been applied
+        CODEZ device_stop                ();    // stop aquiring data
+        CODEZ device_reset               ();    // disconnects, makes spectrum analyzer restart, use sparingly
+        CODEZ device_check_run_state     ();    // query run state of the spectrum analyzer
+        CODEZ device_check_temperature   ();    // see if the spectrum analyzer it too hot
+        CODEZ device_check_event         ();    // determine if an event occurred {0: ADC overange, 1: trigger}, user sets "event_id"
+        CODEZ device_prepare_for_run     ();    // make the device ready to run, a trigger is set
         CODEZ device_start_frame_transfer();    // initiates run, data transfer begins
     
+    // API group "DPX"
+        CODEZ dpx_print                                                   ();    // prints the "DPX" variables to stdout, using the private struct                                      
+        CODEZ dpx_set_vars                                                ();    // user changes "DPX" variables in public struct, then calls to set new values
+        CODEZ dpx_acquire_data                                            ();    // spectrum and sogram bitmaps are loaded into std::vector members
+        CODEZ dpx_sogram_write_csv  (char* file_path_name, bool use_default);    // after acquiring, dump the sogram into a csv
+        CODEZ dpx_spectrum_write_csv(char* file_path_name, bool use_default);    // after acquiring, dump the spectrum into a csv
+
     // API group "IFSTREAM"
-        CODEZ print_ifstream();                            // prints the "IFSTREAM" variables to stdout, using the private struct
-        CODEZ ifstream_set_vars();                         // user changes "IFSTREAM" variables in public struct, then calls to set new values
-        CODEZ ifstream_record_file();                      // output "*.r3f" file is produced according to the user settings
-        CODEZ ifstream_acquire_adc_data();                 // gets the entire ADC buffer, user struct updated
-        CODEZ ifstream_acquire_adc_frames();               // gets the entire ADC buffer, by frame, user struct updated
-        CODEZ ifstream_write_csv(char* file_path_name);    // call after acquring data, "*.csv" is produced
+        CODEZ ifstream_print                                          ();    // prints the "IFSTREAM" variables to stdout, using the private struct
+        CODEZ ifstream_set_vars                                       ();    // user changes "IFSTREAM" variables in public struct, then calls to set new values
+        CODEZ ifstream_record_file                                    ();    // output "*.r3f" file is produced according to the user settings
+        CODEZ ifstream_acquire_adc_data                               ();    // gets the entire ADC buffer, user struct updated
+        CODEZ ifstream_acquire_adc_frames                             ();    // gets the entire ADC buffer, by frame, user struct updated
+        CODEZ ifstream_write_csv(char* file_path_name, bool use_default);    // call after acquring data, "*.csv" is produced
 
     // API group "IQBLK"
-        CODEZ print_iqblk();                           // prints the "IQBLK" variables to stdout, using the private struct
-        CODEZ iqblk_set_vars();                        // user changes "IQBLK" variables in public struct, then calls to set new values
-        CODEZ iqblk_acquire_data();                    // the "IQBLK" data is acquired into "vars.iqblk.cplx32_v"
-        CODEZ iqblk_make_csv(char* file_path_name);    // call after acquring data, "*.csv" is produced
+        CODEZ iqblk_print                                         ();    // prints the "IQBLK" variables to stdout, using the private struct
+        CODEZ iqblk_set_vars                                      ();    // user changes "IQBLK" variables in public struct, then calls to set new values
+        CODEZ iqblk_acquire_data                                  ();    // the "IQBLK" data is acquired into "vars.iqblk.cplx32_v"
+        CODEZ iqblk_make_csv(char* file_path_name, bool use_default);    // call after acquring data, "*.csv" is produced
 
     // API group "IQSTREAM"
-        CODEZ print_iqstream();                            // prints the "IQSTREAM" variables to stdout, using the private struct
-        CODEZ iqstream_set_vars();                         // user changes "IQSTREAM" variables in public struct, then calls to set new values
-        CODEZ iqstream_acquire_data();                     // the "IQSTREAM" data is acquired into "vars.iqstream.cplx*_v", based on setting
-        CODEZ iqstream_write_csv(char* file_path_name);    // call after acquring data, "*.csv" is produced
-        CODEZ iqstream_clear_sticky();                     // clears the sticky bits of "acqStatus"
+        CODEZ iqstream_print                                          ();    // prints the "IQSTREAM" variables to stdout, using the private struct
+        CODEZ iqstream_set_vars                                       ();    // user changes "IQSTREAM" variables in public struct, then calls to set new values
+        CODEZ iqstream_acquire_data                                   ();    // the "IQSTREAM" data is acquired into "vars.iqstream.cplx*_v", based on setting
+        CODEZ iqstream_write_csv(char* file_path_name, bool use_default);    // call after acquring data, "*.csv" is produced
+        CODEZ iqstream_clear_sticky                                   ();    // clears the sticky bits of "acqStatus"
     
     // API group "REFTIME"
-        CODEZ print_reftime();               // prints the "REFTIME" variables to stdout, using the private struct
-        CODEZ reftime_reset();               // resets start time of the device
-        CODEZ reftime_get_vars();            // gets all the "REFTIME" variables
+        CODEZ reftime_print           ();    // prints the "REFTIME" variables to stdout, using the private struct
+        CODEZ reftime_reset           ();    // resets start time of the device
+        CODEZ reftime_get_vars        ();    // gets all the "REFTIME" variables
         CODEZ reftime_timestamp_2_time();    // set "vars.reftime.helper.timestamp", then call, updates time_t and uint64_t
         CODEZ reftime_time_2_timestamp();    // set "vars.reftime.helper.seconds  and nanos", then call, updates timestamp
     
+    // API group "PLAYBACK"
+        CODEZ playback_print   ();    // prints the "PLAYBACK" variables to stdout, using the private struct
+        CODEZ playback_set_vars();    // user changes "PLAYBACK" variables in public struct, then calls to set new values
+        CODEZ playback_execute ();    // playback of selected "*.r3f" file
+
     // API group "SPECTRUM"
-        CODEZ print_spectrum();                            // prints the "SPECTRUM" variables to stdout, using the private struct
-        CODEZ spectrum_set_vars();                         // user changes "SPECTRUM" variables in public struct, then calls to set new values
-        CODEZ spectrum_default();                          // apply API default spectrum settings
-        CODEZ spectrum_aquire();                           // gets all active traces
-        CODEZ spectrum_find_peak_index();                  // gets peak index of active traces
-        CODEZ spectrum_write_csv(char* file_path_name);    // call after acquring data, "*.csv" is produced
+        CODEZ spectrum_print                                          ();    // prints the "SPECTRUM" variables to stdout, using the private struct
+        CODEZ spectrum_set_vars                                       ();    // user changes "SPECTRUM" variables in public struct, then calls to set new values
+        CODEZ spectrum_default                                        ();    // apply API default spectrum settings
+        CODEZ spectrum_acquire_data                                   ();    // gets all active traces
+        CODEZ spectrum_find_peak_index                                ();    // gets peak index of active traces
+        CODEZ spectrum_write_csv(char* file_path_name, bool use_default);    // call after acquring data, "*.csv" is produced
 
     // API group "TRIG"
-        CODEZ print_trig();       // prints the "TRIG" variables to stdout, using the private struct
+        CODEZ trig_print   ();    // prints the "TRIG" variables to stdout, using the private struct
         CODEZ trig_set_vars();    // user changes "TRIG" variables in public struct, then calls to set new values
-        CODEZ trig_force();       // a trigger event is forced, user calls "device_run()" before and "device_stop()" after
+        CODEZ trig_force   ();    // a trigger event is forced, user calls "device_run()" before and "device_stop()" after
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
     private : 
@@ -785,308 +583,311 @@ class rsa306b_class
     rsa306b_struct _vars;    // private variables, structured in API layers, by group
 
     // general purpose
-        FILE*                 _fp_write;                                  // file pointer for writing output data
-        RSA_API::ReturnStatus _api_status;                                // enum, most API functions return this
-        char                  _helper[BUF_E];                             // smaller cstring
-        char                  _holder[BUF_F];                             // large cstring
-        CODEZ                 _init_everything();                         // initialize all class variables
-        CODEZ                 _gp_init();                                 // initialize the GP private variables
-        CODEZ                 _report_api_status();                       // used to check API calls, after setting "_api_status"
-        CODEZ                 _confirm(RSA_API::ReturnStatus current);    // used to check API calls, with API call as parameter...good for loops
-        
-    // API group "AUDIO"
-        CODEZ _audio_init();
-        // copiers, private --> public
-        CODEZ _audio_copy_vars();
-        CODEZ _audio_copy_is_demodulating();
-        CODEZ _audio_copy_is_mute();
-        CODEZ _audio_copy_frequecny_offset_hz();
-        CODEZ _audio_copy_volume();
-        CODEZ _audio_copy_demodulation_select();
-        CODEZ _audio_copy_data();
-        CODEZ _audio_copy_data_samples_requested();
-        CODEZ _audio_copy_data_samples_acquired();
-        // getters, API is used
-        CODEZ _audio_get_vars();                     // calls the getters
-        CODEZ _audio_get_is_demodulating();          // determine if demodulation is occuring
-        CODEZ _audio_get_is_mute();                  // query mute status
-        CODEZ _audio_get_frequency_offset_hz();      // query frequency offset
-        CODEZ _audio_get_volume();                   // query volume setting
-        CODEZ _audio_get_demodulation_select();      // query demodulation mode
-        CODEZ _audio_get_data();                     // get requested audio samples
-        // setters, API is used
-        CODEZ _audio_set_vars();                      // calls the setters
-        CODEZ _audio_set_is_mute();                   // control speakers
-        CODEZ _audio_set_frequency_offset_hz();       // set carrier frequency
-        CODEZ _audio_set_volume();                    // control speaker volume
-        CODEZ _audio_set_demodulation_select();       // control demodulation mode
-        CODEZ _audio_set_data_samples_requested();    // sets a non-API, used to call API
-
+        FILE*                 _fp_write;         // file pointer for writing output data
+        RSA_API::ReturnStatus _api_status;       // enum, most API functions return this
+        char                  _helper[BUF_E];    // smaller cstring
+        char                  _holder[BUF_F];    // large cstring
+        CODEZ                 _init_everything                               ();    // initialize all class variables
+        CODEZ                 _gp_init                                       ();    // initialize the GP private variables
+        CODEZ                 _report_api_status                             ();    // used to check API calls, after setting "_api_status"
+        CODEZ                 _confirm_api_status(RSA_API::ReturnStatus result);    // used to check API calls, loops or delays
+    
     // API group "ALIGN"
-        CODEZ _align_init();
-        // copiers, private --> public
-        CODEZ _align_copy_vars();
+        CODEZ _align_init          ();
+        // copiers, public = private;
+        CODEZ _align_copy_vars     ();
         CODEZ _align_copy_is_needed();
         CODEZ _align_copy_is_warmed();
         // getters, API is used
-        CODEZ _align_get_vars();         // calls the getters
-        CODEZ _align_get_is_needed();    // query "alignment is needed", with API
-        CODEZ _align_get_is_warmed();    // query "device is warmed-up", with API
+        CODEZ _align_get_vars      ();    // calls the getters
+        CODEZ _align_get_is_needed ();    // query "alignment is needed", with API
+        CODEZ _align_get_is_warmed ();    // query "device is warmed-up", with API
+
+    // API group "AUDIO"
+        CODEZ _audio_init                       ();
+        // copiers, public = private;
+        CODEZ _audio_copy_vars                  ();
+        CODEZ _audio_copy_is_demodulating       ();
+        CODEZ _audio_copy_is_mute               ();
+        CODEZ _audio_copy_frequecny_offset_hz   ();
+        CODEZ _audio_copy_volume                ();
+        CODEZ _audio_copy_demodulation_select   ();
+        CODEZ _audio_copy_data                  ();
+        CODEZ _audio_copy_data_samples_requested();
+        CODEZ _audio_copy_data_samples_acquired ();
+        // getters, API is used
+        CODEZ _audio_get_vars                   ();    // calls the getters
+        CODEZ _audio_get_is_demodulating        ();    // determine if demodulation is occuring
+        CODEZ _audio_get_is_mute                ();    // query mute status
+        CODEZ _audio_get_frequency_offset_hz    ();    // query frequency offset
+        CODEZ _audio_get_volume                 ();    // query volume setting
+        CODEZ _audio_get_demodulation_select    ();    // query demodulation mode
+        // setters, API is used
+        CODEZ _audio_set_vars                   ();    // calls the setters
+        CODEZ _audio_set_is_mute                ();    // control speakers
+        CODEZ _audio_set_frequency_offset_hz    ();    // set carrier frequency
+        CODEZ _audio_set_volume                 ();    // control speaker volume
+        CODEZ _audio_set_demodulation_select    ();    // control demodulation mode
+        CODEZ _audio_set_data_samples_requested ();    // sets a non-API, used to call API
 
     // API group "CONFIG"
-        CODEZ _config_init();
-        // copiers, private --> public
-        CODEZ _config_copy_vars();
-        CODEZ _config_copy_reference_level_dbm();
-        CODEZ _config_copy_center_frequency_hz();
-        CODEZ _config_copy_min_center_frequency_hz();
-        CODEZ _config_copy_max_center_frequency_hz();
-        CODEZ _config_copy_external_reference_frequency_hz();
-        CODEZ _config_copy_frequency_reference_source_select();
+        CODEZ _config_init                                          ();
+        // copiers, public = private;
+        CODEZ _config_copy_vars                                     ();
+        CODEZ _config_copy_reference_level_dbm                      ();
+        CODEZ _config_copy_center_frequency_hz                      ();
+        CODEZ _config_copy_min_center_frequency_hz                  ();
+        CODEZ _config_copy_max_center_frequency_hz                  ();
+        CODEZ _config_copy_external_reference_frequency_hz          ();
+        CODEZ _config_copy_frequency_reference_source_select        ();
         // getters, API is used
-        CODEZ _config_get_vars();
-        CODEZ _config_get_reference_level_dbm();
-        CODEZ _config_get_center_frequency_hz();
-        CODEZ _config_get_min_center_frequency_hz();
-        CODEZ _config_get_max_center_frequency_hz();
-        CODEZ _config_get_external_reference_frequency_hz();
-        CODEZ _config_get_frequency_reference_source_select();
+        CODEZ _config_get_vars                                      ();
+        CODEZ _config_get_reference_level_dbm                       ();
+        CODEZ _config_get_center_frequency_hz                       ();
+        CODEZ _config_get_min_center_frequency_hz                   ();
+        CODEZ _config_get_max_center_frequency_hz                   ();
+        CODEZ _config_get_external_reference_frequency_hz           ();
+        CODEZ _config_get_frequency_reference_source_select         ();
         // setters, API is used
-        CODEZ _config_set_vars();
-        CODEZ _config_set_reference_level_dbm();
-        CODEZ _config_set_center_frequency_hz();
+        CODEZ _config_set_vars                                      ();
+        CODEZ _config_set_reference_level_dbm                       ();
+        CODEZ _config_set_center_frequency_hz                       ();
         CODEZ _config_set_external_reference_frequency_source_select();
 
     // API group "DEVICE"
-        CODEZ _device_init();
-        // copiers, private --> public
-        CODEZ _device_copy_vars();
-        CODEZ _device_copy_is_connected();
+        CODEZ _device_init                    ();
+        // copiers, public = private;
+        CODEZ _device_copy_vars               ();
+        CODEZ _device_copy_is_connected       ();
         CODEZ _device_copy_is_over_temperature();
-        CODEZ _device_copy_is_running();
-        CODEZ _device_copy_event_occured();
-        CODEZ _device_copy_error_string();
-        CODEZ _device_copy_id();
-        CODEZ _device_copy_event_id();
-        CODEZ _device_copy_info_type();
-        CODEZ _device_copy_event_timestamp();
+        CODEZ _device_copy_is_running         ();
+        CODEZ _device_copy_event_occured      ();
+        CODEZ _device_copy_api_status_message ();
+        CODEZ _device_copy_id                 ();
+        CODEZ _device_copy_event_id           ();
+        CODEZ _device_copy_info_type          ();
+        CODEZ _device_copy_event_timestamp    ();
         // getters, API is used
-        CODEZ _device_get_vars();                   // calls the getters
-        CODEZ _device_get_is_running();             // query the run state
-        CODEZ _device_get_error_string();           // gets the API error code based on return status
-        CODEZ _device_get_info_type();              // fill strings with device information
-        CODEZ _device_get_is_over_temperature();    // query temerature warning
-        CODEZ _device_get_event();                  // query an event of interest
+        CODEZ _device_get_vars                ();    // calls the getters
+        CODEZ _device_get_is_running          ();    // query the run state
+        CODEZ _device_get_api_status_message  ();    // gets the API error code based on return status
+        CODEZ _device_get_info_type           ();    // fill strings with device information
+        CODEZ _device_get_is_over_temperature ();    // query temerature warning
+        CODEZ _device_get_event               ();    // query an event of interest
+
+    // API group "DPX"
 
     // API group "IFSTREAM"
-        CODEZ _ifstream_init();
-        // copiers, private --> public
-        CODEZ _ifstream_copy_vars();
-        CODEZ _ifstream_copy_file_name_suffix();
-        CODEZ _ifstream_copy_file_path();
-        CODEZ _ifstream_copy_file_name_base();
-        CODEZ _ifstream_copy_file_length_ms();
-        CODEZ _ifstream_copy_file_count();
-        CODEZ _ifstream_copy_output_configuration_select();
-        CODEZ _ifstream_copy_is_enabled_adc();
-        CODEZ _ifstream_copy_is_active();
-        CODEZ _ifstream_copy_if_data();
-        CODEZ _ifstream_copy_if_data_length();
-        CODEZ _ifstream_copy_data_info_type();
-        CODEZ _ifstream_copy_adc_data_v();
-        CODEZ _ifstream_copy_if_frames();
-        CODEZ _ifstream_copy_frame_bytes();
-        CODEZ _ifstream_copy_number_of_frames();
-        CODEZ _ifstream_copy_framed_adc_data_v();
-        CODEZ _ifstream_copy_eq_parameters();
+        CODEZ _ifstream_init                              ();
+        // copiers, public = private;
+        CODEZ _ifstream_copy_vars                         ();
+        CODEZ _ifstream_copy_file_name_suffix             ();
+        CODEZ _ifstream_copy_file_path                    ();
+        CODEZ _ifstream_copy_file_name_base               ();
+        CODEZ _ifstream_copy_file_length_ms               ();
+        CODEZ _ifstream_copy_file_count                   ();
+        CODEZ _ifstream_copy_output_configuration_select  ();
+        CODEZ _ifstream_copy_is_enabled_adc               ();
+        CODEZ _ifstream_copy_is_active                    ();
+        CODEZ _ifstream_copy_if_data                      ();
+        CODEZ _ifstream_copy_if_data_length               ();
+        CODEZ _ifstream_copy_data_info_type               ();
+        CODEZ _ifstream_copy_adc_data_v                   ();
+        CODEZ _ifstream_copy_if_frames                    ();
+        CODEZ _ifstream_copy_frame_bytes                  ();
+        CODEZ _ifstream_copy_number_of_frames             ();
+        CODEZ _ifstream_copy_framed_adc_data_v            ();
+        CODEZ _ifstream_copy_eq_parameters                ();
         CODEZ _ifstream_copy_points_in_equalization_buffer();
-        CODEZ _ifstream_copy_eq_frequency_v();
-        CODEZ _ifstream_copy_eq_amplitude_v();
-        CODEZ _ifstream_copy_eq_phase_v();
-        CODEZ _ifstream_copy_scaling_parameters();
-        CODEZ _ifstream_copy_scale_factor();
-        CODEZ _ifstream_copy_scale_frequency();
-        CODEZ _ifstream_copy_acq_parameters();
-        CODEZ _ifstream_copy_if_bandwidth_hz();
-        CODEZ _ifstream_copy_samples_per_second();
-        CODEZ _ifstream_copy_if_center_frequency();
-        CODEZ _ifstream_copy_buffer_size();
-        CODEZ _ifstream_copy_buffer_size_bytes();
-        CODEZ _ifstream_copy_number_of_samples();
+        CODEZ _ifstream_copy_eq_frequency_v               ();
+        CODEZ _ifstream_copy_eq_amplitude_v               ();
+        CODEZ _ifstream_copy_eq_phase_v                   ();
+        CODEZ _ifstream_copy_scaling_parameters           ();
+        CODEZ _ifstream_copy_scale_factor                 ();
+        CODEZ _ifstream_copy_scale_frequency              ();
+        CODEZ _ifstream_copy_acq_parameters               ();
+        CODEZ _ifstream_copy_if_bandwidth_hz              ();
+        CODEZ _ifstream_copy_samples_per_second           ();
+        CODEZ _ifstream_copy_if_center_frequency          ();
+        CODEZ _ifstream_copy_buffer_size                  ();
+        CODEZ _ifstream_copy_buffer_size_bytes            ();
+        CODEZ _ifstream_copy_number_of_samples            ();
         // getters, uses API
-        CODEZ _ifstream_get_vars();
-        CODEZ _ifstream_get_is_active();
-        CODEZ _ifstream_get_acq_parameters();
-        CODEZ _ifstream_get_buffer_size();
-        CODEZ _ifstream_get_eq_parameters();
-        CODEZ _ifstream_get_scaling_parameters();
+        CODEZ _ifstream_get_vars                          ();
+        CODEZ _ifstream_get_is_active                     ();
+        CODEZ _ifstream_get_acq_parameters                ();
+        CODEZ _ifstream_get_buffer_size                   ();
+        CODEZ _ifstream_get_eq_parameters                 ();
+        CODEZ _ifstream_get_scaling_parameters            ();
         // setters, uses API
-        CODEZ _ifstream_set_vars();
-        CODEZ _ifstream_set_file_name_suffix();
-        CODEZ _ifstream_set_file_path();
-        CODEZ _ifstream_set_file_name_base();
-        CODEZ _ifstream_set_file_length_ms();
-        CODEZ _ifstream_set_file_count();
-        CODEZ _ifstream_set_output_configuration_select();
-        CODEZ _ifstream_set_is_enabled_adc();
+        CODEZ _ifstream_set_vars                          ();
+        CODEZ _ifstream_set_file_name_suffix              ();
+        CODEZ _ifstream_set_file_path                     ();
+        CODEZ _ifstream_set_file_name_base                ();
+        CODEZ _ifstream_set_file_length_ms                ();
+        CODEZ _ifstream_set_file_count                    ();
+        CODEZ _ifstream_set_output_configuration_select   ();
+        CODEZ _ifstream_set_is_enabled_adc                ();
 
     // API group "IQBLK"
-        CODEZ _iqblk_init();
-        CODEZ _iqblk_bitcheck();
-        // copiers, private --> public
-        CODEZ _iqblk_copy_vars();
-        CODEZ _iqblk_copy_getter();
-        CODEZ _iqblk_copy_actual_buffer_samples();
+        CODEZ _iqblk_init                          ();
+        CODEZ _iqblk_bitcheck                      ();
+        // copiers, public = private;
+        CODEZ _iqblk_copy_vars                     ();
+        CODEZ _iqblk_copy_getter                   ();
+        CODEZ _iqblk_copy_actual_buffer_samples    ();
         CODEZ _iqstream_copy_sample_pairs_requested();
-        CODEZ _iqblk_copy_cplx32_v();
-        CODEZ _iqblk_copy_acq_info_type();
-        CODEZ _iqblk_copy_bitcheck();
-        CODEZ _iqblk_copy_sample_rate();
-        CODEZ _iqblk_copy_bandwidth_hz();
-        CODEZ _iqblk_copy_max_bandwidth_hz();
-        CODEZ _iqblk_copy_min_bandwidth_hz();
-        CODEZ _iqblk_copy_record_length();
-        CODEZ _iqblk_copy_max_record_length();
+        CODEZ _iqblk_copy_cplx32_v                 ();
+        CODEZ _iqblk_copy_acq_info_type            ();
+        CODEZ _iqblk_copy_bitcheck                 ();
+        CODEZ _iqblk_copy_sample_rate              ();
+        CODEZ _iqblk_copy_bandwidth_hz             ();
+        CODEZ _iqblk_copy_max_bandwidth_hz         ();
+        CODEZ _iqblk_copy_min_bandwidth_hz         ();
+        CODEZ _iqblk_copy_record_length            ();
+        CODEZ _iqblk_copy_max_record_length        ();
         // getters, uses API
-        CODEZ _iqblk_get_vars();
-        CODEZ _iqblk_get_acq_info_type();
-        CODEZ _iqblk_get_sample_rate();
-        CODEZ _iqblk_get_bandwidth_hz();
-        CODEZ _iqblk_get_max_bandwidth_hz();
-        CODEZ _iqblk_get_min_bandwidth_hz();
-        CODEZ _iqblk_get_max_record_length();
-        CODEZ _iqblk_get_record_length();
+        CODEZ _iqblk_get_vars                      ();
+        CODEZ _iqblk_get_acq_info_type             ();
+        CODEZ _iqblk_get_sample_rate               ();
+        CODEZ _iqblk_get_bandwidth_hz              ();
+        CODEZ _iqblk_get_max_bandwidth_hz          ();
+        CODEZ _iqblk_get_min_bandwidth_hz          ();
+        CODEZ _iqblk_get_max_record_length         ();
+        CODEZ _iqblk_get_record_length             ();
         // setters
-        CODEZ _iqblk_set_vars();
-        CODEZ _iqblk_set_getter();           // does not use API
-        CODEZ _iqblk_set_bandwidth_hz();
-        CODEZ _iqblk_set_record_length();
+        CODEZ _iqblk_set_vars                      ();
+        CODEZ _iqblk_set_getter                    ();    // does not use API
+        CODEZ _iqblk_set_bandwidth_hz              ();
+        CODEZ _iqblk_set_record_length             ();
         // data acquisiton, uses API
-        CODEZ _iqblk_get_iq_data();
-        CODEZ _iqblk_get_iq_data_cplx();
-        CODEZ _iqblk_get_iq_data_deinterleaved();
+        CODEZ _iqblk_get_iq_data                   ();
+        CODEZ _iqblk_get_iq_data_cplx              ();
+        CODEZ _iqblk_get_iq_data_deinterleaved     ();
 
     // API group "IQSTREAM"
-        CODEZ _iqstream_init();
-        CODEZ _iqstream_bitcheck(uint32_t acqStatus);
-        // copiers, private --> public
-        CODEZ _iqstream_copy_vars();
-        CODEZ _iqstream_copy_acqStatus_message();
-        CODEZ _iqstream_copy_bandwidth();
-        CODEZ _iqstream_copy_bandwidth_max();
-        CODEZ _iqstream_copy_bandwidth_min();
-        CODEZ _iqstream_copy_sample_rate();
-        CODEZ _iqstream_copy_fileinfo_type();  
-        CODEZ _iqstream_copy_is_enabled();           
-        CODEZ _iqstream_copy_pairs_copied();    
-        CODEZ _iqstream_copy_info_type();    
-        CODEZ _iqstream_copy_cplx32_v();
-        CODEZ _iqstream_copy_cplxInt16_v();
-        CODEZ _iqstream_copy_cplxInt32_v();
-        CODEZ _iqstream_copy_pairs_max();
-        CODEZ _iqstream_copy_record_time_ms();
-        CODEZ _iqstream_copy_filename_base();
-        CODEZ _iqstream_copy_suffix_control();
-        CODEZ _iqstream_copy_buffer_multiplier();
-        CODEZ _iqstream_copy_destination_select();
-        CODEZ _iqstream_copy_datatype_select(); 
+        CODEZ _iqstream_init                           ();
+        CODEZ _iqstream_bitcheck                       (uint32_t acqStatus);
+        // copiers, public = private;
+        CODEZ _iqstream_copy_vars                      ();
+        CODEZ _iqstream_copy_acqStatus_message         ();
+        CODEZ _iqstream_copy_bandwidth                 ();
+        CODEZ _iqstream_copy_bandwidth_max             ();
+        CODEZ _iqstream_copy_bandwidth_min             ();
+        CODEZ _iqstream_copy_sample_rate               ();
+        CODEZ _iqstream_copy_fileinfo_type             ();  
+        CODEZ _iqstream_copy_is_enabled                ();           
+        CODEZ _iqstream_copy_pairs_copied              ();    
+        CODEZ _iqstream_copy_info_type                 ();    
+        CODEZ _iqstream_copy_cplx32_v                  ();
+        CODEZ _iqstream_copy_cplxInt16_v               ();
+        CODEZ _iqstream_copy_cplxInt32_v               ();
+        CODEZ _iqstream_copy_pairs_max                 ();
+        CODEZ _iqstream_copy_record_time_ms            ();
+        CODEZ _iqstream_copy_filename_base             ();
+        CODEZ _iqstream_copy_suffix_control            ();
+        CODEZ _iqstream_copy_buffer_multiplier         ();
+        CODEZ _iqstream_copy_destination_select        ();
+        CODEZ _iqstream_copy_datatype_select           (); 
         // getters, uses API
-        CODEZ _iqstream_get_vars();
-        CODEZ _iqstream_get_max_acq_bandwidth();      // updates "bandwidth_min"
-        CODEZ _iqstream_get_min_acq_bandwidth();      // updates "bandwidth_max"
-        CODEZ _iqstream_get_acq_parameters();         // updates "bandwidth" and "sample_rate"
-        CODEZ _iqstream_get_disk_fileinfo();          // updates "fileinfo_type"
-        CODEZ _iqstream_get_enabled();                // updates "is_enabled"
-        CODEZ _iqstream_get_iq_data_buffer_size();    // updates "pairs max"
+        CODEZ _iqstream_get_vars                       ();
+        CODEZ _iqstream_get_max_acq_bandwidth          ();    // updates "bandwidth_min"
+        CODEZ _iqstream_get_min_acq_bandwidth          ();    // updates "bandwidth_max"
+        CODEZ _iqstream_get_acq_parameters             ();    // updates "bandwidth" and "sample_rate"
+        CODEZ _iqstream_get_disk_fileinfo              ();    // updates "fileinfo_type"
+        CODEZ _iqstream_get_enabled                    ();    // updates "is_enabled"
+        CODEZ _iqstream_get_iq_data_buffer_size        ();    // updates "pairs max"
         // setters, uses API
-        CODEZ _iqstream_set_vars();
-        CODEZ _iqstream_set_acq_bandwidth();
-        CODEZ _iqstream_set_disk_file_length();
-        CODEZ _iqstream_set_disk_filename_base();
-        CODEZ _iqstream_set_filename_suffix();
-        CODEZ _iqstream_set_iq_data_buffer_size();
-        CODEZ _iqstream_set_output_configuration();
+        CODEZ _iqstream_set_vars                       ();
+        CODEZ _iqstream_set_acq_bandwidth              ();
+        CODEZ _iqstream_set_disk_file_length           ();
+        CODEZ _iqstream_set_disk_filename_base         ();
+        CODEZ _iqstream_set_filename_suffix            ();
+        CODEZ _iqstream_set_iq_data_buffer_size        ();
+        CODEZ _iqstream_set_output_configuration       ();
         // data acquisiton, uses API
-        CODEZ _iqstream_acquire_data_to_file();     
-        CODEZ _iqstream_acquire_data_direct_cplx32_v();
+        CODEZ _iqstream_acquire_data_to_file           ();     
+        CODEZ _iqstream_acquire_data_direct_cplx32_v   ();
         CODEZ _iqstream_acquire_data_direct_cplxInt16_v();
         CODEZ _iqstream_acquire_data_direct_cplxInt32_v();
 
+    // API group "PLAYBACK"
+
     // API group "REFTIME"
-        CODEZ _reftime_init();
-        CODEZ _reftime_make_dts();  // makes a date time stamp using the current time
-        // copiers, private --> public
-        CODEZ _reftime_copy_vars();
-        CODEZ _reftime_copy_current();
-        CODEZ _reftime_copy_start();
-        CODEZ _reftime_copy_helper();
-        CODEZ _reftime_copy_dts();
+        CODEZ _reftime_init                 ();
+        CODEZ _reftime_make_dts             ();  // makes a date time stamp using the current time
+        // copiers, public = private;
+        CODEZ _reftime_copy_vars            ();
+        CODEZ _reftime_copy_current         ();
+        CODEZ _reftime_copy_start           ();
+        CODEZ _reftime_copy_helper          ();
+        CODEZ _reftime_copy_dts             ();
         CODEZ _reftime_copy_running_duration();
-        CODEZ _reftime_copy_source_select();
-        CODEZ _reftime_copy_timestamp_rate();
+        CODEZ _reftime_copy_source_select   ();
+        CODEZ _reftime_copy_timestamp_rate  ();
         // getters, uses API
-        CODEZ _reftime_get_vars();
-        CODEZ _reftime_get_current();
-        CODEZ _reftime_get_start();
-        CODEZ _reftime_get_running_duration();
-        CODEZ _reftime_get_source_select();
-        CODEZ _reftime_get_timestamp_rate();
+        CODEZ _reftime_get_vars             ();
+        CODEZ _reftime_get_current          ();
+        CODEZ _reftime_get_start            ();
+        CODEZ _reftime_get_running_duration ();
+        CODEZ _reftime_get_source_select    ();
+        CODEZ _reftime_get_timestamp_rate   ();
     
     // API group "SPECTRUM"
-        CODEZ _spectrum_default();
-        CODEZ _spectrum_init();
-        CODEZ _print_spectrum_traces_long();
-        CODEZ _print_spectrum_traces_compact();
-        CODEZ _spectrum_make_array_frequency();
-        // copiers, private --> public
-        CODEZ _spectrum_copy_vars();
+        CODEZ _spectrum_default                    ();
+        CODEZ _spectrum_init                       ();
+        CODEZ _print_spectrum_traces_long          ();
+        CODEZ _print_spectrum_traces_compact       ();
+        CODEZ _spectrum_make_array_frequency       ();
+        // copiers, public = private;
+        CODEZ _spectrum_copy_vars                  ();
         CODEZ _spectrum_copy_is_enabled_measurement();
-        CODEZ _spectrum_copy_settings_type();
-        CODEZ _spectrum_copy_limits_type();
-        CODEZ _spectrum_copy_array_frequency();
-        CODEZ _spectrum_copy_trace_points_aquired(RSA_API::SpectrumTraces trace_index);
-        CODEZ _spectrum_copy_is_enabled_trace(RSA_API::SpectrumTraces trace_index);
-        CODEZ _spectrum_copy_traces_select(RSA_API::SpectrumTraces trace_index);
-        CODEZ _spectrum_copy_detectors_select(RSA_API::SpectrumTraces trace_index);
-        CODEZ _spectrum_copy_trace_info_type(RSA_API::SpectrumTraces trace_index);
-        CODEZ _spectrum_copy_array_power(RSA_API::SpectrumTraces trace_index);
-        CODEZ _spectrum_copy_peak_index(RSA_API::SpectrumTraces trace_index);
+        CODEZ _spectrum_copy_settings_type         ();
+        CODEZ _spectrum_copy_limits_type           ();
+        CODEZ _spectrum_copy_array_frequency       ();
+        CODEZ _spectrum_copy_trace_points_aquired  (RSA_API::SpectrumTraces trace_index);
+        CODEZ _spectrum_copy_is_enabled_trace      (RSA_API::SpectrumTraces trace_index);
+        CODEZ _spectrum_copy_traces_select         (RSA_API::SpectrumTraces trace_index);
+        CODEZ _spectrum_copy_detectors_select      (RSA_API::SpectrumTraces trace_index);
+        CODEZ _spectrum_copy_trace_info_type       (RSA_API::SpectrumTraces trace_index);
+        CODEZ _spectrum_copy_array_power           (RSA_API::SpectrumTraces trace_index);
+        CODEZ _spectrum_copy_peak_index            (RSA_API::SpectrumTraces trace_index);
         // getters, uses API
-        CODEZ _spectrum_get_vars();
-        CODEZ _spectrum_get_is_enabled_measurement();
-        CODEZ _spectrum_get_limits_type();
-        CODEZ _spectrum_get_settings_type();
-        CODEZ _spectrum_get_trace_info_type(RSA_API::SpectrumTraces trace_index);
-        CODEZ _spectrum_get_trace_type(RSA_API::SpectrumTraces trace_index);
+        CODEZ _spectrum_get_vars                   ();
+        CODEZ _spectrum_get_is_enabled_measurement ();
+        CODEZ _spectrum_get_limits_type            ();
+        CODEZ _spectrum_get_settings_type          ();
+        CODEZ _spectrum_get_trace_info_type        (RSA_API::SpectrumTraces trace_index);
+        CODEZ _spectrum_get_trace_type             (RSA_API::SpectrumTraces trace_index);
         // setters, uses API
-        CODEZ _spectrum_set_vars();
-        CODEZ _spectrum_set_is_enabled_measurement();
-        CODEZ _spectrum_set_settings_type();
-        CODEZ _spectrum_set_trace_type();
+        CODEZ _spectrum_set_vars                   ();
+        CODEZ _spectrum_set_is_enabled_measurement ();
+        CODEZ _spectrum_set_settings_type          ();
+        CODEZ _spectrum_set_trace_type             ();
 
     // API group "TRIG"
-        CODEZ _trig_init();
-        // copiers, private --> public
-        CODEZ _trig_copy_vars();
-        CODEZ _trig_copy_if_power_level();
-        CODEZ _trig_copy_mode_select();
-        CODEZ _trig_copy_position_percent();
-        CODEZ _trig_copy_source_select();
-        CODEZ _trig_copy_transition_select();
+        CODEZ _trig_init                   ();
+        // copiers, public = private;
+        CODEZ _trig_copy_vars              ();
+        CODEZ _trig_copy_if_power_level    ();
+        CODEZ _trig_copy_mode_select       ();
+        CODEZ _trig_copy_position_percent  ();
+        CODEZ _trig_copy_source_select     ();
+        CODEZ _trig_copy_transition_select ();
         // getters, API is used
-        CODEZ _trig_get_vars();
-        CODEZ _trig_get_if_power_level();
-        CODEZ _trig_get_mode_select();
-        CODEZ _trig_get_position_percent();
-        CODEZ _trig_get_source_select();
-        CODEZ _trig_get_transition_select();
+        CODEZ _trig_get_vars               ();
+        CODEZ _trig_get_if_power_level     ();
+        CODEZ _trig_get_mode_select        ();
+        CODEZ _trig_get_position_percent   ();
+        CODEZ _trig_get_source_select      ();
+        CODEZ _trig_get_transition_select  ();
         // setters, API is used
-        CODEZ _trig_set_vars();
-        CODEZ _trig_set_if_power_level();
-        CODEZ _trig_set_mode_select();
-        CODEZ _trig_set_position_percent();
-        CODEZ _trig_set_source_select();
-        CODEZ _trig_set_transition_select();
+        CODEZ _trig_set_vars               ();
+        CODEZ _trig_set_if_power_level     ();
+        CODEZ _trig_set_mode_select        ();
+        CODEZ _trig_set_position_percent   ();
+        CODEZ _trig_set_source_select      ();
+        CODEZ _trig_set_transition_select  ();
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 };

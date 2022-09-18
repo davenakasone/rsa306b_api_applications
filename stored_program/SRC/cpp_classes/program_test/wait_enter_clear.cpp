@@ -8,7 +8,7 @@
 
 #include "testz.h"
 
-
+#ifdef UNIT_TESTING
 #ifdef WAIT_ENTER_CLEAR
 
 
@@ -33,6 +33,6 @@
 
 
 #endif
-
+#endif
 
 ////////~~~~~~~~END>  wait_enter_clear.cpp

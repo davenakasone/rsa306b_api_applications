@@ -10,6 +10,8 @@
 
 #include "../testz.h"
 
+#ifdef UNIT_TESTING
+
 #define UT8_a 1    // make some settings
 #define UT8_b 2    // read a spectrum trace, find peak
 #define UT8_c 3    // read a spectrum trace, write to csv
@@ -140,6 +142,9 @@ printf("\n%s()  ,  test complete\n", __func__);
 wait_enter_clear();
 #endif
 }
+
+
+#endif
 
 
 ////////~~~~~~~~END>  unit_test_8.cpp

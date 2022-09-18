@@ -10,6 +10,7 @@
 
 #include "../testz.h"
 
+#ifdef UNIT_TESTING
 
 static const double CONFIG_DBM         = -44.4;                                        // select a power level for the data acquisition, in dBm
 static const double CONFIG_CF          = 100.0e6;                                      // select a center frequency for the data acquisition, in Hz
@@ -224,6 +225,9 @@ static void stream_to_file(rsa306b_class* obj, bool display_outfile)
         printf("header        :  %s\n", obj->vars.iqstream.fileinfo_type.filenames_1);
     }
 }
+
+
+#endif
 
 
 /////////~~~~~~~~END>  task_992.cpp

@@ -11,6 +11,8 @@
 
 #include "../testz.h"
 
+#ifdef UNIT_TESTING
+
 #define UT5_a 1    // basic test
 #define UT5_b 2    // set trigger
 
@@ -61,6 +63,9 @@ printf("\n%s()  ,  test complete\n", __func__);
 wait_enter_clear();
 #endif
 }
+
+
+#endif
 
 
 ////////~~~~~~~~END>  unit_test_5.cpp

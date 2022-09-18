@@ -29,59 +29,16 @@ CODEZ rsa306b_class::_audio_set_vars()
     debug_record(false);
 #endif
 
-    if (this->_vars.device.is_connected == false)
-    {
-        #ifdef DEBUG_MIN
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
-                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
-            debug_record(true);
-        #endif
-        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
-    }
-    this->device_stop();
+    constexpr int calls = 5;
+    CODEZ caught_call[calls];
 
-    // vars.audio.is_mute
-    if (this->vars.audio.is_mute != this->_vars.audio.is_mute)
-    {
-        if (this->_audio_set_is_mute() != this->constants.CALL_SUCCESS)
-        {
-            return this->constants.CALL_FAILURE;
-        }
-    }
-    // vars.audio.frequency_offset_hz
-    if (this->vars.audio.frequency_offset_hz != this->_vars.audio.frequency_offset_hz)
-    {
-        if (this->_audio_set_frequency_offset_hz() != this->constants.CALL_SUCCESS)
-        {
-            return this->constants.CALL_FAILURE;
-        }
-    }
-    // vars.audio.volume
-    if (this->vars.audio.volume != this->_vars.audio.volume)
-    {
-        if (this->_audio_set_volume() != this->constants.CALL_SUCCESS)
-        {
-            return this->constants.CALL_FAILURE;
-        }
-    }
-    // vars.audio.demodulation_select
-    if (this->vars.audio.demodulation_select != this->_vars.audio.demodulation_select)
-    {
-        if (this->_audio_set_demodulation_select() != this->constants.CALL_SUCCESS)
-        {
-            return this->constants.CALL_FAILURE;
-        }
-    }
-    // vars.data_samples_requested
-    if (this->vars.audio.data_samples_requested != this->_vars.audio.data_samples_requested)
-    {
-        if (this->_audio_set_data_samples_requested() != this->constants.CALL_SUCCESS)
-        {
-            return this->constants.CALL_FAILURE;
-        }
-    }
-    
-    return this->constants.CALL_SUCCESS;
+    caught_call[0] = this->_audio_set_is_mute               ();
+    caught_call[1] = this->_audio_set_frequency_offset_hz   ();
+    caught_call[2] = this->_audio_set_volume                ();
+    caught_call[3] = this->_audio_set_demodulation_select   ();
+    caught_call[4] = this->_audio_set_data_samples_requested();
+
+    return this->cutil.codez_checker(caught_call, calls);
 }
 
 
@@ -109,11 +66,12 @@ CODEZ rsa306b_class::_audio_set_is_mute()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    this->_vars.gp.api_status = 
-        RSA_API::AUDIO_SetMute(&this->vars.audio.is_mute);
-    this->_gp_confirm_api_status();
-    this->_audio_get_is_mute();
-    return this->_gp_confirm_return();
+
+    this->_vars.audio.is_mute = this->vars.audio.is_mute;
+    RSA_API::ReturnStatus temp = 
+        RSA_API::AUDIO_SetMute(&this->_vars.audio.is_mute);
+    (void)this->_audio_get_is_mute();
+    return this->_confirm_api_status(temp);
 }
 
 
@@ -139,24 +97,25 @@ CODEZ rsa306b_class::_audio_set_frequency_offset_hz()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    if (this->vars.audio.frequency_offset_hz < this->constants.AUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz ||
-        this->vars.audio.frequency_offset_hz > this->constants.AUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz  )
+    if (this->vars.audio.frequency_offset_hz < this->_vars.audio.CENTER_FREQUENCY_OFFSET_MIN_HZ ||
+        this->vars.audio.frequency_offset_hz > this->_vars.audio.CENTER_FREQUENCY_OFFSET_MAX_HZ  )
     {
         #ifdef DEBUG_MIN
             (void)snprintf(X_ddts, sizeof(X_ddts), "audio frequency offset { %lf }  ,  out of range [ %lf , %lf ]",
                 this->vars.audio.frequency_offset_hz,
-                this->constants.AUDIO_CENTER_FREQUENCY_OFFSET_MIN_Hz,
-                this->constants.AUDIO_CENTER_FREQUENCY_OFFSET_MAX_Hz);
+                this->_vars.audio.CENTER_FREQUENCY_OFFSET_MIN_HZ,
+                this->_vars.audio.CENTER_FREQUENCY_OFFSET_MAX_HZ);
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return this->constants.CALL_FAILURE;
+        return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
-    this->_vars.gp.api_status = 
-        RSA_API::AUDIO_SetFrequencyOffset(this->vars.audio.frequency_offset_hz);
-    this->_gp_confirm_api_status();
-    this->_audio_get_frequency_offset_hz();
-    return this->_gp_confirm_return();
+
+    this->_vars.audio.frequency_offset_hz = this->vars.audio.frequency_offset_hz;
+    RSA_API::ReturnStatus temp = 
+        RSA_API::AUDIO_SetFrequencyOffset(this->_vars.audio.frequency_offset_hz);
+    (void)this->_audio_get_frequency_offset_hz();
+    return this->_confirm_api_status(temp);
 }
 
 
@@ -182,24 +141,25 @@ CODEZ rsa306b_class::_audio_set_volume()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    if (this->vars.audio.volume < this->constants.AUDIO_VOLUME_MIN ||
-        this->vars.audio.volume > this->constants.AUDIO_VOLUME_MAX  )
+    if (this->vars.audio.volume < this->_vars.audio.VOLUME_MIN ||
+        this->vars.audio.volume > this->_vars.audio.VOLUME_MAX  )
     {
         #ifdef DEBUG_MIN
             (void)snprintf(X_ddts, sizeof(X_ddts), "audio volume { %f }  ,  out of range [ %f , %f ]",
                 this->vars.audio.volume,
-                this->constants.AUDIO_VOLUME_MIN,
-                this->constants.AUDIO_VOLUME_MAX);
+                this->_vars.audio.VOLUME_MIN,
+                this->_vars.audio.VOLUME_MAX);
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return this->constants.CALL_FAILURE;
+        return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
-    this->_vars.gp.api_status = 
-        RSA_API::AUDIO_SetVolume(this->vars.audio.volume);
-    this->_gp_confirm_api_status();
-    this->_audio_get_volume();
-    return this->_gp_confirm_return();
+    
+    this->_vars.audio.volume = this->vars.audio.volume;
+    RSA_API::ReturnStatus temp = 
+        RSA_API::AUDIO_SetVolume(this->_vars.audio.volume);
+    (void)this->_audio_get_volume();
+    return this->_confirm_api_status(temp);
 }
 
 
@@ -238,13 +198,14 @@ CODEZ rsa306b_class::_audio_set_demodulation_select()
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return this->constants.CALL_FAILURE;
+        return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
-    this->_vars.gp.api_status = 
-        RSA_API::AUDIO_SetMode(this->vars.audio.demodulation_select);
-    this->_gp_confirm_api_status();
+
+    this->_vars.audio.demodulation_select = this->vars.audio.demodulation_select;
+    RSA_API::ReturnStatus temp = 
+        RSA_API::AUDIO_SetMode(this->_vars.audio.demodulation_select);
     this->_audio_get_demodulation_select();
-    return this->_gp_confirm_return();
+    return this->_confirm_api_status(temp);
 }
 
 
@@ -270,21 +231,21 @@ CODEZ rsa306b_class::_audio_set_data_samples_requested()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    if (this->vars.audio.data_samples_requested < 1               ||
-        this->vars.audio.data_samples_requested > AUDIO_DATA_LENGTH)
+    if (this->vars.audio.data_samples_requested < 1                                 ||
+        this->vars.audio.data_samples_requested > this->_vars.audio.DATA_V_MAX_LENGTH)
     {
         #ifdef DEBUG_MIN
             (void)snprintf(X_ddts, sizeof(X_ddts), "samples requested { %u }  ,  out of range [ 1 , %d ]",
                 this->vars.audio.data_samples_requested,
-                AUDIO_DATA_LENGTH);
+                this->_vars.audio.DATA_V_MAX_LENGTH);
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return this->constants.CALL_FAILURE;
+        return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
-    this->_vars.audio.data_samples_requested = 
-        this->vars.audio.data_samples_requested;
-    return this->constants.CALL_SUCCESS;
+
+    this->_vars.audio.data_samples_requested = this->vars.audio.data_samples_requested;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 

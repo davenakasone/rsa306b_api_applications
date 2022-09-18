@@ -246,7 +246,7 @@ CODEZ common_utility::exe_fclose
                 this->codez_messages(CODEZ::_16_fclose_failed));
             debug_record(true);
         #endif
-        return this->report_status_code(CODEZ::_16_fclose_failed);
+        return this->report_status_code(CODEZ::_16_fclose_failed);    // a segmentation fault will occur soon
     }
     fp = NULL;
     return this->report_status_code(CODEZ::_0_no_errors);  // file was closed

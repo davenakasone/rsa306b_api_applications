@@ -1,13 +1,21 @@
 /*
     variables needed for the API group "REFTIME" 
+    REFTIME_GetReferenceTime()
+    REFTIME_GetCurrentTime()
+    REFTIME_GetIntervalSinceRefTimeSet()
+    REFTIME_GetReferenceTimeSource()
+    REFTIME_GetTimeFromTimestamp()
+    REFTIME_GetTimestampFromTime()
+    REFTIME_GetTimestampRate()
 */
 
 #ifndef H_rsa306b_reftime_struct
 #define H_rsa306b_reftime_struct
 
 
-#include "../rsa306b_constants.h"
+#include "../../control/resourcez.h"
 
+// NO constexpr helpers
 
 struct rt_type
 {
@@ -23,6 +31,11 @@ typedef struct rt_type rt_type;
 
 struct rsa306b_reftime_struct
 {
+
+
+// limiting constants
+
+
     rt_type current;                       // the current time since epoch
     rt_type start;                         // time the device was connected, or time was reset
     rt_type helper;                        // for utility, receives reftime_time_2_timesamp(), reftime_timestamp_2_time()

@@ -38,8 +38,12 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
 
 #include "../../api_resourcez/RSA_API.h"    // has <time.h>, <stdint.h>, <thread.h>, ...
 
-#define DE_BUG 22               // {ON//OFF} if activated, debug features are applied, good to have at least "DEBUG_MIN" activated
-#define WAIT_ENTER_CLEAR 111    // {ON//OFF} if activated, calls wait_enter_clear(), stand-alone execution only
+#define DE_BUG           111    // {ON//OFF} if activated, debug features are applied, good to have at least this and  "DEBUG_MIN" activated
+//#define BUILD_PYTHON     222    // {ON//OFF} if activated, compiles with C++ to python3 interfacing, should be on to make a proper library
+//#define UNIT_TESTING     333    // {ON//OFF} if activated, compiles with unit testing, select build target accordingly
+    #ifdef UNIT_TESTING
+        #define WAIT_ENTER_CLEAR 444    // {ON//OFF} if activated, calls wait_enter_clear(), for selected tasks and unit tests
+    #endif
 
 #ifdef DE_BUG
     // pick: none, one, or all
@@ -110,6 +114,8 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
     // number of object instances debugger will track
      constexpr int ACTIVE_OBJECTS = 7; 
 
+    #define GET_NAME(var) #var    // debug utility for identifying variable name
+
 #endif
 
 // Data IO
@@ -117,10 +123,9 @@ constexpr char DATA_DIRECTORY_RAW[]       = "../DATA/data_raw/";
 constexpr char DATA_DIRECTORY_PROCESSED[] = "../DATA/data_processed/";   // path
 
 // Device Constants
-constexpr std::size_t TRACES_306B = 3UL;    // the RSA-306B has 3 possible traces available
-
-
-#define GET_NAME(var) #var    // debug utility for identifying variable name
+constexpr std::size_t TRACES_306B         = 3UL;                // the RSA-306B has 3 possible traces available
+constexpr char BITCHECK_SUCCESS_MESSAGE[] = "good bitcheck";    // common message recorded upon successful bitcheck
+constexpr unsigned BITCHECK_SUCESS        = 0U;                 // all successful bitchecks result in 0
 
 // program sizing parameters
 constexpr int BUF_A = 32;      // a short general purpose buffer
@@ -133,13 +138,14 @@ constexpr int BUF_F = 1024;    // a long general purpose buffer
 // program initialization values, covers most types
 constexpr char         INIT_CHAR       = 'Z';
 constexpr char         INIT_CHARP[]    = "ZZZ";
-constexpr double       INIT_DOUBLE     = -9.9;
+constexpr double       INIT_DOUBLE     = -9.9F;
 constexpr float        INIT_FLOAT      = -9.9F;
 constexpr int          INIT_INT        = -9;
 constexpr int8_t       INIT_INT8       = -9;
 constexpr int16_t      INIT_INT16      = -9;
 constexpr int32_t      INIT_INT32      = -9;
 constexpr int64_t      INIT_INT64      = -9L;
+constexpr std::size_t  INIT_STD_SIZE_T = 5UL;
 constexpr std::size_t  INIT_STL_LENGTH = 3UL;    // for sizing std::vector, std::queue, ...
 constexpr uint8_t      INIT_UINT8      = 0xFFU;
 constexpr uint16_t     INIT_UINT16     = 0xFFFFU;

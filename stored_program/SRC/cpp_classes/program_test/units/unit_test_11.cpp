@@ -11,6 +11,8 @@
 
 #include "../testz.h"
 
+#ifdef UNIT_TESTING
+
 #define UT11_a 1    // basic test of the group
 #define UT11_b 2    // calls through to task_990(), handles all client and file stream cases
 #define UT11_c 3    // parse some "*.siq files", calls through task_989()
@@ -62,6 +64,9 @@ printf("\n%s()  ,  test complete\n", __func__);
 wait_enter_clear();
 #endif
 }
+
+
+#endif
 
 
 ////////~~~~~~~~END>  unit_test_11.cpp

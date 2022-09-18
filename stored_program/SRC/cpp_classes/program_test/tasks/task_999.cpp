@@ -5,6 +5,8 @@
 
 #include "../testz.h"
 
+#ifdef UNIT_TESTING
+
 
 void task_999()
 {
@@ -28,5 +30,7 @@ wait_enter_clear();
 #endif
 }
 
+
+#endif
 
 /////////~~~~~~~~END>  task_999.cpp

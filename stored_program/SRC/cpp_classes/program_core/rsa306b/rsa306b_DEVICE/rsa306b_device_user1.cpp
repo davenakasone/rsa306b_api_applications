@@ -31,28 +31,30 @@ CODEZ rsa306b_class::device_connect()
 
     if (this->_vars.device.is_connected == true)
     {
-        return;
+        return this->cutil.report_status_code(CODEZ::_0_no_errors);
     }
-    int devices_found;
-    int device_ids[RSA_API::DEVSRCH_MAX_NUM_DEVICES];
-    char device_serials[RSA_API::DEVSRCH_MAX_NUM_DEVICES][RSA_API::DEVSRCH_SERIAL_MAX_STRLEN];
-    char device_types[RSA_API::DEVSRCH_MAX_NUM_DEVICES][RSA_API::DEVSRCH_TYPE_MAX_STRLEN];
 
-    this->_vars.gp.api_status = 
-        RSA_API::DEVICE_Search(
+    int  devices_found;
+    int  device_ids    [RSA_API::DEVSRCH_MAX_NUM_DEVICES];
+    char device_serials[RSA_API::DEVSRCH_MAX_NUM_DEVICES][RSA_API::DEVSRCH_SERIAL_MAX_STRLEN];
+    char device_types  [RSA_API::DEVSRCH_MAX_NUM_DEVICES][RSA_API::DEVSRCH_TYPE_MAX_STRLEN];
+    this->_api_status = 
+        RSA_API::DEVICE_Search
+        (
             &devices_found, 
             device_ids, 
             device_serials, 
-            device_types);
-    this->_gp_confirm_api_status();
-    if (this->_vars.gp.api_status != RSA_API::noError)
+            device_types
+        );
+
+    if (this->_api_status != RSA_API::noError)
     {
         #ifdef DEBUG_MIN
             (void)snprintf(X_ddts, sizeof(X_ddts), "search for devices failed");
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return;
+        return this->_report_api_status();
     }
     if (devices_found > 1)
     {
@@ -61,7 +63,7 @@ CODEZ rsa306b_class::device_connect()
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_9_function_call_failed);
     }
     if (devices_found < 1)
     {
@@ -70,25 +72,25 @@ CODEZ rsa306b_class::device_connect()
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_9_function_call_failed);
     }
 
     this->_vars.device.id = device_ids[0];
     this->_device_copy_id();
-    this->_vars.gp.api_status = 
+    this->_api_status = 
         RSA_API::DEVICE_Connect(this->_vars.device.id);
-    this->_gp_confirm_api_status();
-    if (this->_vars.gp.api_status != RSA_API::noError)
+    if (this->_api_status != RSA_API::noError)
     {
         #ifdef DEBUG_MIN
             (void)snprintf(X_ddts, sizeof(X_ddts), "failed to connect, deviceID:  %d", this->_vars.device.id);
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return;
+        return this->_report_api_status();
     }
+
     this->_vars.device.is_connected = true;    // this is very important
-    this->_device_copy_is_connected();
+    (void)this->_device_copy_is_connected();
 
     #ifdef DEBUG_MIN
         (void)snprintf(X_ddts, sizeof(X_ddts), "CONNECTED");
@@ -96,12 +98,27 @@ CODEZ rsa306b_class::device_connect()
         debug_record(true);
     #endif
     
-    this->device_stop();
-    this->align_run();
-    this->config_preset();    // calls "get_everything()"
-    this->spectrum_default();
-    this->_gp_confirm_aquisition_code();
+    constexpr int calls = 10;
+    CODEZ caught_call[calls];
+
+    caught_call[0] = this->device_stop();
+    caught_call[1] = this->align_run();
+    caught_call[2] = this->config_preset();    
+    caught_call[3] = this->spectrum_default();
+    caught_call[4] = this->get_everything();
+    sleep(1);    // toggle
+    caught_call[5] = this->device_run();
+    sleep(1);    // toggle
+    caught_call[6] = this->device_stop();
+    sleep(1);    // toggle
+    caught_call[7] = this->device_run();
+    sleep(1);    // toggle
+    caught_call[8] = this->device_stop();
+    sleep(1);    // toggle
+    caught_call[9] = this->get_everything();
+
     // INSERT
+    return this->cutil.codez_checker(caught_call, calls);
 }
 
 
@@ -122,25 +139,25 @@ CODEZ rsa306b_class::device_disconnect()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
-            printf("\n\tdevice already disconnected\n");
-        #endif
-        this->_init_everything();
-        return;
+        return this->clear();
     }
-    this->device_stop();
-    this->_vars.gp.api_status = RSA_API::DEVICE_Disconnect();
-    this->_gp_confirm_api_status();
-    if (this->_vars.gp.api_status != RSA_API::noError)
+    this->_vars.device.is_connected = false;    // this is very important
+    (void)this->_device_copy_is_connected();
+
+    (void)this->cutil.report_status_code(this->device_stop());
+
+    this->_api_status = RSA_API::DEVICE_Disconnect();
+    if (this->_api_status != RSA_API::noError)
     {
         #ifdef DEBUG_MIN
             (void)snprintf(X_ddts, sizeof(X_ddts), "failed to disconnect device");
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return;
+        return this->_report_api_status();
     }
-    this->_init_everything();
+
+    return this->clear();
 }
 
 
@@ -170,22 +187,23 @@ CODEZ rsa306b_class::device_run()
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
 
-    this->_device_get_is_running();
+    (void)this->_device_get_is_running();    // DEVICE_GetEnable()
     if (this->_vars.device.is_running == true)
     {
-        return;
+        return this->cutil.report_status_code(CODEZ::_0_no_errors);
     }
-    this->_vars.gp.api_status = RSA_API::DEVICE_Run();
-    if (this->_vars.gp.api_status != RSA_API::noError)
+
+    this->_api_status = RSA_API::DEVICE_Run();
+    if (this->_api_status != RSA_API::noError)
     {
         #ifdef DEBUG_MIN
             (void)snprintf(X_ddts, sizeof(X_ddts), "failed to run device");
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return;
+        return this->_report_api_status();
     }
-    this->_device_get_is_running();
+    return this->_device_get_is_running();  // DEVICE_GetEnable()
 }
 
 
@@ -213,22 +231,24 @@ CODEZ rsa306b_class::device_stop()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    this->_device_get_is_running();
+
+    (void)this->_device_get_is_running();    // DEVICE_GetEnable()
     if (this->_vars.device.is_running == false)
     {
-        return;
+        return this->cutil.report_status_code(CODEZ::_0_no_errors);
     }
-    this->_vars.gp.api_status = RSA_API::DEVICE_Stop();
-    if (this->_vars.gp.api_status != RSA_API::noError)
+
+    this->_api_status = RSA_API::DEVICE_Stop();
+    if (this->_api_status != RSA_API::noError)
     {
         #ifdef DEBUG_MIN
-            (void)snprintf(X_ddts, sizeof(X_ddts), "failed to stop device");
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_1_rsa_api_error));
             debug_record(true);
         #endif
-        return;
+        return this->_report_api_status();
     }
-    this->_device_get_is_running();
+    return this->_device_get_is_running();    // DEVICE_GetEnable()
 }
 
 
@@ -257,47 +277,20 @@ CODEZ rsa306b_class::device_reset()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    this->device_stop();
+    (void)this->device_stop();
 
     try
     {
         (void)printf("\n\t\t-witness\n\n");
-        this->_vars.gp.api_status = RSA_API::DEVICE_Reset(this->_vars.device.id);
+        this->_api_status = RSA_API::DEVICE_Reset(this->_vars.device.id);
     }
     catch(...)
     {
-        (void)printf("\nyou did not make it to VAHALLAH\n");
+        (void)printf("\nyou did not make it to vahallah\n");
         (void)sleep(10);
-        this->_vars.device.is_connected = false;
-        this->device_connect();
+        this->clear();
     }
-    /*
-    this->_vars.gp.api_status = RSA_API::DEVICE_Reset(this->_vars.device.id);
-    this->_gp_confirm_api_status();
-    if (this->_vars.gp.api_status != RSA_API::noError)
-    {
-        #ifdef DEBUG_MIN
-            printf("\n\treset failure\n");
-        #endif
-        return;
-    }
-    this->_init_everything();
-    #ifdef DEBUG_MIN
-        printf("\n\treset success\n");
-    #endif
-    prompt:
-    int discard = 7;
-    printf("enter: [ 1 ] to continue  ,  [ 0 ] to quit\n");
-    std::cin >> discard;
-    if (discard != 0 && discard != 1) {goto prompt;}
-    if (discard == 0) {exit(0);}
-    if (discard == 1)
-    {
-        sleep(1);
-        this->_vars.device.is_connected = false;
-        this->device_connect();
-    }
-    */
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 

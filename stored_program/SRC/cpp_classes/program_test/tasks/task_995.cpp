@@ -4,6 +4,9 @@
 */
 
 #include "../testz.h"
+
+#ifdef UNIT_TESTING
+
 #define REPZ 7
 
 
@@ -135,6 +138,9 @@ printf("\n%s()  ,  task complete, adjust as needed\n", __func__);
 wait_enter_clear();
 #endif
 }
+
+
+#endif
 
 
 /////////~~~~~~~~END>  task_995.cpp

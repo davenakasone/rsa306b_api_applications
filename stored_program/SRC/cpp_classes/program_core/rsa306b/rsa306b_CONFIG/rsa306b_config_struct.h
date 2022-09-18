@@ -1,10 +1,16 @@
 /*
     variables needed for the API group "CONFIG" 
+        CONFIG_GetCenterFreq()              , CONFIG_SetCenterFreq()
+        CONFIG_GetExternalRefFrequency()
+        CONFIG_GetFrequecnyReferenceSource(), CONFIG_SetFrequencyReferenceSource()
+        CONFIG_GetMaxCenterFreq()           , GetMinCenterFreq()
+        CONFIG_GetReferenceLevel()          , CONFIG_SetReferenceLevel()
+        CONFIG_Preset()
 
     constexpr helpers  :  <GROUP>_<CONSTEXPR_NAME>    // with group reference since used outside struct instance
-    initializers       :  _<VARIABLE_NAME>            // leading underscore
     limiting constants :  <CONSTANT_NAME>             // no leading underscore
-
+    initializers       :  _<VARIABLE_NAME>            // leading underscore
+    
     obsolete :
         CONFIG_GetExternalRefEnable()
         CONFIG_SetExternalRefEnable()
@@ -23,6 +29,13 @@
 
 struct rsa306b_config_struct
 {
+
+
+// limiting constants :
+    const double REFERENCE_LEVEL_MAX_DBM = 30.0;       // highest measurable signal power
+    const double REFERENCE_LEVEL_MIN_DBM = -130.0;     // smallest measurable signal power
+
+    
 /*
     CONFIG_GetCenterFreq(), CONFIG_SetCenterFreq()
         get/set the center frequency, set the TRKGEN first if you have RSA500
@@ -94,11 +107,6 @@ struct rsa306b_config_struct
         - IQ record length set to 1024 samples
         - reference level is set to 0 dBm
 */
-
-
-// limiting constants :
-    const double REFERENCE_LEVEL_MAX_DBM = 30.0;       // highest measurable signal power
-    const double REFERENCE_LEVEL_MIN_DBM = -130.0;     // smallest measurable signal power
 
 
 };

@@ -15,10 +15,14 @@
 
 // global instances :
 
-extern rsa306b_class     X_rsa;
-extern r3f_manager_class X_r3f;    
-extern siq_manager_class X_siq;           
-extern common_utility    X_util;
+
+extern rsa306b_class     X_rsa;     // includes one instance of "common_utility", by composition
+
+extern r3f_manager_class X_r3f;     // includes one instance of "common_utility", by composition
+
+extern siq_manager_class X_siq;     // includes one instance of "common_utility", by composition  
+
+extern common_utility    X_util;    // base class, does not use any other classes
 
 
 #endif

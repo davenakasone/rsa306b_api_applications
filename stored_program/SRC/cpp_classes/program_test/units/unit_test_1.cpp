@@ -12,6 +12,8 @@
 
 #include "../testz.h"
 
+#ifdef UNIT_TESTING
+
 
 void unit_test_1 (void)
 {
@@ -48,6 +50,9 @@ printf("\n%s()  ,  test complete\n", __func__);
 wait_enter_clear();
 #endif
 }
+
+
+#endif
 
 
 ////////~~~~~~~~END>  unit_test_1.cpp

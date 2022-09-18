@@ -18,6 +18,7 @@
 #ifndef RSA_API_H
 #define RSA_API_H
 
+
 /******************/
 
 #ifndef RETURNSTATUS_ONLY   // when defined, only ReturnStatus definition is enabled (special use only)
@@ -33,7 +34,8 @@
 #define RSA_API_DLL
 #endif
 
-//#define MATLAB_COMPAT		// when this macro is def'd, it removes some content that causes Matlab loadlibrary() compatibility issues
+//#define MATLAB_COMPAT	  // when defined, removes some content that causes Matlab loadlibrary() compatibility issues
+#define ONLY_RSA306B 23    // when defined, removes API functions that can't be used with the RSA-306B
 
 #include <stdint.h>
 #ifndef MATLAB_COMPAT
@@ -42,10 +44,10 @@
 typedef long long time_t;
 #endif
 
-#ifdef __cplusplus  // for C++ compilation...
-namespace RSA_API   // ...use V2 namespace
+#ifdef __cplusplus    // for C++ compilation...
+namespace RSA_API     // ...use V2 namespace
 {
-	extern "C"          // ...prevent C++ function name mangling
+	extern "C"        // ...prevent C++ function name mangling
 	{
 #endif //__cplusplus
 
@@ -301,7 +303,9 @@ namespace RSA_API   // ...use V2 namespace
 		// {char|wchar_t} devType[RSA_API::DEVSRCH_MAX_NUM_DEVICES][RSA_API::DEVSRCH_TYPE_MAX_STRLEN];
 		// rs = RSA_API::DEVICE_Search{W}(&numDev, devID, devSN, devType);
 		RSA_API_DLL ReturnStatus DEVICE_Search (int* numDevicesFound, int deviceIDs[], char deviceSerial[][DEVSRCH_SERIAL_MAX_STRLEN]   , char deviceType[][DEVSRCH_TYPE_MAX_STRLEN]);
+#ifndef ONLY_RSA306B
 		RSA_API_DLL ReturnStatus DEVICE_SearchW(int* numDevicesFound, int deviceIDs[], wchar_t deviceSerial[][DEVSRCH_SERIAL_MAX_STRLEN], wchar_t deviceType[][DEVSRCH_TYPE_MAX_STRLEN]);	
+#endif
 
 		// Device Search, Type 2 (API provides internal static storage buffers, client may copy if needed)
 		// Example: 
@@ -311,8 +315,10 @@ namespace RSA_API   // ...use V2 namespace
 		// const {char|wchar_t}** devType;	// ptr to array of ptrs to devType strings
 		// rs = RSA_API::DEVICE_SearchInt{W}(&numDev, &devID, &devSN, &devType);
 #ifndef MATLAB_COMPAT
+#ifndef ONLY_RSA306B
 		RSA_API_DLL ReturnStatus DEVICE_SearchInt (int* numDevicesFound, int* deviceIDs[], const char** deviceSerial[]   , const char** deviceType[]);
 		RSA_API_DLL ReturnStatus DEVICE_SearchIntW(int* numDevicesFound, int* deviceIDs[], const wchar_t** deviceSerial[], const wchar_t** deviceType[]);
+#endif
 #endif
 
 		RSA_API_DLL ReturnStatus DEVICE_Connect   (int deviceID);
@@ -322,6 +328,7 @@ namespace RSA_API   // ...use V2 namespace
 		// Version Info of connected device
 		// Example:  char xyzInfo[DEVINFO_MAX_STRLEN];	DEVICE_Get<xyz>Version(xyzInfo);
 		enum { DEVINFO_MAX_STRLEN = 100 };
+#ifndef ONLY_RSA306B
 		RSA_API_DLL ReturnStatus DEVICE_GetNomenclature (char* nomenclature);
 		RSA_API_DLL ReturnStatus DEVICE_GetNomenclatureW(wchar_t* nomenclature);
 		RSA_API_DLL ReturnStatus DEVICE_GetSerialNumber (char* serialNum);
@@ -329,7 +336,7 @@ namespace RSA_API   // ...use V2 namespace
 		RSA_API_DLL ReturnStatus DEVICE_GetFWVersion    (char* fwVersion);
 		RSA_API_DLL ReturnStatus DEVICE_GetFPGAVersion  (char* fpgaVersion);
 		RSA_API_DLL ReturnStatus DEVICE_GetHWVersion    (char* hwVersion);
-
+#endif
 		// Get all device info strings at once
 #ifndef MATLAB_COMPAT
 		typedef struct
@@ -360,15 +367,16 @@ namespace RSA_API   // ...use V2 namespace
 		RSA_API_DLL ReturnStatus CONFIG_SetCenterFreq    (double cf);
 		RSA_API_DLL ReturnStatus CONFIG_GetCenterFreq    (double* cf);
 
+#ifndef ONLY_RSA306B
 		RSA_API_DLL ReturnStatus CONFIG_GetAutoAttenuationEnable(bool *enable);
 		RSA_API_DLL ReturnStatus CONFIG_SetAutoAttenuationEnable(bool enable);
 		RSA_API_DLL ReturnStatus CONFIG_GetRFPreampEnable       (bool *enable);
 		RSA_API_DLL ReturnStatus CONFIG_SetRFPreampEnable       (bool enable);
 		RSA_API_DLL ReturnStatus CONFIG_GetRFAttenuator         (double *value);
 		RSA_API_DLL ReturnStatus CONFIG_SetRFAttenuator         (double value);
-
-		RSA_API_DLL ReturnStatus CONFIG_SetExternalRefEnable   (bool exRefEn);    // use CONFIG_SetFrequencyReferenceSource instead
-		RSA_API_DLL ReturnStatus CONFIG_GetExternalRefEnable   (bool* exRefEn);
+#endif
+		// RSA_API_DLL ReturnStatus CONFIG_SetExternalRefEnable   (bool exRefEn);    // use CONFIG_SetFrequencyReferenceSource instead
+		// RSA_API_DLL ReturnStatus CONFIG_GetExternalRefEnable   (bool* exRefEn);
 		RSA_API_DLL ReturnStatus CONFIG_GetExternalRefFrequency(double* extFreq);
 
 		// Frequency Reference Source selection control/status (access to GNSS and USER sources)
@@ -381,6 +389,8 @@ namespace RSA_API   // ...use V2 namespace
 		} FREQREF_SOURCE;
 		RSA_API_DLL ReturnStatus CONFIG_SetFrequencyReferenceSource(FREQREF_SOURCE src);
 		RSA_API_DLL ReturnStatus CONFIG_GetFrequencyReferenceSource(FREQREF_SOURCE* src);
+
+#ifndef ONLY_RSA306B
 		// GNSS-based Frequency Reference controls and status
 		typedef enum 
 		{ 
@@ -414,7 +424,9 @@ namespace RSA_API   // ...use V2 namespace
 		// Manage USER Frequency Reference setting set/get
 		RSA_API_DLL ReturnStatus CONFIG_SetFreqRefUserSetting(const char* i_usstr);
 		RSA_API_DLL ReturnStatus CONFIG_GetFreqRefUserSetting(char* o_usstr);
+#endif
 #ifndef MATLAB_COMPAT
+#ifndef ONLY_RSA306B
 		typedef struct
 		{
 			bool         isvalid;
@@ -423,6 +435,7 @@ namespace RSA_API   // ...use V2 namespace
 			double       temperature;                     // storage temperature degC
 		} FREQREF_USER_INFO;
 		RSA_API_DLL ReturnStatus CONFIG_DecodeFreqRefUserSettingString(const char* i_usstr, FREQREF_USER_INFO* o_fui);
+#endif
 #endif
 
 		///////////////////////////////////////////////////////////
@@ -486,7 +499,7 @@ namespace RSA_API   // ...use V2 namespace
 		{ 
 			DEVEVENT_OVERRANGE = 0, 
 			DEVEVENT_TRIGGER   = 1, 
-			DEVEVENT_1PPS      = 2 
+			DEVEVENT_1PPS      = 2   // not for RSA-306B
 		};
 		RSA_API_DLL ReturnStatus DEVICE_GetEventStatus(int eventID, bool* eventOccurred, uint64_t* eventTimestamp);
 
@@ -864,7 +877,7 @@ namespace RSA_API   // ...use V2 namespace
 			StreamingModeRaw    = 0,    // output to R3H+R3A files (separate header + raw data)
 			StreamingModeFramed = 1     // output to R3F file (combined header + framed data)
 		} StreamingMode;
-		RSA_API_DLL ReturnStatus IFSTREAM_SetDiskFileMode    (StreamingMode mode);  // legacy: for file output type
+		// RSA_API_DLL ReturnStatus IFSTREAM_SetDiskFileMode    (StreamingMode mode);  // legacy: for file output type
 		RSA_API_DLL ReturnStatus IFSTREAM_SetDiskFilePath    (const char *path);
 		RSA_API_DLL ReturnStatus IFSTREAM_SetDiskFilenameBase(const char *base);
 		enum 
@@ -902,7 +915,7 @@ namespace RSA_API   // ...use V2 namespace
 			uint64_t  timestamp;            // timestamp of first IF sample returned in block
 			int       triggerCount;         // number of triggers detected in this block
 			int*      triggerIndices;       // internal array of trigger sample indices in block (overwritten on each new block query)
-			uint32_t  acqStatus;            // 0:acq OK, >0:acq issues; see IFQSTRM_STATUS enums to decode...
+			uint32_t  acqStatus;            // 0:acq OK, >0:acq issues; see IFSTRM_STATUS enums to decode...
 		} IFSTRMDATAINFO;
 		RSA_API_DLL ReturnStatus IFSTREAM_GetIFData  (int16_t* data, int* datalen, IFSTRMDATAINFO* datainfo);
 		RSA_API_DLL ReturnStatus IFSTREAM_GetIFFrames(uint8_t** data, int* numBytes, int* numFrames);
@@ -1019,18 +1032,18 @@ namespace RSA_API   // ...use V2 namespace
 		///////////////////////////////////////////////////////////
 		// Tracking Generator control
 		///////////////////////////////////////////////////////////
-
+#ifndef ONLY_RSA306B
 		RSA_API_DLL ReturnStatus TRKGEN_GetHwInstalled(bool *installed);
 		RSA_API_DLL ReturnStatus TRKGEN_SetEnable     (bool enable);
 		RSA_API_DLL ReturnStatus TRKGEN_GetEnable     (bool *enable);
 		RSA_API_DLL ReturnStatus TRKGEN_SetOutputLevel(double leveldBm);
 		RSA_API_DLL ReturnStatus TRKGEN_GetOutputLevel(double *leveldBm);
-
+#endif
 
 		///////////////////////////////////////////////////////////
 		// GNSS Rx Control and Output
 		///////////////////////////////////////////////////////////
-
+#ifndef ONLY_RSA306B
 		typedef enum 
 		{ 
 			GNSS_NOSYS       = 0, 
@@ -1052,11 +1065,12 @@ namespace RSA_API   // ...use V2 namespace
 		RSA_API_DLL ReturnStatus GNSS_ClearNavMessageData();
 		RSA_API_DLL ReturnStatus GNSS_Get1PPSTimestamp   (bool* isValid, uint64_t* timestamp1PPS);
 		RSA_API_DLL ReturnStatus GNSS_GetStatusRxLock    (bool* lock);
+#endif
 
 		///////////////////////////////////////////////////////////
 		// Power and Battery Status
 		///////////////////////////////////////////////////////////
-
+#ifndef ONLY_RSA306B
 		typedef struct
 		{
 			bool   externalPowerPresent;
@@ -1067,12 +1081,14 @@ namespace RSA_API   // ...use V2 namespace
 			bool   batteryHardwareError;
 		} POWER_INFO;
 		RSA_API_DLL ReturnStatus POWER_GetStatus(POWER_INFO* powerInfo);
+#endif
+
 
 #ifdef __cplusplus
-	}  //extern "C"
-}  //namespace RSA_API
-#endif //__cplusplus
+	}     // extern "C"
+}         // namespace RSA_API
+#endif    //__cplusplus
 
-#endif // #ifndef RETURNSTATUS_ONLY
+#endif    // #ifndef RETURNSTATUS_ONLY
 
-#endif // RSA_API_H
+#endif    // RSA_API_H

@@ -23,6 +23,7 @@
 
 #include "../testz.h"
 
+#ifdef UNIT_TESTING
 
 // task 990 constants
 static const double CONFIG_DBM      = -44.4;                                        // select a power level for the data acquisition, in dBm
@@ -508,6 +509,9 @@ static void stream_to_client(rsa306b_class* obj)
     obj->iqstream_make_csv(obj->vars.gp.helper);
     printf("\t%s\n", obj->vars.gp.helper);
 }
+
+
+#endif
 
 
 /////////~~~~~~~~END>  task_993.cpp

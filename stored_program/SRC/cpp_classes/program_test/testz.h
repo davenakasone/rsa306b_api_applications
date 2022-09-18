@@ -26,6 +26,8 @@
 
 #include "../program_core/control/globalz.h"
 
+#ifdef UNIT_TESTING
+
 #ifdef WAIT_ENTER_CLEAR
     void wait_enter_clear (void);    // flow separation between unit tests
 #endif
@@ -57,5 +59,6 @@ void task_999 (void);    // test bench
          
 #endif
 
+#endif
 
 ////////~~~~~~~~END>  testz.h

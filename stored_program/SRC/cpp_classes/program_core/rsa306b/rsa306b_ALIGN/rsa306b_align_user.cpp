@@ -34,14 +34,16 @@ CODEZ rsa306b_class::align_run()
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     
-    this->_align_get_is_needed();
+    (void)this->_align_get_is_needed();
     if (this->_vars.align.is_needed == false)
     {
-        return;
+        return this->cutil.report_status_code(CODEZ::_0_no_errors);
     }  
-    this->_vars.gp.api_status = RSA_API::ALIGN_RunAlignment();
-    this->_gp_confirm_api_status();
-    this->_align_get_is_needed();
+
+    this->_api_status = RSA_API::ALIGN_RunAlignment();
+    CODEZ result      = this->_report_api_status();
+    (void)this->_align_get_is_needed();
+    return this->cutil.report_status_code(result);
 }
 
 
@@ -68,7 +70,7 @@ CODEZ rsa306b_class::align_check_is_needed()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    this->_align_get_is_needed();
+    return this->_align_get_is_needed();
 }
 
 
@@ -95,7 +97,7 @@ CODEZ rsa306b_class::align_check_is_warmed()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    this->_align_get_is_warmed();
+    return this->_align_get_is_warmed();
 }
 
 

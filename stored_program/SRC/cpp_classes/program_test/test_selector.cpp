@@ -5,6 +5,7 @@
 
 #include "testz.h"
 
+#ifdef UNIT_TESTING
 
 void test_selector
 (
@@ -42,6 +43,9 @@ void test_selector
 
     printf("\n%s()  ,  end of unit testing\n", __func__); 
 }
+
+
+#endif
 
 
 ////////~~~~~~~~END>  test_selector.cpp

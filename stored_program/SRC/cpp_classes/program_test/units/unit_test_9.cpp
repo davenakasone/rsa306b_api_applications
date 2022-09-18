@@ -13,6 +13,8 @@
 
 #include "../testz.h"
 
+#ifdef UNIT_TESTING
+
 #define UT9_a 1    // basic test
 #define UT9_b 2    // make an output file
 #define UT9_c 3    // make several output files and process them to raw ADC,    macro controls repititions
@@ -198,6 +200,9 @@ printf("\n%s()  ,  test complete\n", __func__);
 wait_enter_clear();
 #endif
 }
+
+
+#endif
 
 
 ////////~~~~~~~~END>  unit_test_9.cpp

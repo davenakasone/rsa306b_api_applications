@@ -7,7 +7,7 @@
     private :
         < 1 >  _device_get_vars()
         < 2 >  _device_get_is_running()
-        < 3 >  _device_get_error_string()
+        < 3 >  _device_get_api_status_message()
         < 4 >  _device_get_info_type()
         < 5 >  _device_get_is_over_temperature()
         < 6 >  _device_get_event()
@@ -28,21 +28,16 @@ CODEZ rsa306b_class::_device_get_vars()
     debug_record(false);
 #endif
 
-    if (this->_vars.device.is_connected == false)
-    {
-        #ifdef DEBUG_MIN
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
-                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
-            debug_record(true);
-        #endif
-        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
-    }
+    constexpr int calls = 5;
+    CODEZ caught_call[calls];
 
-    this->_device_get_error_string();
-    this->_device_get_event();
-    this->_device_get_info_type();
-    this->_device_get_is_over_temperature();
-    this->_device_get_is_running();
+    caught_call[0] = this->_device_get_api_status_message ();
+    caught_call[1] = this->_device_get_event              ();
+    caught_call[2] = this->_device_get_info_type          ();
+    caught_call[3] = this->_device_get_is_over_temperature();
+    caught_call[4] = this->_device_get_is_running         ();
+
+    return this->cutil.codez_checker(caught_call, calls);
 }
 
 
@@ -68,10 +63,11 @@ CODEZ rsa306b_class::_device_get_is_running()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    this->_vars.gp.api_status = 
+
+    this->_api_status = 
         RSA_API::DEVICE_GetEnable(&this->_vars.device.is_running);
-    this->_gp_confirm_api_status();
-    this->_device_copy_is_running();
+    (void)this->_device_copy_is_running();
+    return this->_report_api_status();
 }
 
 
@@ -80,11 +76,11 @@ CODEZ rsa306b_class::_device_get_is_running()
 
 /*
     private < 3 >
-    updates "_vars.device.error_string" with API message as a string
-    the API looks up the message based on the return status
-    this is the only function the API that does not use return status
+    uses "_api_status" value to update "_vars.device.api_status_message"
+    the API looks up the message based on the current value
+    this is one of the few API functions that does not return "RSA_API::ReturnStatus"
 */
-CODEZ rsa306b_class::_device_get_error_string()
+CODEZ rsa306b_class::_device_get_api_status_message()
 {
 #ifdef DEBUG_GETS
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
@@ -101,11 +97,11 @@ CODEZ rsa306b_class::_device_get_error_string()
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     
-    (void)snprintf(this->_vars.device.api_status_string, BUF_E-1, 
+    (void)snprintf(this->_vars.device.api_status_message, sizeof(this->_vars.device.api_status_message), 
         "error code:  %4d  ,  error message:  %s", 
-        this->_vars.gp.api_status, 
-        RSA_API::DEVICE_GetErrorString(this->_vars.gp.api_status));
-    this->_device_copy_error_string();
+        static_cast<int>(this->_api_status), 
+        RSA_API::DEVICE_GetErrorString(this->_api_status));
+    return this->_device_copy_api_status_message();
 }
 
 
@@ -133,10 +129,11 @@ CODEZ rsa306b_class::_device_get_info_type()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    this->_vars.gp.api_status = 
+
+    this->_api_status = 
         RSA_API::DEVICE_GetInfo(&this->_vars.device.info_type);
-    this->_gp_confirm_api_status();
-    this->_device_copy_info_type();
+    (void) this->_device_copy_info_type();
+    return this->_report_api_status();
 }
 
 
@@ -148,7 +145,7 @@ CODEZ rsa306b_class::_device_get_info_type()
     API is called to get the temperature status
     the public variable is updated
         true indicates that the device is too hot
-        action should be taken to protect the device
+        action should be taken to protect the device (shut it down)
 */
 CODEZ rsa306b_class::_device_get_is_over_temperature()
 {
@@ -166,10 +163,10 @@ CODEZ rsa306b_class::_device_get_is_over_temperature()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    this->_vars.gp.api_status = 
+
+    this->_api_status = 
         RSA_API::DEVICE_GetOverTemperatureStatus(&this->_vars.device.is_over_temperature);
-    this->_gp_confirm_api_status();
-    this->_device_copy_is_over_temperature();
+    (void)this->_device_copy_is_over_temperature();
 
     if (this->_vars.device.is_over_temperature == true)
     {
@@ -179,6 +176,7 @@ CODEZ rsa306b_class::_device_get_is_over_temperature()
             debug_record(true);
         #endif
     }
+    return this->_report_api_status();
 }
 
 
@@ -194,6 +192,9 @@ CODEZ rsa306b_class::_device_get_is_over_temperature()
     all events clear when going stop->run
     nothing is relevant unless the bool is true
     only valid if device is running
+    user must set "vars.device.event_id" before calling:
+        RSA_API::DEVEVENT_OVERRANGE
+        RSA_API::DEVEVENT_TRIGGER
 */
 CODEZ rsa306b_class::_device_get_event()
 {
@@ -211,22 +212,38 @@ CODEZ rsa306b_class::_device_get_event()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    if (this->_vars.device.is_running == false)
-    {
-        #ifdef DEBUG_MAX
-            (void)printf("\n\tdevice is not running\n");
-        #endif
-        return;
-    }
 
-    this->_vars.gp.api_status = 
+    // (void)this->device_check_run_state();
+    // if (this->_vars.device.is_running == false)
+    // {
+    //     #ifdef DEBUG_MAX
+    //         (void)printf("\n\tdevice is not running\n");
+    //     #endif
+    //     return;
+    // }
+    if (this->vars.device.event_id != static_cast<int>(RSA_API::DEVEVENT_OVERRANGE) &&
+        this->vars.device.event_id != static_cast<int>(RSA_API::DEVEVENT_TRIGGER)    )
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_ddts, sizeof(X_ddts), "bad event ID:  %d  ,  must be:  %d or %d",
+                this->vars.device.event_id,
+                static_cast<int>(RSA_API::DEVEVENT_OVERRANGE),
+                static_cast<int>(RSA_API::DEVEVENT_TRIGGER));
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
+    }
+    this->_vars.device.event_id = this->vars.device.event_id;
+
+    this->_api_status = 
         RSA_API::DEVICE_GetEventStatus(
             this->_vars.device.event_id,
             &this->_vars.device.event_occured,
             &this->_vars.device.event_timestamp);
-    this->_gp_confirm_api_status();
-    this->_device_copy_event_occured();
-    this->_device_copy_event_timestamp();
+    (void)this->_device_copy_event_occured();
+    (void)this->_device_copy_event_timestamp();
+    return this->_report_api_status();
 }
 
 

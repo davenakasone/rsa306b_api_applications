@@ -12,6 +12,8 @@
 
 #include "../program_core/control/globalz.h"
 
+#ifdef BUILD_PYTHON
+
 #ifdef __cplusplus 
 extern "C"      
 {
@@ -38,5 +40,6 @@ void print_d();
 
 #endif
 
+#endif
 
 ////////~~~~~~~~END>  dummy.h

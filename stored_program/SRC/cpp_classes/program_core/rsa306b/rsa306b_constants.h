@@ -2,8 +2,8 @@
     this struct maintians the consants used in "rsa306b" object instances
     these constants are specific to the RSA-306B 
 
-    there are other constants, common to all classes,
-    these constants are specifically for the "rsa306b_class"
+    there are other constants, common to all classes, in "resourcez.h"
+    limiting constants can be found in the API group header file "rsa306b_<API_group>_struct.h"
 
     "_<API group>*" variables are initialization values, all can be adjusted here
 */
@@ -15,25 +15,35 @@
 #include "../control/resourcez.h"    // includes external libraries and other resources
 
 
+// constexpr helpers, applies to more than 1 API group
+
+
+
+
+
+
+
+
+
+/*
+    acqData
+    as found in:
+        IFSTRMDATAINFO >> uint32_t  acqStatus;
+*/
+
+
+
+
+
+
+
+
 constexpr int IQSTREAM_BITCHECKS =  13;    // IQSTREAM, status bits [0:5], [16:21], + summary, for both "*acqStatus" variables in the API group
 constexpr int IQSTREAM_ROW_RANGES = 10;    // IQSTREAM, ranges to infer buffer size from current bandwidth
 
 
 struct rsa306b_constants
 {
-    
-        
-        
-        
-
-
-
-
-
-
-
-
-
 
     // device limits for the RSA-306B
         const double EXTERNAL_FREQUENCY                   = 10e6;     // external reference frequency, required
@@ -56,12 +66,7 @@ struct rsa306b_constants
     
     
 
-    // IFSTREAM
-        const int  IFSTREAM_SUFFIX                = -1;            // control file suffix name for IFSTREAM group, {0:increment, -1:timestamp, -2:none}
-        const char IFSTREAM_FILE_NAME_BASE[BUF_A] = "ifstream";    // IFSTREAM base file name
-        const int  IFSTREAM_MAX_MS                = 1000;          // limit in milli-seconds for "*.r3f" file
-        const int  IFSTREAM_DEFAULT_MS            = 1;             // default recording length for "*.r3f" files, in ms
-        const int  IFSTREAM_DEFAULT_FILE_COUNT    = 1;             // IFSTREAM files to produce
+   
 
     // IQBLK constants...clean this acqStatus
         const uint8_t  IQBLK_GET_IQ_DATA                = 0;    // selects RSA_API::IQBLK_GetIQData() for acquisition
@@ -133,18 +138,18 @@ struct rsa306b_constants
         };
         const char IQSTREAM_FAIL_BITS[IQSTREAM_BITCHECKS][BUF_C] =
         {
-            "b0 {this sample} RF input overrange detected",
-            "b1 {this sample} USB data stream discontinuity error, gap detected in IF frame transfers",
-            "b2 {this sample} Input buffer >= 75 %% full, IQ processing may have difficulty keeping up with IF sample stream",
-            "b3 {this sample} Input buffer overflow, IQ processing cannot keep up with IF sample stream, data loss occured",
-            "b4 {this sample} Output buffer >= 75%% full, output sink (disk/client) falling behind unloading data",
-            "b5 {this sample} Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped",
-            "b16 {sticky} RF input overrange detected",
-            "b17 {sticky} USB data stream discontinuity error, gap detected in IF frame transfers",
-            "b18 {sticky} Input buffer >= 75 %% full, IQ processing may have difficulty keeping up with IF sample stream",
-            "b19 {sticky} Input buffer overflow, IQ processing cannot keep up with IF sample stream, data loss occured",
-            "b20 {sticky} Output buffer >= 75%% full, output sink (disk/client) falling behind unloading data",
-            "b21 {sticky} Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped",
+            "b0  {this sample} RF input overrange detected",
+            "b1  {this sample} USB data stream discontinuity error, gap detected in IF frame transfers",
+            "b2  {this sample} Input buffer >= 75 %% full, IQ processing may have difficulty keeping up with IF sample stream",
+            "b3  {this sample} Input buffer overflow, IQ processing cannot keep up with IF sample stream, data loss occured",
+            "b4  {this sample} Output buffer >= 75%% full, output sink (disk/client) falling behind unloading data",
+            "b5  {this sample} Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped",
+            "b16 {sticky}      RF input overrange detected",
+            "b17 {sticky}      USB data stream discontinuity error, gap detected in IF frame transfers",
+            "b18 {sticky}      Input buffer >= 75 %% full, IQ processing may have difficulty keeping up with IF sample stream",
+            "b19 {sticky}      Input buffer overflow, IQ processing cannot keep up with IF sample stream, data loss occured",
+            "b20 {sticky}      Output buffer >= 75%% full, output sink (disk/client) falling behind unloading data",
+            "b21 {sticky}      Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped",
             "acqStatus bitcheck failures: "
         };
 }; typedef struct rsa306b_constants rsa306b_constants;

@@ -45,14 +45,13 @@ rsa306b_class::~rsa306b_class()
     debug_record(false);
 #endif
 
-    (void)this->_confirm
-    (
-        RSA_API::DEVICE_Disconnect()
-    );
+    
+    this->_api_status = RSA_API::DEVICE_Disconnect();
+    (void)this->_report_api_status();
     (void)this->clear();    // initialize the members, includes composed class instance "cutil"
 
 #ifdef DEBUGS_WILL_PRINT
-    (void)this->cutil.timer_print_running(1,2);
+    (void)this->cutil.timer_print_running(1, 2);
 #endif
 #ifdef DE_BUG
     debug_stop();
@@ -73,17 +72,15 @@ CODEZ rsa306b_class::clear()
     debug_record(false);
 #endif
 
-    int opz = 2;
-    CODEZ catch_opz[opz];
+    constexpr int calls = 3;
+    CODEZ caught_call[calls];
 
     this->_api_status = RSA_API::DEVICE_Disconnect();
-    catch_opz[0] = this->_report_api_status();
+    caught_call[0]    = this->_report_api_status();
+    caught_call[1]    = this->cutil.clear();
+    caught_call[2]    = this->_init_everything();
 
-    catch_opz[1] = this->cutil.clear();
-    
-    catch_opz[2] = this->_init_everything();
-
-    return this->cutil.codez_checker(catch_opz, opz);
+    return this->cutil.codez_checker(caught_call, calls);
 }
 
 
@@ -104,23 +101,23 @@ CODEZ rsa306b_class::get_everything()
     debug_record(false);
 #endif
 
-    constexpr int getz = 10;
-    CODEZ catch_getz[getz];
+    constexpr int calls = 10;
+    CODEZ caught_call[calls];
     
-    catch_getz[0]  = this->_align_get_vars();
-    catch_getz[1]  = this->_audio_get_vars();
-    catch_getz[2]  = this->_config_get_vars();
-    catch_getz[3]  = this->_device_get_vars();
-    catch_getz[4]  = this->_ifstream_get_vars();
-    catch_getz[5]  = this->_iqblk_get_vars();
-    catch_getz[6]  = this->_iqstream_get_vars();
-    catch_getz[7]  = this->_reftime_get_vars();
-    catch_getz[8]  = this->_spectrum_get_vars();
-    catch_getz[9]  = this->_trig_get_vars();
+    caught_call[0]  = this->_align_get_vars   ();
+    caught_call[1]  = this->_audio_get_vars   ();
+    caught_call[2]  = this->_config_get_vars  ();
+    caught_call[3]  = this->_device_get_vars  ();
+    caught_call[4]  = this->_ifstream_get_vars();
+    caught_call[5]  = this->_iqblk_get_vars   ();
+    caught_call[6]  = this->_iqstream_get_vars();
+    caught_call[7]  = this->_reftime_get_vars ();
+    caught_call[8]  = this->_spectrum_get_vars();
+    caught_call[9]  = this->_trig_get_vars    ();
 
     // INSERT
 
-    return this->cutil.codez_checker(catch_getz, getz);
+    return this->cutil.codez_checker(caught_call, calls);
 }
 
 
@@ -140,24 +137,24 @@ CODEZ rsa306b_class::_init_everything()
     debug_record(false);
 #endif
 
-    constexpr int initz = 11;
-    CODEZ catch_initz[initz];
+    constexpr int calls = 11;
+    CODEZ caught_call[calls];
 
-    catch_initz[0]  = this->_gp_init();
-    catch_initz[1]  = this->_align_init();
-    catch_initz[2]  = this->_audio_init();
-    catch_initz[3]  = this->_config_init();
-    catch_initz[4]  = this->_device_init();
-    catch_initz[5]  = this->_ifstream_init();
-    catch_initz[6]  = this->_iqblk_init();
-    catch_initz[7]  = this->_iqstream_init();
-    catch_initz[8]  = this->_reftime_init();
-    catch_initz[9]  = this->_spectrum_init();
-    catch_initz[10] = this->_trig_init();
+    caught_call[0]  = this->_gp_init      ();
+    caught_call[1]  = this->_align_init   ();
+    caught_call[2]  = this->_audio_init   ();
+    caught_call[3]  = this->_config_init  ();
+    caught_call[4]  = this->_device_init  ();
+    caught_call[5]  = this->_ifstream_init();
+    caught_call[6]  = this->_iqblk_init   ();
+    caught_call[7]  = this->_iqstream_init();
+    caught_call[8]  = this->_reftime_init ();
+    caught_call[9]  = this->_spectrum_init();
+    caught_call[10] = this->_trig_init    ();
 
     // INSERT
 
-    return this->cutil.codez_checker(catch_initz, initz);
+    return this->cutil.codez_checker(caught_call, calls);
 }
 
 
@@ -175,15 +172,7 @@ CODEZ rsa306b_class::_gp_init()
     debug_record(false);
 #endif
 
-    if (this->_fp_write != NULL)
-    {
-        if (fclose(this->_fp_write) != 0)
-        {
-            (void)this->cutil.report_status_code(CODEZ::_10_fclose_failed);
-        }
-    }
-    this->_fp_write = NULL;
-
+    (void)this->cutil.exe_fclose(this->_fp_write);
     this->_api_status = RSA_API::noError;
     memset(this->_helper, '\0', sizeof(this->_helper));
     memset(this->_holder, '\0', sizeof(this->_holder));

@@ -1,7 +1,25 @@
 /*
     variables needed for the API group "IQSTREAM" 
+    IQSTREAM_GetMaxAcqBandwidth()
+    IQSTREAM_GetMinAcqBandwidth()
+    IQSTREAM_ClearAcqStatus()
+    IQSTREAM_GetAcqParameters()
+    IQSTREAM_GetDiskFileInfo()
+    IQSTREAM_GetDiskFileWriteStatus()
+    IQSTREAM_GetEnable()
+    IQSTREAM_GetIQData()
+    IQSTREAM_GetIQDataBufferSize()
+    IQSTREAM_SetAcqBandwidth()
+    IQSTREAM_SetDiskFileLength()
+    IQSTREAM_SetDiskFilenameBase()
+    IQSTREAM_SetDiskFilenameSuffix()
+    IQSTREAM_SetDataBufferSize()
+    IQSTREAM_SetOutputConfiguration()
+    IQSTREAM_Start()
+    IQSTREAM_Stop()
+    IQSTREAM_WaitForIQDataReady()
 
-    device is configured before use
+    device must be configured before use
 
     this group places a heavy load on the CPU
     watch acqStatus to ensure speed is sufficient
@@ -9,14 +27,14 @@
     general purpose wchar_t to char will be needed
 
     there are 2x "acqStatus", but only one is valid at a time
-    if streaming directly to client, the 
+    depends if streaming to a client or file
 */
 
 #ifndef H_rsa306b_iqstream_struct
 #define H_rsa306b_iqstream_struct
 
 
-#include "../rsa306b_constants.h"
+#include "../../control/resourcez.h"
 
 
 
