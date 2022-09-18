@@ -119,13 +119,14 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
 #endif
 
 // Data IO
-constexpr char DATA_DIRECTORY_RAW[]       = "../DATA/data_raw/";
-constexpr char DATA_DIRECTORY_PROCESSED[] = "../DATA/data_processed/";   // path
+constexpr char DATA_DIRECTORY_RAW[]       = "../DATA/data_raw/";         // write data received directly from the RSA-306B here
+constexpr char DATA_DIRECTORY_PROCESSED[] = "../DATA/data_processed/";   // write data modified by the program here
 
 // Device Constants
-constexpr std::size_t TRACES_306B         = 3UL;                // the RSA-306B has 3 possible traces available
-constexpr char BITCHECK_SUCCESS_MESSAGE[] = "good bitcheck";    // common message recorded upon successful bitcheck
-constexpr unsigned BITCHECK_SUCESS        = 0U;                 // all successful bitchecks result in 0
+constexpr std::size_t TRACES_306B                = 3UL;                // the RSA-306B has 3 possible traces available
+constexpr char        BITCHECK_SUCCESS_MESSAGE[] = "good bitcheck";    // common message recorded upon successful bitcheck
+constexpr unsigned    BITCHECK_SUCCESS           = 0U;                 // all successful bitchecks result in 0
+constexpr char        OUTPUT_EXTENSION_DEFAULT[] = ".csv";             // default output format extension to use when dumping data
 
 // program sizing parameters
 constexpr int BUF_A = 32;      // a short general purpose buffer
@@ -146,7 +147,7 @@ constexpr int16_t      INIT_INT16      = -9;
 constexpr int32_t      INIT_INT32      = -9;
 constexpr int64_t      INIT_INT64      = -9L;
 constexpr std::size_t  INIT_STD_SIZE_T = 5UL;
-constexpr std::size_t  INIT_STL_LENGTH = 3UL;    // for sizing std::vector, std::queue, ...
+constexpr std::size_t  INIT_STL_LENGTH = 3UL;    // for sizing std::vector, std::queue, ...make this big if preallocating helps
 constexpr uint8_t      INIT_UINT8      = 0xFFU;
 constexpr uint16_t     INIT_UINT16     = 0xFFFFU;
 constexpr uint32_t     INIT_UINT32     = 0xFFFFFFFFU;

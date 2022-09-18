@@ -552,10 +552,10 @@ namespace RSA_API     // ...use V2 namespace
 		// Bit field definitions for "acqStatus" word of IQBLK_ACQINFO struct
 		enum 
 		{
-			IQBLK_STATUS_INPUT_OVERRANGE  = (1 << 0),
-			IQBLK_STATUS_FREQREF_UNLOCKED = (1 << 1),    // frequency reference unlocked
-			IQBLK_STATUS_ACQ_SYS_ERROR    = (1 << 2),	 // acquisition system error within block 
-			IQBLK_STATUS_DATA_XFER_ERROR  = (1 << 3),    // data transfer error within block
+			IQBLK_STATUS_INPUT_OVERRANGE  = (1 << 0),    // ADC overange during acquisition
+			IQBLK_STATUS_FREQREF_UNLOCKED = (1 << 1),    // frequency reference unlocked during acquisition
+			IQBLK_STATUS_ACQ_SYS_ERROR    = (1 << 2),	 // acquisition system error within block (power or oscillator failure)
+			IQBLK_STATUS_DATA_XFER_ERROR  = (1 << 3),    // data transfer error within block (USB frame) during acquisition
 		};
 		typedef struct
 		{

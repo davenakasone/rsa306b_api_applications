@@ -34,6 +34,17 @@
 
 
 // constexpr helpers
+constexpr char IQBLK_FILE_NAME_BASE[]    = "iqblk";
+constexpr char IQBLK_OUTPUT_EXTENSTION[] = ".csv";
+constexpr int  IQBLK_BITCHECKS           = 5;
+constexpr char IQBLK_BITCHECK_MESSAGES[IQBLK_BITCHECKS][BUF_C] =
+{
+    "b0 : ADC overange during acquisition",
+    "b1 : frequency reference unlocked during acquisition",
+    "b2 : acquisition system error within block (power or oscillator failure)",
+    "b3 : data transfer error within block (USB frame) during acquisition"
+    "acqStatus bitcheck failures: "
+};
 
 
 struct rsa306b_iqblk_struct

@@ -37,7 +37,25 @@
 #include "../../control/resourcez.h"
 
 
-
+// constexpr helpers
+constexpr char IQSTREAM_FILE_NAME_BASE[] = "iqstream";
+constexpr int IQSTREAM_BITCHECKS         =  13;    //  status bits [0:5], [16:21], + summary, for both "*acqStatus" 
+const char IQSTREAM_FAIL_BITS[IQSTREAM_BITCHECKS][BUF_C] =
+{
+    "b0  {this sample} RF input overrange detected",
+    "b1  {this sample} USB data stream discontinuity error, gap detected in IF frame transfers",
+    "b2  {this sample} Input buffer >= 75 %% full, IQ processing may have difficulty keeping up with IF sample stream",
+    "b3  {this sample} Input buffer overflow, IQ processing cannot keep up with IF sample stream, data loss occured",
+    "b4  {this sample} Output buffer >= 75%% full, output sink (disk/client) falling behind unloading data",
+    "b5  {this sample} Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped",
+    "b16 {sticky}      RF input overrange detected",
+    "b17 {sticky}      USB data stream discontinuity error, gap detected in IF frame transfers",
+    "b18 {sticky}      Input buffer >= 75 %% full, IQ processing may have difficulty keeping up with IF sample stream",
+    "b19 {sticky}      Input buffer overflow, IQ processing cannot keep up with IF sample stream, data loss occured",
+    "b20 {sticky}      Output buffer >= 75%% full, output sink (disk/client) falling behind unloading data",
+    "b21 {sticky}      Output buffer overflow, IQ unloading not keeping up with IF sample stream, output samples dropped",
+    "acqStatus bitcheck failures: "
+};
 
 
 struct rsa306b_iqstream_struct

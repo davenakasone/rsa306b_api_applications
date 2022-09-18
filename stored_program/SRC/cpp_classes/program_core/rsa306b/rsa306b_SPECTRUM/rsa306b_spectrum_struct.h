@@ -29,7 +29,15 @@
 #define TRACES_AVAILABLE 3           // the RSA-306B has three traces that can be used
 #define SPECTRUM_DATA_LENGTH 2048    // spectrum aquisitions, go dynamic if needed
 
-// NO constexpr helpers
+// constexpr helpers
+constexpr char SPECTRUM_FILE_NAME_BASE[] = "spectrum";
+constexpr int  SPECTRUM_BITCHECKS        = 3;
+constexpr char SPECTRUM_BITCHECK_MESSAGES[DPX_BITCHECKS][BUF_B] =
+{
+    "b0 : ADC input overrange detected",
+    "b1 : continuity error (gap) detected in IF frames",
+    "acqStatus bitcheck failures: "
+};
 
 
 struct rsa306b_spectrum_struct
