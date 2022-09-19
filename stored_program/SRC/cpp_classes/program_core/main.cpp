@@ -35,9 +35,9 @@ int main
         #ifdef CRASH_AND_RESET
             witness_me:
         #endif
-        //X_rsa.device_connect();
+        (void)X_rsa.device_connect();
         printf("\n\t!!! WITNESS ME !!!\n");
-        //X_rsa.device_reset();
+        (void)X_rsa.device_reset();
     }
     #ifdef CRASH_AND_RESET
         goto witness_me;
@@ -77,9 +77,10 @@ int main
         #endif
     #endif
 
-    //X_rsa.reftime_get_vars();
-    printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~    %s\n",
-        X_rsa.vars.reftime.dts);
+    (void)X_rsa.reftime_get_vars();
+    printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~    %s\n %s\n",
+        X_rsa.vars.reftime.dts,
+        UNLV_RSA_VERSION);
     #ifdef __clang_major__
         printf("\nCompiler:  clang  ,  v %d.%d\n",
             __clang_major__, __clang_minor__);

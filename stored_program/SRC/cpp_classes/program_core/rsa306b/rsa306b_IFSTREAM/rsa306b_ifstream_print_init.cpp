@@ -14,7 +14,7 @@
 // /*
 //     < 1 > public
 // */
-// CODEZ rsa306b_class::print_ifstream()
+// CODEZ rsa306b_class::ifstream_print()
 // {
 // #ifdef DEBUG_CLI
 //     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);

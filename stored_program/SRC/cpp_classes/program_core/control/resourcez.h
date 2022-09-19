@@ -38,6 +38,7 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
 
 #include "../../api_resourcez/RSA_API.h"    // has <time.h>, <stdint.h>, <thread.h>, ...
 
+
 #define DE_BUG           111    // {ON//OFF} if activated, debug features are applied, good to have at least this and  "DEBUG_MIN" activated
 //#define BUILD_PYTHON     222    // {ON//OFF} if activated, compiles with C++ to python3 interfacing, should be on to make a proper library
 //#define UNIT_TESTING     333    // {ON//OFF} if activated, compiles with unit testing, select build target accordingly
@@ -51,34 +52,34 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
     #define DEBUGS_WILL_WRITE 55    // {ON//OFF} if activated, debug activity is writen
 
         // {ON//OFF} tracks:  essential information, force-prints to stdout, errors that would crash the program
-        #define DEBUG_MIN 1917                  
+        #define DEBUG_MIN               1917                  
         
         // {ON//OFF} tracks:  additional information, not always an error; usually valuable diagnostic information
-        #define DEBUG_MAX 1787                  
+        #define DEBUG_MAX               1787                  
 
         // {ON//OFF} tracks:  call sequence of the executing program, for major calls only
-        #define DEBUG_CLI 1776                  
+        #define DEBUG_CLI               1776                  
     
         // {ON//OFF} tracks:  call sequence WITH internal and API status checks
-        #define DEBUG_CALL_CHECKS 1492 
+        #define DEBUG_CALL_CHECKS       1492 
 
         // {ON//OFF} tracks:  call sequence WITH getter calls
-        #define DEBUG_GETS 1992                 
+        #define DEBUG_GETS              1992                 
     
         // {ON//OFF} tracks:  call sequence WITH setter calls
-        #define DEBUG_SETS 1999                 
+        #define DEBUG_SETS              1999                 
     
         // {ON//OFF} tracks:  call sequence WITH  copier calls
-        #define DEBUG_COPYS 2000                
+        #define DEBUG_COPYS             2000                
     
         // {ON//OFF} tracks:  " ", where ever you want to debug, place anywhere, usually just temporary
-        #define DEBUG_CUSTOM 1865               
+        #define DEBUG_CUSTOM            1865               
 
         // {ON//OFF} prints SIQ header as loaded, in 'siq_manager' class 
         #define DEBUG_SIQ_LOADER_HEADER 1941   
 
         // {ON//OFF} prints SIQ data as loaded, in 'siq_manager' class 
-        #define DEBUG_SIQ_LOADER_DATA 1945      
+        #define DEBUG_SIQ_LOADER_DATA   1945      
 
         #ifdef DEBUG_MIN
             constexpr char DEBUG_MIN_FORMAT[]         = "DEBUG_MIN        ,  <%4d>  %s/%s()  !!!  %s\n";

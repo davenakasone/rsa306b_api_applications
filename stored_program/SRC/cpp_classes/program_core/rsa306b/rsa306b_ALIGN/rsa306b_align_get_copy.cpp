@@ -36,14 +36,14 @@ CODEZ rsa306b_class::_align_get_vars()
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
 
-    constexpr int calls = 3;
-    CODEZ caught_call[calls];
+    constexpr int callz = 3;
+    CODEZ caught_call[callz];
 
     caught_call[0] = this->device_stop();
     caught_call[1] = this->_align_get_is_needed();
     caught_call[2] = this->_align_get_is_warmed();
 
-    return this->cutil.codez_checker(caught_call, calls);
+    return this->cutil.codez_checker(caught_call, callz);
 }
 
 
@@ -70,15 +70,15 @@ CODEZ rsa306b_class::_align_get_is_needed()
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
 
-    constexpr int calls = 3;
-    CODEZ caught_call[calls];
+    constexpr int callz = 3;
+    CODEZ caught_call[callz];
 
     caught_call[0]    = this->device_stop();
     this->_api_status = RSA_API::ALIGN_GetAlignmentNeeded(&this->_vars.align.is_needed);
     caught_call[1]    = this->_report_api_status();
     caught_call[2]    = this->_align_copy_is_needed();
 
-    return this->cutil.codez_checker(caught_call, calls);
+    return this->cutil.codez_checker(caught_call, callz);
 }
 
 
@@ -105,15 +105,15 @@ CODEZ rsa306b_class::_align_get_is_warmed()
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
     
-    constexpr int calls = 3;
-    CODEZ caught_call[calls];
+    constexpr int callz = 3;
+    CODEZ caught_call[callz];
 
     caught_call[0]    = this->device_stop();
     this->_api_status = RSA_API::ALIGN_GetWarmupStatus(&this->_vars.align.is_warmed);
     caught_call[1]    = this->_report_api_status();
     caught_call[2]    = this->_align_copy_is_needed();
 
-    return this->cutil.codez_checker(caught_call, calls);
+    return this->cutil.codez_checker(caught_call, callz);
 }
 
 
@@ -130,13 +130,13 @@ CODEZ rsa306b_class::_align_copy_vars()
     debug_record(false);
 #endif
 
-    constexpr int calls = 2;
-    CODEZ caught_call[calls];
+    constexpr int callz = 2;
+    CODEZ caught_call[callz];
 
     caught_call[0] = this->_align_copy_is_needed();
     caught_call[1] = this->_align_copy_is_warmed();
 
-    return this->cutil.codez_checker(caught_call, calls);
+    return this->cutil.codez_checker(caught_call, callz);
 }
 
 

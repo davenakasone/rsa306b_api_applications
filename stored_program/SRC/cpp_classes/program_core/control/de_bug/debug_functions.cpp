@@ -28,7 +28,7 @@ void debug_init()
     #ifdef DEBUGS_WILL_PRINT
         if (objects_constructed == ACTIVE_OBJECTS)
         {
-            printf("\n\tall [ %d ] object instances are allocated\n", 
+            (void)printf("\n\tall [ %d ] object instances are allocated\n", 
                 ACTIVE_OBJECTS);
         }
     #endif
@@ -43,25 +43,25 @@ void debug_init()
     #ifdef DEBUGS_WILL_WRITE    // file pointer remains open until destructors are called
         if (debug_dts() == NULL)
         {
-            printf("\n\tfailed to get date-time-stamp\n");
+            (void)printf("\n\tfailed to get date-time-stamp\n");
             return;
         }
-        snprintf(X_dstr, sizeof(X_dstr), "%s%sdebug.txt",
+        (void)snprintf(X_dstr, sizeof(X_dstr), "%s%sdebug.txt",
             DEBUG_FILEPATH,
             X_ddts);
         X_dfp = fopen(X_dstr, "w");
         if (X_dfp == NULL)
         {
-            printf("\n\tfailed to open debug log:  %s\n",
+            (void)printf("\n\tfailed to open debug log:  %s\n",
                 X_dstr);
             return;
         }
         else
         {
-            printf("%s\n", X_dstr);
+            (void)printf("%s\n", X_dstr);
         }
-        snprintf(X_dstr, sizeof(X_dstr), "LOG OPEN %s\n\n", X_ddts);
-        fputs(X_dstr, X_dfp);
+        (void)snprintf(X_dstr, sizeof(X_dstr), "LOG OPEN %s\n\n", X_ddts);
+        (void)fputs(X_dstr, X_dfp);
     #endif
 }
 
@@ -83,23 +83,25 @@ void debug_stop()
     {
         return;
     }
+    // last instance destroyed gets to close down the debugger
+
     #ifdef DEBUGS_WILL_PRINT
-        printf("\n\tall [ %d ] object instances are deallocated\n", 
+        (void)printf("\n\tall [ %d ] object instances are deallocated\n", 
             ACTIVE_OBJECTS);
     #endif
     #ifdef DEBUGS_WILL_WRITE
         if (X_dfp == NULL)
         {
-            printf("\n\tthe debug file was never opened\n");
+            (void)printf("\n\tthe debug file was never opened\n");
             return;
         }
         if (debug_dts() == NULL)
         {
-            printf("\n\tfailed to get date-time-stamp\n");
+            (void)printf("\n\tfailed to get date-time-stamp\n");
         }
-        snprintf(X_dstr, sizeof(X_dstr), "\nLOG CLOSED %s\n", X_ddts);
-        fputs(X_dstr, X_dfp);
-        fclose(X_dfp);
+        (void)snprintf(X_dstr, sizeof(X_dstr), "\nLOG CLOSED %s\n", X_ddts);
+        (void)fputs(X_dstr, X_dfp);
+        (void)fclose(X_dfp);
         X_dfp = NULL;
     #endif
 }
@@ -117,22 +119,22 @@ char* debug_dts()
 {
     if (X_ddts == NULL)
     {
-        printf("\n\tdid not allocate %s\n", GET_NAME(X_ddts));
+        (void)printf("\n\tdid not allocate %s\n", GET_NAME(X_ddts));
         return NULL;
     }
-    memset(X_ddts, '\0', DEBUG_WIDTH);
+    (void)memset(X_ddts, '\0', DEBUG_WIDTH);
 
     struct tm * tm_ptr = NULL;
     time_t current;
-    time(&current);
+    (void)time(&current);
     tm_ptr = localtime(&current);
 
     if (tm_ptr == NULL)
     {    
-        printf("\n\terror in <time.h>\n");
+        (void)printf("\n\terror in <time.h>\n");
         return NULL;
     }
-    strftime(X_ddts, sizeof(X_ddts)-1,
+    (void)strftime(X_ddts, sizeof(X_ddts)-1,
         "_%Y_%m_%d_%a_%H_%M_%S_%Z__", tm_ptr);
     return X_ddts;
 }
@@ -158,23 +160,23 @@ void debug_record(bool force_print)
         static_cast<double>(CLOCKS_PER_SEC);     
     
     char temp[3*DEBUG_WIDTH];
-    snprintf(temp, sizeof(temp), "[ %15.5lf ]  %s",
+    (void)snprintf(temp, sizeof(temp), "[ %15.5lf ]  %s",
         seconds,
         X_dstr);
 
     #ifdef DEBUGS_WILL_PRINT
-        printf("%s", temp);
+        (void)printf("%s", temp);
     #endif
     #ifdef DEBUGS_WILL_WRITE
-        fputs(temp, X_dfp);
+        (void)fputs(temp, X_dfp);
         if (force_print == true)
         {
-            printf("%s", temp);
+            (void)printf("%s", temp);
         }
     #endif
 
-    memset(X_dstr, '\0', sizeof(X_dstr));
-    memset(X_ddts, '\0', sizeof(X_ddts));
+    (void)memset(X_dstr, '\0', sizeof(X_dstr));
+    (void)memset(X_ddts, '\0', sizeof(X_ddts));
 }
 
 

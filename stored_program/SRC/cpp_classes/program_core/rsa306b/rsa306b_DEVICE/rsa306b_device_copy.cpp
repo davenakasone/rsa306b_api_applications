@@ -30,20 +30,20 @@ CODEZ rsa306b_class::_device_copy_vars()
     debug_record(false);
 #endif
 
-    constexpr int copyz = 9;
-    CODEZ codez_copyz[copyz];
+    constexpr int callz = 9;
+    CODEZ caught_call[callz];
 
-    codez_copyz[1]  = this->_device_copy_api_status_message ();
-    codez_copyz[2]  = this->_device_copy_event_id           ();
-    codez_copyz[3]  = this->_device_copy_event_occured      ();
-    codez_copyz[4]  = this->_device_copy_event_timestamp    ();
-    codez_copyz[5]  = this->_device_copy_id                 ();
-    codez_copyz[6]  = this->_device_copy_info_type          ();
-    codez_copyz[7]  = this->_device_copy_is_connected       ();
-    codez_copyz[8]  = this->_device_copy_is_over_temperature();
-    codez_copyz[9]  = this->_device_copy_is_running         ();
+    caught_call[0]  = this->_device_copy_api_status_message ();
+    caught_call[1]  = this->_device_copy_event_id           ();
+    caught_call[2]  = this->_device_copy_event_occured      ();
+    caught_call[3]  = this->_device_copy_event_timestamp    ();
+    caught_call[4]  = this->_device_copy_id                 ();
+    caught_call[5]  = this->_device_copy_info_type          ();
+    caught_call[6]  = this->_device_copy_is_connected       ();
+    caught_call[7]  = this->_device_copy_is_over_temperature();
+    caught_call[8]  = this->_device_copy_is_running         ();
 
-    return this->cutil.codez_checker(codez_copyz, copyz);
+    return this->cutil.codez_checker(caught_call, callz);
 }
 
 

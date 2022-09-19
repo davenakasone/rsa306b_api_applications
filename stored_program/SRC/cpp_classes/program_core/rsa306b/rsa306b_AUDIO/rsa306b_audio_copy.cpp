@@ -29,8 +29,8 @@ CODEZ rsa306b_class::_audio_copy_vars()
     debug_record(false);
 #endif
 
-    constexpr int calls = 8;
-    CODEZ caught_call[calls];
+    constexpr int callz = 8;
+    CODEZ caught_call[callz];
 
     caught_call[0] = this->_audio_copy_is_demodulating       ();
     caught_call[1] = this->_audio_copy_is_mute               ();
@@ -41,7 +41,7 @@ CODEZ rsa306b_class::_audio_copy_vars()
     caught_call[6] = this->_audio_copy_data_samples_requested();
     caught_call[7] = this->_audio_copy_data_samples_acquired ();
 
-    return this->cutil.codez_checker(caught_call, calls);
+    return this->cutil.codez_checker(caught_call, callz);
 }
 
 
