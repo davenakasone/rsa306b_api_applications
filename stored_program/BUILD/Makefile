@@ -19,95 +19,123 @@
 #################################################################################################
 
 
-SHELL := /bin/bash
-CC = g++
-CFLAGS = -Wall -std=c++17 -o
-EXEC = ../RUN/oo
-MY_LIB_SO = ../RUN/shared_objects/libRSA306B.so
-LIB_DIR = ~/Desktop/rsa306b_api_applications/stored_program/RUN/shared_objects/
-RPATH	= -L $(LIB_DIR)
+SHELL      := /bin/bash
+CC          = g++
+CFLAGS      = -Wall -std=c++17 -o
+EXEC        = ../RUN/oo
+MY_LIB_SO   = ../RUN/shared_objects/libRSA306B.so
+LIB_DIR     = ~/Desktop/rsa306b_api_applications/stored_program/RUN/shared_objects/
+RPATH	    = -L $(LIB_DIR)
 LIB_RSA_API = -lRSA_API
-LIB_CYUSB = -lcyusb_shared
+LIB_CYUSB   = -lcyusb_shared
 
-SDIR = ../SRC/cpp_classes/program_core/
-TDIR = ../SRC/cpp_classes/program_test/
-PYDIR = ../SRC/cpp_classes/python_interface/
-DDIR = $(SDIR)control/de_bug/
-UDIR = $(SDIR)common_utility/
-DATA_IO = ../DATA/
+SDIR              = ../SRC/rsa_cpp/program_core/
+TDIR              = ../SRC/rsa_cpp/program_test/
+PYDIR             = ../SRC/rsa_cpp/python_interface/
+DDIR              = $(SDIR)control/de_bug/
+UDIR              = $(SDIR)common_utility/
+DATA_IO           = ../DATA/
 DATA_IO_PROCESSED = $(DATA_IO)data_processed/
-DATA_IO_RAW = $(DATA_IO)data_raw/
-DLOGZ = ../DOC/debug_logs/
-TDIR_U = $(TDIR)units/
-TDIR_T = $(TDIR)tasks/
+DATA_IO_RAW       = $(DATA_IO)data_raw/
+DLOGZ             = ../DOC/debug_logs/
+TDIR_U            = $(TDIR)units/
+TDIR_T            = $(TDIR)tasks/
 
 
 SOURCE_FILES_SO =\
 $(UDIR)cu_codez.cpp \
 $(UDIR)cu_common_utility.cpp \
+$(UDIR)cu_exe_1.cpp \
+$(UDIR)cu_help_1.cpp \
+$(UDIR)cu_help_int16.cpp \
 $(UDIR)cu_timing.cpp \
 $(UDIR)cu_wchar_2_char.cpp \
 $(DDIR)de_bug.cpp \
 $(DDIR)debug_functions.cpp \
 $(SDIR)control/globalz.cpp \
+
 $(SDIR)r3f_manager/r3fc_file_decode.cpp \
 $(SDIR)r3f_manager/r3fc_file_process.cpp \
 $(SDIR)r3f_manager/r3fc_handle_adc.cpp \
 $(SDIR)r3f_manager/r3fc_plot_maker.cpp \
 $(SDIR)r3f_manager/r3fc_private.cpp \
 $(SDIR)r3f_manager/r3fc_public.cpp \
-$(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_get_copy.cpp \
-$(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_print_init.cpp \
+
+$(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_copy.cpp \
+$(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_get.cpp \
+$(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_init.cpp \
+$(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_print.cpp \
 $(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_user.cpp \
+
 $(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_copy.cpp \
 $(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_get.cpp \
-$(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_print_init.cpp \
+$(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_init.cpp \
+$(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_print.cpp \
 $(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_set.cpp \
+$(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_user.cpp \
+$(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_write_csv.cpp \
+
 $(SDIR)rsa306b/rsa306b_CONFIG/rsa306b_config_copy.cpp \
 $(SDIR)rsa306b/rsa306b_CONFIG/rsa306b_config_get.cpp \
-$(SDIR)rsa306b/rsa306b_CONFIG/rsa306b_config_print_init.cpp \
+$(SDIR)rsa306b/rsa306b_CONFIG/rsa306b_config_init.cpp \
+$(SDIR)rsa306b/rsa306b_CONFIG/rsa306b_config_print.cpp \
 $(SDIR)rsa306b/rsa306b_CONFIG/rsa306b_config_set.cpp \
 $(SDIR)rsa306b/rsa306b_CONFIG/rsa306b_config_user.cpp \
-$(SDIR)rsa306b/rsa306b_AUDIO/rsa306b_audio_user.cpp \
+
 $(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_copy.cpp \
 $(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_get.cpp \
-$(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_print_init.cpp \
-$(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_user1.cpp \
-$(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_user2.cpp \
+$(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_init.cpp \
+$(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_print.cpp \
+$(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_user_checker.cpp \
+$(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_user_connector.cpp \
+$(SDIR)rsa306b/rsa306b_DEVICE/rsa306b_device_user_operator.cpp \
+
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_class.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_confirm.cpp \
 $(SDIR)rsa306b/rsa306b_GP/rsa306b_gp_print.cpp \
+
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_copy.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_get.cpp \
-$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_print_init.cpp \
+$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_init.cpp \
+$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_print.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_set.cpp \
-$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_user.cpp \
+$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_user_acquire_adc_data.cpp \
+$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_user_acquire_adc_framed.cpp \
+$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_user_record_r3f.cpp \
+$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_user_adc_data.cpp \
+$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_user_adc_framed.cpp \
+
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_copy.cpp \
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_get.cpp \
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_print_init_check.cpp \
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_set.cpp \
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_user.cpp \
+
 $(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_acquire.cpp \
 $(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_copy.cpp \
 $(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_get.cpp \
 $(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_print_init_check.cpp \
 $(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_set.cpp \
 $(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_user.cpp \
+
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_copy.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_get.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_print_init.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_user.cpp \
+
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_copy.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_get.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_init_default.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_print.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_set.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_user.cpp \
+
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_copy.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_get.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_print_init.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_set.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_user.cpp \
+
 $(SDIR)siq_manager/siq_common.cpp \
 $(SDIR)siq_manager/siq_decode.cpp \
 $(SDIR)siq_manager/siq_error_codes.cpp \
@@ -235,3 +263,6 @@ clean : clear
 	@echo 'all data inputs and outputs were deleted'
 	@echo 'all compiled binaries were deleted'
 	@echo 'all debug logs were deleted'
+
+
+########~~~~~~~~END>  Makefile
