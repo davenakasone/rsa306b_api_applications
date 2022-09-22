@@ -51,8 +51,7 @@ struct rsa306b_constants
         
         const double SPAN_MAX_HZ                          = 40e6;     // largest measurable bandwith
         const double SPAN_MIN_HZ                          = 100;      // smallest measurable bandwith 
-        const double POSITION_PERCENT_MIN                 = 1;        // smallest trigger position percentage
-        const double POSITION_PERCENT_MAX                 = 99;       // largest trigger position percentage
+        
         
 
     // sizing the STL and Boost data structures

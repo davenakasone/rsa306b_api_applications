@@ -42,8 +42,8 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
 #define DE_BUG           111    // {ON//OFF} if activated, debug features are applied, good to have at least this and  "DEBUG_MIN" activated
 #define LOOP_TIMEOUT     222    // {ON//OFF} if activated, any acquisitions that require polling in a loop will have time-out applied
 #define BUILD_PYTHON     333    // {ON//OFF} if activated, compiles with C++ to python3 interfacing, should be on to make a proper library
-//#define UNIT_TESTING     444    // {ON//OFF} if activated, compiles with unit testing, select build target accordingly
-    #ifdef UNIT_TESTING
+#define UNIT_TESTINGG    444    // {ON//OFF} if activated, compiles with unit testing, select build target accordingly
+    #ifdef UNIT_TESTINGG
         #define WAIT_ENTER_CLEAR 444    // {ON//OFF} if activated, calls wait_enter_clear(), for selected tasks and unit tests
     #endif
 

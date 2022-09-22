@@ -75,7 +75,7 @@ CODEZ common_utility::ifstream_acq_status
     if (acq_status & static_cast<uint32_t>(RSA_API::IFSTRM_STATUS_XFER_DISCONTINUITY) != 
         BITCHECK_SUCCESS                                                               )  // bit#1 is bad
     {
-        (void)strcpy(results[0], messages[0]);
+        (void)strcpy(results[1], messages[1]);
         (void)strcat(results[bitchecks-1], " b1 ");
     }
                              

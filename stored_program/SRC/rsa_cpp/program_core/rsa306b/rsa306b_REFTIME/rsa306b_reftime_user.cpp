@@ -33,9 +33,9 @@
 //         #endif
 //         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
 //     }
+
 //     this->_api_status = 
 //         RSA_API::REFTIME_SetReferenceTime(0, 0, 0);
-//     this->_report_api_status();
 //     this->_reftime_get_start();
 // }
 

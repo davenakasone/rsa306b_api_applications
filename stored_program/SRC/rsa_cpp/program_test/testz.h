@@ -26,7 +26,7 @@
 
 #include "../program_core/control/globalz.h"
 
-#ifdef UNIT_TESTING
+#ifdef UNIT_TESTINGG
 
 #ifdef WAIT_ENTER_CLEAR
     void wait_enter_clear (void);    // flow separation between unit tests

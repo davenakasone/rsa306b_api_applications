@@ -25,7 +25,7 @@ void dcon()
 
 void print_d()
 {
-    X_rsa.print_device();
+    X_rsa.device_print();
 }
 
 // void destructor()                  do not expose this to python
@@ -39,5 +39,6 @@ void print_d()
 #endif
 
 #endif
+
 
 ////////~~~~~~~~END>  dummy.cpp

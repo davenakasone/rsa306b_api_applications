@@ -248,12 +248,11 @@
                 _ifstream_set_file_length_ms()
                 _ifstream_set_file_count()
                 _ifstream_set_output_configuration_select()
-            - rsa306b_user_ ifstream_acquire_adc_data.cpp
+            - rsa306b_ifstream_user_acquire_adc_data.cpp
                  ifstream_acquire_adc_data()
             - rsa306b_ifstream_user_record_r3f.cpp
                 ifstream_record_r3f()
 
-            - ifstream_user_check_acq_status.cpp
 
 
 
@@ -446,9 +445,6 @@
         "./program_core/rsa306b/rsa306_TRIG/"
             - rsa306b_trig_struct.h
                 rsa306b_trig_struct
-            - rsa306b_trig_print_init.cpp
-                print_trig()
-                _trig_init()
             - rsa306b_trig_copy.cpp
                 _trig_copy_vars()
                 _trig_copy_if_power_level()
@@ -463,6 +459,10 @@
                 _trig_get_position_percent()
                 _trig_get_source_select()
                 _trig_get_transition_select()
+            - rsa306b_trig_init.cpp
+                _trig_init()
+            - rsa306b_trig_print.cpp
+                trig_print()
             - rsa306b_trig_set.cpp
                 _trig_set_vars()
                 _trig_set_if_power_level()
@@ -913,6 +913,10 @@ class rsa306b_class
         CODEZ _trig_set_position_percent  ();
         CODEZ _trig_set_source_select     ();
         CODEZ _trig_set_transition_select ();
+
+        // these are not in the manaul, but in the "RSA_API.h"...they look useful
+        // RSA_API_DLL ReturnStatus TRIG_SetTriggerTime(time_t startTimeSec, uint64_t startTimeNsec, uint64_t repeatTimeNsec);
+		// RSA_API_DLL ReturnStatus TRIG_GetTriggerTime(time_t* startTimeSec, uint64_t* startTimeNsec, uint64_t* repeatTimeNsec);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 };

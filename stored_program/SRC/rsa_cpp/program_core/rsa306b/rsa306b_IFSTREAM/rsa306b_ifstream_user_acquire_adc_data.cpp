@@ -28,6 +28,7 @@
     - the device is running
     - ifstream settings are correctly applied
 
+    IFSTREAM_SetEnable() is only for files ?
 */
 CODEZ rsa306b_class::ifstream_acquire_adc_data()
 {
@@ -98,59 +99,7 @@ CODEZ rsa306b_class::ifstream_acquire_adc_data()
         debug_record(true);
     #endif
 
-    return this->cutil.report_status_code(CODEZ::_0_no_errors);
-
-
-
-
-
-
-
-
-
-   
-
-
-
-
-
-
-
-
-
-    
-            
-    int16_t* data_getter = 
-        new int16_t[this->_vars.ifstream.number_of_samples];
-    if (!data_getter)
-    {
-        #ifdef DEBUG_MIN
-            (void)snprintf(X_ddts, sizeof(X_ddts), "dynamic allocation failed");
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-            debug_record(true);
-        #endif
-        this->vars.ifstream.is_enabled_adc = false;
-        this->_ifstream_set_is_enabled_adc();
-        this->device_stop();
-        return;
-    }
-    this->_api_status = 
-        RSA_API::IFSTREAM_GetIFData(
-            data_getter, 
-            &this->_vars.ifstream.if_data_length, 
-            &this->_vars.ifstream.data_info_type);
-    this->_report_api_status();
-
-    this->_vars.ifstream.adc_data_v.resize(this->_vars.ifstream.if_data_length);
-    for (int ii = 0; ii < this->_vars.ifstream.if_data_length; ii++)
-    {
-        this->_vars.ifstream.adc_data_v[ii] = data_getter[ii];
-    }
-    this->vars.ifstream.is_enabled_adc = false;
-    this->_ifstream_set_is_enabled_adc();
-    this->device_stop();
-    this->_ifstream_copy_if_data();
-    delete[] data_getter; data_getter = NULL;
+    return this->set_api_status(temp);    // good acquisition
 }
 
 

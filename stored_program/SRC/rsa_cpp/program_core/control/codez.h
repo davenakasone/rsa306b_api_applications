@@ -80,7 +80,7 @@ enum CODEZ
     _26_rsa_too_hot                      = 26 ,
     _27_loop_timed_out                   = 27 ,
     _28_bad_acquisition_code             = 28 ,
-    _29 = 29
+    _29 = 29,
 
 
     _99_unspecified                = 99

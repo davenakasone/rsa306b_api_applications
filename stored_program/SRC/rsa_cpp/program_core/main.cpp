@@ -7,7 +7,7 @@
 
 
 #include "../program_test/testz.h"
-#ifndef UNIT_TESTING
+#ifndef UNIT_TESTINGG
     #include "./control/globalz.h"
 #endif
 
@@ -16,10 +16,10 @@
 // reset is also possible by running the program with a single argument from the command line
 // for example:          $ ./oo reset
 
-#ifdef UNIT_TESTING
+#ifdef UNIT_TESTINGG
 // turn off to run all unit tests
 // turn on and change UT_NUMBER to run a specific unit test
-#define UNIT_TEST_BY_NUMBER 999   // select # here
+#define UNIT_TEST_BY_NUMBER 0   // select # here
 // sections        "unit_test_#"  : 0  , 1  , 2  , 3  , 4  , 5  , 6  , 7  , 8  , 9  , 
 //                                  10 , 11 ,
 // specific tasks  "task_#"       : 999, 998, 997, 996, 995, 994, 993, 992,
@@ -52,7 +52,7 @@ int main
     objSize[2] = static_cast<int>(sizeof(X_siq));
     objSize[3] = static_cast<int>(sizeof(X_util));
 
-    #ifdef UNIT_TESTING
+    #ifdef UNIT_TESTINGG
         #ifdef UNIT_TEST_BY_NUMBER
             test_selector(static_cast<int>(UNIT_TEST_BY_NUMBER)); 
         #else

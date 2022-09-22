@@ -16,7 +16,7 @@
 
 #include "../testz.h"
 
-#ifdef UNIT_TESTING
+#ifdef UNIT_TESTINGG
 
 
 void unit_test_0 (void)

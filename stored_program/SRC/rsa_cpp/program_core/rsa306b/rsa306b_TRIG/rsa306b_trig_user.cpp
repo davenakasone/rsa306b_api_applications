@@ -1,93 +1,40 @@
-// /*
-//     API group "TRIG", user functions
+/*
+    API group "TRIG", user functions
+    safety is removed for speed
 
-//     public :
-//         < 1 >  trig_set_vars()
-//         < 2 >  trig_force()
+    public :
+        < 1 >  trig_force()
     
-//     private :
-//         #  none
-// */
+    private :
+        #  none
+*/
 
-// #include "../rsa306b_class.h"
-
-
-// /*
-//     < 1 > public
-//     user updates "vars.trig.*" variables
-//     new values are set if they are valid
-// */
-// CODEZ rsa306b_class::trig_set_vars()
-// {
-// #ifdef DEBUG_CLI
-//     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
-//     debug_record(false);
-// #endif
-
-//     if (this->_vars.device.is_connected == false)
-//     {
-//         #ifdef DEBUG_MIN
-//             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
-//                 this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
-//             debug_record(true);
-//         #endif
-//         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
-//     }
-
-//     this->_vars.gp.call_status = this->_trig_set_vars();
-//     if (this->_vars.gp.call_status != this->constants.CALL_SUCCESS)
-//     {
-//         #ifdef DEBUG_MIN
-//             (void)snprintf(X_ddts, sizeof(X_ddts), "error setting TRIG group");
-//             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-//             debug_record(true);
-//         #endif
-//     }
-// }
+#include "../rsa306b_class.h"
 
 
-// ////~~~~
+/*
+    < 1 > private
+    there are no guards in this function
+    this function is designed to be fast
+    this fucntion forces the trigger when the device is running and triggering has been set
+*/
+CODEZ rsa306b_class::trig_force()
+{
+#ifdef DEBUG_CLI
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif  
+
+    (void)this->set_api_status(RSA_API::TRIG_ForceTrigger());
+
+    #ifdef DEBUG_MAX
+        (void)snprintf(X_ddts, sizeof(X_ddts), "trigger forced>>>  %s", this->get_api_status_string());
+        (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MAX_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+        debug_record(false);
+    #endif
+
+    return this->_report_api_status();
+}
 
 
-// /*
-//     < 2 > private
-//     user calls "device_run()", 
-//     this fucntion forces the trigger when the device is running
-//     user should call "device_stop()" if work is complete
-// */
-// CODEZ rsa306b_class::trig_force()
-// {
-// #ifdef DEBUG_CLI
-//     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
-//     debug_record(false);
-// #endif  
-
-//     if (this->_vars.device.is_connected == false)
-//     {
-//         #ifdef DEBUG_MIN
-//             (void)snprintf(X_ddts, sizeof(X_ddts), "device not connected");
-//             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-//             debug_record(true);
-//         #endif
-//         return;
-//     }
-//     /*
-//     if (this->_vars.device.is_running == false) // not needed, but could be nice
-//     {
-//         #ifdef DEBUG_MIN
-//             printf("\n\tthe device must be running to force the trigger\n");
-//         #endif
-//         return;
-//     }
-//     */
-//     this->_api_status = RSA_API::TRIG_ForceTrigger();
-//     this->_report_api_status();
-//     #ifdef DEBUG_MAX
-//         (void)snprintf(X_ddts, sizeof(X_ddts), "trigger forced>>>  %s", this->_vars.device.error_string);
-//         (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MAX_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-//         debug_record(false);
-//     #endif
-// }
-
-
-// ////////~~~~~~~~END>  rsa306b_trig_user.cpp
+////////~~~~~~~~END>  rsa306b_trig_user.cpp

@@ -4,8 +4,7 @@
     public :
         < 1 >  h_find_bytes_in_file()
         < 2 >  h_match_extension()
-
-        < 4 >  h_decode_write()
+        < 3 >  h_decode_write()
 
     private :
         #  none
@@ -13,7 +12,7 @@
 
 #include "common_utility.h"
 
-static void get_byte(const uint8_t byte, char* bstr, long int& idx);    // for local assistance
+static void get_byte(const int8_t byte, char* bstr, long int& idx);    // for local assistance
 
 
 /*
@@ -54,7 +53,7 @@ CODEZ common_utility::h_find_bytes_in_file
     {
         return this->_status_code;
     }
-    FILE* fp = NULL;
+    fp = NULL;
 
     return report_status_code(CODEZ::_0_no_errors);    // "result" is updated
 }
@@ -144,7 +143,7 @@ CODEZ common_utility::h_decode_print
 
     FILE* fp = NULL;
     long bytes_in_file = 0;
-    uint8_t bget = 0;
+    int8_t bget = 0;
 
     if (this->h_find_bytes_in_file(file_path_name, bytes_in_file) != CODEZ::_0_no_errors)
     {
@@ -224,7 +223,7 @@ CODEZ common_utility::h_decode_write
     FILE* fp_w = NULL;
     FILE* fp_r = NULL;
     long bytes_in_file = 0;
-    uint8_t bget = 0;
+    int8_t bget = 0;
 
     if (this->h_find_bytes_in_file(raw_file, bytes_in_file) != CODEZ::_0_no_errors)
     {
@@ -239,19 +238,19 @@ CODEZ common_utility::h_decode_write
         return this->_status_code;
     }
 
-    if (start_byte < 0             || 
+    if (start_byte < 0L            || 
         start_byte > bytes_in_file-2) 
     {
-        start_byte = 0;
+        start_byte = 0L;
     }
-    if (stop_byte < 0           ||
+    if (stop_byte < 0L          ||
         stop_byte > bytes_in_file) 
     {
         stop_byte = bytes_in_file;
     }
     if (stop_byte <= start_byte)
     {
-        start_byte = 0;
+        start_byte = 0L;
         stop_byte = bytes_in_file;
     }
     if (this->exe_fseek(fp_r, 0L, SEEK_SET) != CODEZ::_0_no_errors)
@@ -263,7 +262,7 @@ CODEZ common_utility::h_decode_write
         return this->_status_code;
     }
 
-    sprintf(this->_worker, "\nmaking %s  ,  bytes[ %ld : %ld ]\n<<<begin file decode >>>\n\n",
+    (void)sprintf(this->_worker, "\nmaking %s  ,  bytes[ %ld : %ld ]\n<<<begin file decode >>>\n\n",
             raw_file, 
             start_byte, 
             stop_byte);
@@ -295,7 +294,7 @@ CODEZ common_utility::h_decode_write
 ////~~~~
 
 
-static void get_byte(const uint8_t byte, char* bstr, long int& idx)
+static void get_byte(const int8_t byte, char* bstr, long int& idx)
 {
     switch (byte)
     {
