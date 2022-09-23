@@ -6,7 +6,7 @@
 
     std=c++17 appears to be safe, but don't try to use > c++17 on the RSA_API
 
-    {ON//OFF}  means that the macro should be commented on or off when building
+    {ON|OFF}  means that the macro should be commented on or off when building
 */
 
 #ifndef H_resourcez
@@ -39,57 +39,65 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
 #include "RSA_API.h"    // has <time.h>, <stdint.h>, <thread.h>, ...
 
 
-#define DE_BUG           111    // {ON//OFF} if activated, debug features are applied, good to have at least this and  "DEBUG_MIN" activated
-#define LOOP_TIMEOUT     222    // {ON//OFF} if activated, any acquisitions that require polling in a loop will have time-out applied
-#define BUILD_PYTHON     333    // {ON//OFF} if activated, compiles with C++ to python3 interfacing, should be on to make a proper library
-#define UNIT_TESTINGG    444    // {ON//OFF} if activated, compiles with unit testing, select build target accordingly
+#define DE_BUG           1    // {ON|OFF} if activated, debug features are applied, good to have at least this and  "DEBUG_MIN" activated
+#define LOOP_TIMEOUT     2    // {ON|OFF} if activated, any acquisitions that require polling in a loop will have time-out applied
+#define SAFETY_CHECKS    3    // {ON|OFF} if activated, applies checks needed for proper device operation (but slows program)
+#define BUILD_PYTHON     4    // {ON|OFF} if activated, compiles with C++ to python3 interfacing, should be on to make a proper library
+#define UNIT_TESTINGG    5    // {ON|OFF} if activated, compiles with unit testing, select build target accordingly
     #ifdef UNIT_TESTINGG
-        #define WAIT_ENTER_CLEAR 444    // {ON//OFF} if activated, calls wait_enter_clear(), for selected tasks and unit tests
+        #define WAIT_ENTER_CLEAR 11    // {ON|OFF} if activated, calls wait_enter_clear(), for selected tasks and unit tests
     #endif
 
 #ifdef DE_BUG
     // pick: none, one, or all
-    #define DEBUGS_WILL_PRINT 44    // {ON//OFF} if activated, debug activity is displayed to stdout
-    #define DEBUGS_WILL_WRITE 55    // {ON//OFF} if activated, debug activity is writen
+    #define DEBUGS_WILL_PRINT 11    // {ON|OFF} if activated, debug activity is displayed to stdout
+    #define DEBUGS_WILL_WRITE 111    // {ON|OFF} if activated, debug activity is writen
 
-        // {ON//OFF} tracks:  essential information, force-prints to stdout, errors that would crash the program
+        // {ON|OFF} tracks:  essential information, force-prints to stdout, errors that would crash the program
         #define DEBUG_MIN               1917                  
         
-        // {ON//OFF} tracks:  additional information, not always an error; usually valuable diagnostic information
+        // {ON|OFF} tracks:  additional information, not always an error; usually valuable diagnostic information
         #define DEBUG_MAX               1787                  
 
-        // {ON//OFF} tracks:  call sequence of the executing program, for major calls only
+        // {ON|OFF} tracks:  acqStatus and acqDataStatus of all status code verifications, after data is acquired
+        #define DEBUG_ACQ_STATUS        2022    
+
+        // {ON|OFF} tracks:  call sequence of the executing program, for major calls only
         #define DEBUG_CLI               1776                  
     
-        // {ON//OFF} tracks:  call sequence WITH internal and API status checks
+        // {ON|OFF} tracks:  call sequence WITH internal and API status checks
         #define DEBUG_CALL_CHECKS       1492 
 
-        // {ON//OFF} tracks:  call sequence WITH getter calls
+        // {ON|OFF} tracks:  call sequence WITH getter calls
         #define DEBUG_GETS              1992                 
     
-        // {ON//OFF} tracks:  call sequence WITH setter calls
+        // {ON|OFF} tracks:  call sequence WITH setter calls
         #define DEBUG_SETS              1999                 
     
-        // {ON//OFF} tracks:  call sequence WITH  copier calls
+        // {ON|OFF} tracks:  call sequence WITH  copier calls
         #define DEBUG_COPYS             2000    
 
-        // {ON//OFF} tracks:  call sequence WITH  timer calls
+        // {ON|OFF} tracks:  call sequence WITH  timer calls
         #define DEBUG_TIMERS            1165               
     
-        // {ON//OFF} tracks:  " ", where ever you want to debug, place anywhere, usually just temporary
+        // {ON|OFF} tracks:  " ", where ever you want to debug, place anywhere, usually just temporary
         #define DEBUG_CUSTOM            1865               
 
-        // {ON//OFF} prints SIQ header as loaded, in 'siq_manager' class 
+        // {ON|OFF} prints SIQ header as loaded, in 'siq_manager' class 
         #define DEBUG_SIQ_LOADER_HEADER 1941   
 
-        // {ON//OFF} prints SIQ data as loaded, in 'siq_manager' class 
-        #define DEBUG_SIQ_LOADER_DATA   1945      
+        // {ON|OFF} prints SIQ data as loaded, in 'siq_manager' class 
+        #define DEBUG_SIQ_LOADER_DATA   1945     
+
 
         #ifdef DEBUG_MIN
             constexpr char DEBUG_MIN_FORMAT[]         = "DEBUG_MIN        ,  <%4d>  %s/%s()  !!!  %s\n";
         #endif
         #ifdef DEBUG_MAX
             constexpr char DEBUG_MAX_FORMAT[]         = "DEBUG_MAX        ,  <%4d>  %s/%s()  %s\n";
+        #endif
+        #ifdef DEBUG_ACQ_STATUS
+            constexpr char DEBUG_ACQ_STATUS_FORMAT[]  = "DEBUG_ACQ_STATUS ,  %s\n";
         #endif
         #ifdef DEBUG_CLI
             constexpr char DEBUG_CLI_FORMAT[]         = "DEBUG_CLI        ,  <%4d>  %s/%s()\n";
@@ -117,7 +125,7 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
     constexpr char DEBUG_FILEPATH[] = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DOC/debug_logs/";  
     
      // size of the debug string, used for printing and writting
-    constexpr int DEBUG_WIDTH = 555;   
+    constexpr int DEBUG_WIDTH = 745;   
 
     // number of object instances debugger will track
      constexpr int ACTIVE_OBJECTS = 7; 
@@ -126,14 +134,6 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
 
 #endif
 
-// Data IO
-constexpr char DATA_DIRECTORY_RAW[]       = "../DATA/data_raw/";         // write data received directly from the RSA-306B here
-constexpr char DATA_DIRECTORY_PROCESSED[] = "../DATA/data_processed/";   // write data modified by the program here
-
-// Device Constants
-constexpr std::size_t TRACES_306B                = 3UL;                // the RSA-306B has 3 possible traces available
-constexpr char        BITCHECK_SUCCESS_MESSAGE[] = "good bitcheck";    // common message recorded upon successful bitcheck
-constexpr unsigned    BITCHECK_SUCCESS           = 0U;                 // all successful bitchecks result in 0
 
 // program sizing parameters
 constexpr int BUF_A = 32;      // a short general purpose buffer
@@ -142,6 +142,56 @@ constexpr int BUF_C = 128;     // ...
 constexpr int BUF_D = 256;     // ....
 constexpr int BUF_E = 512;     // .....
 constexpr int BUF_F = 1024;    // a long general purpose buffer
+
+// Data IO
+constexpr char DATA_DIRECTORY_RAW[]       = "../DATA/data_raw/";         // write data received directly from the RSA-306B here
+constexpr char DATA_DIRECTORY_PROCESSED[] = "../DATA/data_processed/";   // write data modified by the program here
+constexpr char DATA_OUTPUT_EXTENSTION[]   = ".csv";                      // default output file extention
+
+// Common hardware constants
+constexpr std::size_t TRACES_306B                = 3UL;                // the RSA-306B has 3 possible traces available
+constexpr char        BITCHECK_SUCCESS_MESSAGE[] = "good bitcheck";    // common message recorded upon successful bitcheck
+constexpr unsigned    BITCHECK_SUCCESS           = 0U;                 // all successful bitchecks result in 0
+    // AUDIO
+    constexpr char AUDIO_FILE_NAME_BASE[]                                = "audio";              // default output file base name for the API group
+    constexpr char AUDIO_FIELD_1[]                                       = "interval";           // used to label fields in "*.csv" output
+    constexpr char AUDIO_FIELD_2[]                                       = "values";             // used to label fields in "*.csv" output
+    // DPX
+    constexpr char DPX_FILE_NAME_BASE[]                                  = "dpx";                // default output file base name for the API group
+    constexpr char DPX_OUTPUT_TYPE_SOGRAM_BITMAP[]                       = "sogram_bitmap";      // default to place in file name when writing a 'sogram_bitmap'
+    constexpr char DPX_OUTPUT_TYPE_SPECTRUM_BITMAP[]                     = "spectrum_bitmap";    // default to place in file name when writing a 'spectrum_bitmap'
+    constexpr char DPX_OUTPUT_TYPE_HI_RES_LINE[]                         = "hires_line";         // default to place in file name when writing a 'hires_line'
+    constexpr int  DPX_BITCHECKS                                         = 5;                    // checks for 'DPX' acqDataStatus
+    constexpr char DPX_BITCHECK_MESSAGES[DPX_BITCHECKS][BUF_B]           =                       // error codes for 'DPX' bitchecks
+    {
+        "b0 : input to the ADC was outside of its operating range",
+        "b1 : loss of locked status on the reference oscillator",
+        "b4 : power (5V and USB) failure detected",
+        "b5 : dropped frame, loss of ADC data frame samples",
+        "acqDataStatus bitcheck failures: "
+    };
+    // IFSTREAM
+    constexpr char IFSTREAM_FILE_NAME_BASE[]                             = "ifstream";           // default base name for output files
+    constexpr int  IFSTREAM_BITCHECKS                                    = 3;                    // checks for 'IFSTREAM' acqStatus
+    constexpr char IFSTREAM_FIELD_1[]                                    = "interval";           // used to label fields in "*.csv" output
+    constexpr char IFSTREAM_FIELD_2[]                                    = "adc";                // used to label fields in "*.csv" output
+    constexpr char IFSTREAM_BITCHECK_MESSAGES[IFSTREAM_BITCHECKS][BUF_B] =                       // error codes for 'IFSTREAM' bitchecks
+    {
+        "b0 : ADC input overrange detected",
+        "b1 : continuity error (gap) detected in IF frames",
+        "acqStatus bitcheck failures: "
+    };
+    // SPECTRUM
+    constexpr char SPECTRUM_FILE_NAME_BASE[]                             = "spectrum";           // default output file base name for the API group
+    constexpr int  SPECTRUM_BITCHECKS                                    = 5;                    // checks for DPX acqDataStatus
+    constexpr char SPECTRUM_BITCHECK_MESSAGES[SPECTRUM_BITCHECKS][BUF_B] =                       // error codes for 'SPECTRUM' bitchecks
+    {
+        "b0 : input to the ADC was outside of its operating range",
+        "b1 : loss of locked status on the reference oscillator",
+        "b4 : power (5V and USB) failure detected",
+        "b5 : dropped frame, loss of ADC data frame samples",
+        "acqDataStatus bitcheck failures: "
+    };
 
 // program initialization values, covers most types
 constexpr char         INIT_CHAR       = 'Z';

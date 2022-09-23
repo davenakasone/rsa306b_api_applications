@@ -60,7 +60,7 @@ CODEZ rsa306b_class::print_constants()
     debug_record(false);
 #endif
 
-    (void)printf("\n'constants' from 'resources.h' >>>\n");
+    (void)printf("\nconstants from 'resources.h'  >>>\n");
     (void)printf("\tTRACES_306B               :  %lu\n", TRACES_306B);
     (void)printf("\tBITCHECK_SUCCESS_MESSAGE  :  %s\n" , BITCHECK_SUCCESS_MESSAGE);
     (void)printf("\tBITCHECK_SUCCESS          :  %u\n" , BITCHECK_SUCCESS);

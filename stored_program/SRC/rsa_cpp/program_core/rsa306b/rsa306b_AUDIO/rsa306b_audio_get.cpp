@@ -63,7 +63,10 @@ CODEZ rsa306b_class::_audio_get_is_demodulating()
     }
 
     this->_api_status = 
-        RSA_API::AUDIO_GetEnable(&this->_vars.audio.is_demodulating);
+        RSA_API::AUDIO_GetEnable
+        (
+            &this->_vars.audio.is_demodulating
+        );
     (void)this->_audio_copy_is_demodulating();
     return this->_report_api_status();
 }
@@ -93,7 +96,10 @@ CODEZ rsa306b_class::_audio_get_is_mute()
     }
 
     this->_api_status = 
-        RSA_API::AUDIO_GetMute(&this->_vars.audio.is_mute);
+        RSA_API::AUDIO_GetMute
+        (
+            &this->_vars.audio.is_mute
+        );
     (void)this->_audio_copy_is_mute();
     return this->_report_api_status();
 }
@@ -123,7 +129,10 @@ CODEZ rsa306b_class::_audio_get_frequency_offset_hz()
     }
 
     this->_api_status = 
-        RSA_API::AUDIO_GetFrequencyOffset(&this->_vars.audio.frequency_offset_hz);
+        RSA_API::AUDIO_GetFrequencyOffset
+        (
+            &this->_vars.audio.frequency_offset_hz
+        );
     (void)this->_audio_copy_frequecny_offset_hz();
     return this->_report_api_status();
 }
@@ -153,7 +162,10 @@ CODEZ rsa306b_class::_audio_get_volume()
     }
 
     this->_api_status = 
-        RSA_API::AUDIO_GetVolume(&this->_vars.audio.volume);
+        RSA_API::AUDIO_GetVolume
+        (
+            &this->_vars.audio.volume
+        );
     (void)this->_audio_copy_volume();
     return this->_report_api_status();
 }
@@ -183,7 +195,10 @@ CODEZ rsa306b_class::_audio_get_demodulation_select()
     }
 
     this->_api_status = 
-        RSA_API::AUDIO_GetMode(&this->_vars.audio.demodulation_select);
+        RSA_API::AUDIO_GetMode
+        (
+            &this->_vars.audio.demodulation_select
+        );
     (void)this->_audio_copy_demodulation_select();
     return this->_report_api_status();
 }

@@ -127,10 +127,11 @@ class common_utility
         double timer_get_running_wall();                                          // updates "_running_wall"
 
         // string tools
-        CODEZ wchar_2_char(const wchar_t* source, char* destination);    // string converter,  wchar_t* to char*
+        CODEZ wchar_2_char(const wchar_t* source, char* destination);                                // string converter,  wchar_t* to char*
+        CODEZ make_date_timestamp(const time_t* seconds, const uint64_t nanos, char* dts_string);    // place desired time into formated string
 
         // acqstatus
-        CODEZ ifstream_acq_status(const uint32_t acq_status, const int bitchecks, const char**messages, char**results);
+        CODEZ ifstream_acq_status(const uint32_t acq_status, const uint32_t valid_bitmask, char results[IFSTREAM_BITCHECKS][BUF_D]);
         
 ////~~~~
 

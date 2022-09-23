@@ -872,11 +872,11 @@ namespace RSA_API     // ...use V2 namespace
 		// Configure IF data disk file output 
 		// Note: IFSTREAM_SetDiskFileMode() will be maintained for legacy support.
 		// Use IFSTREAM_SetOutputConfiguration() for new work.
-		typedef enum 
-		{
-			StreamingModeRaw    = 0,    // output to R3H+R3A files (separate header + raw data)
-			StreamingModeFramed = 1     // output to R3F file (combined header + framed data)
-		} StreamingMode;
+		// typedef enum 
+		// {
+		// 	StreamingModeRaw    = 0,    // output to R3H+R3A files (separate header + raw data)
+		// 	StreamingModeFramed = 1     // output to R3F file (combined header + framed data)
+		// } StreamingMode;
 		// RSA_API_DLL ReturnStatus IFSTREAM_SetDiskFileMode    (StreamingMode mode);  // legacy: for file output type
 		RSA_API_DLL ReturnStatus IFSTREAM_SetDiskFilePath    (const char *path);
 		RSA_API_DLL ReturnStatus IFSTREAM_SetDiskFilenameBase(const char *base);

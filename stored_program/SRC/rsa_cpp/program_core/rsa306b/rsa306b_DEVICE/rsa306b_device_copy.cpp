@@ -185,12 +185,12 @@ CODEZ rsa306b_class::_device_copy_info_type()
     debug_record(false);
 #endif
 
-    strcpy(this->vars.device.info_type.apiVersion  , this->_vars.device.info_type.apiVersion);
-    strcpy(this->vars.device.info_type.fpgaVersion , this->_vars.device.info_type.fpgaVersion);
-    strcpy(this->vars.device.info_type.fwVersion   , this->_vars.device.info_type.fwVersion);
-    strcpy(this->vars.device.info_type.hwVersion   , this->_vars.device.info_type.hwVersion);
-    strcpy(this->vars.device.info_type.nomenclature, this->_vars.device.info_type.nomenclature);
-    strcpy(this->vars.device.info_type.serialNum   , this->_vars.device.info_type.serialNum);
+    (void)strcpy(this->vars.device.info_type.apiVersion  , this->_vars.device.info_type.apiVersion);
+    (void)strcpy(this->vars.device.info_type.fpgaVersion , this->_vars.device.info_type.fpgaVersion);
+    (void)strcpy(this->vars.device.info_type.fwVersion   , this->_vars.device.info_type.fwVersion);
+    (void)strcpy(this->vars.device.info_type.hwVersion   , this->_vars.device.info_type.hwVersion);
+    (void)strcpy(this->vars.device.info_type.nomenclature, this->_vars.device.info_type.nomenclature);
+    (void)strcpy(this->vars.device.info_type.serialNum   , this->_vars.device.info_type.serialNum);
     
     return cutil.report_status_code(CODEZ::_0_no_errors);
 }

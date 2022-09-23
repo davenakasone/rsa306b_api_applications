@@ -107,7 +107,7 @@ CODEZ rsa306b_class::audio_start()
         return this->set_api_status(temp);
     }
     #ifdef DEBUG_MIN
-        (void)snprintf(X_ddts, sizeof(X_ddts), "audio.is_demodulating=  %d", this->vars.audio.is_demodulating);
+        (void)snprintf(X_ddts, sizeof(X_ddts), "audio.is_demodulating=  %d", this->_vars.audio.is_demodulating);
         (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
         debug_record(true);
     #endif

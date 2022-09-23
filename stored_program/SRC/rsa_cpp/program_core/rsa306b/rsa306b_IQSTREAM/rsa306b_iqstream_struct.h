@@ -19,12 +19,19 @@
     IQSTREAM_Stop()
     IQSTREAM_WaitForIQDataReady()
 
+    active :
+
+    constexpr helpers  :  <GROUP>_<CONSTEXPR_NAME>    // with group reference since used outside struct instance
+    limiting constants :  <CONSTANT_NAME>             // no leading underscore
+    initializers       :  _<VARIABLE_NAME>            // leading underscore
+    RSA_API enum *     :  <name>_select               // any non-anonymous API enums are ended with "select"
+    RSA_API struct *   :  <name>_type                 // any non-anonymous API structs are ended with "type"
+
     device must be configured before use
 
     this group places a heavy load on the CPU
     watch acqStatus to ensure speed is sufficient
-    unique acqStatus bit-check will be needed
-    general purpose wchar_t to char will be needed
+    wchar_t to char is used to identify "*.siq" file outputs
 
     there are 2x "acqStatus", but only one is valid at a time
     depends if streaming to a client or file

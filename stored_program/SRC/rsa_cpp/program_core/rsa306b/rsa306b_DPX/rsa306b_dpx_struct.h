@@ -23,6 +23,8 @@
     constexpr helpers  :  <GROUP>_<CONSTEXPR_NAME>    // with group reference since used outside struct instance
     limiting constants :  <CONSTANT_NAME>             // no leading underscore
     initializers       :  _<VARIABLE_NAME>            // leading underscore
+    RSA_API enum *     :  <name>_select               // any non-anonymous API enums are ended with "select"
+    RSA_API struct *   :  <name>_type                 // any non-anonymous API structs are ended with "type"
 
     to setup and acquire DPX data :
         1)  stop the device
@@ -63,20 +65,6 @@
 
 
 #include "../../control/resourcez.h"
-
-
-// constexpr helpers
-constexpr char DPX_FILE_NAME_BASE[]              = "dpx";
-constexpr char DPX_OUTPUT_TYPE_SOGRAM_BITMAP[]   = "sogram_bitmap";
-constexpr char DPX_OUTPUT_TYPE_SPECTRUM_BITMAP[] = "spectrum_bitmap";
-constexpr char DPX_OUTPUT_TYPE_HI_RES_LINE[]     = "hires_line";
-constexpr int  DPX_BITCHECKS              = 3;
-constexpr char DPX_BITCHECK_MESSAGES[DPX_BITCHECKS][BUF_B] =
-{
-    "b0 : ADC input overrange detected",
-    "b1 : continuity error (gap) detected in IF frames",
-    "acqStatus bitcheck failures: "
-};
 
 
 struct rsa306b_dpx_struct

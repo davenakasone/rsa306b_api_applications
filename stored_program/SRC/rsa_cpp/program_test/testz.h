@@ -26,7 +26,7 @@
 
 #include "../program_core/control/globalz.h"
 
-#ifdef UNIT_TESTINGG
+//#ifdef UNIT_TESTING
 
 #ifdef WAIT_ENTER_CLEAR
     void wait_enter_clear (void);    // flow separation between unit tests
@@ -35,6 +35,9 @@
 void test_selector (int test_number);    // controls the unit test being performed
 
 void unit_test_0   (void);    // place holder, default, template...
+
+#ifdef UNIT_TESTING
+
 void unit_test_1   (void);    // test 'general purpose' section
 void unit_test_2   (void);    // test 'DEVICE' section
 void unit_test_3   (void);    // test 'ALIGN' section

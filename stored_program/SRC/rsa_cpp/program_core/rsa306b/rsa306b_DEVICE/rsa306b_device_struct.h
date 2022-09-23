@@ -12,7 +12,7 @@
         DEVICE_StartFrameTransfer()
         DEVICE_Stop()
 
-    active vars :
+    active :
         int                  id
         bool                 is_connected
         bool                 is_running
@@ -27,6 +27,8 @@
     constexpr helpers  :  <GROUP>_<CONSTEXPR_NAME>    // with group reference since used outside struct instance
     limiting constants :  <CONSTANT_NAME>             // no leading underscore
     initializers       :  _<VARIABLE_NAME>            // leading underscore
+    RSA_API enum *     :  <name>_select               // any non-anonymous API enums are ended with "select"
+    RSA_API struct *   :  <name>_type                 // any non-anonymous API structs are ended with "type"
 */
 
 #ifndef H_rsa306b_device_struct

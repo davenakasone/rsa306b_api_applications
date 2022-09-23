@@ -86,10 +86,13 @@ CODEZ rsa306b_class::_audio_set_is_mute()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-
     (void)this->device_stop();
+    
     RSA_API::ReturnStatus temp = 
-        RSA_API::AUDIO_SetMute(&this->vars.audio.is_mute);
+        RSA_API::AUDIO_SetMute
+        (
+            &this->vars.audio.is_mute
+        );
     (void)this->_audio_get_is_mute();
     return this->set_api_status(temp);
 }
@@ -130,10 +133,13 @@ CODEZ rsa306b_class::_audio_set_frequency_offset_hz()
         #endif
         return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
-
     (void)this->device_stop();
+    
     RSA_API::ReturnStatus temp = 
-        RSA_API::AUDIO_SetFrequencyOffset(this->vars.audio.frequency_offset_hz);
+        RSA_API::AUDIO_SetFrequencyOffset
+        (
+            this->vars.audio.frequency_offset_hz
+        );
     (void)this->_audio_get_frequency_offset_hz();
     return this->set_api_status(temp);
 }
@@ -174,10 +180,13 @@ CODEZ rsa306b_class::_audio_set_volume()
         #endif
         return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
-    
     (void)this->device_stop();
+    
     RSA_API::ReturnStatus temp = 
-        RSA_API::AUDIO_SetVolume(this->vars.audio.volume);
+        RSA_API::AUDIO_SetVolume
+        (
+            this->vars.audio.volume
+        );
     (void)this->_audio_get_volume();
     return this->set_api_status(temp);
 }
@@ -220,10 +229,13 @@ CODEZ rsa306b_class::_audio_set_demodulation_select()
         #endif
         return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
-
     (void)this->device_stop();
+    
     RSA_API::ReturnStatus temp = 
-        RSA_API::AUDIO_SetMode(this->vars.audio.demodulation_select);
+        RSA_API::AUDIO_SetMode
+        (
+            this->vars.audio.demodulation_select
+        );
     (void)this->_audio_get_demodulation_select();
     return this->set_api_status(temp);
 }

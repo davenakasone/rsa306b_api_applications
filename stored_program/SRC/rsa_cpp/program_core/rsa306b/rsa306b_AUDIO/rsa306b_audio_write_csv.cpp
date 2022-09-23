@@ -15,6 +15,7 @@
     < 1 > public
     print "AUDIO" group variables to stdout
     ...must allocate the string, it will have the return path
+    file_path_name[512 or >]
 */
 CODEZ rsa306b_class::audio_write_csv
 (
@@ -28,7 +29,7 @@ CODEZ rsa306b_class::audio_write_csv
 
     std::size_t v_size = this->_vars.audio.data_v.size();
 
-    if (v_size < 1)
+    if (v_size < 1LU)
     {
         #ifdef DEBUG_MIN
             (void)snprintf(X_ddts, sizeof(X_ddts), "audio.data_v.size() =  %lu", v_size);
@@ -45,7 +46,7 @@ CODEZ rsa306b_class::audio_write_csv
             DATA_DIRECTORY_PROCESSED,
             AUDIO_FILE_NAME_BASE,
             this->_vars.reftime.current.timestamp,
-            AUDIO_OUTPUT_EXTENSTION);
+            DATA_OUTPUT_EXTENSTION);
         (void)sprintf(file_path_name, "%s", this->_helper);
     }
     else
@@ -58,18 +59,24 @@ CODEZ rsa306b_class::audio_write_csv
         return this->cutil.get_status_code();
     }
     
-    (void)sprintf(this->_helper, "audio,\n");
+    (void)sprintf(this->_helper, "%s,%s,\n",
+        AUDIO_FIELD_1,
+        AUDIO_FIELD_2);
     (void)fputs(this->_helper, this->_fp_write);
 
-    for (size_t idx = 0; idx < v_size; idx++)
+    for (std::size_t idx = 0; idx < v_size; idx++)
     {
         if (idx == v_size-1)
         {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%d\n", this->_vars.audio.data_v[idx]);
+            (void)snprintf(this->_helper, sizeof(this->_helper), "%lu,%d\n", 
+                idx,
+                this->_vars.audio.data_v[idx]);
         }
         else
         {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%d,\n", this->_vars.audio.data_v[idx]);
+            (void)snprintf(this->_helper, sizeof(this->_helper), "%lu,%d,\n", 
+                idx,
+                this->_vars.audio.data_v[idx]);
         }
         (void)fputs(this->_helper, this->_fp_write);
     }

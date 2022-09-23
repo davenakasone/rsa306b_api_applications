@@ -65,7 +65,10 @@ CODEZ rsa306b_class::_device_get_is_running()
     }
 
     this->_api_status = 
-        RSA_API::DEVICE_GetEnable(&this->_vars.device.is_running);
+        RSA_API::DEVICE_GetEnable
+        (
+            &this->_vars.device.is_running
+        );
     (void)this->_device_copy_is_running();
     return this->_report_api_status();
 }
@@ -132,7 +135,10 @@ CODEZ rsa306b_class::_device_get_info_type()
     }
 
     this->_api_status = 
-        RSA_API::DEVICE_GetInfo(&this->_vars.device.info_type);
+        RSA_API::DEVICE_GetInfo
+        (
+            &this->_vars.device.info_type
+        );
     (void) this->_device_copy_info_type();
     return this->_report_api_status();
 }
@@ -166,7 +172,10 @@ CODEZ rsa306b_class::_device_get_is_over_temperature()
     }
 
     this->_api_status = 
-        RSA_API::DEVICE_GetOverTemperatureStatus(&this->_vars.device.is_over_temperature);
+        RSA_API::DEVICE_GetOverTemperatureStatus
+        (
+            &this->_vars.device.is_over_temperature
+        );
     (void)this->_device_copy_is_over_temperature();
 
     if (this->_vars.device.is_over_temperature == true)
@@ -187,14 +196,14 @@ CODEZ rsa306b_class::_device_get_is_over_temperature()
 
 /*
     < 6 > public
-    this is a "getter", that functions as a "setter"
+    this is a "getter", that sets "device.event_id"
     OVERRANGE: input signal to ADC exceeded allowable range
     TRIGGER  : most recent sample, can force with API
     1PPS     : only for RSA500+
     this query clears event history
     all events clear when going stop->run
-    nothing is relevant unless the bool is true
-    only valid if device is running
+    nothing is relevant unless 'device.event_occured == true'
+    nothing is valid if device is stopped (device should be in the run state before calling)
     user must set "vars.device.event_id" before calling:
         RSA_API::DEVEVENT_OVERRANGE
         RSA_API::DEVEVENT_TRIGGER
@@ -232,10 +241,12 @@ CODEZ rsa306b_class::_device_get_event()
     this->_vars.device.event_id = this->vars.device.event_id;
 
     this->_api_status = 
-        RSA_API::DEVICE_GetEventStatus(
+        RSA_API::DEVICE_GetEventStatus
+        (
             this->_vars.device.event_id,
             &this->_vars.device.event_occured,
-            &this->_vars.device.event_timestamp);
+            &this->_vars.device.event_timestamp
+        );
     (void)this->_device_copy_event_occured();
     (void)this->_device_copy_event_timestamp();
     return this->_report_api_status();

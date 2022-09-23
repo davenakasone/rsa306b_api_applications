@@ -5,7 +5,7 @@
 
 #include "testz.h"
 
-#ifdef UNIT_TESTING
+//#ifdef UNIT_TESTING
 
 void test_selector
 (
@@ -17,6 +17,10 @@ void test_selector
 
     switch (test_number)
     {
+#ifdef UNIT_TESTINGG
+        
+#endif
+#ifndef UNIT_TESTINGG
         case (1)   : unit_test_1()   ; break;
         case (2)   : unit_test_2()   ; break;
         case (3)   : unit_test_3()   ; break;
@@ -37,7 +41,7 @@ void test_selector
         case (997) : task_997()      ; break;
         case (998) : task_998()      ; break;
         case (999) : task_999()      ; break;
-        
+#endif
         default    : unit_test_0()   ; break;
     }
 
@@ -45,7 +49,7 @@ void test_selector
 }
 
 
-#endif
+//#endif
 
 
 ////////~~~~~~~~END>  test_selector.cpp

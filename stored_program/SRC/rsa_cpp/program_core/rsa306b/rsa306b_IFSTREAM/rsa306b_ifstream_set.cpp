@@ -99,8 +99,10 @@ CODEZ rsa306b_class::_ifstream_set_file_name_suffix()
 
     this->_vars.ifstream.file_name_suffix = this->vars.ifstream.file_name_suffix;
     this->_api_status = 
-        RSA_API::IFSTREAM_SetDiskFilenameSuffix(
-            this->_vars.ifstream.file_name_suffix);
+        RSA_API::IFSTREAM_SetDiskFilenameSuffix
+        (
+            this->_vars.ifstream.file_name_suffix
+        );
     return this->_report_api_status();
 }
 
@@ -141,8 +143,10 @@ CODEZ rsa306b_class::_ifstream_set_file_path()
 
     (void)strcpy(this->_vars.ifstream.file_path, this->vars.ifstream.file_path);
     this->_api_status =
-        RSA_API::IFSTREAM_SetDiskFilePath(
-            this->_vars.ifstream.file_path);
+        RSA_API::IFSTREAM_SetDiskFilePath
+        (
+            this->_vars.ifstream.file_path
+        );
     return this->_report_api_status();
 }
 
@@ -183,8 +187,10 @@ CODEZ rsa306b_class::_ifstream_set_file_name_base()
 
     (void)strcpy(this->_vars.ifstream.file_name_base, this->vars.ifstream.file_name_base);
     this->_api_status = 
-        RSA_API::IFSTREAM_SetDiskFilenameBase(
-            this->_vars.ifstream.file_name_base);
+        RSA_API::IFSTREAM_SetDiskFilenameBase
+        (
+            this->_vars.ifstream.file_name_base
+        );
     return this->_report_api_status();
 }
 
@@ -226,8 +232,10 @@ CODEZ rsa306b_class::_ifstream_set_file_length_ms()
 
     this->_vars.ifstream.file_length_max_ms = this->vars.ifstream.file_length_max_ms;
     this->_api_status =
-        RSA_API::IFSTREAM_SetDiskFileLength(
-            this->_vars.ifstream.file_length_max_ms);
+        RSA_API::IFSTREAM_SetDiskFileLength
+        (
+            this->_vars.ifstream.file_length_max_ms
+        );
     return this->_report_api_status();
 }
 
@@ -259,8 +267,10 @@ CODEZ rsa306b_class::_ifstream_set_file_count()
 
     this->_vars.ifstream.file_count = this->vars.ifstream.file_count;
     this->_api_status = 
-        RSA_API::IFSTREAM_SetDiskFileCount(
-            this->_vars.ifstream.file_count);
+        RSA_API::IFSTREAM_SetDiskFileCount
+        (
+            this->_vars.ifstream.file_count
+        );
     return this->_report_api_status();
 }
 
@@ -301,8 +311,10 @@ CODEZ rsa306b_class::_ifstream_set_output_configuration_select()
 
     this->_vars.ifstream.output_destination_select = this->vars.ifstream.output_destination_select;
     this->_api_status = 
-        RSA_API::IFSTREAM_SetOutputConfiguration(
-            this->_vars.ifstream.output_destination_select);
+        RSA_API::IFSTREAM_SetOutputConfiguration
+        (
+            this->_vars.ifstream.output_destination_select
+        );
     return this->_report_api_status();
 }
 

@@ -11,6 +11,7 @@
         < 4 >  _trig_set_position_percent()
         < 5 >  _trig_set_source_select()
         < 6 >  _trig_set_transition_select()
+        < 7 >  _trig_set_time()
 */
 
 #include "../rsa306b_class.h"
@@ -45,7 +46,7 @@ CODEZ rsa306b_class::_trig_set_vars()
     debug_record(false);
 #endif
 
-    constexpr int callz = 5;
+    constexpr int callz = 6;
     CODEZ caught_call[callz];
 
     caught_call[0] = this->_trig_set_if_power_level   ();
@@ -53,6 +54,7 @@ CODEZ rsa306b_class::_trig_set_vars()
     caught_call[2] = this->_trig_set_position_percent ();
     caught_call[3] = this->_trig_set_source_select    ();
     caught_call[4] = this->_trig_set_transition_select();
+    caught_call[5] = this->_trig_set_time             ();
 
     return this->cutil.codez_checker(caught_call, callz);
 }
@@ -96,7 +98,10 @@ CODEZ rsa306b_class::_trig_set_if_power_level()
     this->device_stop();
 
     RSA_API::ReturnStatus temp = 
-        RSA_API::TRIG_SetIFPowerTriggerLevel(this->vars.trig.if_power_level);
+        RSA_API::TRIG_SetIFPowerTriggerLevel
+        (
+            this->vars.trig.if_power_level
+        );
     (void)this->_trig_get_if_power_level();
     return this->set_api_status(temp);
 }
@@ -138,7 +143,10 @@ CODEZ rsa306b_class::_trig_set_mode_select()
     this->device_stop();
 
     RSA_API::ReturnStatus temp = 
-        RSA_API::TRIG_SetTriggerMode(this->vars.trig.mode_select);
+        RSA_API::TRIG_SetTriggerMode
+        (
+            this->vars.trig.mode_select
+        );
     (void)this->_trig_get_mode_select();
     return this->set_api_status(temp);
 }
@@ -183,7 +191,10 @@ CODEZ rsa306b_class::_trig_set_position_percent()
     this->device_stop();
 
     RSA_API::ReturnStatus temp = 
-        RSA_API::TRIG_SetTriggerPositionPercent(this->vars.trig.position_percent);
+        RSA_API::TRIG_SetTriggerPositionPercent
+        (
+            this->vars.trig.position_percent
+        );
     (void)this->_trig_get_position_percent();
     return this->set_api_status(temp);
 }
@@ -226,7 +237,10 @@ CODEZ rsa306b_class::_trig_set_source_select()
     this->device_stop();
 
     RSA_API::ReturnStatus temp = 
-        RSA_API::TRIG_SetTriggerSource(this->vars.trig.source_select);
+        RSA_API::TRIG_SetTriggerSource
+        (
+            this->vars.trig.source_select
+        );
     (void)this->_trig_get_source_select();
     return this->set_api_status(temp);
 }
@@ -269,8 +283,47 @@ CODEZ rsa306b_class::_trig_set_transition_select()
     this->device_stop();
 
     RSA_API::ReturnStatus temp = 
-        RSA_API::TRIG_SetTriggerTransition(this->vars.trig.transition_select);
+        RSA_API::TRIG_SetTriggerTransition
+        (
+            this->vars.trig.transition_select
+        );
     (void)this->_trig_get_transition_select();
+    return this->set_api_status(temp);
+}
+
+
+////~~~~
+
+
+/*
+    < 7 > private
+*/
+CODEZ rsa306b_class::_trig_set_time()
+{
+#ifdef DEBUG_SETS
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
+    if (this->_vars.device.is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
+    }
+    this->device_stop();
+
+    RSA_API::ReturnStatus temp = 
+        RSA_API::TRIG_SetTriggerTime
+        (
+            this->vars.trig.start_time_seconds,
+            this->vars.trig.start_time_nano_seconds,
+            this->vars.trig.repeat_time_nano_seconds
+        );
+    (void)this->_trig_get_time();
     return this->set_api_status(temp);
 }
 

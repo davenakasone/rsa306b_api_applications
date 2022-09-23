@@ -18,7 +18,7 @@
 
     0) user updated the public "vars.ifstream.*", ensuring "vars.ifstream.output_destination_select == RSA_API::IFSOD_FILE_R3F"
     1) user called "ifstream_set_vars()"  // successfuly 
-    2) user called "device_run()"  // must be called for first iteration
+    2) user called "device_run()"         // must be called for first iteration
     3) user calls this function for as many acquisitions (*.r3f outputs) as desired
     4) user calls "device_stop()" when done, unless another type of acquisition is desired
     5) use the "r3f_manager" to process the file(s)

@@ -9,7 +9,7 @@
         AUDIO_Start()
         AUDIO_Stop()
 
-    active vars :
+    active :
         double                  frequency_offset_hz
         bool                    is_demodulating
         std::vector<int16_t>    data_v                
@@ -22,6 +22,8 @@
     constexpr helpers  :  <GROUP>_<CONSTEXPR_NAME>    // with group reference since used outside struct instance
     limiting constants :  <CONSTANT_NAME>             // no leading underscore
     initializers       :  _<VARIABLE_NAME>            // leading underscore
+    RSA_API enum *     :  <name>_select               // any non-anonymous API enums are ended with "select"
+    RSA_API struct *   :  <name>_type                 // any non-anonymous API structs are ended with "type"
 */
 
 
@@ -30,11 +32,6 @@
 
 
 #include "../../control/resourcez.h"
-
-
-// constexpr helpers
-constexpr char AUDIO_FILE_NAME_BASE[]    = "audio";
-constexpr char AUDIO_OUTPUT_EXTENSTION[] = ".csv";
 
 
 struct rsa306b_audio_struct

@@ -66,8 +66,10 @@ CODEZ rsa306b_class::_config_get_reference_level_dbm()
     }
 
     this->_api_status = 
-        RSA_API::CONFIG_GetReferenceLevel(
-            &this->_vars.config.reference_level_dbm);
+        RSA_API::CONFIG_GetReferenceLevel
+        (
+            &this->_vars.config.reference_level_dbm
+        );
     (void)this->_config_copy_reference_level_dbm();
     return this->_report_api_status();
 }
@@ -97,8 +99,10 @@ CODEZ rsa306b_class::_config_get_center_frequency_hz()
     }
 
     this->_api_status = 
-        RSA_API::CONFIG_GetCenterFreq(
-            &this->_vars.config.center_frequency_hz);
+        RSA_API::CONFIG_GetCenterFreq
+        (
+            &this->_vars.config.center_frequency_hz
+        );
     (void)this->_config_copy_center_frequency_hz();
     return this->_report_api_status();
 }
@@ -128,8 +132,10 @@ CODEZ rsa306b_class::_config_get_min_center_frequency_hz()
     }
 
     this->_api_status = 
-        RSA_API::CONFIG_GetMinCenterFreq(
-            &this->_vars.config.min_center_frequency_hz);
+        RSA_API::CONFIG_GetMinCenterFreq
+        (
+            &this->_vars.config.min_center_frequency_hz
+        );
     (void)this->_config_copy_min_center_frequency_hz();
     return this->_report_api_status();
 }
@@ -159,8 +165,10 @@ CODEZ rsa306b_class::_config_get_max_center_frequency_hz()
     }
 
     this->_api_status = 
-        RSA_API::CONFIG_GetMaxCenterFreq(
-            &this->_vars.config.max_center_frequency_hz);
+        RSA_API::CONFIG_GetMaxCenterFreq
+        (
+            &this->_vars.config.max_center_frequency_hz
+        );
     (void)this->_config_copy_max_center_frequency_hz();
     return this->_report_api_status();
 }
@@ -190,8 +198,10 @@ CODEZ rsa306b_class::_config_get_external_reference_frequency_hz()
     }
 
     this->_api_status = 
-        RSA_API::CONFIG_GetExternalRefFrequency(
-            &this->_vars.config.external_reference_frequency_hz);
+        RSA_API::CONFIG_GetExternalRefFrequency
+        (
+            &this->_vars.config.external_reference_frequency_hz
+        );
     (void)this->_config_copy_external_reference_frequency_hz();
     return this->_report_api_status();
 }
@@ -221,8 +231,10 @@ CODEZ rsa306b_class::_config_get_frequency_reference_source_select()
     }
 
     this->_api_status = 
-        RSA_API::CONFIG_GetFrequencyReferenceSource(
-            &this->_vars.config.frequency_reference_source_select);
+        RSA_API::CONFIG_GetFrequencyReferenceSource
+        (
+            &this->_vars.config.frequency_reference_source_select
+        );
     (void)this->_config_copy_frequency_reference_source_select();
     return this->_report_api_status();
 }

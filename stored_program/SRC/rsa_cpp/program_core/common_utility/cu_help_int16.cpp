@@ -30,6 +30,11 @@ CODEZ common_utility::h_new_int16_d1
     debug_record(false);
 #endif
     
+    if (array_pointer != NULL)
+    {
+        return this->report_status_code(CODEZ::_24_pointer_not_null);
+    }
+
     try
     {
         array_pointer = new int16_t[allocation_size];
@@ -97,6 +102,11 @@ CODEZ common_utility::h_delete_int16_d1
     debug_record(false);
 #endif
     
+    if (array_pointer == NULL)
+    {
+        return report_status_code(CODEZ::_0_no_errors);
+    }
+
     delete [] array_pointer;
     array_pointer = NULL;
     return report_status_code(CODEZ::_0_no_errors);

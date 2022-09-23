@@ -164,9 +164,7 @@ CODEZ rsa306b_class::device_disconnect()
         return this->_report_api_status();    // the disconnection failed
     }
 
-    this->_vars.device.is_connected = false;
-    (void)this->_device_copy_is_connected();
-    return this->clear();    // reinitializes all variables
+    return this->_init_everything();
 }
 
 

@@ -156,7 +156,8 @@ void debug_record(bool force_print)
     }
     
     clock_t t_now  = clock();
-    double seconds = (static_cast<double>(t_now) - static_cast<double>(X_dstart)) /
+    double seconds = 
+        (static_cast<double>(t_now) - static_cast<double>(X_dstart)) /
         static_cast<double>(CLOCKS_PER_SEC);     
     
     char temp[3*DEBUG_WIDTH];

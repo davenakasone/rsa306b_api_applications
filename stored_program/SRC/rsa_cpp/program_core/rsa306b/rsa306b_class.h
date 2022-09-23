@@ -248,19 +248,23 @@
                 _ifstream_set_file_length_ms()
                 _ifstream_set_file_count()
                 _ifstream_set_output_configuration_select()
-            - rsa306b_ifstream_user_acquire_adc_data.cpp
-                 ifstream_acquire_adc_data()
+            - rsa306b_ifstream_user_adc_data.cpp
+                ifstream_acquire_data()
+                ifstream_good_bitcheck()
+                ifstream_write_csv_data()
+            - rsa306b_ifstream_user_framed_adc_data.cpp
+                ifstream_acquire_framed_data()
+                ifstream_write_csv_framed_data()
             - rsa306b_ifstream_user_record_r3f.cpp
                 ifstream_record_r3f()
-
-
-
-
-            - rsa306b_ifstream_user.cpp
-                ifstream_record_file()
-                ifstream_acquire_adc_data()
-                ifstream_acquire_adc_frames()
+            - rsa306b_ifstream_user_write_csv_equalization.cpp
+                ifstream_write_csv_equalization()
         
+
+
+
+
+
 
 
 
@@ -372,10 +376,7 @@
         "./program_core/rsa306b/rsa306_REFTIME/"
             - rsa306b_reftime_struct.h
                 rsa306b_reftime_struct
-                reftime_type
-            - rsa306b_reftime_print_init.cpp
-                print_reftime()
-                _reftime_init()
+                rt_type
             - rsa306b_reftime_copy.cpp
                 _reftime_copy_vars()
                 _reftime_copy_current()
@@ -386,18 +387,22 @@
                 _reftime_copy_source_select()
                 _reftime_copy_timestamp_rate()
             - rsa306b_reftime_get.cpp
+                reftime_get_vars()
                 _reftime_get_vars()
                 _reftime_get_current()
                 _reftime_get_start()
                 _reftime_get_running_duration()
                 _reftime_get_source_select()
                 _reftime_get_timestamp_rate()
+            - rsa306b_reftime_init.cpp
+                _reftime_init()
+            - rsa306b_reftime_print.cpp
+                print_reftime()
             - rsa306b_reftime_user.cpp
                 reftime_reset()
-                reftime_get_vars()
                 reftime_timestamp_2_time()
                 reftime_time_2_timestamp()
-                _reftime_make_dts()
+                reftime_make_dts()
             
         "./program_core/rsa306b/rsa306_SPECTRUM/"
             - rsa306b_spectrum_struct.h
@@ -452,6 +457,7 @@
                 _trig_copy_position_percent()
                 _trig_copy_source_select()
                 _trig_copy_transition_select()
+                _trig_copy_time()
             - rsa306b_trig_get.cpp
                 _trig_get_vars()
                 _trig_get_if_power_level()
@@ -459,19 +465,21 @@
                 _trig_get_position_percent()
                 _trig_get_source_select()
                 _trig_get_transition_select()
+                _trig_get_time()
             - rsa306b_trig_init.cpp
                 _trig_init()
             - rsa306b_trig_print.cpp
                 trig_print()
             - rsa306b_trig_set.cpp
+                trig_set_vars()
                 _trig_set_vars()
                 _trig_set_if_power_level()
                 _trig_set_mode_select()
                 _trig_set_position_percent()
                 _trig_set_source_select()
                 _trig_set_transition_select()
+                _trig_set_time()
             - rsa306b_trig_user.cpp
-                trig_set_vars()
                 trig_force()
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
@@ -552,22 +560,23 @@ class rsa306b_class
         CODEZ device_start_frame_transfer();    // initiates run, data transfer begins
     
     // API group "DPX"
-        CODEZ dpx_print                                 ();    // prints the "DPX" variables to stdout, using the private struct                                      
-        CODEZ dpx_set_vars                              ();    // user changes "DPX" variables in public struct, then calls to set new values
-        CODEZ dpx_acquire_data                          ();    // spectrum and sogram bitmaps are loaded into std::vector members
-        CODEZ dpx_sogram_write_csv  (char* file_path_name);    // after acquiring, dump the sogram into a csv
-        CODEZ dpx_spectrum_write_csv(char* file_path_name);    // after acquiring, dump the spectrum into a csv
+        CODEZ dpx_print                                   ();    // prints the "DPX" variables to stdout, using the private struct                                      
+        CODEZ dpx_set_vars                                ();    // user changes "DPX" variables in public struct, then calls to set new values
+        CODEZ dpx_acquire_data                            ();    // spectrum and sogram bitmaps are loaded into std::vector members
+        CODEZ dpx_write_csv_hires_line(char* file_path_name);    // after acquiring, dump the high resolution line into a csv
+        CODEZ dpx_write_csv_sogram    (char* file_path_name);    // after acquiring, dump the sogram into a csv
+        CODEZ dpx_write_csv_spectrum  (char* file_path_name);    // after acquiring, dump the spectrum into a csv
 
     // API group "IFSTREAM"
         CODEZ ifstream_print                                     ();    // prints the "IFSTREAM" variables to stdout, using the private struct
         CODEZ ifstream_set_vars                                  ();    // user changes "IFSTREAM" variables in public struct, then calls to set new values
         CODEZ ifstream_record_r3f                                ();    // output "*.r3f" file is produced according to the user settings
-        CODEZ ifstream_acquire_adc_data                          ();    // gets the entire ADC buffer, user struct updated
-        CODEZ ifstream_acquire_adc_frames                        ();    // gets the entire ADC buffer, by frame, user struct updated
-        CODEZ ifstream_check_acq_status                          ();    // updates vars.ifstream.data_info_type.acqStatus + message     
-        CODEZ ifstream_write_data_csv        (char* file_path_name);    // call after acquring data, "*.csv" is produced for "adc_data_v"
-        CODEZ ifstream_write_framed_csv      (char* file_path_name);    // call after acquring data, "*.csv" is produced for "framed_adc_data_v"
-        CODEZ ifstream_write_equalization_csv(char* file_path_name);    // call after acquring data, "*.csv" is produced for equalization values
+        CODEZ ifstream_acquire_data                              ();    // gets the entire ADC buffer, user struct updated
+        CODEZ ifstream_acquire_framed_data                       ();    // gets the entire ADC buffer, by frame, user struct updated
+        bool  ifstream_good_bitcheck                             ();    // updates vars.ifstream.data_info_type.acqStatus + message     
+        CODEZ ifstream_write_csv_data        (char* file_path_name);    // call after acquring data, "*.csv" is produced for "adc_data_v"
+        CODEZ ifstream_write_csv_framed_data (char* file_path_name);    // call after acquring data, "*.csv" is produced for "framed_adc_data_v"
+        CODEZ ifstream_write_csv_equalization(char* file_path_name);    // call after acquring data, "*.csv" is produced for equalization values
 
     // API group "IQBLK"
         CODEZ iqblk_print                       ();    // prints the "IQBLK" variables to stdout, using the private struct
@@ -588,7 +597,8 @@ class rsa306b_class
         CODEZ reftime_get_vars        ();    // gets all the "REFTIME" variables
         CODEZ reftime_timestamp_2_time();    // set "vars.reftime.helper.timestamp", then call, updates time_t and uint64_t
         CODEZ reftime_time_2_timestamp();    // set "vars.reftime.helper.seconds  and nanos", then call, updates timestamp
-    
+        CODEZ reftime_make_dts        ();    // makes a date-time-stamp string in 'reftime.dts' using the current time
+
     // API group "PLAYBACK"
         CODEZ playback_print   ();    // prints the "PLAYBACK" variables to stdout, using the private struct
         CODEZ playback_set_vars();    // user changes "PLAYBACK" variables in public struct, then calls to set new values
@@ -839,24 +849,23 @@ class rsa306b_class
     // API group "PLAYBACK"
 
     // API group "REFTIME"
-        CODEZ _reftime_init                 ();
-        CODEZ _reftime_make_dts             ();  // makes a date time stamp using the current time
+        CODEZ _reftime_init                         ();
         // copiers, public = private;
-        CODEZ _reftime_copy_vars            ();
-        CODEZ _reftime_copy_current         ();
-        CODEZ _reftime_copy_start           ();
-        CODEZ _reftime_copy_helper          ();
-        CODEZ _reftime_copy_dts             ();
-        CODEZ _reftime_copy_running_duration();
-        CODEZ _reftime_copy_source_select   ();
-        CODEZ _reftime_copy_timestamp_rate  ();
+        CODEZ _reftime_copy_vars                    ();
+        CODEZ _reftime_copy_current                 ();
+        CODEZ _reftime_copy_start                   ();
+        CODEZ _reftime_copy_helper                  ();
+        CODEZ _reftime_copy_dts                     ();
+        CODEZ _reftime_copy_running_duration_seconds();
+        CODEZ _reftime_copy_source_select           ();
+        CODEZ _reftime_copy_timestamp_rate          ();
         // getters, uses API
-        CODEZ _reftime_get_vars             ();
-        CODEZ _reftime_get_current          ();
-        CODEZ _reftime_get_start            ();
-        CODEZ _reftime_get_running_duration ();
-        CODEZ _reftime_get_source_select    ();
-        CODEZ _reftime_get_timestamp_rate   ();
+        CODEZ _reftime_get_vars                     ();
+        CODEZ _reftime_get_current                  ();
+        CODEZ _reftime_get_start                    ();
+        CODEZ _reftime_get_running_duration_seconds ();
+        CODEZ _reftime_get_source_select            ();
+        CODEZ _reftime_get_timestamp_rate           ();
     
     // API group "SPECTRUM"
         CODEZ _spectrum_default                    ();
@@ -899,6 +908,7 @@ class rsa306b_class
         CODEZ _trig_copy_position_percent ();
         CODEZ _trig_copy_source_select    ();
         CODEZ _trig_copy_transition_select();
+        CODEZ _trig_copy_time             ();
         // getters, API is used
         CODEZ _trig_get_vars              ();
         CODEZ _trig_get_if_power_level    ();
@@ -906,6 +916,7 @@ class rsa306b_class
         CODEZ _trig_get_position_percent  ();
         CODEZ _trig_get_source_select     ();
         CODEZ _trig_get_transition_select ();
+        CODEZ _trig_get_time              ();
         // setters, API is used
         CODEZ _trig_set_vars              ();
         CODEZ _trig_set_if_power_level    ();
@@ -913,10 +924,8 @@ class rsa306b_class
         CODEZ _trig_set_position_percent  ();
         CODEZ _trig_set_source_select     ();
         CODEZ _trig_set_transition_select ();
+        CODEZ _trig_set_time              ();
 
-        // these are not in the manaul, but in the "RSA_API.h"...they look useful
-        // RSA_API_DLL ReturnStatus TRIG_SetTriggerTime(time_t startTimeSec, uint64_t startTimeNsec, uint64_t repeatTimeNsec);
-		// RSA_API_DLL ReturnStatus TRIG_GetTriggerTime(time_t* startTimeSec, uint64_t* startTimeNsec, uint64_t* repeatTimeNsec);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 };

@@ -26,14 +26,15 @@ CODEZ rsa306b_class::_device_init()
     this->_vars.device.is_connected        = this->_vars.device._IS_CONNECTED;
     this->_vars.device.is_over_temperature = this->_vars.device._IS_OVER_TEMPERATURE;
     this->_vars.device.is_running          = this->_vars.device._IS_RUNNING;
-    this->_vars.device.event_occured       = this->_vars.device._EVENT_OCCURED;
-
+    
     (void)memset (this->_vars.device.api_status_message, '\0'                                  , sizeof(this->_vars.device.api_status_message));
     (void)strncpy(this->_vars.device.api_status_message, this->_vars.device._API_STATUS_MESSAGE, sizeof(this->_vars.device.api_status_message));
 
     this->_vars.device.id              = this->_vars.device._ID;
+
     this->_vars.device.event_id        = this->_vars.device._EVENT_ID;
     this->_vars.device.event_timestamp = this->_vars.device._EVENT_TIMESTAMP;
+    this->_vars.device.event_occured   = this->_vars.device._EVENT_OCCURED;
 
     (void)memset (this->_vars.device.info_type.apiVersion   , '\0'                                      , RSA_API::DEVINFO_MAX_STRLEN);
     (void)strncpy(this->_vars.device.info_type.apiVersion   , this->_vars.device._INFO_TYPE_apiVersion  , RSA_API::DEVINFO_MAX_STRLEN-1);

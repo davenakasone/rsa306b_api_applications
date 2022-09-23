@@ -48,6 +48,8 @@ $(UDIR)cu_common_utility.cpp \
 $(UDIR)cu_exe_1.cpp \
 $(UDIR)cu_help_1.cpp \
 $(UDIR)cu_help_int16.cpp \
+$(UDIR)cu_ifstream_acq_status.cpp \
+$(UDIR)cu_make_date_timestamp.cpp \
 $(UDIR)cu_timing.cpp \
 $(UDIR)cu_wchar_2_char.cpp \
 \
@@ -100,7 +102,7 @@ $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_get.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_init.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_print.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_set.cpp \
-$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_user_acquire_adc_data.cpp \
+$(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_user_adc_data.cpp \
 $(SDIR)rsa306b/rsa306b_IFSTREAM/rsa306b_ifstream_user_record_r3f.cpp \
 \
 $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_copy.cpp \
@@ -118,7 +120,8 @@ $(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_user.cpp \
 \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_copy.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_get.cpp \
-$(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_print_init.cpp \
+$(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_init.cpp \
+$(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_print.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_user.cpp \
 \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_copy.cpp \

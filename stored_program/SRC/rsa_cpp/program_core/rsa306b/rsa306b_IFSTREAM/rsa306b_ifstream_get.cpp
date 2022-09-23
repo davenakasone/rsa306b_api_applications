@@ -63,11 +63,11 @@ CODEZ rsa306b_class::_ifstream_get_is_active()
     }
 
     this->_api_status = 
-        RSA_API::IFSTREAM_GetActiveStatus(
-            &this->_vars.ifstream.is_active);
-
+        RSA_API::IFSTREAM_GetActiveStatus
+        (
+            &this->_vars.ifstream.is_active
+        );
     (void)this->_ifstream_copy_is_active();
-    
     return this->_report_api_status();
 }
 
@@ -96,15 +96,15 @@ CODEZ rsa306b_class::_ifstream_get_acq_parameters()
     }
 
     this->_api_status = 
-        RSA_API::IFSTREAM_GetAcqParameters(
+        RSA_API::IFSTREAM_GetAcqParameters
+        (
             &this->_vars.ifstream.if_bandwidth_hz,
             &this->_vars.ifstream.samples_per_second,
-            &this->_vars.ifstream.if_center_frequency);
-
+            &this->_vars.ifstream.if_center_frequency
+        );
     (void)this->_ifstream_copy_if_bandwidth_hz();
     (void)this->_ifstream_copy_samples_per_second();
     (void)this->_ifstream_copy_if_center_frequency();
-
     return this->_report_api_status();
 }
 
@@ -133,13 +133,13 @@ CODEZ rsa306b_class::_ifstream_get_buffer_size()
     }
 
     this->_api_status = 
-        RSA_API::IFSTREAM_GetIFDataBufferSize(
+        RSA_API::IFSTREAM_GetIFDataBufferSize
+        (
             &this->_vars.ifstream.buffer_size_bytes,
-            &this->_vars.ifstream.buffer_samples);
-
+            &this->_vars.ifstream.buffer_samples
+        );
     (void)this->_ifstream_copy_buffer_size_bytes();
     (void)this->_ifstream_copy_buffer_samples();
-
     return this->_report_api_status();
 }
 
@@ -171,11 +171,13 @@ CODEZ rsa306b_class::_ifstream_get_eq_parameters()
     float* arr_ampl = NULL;
     float* arr_phase = NULL;
     this->_api_status = 
-        RSA_API::IFSTREAM_GetEQParameters(
+        RSA_API::IFSTREAM_GetEQParameters
+        (
             &this->_vars.ifstream.points_in_equalization_buffer,
             &arr_freq,
             &arr_ampl,
-            &arr_phase);
+            &arr_phase
+        );
     
     if (this->_api_status != RSA_API::noError)
     {
@@ -204,18 +206,15 @@ CODEZ rsa306b_class::_ifstream_get_eq_parameters()
         return this->cutil.report_status_code(CODEZ::_21_rsa_api_task_failed);
     }
 
-    this->_vars.ifstream.eq_frequency_v.assign(arr_freq, arr_freq + this->_vars.ifstream.points_in_equalization_buffer);
-    this->_vars.ifstream.eq_amplitude_v.assign(arr_ampl, arr_ampl + this->_vars.ifstream.points_in_equalization_buffer);
-    this->_vars.ifstream.eq_phase_v.assign(arr_phase, arr_phase + this->_vars.ifstream.points_in_equalization_buffer);
-
+    this->_vars.ifstream.eq_frequency_v.assign(arr_freq , arr_freq  + this->_vars.ifstream.points_in_equalization_buffer);
+    this->_vars.ifstream.eq_amplitude_v.assign(arr_ampl , arr_ampl  + this->_vars.ifstream.points_in_equalization_buffer);
+    this->_vars.ifstream.eq_phase_v.    assign(arr_phase, arr_phase + this->_vars.ifstream.points_in_equalization_buffer);
     (void)this->_ifstream_copy_eq_frequency_v();
     (void)this->_ifstream_copy_eq_amplitude_v();
     (void)this->_ifstream_copy_eq_phase_v();
-
     arr_freq = NULL;
     arr_ampl = NULL;
     arr_phase = NULL;
-
     return this->_report_api_status();
 }
 
@@ -244,13 +243,13 @@ CODEZ rsa306b_class::_ifstream_get_scaling_parameters()
     }
 
     this->_api_status = 
-        RSA_API::IFSTREAM_GetScalingParameters(
+        RSA_API::IFSTREAM_GetScalingParameters
+        (
             &this->_vars.ifstream.scale_factor,
-            &this->_vars.ifstream.scale_frequency);
-
+            &this->_vars.ifstream.scale_frequency
+        );
     (void)this->_ifstream_copy_scale_factor();
     (void)this->_ifstream_copy_scale_frequency();
-
     return this->_report_api_status();
 }
 

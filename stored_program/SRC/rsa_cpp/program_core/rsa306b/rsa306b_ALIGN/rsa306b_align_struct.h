@@ -4,13 +4,15 @@
         ALIGN_GetWarmupStatus   ()
         ALIGN_RunAlignment      ()
     
-    active vars :
+    active :
         bool is_needed
         bool is_warmed
         
     constexpr helpers  :  <GROUP>_<CONSTEXPR_NAME>    // with group reference since used outside struct instance
     limiting constants :  <CONSTANT_NAME>             // no leading underscore
     initializers       :  _<VARIABLE_NAME>            // leading underscore
+    RSA_API enum *     :  <name>_select               // any non-anonymous API enums are ended with "select"
+    RSA_API struct *   :  <name>_type                 // any non-anonymous API structs are ended with "type"
 */
 
 

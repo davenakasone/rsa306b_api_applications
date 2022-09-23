@@ -24,20 +24,20 @@ CODEZ rsa306b_class::device_print()
 #endif
 
     (void)printf("\n'DEVICE' group >>>\n");
-    (void)printf("\tis connected         :  %d\n", this->_vars.device.is_connected);
-    (void)printf("\tis running           :  %d\n", this->_vars.device.is_running);
-    (void)printf("\tis over temperature  :  %d\n", this->_vars.device.is_over_temperature);
-    (void)printf("\tID                   :  %d\n", this->_vars.device.id);
-    (void)printf("\terror string         :  %s\n", this->_vars.device.api_status_message);
-    (void)printf("\tevent occured        :  %d\n", this->_vars.device.event_occured);
-    (void)printf("\tevent ID             :  %d"  , this->_vars.device.event_id);
+    (void)printf("\tis connected         :  %d\n"   , this->_vars.device.is_connected);
+    (void)printf("\tis running           :  %d\n"   , this->_vars.device.is_running);
+    (void)printf("\tis over temperature  :  %d\n"   , this->_vars.device.is_over_temperature);
+    (void)printf("\tID                   :  %d\n"   , this->_vars.device.id);
+    (void)printf("\terror string         :  %s\n"   , this->_vars.device.api_status_message);
+    (void)printf("\tevent occured        :  %d\n"   , this->_vars.device.event_occured);
+    (void)printf("\tEvent Timestamp      :  %lu\n"  , this->_vars.device.event_timestamp);
+    (void)printf("\tevent ID             :  %d  ,  ", this->_vars.device.event_id);
     switch (this->_vars.device.event_id)
     {
         case (0) : (void)printf("OVERANGE\n") ; break;
         case (1) : (void)printf("TRIGGER\n" ) ; break;
         default  : (void)printf("unknown\n" ) ; break;
     }
-    (void)printf("\tEvent Timestamp      :  %lu\n", this->_vars.device.event_timestamp);
     (void)printf("\tAPI Version          :  %s\n" , this->_vars.device.info_type.apiVersion);
     (void)printf("\tFPGA Version         :  %s\n" , this->_vars.device.info_type.fpgaVersion);
     (void)printf("\tFirmware Version     :  %s\n" , this->_vars.device.info_type.fwVersion);

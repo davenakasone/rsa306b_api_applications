@@ -87,10 +87,13 @@ CODEZ rsa306b_class::_config_set_reference_level_dbm()
         #endif
         return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
-
     (void)this->device_stop();
+
     RSA_API::ReturnStatus temp =
-        RSA_API::CONFIG_SetReferenceLevel(this->vars.config.reference_level_dbm);
+        RSA_API::CONFIG_SetReferenceLevel
+        (
+            this->vars.config.reference_level_dbm
+        );
     (void)this->_config_get_reference_level_dbm();
     return this->set_api_status(temp);
 }
@@ -134,11 +137,13 @@ CODEZ rsa306b_class::_config_set_center_frequency_hz()
         #endif
         return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
-    
     (void)this->device_stop();
+
     RSA_API::ReturnStatus temp =
-        RSA_API::CONFIG_SetCenterFreq(
-            this->vars.config.center_frequency_hz);
+        RSA_API::CONFIG_SetCenterFreq
+        (
+            this->vars.config.center_frequency_hz
+        );
     (void)this->_config_get_center_frequency_hz();
     return this->set_api_status(temp);
 }
@@ -178,11 +183,13 @@ CODEZ rsa306b_class::_config_set_external_reference_frequency_source_select()
         #endif
         return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
-    
     (void)this->device_stop();
+
     RSA_API::ReturnStatus temp =
-        RSA_API::CONFIG_SetFrequencyReferenceSource(
-            this->vars.config.frequency_reference_source_select);
+        RSA_API::CONFIG_SetFrequencyReferenceSource
+        (
+            this->vars.config.frequency_reference_source_select
+        );
     (void)this->_config_get_frequency_reference_source_select();
     return this->set_api_status(temp);
 }

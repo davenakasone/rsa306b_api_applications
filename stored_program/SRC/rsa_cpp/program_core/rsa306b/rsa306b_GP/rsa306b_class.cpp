@@ -120,6 +120,8 @@ CODEZ rsa306b_class::get_everything()
 
     // INSERT
 
+    this->_vars.device.is_connected = false;
+    (void)this->_device_copy_is_connected();
     return this->cutil.codez_checker(caught_call, calls);
 }
 

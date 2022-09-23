@@ -14,8 +14,11 @@
         IFSTREAM_SetDiskFilePath()
         IFSTREAM_SetEnable()
         IFSTREAM_SetOutoutConfiguration()
+    
+    obsolete :
+        IFSTREAM_SetDiskFileMode()
 
-    active vars :
+    active :
         int                               file_name_suffix
         bool                              is_active   
         double                            if_bandwidth_hz
@@ -46,13 +49,12 @@
     constexpr helpers  :  <GROUP>_<CONSTEXPR_NAME>    // with group reference since used outside struct instance
     limiting constants :  <CONSTANT_NAME>             // no leading underscore
     initializers       :  _<VARIABLE_NAME>            // leading underscore
+    RSA_API enum *     :  <name>_select               // any non-anonymous API enums are ended with "select"
+    RSA_API struct *   :  <name>_type                 // any non-anonymous API structs are ended with "type"
 
     make sure DEVICE_Run() is called at least once before using
     start and stop the IFSTREAM and DEVICE enables in sequence
     <file path> <filename base> <suffix> . <ext> , use ".r3f"
-
-    obsolete :
-        IFSTREAM_SetDiskFileMode()
 */
 
 
@@ -63,24 +65,13 @@
 #include "../../control/resourcez.h"
 
 
-// constexpr helpers
-constexpr char IFSTREAM_FILE_NAME_BASE[] = "ifstream";
-constexpr int  IFSTREAM_BITCHECKS        = 3;
-constexpr char IFSTREAM_BITCHECK_MESSAGES[IFSTREAM_BITCHECKS][BUF_B] =
-{
-    "b0 : ADC input overrange detected",
-    "b1 : continuity error (gap) detected in IF frames",
-    "acqStatus bitcheck failures: "
-};
-
-
 struct rsa306b_ifstream_struct
 {
 
 
 // limiting constants
 const double LOOP_LIMIT_S    = 0.05;    // maximum time, in seconds, to loiter in a loop and wait for data acquisition
-const int FILE_LENGTH_MAX_MS = 999;
+const int FILE_LENGTH_MAX_MS = 999;     // maximum milli-seconds to record to a file, > 1 sec results in multiple files
 
 
 /*
@@ -108,13 +99,13 @@ const int FILE_LENGTH_MAX_MS = 999;
         if_center_frequency; IF frequency where original requestd center frequency was translated
 */
     double       if_bandwidth_hz;        
-    const double _IF_BANDWIDTH_HZ = INIT_DOUBLE;       // DEFAULT
+    const double _IF_BANDWIDTH_HZ     = INIT_DOUBLE;    // DEFAULT
 
     double       samples_per_second;
-    const double _SAMPLES_PER_SECOND = INIT_DOUBLE;    // DEFAULT
+    const double _SAMPLES_PER_SECOND  = INIT_DOUBLE;    // DEFAULT
 
     double       if_center_frequency;
-    const double _IF_CENTER_FREQUENCY = INIT_DOUBLE;   // DEFAULT
+    const double _IF_CENTER_FREQUENCY = INIT_DOUBLE;    // DEFAULT
 
 
 /*
@@ -128,58 +119,67 @@ const int FILE_LENGTH_MAX_MS = 999;
             eq_phase_v                    ; collects equalization phase, in degrees
 */
     int       points_in_equalization_buffer;
-    const int _POINTS_IN_EQUALIZATION_BUFFER = INIT_INT;           // DEFAULT
+    const int _POINTS_IN_EQUALIZATION_BUFFER   = INIT_INT;           // DEFAULT
 
     std::vector<float> eq_frequency_v;
-    const float        _EQ_FREQUENCY_V_element    = INIT_FLOAT;    // DEFAULT
-    const std::size_t  _EQ_FREQUENCY_V_size = INIT_STL_LENGTH;     // DEFAULT
+    const float        _EQ_FREQUENCY_V_element = INIT_FLOAT;         // DEFAULT
+    const std::size_t  _EQ_FREQUENCY_V_size    = INIT_STL_LENGTH;    // DEFAULT
 
     std::vector<float> eq_amplitude_v;   
-    const float        _EQ_AMPLITUDE_V_element    = INIT_FLOAT;    // DEFAULT
-    const std::size_t  _EQ_AMPLITUDE_V_size = INIT_STL_LENGTH;     // DEFAULT
+    const float        _EQ_AMPLITUDE_V_element = INIT_FLOAT;         // DEFAULT
+    const std::size_t  _EQ_AMPLITUDE_V_size    = INIT_STL_LENGTH;    // DEFAULT
 
     std::vector<float> eq_phase_v;        
-    const float        _EQ_PHASE_V_element    = INIT_FLOAT;        // DEFAULT
-    const std::size_t  _EQ_PHASE_V_size = INIT_STL_LENGTH;         // DEFAULT
+    const float        _EQ_PHASE_V_element     = INIT_FLOAT;         // DEFAULT
+    const std::size_t  _EQ_PHASE_V_size        = INIT_STL_LENGTH;    // DEFAULT
 
 
 /*
     IFSTREAM_GetIFData()
         retrieves the entire ADC buffer
         for receiving the IF stream directly into the program
+        note 'struct IFSTRMDATAINFO' is what would be in the footer of a "*.r3f" file
         client must take internal buffers before they overflow
         internal buffer can only hold 2.4 seconds of ADC data, about 260e6 samples
         internal dynamically allocated data types are supplemented with std::vector
             adc_data_v          ; collects internal buffer
             adc_triggers_v      ; when trigger index is acquired, inicates if trigger event occured for the sample 
             if_data_length      ; number of signed 16-bit samples returned
-            acq_status_messages ; tracks error messages present in each bicheck position
             data_info_type      ; contains aquisition information, "aqcStatus" 
-        struct IFSTRMDATAINFO   // what would be in the footer of a "*.r3f" file
-            timestamp      ; timestamp of first IF sample returned in block
-            triggerCount   ; number of triggers detected in this block
-            triggerIndices ; internal array of trigger sample indices in block (overwritten on each new block query)
-            acqStatus      ; see IQSTRM_STATUS enum to decode, needs a bit check
+        struct IFSTRMDATAINFO 
+            timestamp           ; timestamp of first IF sample returned in block
+            triggerCount        ; number of triggers detected in this block
+            triggerIndices      ; internal array of trigger sample indices in block (overwritten on each new block query)
+            acqStatus           ; see IQSTRM_STATUS enum to decode, needs a bit check
+        bitchecking
+            acq_status_messages ; tracks error messages present in each bicheck position
+            valid_bitmask       ; available for user's custom bitcheck needs
 */          
     std::vector<int16_t> adc_data_v;  
-    const int16_t        _ADC_DATA_V_element = INIT_INT16;                   // DEFAULT
-    std::size_t          _ADC_DATA_V_size    = INIT_STL_LENGTH;              // DEFAULT
+    const int16_t        _ADC_DATA_V_element               = INIT_INT16;                  // DEFAULT
+    std::size_t          _ADC_DATA_V_size                  = INIT_STL_LENGTH;             // DEFAULT
 
     std::vector<bool> adc_triggers_v;  
-    const bool        _ADC_TRIGGERS_element    = false;                      // DEFAULT
-    std::size_t       _ADC_TRIGGERS_V_size  = INIT_STL_LENGTH;               // DEFAULT
+    const bool        _ADC_TRIGGERS_element                = false;                       // DEFAULT
+    std::size_t       _ADC_TRIGGERS_V_size                 = INIT_STL_LENGTH;             // DEFAULT
 
     int       if_data_length;
-    const int _IF_DATA_LENGTH = INIT_INT;                                    // DEFAULT
-
-    char        acq_status_messages[IFSTREAM_BITCHECKS][BUF_D];
-    const char* _ACQ_STATUS_MESSAGES = BITCHECK_SUCCESS_MESSAGE;            // DEFAULT
+    const int _IF_DATA_LENGTH                              = INIT_INT;                    // DEFAULT
 
     RSA_API::IFSTRMDATAINFO data_info_type;   
-    const uint64_t          _DATA_INFO_TYPE_timestamp      = INIT_UINT64;         // DEFAULT
-    const int               _DATA_INFO_TYPE_triggerCount   = INIT_INT;            // DEFAULT
-    int*                    _DATA_INFO_TYPE_triggerIndices = NULL;                // DEFAULT
-    const uint32_t          _DATA_INFO_TYPE_acqStatus      = BITCHECK_SUCCESS;    // DEFAULT
+    const uint64_t          _DATA_INFO_TYPE_timestamp      = INIT_UINT64;                 // DEFAULT
+    const int               _DATA_INFO_TYPE_triggerCount   = INIT_INT;                    // DEFAULT
+    int*                    _DATA_INFO_TYPE_triggerIndices = NULL;                        // DEFAULT
+    const uint32_t          _DATA_INFO_TYPE_acqStatus      = BITCHECK_SUCCESS;            // DEFAULT
+
+    char        acq_status_messages[IFSTREAM_BITCHECKS][BUF_D];
+    const char* _ACQ_STATUS_MESSAGES                       = BITCHECK_SUCCESS_MESSAGE;    // DEFAULT
+    
+    const uint32_t valid_bitmask                           = 
+        (
+            static_cast<uint32_t>(RSA_API::IFSTRM_STATUS_OVERRANGE)         |    // bit 0
+            static_cast<uint32_t>(RSA_API::IFSTRM_STATUS_XFER_DISCONTINUITY)     // bit 1
+        );
 
 
 /*
@@ -194,7 +194,7 @@ const int FILE_LENGTH_MAX_MS = 999;
     const int _BUFFER_SIZE_BYTES = INIT_INT;    // DEFAULT
 
     int       buffer_samples;
-    const int _BUFFER_SAMPLES = INIT_INT;    // DEFAULT
+    const int _BUFFER_SAMPLES    = INIT_INT;    // DEFAULT
 
 
 /*
@@ -215,10 +215,10 @@ const int FILE_LENGTH_MAX_MS = 999;
     const std::size_t                 _FRAMED_ADC_DATA_V_cols    = INIT_STL_LENGTH;    // DEFAULT
 
     int       frame_bytes;    
-    const int _FRAME_BYTES = INIT_INT;                                                 // DEFAULT
+    const int _FRAME_BYTES                                       = INIT_INT;           // DEFAULT
 
     int number_of_frames;
-    const int _NUMBER_OF_FRAMES = INIT_INT;                                            // DEFAULT
+    const int _NUMBER_OF_FRAMES                                  = INIT_INT;           // DEFAULT
     
            
 /*
@@ -228,7 +228,7 @@ const int FILE_LENGTH_MAX_MS = 999;
             scale_frequency; IF frequency the scale factor applies
 */
     double       scale_factor;       
-    const double _SCALE_FACTOR = INIT_DOUBLE;    // DEFAULT
+    const double _SCALE_FACTOR    = INIT_DOUBLE;    // DEFAULT
 
     double       scale_frequency; 
     const double _SCALE_FREQUENCY = INIT_DOUBLE;    // DEFAULT
@@ -272,12 +272,15 @@ const int FILE_LENGTH_MAX_MS = 999;
 /*
     IFSTREAM_SetEnable()
         start or stop the IF streaming operation
-        see "is_active" in "IFSTREAM_GetActiveStatus()"
+        using an hard-coded "true" to start IF streaming
+        using a hard-coded  "false" to stop IF streaming
+        this is probably only necessary when streaming "*.r3f" to a disk
 */
 
 
 /*
     IFSTREAM_SetOutoutConfiguration()
+        in the class, outputs are restriced to client (update std::vectors) or an "*.r3f" file
         will set the file format if needed, see the enum
         {0: no file, direct to client, 1:r3f, 3:r3h+r3a, 11:CDIF, 12:CDIF+DET}
             output_destination_select ; where the stream goes
