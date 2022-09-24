@@ -23,6 +23,7 @@ CODEZ rsa306b_class::_ifstream_init()
 
     this->_vars.ifstream.file_name_suffix              = this->_vars.ifstream._FILE_NAME_SUFFIX;
     this->_vars.ifstream.is_active                     = this->_vars.ifstream._IS_ACTIVE;
+    this->_vars.ifstream.is_enabled                    = this->_vars.ifstream._IS_ENABLED;
     this->_vars.ifstream.if_bandwidth_hz               = this->_vars.ifstream._IF_BANDWIDTH_HZ;
     this->_vars.ifstream.samples_per_second            = this->_vars.ifstream._SAMPLES_PER_SECOND;
     this->_vars.ifstream.if_center_frequency           = this->_vars.ifstream._IF_CENTER_FREQUENCY;
@@ -36,6 +37,7 @@ CODEZ rsa306b_class::_ifstream_init()
     this->_vars.ifstream.adc_triggers_v.assign(this->_vars.ifstream._ADC_TRIGGERS_V_size, this->_vars.ifstream._ADC_TRIGGERS_element);
 
     this->_vars.ifstream.if_data_length = this->_vars.ifstream._IF_DATA_LENGTH;
+    
     for (int ii = 0; ii < IFSTREAM_BITCHECKS; ii++)
     {
         (void)strcpy(this->_vars.ifstream.acq_status_messages[ii], this->_vars.ifstream._ACQ_STATUS_MESSAGES);

@@ -24,7 +24,7 @@ CODEZ rsa306b_class::reftime_reset()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -34,6 +34,7 @@ CODEZ rsa306b_class::reftime_reset()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     (void)this->device_stop();
 
     return this->set_api_status(RSA_API::REFTIME_SetReferenceTime(0, 0, 0));
@@ -58,7 +59,7 @@ CODEZ rsa306b_class::reftime_timestamp_2_time()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -68,6 +69,7 @@ CODEZ rsa306b_class::reftime_timestamp_2_time()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     this->_vars.reftime.helper.timestamp = this->vars.reftime.helper.timestamp;
     this->_api_status =
@@ -100,7 +102,7 @@ CODEZ rsa306b_class::reftime_time_2_timestamp()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -110,6 +112,7 @@ CODEZ rsa306b_class::reftime_time_2_timestamp()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     this->_vars.reftime.helper.seconds = this->vars.reftime.helper.seconds;
     this->_vars.reftime.helper.nanos = this->vars.reftime.helper.nanos;
@@ -139,7 +142,7 @@ CODEZ rsa306b_class::reftime_make_dts()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -149,6 +152,7 @@ CODEZ rsa306b_class::reftime_make_dts()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     
     if(this->_reftime_get_current() != CODEZ::_0_no_errors)
     {

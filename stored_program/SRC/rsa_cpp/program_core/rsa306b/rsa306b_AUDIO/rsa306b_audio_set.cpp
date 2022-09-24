@@ -76,7 +76,7 @@ CODEZ rsa306b_class::_audio_set_is_mute()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -86,6 +86,7 @@ CODEZ rsa306b_class::_audio_set_is_mute()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     (void)this->device_stop();
     
     RSA_API::ReturnStatus temp = 
@@ -110,7 +111,7 @@ CODEZ rsa306b_class::_audio_set_frequency_offset_hz()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -120,6 +121,7 @@ CODEZ rsa306b_class::_audio_set_frequency_offset_hz()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     if (this->vars.audio.frequency_offset_hz < this->_vars.audio.CENTER_FREQUENCY_OFFSET_MIN_HZ ||
         this->vars.audio.frequency_offset_hz > this->_vars.audio.CENTER_FREQUENCY_OFFSET_MAX_HZ  )
     {
@@ -157,7 +159,7 @@ CODEZ rsa306b_class::_audio_set_volume()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -167,6 +169,7 @@ CODEZ rsa306b_class::_audio_set_volume()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     if (this->vars.audio.volume < this->_vars.audio.VOLUME_MIN ||
         this->vars.audio.volume > this->_vars.audio.VOLUME_MAX  )
     {
@@ -204,7 +207,7 @@ CODEZ rsa306b_class::_audio_set_demodulation_select()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -214,6 +217,7 @@ CODEZ rsa306b_class::_audio_set_demodulation_select()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     
     if (this->vars.audio.demodulation_select != RSA_API::ADM_FM_8KHZ   &&
         this->vars.audio.demodulation_select != RSA_API::ADM_FM_13KHZ  &&
@@ -253,7 +257,7 @@ CODEZ rsa306b_class::_audio_set_data_samples_requested()
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -263,6 +267,7 @@ CODEZ rsa306b_class::_audio_set_data_samples_requested()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     if (this->vars.audio.data_samples_requested < 1                                 ||
         this->vars.audio.data_samples_requested > this->_vars.audio.DATA_V_MAX_LENGTH)
     {

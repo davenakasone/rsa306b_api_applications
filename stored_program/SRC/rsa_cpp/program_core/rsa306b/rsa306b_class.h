@@ -232,6 +232,7 @@
                 _ifstream_copy_buffer_size_bytes()
                 _ifstream_copy_buffer_samples()
                 _ifstream_copy_acq_status_message()
+                _ifstream_copy_is_enabled()
             - rsa306b_ifstream_get.cpp
                 _ifstream_get_vars()
                 _ifstream_get_is_active()
@@ -248,6 +249,7 @@
                 _ifstream_set_file_length_ms()
                 _ifstream_set_file_count()
                 _ifstream_set_output_configuration_select()
+                _ifstream_set_is_enabled()
             - rsa306b_ifstream_user_adc_data.cpp
                 ifstream_acquire_data()
                 ifstream_good_bitcheck()
@@ -259,43 +261,32 @@
                 ifstream_record_r3f()
             - rsa306b_ifstream_user_write_csv_equalization.cpp
                 ifstream_write_csv_equalization()
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         "./program_core/rsa306b/rsa306_IQBLK/"
             - rsa306b_iqblk_struct.h
                 rsa306b_iqblk_struct
-            - rsa306b_iqblk_print_init_check.cpp
-                print_iqblk()
+            - rsa306b_iqblk_user.cpp
+                iqblk_acquire_data()
+                _iqblk_get_iq_data()
+                _iqblk_get_iq_data_cplx()
+                _iqblk_get_iq_data_deinterleaved()
+            - rsa306b_iqblk_init.cpp
                 _iqblk_init()
-                _iqblk_bitcheck()
+            - rsa306b_iqblk_print.cpp
+                iqblk_print()
             - rsa306b_iqblk_copy.cpp
                 _iqblk_copy_vars()
-                _iqblk_copy_getter()
+                _iqblk_copy_getting_select()
                 _iqblk_copy_actual_buffer_samples()
-                _iqblk_copy_sample_pairs_requested()
                 _iqblk_copy_cplx32_v()
                 _iqblk_copy_acq_info_type()
-                _iqblk_copy_bitcheck()
                 _iqblk_copy_sample_rate()
                 _iqblk_copy_bandwidth_hz()
                 _iqblk_copy_max_bandwidth_hz()
                 _iqblk_copy_min_bandwidth_hz()
                 _iqblk_copy_record_length()
                 _iqblk_copy_max_record_length()
+                _iqblk_copy_acq_status_messages()
             - rsa306b_iqblk_get.cpp
                 _iqblk_get_vars()
                 _iqblk_get_acq_info_type()
@@ -308,15 +299,12 @@
             - rsa306b_iqblk_set.cpp
                 iqblk_set_vars()
                 _iqblk_set_vars()
-                _iqblk_set_getter()
+                _iqblk_set_getting_select()
                 _iqblk_set_bandwidth_hz()
                 _iqblk_set_record_length()
             - rsa306b_iqblk_user.cpp
-                iqblk_acquire_data()
                 iqblk_make_csv()
-                _iqblk_get_iq_data()
-                _iqblk_get_iq_data_cplx()
-                _iqblk_get_iq_data_deinterleaved()
+                iqblk_good_bitcheck()
 
         "./program_core/rsa306b/rsa306_IQSTREAM/"
             - rsa306b_iqstream_struct.h
@@ -409,25 +397,23 @@
                 rsa306b_spectrum_struct
             - rsa306b_spectrum_init_default.cpp
                 spectrum_default()
-                _spectrum_default()
                 _spectrum_init()
             - rsa306b_spectrum_print.cpp
-                print_spectrum()
-                _print_spectrum_traces_long()
-                _print_spectrum_traces_compact()
+                spectrum_print()
             - rsa306b_spectrum_copy.cpp
                 _spectrum_copy_vars()
                 _spectrum_copy_is_enabled_measurement()
-                _spectrum_copy_settings_type()
                 _spectrum_copy_limits_type()
-                _spectrum_copy_trace_points_aquired()
-                _spectrum_copy_array_frequency()
-                _spectrum_copy_is_enabled_trace()
-                _spectrum_copy_traces_select()
-                _spectrum_copy_detectors_select()
+                _spectrum_copy_settings_type()
+                _spectrum_copy_trace_select()
+                _spectrum_copy_trace_power_v()
                 _spectrum_copy_trace_info_type()
-                _spectrum_copy_array_power()
+                _spectrum_copy_acq_status_messages()
+                _spectrum_copy_is_enabled_trace()
+                _spectrum_copy_detector_select()
+                _spectrum_copy_frequency_v()
                 _spectrum_copy_peak_index()
+                _spectrum_copy_trace_points_acquired()
             - rsa306b_spectrum_get.cpp
                 _spectrum_get_vars()
                 _spectrum_get_is_enabled_measurement()
@@ -441,11 +427,13 @@
                 _spectrum_set_is_enabled_measurement()
                 _spectrum_set_settings_type()
                 _spectrum_set_trace_type()
-            - rsa306b_spectrum_user.cpp
-                spectrum_aquire()
+            - rsa306b_spectrum_helper.cpp
                 spectrum_find_peak_index()
+                spectrum_make_frequency_v()
+                spectrum_good_bitcheck()
+            - rsa306b_spectrum_user.cpp
+                spectrum_aquire_data()
                 spectrum_write_csv()
-                _spectrum_make_array_frequency()
 
         "./program_core/rsa306b/rsa306_TRIG/"
             - rsa306b_trig_struct.h
@@ -582,6 +570,7 @@ class rsa306b_class
         CODEZ iqblk_print                       ();    // prints the "IQBLK" variables to stdout, using the private struct
         CODEZ iqblk_set_vars                    ();    // user changes "IQBLK" variables in public struct, then calls to set new values
         CODEZ iqblk_acquire_data                ();    // the "IQBLK" data is acquired into "vars.iqblk.cplx32_v"
+        bool  iqblk_good_bitcheck               ();    // updates vars.iqblk.acq_status_type.acqStatus + message    
         CODEZ iqblk_make_csv(char* file_path_name);    // call after acquring data, "*.csv" is produced
 
     // API group "IQSTREAM"
@@ -605,12 +594,14 @@ class rsa306b_class
         CODEZ playback_execute ();    // playback of selected "*.r3f" file
 
     // API group "SPECTRUM"
-        CODEZ spectrum_print                        ();    // prints the "SPECTRUM" variables to stdout, using the private struct
-        CODEZ spectrum_set_vars                     ();    // user changes "SPECTRUM" variables in public struct, then calls to set new values
-        CODEZ spectrum_default                      ();    // apply API default spectrum settings
-        CODEZ spectrum_acquire_data                 ();    // gets all active traces
-        CODEZ spectrum_find_peak_index              ();    // gets peak index of active traces
-        CODEZ spectrum_write_csv(char* file_path_name);    // call after acquring data, "*.csv" is produced
+        CODEZ spectrum_print                                          ();    // prints the "SPECTRUM" variables to stdout, using the private struct
+        CODEZ spectrum_set_vars                                       ();    // user changes "SPECTRUM" variables in public struct, then calls to set new values
+        CODEZ spectrum_default                                        ();    // apply API default spectrum settings
+        CODEZ spectrum_acquire_data                   (int trace_number);    // no safety checks, gets trace at specificed trace number
+        CODEZ spectrum_find_peak_index                (int trace_number);    // call after acquisitions to  gets peak index of active traces
+        CODEZ spectrum_make_frequency_v                               ();    // call after acquisitions to matching frequency array in std::vector
+        CODEZ spectrum_write_csv(char* file_path_name, int trace_number);    // call after acquring data, "*.csv" is produced
+        bool  spectrum_good_bitcheck                  (int trace_number);    // use to bitcheck acqDataStatus of most recent trace
 
     // API group "TRIG"
         CODEZ trig_print   ();    // prints the "TRIG" variables to stdout, using the private struct
@@ -746,8 +737,8 @@ class rsa306b_class
         CODEZ _ifstream_copy_if_center_frequency          ();
         CODEZ _ifstream_copy_buffer_size_bytes            ();
         CODEZ _ifstream_copy_buffer_samples               ();
-        CODEZ _ifstream_copy_acq_status_message           ();
-
+        CODEZ _ifstream_copy_acq_status_messages          ();
+        CODEZ _ifstream_copy_is_enabled                   ();
         // getters, uses API
         CODEZ _ifstream_get_vars                          ();
         CODEZ _ifstream_get_is_active                     ();
@@ -763,24 +754,24 @@ class rsa306b_class
         CODEZ _ifstream_set_file_length_ms                ();
         CODEZ _ifstream_set_file_count                    ();
         CODEZ _ifstream_set_output_configuration_select   ();
+        CODEZ _ifstream_set_is_enabled                    ();
 
     // API group "IQBLK"
         CODEZ _iqblk_init                          ();
         CODEZ _iqblk_bitcheck                      ();
         // copiers, public = private;
         CODEZ _iqblk_copy_vars                     ();
-        CODEZ _iqblk_copy_getter                   ();
+        CODEZ _iqblk_copy_getting_select           ();
         CODEZ _iqblk_copy_actual_buffer_samples    ();
-        CODEZ _iqstream_copy_sample_pairs_requested();
         CODEZ _iqblk_copy_cplx32_v                 ();
         CODEZ _iqblk_copy_acq_info_type            ();
-        CODEZ _iqblk_copy_bitcheck                 ();
         CODEZ _iqblk_copy_sample_rate              ();
         CODEZ _iqblk_copy_bandwidth_hz             ();
         CODEZ _iqblk_copy_max_bandwidth_hz         ();
         CODEZ _iqblk_copy_min_bandwidth_hz         ();
         CODEZ _iqblk_copy_record_length            ();
         CODEZ _iqblk_copy_max_record_length        ();
+        CODEZ _iqblk_copy_acq_status_messages      ();
         // getters, uses API
         CODEZ _iqblk_get_vars                      ();
         CODEZ _iqblk_get_acq_info_type             ();
@@ -792,7 +783,7 @@ class rsa306b_class
         CODEZ _iqblk_get_record_length             ();
         // setters
         CODEZ _iqblk_set_vars                      ();
-        CODEZ _iqblk_set_getter                    ();    // does not use API
+        CODEZ _iqblk_set_getting_select            ();    // does not use API
         CODEZ _iqblk_set_bandwidth_hz              ();
         CODEZ _iqblk_set_record_length             ();
         // data acquisiton, uses API
@@ -868,36 +859,33 @@ class rsa306b_class
         CODEZ _reftime_get_timestamp_rate           ();
     
     // API group "SPECTRUM"
-        CODEZ _spectrum_default                    ();
         CODEZ _spectrum_init                       ();
-        CODEZ _print_spectrum_traces_long          ();
-        CODEZ _print_spectrum_traces_compact       ();
-        CODEZ _spectrum_make_array_frequency       ();
         // copiers, public = private;
         CODEZ _spectrum_copy_vars                  ();
         CODEZ _spectrum_copy_is_enabled_measurement();
-        CODEZ _spectrum_copy_settings_type         ();
         CODEZ _spectrum_copy_limits_type           ();
-        CODEZ _spectrum_copy_array_frequency       ();
-        CODEZ _spectrum_copy_trace_points_aquired  (RSA_API::SpectrumTraces trace_index);
-        CODEZ _spectrum_copy_is_enabled_trace      (RSA_API::SpectrumTraces trace_index);
-        CODEZ _spectrum_copy_traces_select         (RSA_API::SpectrumTraces trace_index);
-        CODEZ _spectrum_copy_detectors_select      (RSA_API::SpectrumTraces trace_index);
-        CODEZ _spectrum_copy_trace_info_type       (RSA_API::SpectrumTraces trace_index);
-        CODEZ _spectrum_copy_array_power           (RSA_API::SpectrumTraces trace_index);
-        CODEZ _spectrum_copy_peak_index            (RSA_API::SpectrumTraces trace_index);
+        CODEZ _spectrum_copy_settings_type         ();
+        CODEZ _spectrum_copy_trace_select          (std::size_t idx);
+        CODEZ _spectrum_copy_trace_power_v         (std::size_t idx);
+        CODEZ _spectrum_copy_trace_info_type       (std::size_t idx);
+        CODEZ _spectrum_copy_acq_status_messages   ();
+        CODEZ _spectrum_copy_is_enabled_trace      (std::size_t idx);
+        CODEZ _spectrum_copy_detector_select       (std::size_t idx);
+        CODEZ _spectrum_copy_frequency_v           ();
+        CODEZ _spectrum_copy_peak_index            (std::size_t idx);
+        CODEZ _spectrum_copy_trace_points_acquired (std::size_t idx);
         // getters, uses API
-        CODEZ _spectrum_get_vars                  ();
-        CODEZ _spectrum_get_is_enabled_measurement();
-        CODEZ _spectrum_get_limits_type           ();
-        CODEZ _spectrum_get_settings_type         ();
-        CODEZ _spectrum_get_trace_info_type       (RSA_API::SpectrumTraces trace_index);
-        CODEZ _spectrum_get_trace_type            (RSA_API::SpectrumTraces trace_index);
+        CODEZ _spectrum_get_vars                   ();
+        CODEZ _spectrum_get_is_enabled_measurement ();
+        CODEZ _spectrum_get_limits_type            ();
+        CODEZ _spectrum_get_settings_type          ();
+        CODEZ _spectrum_get_trace_info_type        (std::size_t idx);
+        CODEZ _spectrum_get_trace_type             (std::size_t idx);
         // setters, uses API
-        CODEZ _spectrum_set_vars                  ();
-        CODEZ _spectrum_set_is_enabled_measurement();
-        CODEZ _spectrum_set_settings_type         ();
-        CODEZ _spectrum_set_trace_type            ();
+        CODEZ _spectrum_set_vars                   ();
+        CODEZ _spectrum_set_is_enabled_measurement ();
+        CODEZ _spectrum_set_settings_type          ();
+        CODEZ _spectrum_set_trace_type             (std::size_t idx);
 
     // API group "TRIG"
         CODEZ _trig_init                  ();

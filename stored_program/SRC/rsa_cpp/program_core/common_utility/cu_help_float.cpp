@@ -2,9 +2,9 @@
     common_utility, class 
 
     public :
-        < 1 >  h_new_int16_d1()
-        < 2 >  h_copy_int16_to_vector_d1()
-        < 3 >  h_delete_int16_d1()
+        < 1 >  h_new_float_d1()
+        < 2 >  h_copy_float_to_vector_d1()
+        < 3 >  h_delete_float_d1()
 
     private :
         #  none
@@ -15,13 +15,13 @@
 
 /*
     < 1 > public
-    allocate any int16_t*, using new
+    allocate any float*, using new
     can change to malloc(), calloc(), etc
     main point is that allocations occur in 1 place
 */
-CODEZ common_utility::h_new_int16_d1
+CODEZ common_utility::h_new_float_d1
 (
-    int16_t* array_pointer, 
+    float* array_pointer, 
     int allocation_size
 )
 {
@@ -37,7 +37,7 @@ CODEZ common_utility::h_new_int16_d1
 
     try
     {
-        array_pointer = new int16_t[allocation_size];
+        array_pointer = new float[allocation_size];
     }
     catch(...)
     {
@@ -55,11 +55,11 @@ CODEZ common_utility::h_new_int16_d1
     copies array pointer elements into the std::vector
     main point is to ensure that copies occur in 1 place
 */
-CODEZ common_utility::h_copy_int16_to_vector_d1
+CODEZ common_utility::h_copy_float_to_vector_d1
 (
-    const int16_t* array_pointer, 
+    const float* array_pointer, 
     int elements, 
-    std::vector<int16_t>& destination
+    std::vector<float>& destination
 )
 {
 #ifdef DEBUG_CLI
@@ -76,8 +76,8 @@ CODEZ common_utility::h_copy_int16_to_vector_d1
         return this->report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
 
-    // destination.clear();
-    // destination.resize(static_cast<std::size_t>(elements));
+    //destination.clear();
+    //destination.resize(static_cast<std::size_t>(elements));
     destination.assign(array_pointer, array_pointer + elements);
   
     return report_status_code(CODEZ::_0_no_errors);    
@@ -89,12 +89,12 @@ CODEZ common_utility::h_copy_int16_to_vector_d1
 
 /*
     < 3 > public
-    deallocate and int16_t* that was allocated with new, using delete
+    deallocate and float* that was allocated with new, using delete
     main point is that allocations occur in 1 place
 */
-CODEZ common_utility::h_delete_int16_d1
+CODEZ common_utility::h_delete_float_d1
 (
-    int16_t* array_pointer
+    float* array_pointer
 )
 {
 #ifdef DEBUG_CLI
@@ -113,4 +113,4 @@ CODEZ common_utility::h_delete_int16_d1
 }
 
 
-////////~~~~~~~~END>  cu_help_int16.cpp
+////////~~~~~~~~END>  cu_help_float.cpp

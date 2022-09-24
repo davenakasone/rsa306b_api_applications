@@ -28,7 +28,7 @@ CODEZ rsa306b_class::device_connect()
 
     if (this->_vars.device.is_connected == true)
     {
-        return this->cutil.report_status_code(CODEZ::_0_no_errors);
+        return this->cutil.report_status_code(CODEZ::_0_no_errors);    // already connected
     }
 
     int  devices_found;
@@ -142,11 +142,6 @@ CODEZ rsa306b_class::device_disconnect()
 
     if (this->_vars.device.is_connected == false)
     {
-        #ifdef DEBUG_MAX
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
-                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
-            debug_record(true);
-        #endif
         return this->cutil.report_status_code(CODEZ::_0_no_errors);    // already disconnected
     }
     (void)this->device_stop();
@@ -164,7 +159,7 @@ CODEZ rsa306b_class::device_disconnect()
         return this->_report_api_status();    // the disconnection failed
     }
 
-    return this->_init_everything();
+    return this->_init_everything();          // sets 'device.is_connected == false'
 }
 
 

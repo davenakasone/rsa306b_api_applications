@@ -28,7 +28,7 @@
     all the guards are ommitted, at a minimum:
     - the device is connected
     - the device is running
-    - ifstream settings are correctly applied
+    - ifstream settings are correctly applied (IFSTREAM was enabled)
 
     IFSTREAM_SetEnable() is only for files ?
 */
@@ -144,7 +144,7 @@ bool rsa306b_class::ifstream_good_bitcheck()
         this->_vars.ifstream.valid_bitmask,
         this->_vars.ifstream.acq_status_messages
     );
-    (void)this->_ifstream_copy_acq_status_message();
+    (void)this->_ifstream_copy_acq_status_messages();
 
     if (temp == CODEZ::_0_no_errors)
     {
@@ -164,7 +164,10 @@ bool rsa306b_class::ifstream_good_bitcheck()
     < 3 > public
     write a csv file after standard acquisition
     can't write framed acquisition
-    must have successfully called "ifstream_acquire_adc_data"
+    must have successfully called "ifstream_acquire_data()"
+    be sure the file_path_name is allocated, even if it is on NULL
+        that is how the output file is tracked
+        output file either uses provided name, or default (if NULL)
 */
 CODEZ rsa306b_class::ifstream_write_csv_data
 (
@@ -175,6 +178,16 @@ CODEZ rsa306b_class::ifstream_write_csv_data
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
+
+    if (file_path_name == NULL)
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_ddts, sizeof(X_ddts), "%s", this->cutil.codez_messages(CODEZ::_25_pointer_is_null));
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_25_pointer_is_null);
+    }
 
     std::size_t v_size = this->_vars.ifstream.adc_data_v.size();
 
@@ -188,7 +201,7 @@ CODEZ rsa306b_class::ifstream_write_csv_data
         return this->cutil.report_status_code(CODEZ::_9_function_call_failed);
     }
     
-    if (file_path_name == NULL)
+    if (file_path_name[0] == '\0')    // using default output file_path_name
     {
         this->_reftime_get_current();
         (void)snprintf(this->_helper, sizeof(this->_helper), "%s%s_%lu_%s",

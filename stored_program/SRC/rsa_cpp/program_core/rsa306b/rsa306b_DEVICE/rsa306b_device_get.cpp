@@ -53,7 +53,7 @@ CODEZ rsa306b_class::_device_get_is_running()
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -63,6 +63,7 @@ CODEZ rsa306b_class::_device_get_is_running()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     this->_api_status = 
         RSA_API::DEVICE_GetEnable
@@ -89,7 +90,7 @@ CODEZ rsa306b_class::_device_get_api_status_message()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -99,6 +100,7 @@ CODEZ rsa306b_class::_device_get_api_status_message()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     
     (void)snprintf(this->_vars.device.api_status_message, 
         sizeof(this->_vars.device.api_status_message), 
@@ -123,7 +125,7 @@ CODEZ rsa306b_class::_device_get_info_type()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif 
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -133,6 +135,7 @@ CODEZ rsa306b_class::_device_get_info_type()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     this->_api_status = 
         RSA_API::DEVICE_GetInfo
@@ -160,7 +163,7 @@ CODEZ rsa306b_class::_device_get_is_over_temperature()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -170,6 +173,7 @@ CODEZ rsa306b_class::_device_get_is_over_temperature()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     this->_api_status = 
         RSA_API::DEVICE_GetOverTemperatureStatus
@@ -214,7 +218,7 @@ CODEZ rsa306b_class::_device_get_event()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif 
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -224,6 +228,7 @@ CODEZ rsa306b_class::_device_get_event()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     if (this->vars.device.event_id != static_cast<int>(RSA_API::DEVEVENT_OVERRANGE) &&
         this->vars.device.event_id != static_cast<int>(RSA_API::DEVEVENT_TRIGGER)    )

@@ -72,7 +72,7 @@ CODEZ rsa306b_class::_trig_set_if_power_level()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -82,6 +82,7 @@ CODEZ rsa306b_class::_trig_set_if_power_level()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     if (this->vars.trig.if_power_level < this->_vars.config.REFERENCE_LEVEL_MIN_DBM ||
         this->vars.trig.if_power_level > this->_vars.config.REFERENCE_LEVEL_MAX_DBM  )
     {
@@ -119,7 +120,7 @@ CODEZ rsa306b_class::_trig_set_mode_select()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -129,6 +130,7 @@ CODEZ rsa306b_class::_trig_set_mode_select()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     if (this->vars.trig.mode_select != RSA_API::freeRun  &&
         this->vars.trig.mode_select != RSA_API::triggered )
     {
@@ -165,7 +167,7 @@ CODEZ rsa306b_class::_trig_set_position_percent()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -175,6 +177,7 @@ CODEZ rsa306b_class::_trig_set_position_percent()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     if (this->vars.trig.position_percent < this->_vars.trig.POSITION_PERCENT_MIN ||
         this->vars.trig.position_percent > this->_vars.trig.POSITION_PERCENT_MAX  )
     {
@@ -212,7 +215,7 @@ CODEZ rsa306b_class::_trig_set_source_select()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -222,6 +225,7 @@ CODEZ rsa306b_class::_trig_set_source_select()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     if (this->vars.trig.source_select != RSA_API::TriggerSourceExternal     &&
         this->vars.trig.source_select != RSA_API::TriggerSourceIFPowerLevel &&
         this->vars.trig.source_select != RSA_API::TriggerSourceTime          )
@@ -258,7 +262,7 @@ CODEZ rsa306b_class::_trig_set_transition_select()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -268,6 +272,7 @@ CODEZ rsa306b_class::_trig_set_transition_select()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     if (this->vars.trig.transition_select != RSA_API::TriggerTransitionLH   &&
         this->vars.trig.transition_select != RSA_API::TriggerTransitionHL   &&
         this->vars.trig.transition_select != RSA_API::TriggerTransitionEither)
@@ -304,7 +309,7 @@ CODEZ rsa306b_class::_trig_set_time()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -314,6 +319,7 @@ CODEZ rsa306b_class::_trig_set_time()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     this->device_stop();
 
     RSA_API::ReturnStatus temp = 

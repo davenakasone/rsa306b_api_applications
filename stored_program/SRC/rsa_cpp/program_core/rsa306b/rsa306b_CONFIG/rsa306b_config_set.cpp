@@ -64,7 +64,7 @@ CODEZ rsa306b_class::_config_set_reference_level_dbm()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif 
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -74,6 +74,7 @@ CODEZ rsa306b_class::_config_set_reference_level_dbm()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     if (this->vars.config.reference_level_dbm < this->_vars.config.REFERENCE_LEVEL_MIN_DBM ||
         this->vars.config.reference_level_dbm > this->_vars.config.REFERENCE_LEVEL_MAX_DBM  )
     {
@@ -111,7 +112,7 @@ CODEZ rsa306b_class::_config_set_center_frequency_hz()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -121,6 +122,7 @@ CODEZ rsa306b_class::_config_set_center_frequency_hz()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     (void)this->_config_get_min_center_frequency_hz();
     (void)this->_config_get_max_center_frequency_hz();
@@ -161,7 +163,7 @@ CODEZ rsa306b_class::_config_set_external_reference_frequency_source_select()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -171,6 +173,7 @@ CODEZ rsa306b_class::_config_set_external_reference_frequency_source_select()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     if (this->vars.config.frequency_reference_source_select != RSA_API::FRS_EXTREF &&
         this->vars.config.frequency_reference_source_select != RSA_API::FRS_INTERNAL)

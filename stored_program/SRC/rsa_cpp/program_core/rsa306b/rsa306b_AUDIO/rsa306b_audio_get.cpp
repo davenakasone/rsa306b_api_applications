@@ -52,6 +52,7 @@ CODEZ rsa306b_class::_audio_get_is_demodulating()
     debug_record(false);
 #endif
 
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -61,6 +62,7 @@ CODEZ rsa306b_class::_audio_get_is_demodulating()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     this->_api_status = 
         RSA_API::AUDIO_GetEnable
@@ -85,6 +87,7 @@ CODEZ rsa306b_class::_audio_get_is_mute()
     debug_record(false);
 #endif
 
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -94,6 +97,7 @@ CODEZ rsa306b_class::_audio_get_is_mute()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     this->_api_status = 
         RSA_API::AUDIO_GetMute
@@ -118,6 +122,7 @@ CODEZ rsa306b_class::_audio_get_frequency_offset_hz()
     debug_record(false);
 #endif
 
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -127,6 +132,7 @@ CODEZ rsa306b_class::_audio_get_frequency_offset_hz()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     this->_api_status = 
         RSA_API::AUDIO_GetFrequencyOffset
@@ -151,6 +157,7 @@ CODEZ rsa306b_class::_audio_get_volume()
     debug_record(false);
 #endif
 
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -160,6 +167,7 @@ CODEZ rsa306b_class::_audio_get_volume()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     this->_api_status = 
         RSA_API::AUDIO_GetVolume
@@ -184,6 +192,7 @@ CODEZ rsa306b_class::_audio_get_demodulation_select()
     debug_record(false);
 #endif
 
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -193,6 +202,7 @@ CODEZ rsa306b_class::_audio_get_demodulation_select()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     this->_api_status = 
         RSA_API::AUDIO_GetMode

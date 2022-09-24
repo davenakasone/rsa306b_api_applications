@@ -14,6 +14,12 @@
 /*
     < 1 > public
     write a csv file after getting the equalization parameters
+    the equalization parameters are populated automatically, call "get_everything()" to be sure
+    file_path_name must be allocated, even if it is on NULL
+        that is how the output file is tracked
+        output file either uses provided name, or default (if NULL)
+    
+    these can be used to smooth acquired data
 */
 CODEZ rsa306b_class::ifstream_write_csv_equalization
 (
@@ -24,6 +30,16 @@ CODEZ rsa306b_class::ifstream_write_csv_equalization
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
+
+    if (file_path_name == NULL)
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_ddts, sizeof(X_ddts), "%s", this->cutil.codez_messages(CODEZ::_25_pointer_is_null));
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_25_pointer_is_null);
+    }
 
     std::size_t v_size_freq  = this->_vars.ifstream.eq_frequency_v.size();
     std::size_t v_size_ampl  = this->_vars.ifstream.eq_amplitude_v.size();
@@ -47,7 +63,7 @@ CODEZ rsa306b_class::ifstream_write_csv_equalization
         return this->cutil.report_status_code(CODEZ::_9_function_call_failed);
     }
     
-    if (file_path_name == NULL)
+    if (file_path_name[0] == '\0')    // using default output file_path_name
     {
         this->_reftime_get_current();
         (void)snprintf(this->_helper, sizeof(this->_helper), "%s%s_%lu_%s",

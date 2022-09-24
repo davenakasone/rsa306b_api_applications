@@ -23,7 +23,7 @@ CODEZ rsa306b_class::align_run()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -33,7 +33,8 @@ CODEZ rsa306b_class::align_run()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    
+#endif
+
     (void)this->_align_get_is_needed();
     if (this->_vars.align.is_needed == false)
     {

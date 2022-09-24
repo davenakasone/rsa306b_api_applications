@@ -24,9 +24,9 @@
     5) use the "r3f_manager" to process the file(s)
 
     all the guards are ommitted, at a minimum:
-    - the device is connected
+    - the device is connected 
     - the device is running
-    - ifstream settings are correctly applied
+    - ifstream settings are correctly applied (IFSTREAM was enabled)
 
 */
 CODEZ rsa306b_class::ifstream_record_r3f()
@@ -40,7 +40,6 @@ CODEZ rsa306b_class::ifstream_record_r3f()
         (void)this->cutil.timer_split_start();
     #endif
 
-    this->set_api_status(RSA_API::IFSTREAM_SetEnable(true));
     this->_vars.ifstream.is_active = true;
     while(this->_vars.ifstream.is_active == true)   // still writting
     {
@@ -57,7 +56,6 @@ CODEZ rsa306b_class::ifstream_record_r3f()
             }
         #endif
     }
-    
 
     #ifdef DEBUG_MAX
         (void)snprintf(X_ddts, sizeof(X_ddts), "r3f file should be ready, see:  %s%s*.r3f",

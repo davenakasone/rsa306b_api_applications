@@ -21,7 +21,7 @@ CODEZ rsa306b_class::config_preset()
         __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -31,6 +31,7 @@ CODEZ rsa306b_class::config_preset()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     (void)this->device_stop();
 
     RSA_API::ReturnStatus temp = RSA_API::CONFIG_Preset();    // effects other API groups

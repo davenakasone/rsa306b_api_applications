@@ -51,7 +51,7 @@ CODEZ rsa306b_class::_ifstream_get_is_active()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -61,6 +61,7 @@ CODEZ rsa306b_class::_ifstream_get_is_active()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     this->_api_status = 
         RSA_API::IFSTREAM_GetActiveStatus
@@ -84,7 +85,7 @@ CODEZ rsa306b_class::_ifstream_get_acq_parameters()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -94,6 +95,7 @@ CODEZ rsa306b_class::_ifstream_get_acq_parameters()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     this->_api_status = 
         RSA_API::IFSTREAM_GetAcqParameters
@@ -121,7 +123,7 @@ CODEZ rsa306b_class::_ifstream_get_buffer_size()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -131,6 +133,7 @@ CODEZ rsa306b_class::_ifstream_get_buffer_size()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     this->_api_status = 
         RSA_API::IFSTREAM_GetIFDataBufferSize
@@ -156,7 +159,7 @@ CODEZ rsa306b_class::_ifstream_get_eq_parameters()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -166,6 +169,7 @@ CODEZ rsa306b_class::_ifstream_get_eq_parameters()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     float* arr_freq = NULL;
     float* arr_ampl = NULL;
@@ -231,7 +235,7 @@ CODEZ rsa306b_class::_ifstream_get_scaling_parameters()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -241,6 +245,7 @@ CODEZ rsa306b_class::_ifstream_get_scaling_parameters()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     this->_api_status = 
         RSA_API::IFSTREAM_GetScalingParameters

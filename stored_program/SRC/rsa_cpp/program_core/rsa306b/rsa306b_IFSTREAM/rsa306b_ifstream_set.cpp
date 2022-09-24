@@ -14,6 +14,7 @@
         < 5 >  _ifstream_set_file_length_ms()
         < 6 >  _ifstream_set_file_count()
         < 7 >  _ifstream_set_output_configuration_select()
+        < 8 >  _ifstream_set_is_enabled()
 */
 
 #include "../rsa306b_class.h"
@@ -46,7 +47,7 @@ CODEZ rsa306b_class::_ifstream_set_vars()
     debug_record(false);
 #endif
 
-    constexpr int callz = 6;
+    constexpr int callz = 7;
     CODEZ caught_call[callz];
 
     caught_call[0] = this->_ifstream_set_file_name_suffix();
@@ -55,7 +56,7 @@ CODEZ rsa306b_class::_ifstream_set_vars()
     caught_call[3] = this->_ifstream_set_file_length_ms();
     caught_call[4] = this->_ifstream_set_file_count();
     caught_call[5] = this->_ifstream_set_output_configuration_select();
-    //caught_call[0] = this->_ifstream_set_is_enabled_adc();  // not used directly
+    caught_call[6] = this->_ifstream_set_is_enabled();
 
     return this->cutil.codez_checker(caught_call, callz);
     
@@ -74,7 +75,7 @@ CODEZ rsa306b_class::_ifstream_set_file_name_suffix()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -84,6 +85,7 @@ CODEZ rsa306b_class::_ifstream_set_file_name_suffix()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     if (this->vars.ifstream.file_name_suffix < static_cast<int>(RSA_API::IFSSDFN_SUFFIX_NONE))
     {
         #ifdef DEBUG_MIN
@@ -119,7 +121,7 @@ CODEZ rsa306b_class::_ifstream_set_file_path()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif 
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -129,6 +131,7 @@ CODEZ rsa306b_class::_ifstream_set_file_path()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     if (this->vars.ifstream.file_path == NULL)
     {
         #ifdef DEBUG_MIN
@@ -163,7 +166,7 @@ CODEZ rsa306b_class::_ifstream_set_file_name_base()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -173,6 +176,7 @@ CODEZ rsa306b_class::_ifstream_set_file_name_base()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     if (this->vars.ifstream.file_name_base == NULL)
     {
         #ifdef DEBUG_MIN
@@ -207,7 +211,7 @@ CODEZ rsa306b_class::_ifstream_set_file_length_ms()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -217,6 +221,7 @@ CODEZ rsa306b_class::_ifstream_set_file_length_ms()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     if (this->vars.ifstream.file_length_max_ms > this->_vars.ifstream._FILE_LENGTH_MAX_MS)
     {
         #ifdef DEBUG_MIN
@@ -252,7 +257,7 @@ CODEZ rsa306b_class::_ifstream_set_file_count()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -262,7 +267,8 @@ CODEZ rsa306b_class::_ifstream_set_file_count()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    // enforce if it becomes a problem
+#endif
+    // enforce count if it becomes a problem
     (void)this->device_stop();
 
     this->_vars.ifstream.file_count = this->vars.ifstream.file_count;
@@ -287,7 +293,7 @@ CODEZ rsa306b_class::_ifstream_set_output_configuration_select()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -297,6 +303,7 @@ CODEZ rsa306b_class::_ifstream_set_output_configuration_select()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     if (this->vars.ifstream.output_destination_select != RSA_API::IFSOD_CLIENT  &&
         this->vars.ifstream.output_destination_select != RSA_API::IFSOD_FILE_R3F )
     {
@@ -314,6 +321,40 @@ CODEZ rsa306b_class::_ifstream_set_output_configuration_select()
         RSA_API::IFSTREAM_SetOutputConfiguration
         (
             this->_vars.ifstream.output_destination_select
+        );
+    return this->_report_api_status();
+}
+
+
+////~~~~
+
+
+/*
+    < 8 > private
+*/
+CODEZ rsa306b_class::_ifstream_set_is_enabled()
+{
+#ifdef DEBUG_SETS
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_SETS_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+#ifdef SAFETY_CHECKS
+    if (this->_vars.device.is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
+    }
+#endif
+
+    this->_vars.ifstream.is_enabled = this->vars.ifstream.is_enabled;
+    this->_api_status = 
+        RSA_API::IFSTREAM_SetEnable
+        (
+            this->_vars.ifstream.is_enabled
         );
     return this->_report_api_status();
 }

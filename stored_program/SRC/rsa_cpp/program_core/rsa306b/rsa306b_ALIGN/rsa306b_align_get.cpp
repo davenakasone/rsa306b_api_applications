@@ -45,7 +45,7 @@ CODEZ rsa306b_class::_align_get_is_needed()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -55,6 +55,7 @@ CODEZ rsa306b_class::_align_get_is_needed()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     this->_api_status = RSA_API::ALIGN_GetAlignmentNeeded
     (
@@ -77,7 +78,7 @@ CODEZ rsa306b_class::_align_get_is_warmed()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -87,6 +88,7 @@ CODEZ rsa306b_class::_align_get_is_warmed()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     this->_api_status = RSA_API::ALIGN_GetWarmupStatus
     (

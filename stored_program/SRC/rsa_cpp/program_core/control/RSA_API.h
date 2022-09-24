@@ -996,8 +996,8 @@ namespace RSA_API     // ...use V2 namespace
 
 		enum 
 		{ 
-			IQSTRM_FILENAME_DATA_IDX   = 0, 
-			IQSTRM_FILENAME_HEADER_IDX = 1 
+			IQSTRM_FILENAME_DATA_IDX   = 0, // data
+			IQSTRM_FILENAME_HEADER_IDX = 1  // header, == data if no seperation
 		};  // indices to IQSTRMFILEINFO filenames
 		typedef struct
 		{

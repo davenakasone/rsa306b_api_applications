@@ -1,7 +1,7 @@
 /*
     variables needed for the API group "CONFIG" 
         CONFIG_GetCenterFreq()              , CONFIG_SetCenterFreq()
-        CONFIG_GetExternalRefFrequency()
+        CONFIG_GetExternalRefFrequency() 
         CONFIG_GetFrequecnyReferenceSource(), CONFIG_SetFrequencyReferenceSource()
         CONFIG_GetMaxCenterFreq()           , GetMinCenterFreq()
         CONFIG_GetReferenceLevel()          , CONFIG_SetReferenceLevel()
@@ -42,9 +42,10 @@ struct rsa306b_config_struct
 
 
 // limiting constants :
-    const double REFERENCE_LEVEL_MAX_DBM = 30.0;       // highest measurable signal power
-    const double REFERENCE_LEVEL_MIN_DBM = -130.0;     // smallest measurable signal power
-
+    const double REFERENCE_LEVEL_MAX_DBM = 30.0;      // highest measurable signal power
+    const double REFERENCE_LEVEL_MIN_DBM = -130.0;    // smallest measurable signal power
+    const double EXTERNAL_FREQUENCY      = 10e6;      // external reference frequency, required
+    const double EXTERNAL_AMPLITUDE_DBM  = 10;        // allows +/- 10 dbm maximum amplitude  
     
 /*
     CONFIG_GetCenterFreq(), CONFIG_SetCenterFreq()
@@ -53,7 +54,7 @@ struct rsa306b_config_struct
         limited by variables after finding min/max center frequency range
 */
     double       center_frequency_hz;
-    const double _CENTER_FREQUENCY_HZ = INIT_DOUBLE;    // DEFAULT
+    const double _CENTER_FREQUENCY_HZ = 315.0e6;    // DEFAULT
 
 
 /*
@@ -105,7 +106,7 @@ struct rsa306b_config_struct
             "REFERENCE_LEVEL_MIN_DBM"
 */
     double       reference_level_dbm;    
-    const double _REFERENCE_LEVEL_DBM = INIT_DOUBLE;    // DEFAULT
+    const double _REFERENCE_LEVEL_DBM = -15.7;    // DEFAULT
 
 
 /*

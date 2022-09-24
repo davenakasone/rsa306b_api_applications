@@ -1,244 +1,172 @@
-// /*
-//     API group "xxx"
+/*
+    API group "SPECTRUM"
 
-//     public :
-//         < 1 >  spectrum_aquire()
-//         < 2 >  spectrum_find_peak_index()
-//         < 3 >  spectrum_write_csv()
+    public :
+        < 1 >  spectrum_aquire_data()
+        < 2 >  spectrum_write_csv()
+
+*/
+
+#include "../rsa306b_class.h"
+
+
+/*
+    < 1 > public
+    user has already:
+        connected the device
+        called 'device_run()'
+        called 'spectrum_set_vars()
+            - is_enabled_measurement == true, trace at 'trace_number' is enabled
+            - settings are as desired (center frequency, reference level, ect)
     
-//     private :
-//         < 1 >  _spectrum_make_array_frequency()
-// */
+    call as many times as desired, 'trace_power_v' is overwritten each call
+    so find peak index, write the csv, and process before the next call
 
-// #include "../rsa306b_class.h"
+    made to quickly get trace[trace_number]
+    keep trace numbers {0, 1, 2}
+    good to call after:
+        spectrum_make_frequency_v ()
+        spectrum_find_peak_index  (file_path_name, trace_number)
+        spectrum_write_csv        (trace_number)
+*/
+CODEZ rsa306b_class::spectrum_acquire_data
+(
+    int trace_number
+)
+{
+// no safety, no checking, but enforce if needed
 
+    (void)this->set_api_status(RSA_API::SPECTRUM_AcquireTrace());     // notify device to start acquisition
 
-// /*
-//     < 1 > public
-// */
-// CODEZ rsa306b_class::spectrum_aquire()
-// {
-// #ifdef DEBUG_CLI
-//     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
-//     debug_record(false);
-// #endif
+    float* data    = NULL;
+    bool is_ready  = false;
+    int timeout_ms = 0;
 
-//     if (this->_vars.device.is_connected == false)
-//     {
-//         #ifdef DEBUG_MIN
-//             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
-//                 this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
-//             debug_record(true);
-//         #endif
-//         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
-//     }
-
-//     int timeout_ms = 100;
-//     bool is_ready = false;
-//     this->vars.spectrum.is_enabled_measurement = true;
-//     this->_spectrum_set_is_enabled_measurement();
-//     this->device_run();
-//     this->_api_status = RSA_API::SPECTRUM_AcquireTrace();
-//     this->_report_api_status();
-
-//     this->_api_status = 
-//         RSA_API::SPECTRUM_WaitForTraceReady(timeout_ms, &is_ready);
-//     this->_report_api_status();
-//     // while (is_ready == false)
-//     // {
-//     //     RSA_API::SPECTRUM_WaitForTraceReady(timeout_ms, &is_ready);
-//     // }
-
-//     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
-//     {
-//         if (this->_vars.spectrum.is_enabled_trace[ii] == true)
-//         {
-//             this->_api_status = 
-//                 RSA_API::SPECTRUM_GetTrace(
-//                     this->_vars.spectrum.traces_select[ii], 
-//                     this->_vars.spectrum.settings_type.traceLength, 
-//                     this->_vars.spectrum.array_power[ii], 
-//                     &this->_vars.spectrum.trace_points_acquired[ii]);
-//             this->_report_api_status();
-//             this->_spectrum_get_trace_info_type(ii);
-//             this->_spectrum_copy_array_power(ii);
-//         }
-//         else
-//         {
-//             this->_vars.spectrum.trace_points_acquired[ii] = 
-//                 this->constants.INIT_INT;
-//         }
-//         this->_spectrum_copy_trace_points_aquired(ii);
-//     }
-//     this->vars.spectrum.is_enabled_measurement = false;
-//     this->_spectrum_set_is_enabled_measurement();
-//     this->device_stop();
-
-//     this->_spectrum_make_array_frequency();
-// }
-
-
-// ////~~~~
-
-
-// /*
-//     < 2 > public
-// */
-// CODEZ rsa306b_class::spectrum_find_peak_index()
-// {
-// #ifdef DEBUG_CLI
-//     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
-//     debug_record(false);
-// #endif
-
-//     if (this->_vars.device.is_connected == false)
-//     {
-//         #ifdef DEBUG_MIN
-//             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
-//                 this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
-//             debug_record(true);
-//         #endif
-//         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
-//     }
-
-
-//     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
-//     {
-//         if (this->_vars.spectrum.trace_points_acquired[ii] != 
-//             this->constants.INIT_INT                  )
-//         {
-//             this->_vars.spectrum.peak_index[ii] = 0;
-//             for (int jj = 0; jj < this->_vars.spectrum.trace_points_acquired[ii]; jj++)
-//             {
-//                 if (this->_vars.spectrum.array_power[ii][jj] >
-//                     this->_vars.spectrum.array_power[ii][this->_vars.spectrum.peak_index[ii]])
-//                 {
-//                     this->_vars.spectrum.peak_index[ii] = jj;
-//                 }
-//             }
-//         }
-//         else
-//         {
-//             this->_vars.spectrum.peak_index[ii] = this->constants.INIT_INT;
-//         }
-//         this->_spectrum_copy_peak_index(ii);
-//     }
-// }
-
-
-// ////~~~~
-
-
-// /*
-//     < 3 > public
-//     does not nead a connected device, 
-//     just writes arrays to file as is
-//     might want to allow user to select a file-path-name and trace?
-// */
-// CODEZ rsa306b_class::spectrum_write_csv()
-// {
-// #ifdef DEBUG_CLI
-//     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
-//     debug_record(false);
-// #endif
+    (void)this->cutil.h_new_float_d1(data, this->_vars.spectrum.settings_type.traceLength);    // allocate data getter
     
-//     if (this->_fptr_write != NULL)
-//     {
-//         fclose(this->_fptr_write);
-//     }    
-//     for (int ii = 0; ii < TRACES_AVAILABLE; ii++)
-//     {
-//         if (this->_vars.spectrum.trace_points_acquired[ii] != this->constants.INIT_INT &&
-//             this->_vars.spectrum.is_enabled_trace[ii] == true                           )
-//         {
-//             (void)snprintf(this->_vars.gp.holder, BUF_F-1, "%s_%lu_freqVpow_trace_%d.csv",
-//                 this->constants.DATA_DIRECTORY_PROCESSED,
-//                 this->_vars.spectrum.trace_info_type[ii].timestamp,
-//                 ii);
-//             this->_fptr_write = fopen(this->_vars.gp.holder, "w");
-//             if (this->_fptr_write == NULL)
-//             {
-//                 #ifdef DEBUG_MIN
-//                     (void)snprintf(X_ddts, sizeof(X_ddts), "fix this");
-//                     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-//                     debug_record(true);
-//                 #endif
-//                 return;
-//             }
-//             (void)snprintf(this->_vars.gp.helper, BUF_B-1, "frequency,power\n");
-//             fputs(this->_vars.gp.helper, this->_fptr_write);
-//             for (int jj = 0; jj < this->_vars.spectrum.trace_points_acquired[ii]; jj++)
-//             {
-//                 if (jj == this->_vars.spectrum.trace_points_acquired[ii])
-//                 {
-//                     (void)snprintf(this->_vars.gp.helper, BUF_E-1, "%lf,%f",
-//                         this->_vars.spectrum.array_frequency[jj],
-//                         this->_vars.spectrum.array_power[ii][jj]);
-//                 }
-//                 else
-//                 {
-//                     (void)snprintf(this->_vars.gp.helper, BUF_E-1, "%lf,%f\n",
-//                         this->_vars.spectrum.array_frequency[jj],
-//                         this->_vars.spectrum.array_power[ii][jj]);
-//                 }
-//                 fputs(this->_vars.gp.helper, this->_fptr_write);
-//             }
-//             fclose(this->_fptr_write);
-//             this->_fptr_write = NULL;
-//             #ifdef DEBUG_MAX
-//                 printf("\n\t%s()  ,  file ready:  %s\n", 
-//                     __func__, this->_vars.gp.holder);
-//             #endif
-//         }
-//     }
-// }
+    while (is_ready == false)
+    {
+        (void)RSA_API::SPECTRUM_WaitForTraceReady(timeout_ms, &is_ready);    // block until data is ready for acquisition
+    }
+
+    RSA_API::ReturnStatus temp = 
+        RSA_API::SPECTRUM_GetTrace    // data is acquired
+        (
+            this->_vars.spectrum.trace_select[trace_number], 
+            this->_vars.spectrum.settings_type.traceLength, 
+            data, 
+            &this->_vars.spectrum.trace_points_acquired[0]
+        );
+
+    (void)this->cutil.h_copy_float_to_vector_d1
+        (
+            data, 
+            this->_vars.spectrum.trace_points_acquired[trace_number], 
+            this->_vars.spectrum.trace_power_v[trace_number]
+        );
+    (void)this->cutil.h_delete_float_d1(data);
+    (void)this->_spectrum_copy_trace_power_v(trace_number);
+    (void)this->_spectrum_copy_trace_points_acquired(trace_number);
+    (void)this->_spectrum_get_trace_info_type(trace_number);    // user should do a bitcheck on this result
+    
+    return this->set_api_status(temp);
+}
 
 
-// ////~~~~
+////~~~~
 
 
-// /*
-//     < 1 > private
-// */
-// CODEZ rsa306b_class::_spectrum_make_array_frequency()
-// {
-// #ifdef DEBUG_CLI
-//     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
-//     debug_record(false);
-// #endif  
+/*
+    < 2 > public
+    does not nead a connected device, 
+    just writes arrays to file as is
+    might want to allow user to select a file-path-name and trace?
+*/
+CODEZ rsa306b_class::spectrum_write_csv
+(
+    char* file_path_name,
+    int trace_number
+)
+{
+#ifdef DEBUG_CLI
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+    
+    if (file_path_name == NULL)
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_ddts, sizeof(X_ddts), "%s", this->cutil.codez_messages(CODEZ::_25_pointer_is_null));
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_25_pointer_is_null);
+    }
 
-//     if (this->_vars.device.is_connected == false)
-//     {
-//         #ifdef DEBUG_MIN
-//             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
-//                 this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
-//             debug_record(true);
-//         #endif
-//         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
-//     }
+    std::size_t v_size_frequency = this->_vars.spectrum.frequency_v.size();
+    std::size_t v_size_power     = this->_vars.spectrum.trace_power_v[trace_number].size();
+    if 
+    (
+        (v_size_frequency < 1LU) ||
+        (v_size_power < 1LU)     ||
+        (v_size_frequency != v_size_power)
+    )
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_ddts, sizeof(X_ddts), "freq_v.size() =  %lu  ,  pow_v.size() =  %lu", 
+            v_size_frequency,
+            v_size_power);
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_9_function_call_failed);
+    }
+    
+    if (file_path_name[0] == '\0')    // using default output file_path_name
+    {
+        this->_reftime_get_current();
+        (void)snprintf(this->_helper, sizeof(this->_helper), "%s%s_%d__%lu_%s",
+            DATA_DIRECTORY_PROCESSED,
+            SPECTRUM_FILE_NAME_BASE,
+            trace_number,
+            this->_vars.reftime.current.timestamp,
+            DATA_OUTPUT_EXTENSTION);
+        (void)sprintf(file_path_name, "%s", this->_helper);
+    }
+    else
+    {
+        (void)snprintf(this->_helper, sizeof(this->_helper), "%s", file_path_name);
+    }
 
-//     this->_spectrum_get_settings_type();
-//     for (int ii = 0; ii < this->_vars.spectrum.settings_type.traceLength; ii++)
-//     {
-//         this->_vars.spectrum.array_frequency[ii] =
-//             this->_vars.spectrum.settings_type.actualStartFreq +
-//             this->_vars.spectrum.settings_type.actualFreqStepSize * ii;
-//     }
+    if (this->cutil.exe_fopen(this->_helper, "w", this->_fp_write) != CODEZ::_0_no_errors)
+    {
+        return this->cutil.get_status_code();
+    }
+    
+    (void)sprintf(this->_helper, "%s,%s,\n",
+        SPECTRUM_FIELD_1,
+        SPECTRUM_FIELD_2);
+    (void)fputs(this->_helper, this->_fp_write);
 
-//     #ifdef DEBUG_MIN
-//         double temp = this->_vars.spectrum.array_frequency
-//                         [this->_vars.spectrum.settings_type.traceLength-1] -
-//                         this->vars.spectrum.settings_type.actualStopFreq;
-//         if ((temp > 1) || (temp < -1))
-//         {
-//             (void)snprintf(X_ddts, sizeof(X_ddts), "mis-matched frequency array");
-//             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-//             debug_record(true);
-//         }
-//     #endif
+    for (std::size_t idx = 0; idx < v_size_frequency; idx++)
+    {
+        if (idx == v_size_frequency-1)
+        {
+            (void)snprintf(this->_helper, sizeof(this->_helper), "%lf,%f\n",
+                this->_vars.spectrum.frequency_v[idx],
+                this->_vars.spectrum.trace_power_v[trace_number][idx]);
+        }
+        else
+        {
+            (void)snprintf(this->_helper, sizeof(this->_helper), "%lf,%f,\n",
+                this->_vars.spectrum.frequency_v[idx],
+                this->_vars.spectrum.trace_power_v[trace_number][idx]);
+        }
+        (void)fputs(this->_helper, this->_fp_write);
+    }
 
-//     this->_spectrum_copy_array_frequency();
-// }
+    return this->cutil.exe_fclose(this->_fp_write);
+}
 
 
-// ////////~~~~~~~~END>  rsa306b_spectrum_user.cpp
+////////~~~~~~~~END>  rsa306b_spectrum_user.cpp

@@ -36,6 +36,11 @@
             h_decode_print())
             h_decode_write()
 
+        "cu_help_float.cpp"
+            h_new_float_d1()
+            h_copy_float_to_vector_d1()
+            h_delete_float_d1()
+
         "cu_help_int16.cpp"
             h_new_int16_d1()
             h_copy_int16_to_vector_d1()
@@ -114,6 +119,10 @@ class common_utility
         CODEZ h_new_int16_d1           (int16_t* array_pointer, int allocation_size);
         CODEZ h_copy_int16_to_vector_d1(const int16_t* array_pointer, int elements, std::vector<int16_t>& destination);
         CODEZ h_delete_int16_d1        (int16_t* array_pointer);
+
+        CODEZ h_new_float_d1           (float* array_pointer, int allocation_size);
+        CODEZ h_copy_float_to_vector_d1(const float* array_pointer, int elements, std::vector<float>& destination);
+        CODEZ h_delete_float_d1        (float* array_pointer);
         
         // timer, both CPU and wall-clock
         CODEZ timer_split_start      ();                                          // updates "trail" to mark beginning of a time split
@@ -132,7 +141,11 @@ class common_utility
 
         // acqstatus
         CODEZ ifstream_acq_status(const uint32_t acq_status, const uint32_t valid_bitmask, char results[IFSTREAM_BITCHECKS][BUF_D]);
-        
+        //CODEZ dpx_acq_status     (const uint32_t acq_status, const uint32_t valid_bitmask, char results[DPX_BITCHECKS][BUF_D]     );
+        CODEZ iqblk_acq_status   (const uint32_t acq_status, const uint32_t valid_bitmask, char results[IQBLK_BITCHECKS][BUF_D]   );
+        CODEZ spectrum_acq_status(const uint16_t acq_status, const uint16_t valid_bitmask, char results[SPECTRUM_BITCHECKS][BUF_D]);
+
+
 ////~~~~
 
 

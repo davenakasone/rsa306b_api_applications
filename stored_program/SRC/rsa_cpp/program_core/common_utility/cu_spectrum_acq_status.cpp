@@ -1,8 +1,8 @@
 /*
-    API group "IFSTREAM", any bitcheck
+    API group "SPECTRUM", any bitcheck
 
     public :
-        < 1 >  ifstream_acq_status()
+        < 1 >  spectrum_acq_status()
     
     private :
         #  none
@@ -13,15 +13,15 @@
 
 /*
     < 1 > public
-    call to check any IFSTREAM acqStatus
+    call to check any SPECTRUM acqDataStatus
     updates the "results" with messages to status of the bit
         if char** results == NULL, no updates occur
 */
-CODEZ common_utility::ifstream_acq_status
+CODEZ common_utility::spectrum_acq_status
 (
-    const uint32_t acq_status, 
-    const uint32_t valid_bitmask,
-    char results[IFSTREAM_BITCHECKS][BUF_D]
+    const uint16_t acq_status, 
+    const uint16_t valid_bitmask,
+    char results[SPECTRUM_BITCHECKS][BUF_D]
 )
 {
 #ifdef DEBUG_CLI
@@ -33,7 +33,7 @@ CODEZ common_utility::ifstream_acq_status
     {
         if (results != NULL)
         {
-            for (int ii = 0; ii < IFSTREAM_BITCHECKS-1; ii++)
+            for (int ii = 0; ii < SPECTRUM_BITCHECKS-1; ii++)
             {
                 (void)strcpy(results[ii], BITCHECK_SUCCESS_MESSAGE);    // update user's acquisition messages
             }
@@ -48,24 +48,38 @@ CODEZ common_utility::ifstream_acq_status
     
     // there was a bad acquisition status code an further evaluation was requested :
 
-    (void)strcpy(results[IFSTREAM_BITCHECKS-1], IFSTREAM_BITCHECK_MESSAGES[IFSTREAM_BITCHECKS-1]);
+    (void)strcpy(results[SPECTRUM_BITCHECKS-1], SPECTRUM_BITCHECK_MESSAGES[SPECTRUM_BITCHECKS-1]);
    
-    if ((acq_status & static_cast<uint32_t>(RSA_API::IFSTRM_STATUS_OVERRANGE)) !=
+    if ((acq_status & static_cast<uint32_t>(RSA_API::AcqDataStatus_ADC_OVERRANGE)) !=
         BITCHECK_SUCCESS                                                        )             // bit#0 is bad
     {
-        (void)strcpy(results[0], IFSTREAM_BITCHECK_MESSAGES[0]);
-        (void)strcat(results[IFSTREAM_BITCHECKS-1], " b0 ");
+        (void)strcpy(results[0], SPECTRUM_BITCHECK_MESSAGES[0]);
+        (void)strcat(results[SPECTRUM_BITCHECKS-1], " b0 ");
     }
 
-    if ((acq_status & static_cast<uint32_t>(RSA_API::IFSTRM_STATUS_XFER_DISCONTINUITY)) != 
+    if ((acq_status & static_cast<uint32_t>(RSA_API::AcqDataStatus_REF_OSC_UNLOCK)) != 
         BITCHECK_SUCCESS                                                                 )    // bit#1 is bad
     {
-        (void)strcpy(results[1], IFSTREAM_BITCHECK_MESSAGES[1]);
-        (void)strcat(results[IFSTREAM_BITCHECKS-1], " b1 ");
+        (void)strcpy(results[1], SPECTRUM_BITCHECK_MESSAGES[1]);
+        (void)strcat(results[SPECTRUM_BITCHECKS-1], " b1 ");
+    }
+
+    if ((acq_status & static_cast<uint32_t>(RSA_API::AcqDataStatus_LOW_SUPPLY_VOLTAGE)) != 
+        BITCHECK_SUCCESS                                                                 )    // bit#4 is bad
+    {
+        (void)strcpy(results[2], SPECTRUM_BITCHECK_MESSAGES[2]);
+        (void)strcat(results[SPECTRUM_BITCHECKS-1], " b2 ");
+    }
+
+    if ((acq_status & static_cast<uint32_t>(RSA_API::AcqDataStatus_ADC_DATA_LOST)) != 
+        BITCHECK_SUCCESS                                                                 )    // bit#5 is bad
+    {
+        (void)strcpy(results[3], SPECTRUM_BITCHECK_MESSAGES[3]);
+        (void)strcat(results[SPECTRUM_BITCHECKS-1], " b3 ");
     }
 
     #ifdef DEBUG_ACQ_STATUS
-        for (int ii = 0; ii < IFSTREAM_BITCHECKS-1; ii++)
+        for (int ii = 0; ii < SPECTRUM_BITCHECKS-1; ii++)
         {
             if (strcmp(results[ii], BITCHECK_SUCCESS_MESSAGE) != 0)
             {
@@ -78,4 +92,4 @@ CODEZ common_utility::ifstream_acq_status
 }
 
 
-////////~~~~~~~~END>  cu_ifstream_acq_status.cpp
+////////~~~~~~~~END>  cu_spectrum_acq_status.cpp

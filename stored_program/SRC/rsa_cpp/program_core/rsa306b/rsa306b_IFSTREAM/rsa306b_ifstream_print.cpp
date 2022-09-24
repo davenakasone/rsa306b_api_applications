@@ -44,7 +44,8 @@ CODEZ rsa306b_class::ifstream_print()
         case (RSA_API::IFSOD_FILE_MIDAS_DET) : (void)printf("{Midas CDIF+DET file output, separate header and data files}\n"); break;
         default                              : (void)printf("{! UNKNOWN !}\n");                                                break;
     }
-    (void)printf("\tis_enabled_ADC                            :  %d\n" , this->_vars.ifstream.is_active);
+    (void)printf("\tis_enabled                                :  %d\n" , this->_vars.ifstream.is_enabled);
+    (void)printf("\tis_active                                 :  %d\n" , this->_vars.ifstream.is_active);
     (void)printf("\tif_stream_data_length                     :  %d\n" , this->_vars.ifstream.if_data_length);
     (void)printf("\tdata_info_type, 'acqStatus'               :  %u\n" , this->_vars.ifstream.data_info_type.acqStatus);
     (void)printf("\tdata_info_type, 'timestamp'               :  %ld\n", this->_vars.ifstream.data_info_type.timestamp);

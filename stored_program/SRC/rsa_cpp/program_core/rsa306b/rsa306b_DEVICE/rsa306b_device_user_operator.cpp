@@ -27,7 +27,7 @@ CODEZ rsa306b_class::device_run()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -37,6 +37,7 @@ CODEZ rsa306b_class::device_run()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     (void)this->_device_get_is_running();    // DEVICE_GetEnable()
     if (this->_vars.device.is_running == true)
@@ -74,7 +75,7 @@ CODEZ rsa306b_class::device_stop()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -84,6 +85,7 @@ CODEZ rsa306b_class::device_stop()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     (void)this->_device_get_is_running();    // DEVICE_GetEnable()
     if (this->_vars.device.is_running == false)
@@ -122,7 +124,7 @@ CODEZ rsa306b_class::device_reset()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -132,6 +134,7 @@ CODEZ rsa306b_class::device_reset()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
     (void)this->device_stop();
 
     try
@@ -163,7 +166,7 @@ CODEZ rsa306b_class::device_prepare_for_run()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -173,6 +176,7 @@ CODEZ rsa306b_class::device_prepare_for_run()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     (void)this->device_stop();
     RSA_API::ReturnStatus temp = RSA_API::DEVICE_PrepareForRun();
@@ -195,7 +199,7 @@ CODEZ rsa306b_class::device_start_frame_transfer()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
-
+#ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {
         #ifdef DEBUG_MIN
@@ -205,6 +209,7 @@ CODEZ rsa306b_class::device_start_frame_transfer()
         #endif
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
+#endif
 
     RSA_API::ReturnStatus temp = RSA_API::DEVICE_StartFrameTransfer();
     (void)this->_device_get_is_running();

@@ -24,6 +24,17 @@ CODEZ rsa306b_class::trig_force()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
+#ifdef SAFETY_CHECKS
+    if (this->_vars.device.is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
+    }
+#endif
 
     (void)this->set_api_status(RSA_API::TRIG_ForceTrigger());
 

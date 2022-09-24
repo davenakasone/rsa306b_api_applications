@@ -31,7 +31,8 @@
         < 24 >  _ifstream_copy_if_center_frequency()
         < 25 >  _ifstream_copy_buffer_size_bytes()
         < 26 >  _ifstream_copy_buffer_samples()
-        < 27 >  _ifstream_copy_acq_status_message()
+        < 27 >  _ifstream_copy_acq_status_messages()
+        < 28 >  _ifstream_copy_is_enabled()
 */
 
 #include "../rsa306b_class.h"
@@ -75,7 +76,7 @@ CODEZ rsa306b_class::_ifstream_copy_vars()
     caught_call[22]  = this->_ifstream_copy_if_center_frequency();
     caught_call[23]  = this->_ifstream_copy_buffer_size_bytes();
     caught_call[24]  = this->_ifstream_copy_buffer_samples();
-    caught_call[25]  = this->_ifstream_copy_acq_status_message();
+    caught_call[25]  = this->_ifstream_copy_acq_status_messages();
     
     return this->cutil.codez_checker(caught_call, callz);
 }
@@ -550,9 +551,9 @@ CODEZ rsa306b_class::_ifstream_copy_buffer_samples()
 
 
 /*
-    < 27> private
+    < 27 > private
 */
-CODEZ rsa306b_class::_ifstream_copy_acq_status_message()
+CODEZ rsa306b_class::_ifstream_copy_acq_status_messages()
 {
 #ifdef DEBUG_COPYS
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
@@ -563,6 +564,24 @@ CODEZ rsa306b_class::_ifstream_copy_acq_status_message()
     {
         strcpy(this->vars.ifstream.acq_status_messages[ii], this->_vars.ifstream.acq_status_messages[ii]);
     }
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
+}
+
+
+////~~~~
+
+
+/*
+    < 28 > private
+*/
+CODEZ rsa306b_class::_ifstream_copy_is_enabled()
+{
+#ifdef DEBUG_COPYS
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
+    this->vars.ifstream.is_enabled = this->_vars.ifstream.is_enabled;
     return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 

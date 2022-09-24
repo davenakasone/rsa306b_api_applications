@@ -44,6 +44,7 @@
         int                               file_length_max_ms
         char                              file_name_base[BUF_B]
         char                              file_path[BUF_B]
+        bool                              is_enabled
         RSA_API::IFSOUTDEST               output_destination_select
 
     constexpr helpers  :  <GROUP>_<CONSTEXPR_NAME>    // with group reference since used outside struct instance
@@ -87,6 +88,7 @@ const int FILE_LENGTH_MAX_MS = 999;     // maximum milli-seconds to record to a 
     IFSTREAM_GetActiveStatus()
         status of ADC streaming operation
             is_active ; if true, the data is still being acquired, else false
+
 */
     bool       is_active;         
     const bool _IS_ACTIVE = false;    // DEFAULT
@@ -155,16 +157,16 @@ const int FILE_LENGTH_MAX_MS = 999;     // maximum milli-seconds to record to a 
             acq_status_messages ; tracks error messages present in each bicheck position
             valid_bitmask       ; available for user's custom bitcheck needs
 */          
-    std::vector<int16_t> adc_data_v;  
-    const int16_t        _ADC_DATA_V_element               = INIT_INT16;                  // DEFAULT
-    std::size_t          _ADC_DATA_V_size                  = INIT_STL_LENGTH;             // DEFAULT
+    std::vector<int16_t>    adc_data_v;  
+    const int16_t           _ADC_DATA_V_element            = INIT_INT16;                  // DEFAULT
+    std::size_t             _ADC_DATA_V_size               = INIT_STL_LENGTH;             // DEFAULT
 
-    std::vector<bool> adc_triggers_v;  
-    const bool        _ADC_TRIGGERS_element                = false;                       // DEFAULT
-    std::size_t       _ADC_TRIGGERS_V_size                 = INIT_STL_LENGTH;             // DEFAULT
+    std::vector<bool>       adc_triggers_v;  
+    const bool              _ADC_TRIGGERS_element          = false;                       // DEFAULT
+    std::size_t             _ADC_TRIGGERS_V_size           = INIT_STL_LENGTH;             // DEFAULT
 
-    int       if_data_length;
-    const int _IF_DATA_LENGTH                              = INIT_INT;                    // DEFAULT
+    int                     if_data_length;
+    const int               _IF_DATA_LENGTH                = INIT_INT;                    // DEFAULT
 
     RSA_API::IFSTRMDATAINFO data_info_type;   
     const uint64_t          _DATA_INFO_TYPE_timestamp      = INIT_UINT64;                 // DEFAULT
@@ -272,10 +274,10 @@ const int FILE_LENGTH_MAX_MS = 999;     // maximum milli-seconds to record to a 
 /*
     IFSTREAM_SetEnable()
         start or stop the IF streaming operation
-        using an hard-coded "true" to start IF streaming
-        using a hard-coded  "false" to stop IF streaming
-        this is probably only necessary when streaming "*.r3f" to a disk
+        user is responsible for setting this before and after acquisitions
 */
+    bool is_enabled;
+    const bool _IS_ENABLED = false;    //  DEFAULT
 
 
 /*

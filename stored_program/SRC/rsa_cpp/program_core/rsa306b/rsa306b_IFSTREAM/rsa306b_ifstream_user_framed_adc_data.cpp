@@ -13,7 +13,7 @@
 
 /*
     < 1 > public
-    populates "vars.ifstream.adc_data_v", std::vector
+    populates "vars.ifstream.framed_adc_data_v", std::vector
     user can make a csv when done or conduct what ever processing is desired
     equalization and scaling parameters are already available if procedure was followed
 
@@ -26,9 +26,10 @@
     all the guards are ommitted, at a minimum:
     - the device is connected
     - the device is running
-    - ifstream settings are correctly applied
-
-    IFSTREAM_SetEnable() is only for files ?
+    - ifstream settings are correctly applied (IFSTREAM was enabled)
+    first frame might be a header ?
+    
+    there is a lot of footer information in each frame, is it needed?
 */
 CODEZ rsa306b_class::ifstream_acquire_framed_data()
 {
@@ -37,9 +38,48 @@ CODEZ rsa306b_class::ifstream_acquire_framed_data()
     debug_record(false);
 #endif 
 
+    uint8_t* frame_data = NULL;
     
+    RSA_API::ReturnStatus temp = 
+        RSA_API::IFSTREAM_GetIFFrames
+        (
+            &frame_data, 
+            &this->_vars.ifstream.frame_bytes, 
+            &this->_vars.ifstream.number_of_frames
+        );
+    
+    int bytes_per_frame = 
+        this->_vars.ifstream.frame_bytes / this->_vars.ifstream.number_of_frames;
+    this->_vars.ifstream.framed_adc_data_v.resize(
+        static_cast<std::size_t>(this->_vars.ifstream.number_of_frames));
+    std::size_t placer = 0;
+    
+    for (int ii = 0; ii < this->_vars.ifstream.number_of_frames; ii++)
+    {
+        this->_vars.ifstream.framed_adc_data_v[ii].resize(SAMPLES_PER_FRAME);
 
-    //return this->set_api_status(temp);    // see bitcheck result
+        for (int jj = 0; jj < bytes_per_frame-1; jj++)
+        {
+            this->_vars.ifstream.framed_adc_data_v[ii][placer] =    // MSB first "start with most significant" big-endian
+                static_cast<int16_t>
+                (
+                    (frame_data[ii*jj + jj]     << 8) |
+                    (frame_data[ii*jj + jj + 1] << 0)
+                );
+            placer++;
+            if (placer == SAMPLES_PER_FRAME)    // jump over the frame footer
+            {
+                placer = 0;
+                break;    // get the next frame
+            }
+        }
+    }
+
+    (void)this->_ifstream_copy_frame_bytes();
+    (void)this->_ifstream_copy_number_of_frames();
+    (void)this->_ifstream_copy_framed_adc_data_v();
+    frame_data = NULL;
+    return this->set_api_status(temp);    // bitcheck is not applicable unless footer of each frame is checked
 }
 
 
@@ -48,6 +88,12 @@ CODEZ rsa306b_class::ifstream_acquire_framed_data()
 
 /*
     < 2 > public
+    write a csv file after framed acquisition
+    can't write regular acquisition
+    must have successfully called "ifstream_acquire_framed_data()"
+    be sure the file_path_name is allocated, even if it is on NULL
+        that is how the output file is tracked
+        output file either uses provided name, or default (if NULL)
 */
 CODEZ rsa306b_class::ifstream_write_csv_framed_data
 (
@@ -58,6 +104,16 @@ CODEZ rsa306b_class::ifstream_write_csv_framed_data
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif 
+
+    if (file_path_name == NULL)
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_ddts, sizeof(X_ddts), "%s", this->cutil.codez_messages(CODEZ::_25_pointer_is_null));
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_25_pointer_is_null);
+    }
 
     std::size_t v_rows = this->_vars.ifstream.framed_adc_data_v.size();
     std::size_t v_cols = this->_vars.ifstream.framed_adc_data_v[0].size();
@@ -74,7 +130,7 @@ CODEZ rsa306b_class::ifstream_write_csv_framed_data
         return this->cutil.report_status_code(CODEZ::_9_function_call_failed);
     }
     
-    if (file_path_name == NULL)
+    if (file_path_name[0] == '\0')    // using default output file_path_name
     {
         this->_reftime_get_current();
         (void)snprintf(this->_helper, sizeof(this->_helper), "%s%s_%lu_%s",
