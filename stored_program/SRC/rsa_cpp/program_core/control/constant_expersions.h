@@ -10,9 +10,9 @@
 
 
 // Data IO
-constexpr char DATA_DIRECTORY_RAW[]       = "../DATA/data_raw/";         // write data received directly from the RSA-306B here
-constexpr char DATA_DIRECTORY_PROCESSED[] = "../DATA/data_processed/";   // write data modified by the program here
-constexpr char DATA_OUTPUT_EXTENSTION[]   = ".csv";                      // default output file extention
+constexpr char DATA_DIRECTORY_RAW[]       = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_raw/";         
+constexpr char DATA_DIRECTORY_PROCESSED[] = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_processed/";  
+constexpr char DATA_OUTPUT_EXTENSTION[]   = ".csv";                     
 
 
 // program sizing parameters
@@ -35,7 +35,7 @@ constexpr int16_t      INIT_INT16      = -9;
 constexpr int32_t      INIT_INT32      = -9;
 constexpr int64_t      INIT_INT64      = -9L;
 constexpr std::size_t  INIT_STD_SIZE_T = 5UL;
-constexpr std::size_t  INIT_STL_LENGTH = 3UL;    // for sizing std::vector, std::queue, ...make this big if preallocating helps
+constexpr std::size_t  INIT_STL_LENGTH = 9999UL;    // for sizing std::vector, std::queue, ...make this big if preallocating helps
 constexpr uint8_t      INIT_UINT8      = 0xFFU;
 constexpr uint16_t     INIT_UINT16     = 0xFFFFU;
 constexpr uint32_t     INIT_UINT32     = 0xFFFFFFFFU;
@@ -105,14 +105,14 @@ constexpr char IQBLK_BITCHECK_MESSAGES[IQBLK_BITCHECKS][BUF_C]    =             
 // IQSTREAM
 typedef enum
 {
-    X_1 = 1,    // scale IQ buffer to minimum size
-    X_2 = 2,    // scale IQ buffer to default size
-    X_3 = 3,
-    X_4 = 4,
-    X_5 = 5,
-    X_6 = 6,
-    X_7 = 7,
-    X_8 = 8     // scale IQ buffer to maximum size
+    b1x = 1,    // scale IQ buffer to minimum size
+    b2x = 2,    // scale IQ buffer to default size
+    b3x = 3,
+    b4x = 4,
+    b5x = 5,
+    b6x = 6,
+    b7x = 7,
+    b8x = 8     // scale IQ buffer to maximum size
 }iqsBuff;
 constexpr int IQSTREAM_BUFFER_SIZE_LARGE                          = 65536;         // for 2.5 MHz to 40 MHz
 constexpr int IQSTREAM_BUFFER_SIZE_MEDIUM                         = 32768;         // for 96765.625 Hz to 2.5 MHz

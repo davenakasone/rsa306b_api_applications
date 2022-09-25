@@ -47,8 +47,8 @@ rsa306b_class::~rsa306b_class()
 
     (void)this->device_disconnect();    // attempts to disconect, automatic clear() if device was connected
 
-#ifdef DEBUGS_WILL_PRINT
-    (void)this->cutil.timer_print_running(1, 2);
+#ifdef DE_BUG
+    (void)this->cutil.timer_print_running(1, 2); // only constructor triggering print
 #endif
 #ifdef DE_BUG
     debug_stop();
@@ -103,6 +103,17 @@ CODEZ rsa306b_class::get_everything()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
+#ifdef SAFETY_CHECKS
+    if (this->_vars.device.is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
+    }
+#endif
 
     constexpr int calls = 10;
     CODEZ caught_call[calls];
@@ -120,8 +131,6 @@ CODEZ rsa306b_class::get_everything()
 
     // INSERT
 
-    this->_vars.device.is_connected = false;
-    (void)this->_device_copy_is_connected();
     return this->cutil.codez_checker(caught_call, calls);
 }
 
@@ -177,12 +186,15 @@ CODEZ rsa306b_class::_gp_init()
     debug_record(false);
 #endif
 
-    (void)this->cutil.exe_fclose(this->_fp_write);
+    if (this->_fp_write != NULL)
+    {
+        (void)this->cutil.exe_fclose(this->_fp_write);
+    }
     this->_api_status = RSA_API::noError;
-    memset(this->_helper, '\0', sizeof(this->_helper));
-    memset(this->_holder, '\0', sizeof(this->_holder));
+    (void)memset(this->_helper, '\0', sizeof(this->_helper));
+    (void)memset(this->_holder, '\0', sizeof(this->_holder));
 
-    return this->cutil.get_status_code();
+    return this->_report_api_status();
 }
 
 

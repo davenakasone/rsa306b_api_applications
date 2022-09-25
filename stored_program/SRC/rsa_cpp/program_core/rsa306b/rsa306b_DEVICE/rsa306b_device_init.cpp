@@ -28,7 +28,7 @@ CODEZ rsa306b_class::_device_init()
     this->_vars.device.is_running          = this->_vars.device._IS_RUNNING;
     
     (void)memset (this->_vars.device.api_status_message, '\0'                                  , sizeof(this->_vars.device.api_status_message));
-    (void)strncpy(this->_vars.device.api_status_message, this->_vars.device._API_STATUS_MESSAGE, sizeof(this->_vars.device.api_status_message));
+    (void)strncpy(this->_vars.device.api_status_message, BITCHECK_SUCCESS_MESSAGE, sizeof(this->_vars.device.api_status_message));
 
     this->_vars.device.id              = this->_vars.device._ID;
 
@@ -37,17 +37,17 @@ CODEZ rsa306b_class::_device_init()
     this->_vars.device.event_occured   = this->_vars.device._EVENT_OCCURED;
 
     (void)memset (this->_vars.device.info_type.apiVersion   , '\0'                                      , RSA_API::DEVINFO_MAX_STRLEN);
-    (void)strncpy(this->_vars.device.info_type.apiVersion   , this->_vars.device._INFO_TYPE_apiVersion  , RSA_API::DEVINFO_MAX_STRLEN-1);
+    (void)strncpy(this->_vars.device.info_type.apiVersion   , INIT_CHARP  , RSA_API::DEVINFO_MAX_STRLEN-1);
     (void)memset (this->_vars.device.info_type.fpgaVersion  , '\0'                                      , RSA_API::DEVINFO_MAX_STRLEN);
-    (void)strncpy(this->_vars.device.info_type.fpgaVersion  , this->_vars.device._INFO_TYPE_fpgaVersion , RSA_API::DEVINFO_MAX_STRLEN-1);
+    (void)strncpy(this->_vars.device.info_type.fpgaVersion  , INIT_CHARP , RSA_API::DEVINFO_MAX_STRLEN-1);
     (void)memset (this->_vars.device.info_type.fwVersion    , '\0'                                      , RSA_API::DEVINFO_MAX_STRLEN);
-    (void)strncpy(this->_vars.device.info_type.fwVersion    , this->_vars.device._INFO_TYPE_fwVersion   , RSA_API::DEVINFO_MAX_STRLEN-1);
+    (void)strncpy(this->_vars.device.info_type.fwVersion    , INIT_CHARP  , RSA_API::DEVINFO_MAX_STRLEN-1);
     (void)memset (this->_vars.device.info_type.hwVersion    , '\0'                                      , RSA_API::DEVINFO_MAX_STRLEN);
-    (void)strncpy(this->_vars.device.info_type.hwVersion    , this->_vars.device._INFO_TYPE_hwVersion   , RSA_API::DEVINFO_MAX_STRLEN-1);
+    (void)strncpy(this->_vars.device.info_type.hwVersion    , INIT_CHARP   , RSA_API::DEVINFO_MAX_STRLEN-1);
     (void)memset (this->_vars.device.info_type.nomenclature , '\0'                                      , RSA_API::DEVINFO_MAX_STRLEN);
-    (void)strncpy(this->_vars.device.info_type.nomenclature , this->_vars.device._INFO_TYPE_nomenclature, RSA_API::DEVINFO_MAX_STRLEN-1);
+    (void)strncpy(this->_vars.device.info_type.nomenclature , INIT_CHARP, RSA_API::DEVINFO_MAX_STRLEN-1);
     (void)memset (this->_vars.device.info_type.serialNum    , '\0'                                      , RSA_API::DEVINFO_MAX_STRLEN);
-    (void)strncpy(this->_vars.device.info_type.serialNum    , this->_vars.device._INFO_TYPE_serialNum   , RSA_API::DEVINFO_MAX_STRLEN-1);
+    (void)strncpy(this->_vars.device.info_type.serialNum    , INIT_CHARP  , RSA_API::DEVINFO_MAX_STRLEN-1);
 
     return this->_device_copy_vars();
 }

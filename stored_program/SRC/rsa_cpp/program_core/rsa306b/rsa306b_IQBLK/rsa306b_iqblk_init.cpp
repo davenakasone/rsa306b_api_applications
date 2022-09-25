@@ -28,7 +28,8 @@ CODEZ rsa306b_class::_iqblk_init()
 
     for (int ii = 0; ii < IQBLK_BITCHECKS; ii++)
     {
-        (void)strcpy(this->_vars.iqblk.acq_status_messages[ii], this->_vars.iqblk._ACQ_STATUS_MESSAGES);
+        //(void)strcpy(this->_vars.iqblk.acq_status_messages[ii], this->_vars.iqblk._ACQ_STATUS_MESSAGES);
+        (void)strcpy(this->_vars.iqblk.acq_status_messages[ii], BITCHECK_SUCCESS_MESSAGE);
     }
 
     this->_vars.iqblk.bandwidth_hz          = this->_vars.iqblk._BANDWIDTH_HZ;

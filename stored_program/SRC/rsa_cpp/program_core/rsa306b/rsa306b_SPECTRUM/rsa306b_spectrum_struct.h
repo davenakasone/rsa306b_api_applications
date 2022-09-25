@@ -162,7 +162,7 @@ struct rsa306b_spectrum_struct
     const uint16_t              _TRACE_INFO_TYPE_acqDataStatus = BITCHECK_SUCCESS;    // DEFAULT
 
     char        acq_status_messages[SPECTRUM_BITCHECKS][BUF_D];
-    const char* _ACQ_STATUS_MESSAGES                           = BITCHECK_SUCCESS_MESSAGE;    // DEFAULT
+    //const char* _ACQ_STATUS_MESSAGES                           = BITCHECK_SUCCESS_MESSAGE;    // DEFAULT
     
     const uint16_t valid_bitmask                               = 
         (

@@ -139,7 +139,7 @@ struct rsa306b_iqstream_struct
     
     char filenames_0_data[BUF_D];
     char filenames_1_header[BUF_D];
-    const char* _FILENAMES = INIT_CHARP;    // DEFAULT
+    //const char* _FILENAMES = INIT_CHARP;    // DEFAULT
 
 
 /*
@@ -240,7 +240,7 @@ struct rsa306b_iqstream_struct
             filename_base ; has path also
 */
     char filename_base[BUF_C];
-    const char* _FILENAME_BASE = DATA_DIRECTORY_RAW;
+    //const char* _FILENAME_BASE = DATA_DIRECTORY_RAW;
 
 /*
     IQSTREAM_SetDiskFilenameSuffix()
@@ -265,7 +265,7 @@ struct rsa306b_iqstream_struct
             buffer_multiplier ; see const table
 */
     int buffer_multiplier;
-    const int _BUFFER_MULTIPLIER = iqsBuff::X_2;
+    const int _BUFFER_MULTIPLIER = iqsBuff::b2x;
 
 
 /*

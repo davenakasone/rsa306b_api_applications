@@ -51,6 +51,7 @@ class siq_manager_class
 {
     public :
 
+        common_utility cutil;       // public class instance, by composition, for "common utility" needs
         siq_manager_struct vars;    // structured variables for parsing
 
         siq_manager_class();               // only constuctor used

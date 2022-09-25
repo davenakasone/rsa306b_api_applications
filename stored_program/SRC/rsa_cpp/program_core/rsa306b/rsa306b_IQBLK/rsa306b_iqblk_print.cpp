@@ -22,7 +22,7 @@ CODEZ rsa306b_class::iqblk_print()
 #endif
 
     (void)printf("\n'IQBLK' group >>>\n");
-    (void)printf("\tgetting_select                    :  %d  ,  ", this->_vars.iqblk.getting_select);
+    (void)printf("\tgetting_select                    :  %d\n", this->_vars.iqblk.getting_select);
     (void)printf("\trecord_length                     :  %d\n", this->_vars.iqblk.record_length);
     (void)printf("\tmax_record_length                 :  %d\n", this->_vars.iqblk.max_record_length);
     (void)printf("\tactual_buffer_samples             :  %d\n", this->_vars.iqblk.actual_buffer_samples);

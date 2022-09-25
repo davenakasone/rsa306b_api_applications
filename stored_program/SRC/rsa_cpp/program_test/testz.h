@@ -35,7 +35,7 @@
 void test_selector (int test_number);    // controls the unit test being performed
 
 void unit_test_0   (void);    // place holder, default, template...
-
+void task_991 (void); 
 #ifdef UNIT_TESTING
 
 void unit_test_1   (void);    // test 'general purpose' section

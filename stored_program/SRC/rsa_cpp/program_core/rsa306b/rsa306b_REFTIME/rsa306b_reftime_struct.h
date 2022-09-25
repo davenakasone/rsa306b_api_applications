@@ -139,7 +139,7 @@ struct rsa306b_reftime_struct
 // holds the date-time-stamp
 // for user's conveince
     char dts[BUF_D];                       
-    const char* _DTS = INIT_CHARP;
+    //const char* _DTS = INIT_CHARP;
 
 };
 typedef struct rsa306b_reftime_struct rsa306b_reftime_struct;

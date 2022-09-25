@@ -35,13 +35,16 @@ CODEZ rsa306b_class::_iqstream_init()
     this->_vars.iqstream.pairs_copied      = this->_vars.iqstream._PAIRS_COPIED;
 
     (void)memset(this->_vars.iqstream.filename_base, '\0', sizeof(this->_vars.iqstream.filename_base));
-    (void)strcpy(this->_vars.iqstream.filename_base, this->_vars.iqstream._FILENAME_BASE);
+    //(void)strcpy(this->_vars.iqstream.filename_base, this->_vars.iqstream._FILENAME_BASE);
+    (void)strcpy(this->_vars.iqstream.filename_base, DATA_DIRECTORY_PROCESSED);
 
     (void)memset(this->_vars.iqstream.filenames_0_data, '\0', sizeof(this->_vars.iqstream.filenames_0_data));
-    (void)strcpy(this->_vars.iqstream.filenames_0_data, this->_vars.iqstream._FILENAMES);
+    //(void)strcpy(this->_vars.iqstream.filenames_0_data, this->_vars.iqstream._FILENAMES);
+    (void)strcpy(this->_vars.iqstream.filenames_0_data, INIT_CHARP);
 
     (void)memset(this->_vars.iqstream.filenames_1_header, '\0', sizeof(this->_vars.iqstream.filenames_1_header));
-    (void)strcpy(this->_vars.iqstream.filenames_1_header, this->_vars.iqstream._FILENAMES);
+    //(void)strcpy(this->_vars.iqstream.filenames_1_header, this->_vars.iqstream._FILENAMES);
+    (void)strcpy(this->_vars.iqstream.filenames_1_header, INIT_CHARP);
 
     for (int kk = 0; kk < IQSTREAM_BITCHECKS; kk++)
     {

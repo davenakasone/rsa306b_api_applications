@@ -34,9 +34,9 @@ CODEZ rsa306b_class::config_preset()
 #endif
     (void)this->device_stop();
 
-    RSA_API::ReturnStatus temp = RSA_API::CONFIG_Preset();    // effects other API groups
-    (void)this->get_everything();                             // to ensure member variables are updated
-    return this->set_api_status(temp);
+    //RSA_API::ReturnStatus temp = RSA_API::CONFIG_Preset();    // effects other API groups
+    //(void)this->get_everything();                             // to ensure member variables are updated
+    return this->set_api_status(RSA_API::CONFIG_Preset());
 }
 
 

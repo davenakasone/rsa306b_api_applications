@@ -28,15 +28,15 @@ CODEZ rsa306b_class::_iqblk_get_vars()
     debug_record(false);
 #endif  
 
-    constexpr int callz = 11;
+    constexpr int callz = 6;
     CODEZ caught_call[callz];
 
     caught_call[0] = this->_iqblk_get_acq_info_type    ();
-    caught_call[0] = this->_iqblk_get_sample_rate      ();
-    caught_call[0] = this->_iqblk_get_bandwidth_hz     ();
-    caught_call[0] = this->_iqblk_get_max_bandwidth_hz ();
-    caught_call[0] = this->_iqblk_get_min_bandwidth_hz ();
-    caught_call[0] = this->_iqblk_get_max_record_length();
+    caught_call[1] = this->_iqblk_get_sample_rate      ();
+    caught_call[2] = this->_iqblk_get_bandwidth_hz     ();
+    caught_call[3] = this->_iqblk_get_max_bandwidth_hz ();
+    caught_call[4] = this->_iqblk_get_min_bandwidth_hz ();
+    caught_call[5] = this->_iqblk_get_max_record_length();
 
     return this->cutil.codez_checker(caught_call, callz);
 }

@@ -280,14 +280,14 @@ CODEZ rsa306b_class::_iqstream_set_iq_data_buffer_size()
     }
 #endif
     
-    if (this->vars.iqstream.buffer_multiplier != iqsBuff::X_1 &&
-        this->vars.iqstream.buffer_multiplier != iqsBuff::X_2 &&
-        this->vars.iqstream.buffer_multiplier != iqsBuff::X_3 &&
-        this->vars.iqstream.buffer_multiplier != iqsBuff::X_4 &&
-        this->vars.iqstream.buffer_multiplier != iqsBuff::X_5 &&
-        this->vars.iqstream.buffer_multiplier != iqsBuff::X_6 &&
-        this->vars.iqstream.buffer_multiplier != iqsBuff::X_7 &&
-        this->vars.iqstream.buffer_multiplier != iqsBuff::X_8  )
+    if (this->vars.iqstream.buffer_multiplier != iqsBuff::b1x &&
+        this->vars.iqstream.buffer_multiplier != iqsBuff::b2x &&
+        this->vars.iqstream.buffer_multiplier != iqsBuff::b3x &&
+        this->vars.iqstream.buffer_multiplier != iqsBuff::b4x &&
+        this->vars.iqstream.buffer_multiplier != iqsBuff::b5x &&
+        this->vars.iqstream.buffer_multiplier != iqsBuff::b6x &&
+        this->vars.iqstream.buffer_multiplier != iqsBuff::b7x &&
+        this->vars.iqstream.buffer_multiplier != iqsBuff::b8x  )
     {
         #ifdef DEBUG_MIN
             (void)snprintf(X_ddts, sizeof(X_ddts), "invalid buffer multiple selected:  %d",

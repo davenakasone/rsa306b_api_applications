@@ -40,13 +40,14 @@ CODEZ rsa306b_class::_ifstream_init()
     
     for (int ii = 0; ii < IFSTREAM_BITCHECKS; ii++)
     {
-        (void)strcpy(this->_vars.ifstream.acq_status_messages[ii], this->_vars.ifstream._ACQ_STATUS_MESSAGES);
+        //(void)strcpy(this->_vars.ifstream.acq_status_messages[ii], this->_vars.ifstream._ACQ_STATUS_MESSAGES);
+        (void)strcpy(this->_vars.ifstream.acq_status_messages[ii], BITCHECK_SUCCESS_MESSAGE);
     }
     
     this->_vars.ifstream.data_info_type.acqStatus      = this->_vars.ifstream._DATA_INFO_TYPE_acqStatus;
     this->_vars.ifstream.data_info_type.timestamp      = this->_vars.ifstream._DATA_INFO_TYPE_timestamp;
     this->_vars.ifstream.data_info_type.triggerCount   = this->_vars.ifstream._DATA_INFO_TYPE_triggerCount;
-    this->_vars.ifstream.data_info_type.triggerIndices = this->_vars.ifstream._DATA_INFO_TYPE_triggerIndices;
+    //this->_vars.ifstream.data_info_type.triggerIndices = this->_vars.ifstream._DATA_INFO_TYPE_triggerIndices;
 
     this->_vars.ifstream.buffer_size_bytes = this->_vars.ifstream._BUFFER_SIZE_BYTES;
     this->_vars.ifstream.buffer_samples    = this->_vars.ifstream._BUFFER_SAMPLES;
@@ -66,8 +67,8 @@ CODEZ rsa306b_class::_ifstream_init()
     this->_vars.ifstream.file_count         = this->_vars.ifstream._FILE_COUNT;
     this->_vars.ifstream.file_length_max_ms = this->_vars.ifstream._FILE_LENGTH_MAX_MS;
 
-    (void)strcpy(this->_vars.ifstream.file_name_base, this->_vars.ifstream._FILE_NAME_BASE);
-    (void)strcpy(this->_vars.ifstream.file_path     , this->_vars.ifstream._FILE_PATH     );
+    (void)strcpy(this->_vars.ifstream.file_name_base, IFSTREAM_FILE_NAME_BASE);
+    (void)strcpy(this->_vars.ifstream.file_path     , DATA_DIRECTORY_RAW    );
 
     this->_vars.ifstream.output_destination_select = this->_vars.ifstream._OUTPUT_DESTINATION_SELECT;
 

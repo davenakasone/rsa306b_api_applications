@@ -18,7 +18,7 @@ void test_selector
     switch (test_number)
     {
 #ifdef UNIT_TESTINGG
-        
+        case (991) : task_991()      ; break;
 #endif
 #ifndef UNIT_TESTINGG
         case (1)   : unit_test_1()   ; break;

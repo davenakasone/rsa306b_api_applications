@@ -78,7 +78,7 @@ struct rsa306b_device_struct
         gets the corresponding message as a "const char*"
 */
     char        api_status_message[BUF_E];
-    const char* _API_STATUS_MESSAGE = INIT_CHARP;
+    //const char* _API_STATUS_MESSAGE = INIT_CHARP;
 
 
 /*
@@ -92,12 +92,12 @@ struct rsa306b_device_struct
             <major>.<minor>.<revision>
 */
     RSA_API::DEVICE_INFO info_type;                               // struct with 6 strings
-    const char*          _INFO_TYPE_apiVersion   = INIT_CHARP;    // DEFAULT
-    const char*          _INFO_TYPE_fpgaVersion  = INIT_CHARP;    // DEFAULT
-    const char*          _INFO_TYPE_fwVersion    = INIT_CHARP;    // DEFAULT
-    const char*          _INFO_TYPE_hwVersion    = INIT_CHARP;    // DEFAULT
-    const char*          _INFO_TYPE_nomenclature = INIT_CHARP;    // DEFAULT
-    const char*          _INFO_TYPE_serialNum    = INIT_CHARP;    // DEFAULT
+    // const char*          _INFO_TYPE_apiVersion   = INIT_CHARP;    // DEFAULT
+    // const char*          _INFO_TYPE_fpgaVersion  = INIT_CHARP;    // DEFAULT
+    // const char*          _INFO_TYPE_fwVersion    = INIT_CHARP;    // DEFAULT
+    // const char*          _INFO_TYPE_hwVersion    = INIT_CHARP;    // DEFAULT
+    // const char*          _INFO_TYPE_nomenclature = INIT_CHARP;    // DEFAULT
+    // const char*          _INFO_TYPE_serialNum    = INIT_CHARP;    // DEFAULT
     
 
 /*
@@ -166,7 +166,7 @@ struct rsa306b_device_struct
         event_timestamp ;  holds event time stamp, only valid if "event_occured" == true
 */
     int       event_id;
-    const int _EVENT_ID = INIT_INT;                  // DEFAULT
+    const int _EVENT_ID = static_cast<int>(RSA_API::DEVEVENT_TRIGGER);    // DEFAULT
 
     bool       event_occured;
     const bool _EVENT_OCCURED = false;                // DEFAULT

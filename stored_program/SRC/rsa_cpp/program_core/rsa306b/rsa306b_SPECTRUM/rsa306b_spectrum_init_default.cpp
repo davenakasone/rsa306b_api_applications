@@ -35,7 +35,7 @@ CODEZ rsa306b_class::spectrum_default()
 
     RSA_API::ReturnStatus temp = 
         RSA_API::SPECTRUM_SetDefault();
-    (void)this->get_everything();
+    //(void)this->get_everything();
     return this->set_api_status(temp);
 }
 
@@ -102,7 +102,8 @@ CODEZ rsa306b_class::_spectrum_init()
 
     for (int ii = 0; ii < SPECTRUM_BITCHECKS; ii++)
     {
-        (void)strcpy(this->_vars.spectrum.acq_status_messages[ii], this->_vars.spectrum._ACQ_STATUS_MESSAGES);
+        //(void)strcpy(this->_vars.spectrum.acq_status_messages[ii], this->_vars.spectrum._ACQ_STATUS_MESSAGES);
+        (void)strcpy(this->_vars.spectrum.acq_status_messages[ii], BITCHECK_SUCCESS_MESSAGE);
     }
 
     return this->_spectrum_copy_vars();

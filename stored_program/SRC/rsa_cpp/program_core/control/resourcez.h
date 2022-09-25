@@ -32,7 +32,7 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
 
 #ifdef DE_BUG
     // pick: none, one, or all
-    #define DEBUGS_WILL_PRINT 11    // {ON|OFF} if activated, debug activity is displayed to stdout
+    //#define DEBUGS_WILL_PRINT 11    // {ON|OFF} if activated, debug activity is displayed to stdout
     #define DEBUGS_WILL_WRITE 111    // {ON|OFF} if activated, debug activity is writen
 
         // {ON|OFF} tracks:  essential information, force-prints to stdout, errors that would crash the program
@@ -42,35 +42,39 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
         #define DEBUG_MAX               1787                  
 
         // {ON|OFF} tracks:  acqStatus and acqDataStatus of all status code verifications, after data is acquired
-        #define DEBUG_ACQ_STATUS        2022    
+        //#define DEBUG_ACQ_STATUS        2022    
 
         // {ON|OFF} tracks:  call sequence of the executing program, for major calls only
         #define DEBUG_CLI               1776                  
     
         // {ON|OFF} tracks:  call sequence WITH internal and API status checks
-        #define DEBUG_CALL_CHECKS       1492 
+        //#define DEBUG_CALL_CHECKS       1492 
 
         // {ON|OFF} tracks:  call sequence WITH getter calls
-        #define DEBUG_GETS              1992                 
+        //#define DEBUG_GETS              1992                 
     
         // {ON|OFF} tracks:  call sequence WITH setter calls
-        #define DEBUG_SETS              1999                 
+        //#define DEBUG_SETS              1999                 
     
         // {ON|OFF} tracks:  call sequence WITH  copier calls
-        #define DEBUG_COPYS             2000    
+        //#define DEBUG_COPYS             2000    
 
         // {ON|OFF} tracks:  call sequence WITH  timer calls
-        #define DEBUG_TIMERS            1165               
+        //#define DEBUG_TIMERS            1165               
     
         // {ON|OFF} tracks:  " ", where ever you want to debug, place anywhere, usually just temporary
         #define DEBUG_CUSTOM            1865               
 
         // {ON|OFF} prints SIQ header as loaded, in 'siq_manager' class 
-        #define DEBUG_SIQ_LOADER_HEADER 1941   
+        //#define DEBUG_SIQ_LOADER_HEADER 1941   
 
         // {ON|OFF} prints SIQ data as loaded, in 'siq_manager' class 
-        #define DEBUG_SIQ_LOADER_DATA   1945     
+        //#define DEBUG_SIQ_LOADER_DATA   1945     
 
+        // {ON|OFF} prints function entries of interest printed to stdout (no string format required)
+        // sprinkle them whereever you need
+        //#define DEBUG_FUNC 1956
+        
 
         #ifdef DEBUG_MIN
             constexpr char DEBUG_MIN_FORMAT[]         = "DEBUG_MIN        ,  <%4d>  %s/%s()  !!!  %s\n";
@@ -110,7 +114,7 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
     constexpr int DEBUG_WIDTH = 745;   
 
     // number of object instances debugger will track
-     constexpr int ACTIVE_OBJECTS = 7; 
+     constexpr int ACTIVE_OBJECTS = 7; // {X_rsa + cutil} + {X_r3f + cutil} + {X_siq + cutil} + X_util
 
     #define GET_NAME(var) #var    // debug utility for identifying variable name
 

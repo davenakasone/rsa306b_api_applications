@@ -34,7 +34,8 @@ CODEZ rsa306b_class::_reftime_init()
     this->_vars.reftime.helper.timestamp = this->_vars.reftime._HELPER_timestamp;
     
     (void)memset(this->_vars.reftime.dts , '\0'      , sizeof(this->_vars.reftime.dts));
-    (void)strcpy(this->_vars.reftime.dts, this->_vars.reftime._DTS);
+    //(void)strcpy(this->_vars.reftime.dts, this->_vars.reftime._DTS);
+    (void)strcpy(this->_vars.reftime.dts, INIT_CHARP);
 
     this->_vars.reftime.running_duration_seconds = this->_vars.reftime._RUNNING_DURATION_SECONDS;
     this->_vars.reftime.source_select            = this->_vars.reftime._SOURCE_SELECT;

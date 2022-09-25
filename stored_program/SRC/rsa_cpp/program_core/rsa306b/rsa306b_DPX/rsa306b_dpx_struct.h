@@ -148,7 +148,7 @@ struct rsa306b_dpx_struct
 
 */
     char        acq_data_status_message[BUF_E];          // call-check acqDataStatus and record message
-    const char* _ACQ_DATA_STATUS_MESSAGE = INIT_CHARP;   // DEFAULT
+    //const char* _ACQ_DATA_STATUS_MESSAGE = INIT_CHARP;   // DEFAULT
 
     std::vector<std::vector<float>> spectrum_bitmap_v;
     const float                     _SPECTRUM_BITMAP_V_element = INIT_FLOAT;         // DEFAULT, element value
@@ -191,15 +191,15 @@ struct rsa306b_dpx_struct
 	const int32_t            _FRAME_BUFFER_TYPE_numSpectrumTraces               = INIT_INT32;     // DEFAULT 
 	const bool               _FRAME_BUFFER_TYPE_spectrumEnabled                 = false;          // DEFAULT 
     const bool               _FRAME_BUFFER_TYPE_spectrogramEnabled              = false;          // DEFAULT 
-    const float*             _FRAME_BUFFER_TYPE_spectrumBitmap                  = NULL;           // DEFAULT 
-    const float**            _FRAME_BUFFER_TYPE_spectrumTraces                  = NULL;           // DEFAULT 
+    //const float*             _FRAME_BUFFER_TYPE_spectrumBitmap                  = NULL;           // DEFAULT 
+    //const float**            _FRAME_BUFFER_TYPE_spectrumTraces                  = NULL;           // DEFAULT 
 	const int32_t            _FRAME_BUFFER_TYPE_sogramBitmapWidth               = INIT_INT32;     // DEFAULT 
 	const int32_t            _FRAME_BUFFER_TYPE_sogramBitmapHeight              = INIT_INT32;     // DEFAULT 
     const int32_t            _FRAME_BUFFER_TYPE_sogramBitmapSize                = INIT_INT32;     // DEFAULT 
     const int32_t            _FRAME_BUFFER_TYPE_sogramBitmapNumValidLines       = INIT_INT32;     // DEFAULT
-	const uint8_t*           _FRAME_BUFFER_TYPE_sogramBitmap                    = NULL; 	      // DEFAULT
-	const double*            _FRAME_BUFFER_TYPE_sogramBitmapTimestampArray      = NULL;           // DEFAULT 
-	const int16_t*           _FRAME_BUFFER_TYPE_sogramBitmapContainTriggerArray = NULL;           // DEFAULT 
+	//const uint8_t*           _FRAME_BUFFER_TYPE_sogramBitmap                    = NULL; 	      // DEFAULT
+	//const double*            _FRAME_BUFFER_TYPE_sogramBitmapTimestampArray      = NULL;           // DEFAULT 
+	//const int16_t*           _FRAME_BUFFER_TYPE_sogramBitmapContainTriggerArray = NULL;           // DEFAULT 
 
 /*
     DPX_GetFrameInfo()

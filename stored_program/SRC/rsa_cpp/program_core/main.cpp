@@ -19,7 +19,7 @@
 #ifdef UNIT_TESTINGG
 // turn off to run all unit tests
 // turn on and change UT_NUMBER to run a specific unit test
-#define UNIT_TEST_BY_NUMBER 0   // select # here
+#define UNIT_TEST_BY_NUMBER 991   // select # here
 /*
     sections    "unit_test_#"   : 
                                     0
@@ -71,6 +71,8 @@ int main
     objSize[1] = static_cast<int>(sizeof(X_r3f));
     objSize[2] = static_cast<int>(sizeof(X_siq));
     objSize[3] = static_cast<int>(sizeof(X_util));
+////~~~~
+
 
     #ifdef UNIT_TESTINGG
         #ifdef UNIT_TEST_BY_NUMBER
@@ -100,10 +102,26 @@ int main
         #endif
     #endif
 
-    (void)X_rsa.reftime_get_vars();
-    printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~    %s\n %s\n",
-        X_rsa.vars.reftime.dts,
-        UNLV_RSA_VERSION);
+
+////~~~~
+    if (X_rsa.vars.device.is_connected == true)
+    {
+        (void)X_rsa.reftime_get_vars();
+        printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~    %s\n %s\n",
+            X_rsa.vars.reftime.dts,
+            UNLV_RSA_VERSION);
+    }
+    else
+    {
+        #ifdef DE_BUG
+            printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~    %s\n %s\n",
+                debug_dts(),
+                UNLV_RSA_VERSION);
+        #else
+            printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~    %s\n",
+                UNLV_RSA_VERSION);
+        #endif
+    }
     #ifdef __clang_major__
         printf("\nCompiler:  clang  ,  v %d.%d\n",
             __clang_major__, __clang_minor__);

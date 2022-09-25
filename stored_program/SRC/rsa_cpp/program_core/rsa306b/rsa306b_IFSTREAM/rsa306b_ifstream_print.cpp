@@ -48,13 +48,13 @@ CODEZ rsa306b_class::ifstream_print()
     (void)printf("\tis_active                                 :  %d\n" , this->_vars.ifstream.is_active);
     (void)printf("\tif_stream_data_length                     :  %d\n" , this->_vars.ifstream.if_data_length);
     (void)printf("\tdata_info_type, 'acqStatus'               :  %u\n" , this->_vars.ifstream.data_info_type.acqStatus);
-    (void)printf("\tdata_info_type, 'timestamp'               :  %ld\n", this->_vars.ifstream.data_info_type.timestamp);
+    (void)printf("\tdata_info_type, 'timestamp'               :  %lu\n", this->_vars.ifstream.data_info_type.timestamp);
     (void)printf("\tdata_info_type, 'triggerCount'            :  %d\n" , this->_vars.ifstream.data_info_type.triggerCount);
     (void)printf("\tdata_info_type, 'triggerIndices' address  :  %p\n" , this->_vars.ifstream.data_info_type.triggerIndices);
     (void)printf("\tadc_data_v[0]                             :  %d\n" , this->_vars.ifstream.adc_data_v[0]);
     (void)printf("\tframe_bytes                               :  %d\n" , this->_vars.ifstream.frame_bytes);
     (void)printf("\tnumber_of_frames                          :  %d\n" , this->_vars.ifstream.number_of_frames);
-    (void)printf("\tframed_adc_data_v[0][0]                   :  %u\n" , this->_vars.ifstream.framed_adc_data_v[0][0]);
+    (void)printf("\tframed_adc_data_v[0][0]                   :  %d\n" , this->_vars.ifstream.framed_adc_data_v[0][0]);
     (void)printf("\tbuffer_size_bytes                         :  %d\n" , this->_vars.ifstream.buffer_size_bytes);
     (void)printf("\tnumber_of_samples                         :  %d\n" , this->_vars.ifstream.buffer_samples);
     (void)printf("\tpoints_in_equalization_buffer             :  %d\n" , this->_vars.ifstream.points_in_equalization_buffer);

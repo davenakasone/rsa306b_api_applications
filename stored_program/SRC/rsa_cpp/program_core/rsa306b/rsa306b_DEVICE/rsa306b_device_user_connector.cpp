@@ -100,28 +100,26 @@ CODEZ rsa306b_class::device_connect()
         debug_record(true);
     #endif
     
-    constexpr int calls = 10;
-    CODEZ caught_call[calls];
-
-    caught_call[0] = this->device_stop();
-    caught_call[1] = this->align_run();
-    caught_call[2] = this->config_preset();    
-    caught_call[3] = this->spectrum_default();
-    caught_call[4] = this->get_everything();
+    
+    (void)this->device_stop();
+    (void)this->align_run();
+    (void)this->config_preset();  
+    (void)this->spectrum_default();
+    // (void)this->get_everything();
     sleep(1);    // toggle
-    caught_call[5] = this->device_run();
+    (void)this->device_run();
     sleep(1);    // toggle
-    caught_call[6] = this->device_stop();
+    (void)this->device_stop();
     sleep(1);    // toggle
-    caught_call[7] = this->device_run();
+    (void)this->device_run();
     sleep(1);    // toggle
-    caught_call[8] = this->device_stop();
+    (void)this->device_stop();
     sleep(1);    // toggle
-    caught_call[9] = this->get_everything();
 
     // INSERT
     
-    return this->cutil.codez_checker(caught_call, calls);
+    return this->get_everything();
+    //return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 

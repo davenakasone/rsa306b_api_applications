@@ -71,7 +71,7 @@ const int LOOP_LIMIT_MS     = 50;    // maximum time, in milli-seconds, to loite
     const uint32_t _ACQ_INFO_TYPE_acqStatus                   = INIT_UINT32;                 // DEFAULT
 
     char           acq_status_messages[IQBLK_BITCHECKS][BUF_D];
-    const char*    _ACQ_STATUS_MESSAGES                       = BITCHECK_SUCCESS_MESSAGE;    // DEFAULT
+    //const char*    _ACQ_STATUS_MESSAGES                       = BITCHECK_SUCCESS_MESSAGE;    // DEFAULT
 
     const uint32_t valid_bitmask                              = 
         (

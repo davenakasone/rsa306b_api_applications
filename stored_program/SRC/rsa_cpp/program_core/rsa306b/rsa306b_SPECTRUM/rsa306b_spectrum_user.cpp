@@ -34,16 +34,21 @@ CODEZ rsa306b_class::spectrum_acquire_data
     int trace_number
 )
 {
+#ifdef DEBUG_CLI
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
 // no safety, no checking, but enforce if needed
 
     (void)this->set_api_status(RSA_API::SPECTRUM_AcquireTrace());     // notify device to start acquisition
 
     float* data    = NULL;
     bool is_ready  = false;
-    int timeout_ms = 0;
+    int timeout_ms = 1;
 
-    (void)this->cutil.h_new_float_d1(data, this->_vars.spectrum.settings_type.traceLength);    // allocate data getter
-    
+    //(void)this->cutil.h_new_float_d1(data, this->_vars.spectrum.settings_type.traceLength);    // allocate data getter
+    data = new float[this->_vars.spectrum.settings_type.traceLength];
+
     while (is_ready == false)
     {
         (void)RSA_API::SPECTRUM_WaitForTraceReady(timeout_ms, &is_ready);    // block until data is ready for acquisition
@@ -55,20 +60,26 @@ CODEZ rsa306b_class::spectrum_acquire_data
             this->_vars.spectrum.trace_select[trace_number], 
             this->_vars.spectrum.settings_type.traceLength, 
             data, 
-            &this->_vars.spectrum.trace_points_acquired[0]
+            &this->_vars.spectrum.trace_points_acquired[trace_number]
         );
 
-    (void)this->cutil.h_copy_float_to_vector_d1
-        (
-            data, 
-            this->_vars.spectrum.trace_points_acquired[trace_number], 
-            this->_vars.spectrum.trace_power_v[trace_number]
-        );
-    (void)this->cutil.h_delete_float_d1(data);
+    this->_vars.spectrum.trace_power_v[trace_number].resize(this->_vars.spectrum.trace_points_acquired[trace_number]);
+    for (int ii=0; ii < this->_vars.spectrum.trace_points_acquired[trace_number]; ii++)
+    {
+        this->_vars.spectrum.trace_power_v[trace_number][ii] = data[ii];
+    }
+    // (void)this->cutil.h_copy_float_to_vector_d1
+    //     (
+    //         data, 
+    //         this->_vars.spectrum.trace_points_acquired[trace_number], 
+    //         this->_vars.spectrum.trace_power_v[trace_number]
+    //     );
+    //(void)this->cutil.h_delete_float_d1(data);
     (void)this->_spectrum_copy_trace_power_v(trace_number);
     (void)this->_spectrum_copy_trace_points_acquired(trace_number);
     (void)this->_spectrum_get_trace_info_type(trace_number);    // user should do a bitcheck on this result
     
+    delete [] data; data = NULL;
     return this->set_api_status(temp);
 }
 
@@ -93,15 +104,15 @@ CODEZ rsa306b_class::spectrum_write_csv
     debug_record(false);
 #endif
     
-    if (file_path_name == NULL)
-    {
-        #ifdef DEBUG_MIN
-            (void)snprintf(X_ddts, sizeof(X_ddts), "%s", this->cutil.codez_messages(CODEZ::_25_pointer_is_null));
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-            debug_record(true);
-        #endif
-        return this->cutil.report_status_code(CODEZ::_25_pointer_is_null);
-    }
+    // if (file_path_name == NULL)
+    // {
+    //     #ifdef DEBUG_MIN
+    //         (void)snprintf(X_ddts, sizeof(X_ddts), "%s", this->cutil.codez_messages(CODEZ::_25_pointer_is_null));
+    //         (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+    //         debug_record(true);
+    //     #endif
+    //     return this->cutil.report_status_code(CODEZ::_25_pointer_is_null);
+    // }
 
     std::size_t v_size_frequency = this->_vars.spectrum.frequency_v.size();
     std::size_t v_size_power     = this->_vars.spectrum.trace_power_v[trace_number].size();
@@ -138,34 +149,40 @@ CODEZ rsa306b_class::spectrum_write_csv
         (void)snprintf(this->_helper, sizeof(this->_helper), "%s", file_path_name);
     }
 
-    if (this->cutil.exe_fopen(this->_helper, "w", this->_fp_write) != CODEZ::_0_no_errors)
-    {
-        return this->cutil.get_status_code();
-    }
-    
-    (void)sprintf(this->_helper, "%s,%s,\n",
+    // if (this->cutil.exe_fopen(this->_helper, "w", this->_fp_write) != CODEZ::_0_no_errors)
+    // {
+    //     return this->cutil.get_status_code();
+    // }
+    this->_fp_write = fopen(this->_helper, "w");
+    if (this->_fp_write == NULL) { return CODEZ::_13_fopen_failed;}
+
+    (void)sprintf(this->_helper, "%s,%s\n",
         SPECTRUM_FIELD_1,
         SPECTRUM_FIELD_2);
     (void)fputs(this->_helper, this->_fp_write);
 
     for (std::size_t idx = 0; idx < v_size_frequency; idx++)
     {
-        if (idx == v_size_frequency-1)
-        {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%lf,%f\n",
+        (void)snprintf(this->_helper, sizeof(this->_helper), "%0.5lf,%0.5f\n",
                 this->_vars.spectrum.frequency_v[idx],
                 this->_vars.spectrum.trace_power_v[trace_number][idx]);
-        }
-        else
-        {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%lf,%f,\n",
-                this->_vars.spectrum.frequency_v[idx],
-                this->_vars.spectrum.trace_power_v[trace_number][idx]);
-        }
+        // if (idx == v_size_frequency-1)
+        // {
+        //     (void)snprintf(this->_helper, sizeof(this->_helper), "%0.5lf,%0.5f\n",
+        //         this->_vars.spectrum.frequency_v[idx],
+        //         this->_vars.spectrum.trace_power_v[trace_number][idx]);
+        // }
+        // else
+        // {
+        //     (void)snprintf(this->_helper, sizeof(this->_helper), "%0.5lf,%0.5f,\n",
+        //         this->_vars.spectrum.frequency_v[idx],
+        //         this->_vars.spectrum.trace_power_v[trace_number][idx]);
+        // }
         (void)fputs(this->_helper, this->_fp_write);
     }
 
-    return this->cutil.exe_fclose(this->_fp_write);
+    fclose(this->_fp_write); this->_fp_write = NULL;
+    return CODEZ::_0_no_errors;
 }
 
 

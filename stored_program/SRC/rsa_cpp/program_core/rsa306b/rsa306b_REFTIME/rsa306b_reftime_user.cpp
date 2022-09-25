@@ -169,7 +169,7 @@ CODEZ rsa306b_class::reftime_make_dts()
         ) != CODEZ::_0_no_errors
     )
     {
-        (void)strcpy(this->_vars.reftime.dts, this->_vars.reftime._DTS);
+        (void)strcpy(this->_vars.reftime.dts, INIT_CHARP);
         this->_reftime_copy_dts();
         return this->cutil.get_status_code();
     }

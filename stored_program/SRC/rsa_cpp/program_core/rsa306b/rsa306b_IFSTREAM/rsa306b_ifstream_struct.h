@@ -171,11 +171,11 @@ const int FILE_LENGTH_MAX_MS = 999;     // maximum milli-seconds to record to a 
     RSA_API::IFSTRMDATAINFO data_info_type;   
     const uint64_t          _DATA_INFO_TYPE_timestamp      = INIT_UINT64;                 // DEFAULT
     const int               _DATA_INFO_TYPE_triggerCount   = INIT_INT;                    // DEFAULT
-    int*                    _DATA_INFO_TYPE_triggerIndices = NULL;                        // DEFAULT
+    //int*                    _DATA_INFO_TYPE_triggerIndices = NULL;                        // DEFAULT
     const uint32_t          _DATA_INFO_TYPE_acqStatus      = BITCHECK_SUCCESS;            // DEFAULT
 
     char        acq_status_messages[IFSTREAM_BITCHECKS][BUF_D];
-    const char* _ACQ_STATUS_MESSAGES                       = BITCHECK_SUCCESS_MESSAGE;    // DEFAULT
+    //const char* _ACQ_STATUS_MESSAGES                       = BITCHECK_SUCCESS_MESSAGE;    // DEFAULT
     
     const uint32_t valid_bitmask                           = 
         (
@@ -260,7 +260,7 @@ const int FILE_LENGTH_MAX_MS = 999;     // maximum milli-seconds to record to a 
             file_name_base ; <file path> <filename base> <suffix> . <ext>
 */
     char        file_name_base[BUF_B]; 
-    const char* _FILE_NAME_BASE = IFSTREAM_FILE_NAME_BASE;    // DEFAULT
+    //const char* _FILE_NAME_BASE = IFSTREAM_FILE_NAME_BASE;    // DEFAULT
 
 
 /*
@@ -268,7 +268,7 @@ const int FILE_LENGTH_MAX_MS = 999;     // maximum milli-seconds to record to a 
         file_path ; <file path> <filename base> <suffix> . <ext>
 */
     char        file_path[BUF_B];
-    const char* _FILE_PATH = DATA_DIRECTORY_RAW;    // DEFAULT
+    //const char* _FILE_PATH = DATA_DIRECTORY_RAW;    // DEFAULT
 
 
 /*
