@@ -158,10 +158,13 @@ $(SDIR)siq_manager/siq_init_copy.cpp \
 $(SDIR)siq_manager/siq_loader.cpp \
 $(SDIR)siq_manager/siq_printer.cpp \
 $(SDIR)siq_manager/siq_write_csv.cpp \
-$(PYDIR)dummy.cpp
+\
+$(PYDIR)dummy.cpp \
+$(PYDIR)rsa_basic.cpp
 
 
 SOURCE_FILES_ALL =$(SDIR)main.cpp \
+$(TDIR_T)task_991.cpp \
 $(TDIR_T)task_992.cpp \
 $(TDIR_T)task_993.cpp \
 $(TDIR_T)task_994.cpp \
