@@ -309,13 +309,14 @@
         "./program_core/rsa306b/rsa306_IQSTREAM/"
             - rsa306b_iqstream_struct.h
                 rsa306b_iqstream_struct
-            - rsa306b_iqstream_print_init_check.cpp
-                print_iqstream()
-                _iqstream_init()
-                _iqstream_bitcheck()
+            - rsa306b_iqstream_acquire.cpp
+                _iqstream_acquire_data_to_file()
+                _iqstream_acquire_data_direct_cplx32_v()
+                _iqstream_acquire_data_direct_cplxInt16_v()
+                _iqstream_acquire_data_direct_cplxInt32_v()
             - rsa306b_iqstream_copy.cpp
                 _iqstream_copy_vars()
-                _iqstream_copy_acqStatus_message()
+                _iqstream_copy_acq_status_message()
                 _iqstream_copy_bandwidth()
                 _iqstream_copy_bandwidth_max()
                 _iqstream_copy_bandwidth_min()
@@ -342,6 +343,10 @@
                 _iqstream_get_disk_fileinfo()
                 _iqstream_get_enabled()
                 _iqstream_get_iq_data_buffer_size()
+            - rsa306b_iqstream_init.cpp
+                _iqstream_init()
+            - rsa306b_iqstream_print.cpp
+                print_iqstream()
             - rsa306b_iqstream_set.cpp
                 iqstream_set_vars()
                 _iqstream_set_vars()
@@ -353,13 +358,15 @@
                 _iqstream_set_output_configuration()
             - rsa306b_iqstream_user.cpp
                 iqstream_acquire_data()                   
-                iqstream_make_csv()
                 iqstream_clear_sticky()
-            - rsa306b_iqstream_acquire.cpp
-                _iqstream_acquire_data_to_file()
-                _iqstream_acquire_data_direct_cplx32_v()
-                _iqstream_acquire_data_direct_cplxInt16_v()
-                _iqstream_acquire_data_direct_cplxInt32_v()
+                iqstream_good_bitcheck()
+                iqstream_start()
+                iqstream_stop()
+            - rsa306b_iqstream_write_csv.cpp
+                iqstream_write_csv()
+                _iqstream_write_csv_cplx32()
+                _iqstream_write_csv_cplxInt32()
+                _iqstream_write_csv_cplxInt16()
 
         "./program_core/rsa306b/rsa306_REFTIME/"
             - rsa306b_reftime_struct.h
@@ -574,12 +581,16 @@ class rsa306b_class
         CODEZ iqblk_make_csv(char* file_path_name);    // call after acquring data, "*.csv" is produced
 
     // API group "IQSTREAM"
-        CODEZ iqstream_print                                          ();    // prints the "IQSTREAM" variables to stdout, using the private struct
-        CODEZ iqstream_set_vars                                       ();    // user changes "IQSTREAM" variables in public struct, then calls to set new values
-        CODEZ iqstream_acquire_data                                   ();    // the "IQSTREAM" data is acquired into "vars.iqstream.cplx*_v", based on setting
-        CODEZ iqstream_write_csv(char* file_path_name, bool use_default);    // call after acquring data, "*.csv" is produced
-        CODEZ iqstream_clear_sticky                                   ();    // clears the sticky bits of "acqStatus"
-    
+        CODEZ iqstream_print                        ();    // prints the "IQSTREAM" variables to stdout, using the private struct
+        CODEZ iqstream_set_vars                     ();    // user changes "IQSTREAM" variables in public struct, then calls to set new values
+        CODEZ iqstream_acquire_data                 ();    // the "IQSTREAM" data is acquired directly into "vars.iqstream.cplx*_v"
+        CODEZ iqstream_record_siq                   ();    // output a "*.siq" file according to user settings
+        CODEZ iqstream_write_csv(char* file_path_name);    // call after acquring data, "*.csv" is produced
+        CODEZ iqstream_clear_sticky                 ();    // clears the sticky bits of "acqStatus"
+        bool  iqstream_good_bitcheck                ();    // bitchecks acquisition status from most recent data transfer
+        CODEZ iqstream_start                        ();    // must be called before first acquisition, call device_start() before this
+        CODEZ iqstream_stop                         ();    // must be called after all acquisitions, call device_stop() after this
+
     // API group "REFTIME"
         CODEZ reftime_print           ();    // prints the "REFTIME" variables to stdout, using the private struct
         CODEZ reftime_reset           ();    // resets start time of the device
@@ -615,13 +626,13 @@ class rsa306b_class
     rsa306b_struct _vars;    // private variables, structured in API layers, by group
 
     // general purpose
-        FILE*                 _fp_write;         // file pointer for writing output data
-        RSA_API::ReturnStatus _api_status;       // enum, most API functions return this
-        char                  _helper[BUF_E];    // smaller cstring
-        char                  _holder[BUF_F];    // large cstring
-        CODEZ                 _init_everything                               ();    // initialize all class variables
-        CODEZ                 _gp_init                                       ();    // initialize the GP private variables
-        CODEZ                 _report_api_status                             ();    // used to check API calls, after setting "_api_status"
+        FILE*                 _fp_write;               // file pointer for writing output data
+        RSA_API::ReturnStatus _api_status;             // enum, most API functions return this
+        char                  _helper[BUF_E];          // smaller cstring
+        char                  _holder[BUF_F];          // large cstring
+        CODEZ                 _init_everything  ();    // initialize all class variables
+        CODEZ                 _gp_init          ();    // initialize the GP private variables
+        CODEZ                 _report_api_status();    // used to check API calls, after setting "_api_status"
     
     // API group "ALIGN"
         CODEZ _align_init          ();
@@ -793,10 +804,12 @@ class rsa306b_class
 
     // API group "IQSTREAM"
         CODEZ _iqstream_init                           ();
-        CODEZ _iqstream_bitcheck                       (uint32_t acqStatus);
+        CODEZ _iqstream_write_csv_cplx32               ();
+        CODEZ _iqstream_write_csv_cplxInt32            ();
+        CODEZ _iqstream_write_csv_cplxInt16            ();
         // copiers, public = private;
         CODEZ _iqstream_copy_vars                      ();
-        CODEZ _iqstream_copy_acqStatus_message         ();
+        CODEZ _iqstream_copy_acq_status_messages       ();
         CODEZ _iqstream_copy_bandwidth                 ();
         CODEZ _iqstream_copy_bandwidth_max             ();
         CODEZ _iqstream_copy_bandwidth_min             ();
@@ -836,6 +849,25 @@ class rsa306b_class
         CODEZ _iqstream_acquire_data_direct_cplx32_v   ();
         CODEZ _iqstream_acquire_data_direct_cplxInt16_v();
         CODEZ _iqstream_acquire_data_direct_cplxInt32_v();
+
+    
+    
+         
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // API group "PLAYBACK"
 

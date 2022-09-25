@@ -2,118 +2,103 @@
     API group "IQSTREAM"
 
     public :
-        #  none
+        < 1 >  iqstream_acquire()
     
     private :
-        < 1 >  _iqstream_acquire_data_to_file()
-        < 2 >  _iqstream_acquire_data_direct_cplx32_v()
-        < 3 >  _iqstream_acquire_data_direct_cplxInt16_v()
-        < 4 >  _iqstream_acquire_data_direct_cplxInt32_v()
+        < 1 >  _iqstream_acquire_data_direct_cplx32_v()
+        < 2 >  _iqstream_acquire_data_direct_cplxInt16_v()
+        < 3 >  _iqstream_acquire_data_direct_cplxInt32_v()
     
     user should have configured with "iqstream_set_vars()" before acquiring data
 */
 
 #include "../rsa306b_class.h"
 
-
 /*
-    < 1 > private
-    data goes to a "*.siq" file
-    make other files types if people need it
+    < 1 > public
+    user should have configured with 
+        "iqstream_set_vars()" before acquiring data
+        "device_run()" was called at lease for first acquisition
+        "iqstream_start()" was called at least for first acquisition
+        ...get data
+        "iqstream_stop()" is called when done
+        "device_stop()" is called last
+
+        data and files will presist, but a new operation will overwrite the std::vectors
+        so process or dump the data before subsequent acquisitons
 */
-CODEZ rsa306b_class::_iqstream_acquire_data_to_file()
+CODEZ rsa306b_class::iqstream_acquire_data()
 {
 #ifdef DEBUG_CLI
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-
-    bool is_complete = false;
-    bool is_writing = false;
-    if (this->_vars.trig.mode_select == RSA_API::freeRun)
+#ifdef SAFETY_CHECKS
+    if (this->_vars.device.is_connected == false)
     {
-        while (is_complete == false)
-        {
-            this->_api_status =
-                RSA_API::IQSTREAM_GetDiskFileWriteStatus
-                (
-                    &is_complete,
-                    &is_writing
-                );
-        }
-        this->_report_api_status();
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
-    else    // triggered mode
+    if (this->_vars.iqstream.destination_select != RSA_API::IQSOD_CLIENT)
     {
-        std::chrono::time_point<std::chrono::steady_clock> start_time;
-        start_time = std::chrono::steady_clock::now();
-        std::chrono::time_point<std::chrono::steady_clock> current_time;
-        int elapsed_ms = 0;
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_ddts, sizeof(X_ddts), "only can use direct-to-client streaming");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
+    }
+#endif
 
-        while 
+    // settings applied
+    // device_run()
+    // iqstream_start()
+
+    bool is_ready = false;
+    int timeout_ms = this->_vars.iqstream.LOOP_LIMIT_MS;
+    (void)this->_iqstream_get_iq_data_buffer_size();
+    
+    this->_api_status =
+        RSA_API::IQSTREAM_WaitForIQDataReady
         (
-            elapsed_ms < this->constants.IQSTREAM_TIMEOUT_MS &&
-            is_complete == false
-        )
-        {
-            this->_api_status =
-                RSA_API::IQSTREAM_GetDiskFileWriteStatus
-                (
-                    &is_complete,
-                    &is_writing
-                );
-            this->_report_api_status();
+            timeout_ms, 
+            &is_ready
+        );// need different capabilities for triggereing
+    this->_report_api_status();
 
-            current_time = std::chrono::steady_clock::now();
-            elapsed_ms = static_cast<int>(
-                std::chrono::duration_cast<std::chrono::milliseconds>(current_time - start_time).count());
-        }
-        if (is_complete == false)
-        {
-            #ifdef DEBUG_MIN
-                printf("\n\ttrigger event never occured...aborting output file\n");
-            #endif
-            this->_iqstream_get_disk_fileinfo();
-            this->_iqstream_bitcheck(this->_vars.iqstream.fileinfo_type.acqStatus);
-            std::wstring filenames_0w(this->_vars.iqstream.fileinfo_type.filenames[0]);
-            std::wstring filenames_1w(this->_vars.iqstream.fileinfo_type.filenames[1]);
-            std::string filenames0s (filenames_0w.begin(), filenames_0w.end());
-            std::string filenames1s (filenames_1w.begin(), filenames_1w.end());
-            (void)strncpy(this->_vars.iqstream.fileinfo_type.filenames_0, filenames0s.c_str(), BUF_E);
-            (void)strncpy(this->_vars.iqstream.fileinfo_type.filenames_1, filenames1s.c_str(), BUF_E);
-            (void)strncpy(this->vars.iqstream.fileinfo_type.filenames_0, this->_vars.iqstream.fileinfo_type.filenames_0, BUF_E);
-            (void)strncpy(this->vars.iqstream.fileinfo_type.filenames_1, this->_vars.iqstream.fileinfo_type.filenames_0, BUF_E);
-            
-            this->_vars.gp.call_status = remove(this->_vars.iqstream.fileinfo_type.filenames_0);
-            if (this->_vars.gp.call_status != 0)
-            {
-                #ifdef DEBUG_MIN
-                    (void)printf("\n\terror removing: %s  ,  %d\n", 
-                        this->_vars.iqstream.fileinfo_type.filenames_0,
-                        this->_vars.gp.call_status);
-                #endif
-            }
-            else
-            {
-                (void)printf("timed out, deleted  '%s'\n",
-                    this->_vars.iqstream.fileinfo_type.filenames_0);
-            }
-            this->_vars.iqstream.fileinfo_type.numberSamples = 0;
-            this->vars.iqstream.fileinfo_type.numberSamples = this->_vars.iqstream.fileinfo_type.numberSamples;
-            return;
-        }
+    if (is_ready == false)
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_ddts, sizeof(X_ddts), "trigger event never occured...no data acquired");
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+            debug_record(true);
+        #endif
+
+        this->_vars.iqstream.cplx32_v.clear();
+        this->_vars.iqstream.cplx32_v.resize(this->_vars.iqstream._CPLX_V_size);
+        (void)this->_iqstream_copy_cplx32_v();
+        
+        this->_vars.iqstream.pairs_copied = this->_vars.iqstream._PAIRS_COPIED;
+        (void)this->_iqstream_copy_pairs_copied();
+
+        return this->cutil.report_status_code(CODEZ::_30_trigger_event_never_occured);
     }
 
-    this->_iqstream_get_disk_fileinfo();
-    this->_iqstream_bitcheck(this->_vars.iqstream.fileinfo_type.acqStatus);
-    std::wstring filenames_0w(this->_vars.iqstream.fileinfo_type.filenames[0]);
-    std::wstring filenames_1w(this->_vars.iqstream.fileinfo_type.filenames[1]);
-    std::string filenames0s (filenames_0w.begin(), filenames_0w.end());
-    std::string filenames1s (filenames_1w.begin(), filenames_1w.end());
-    (void)strncpy(this->_vars.iqstream.fileinfo_type.filenames_0, filenames0s.c_str(), BUF_E);
-    (void)strncpy(this->_vars.iqstream.fileinfo_type.filenames_1, filenames1s.c_str(), BUF_E);
-    (void)strncpy(this->vars.iqstream.fileinfo_type.filenames_0, this->_vars.iqstream.fileinfo_type.filenames_0, BUF_E);
-    (void)strncpy(this->vars.iqstream.fileinfo_type.filenames_1, this->_vars.iqstream.fileinfo_type.filenames_0, BUF_E);
+    switch (this->_vars.iqstream.datatype_select)
+    {
+        case (RSA_API::IQSODT_SINGLE)             : return this->_iqstream_acquire_data_direct_cplx32_v   ();
+        case (RSA_API::IQSODT_SINGLE_SCALE_INT32) : return this->_iqstream_acquire_data_direct_cplx32_v   ();
+        case (RSA_API::IQSODT_INT16)              : return this->_iqstream_acquire_data_direct_cplxInt16_v();
+        case (RSA_API::IQSODT_INT32)              : return this->_iqstream_acquire_data_direct_cplxInt32_v();
+        default : return this->cutil.report_status_code(CODEZ::_2_error_in_logic);
+    }
+    // iqstream_stop()
+    // device_stop()
+    // bitchecks
 }
 
 
@@ -121,7 +106,7 @@ CODEZ rsa306b_class::_iqstream_acquire_data_to_file()
 
 
 /*
-    < 2 > private
+    < 1 > private
     data to std::vector<Cplx32> 
     trigger timeout is handled by the delay
 */
@@ -132,37 +117,6 @@ CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplx32_v()
     debug_record(false);
 #endif  
 
-    bool is_ready = false;
-    this->_iqstream_get_iq_data_buffer_size();
-    while (is_ready == false)
-    {
-        this->_api_status =
-            RSA_API::IQSTREAM_WaitForIQDataReady
-            (
-                0, 
-                &is_ready
-            );// need a breakout timer
-    }
-    this->_report_api_status();
-    if (is_ready == false)
-    {
-        #ifdef DEBUG_MIN
-            (void)printf("\n\t%d ms elapsed, no trigger detected, no data acquired\n",
-                this->constants.IQSTREAM_TIMEOUT_MS);
-        #endif
-        this->_vars.iqstream.cplx32_v.clear();
-        this->_vars.iqstream.cplx32_v.resize(this->constants.INIT_STL_LENGTH);
-        this->_iqstream_copy_cplx32_v();
-        this->_vars.iqstream.pairs_copied = this->constants.INIT_INT;
-        this->_iqstream_copy_pairs_copied();
-        this->_vars.iqstream.info_type.acqStatus = this->constants.INIT_UINT;
-        this->_vars.iqstream.info_type.scaleFactor = this->constants.INIT_DOUBLE;
-        this->_vars.iqstream.info_type.timestamp = this->constants.INIT_UINT;
-        this->_iqstream_copy_info_type();
-        this->_iqstream_bitcheck(this->_vars.iqstream.info_type.acqStatus);
-        return;    // data transfer aborted
-    }
-
     RSA_API::Cplx32* p_cplx32 = NULL;
     try
     {
@@ -172,14 +126,14 @@ CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplx32_v()
     {
         std::cout << "allocation failure:  " << allocation_status.what() << std::endl;
     }
-    this->_api_status = 
+
+    RSA_API::ReturnStatus temp = 
         RSA_API::IQSTREAM_GetIQData
         (
             p_cplx32,
             &this->_vars.iqstream.pairs_copied,
             &this->_vars.iqstream.info_type
         );
-    this->_report_api_status();
 
     this->_vars.iqstream.cplx32_v.
         resize(static_cast<std::size_t>(this->_vars.iqstream.pairs_copied));
@@ -191,10 +145,10 @@ CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplx32_v()
     delete [] p_cplx32; 
     p_cplx32 = NULL;
 
-    this->_iqstream_copy_pairs_copied();
-    this->_iqstream_copy_info_type();
-    this->_iqstream_copy_cplx32_v();
-    this->_iqstream_bitcheck(this->_vars.iqstream.info_type.acqStatus);
+    (void)this->_iqstream_copy_pairs_copied();
+    (void)this->_iqstream_copy_info_type();
+    (void)this->_iqstream_copy_cplx32_v();
+    return this->set_api_status(temp);
 }
 
 
@@ -202,7 +156,7 @@ CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplx32_v()
 
 
 /*
-    < 3 > private
+    < 2 > private
     data to std::vector<CplxInt16> 
     trigger timeout is handled by the delay
 */
@@ -213,37 +167,6 @@ CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplxInt16_v()
     debug_record(false);
 #endif  
 
-    bool is_ready = false;
-    this->_iqstream_get_iq_data_buffer_size();
-    while (is_ready == false)
-    {
-        this->_api_status =
-            RSA_API::IQSTREAM_WaitForIQDataReady
-            (
-                0, 
-                &is_ready
-            );
-    }
-    this->_report_api_status();
-    if (is_ready == false)
-    {
-        #ifdef DEBUG_MIN
-            (void)printf("\n\t%d ms elapsed, no trigger detected, no data acquired\n",
-                this->constants.IQSTREAM_TIMEOUT_MS);
-        #endif
-        this->_vars.iqstream.cplxInt16_v.clear();
-        this->_vars.iqstream.cplxInt16_v.resize(this->constants.INIT_STL_LENGTH);
-        this->_iqstream_copy_cplxInt16_v();
-        this->_vars.iqstream.pairs_copied = this->constants.INIT_INT;
-        this->_iqstream_copy_pairs_copied();
-        this->_vars.iqstream.info_type.acqStatus = this->constants.INIT_UINT;
-        this->_vars.iqstream.info_type.scaleFactor = this->constants.INIT_DOUBLE;
-        this->_vars.iqstream.info_type.timestamp = this->constants.INIT_UINT;
-        this->_iqstream_copy_info_type();
-        this->_iqstream_bitcheck(this->_vars.iqstream.info_type.acqStatus);
-        return;    // data transfer aborted
-    }
-
     RSA_API::CplxInt16* p_cplxInt16 = NULL;
     try
     {
@@ -253,14 +176,14 @@ CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplxInt16_v()
     {
         std::cout << "allocation failure:  " << allocation_status.what() << std::endl;
     }
-    this->_api_status = 
+
+    RSA_API::ReturnStatus temp =
         RSA_API::IQSTREAM_GetIQData
         (
             p_cplxInt16,
             &this->_vars.iqstream.pairs_copied,
             &this->_vars.iqstream.info_type
         );
-    this->_report_api_status();
 
     this->_vars.iqstream.cplxInt16_v.
         resize(static_cast<std::size_t>(this->_vars.iqstream.pairs_copied));
@@ -272,10 +195,10 @@ CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplxInt16_v()
     delete [] p_cplxInt16; 
     p_cplxInt16 = NULL;
 
-    this->_iqstream_copy_pairs_copied();
-    this->_iqstream_copy_info_type();
-    this->_iqstream_copy_cplxInt16_v();
-    this->_iqstream_bitcheck(this->_vars.iqstream.info_type.acqStatus);
+    (void)this->_iqstream_copy_pairs_copied();
+    (void)this->_iqstream_copy_info_type();
+    (void)this->_iqstream_copy_cplxInt16_v();
+    return this->set_api_status(temp);
 }
 
 
@@ -283,7 +206,7 @@ CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplxInt16_v()
 
 
 /*
-    < 4 > private
+    < 3 > private
     data to std::vector<CplxInt32> 
     trigger timeout is handled by the delay
 */
@@ -294,37 +217,6 @@ CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplxInt32_v()
     debug_record(false);
 #endif  
 
-    bool is_ready = false;
-    this->_iqstream_get_iq_data_buffer_size();
-    while (is_ready == false)
-    {
-        this->_api_status =
-            RSA_API::IQSTREAM_WaitForIQDataReady
-            (
-                0, 
-                &is_ready
-            );
-    }
-    this->_report_api_status();
-    if (is_ready == false)
-    {
-        #ifdef DEBUG_MIN
-            (void)printf("\n\t%d ms elapsed, no trigger detected, no data acquired\n",
-                this->constants.IQSTREAM_TIMEOUT_MS);
-        #endif
-        this->_vars.iqstream.cplxInt32_v.clear();
-        this->_vars.iqstream.cplxInt32_v.resize(this->constants.INIT_STL_LENGTH);
-        this->_iqstream_copy_cplxInt32_v();
-        this->_vars.iqstream.pairs_copied = this->constants.INIT_INT;
-        this->_iqstream_copy_pairs_copied();
-        this->_vars.iqstream.info_type.acqStatus = this->constants.INIT_UINT;
-        this->_vars.iqstream.info_type.scaleFactor = this->constants.INIT_DOUBLE;
-        this->_vars.iqstream.info_type.timestamp = this->constants.INIT_UINT;
-        this->_iqstream_copy_info_type();
-        this->_iqstream_bitcheck(this->_vars.iqstream.info_type.acqStatus);
-        return;    // data transfer aborted
-    }
-
     RSA_API::CplxInt32* p_cplxInt32 = NULL;
     try
     {
@@ -334,14 +226,14 @@ CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplxInt32_v()
     {
         std::cout << "allocation failure:  " << allocation_status.what() << std::endl;
     }
-    this->_api_status = 
+    
+    RSA_API::ReturnStatus temp =
         RSA_API::IQSTREAM_GetIQData
         (
             p_cplxInt32,
             &this->_vars.iqstream.pairs_copied,
             &this->_vars.iqstream.info_type
         );
-    this->_report_api_status();
 
     this->_vars.iqstream.cplxInt32_v.
         resize(static_cast<std::size_t>(this->_vars.iqstream.pairs_copied));
@@ -353,10 +245,10 @@ CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplxInt32_v()
     delete [] p_cplxInt32; 
     p_cplxInt32 = NULL;
 
-    this->_iqstream_copy_pairs_copied();
-    this->_iqstream_copy_info_type();
-    this->_iqstream_copy_cplxInt32_v();
-    this->_iqstream_bitcheck(this->_vars.iqstream.info_type.acqStatus);
+    (void)this->_iqstream_copy_pairs_copied();
+    (void)this->_iqstream_copy_info_type();
+    (void)this->_iqstream_copy_cplxInt32_v();
+    return this->set_api_status(temp);
 }
 
              

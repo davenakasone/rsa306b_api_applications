@@ -29,6 +29,9 @@
             exe_fopen()
             exe_fseek()
             exe_ftell()
+        
+        "cu_exe_2.cpp"
+            exe_remove()
 
         "cu_help_1.cpp"
             h_find_bytes_in_file()
@@ -61,6 +64,7 @@
             _timer_set_running_wall()
         
         "cu_wchar_2_char.cpp"
+            wchar_2_char_std()
             wchar_2_char()
 
     Notes:
@@ -109,6 +113,7 @@ class common_utility
         CODEZ exe_fseek  (FILE* fp, long int offset, int origin);
         CODEZ exe_ftell  (FILE* fp, long int& position);
         CODEZ exe_fclose (FILE* fp);
+        CODEZ exe_remove (const char* file_to_delete);
 
         // help for a common task
         CODEZ h_find_bytes_in_file(const char* file_path_name, long& result);
@@ -136,13 +141,15 @@ class common_utility
         double timer_get_running_wall();                                          // updates "_running_wall"
 
         // string tools
+        CODEZ wchar_2_char_std(char* destination, const wchar_t* source);                            // string converter, wchar_t* to char* using std::strings
         CODEZ wchar_2_char(const wchar_t* source, char* destination);                                // string converter,  wchar_t* to char*
         CODEZ make_date_timestamp(const time_t* seconds, const uint64_t nanos, char* dts_string);    // place desired time into formated string
 
-        // acqstatus
+        // acqstatus bitchecking, the API has 6 bitcheck points in 5 API groups
         CODEZ ifstream_acq_status(const uint32_t acq_status, const uint32_t valid_bitmask, char results[IFSTREAM_BITCHECKS][BUF_D]);
         //CODEZ dpx_acq_status     (const uint32_t acq_status, const uint32_t valid_bitmask, char results[DPX_BITCHECKS][BUF_D]     );
         CODEZ iqblk_acq_status   (const uint32_t acq_status, const uint32_t valid_bitmask, char results[IQBLK_BITCHECKS][BUF_D]   );
+        CODEZ iqstream_acq_status(const uint32_t acq_status, const uint32_t valid_bitmask, char results[IQSTREAM_BITCHECKS][BUF_D]);
         CODEZ spectrum_acq_status(const uint16_t acq_status, const uint16_t valid_bitmask, char results[SPECTRUM_BITCHECKS][BUF_D]);
 
 

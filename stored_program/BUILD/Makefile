@@ -46,13 +46,15 @@ SOURCE_FILES_SO =\
 $(UDIR)cu_codez.cpp \
 $(UDIR)cu_common_utility.cpp \
 $(UDIR)cu_exe_1.cpp \
+$(UDIR)cu_exe_2.cpp \
 $(UDIR)cu_help_1.cpp \
 $(UDIR)cu_help_float.cpp \
 $(UDIR)cu_help_int16.cpp \
 $(UDIR)cu_ifstream_acq_status.cpp \
 $(UDIR)cu_iqblk_acq_status.cpp \
-$(UDIR)cu_spectrum_acq_status.cpp \
+$(UDIR)cu_iqstream_acq_status.cpp \
 $(UDIR)cu_make_date_timestamp.cpp \
+$(UDIR)cu_spectrum_acq_status.cpp \
 $(UDIR)cu_timing.cpp \
 $(UDIR)cu_wchar_2_char.cpp \
 \
@@ -121,9 +123,12 @@ $(SDIR)rsa306b/rsa306b_IQBLK/rsa306b_iqblk_user.cpp \
 $(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_acquire.cpp \
 $(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_copy.cpp \
 $(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_get.cpp \
-$(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_print_init_check.cpp \
+$(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_init.cpp \
+$(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_print.cpp \
 $(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_set.cpp \
+$(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_user_record_siq.cpp \
 $(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_user.cpp \
+$(SDIR)rsa306b/rsa306b_IQSTREAM/rsa306b_iqstream_write_csv.cpp \
 \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_copy.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_get.cpp \

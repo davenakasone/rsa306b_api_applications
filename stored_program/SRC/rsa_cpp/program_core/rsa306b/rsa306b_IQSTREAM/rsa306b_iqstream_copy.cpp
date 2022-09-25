@@ -6,7 +6,7 @@
     
     private :
         < 1 >   _iqstream_copy_vars()
-        < 2 >   _iqstream_copy_acqStatus_message()
+        < 2 >   _iqstream_copy_acq_status_messages()
         < 3 >   _iqstream_copy_bandwidth()
         < 4 >   _iqstream_copy_bandwidth_max()
         < 5 >   _iqstream_copy_bandwidth_min()
@@ -40,24 +40,29 @@ CODEZ rsa306b_class::_iqstream_copy_vars()
     debug_record(false);
 #endif  
 
-    this->_iqstream_copy_acqStatus_message();
-    this->_iqstream_copy_bandwidth_max();
-    this->_iqstream_copy_bandwidth_min();
-    this->_iqstream_copy_sample_rate();
-    this->_iqstream_copy_fileinfo_type();
-    this->_iqstream_copy_is_enabled();       
-    this->_iqstream_copy_pairs_copied();   
-    this->_iqstream_copy_info_type();
-    this->_iqstream_copy_cplx32_v();
-    this->_iqstream_copy_cplxInt16_v();
-    this->_iqstream_copy_cplxInt32_v();
-    this->_iqstream_copy_pairs_max();
-    this->_iqstream_copy_record_time_ms();
-    this->_iqstream_copy_filename_base();
-    this->_iqstream_copy_suffix_control();
-    this->_iqstream_copy_buffer_multiplier();
-    this->_iqstream_copy_destination_select();
-    this->_iqstream_copy_datatype_select();
+    constexpr int callz = 19;
+    CODEZ caught_call[callz];
+
+    caught_call[0]  = this->_iqstream_copy_acq_status_messages();
+    caught_call[2]  = this->_iqstream_copy_bandwidth_max      ();
+    caught_call[3]  = this->_iqstream_copy_bandwidth_min      ();
+    caught_call[4]  = this->_iqstream_copy_sample_rate        ();
+    caught_call[5]  = this->_iqstream_copy_fileinfo_type      ();
+    caught_call[6]  = this->_iqstream_copy_is_enabled         ();       
+    caught_call[7]  = this->_iqstream_copy_pairs_copied       ();   
+    caught_call[8]  = this->_iqstream_copy_info_type          ();
+    caught_call[9]  = this->_iqstream_copy_cplx32_v           ();
+    caught_call[10] = this->_iqstream_copy_cplxInt16_v        ();
+    caught_call[11] = this->_iqstream_copy_cplxInt32_v        ();
+    caught_call[12] = this->_iqstream_copy_pairs_max          ();
+    caught_call[13] = this->_iqstream_copy_record_time_ms     ();
+    caught_call[14] = this->_iqstream_copy_filename_base      ();
+    caught_call[15] = this->_iqstream_copy_suffix_control     ();
+    caught_call[16] = this->_iqstream_copy_buffer_multiplier  ();
+    caught_call[17] = this->_iqstream_copy_destination_select ();
+    caught_call[18] = this->_iqstream_copy_datatype_select    ();
+
+    return this->cutil.codez_checker(caught_call, callz);
 }
 
 
@@ -67,7 +72,7 @@ CODEZ rsa306b_class::_iqstream_copy_vars()
 /*
     < 2 > private
 */
-CODEZ rsa306b_class::_iqstream_copy_acqStatus_message()
+CODEZ rsa306b_class::_iqstream_copy_acq_status_messages()
 {
 #ifdef DEBUG_COPYS
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
@@ -76,9 +81,10 @@ CODEZ rsa306b_class::_iqstream_copy_acqStatus_message()
 
     for (int ii = 0; ii < IQSTREAM_BITCHECKS; ii++)
     {
-        (void)strcpy(this->vars.iqstream.acqStatus_message[ii],
-            this->_vars.iqstream.acqStatus_message[ii]);
+        (void)strcpy(this->vars.iqstream.acq_status_messages[ii],
+            this->_vars.iqstream.acq_status_messages[ii]);
     }
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -96,6 +102,7 @@ CODEZ rsa306b_class::_iqstream_copy_bandwidth()
 #endif  
 
     this->vars.iqstream.bandwidth = this->_vars.iqstream.bandwidth;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -113,6 +120,7 @@ CODEZ rsa306b_class::_iqstream_copy_bandwidth_max()
 #endif  
 
     this->vars.iqstream.bandwidth_max = this->_vars.iqstream.bandwidth_max;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -130,6 +138,7 @@ CODEZ rsa306b_class::_iqstream_copy_bandwidth_min()
 #endif  
 
     this->vars.iqstream.bandwidth_min = this->_vars.iqstream.bandwidth_min;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -147,6 +156,7 @@ CODEZ rsa306b_class::_iqstream_copy_sample_rate()
 #endif  
 
     this->vars.iqstream.sample_rate = this->_vars.iqstream.sample_rate;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -169,8 +179,10 @@ CODEZ rsa306b_class::_iqstream_copy_fileinfo_type()
     this->vars.iqstream.fileinfo_type.triggerSampleIndex = this->_vars.iqstream.fileinfo_type.triggerSampleIndex;
     this->vars.iqstream.fileinfo_type.triggerTimestamp   = this->_vars.iqstream.fileinfo_type.triggerTimestamp;
     
-    (void)strcpy(this->vars.iqstream.fileinfo_type.filenames_0, this->_vars.iqstream.fileinfo_type.filenames_0);
-    (void)strcpy(this->vars.iqstream.fileinfo_type.filenames_1, this->_vars.iqstream.fileinfo_type.filenames_1);
+    // taking 2x char* and ignoring wchar_t**
+    (void)strcpy(this->vars.iqstream.filenames_0_data, this->_vars.iqstream.filenames_0_data);
+    (void)strcpy(this->vars.iqstream.filenames_1_header, this->_vars.iqstream.filenames_1_header);
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -188,6 +200,7 @@ CODEZ rsa306b_class::_iqstream_copy_is_enabled()
 #endif  
 
     this->vars.iqstream.is_enabled = this->_vars.iqstream.is_enabled;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -205,6 +218,7 @@ CODEZ rsa306b_class::_iqstream_copy_pairs_copied()
 #endif  
 
     this->vars.iqstream.pairs_copied = this->_vars.iqstream.pairs_copied;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -221,8 +235,6 @@ CODEZ rsa306b_class::_iqstream_copy_info_type()
     debug_record(false);
 #endif  
 
-    this->_iqstream_bitcheck(this->_vars.iqstream.info_type.acqStatus);
-
     this->vars.iqstream.info_type.acqStatus    = this->_vars.iqstream.info_type.acqStatus;
     this->vars.iqstream.info_type.scaleFactor  = this->_vars.iqstream.info_type.scaleFactor;
     this->vars.iqstream.info_type.timestamp    = this->_vars.iqstream.info_type.timestamp;
@@ -237,6 +249,7 @@ CODEZ rsa306b_class::_iqstream_copy_info_type()
     {
         this->vars.iqstream.info_type.triggerIndices = this->vars.iqstream.info_type.triggerIndices;
     }
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -256,6 +269,7 @@ CODEZ rsa306b_class::_iqstream_copy_cplx32_v()
     this->vars.iqstream.cplx32_v.resize(
         this->_vars.iqstream.cplx32_v.size());
     this->vars.iqstream.cplx32_v = this->_vars.iqstream.cplx32_v;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -275,6 +289,7 @@ CODEZ rsa306b_class::_iqstream_copy_cplxInt16_v()
     this->vars.iqstream.cplxInt16_v.resize(
         this->_vars.iqstream.cplxInt16_v.size());
     this->vars.iqstream.cplxInt16_v = this->_vars.iqstream.cplxInt16_v;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -294,6 +309,7 @@ CODEZ rsa306b_class::_iqstream_copy_cplxInt32_v()
     this->vars.iqstream.cplxInt32_v.resize(
         this->_vars.iqstream.cplxInt32_v.size());
     this->vars.iqstream.cplxInt32_v = this->_vars.iqstream.cplxInt32_v;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -311,6 +327,7 @@ CODEZ rsa306b_class::_iqstream_copy_pairs_max()
 #endif  
 
     this->vars.iqstream.pairs_max = this->_vars.iqstream.pairs_max;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -328,6 +345,7 @@ CODEZ rsa306b_class::_iqstream_copy_record_time_ms()
 #endif  
 
     this->vars.iqstream.record_time_ms = this->_vars.iqstream.record_time_ms;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -345,6 +363,7 @@ CODEZ rsa306b_class::_iqstream_copy_filename_base()
 #endif  
 
     strcpy(this->vars.iqstream.filename_base, this->_vars.iqstream.filename_base);
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -362,6 +381,7 @@ CODEZ rsa306b_class::_iqstream_copy_suffix_control()
 #endif  
 
     this->vars.iqstream.suffix_control = this->_vars.iqstream.suffix_control;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -379,6 +399,7 @@ CODEZ rsa306b_class::_iqstream_copy_buffer_multiplier()
 #endif  
 
     this->vars.iqstream.buffer_multiplier = this->_vars.iqstream.buffer_multiplier;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -396,6 +417,7 @@ CODEZ rsa306b_class::_iqstream_copy_destination_select()
 #endif  
 
     this->vars.iqstream.destination_select = this->_vars.iqstream.destination_select;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -413,6 +435,7 @@ CODEZ rsa306b_class::_iqstream_copy_datatype_select()
 #endif  
 
     this->vars.iqstream.datatype_select = this->_vars.iqstream.datatype_select;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 

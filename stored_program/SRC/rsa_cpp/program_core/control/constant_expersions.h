@@ -93,7 +93,7 @@ constexpr int  IQBLK_BITCHECKS                                    = 5;          
 constexpr char IQBLK_FIELD_1[]                                    = "interval";    // used to label fields in "*.csv" output
 constexpr char IQBLK_FIELD_2[]                                    = "I";           // used to label fields in "*.csv" output
 constexpr char IQBLK_FIELD_3[]                                    = "Q";           // used to label fields in "*.csv" output
-constexpr char IQBLK_BITCHECK_MESSAGES[IQBLK_BITCHECKS][BUF_C] =                   // error codes for 'IQBLK' bitchecks
+constexpr char IQBLK_BITCHECK_MESSAGES[IQBLK_BITCHECKS][BUF_C]    =                // error codes for 'IQBLK' bitchecks
 {
     "b0 : ADC overange during acquisition",
     "b1 : frequency reference unlocked during acquisition",
@@ -105,18 +105,39 @@ constexpr char IQBLK_BITCHECK_MESSAGES[IQBLK_BITCHECKS][BUF_C] =                
 // IQSTREAM
 typedef enum
 {
-    X_1 = 1,    // the minimum size
-    X_2 = 2,    // the default size
+    X_1 = 1,    // scale IQ buffer to minimum size
+    X_2 = 2,    // scale IQ buffer to default size
     X_3 = 3,
     X_4 = 4,
     X_5 = 5,
     X_6 = 6,
     X_7 = 7,
-    X_8 = 8     // the maximum size
-}iqstreamBufferMultiple;
-constexpr char IQSTREAM_FILE_NAME_BASE[] = "iqstream";
-constexpr int IQSTREAM_BITCHECKS         =  13;                //  status bits [0:5], [16:21], + summary, for both "*acqStatus" 
-const char IQSTREAM_FAIL_BITS[IQSTREAM_BITCHECKS][BUF_C] =
+    X_8 = 8     // scale IQ buffer to maximum size
+}iqsBuff;
+constexpr int IQSTREAM_BUFFER_SIZE_LARGE                          = 65536;         // for 2.5 MHz to 40 MHz
+constexpr int IQSTREAM_BUFFER_SIZE_MEDIUM                         = 32768;         // for 96765.625 Hz to 2.5 MHz
+constexpr int IQSTREAM_BUFFER_SIZE_SMALL                          = 128;           // for < 96765.625 Hz
+constexpr int IQSTREAM_INTERVALS                                  = 10;            // bandwidth intervals
+constexpr double IQSTREAM_BANDWIDTH_RANGES[IQSTREAM_INTERVALS][2] =
+{
+    {1.25e6 / 1   , 2.5e6 / 1   },   // divide by 2^0
+    {1.25e6 / 2   , 2.5e6 / 2   },   // divide by 2^1 
+    {1.25e6 / 4   , 2.5e6 / 4   },   // ...
+    {1.25e6 / 8   , 2.5e6 / 8   },
+    {1.25e6 / 16  , 2.5e6 / 16  },
+    {1.25e6 / 32  , 2.5e6 / 32  },
+    {1.25e6 / 64  , 2.5e6 / 64  },    // ...
+    {1.25e6 / 128 , 2.5e6 / 128 },    // divided by 2^7
+    {1e3          , 9765.625    },    // lowest bandwidth range, smallest sample pairs
+    {2.5e6        , 40e6        }     // highest bandwidth range, largest sample pairs
+    
+};
+constexpr char IQSTREAM_FILE_NAME_BASE[]                         = "iqstream";    // default base name for output files
+constexpr char IQSTREAM_FIELD_1[]                                = "interval";    // used to label fields in "*.csv" output
+constexpr char IQSTREAM_FIELD_2[]                                = "I";           // used to label fields in "*.csv" output
+constexpr char IQSTREAM_FIELD_3[]                                = "Q";           // used to label fields in "*.csv" output
+constexpr int IQSTREAM_BITCHECKS                                 =  13;           //  status bits [0:5], [16:21], + summary, for both "*acqStatus" 
+const char IQSTREAM_BITCHECK_MESSAGES[IQSTREAM_BITCHECKS][BUF_C] =                // error codes for 'IQSTREAM' bitchecks
 {
     "b0  {this sample} RF input overrange detected",
     "b1  {this sample} USB data stream discontinuity error, gap detected in IF frame transfers",

@@ -13,13 +13,33 @@
         IQSTREAM_SetDiskFilenameBase()
         IQSTREAM_SetDiskFilenameSuffix()
         IQSTREAM_SetDataBufferSize()
-
-    IQSTREAM_SetOutputConfiguration()
-    IQSTREAM_Start()
-    IQSTREAM_Stop()
-    IQSTREAM_WaitForIQDataReady()
+        IQSTREAM_SetOutputConfiguration()
+        IQSTREAM_Start()
+        IQSTREAM_Stop()
+        IQSTREAM_WaitForIQDataReady()
 
     active :
+        double                          bandwidth_max
+        double                          bandwidth_min
+        double                          sample_rate
+        RSA_API::IQSTRMFILEINFO         fileinfo_type
+        char                            filenames_0_data[BUF_D]
+        char                            filenames_1_header[BUF_D]
+        bool                            is_enabled
+        int                             pairs_copied
+        RSA_API::IQSTRMIQINFO           info_type
+        std::vector<RSA_API::Cplx32>    cplx32_v
+        std::vector<RSA_API::CplxInt16> cplxInt16_v
+        std::vector<RSA_API::CplxInt32> cplxInt32_v
+        int                             pairs_max
+        double                          bandwidth
+        int                             record_time_ms
+        char                            filename_base[BUF_C]
+        int                             suffix_control
+        int                             buffer_multiplier
+        RSA_API::IQSOUTDEST             destination_select
+        RSA_API::IQSOUTDTYPE            datatype_select     
+        char                            acq_status_messages[IQSTREAM_BITCHECKS][BUF_C]
 
     constexpr helpers  :  <GROUP>_<CONSTEXPR_NAME>    // with group reference since used outside struct instance
     limiting constants :  <CONSTANT_NAME>             // no leading underscore
@@ -53,7 +73,11 @@
 struct rsa306b_iqstream_struct
 {
 
+
 // limiting constants :
+    const int  RECORD_MSEC_MIN = 1;      // if this is 0, then infinite recording occurs, p79
+    const int  RECORD_MSEC_MAX = 999;    // limit for disk space, the files are huge
+    const int  LOOP_LIMIT_MS   = 2000;    // how much time to loiter in a loop before breaking out
 
 
 /*
@@ -135,7 +159,7 @@ struct rsa306b_iqstream_struct
         is_enabled ; true means streaming process is active, false means not active
 */
     bool is_enabled;
-    const bool _IS_ENABLED = false'
+    const bool _IS_ENABLED = false;
 
 /*
     IQSTREAM_GetIQData()
@@ -241,7 +265,7 @@ struct rsa306b_iqstream_struct
             buffer_multiplier ; see const table
 */
     int buffer_multiplier;
-    const int _BUFFER_MULTIPLIER = iqstreamBufferMultiple::X_2;
+    const int _BUFFER_MULTIPLIER = iqsBuff::X_2;
 
 
 /*
@@ -289,21 +313,21 @@ struct rsa306b_iqstream_struct
 
 // extras
 
-    char acq_status_messages[IQSTREAM_BITCHECKS][BUF_C];    // maintains results of both "acqStatus" vars
+    char acq_status_messages[IQSTREAM_BITCHECKS][BUF_D];    // maintains results of both "acqStatus" vars
     const uint32_t valid_bitmask = static_cast<uint32_t>
         (
-            RSA_API::IQSTRM_STATUS_OVERRANGE                                                   |
-            RSA_API::IQSTRM_STATUS_XFER_DISCONTINUITY                                          |
-            RSA_API::IQSTRM_STATUS_IBUFF75PCT                                                  |
-            RSA_API::IQSTRM_STATUS_IBUFFOVFLOW                                                 |
-            RSA_API::IQSTRM_STATUS_OBUFF75PCT                                                  |
-            RSA_API::IQSTRM_STATUS_OBUFFOVFLOW                                                 |
-            (RSA_API::IQSTRM_STATUS_OVERRANGE          << RSA_API::IQSTRM_STATUS_STICKY_SHIFT) |
-            (RSA_API::IQSTRM_STATUS_XFER_DISCONTINUITY << RSA_API::IQSTRM_STATUS_STICKY_SHIFT) |
-            (RSA_API::IQSTRM_STATUS_IBUFF75PCT         << RSA_API::IQSTRM_STATUS_STICKY_SHIFT) |
-            (RSA_API::IQSTRM_STATUS_IBUFFOVFLOW        << RSA_API::IQSTRM_STATUS_STICKY_SHIFT) |
-            (RSA_API::IQSTRM_STATUS_OBUFF75PCT         << RSA_API::IQSTRM_STATUS_STICKY_SHIFT) |
-            (RSA_API::IQSTRM_STATUS_OBUFFOVFLOW        << RSA_API::IQSTRM_STATUS_STICKY_SHIFT)
+            RSA_API::IQSTRM_STATUS_OVERRANGE                                                   |    // b0
+            RSA_API::IQSTRM_STATUS_XFER_DISCONTINUITY                                          |    // b1
+            RSA_API::IQSTRM_STATUS_IBUFF75PCT                                                  |    // b2
+            RSA_API::IQSTRM_STATUS_IBUFFOVFLOW                                                 |    // b3
+            RSA_API::IQSTRM_STATUS_OBUFF75PCT                                                  |    // b4
+            RSA_API::IQSTRM_STATUS_OBUFFOVFLOW                                                 |    // b5
+            (RSA_API::IQSTRM_STATUS_OVERRANGE          << RSA_API::IQSTRM_STATUS_STICKY_SHIFT) |    // b16
+            (RSA_API::IQSTRM_STATUS_XFER_DISCONTINUITY << RSA_API::IQSTRM_STATUS_STICKY_SHIFT) |    // b17
+            (RSA_API::IQSTRM_STATUS_IBUFF75PCT         << RSA_API::IQSTRM_STATUS_STICKY_SHIFT) |    // b18
+            (RSA_API::IQSTRM_STATUS_IBUFFOVFLOW        << RSA_API::IQSTRM_STATUS_STICKY_SHIFT) |    // b19
+            (RSA_API::IQSTRM_STATUS_OBUFF75PCT         << RSA_API::IQSTRM_STATUS_STICKY_SHIFT) |    // b20
+            (RSA_API::IQSTRM_STATUS_OBUFFOVFLOW        << RSA_API::IQSTRM_STATUS_STICKY_SHIFT)      // b21
         );
 
 
@@ -315,3 +339,8 @@ typedef struct rsa306b_iqstream_struct rsa306b_iqstream_struct;
 
 
 ////////~~~~~~~~END>  rsa306b_iqstream_struct.h
+
+
+
+
+

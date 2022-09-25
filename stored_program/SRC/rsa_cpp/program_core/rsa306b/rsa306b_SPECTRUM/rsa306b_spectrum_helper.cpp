@@ -30,9 +30,9 @@ CODEZ rsa306b_class::spectrum_find_peak_index
 
     if 
     (
-        (this->_vars.spectrum.trace_points_acquired[trace_number] > 0)                      &&
+        (this->_vars.spectrum.trace_points_acquired[trace_number] > 0)  &&
         (this->_vars.spectrum.trace_power_v[static_cast<std::size_t>(trace_number)].size()  == 
-            static_cast<std::size_t>(this->_vars.spectrum.trace_points_acquired[trace_number])            
+            static_cast<std::size_t>(this->_vars.spectrum.trace_points_acquired[trace_number]))
     )
     {
         this->_vars.spectrum.peak_index[trace_number] = 0LU;

@@ -33,23 +33,32 @@ CODEZ common_utility::iqblk_acq_status
     {
         if (results != NULL)
         {
-            for (int ii = 0; ii < IQBLK_BITCHECKS-1; ii++)
+            for (int ii = 0; ii < IQBLK_BITCHECKS; ii++)
             {
                 (void)strcpy(results[ii], BITCHECK_SUCCESS_MESSAGE);    // update user's acquisition messages
             }
         }
         return this->report_status_code(CODEZ::_0_no_errors);           // no further evaluation required
     }
-    if (results == NULL                                &&
-        (acq_status & valid_bitmask) != BITCHECK_SUCCESS)               // user just wants result and there is at least one failed bit
+    if    // user just wants result and there is at least one failed bit
+    (
+        results == NULL                                &&
+        (acq_status & valid_bitmask) != BITCHECK_SUCCESS
+    )               
     {
         return this->report_status_code(CODEZ::_28_bad_acquisition_code);
     }
     
-    // there was a bad acquisition status code an further evaluation was requested :
+    // there was a bad acquisition status code an further evaluation was requested
 
+    for (int ii = 0; ii < IQBLK_BITCHECKS; ii++)
+    {
+        (void)strcpy(results[ii], BITCHECK_SUCCESS_MESSAGE);
+    }
     (void)strcpy(results[IQBLK_BITCHECKS-1], IQBLK_BITCHECK_MESSAGES[IQBLK_BITCHECKS-1]);
    
+    // check each bit
+
     if ((acq_status & static_cast<uint32_t>(RSA_API::IQBLK_STATUS_INPUT_OVERRANGE)) !=
         BITCHECK_SUCCESS                                                             )    // bit#0 is bad
     {
@@ -78,6 +87,7 @@ CODEZ common_utility::iqblk_acq_status
         (void)strcat(results[IQBLK_BITCHECKS-1], " b3 ");
     }
 
+    // report failures if activated
     #ifdef DEBUG_ACQ_STATUS
         for (int ii = 0; ii < IQBLK_BITCHECKS-1; ii++)
         {
@@ -87,7 +97,8 @@ CODEZ common_utility::iqblk_acq_status
                 debug_record(false);
             }
         }
-    #endif       
+    #endif   
+
     return this->report_status_code(CODEZ::_28_bad_acquisition_code);
 }
 

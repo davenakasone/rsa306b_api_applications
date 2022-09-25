@@ -62,30 +62,11 @@ struct rsa306b_constants
 
 
     // IQSTREAM constants
-        const int  IQSTREAM_MSEC_MIN             = 1;             // if this is 0, then infinite recording occurs, p79
-        const int  IQSTREAM_MSEC_MAX             = 1000;          // limit for disk space, the files are huge
-        const char IQSTREAM_FILENAME_BASE[BUF_C] = "iqstream";    // for writing output
-        const int  IQSTREAM_TIMEOUT_MS           = 100;
+        
         // setting the buffer size, direct acquisition, see p82
-        const int IQSTREAM_BUFFER_SIZE_LARGE  = 65536;                            // for 2.5 MHz to 40 MHz
-        const int IQSTREAM_BUFFER_SIZE_MEDIUM = 32768;                            // for 96765.625 Hz to 2.5 MHz
-        const int IQSTREAM_BUFFER_SIZE_SMALL  = 128;                              // for < 96765.625 Hz
+        
        
-
-        const double IQSTREAM_BANDWIDTH_RANGES[IQSTREAM_ROW_RANGES][3] =
-        {
-            {1.25e6 / 1   , 2.5e6 / 1   , },  
-            {1.25e6 / 2   , 2.5e6 / 2   , },    
-            {1.25e6 / 4   , 2.5e6 / 4   , },
-            {1.25e6 / 8   , 2.5e6 / 8   , },
-            {1.25e6 / 16  , 2.5e6 / 16  , },
-            {1.25e6 / 32  , 2.5e6 / 32  , },
-            {1.25e6 / 64  , 2.5e6 / 64  , },      
-            {1.25e6 / 128 , 2.5e6 / 128 , },    // divided by 2^7
-            {1e3          , 9765.625    , 128},                                // lowest bandwidth range, smallest sample pairs
-            {2.5e6        , 40e6        , 65536}                                           // highest bandwidth range, largest sample pairs
-            
-        };
+        
         
 }; typedef struct rsa306b_constants rsa306b_constants;
 

@@ -43,7 +43,9 @@ constexpr char CODEZ_MESSAGES[ROWS_CODEZ][COLS_CODEZ] =
     "### 26  ,  rsa_too_hot"                                ,
     "### 27  ,  loop timed out"                             ,
     "### 28  ,  bad acquisition code"                       ,
-    "### 29  ,  "
+    "### 29  ,  remove() failed"                            ,
+    "### 30  ,  trigger event never occured"                ,
+    "### 31  ,  "
 
     "### 99  ,  unspecified"
 };
@@ -80,7 +82,9 @@ enum CODEZ
     _26_rsa_too_hot                      = 26 ,
     _27_loop_timed_out                   = 27 ,
     _28_bad_acquisition_code             = 28 ,
-    _29 = 29,
+    _29_remove_failed                    = 29 ,
+    _30_trigger_event_never_occured      = 30 ,
+    _31 = 31,
 
 
     _99_unspecified                = 99

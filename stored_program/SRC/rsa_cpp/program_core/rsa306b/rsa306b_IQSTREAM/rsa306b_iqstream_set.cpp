@@ -47,12 +47,17 @@ CODEZ rsa306b_class::_iqstream_set_vars()
     debug_record(false);
 #endif 
 
-    this->_iqstream_set_acq_bandwidth();
-    this->_iqstream_set_disk_file_length();
-    this->_iqstream_set_disk_filename_base();
-    this->_iqstream_set_filename_suffix();
-    this->_iqstream_set_iq_data_buffer_size();
-    this->_iqstream_set_output_configuration();
+    constexpr int callz = 6;
+    CODEZ caught_call[callz];
+
+    caught_call[0] = this->_iqstream_set_acq_bandwidth();
+    caught_call[1] = this->_iqstream_set_disk_file_length();
+    caught_call[2] = this->_iqstream_set_disk_filename_base();
+    caught_call[3] = this->_iqstream_set_filename_suffix();
+    caught_call[4] = this->_iqstream_set_iq_data_buffer_size();
+    caught_call[5] = this->_iqstream_set_output_configuration();
+
+    return this->cutil.codez_checker(caught_call, callz);
 }
 
 
@@ -79,10 +84,7 @@ CODEZ rsa306b_class::_iqstream_set_acq_bandwidth()
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
 #endif
-    if (this->_vars.iqstream.bandwidth == this->vars.iqstream.bandwidth)
-    {
-        return;
-    }
+
     this->_iqstream_get_max_acq_bandwidth();
     this->_iqstream_get_min_acq_bandwidth();
     if (this->vars.iqstream.bandwidth < this->_vars.iqstream.bandwidth_min ||
@@ -96,13 +98,16 @@ CODEZ rsa306b_class::_iqstream_set_acq_bandwidth()
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
-    this->_api_status =
-        RSA_API::IQSTREAM_SetAcqBandwidth(
-            this->vars.iqstream.bandwidth);
-    this->_report_api_status();
-    this->_iqstream_get_acq_parameters();    // sample rate depends on this, see p78
+
+    RSA_API::ReturnStatus temp =
+        RSA_API::IQSTREAM_SetAcqBandwidth
+        (
+            this->vars.iqstream.bandwidth
+        );
+    (void)this->_iqstream_get_acq_parameters();    // sample rate depends on this, see p78
+    return this->set_api_status(temp);
 }
 
 
@@ -131,30 +136,28 @@ CODEZ rsa306b_class::_iqstream_set_disk_file_length()
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
 #endif
-    if (this->_vars.iqstream.record_time_ms == this->vars.iqstream.record_time_ms)
-    {
-        return;
-    }
-    if (this->vars.iqstream.record_time_ms < this->constants.IQSTREAM_MSEC_MIN ||
-        this->vars.iqstream.record_time_ms > this->constants.IQSTREAM_MSEC_MAX  )
+    
+    if (this->vars.iqstream.record_time_ms < this->_vars.iqstream.RECORD_MSEC_MIN ||
+        this->vars.iqstream.record_time_ms > this->_vars.iqstream.RECORD_MSEC_MAX  )
     {
         #ifdef DEBUG_MIN
             (void)snprintf(X_ddts, sizeof(X_ddts), "record time ms, requested{ %d }  out of range [ %d : %d ]",
                 this->vars.iqstream.record_time_ms,
-                this->constants.IQSTREAM_MSEC_MIN,
-                this->constants.IQSTREAM_MSEC_MAX);
+                this->_vars.iqstream.RECORD_MSEC_MIN,
+                this->_vars.iqstream.RECORD_MSEC_MAX);
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return; 
+        return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
+
     this->_vars.iqstream.record_time_ms = this->vars.iqstream.record_time_ms;
     this->_api_status =
         RSA_API::IQSTREAM_SetDiskFileLength
         (
             this->_vars.iqstream.record_time_ms
         );
-    this->_report_api_status();
+    return this->_report_api_status();
 }
 
 
@@ -189,19 +192,16 @@ CODEZ rsa306b_class::_iqstream_set_disk_filename_base()
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return; 
+        return this->cutil.report_status_code(CODEZ::_25_pointer_is_null);
     }
-    if (strcmp(this->vars.iqstream.filename_base, this->_vars.iqstream.filename_base) == 0)
-    {
-        return; 
-    }
-    strcpy(this->_vars.iqstream.filename_base, this->vars.iqstream.filename_base);
+
+    (void)strcpy(this->_vars.iqstream.filename_base, this->vars.iqstream.filename_base);
     this->_api_status =
         RSA_API::IQSTREAM_SetDiskFilenameBase
         (
             this->_vars.iqstream.filename_base
         );
-    this->_report_api_status();
+    return this->_report_api_status();
 }
 
 
@@ -229,10 +229,7 @@ CODEZ rsa306b_class::_iqstream_set_filename_suffix()
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
 #endif
-    if (this->vars.iqstream.suffix_control == this->_vars.iqstream.suffix_control)
-    {
-        return; 
-    }
+    
     if (this->vars.iqstream.suffix_control < 
         (int)RSA_API::IQSSDFN_SUFFIX_NONE  )
     {
@@ -245,15 +242,16 @@ CODEZ rsa306b_class::_iqstream_set_filename_suffix()
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
+
     this->_vars.iqstream.suffix_control = this->vars.iqstream.suffix_control;
     this->_api_status = 
         RSA_API::IQSTREAM_SetDiskFilenameSuffix
         (
             this->_vars.iqstream.suffix_control
         );
-    this->_report_api_status();
+    return this->_report_api_status();
 }
 
 
@@ -281,18 +279,15 @@ CODEZ rsa306b_class::_iqstream_set_iq_data_buffer_size()
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
 #endif
-    if (this->vars.iqstream.buffer_multiplier == this->_vars.iqstream.buffer_multiplier)
-    {
-        return; 
-    }
-    if (this->vars.iqstream.buffer_multiplier != this->constants.IQSTREAM_BUFFER_X_1 &&
-        this->vars.iqstream.buffer_multiplier != this->constants.IQSTREAM_BUFFER_X_2 &&
-        this->vars.iqstream.buffer_multiplier != this->constants.IQSTREAM_BUFFER_X_3 &&
-        this->vars.iqstream.buffer_multiplier != this->constants.IQSTREAM_BUFFER_X_4 &&
-        this->vars.iqstream.buffer_multiplier != this->constants.IQSTREAM_BUFFER_X_5 &&
-        this->vars.iqstream.buffer_multiplier != this->constants.IQSTREAM_BUFFER_X_6 &&
-        this->vars.iqstream.buffer_multiplier != this->constants.IQSTREAM_BUFFER_X_7 &&
-        this->vars.iqstream.buffer_multiplier != this->constants.IQSTREAM_BUFFER_X_8  )
+    
+    if (this->vars.iqstream.buffer_multiplier != iqsBuff::X_1 &&
+        this->vars.iqstream.buffer_multiplier != iqsBuff::X_2 &&
+        this->vars.iqstream.buffer_multiplier != iqsBuff::X_3 &&
+        this->vars.iqstream.buffer_multiplier != iqsBuff::X_4 &&
+        this->vars.iqstream.buffer_multiplier != iqsBuff::X_5 &&
+        this->vars.iqstream.buffer_multiplier != iqsBuff::X_6 &&
+        this->vars.iqstream.buffer_multiplier != iqsBuff::X_7 &&
+        this->vars.iqstream.buffer_multiplier != iqsBuff::X_8  )
     {
         #ifdef DEBUG_MIN
             (void)snprintf(X_ddts, sizeof(X_ddts), "invalid buffer multiple selected:  %d",
@@ -300,33 +295,45 @@ CODEZ rsa306b_class::_iqstream_set_iq_data_buffer_size()
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return;    
+        return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
     this->_vars.iqstream.pairs_max = INIT_INT;
-    for (int ii = 0; ii < IQSTREAM_ROW_RANGES; ii++)
+    for (int ii = 0; ii < IQSTREAM_INTERVALS; ii++)
     {
-        if (ii < IQSTREAM_ROW_RANGES-2)
+        if (ii < IQSTREAM_INTERVALS-2)
         {
-            if (this->_vars.iqstream.bandwidth > this->constants.IQSTREAM_BANDWIDTH_RANGES[ii][0] &&
-                this->_vars.iqstream.bandwidth < this->constants.IQSTREAM_BANDWIDTH_RANGES[ii][1]  )
+            if 
+            (
+                this->_vars.iqstream.bandwidth > IQSTREAM_BANDWIDTH_RANGES[ii][0] &&
+                this->_vars.iqstream.bandwidth < IQSTREAM_BANDWIDTH_RANGES[ii][1]  
+            )
             {
                 this->_vars.iqstream.pairs_max = 
-                    this->constants.IQSTREAM_BUFFER_SIZE_MEDIUM / this->constants.IQSTREAM_DIV[ii];
+                    IQSTREAM_BUFFER_SIZE_MEDIUM / pow(2, ii);
+                break;
             }
         }
         else
         {
-            if (this->_vars.iqstream.bandwidth > this->constants.IQSTREAM_BANDWIDTH_RANGES[ii][0] &&
-                this->_vars.iqstream.bandwidth < this->constants.IQSTREAM_BANDWIDTH_RANGES[ii][1] &&
-                ii == IQSTREAM_ROW_RANGES-2                                                        )
+            if 
+            (
+                this->_vars.iqstream.bandwidth > IQSTREAM_BANDWIDTH_RANGES[ii][0] &&
+                this->_vars.iqstream.bandwidth < IQSTREAM_BANDWIDTH_RANGES[ii][1] &&
+                ii == IQSTREAM_INTERVALS-2                                         
+            )
             {
-                this->_vars.iqstream.pairs_max = this->constants.IQSTREAM_BUFFER_SIZE_SMALL;
+                this->_vars.iqstream.pairs_max = IQSTREAM_BUFFER_SIZE_SMALL;
+                break;
             }
-            if (this->_vars.iqstream.bandwidth > this->constants.IQSTREAM_BANDWIDTH_RANGES[ii][0] &&
-                this->_vars.iqstream.bandwidth < this->constants.IQSTREAM_BANDWIDTH_RANGES[ii][1] &&
-                ii == IQSTREAM_ROW_RANGES-1                                                        )
+            if 
+            (
+                this->_vars.iqstream.bandwidth > IQSTREAM_BANDWIDTH_RANGES[ii][0] &&
+                this->_vars.iqstream.bandwidth < IQSTREAM_BANDWIDTH_RANGES[ii][1] &&
+                ii == IQSTREAM_INTERVALS-1                                                       
+            )
             {
-                this->_vars.iqstream.pairs_max = this->constants.IQSTREAM_BUFFER_SIZE_LARGE;
+                this->_vars.iqstream.pairs_max = IQSTREAM_BUFFER_SIZE_LARGE;
+                break;
             }
         }
     }
@@ -337,18 +344,19 @@ CODEZ rsa306b_class::_iqstream_set_iq_data_buffer_size()
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        this->_vars.iqstream.pairs_max = this->constants.IQSTREAM_BUFFER_SIZE_MEDIUM;
+        this->_vars.iqstream.pairs_max = IQSTREAM_BUFFER_SIZE_MEDIUM;
     }
     
     this->_vars.iqstream.buffer_multiplier = this->vars.iqstream.buffer_multiplier;
     this->_vars.iqstream.pairs_max = this->_vars.iqstream.pairs_max * this->_vars.iqstream.buffer_multiplier;
-    this->_api_status =
+    
+    RSA_API::ReturnStatus temp =
         RSA_API::IQSTREAM_SetIQDataBufferSize
         (
             this->_vars.iqstream.pairs_max
         );
-    this->_report_api_status();
-    this->_iqstream_get_iq_data_buffer_size();
+    (void)this->_iqstream_get_iq_data_buffer_size();
+    return this->set_api_status(temp);
 }
 
 
@@ -376,11 +384,7 @@ CODEZ rsa306b_class::_iqstream_set_output_configuration()
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
 #endif
-    if (this->vars.iqstream.datatype_select == this->_vars.iqstream.datatype_select      &&
-        this->vars.iqstream.destination_select == this->_vars.iqstream.destination_select )
-    {
-        return;
-    }
+
     if (this->vars.iqstream.datatype_select != RSA_API::IQSODT_SINGLE            &&
         this->vars.iqstream.datatype_select != RSA_API::IQSODT_INT32             &&
         this->vars.iqstream.datatype_select != RSA_API::IQSODT_INT16             &&
@@ -391,7 +395,7 @@ CODEZ rsa306b_class::_iqstream_set_output_configuration()
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
     if (this->vars.iqstream.destination_select != RSA_API::IQSOD_CLIENT         &&
         this->vars.iqstream.destination_select != RSA_API::IQSOD_FILE_TIQ       &&
@@ -405,7 +409,7 @@ CODEZ rsa306b_class::_iqstream_set_output_configuration()
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
-        return;
+        return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
 
     this->_vars.iqstream.datatype_select = this->vars.iqstream.datatype_select;
@@ -416,7 +420,7 @@ CODEZ rsa306b_class::_iqstream_set_output_configuration()
             this->_vars.iqstream.destination_select,
             this->_vars.iqstream.datatype_select
         );
-    this->_report_api_status();
+    return this->_report_api_status();
 }
 
 

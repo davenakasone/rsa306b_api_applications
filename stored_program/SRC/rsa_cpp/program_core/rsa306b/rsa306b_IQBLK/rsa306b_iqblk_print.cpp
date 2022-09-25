@@ -34,7 +34,9 @@ CODEZ rsa306b_class::iqblk_print()
     (void)printf("\tsample_rate                       :  %lf\n", this->_vars.iqblk.sample_rate);
     (void)printf("\tbandwidth_hz                      :  %lf\n", this->_vars.iqblk.bandwidth_hz);
     (void)printf("\tmin_bandwidth_hz                  :  %lf\n", this->_vars.iqblk.min_bandwidth_hz);
-    (void)printf("\tmax_bandwidth_hz                  :  %lf\n", this->_vars.iqblk.max_bandwidth_hz);          
+    (void)printf("\tmax_bandwidth_hz                  :  %lf\n", this->_vars.iqblk.max_bandwidth_hz);   
+
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
