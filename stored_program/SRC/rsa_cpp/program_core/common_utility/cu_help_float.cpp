@@ -30,10 +30,10 @@ CODEZ common_utility::h_new_float_d1
     debug_record(false);
 #endif
     
-    if (array_pointer != NULL)
-    {
-        return this->report_status_code(CODEZ::_24_pointer_not_null);
-    }
+    // if (array_pointer != NULL)
+    // {
+    //     return this->report_status_code(CODEZ::_24_pointer_not_null);
+    // }
 
     try
     {
@@ -67,17 +67,17 @@ CODEZ common_utility::h_copy_float_to_vector_d1
     debug_record(false);
 #endif
     
-    if (array_pointer == NULL)
-    {
-        return this->report_status_code(CODEZ::_25_pointer_is_null);
-    }
-    if (elements < 1)
-    {
-        return this->report_status_code(CODEZ::_5_called_with_bad_paramerters);
-    }
+    // if (array_pointer == NULL)
+    // {
+    //     return this->report_status_code(CODEZ::_25_pointer_is_null);
+    // }
+    // if (elements < 1)
+    // {
+    //     return this->report_status_code(CODEZ::_5_called_with_bad_paramerters);
+    // }
 
     //destination.clear();
-    //destination.resize(static_cast<std::size_t>(elements));
+    destination.resize(static_cast<std::size_t>(elements));
     destination.assign(array_pointer, array_pointer + elements);
   
     return report_status_code(CODEZ::_0_no_errors);    
@@ -102,10 +102,10 @@ CODEZ common_utility::h_delete_float_d1
     debug_record(false);
 #endif
     
-    if (array_pointer == NULL)
-    {
-        return report_status_code(CODEZ::_0_no_errors);
-    }
+    // if (array_pointer == NULL)
+    // {
+    //     return report_status_code(CODEZ::_0_no_errors);
+    // }
 
     delete [] array_pointer;
     array_pointer = NULL;

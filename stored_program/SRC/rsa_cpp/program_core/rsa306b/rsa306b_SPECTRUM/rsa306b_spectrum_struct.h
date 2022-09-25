@@ -229,6 +229,8 @@ struct rsa306b_spectrum_struct
     const std::size_t  _PEAK_INDEX = INIT_STD_SIZE_T;          // DEFAULT
 
 
+    
+
 };
 typedef struct rsa306b_spectrum_struct rsa306b_spectrum_struct;
 

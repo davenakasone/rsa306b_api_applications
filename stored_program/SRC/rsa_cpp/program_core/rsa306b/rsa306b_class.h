@@ -613,6 +613,19 @@ class rsa306b_class
         CODEZ spectrum_make_frequency_v                               ();    // call after acquisitions to matching frequency array in std::vector
         CODEZ spectrum_write_csv(char* file_path_name, int trace_number);    // call after acquring data, "*.csv" is produced
         bool  spectrum_good_bitcheck                  (int trace_number);    // use to bitcheck acqDataStatus of most recent trace
+        CODEZ spectrum_scanner
+        (
+            int trace_number,
+            double fstart, 
+            double fstop, 
+            double threshold, 
+            int loitering,
+            char* file_path_name,
+            double reflevel,
+            double rbw,
+            double span,
+            int tlen
+        );
 
     // API group "TRIG"
         CODEZ trig_print   ();    // prints the "TRIG" variables to stdout, using the private struct

@@ -141,6 +141,7 @@ $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_get.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_helper.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_init_default.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_print.cpp \
+$(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_scanner.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_set.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_user.cpp \
 \

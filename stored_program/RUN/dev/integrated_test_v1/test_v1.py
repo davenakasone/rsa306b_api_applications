@@ -34,7 +34,10 @@ def lsf() :
     print("sset    (tlen, span, rbw)          set spectrum parameters")
     print("sacq    ()                         acquire a spectrum trace")
     print("spdx    ()                         returns value of highest power measurement in the trace")
-    print("scsv    (fn)                      spectrum writes CSV to specified file-name")
+    print("scsv    (fn)                       spectrum writes CSV to specified file-name")
+    print("sspin   ()                         collect spectrum traces with specified settings")
+    print("sscan   ()                         collect spectrum traces across a large range of frequencies, manual")
+    print("sauto   ()                         collect spectrum traces across a large range of frequencies, automatic")
     print("\n\n")
 
 def stop() :
@@ -120,7 +123,7 @@ def sspin(repz=6, cf=315e6, dbm=-25.5, tlen=1111, span=5e6, rbw=1e3, thresh=-35.
     dstop()
     #ddis()
 
-def sscan(fstart=1e6, fstop=3000e6, dbm=-25.5, tlen=3333, span=30e6, rbw=10e3, thresh=-55.6, loiter=7, olap=1e6) :
+def sscan(fstart=1e6, fstop=1000e6, dbm=-25.5, tlen=3333, span=20e6, rbw=10e3, thresh=-55.6, loiter=7, olap=1e6) :
     #dcon()
     hitz = 0
     repz = int((fstop-fstart)/span)
@@ -145,12 +148,20 @@ def sscan(fstart=1e6, fstop=3000e6, dbm=-25.5, tlen=3333, span=30e6, rbw=10e3, t
     dstop()
     #ddis()
 
-
-
-
-
-
-
+def sauto(fstart=10e6, fstop=1000e6, dbm=-25.5, tlen=1111, span=20e6, rbw=10e3, thresh=-55.6, loiter=7) :
+    #dcon()
+    rsa_so.spectrum_scanner.restype = ctypes.c_char_p
+    temp = rsa_so.spectrum_scanner(\
+        ctypes.c_double(fstart),\
+        ctypes.c_double(fstop),\
+        ctypes.c_double(thresh),\
+        ctypes.c_int(loiter),\
+        ctypes.c_double(dbm),\
+        ctypes.c_double(rbw),\
+        ctypes.c_double(span),\
+        ctypes.c_int(tlen))
+    ofile = temp.decode()
+    plot_spectrum(ofile)
 
 
 

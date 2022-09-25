@@ -124,8 +124,8 @@ CODEZ rsa306b_class::_config_set_center_frequency_hz()
     }
 #endif
 
-    (void)this->_config_get_min_center_frequency_hz();
-    (void)this->_config_get_max_center_frequency_hz();
+    // (void)this->_config_get_min_center_frequency_hz();
+    // (void)this->_config_get_max_center_frequency_hz();
     if (this->vars.config.center_frequency_hz < this->_vars.config.min_center_frequency_hz ||
         this->vars.config.center_frequency_hz > this->_vars.config.max_center_frequency_hz  )
     {

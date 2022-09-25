@@ -22,12 +22,25 @@ void device_run();
 void device_stop();
 void device_disconnect();
 
-void spectrum_disable();
-void spectrum_enable();
-void spectrum_set_vars(int trace_length, double span, double rbw);
-void spectrum_acquire();
+void  spectrum_disable();
+void  spectrum_enable();
+void  spectrum_set_vars(int trace_length, double span, double rbw);
+void  spectrum_acquire();
 float spectrum_find_peak();
-char*  spectrum_write_csv();
+char* spectrum_write_csv();
+char* spectrum_scanner
+(
+    double fstart, 
+    double fstop, 
+    double threshold, 
+    int loitering,
+    double reflevel,
+    double rbw,
+    double span,
+    int tlen
+);
+
+
 
 
 #ifdef __cplusplus      
