@@ -77,11 +77,14 @@ CODEZ rsa306b_class::_iqblk_get_iq_data()
     
     (void)this->set_api_status(RSA_API::IQBLK_AcquireIQData());
 
-    (void)this->cutil.h_new_float_d1
-    (
-        data_iq,
-        static_cast<int>(2 * this->_vars.iqblk.record_length)
-    );
+    try
+    {
+        data_iq = new float[2 * this->_vars.iqblk.record_length];
+    }
+    catch(const std::exception& e)
+    {
+        return this->cutil.report_status_code(CODEZ::_22_dynamic_allocation_failed);
+    }
 
 #ifdef LOOP_TIMEOUT
     int timeout_ms     = this->_vars.iqblk.LOOP_LIMIT_MS;
@@ -127,7 +130,8 @@ CODEZ rsa306b_class::_iqblk_get_iq_data()
         idx++;
     }
 
-    (void)this->cutil.h_delete_float_d1(data_iq);
+    delete [] data_iq;
+    data_iq = NULL;
     return this->set_api_status(temp);
 }
 
@@ -157,20 +161,18 @@ CODEZ rsa306b_class::_iqblk_get_iq_data_cplx()
 #endif
 
     RSA_API::Cplx32* cplx32 = NULL;
-    bool data_is_ready = false;
+    bool data_is_ready      = false;
 
     (void)this->_iqblk_get_record_length();
     
     (void)this->set_api_status(RSA_API::IQBLK_AcquireIQData());
 
-    cplx32 = new RSA_API::Cplx32[this->_vars.iqblk.record_length];
-    if (cplx32 == NULL) 
+    try
     {
-        #ifdef DEBUG_MIN
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
-                this->cutil.codez_messages(CODEZ::_22_dynamic_allocation_failed));
-            debug_record(true);
-        #endif
+        cplx32 = new RSA_API::Cplx32[this->_vars.iqblk.record_length];
+    }
+    catch(...)
+    {
         return this->cutil.report_status_code(CODEZ::_22_dynamic_allocation_failed);
     }
 
@@ -255,17 +257,15 @@ CODEZ rsa306b_class::_iqblk_get_iq_data_deinterleaved()
     
     (void)this->set_api_status(RSA_API::IQBLK_AcquireIQData());
 
-    (void)this->cutil.h_new_float_d1
-    (
-        data_i,
-        static_cast<int>(this->_vars.iqblk.record_length)
-    );
-
-    (void)this->cutil.h_new_float_d1
-    (
-        data_q,
-        static_cast<int>(this->_vars.iqblk.record_length)
-    );
+    try
+    {
+        data_i = new float[this->_vars.iqblk.record_length];
+        data_q = new float[this->_vars.iqblk.record_length];
+    }
+    catch(...)
+    {
+        return this->cutil.report_status_code(CODEZ::_22_dynamic_allocation_failed);
+    }
 
 #ifdef LOOP_TIMEOUT
     int timeout_ms    = this->_vars.iqblk.LOOP_LIMIT_MS;
@@ -305,8 +305,10 @@ CODEZ rsa306b_class::_iqblk_get_iq_data_deinterleaved()
         this->_vars.iqblk.cplx32_v[kk].q = data_q[kk];
     }
 
-    (void)this->cutil.h_delete_float_d1(data_i);
-    (void)this->cutil.h_delete_float_d1(data_q);
+    delete [] data_i;
+    data_i = NULL;
+    delete [] data_q;
+    data_q = NULL;
     return this->set_api_status(temp);
 }
 

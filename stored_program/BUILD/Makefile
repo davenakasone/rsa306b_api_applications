@@ -24,7 +24,7 @@ CC          = g++
 CFLAGS      = -Wall -std=c++17 -o
 EXEC        = ../RUN/oo
 MY_LIB_SO   = ../RUN/shared_objects/libRSA306B.so
-LIB_DIR     = ~/Desktop/rsa306b_api_applications/stored_program/RUN/shared_objects/
+LIB_DIR     = /home/unlv/Desktop/rsa306b_api_applications/stored_program/RUN/shared_objects/
 RPATH	    = -L $(LIB_DIR)
 LIB_RSA_API = -lRSA_API
 LIB_CYUSB   = -lcyusb_shared
@@ -40,16 +40,15 @@ DATA_IO_RAW       = $(DATA_IO)data_raw/
 DLOGZ             = ../DOC/debug_logs/
 TDIR_U            = $(TDIR)units/
 TDIR_T            = $(TDIR)tasks/
-
+EMPTY_NAME        = place_holder.test
+EMPTY_MESSAGE     = "git place holder\n"
 
 SOURCE_FILES_SO =\
 $(UDIR)cu_codez.cpp \
 $(UDIR)cu_common_utility.cpp \
 $(UDIR)cu_exe_1.cpp \
-$(UDIR)cu_exe_2.cpp \
 $(UDIR)cu_help_1.cpp \
-$(UDIR)cu_help_float.cpp \
-$(UDIR)cu_help_int16.cpp \
+$(UDIR)cu_help_decode.cpp \
 $(UDIR)cu_ifstream_acq_status.cpp \
 $(UDIR)cu_iqblk_acq_status.cpp \
 $(UDIR)cu_iqstream_acq_status.cpp \
@@ -216,7 +215,7 @@ shared :
 	@echo "[ ${MY_LIB_SO} ] is compiled and ready"
 	@echo "...copy and paste in terminal:"
 	export LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(LIB_DIR)
-	@echo "source /home/unlv/Desktop/rsa306b_api_applications/stored_program/py_rsa_venv/bin"
+	@echo "source /home/unlv/Desktop/rsa306b_api_applications/py_rsa_venv/bin/activate"
 
 
 # builds both binaries
@@ -233,6 +232,7 @@ clear_data_processed :
 	clear
 	rm -rf $(DATA_IO_PROCESSED)
 	mkdir $(DATA_IO_PROCESSED)
+	printf $(EMPTY_MESSAGE) >> $(DATA_IO_PROCESSED)$(EMPTY_NAME)
 	clear
 	@echo 'all data outputs were deleted'
 
@@ -246,6 +246,7 @@ clear_data_raw :
 	clear
 	rm -rf $(DATA_IO_RAW)
 	mkdir $(DATA_IO_RAW)
+	printf $(EMPTY_MESSAGE) >> $(DATA_IO_RAW)$(EMPTY_NAME)
 	clear
 	@echo 'all data inputs were deleted'
 
@@ -260,6 +261,7 @@ clear_logs :
 	clear
 	rm -rf $(DLOGZ)
 	mkdir $(DLOGZ)
+	printf $(EMPTY_MESSAGE) >> $(DLOGZ)$(EMPTY_NAME)
 	clear
 	@echo 'all debug logs were deleted'
 

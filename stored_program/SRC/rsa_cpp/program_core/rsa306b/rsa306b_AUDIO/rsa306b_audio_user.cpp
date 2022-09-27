@@ -42,17 +42,13 @@ CODEZ rsa306b_class::audio_acquire_data()
 #endif
 
     int16_t* data = NULL;
-    if 
-    (
-        this->cutil.h_new_int16_d1    // dynamic allocation
-        (
-            data,
-            this->_vars.audio.data_samples_requested
-        ) != CODEZ::_0_no_errors
-    )
+    try
     {
-        // allocation failed, device audio demodulation is stopped, but device is still in run-state
-        return this->audio_stop();
+        data = new int16_t[this->_vars.audio.data_samples_requested];
+    }
+    catch(...)
+    {
+        return this->cutil.report_status_code(CODEZ::_22_dynamic_allocation_failed);
     }
 
     this->_vars.audio.data_samples_acquired = 0;    // reset acquisition count
@@ -66,13 +62,10 @@ CODEZ rsa306b_class::audio_acquire_data()
             &this->_vars.audio.data_samples_acquired
         );
 
-    (void)this->cutil.h_copy_int16_to_vector_d1    // deep copy int std::vector<int16_t>
-    (
-        data, 
-        this->_vars.audio.data_samples_acquired, 
-        this->_vars.audio.data_v
-    );
-    (void)this->cutil.h_delete_int16_d1(data);    // dynamic deallocation
+    this->_vars.audio.data_v.assign(data, data + this->_vars.audio.data_samples_acquired);
+    
+    delete [] data;
+    data = NULL;
     
     (void)this->_audio_copy_data_v();      // public struct updates
     return this->set_api_status(temp);

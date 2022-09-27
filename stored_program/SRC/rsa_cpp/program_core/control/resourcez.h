@@ -51,10 +51,10 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
         //#define DEBUG_CALL_CHECKS       1492 
 
         // {ON|OFF} tracks:  call sequence WITH getter calls
-        //#define DEBUG_GETS              1992                 
+        #define DEBUG_GETS              1992                 
     
         // {ON|OFF} tracks:  call sequence WITH setter calls
-        //#define DEBUG_SETS              1999                 
+        #define DEBUG_SETS              1999                 
     
         // {ON|OFF} tracks:  call sequence WITH  copier calls
         //#define DEBUG_COPYS             2000    

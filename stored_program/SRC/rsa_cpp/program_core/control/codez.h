@@ -45,7 +45,8 @@ constexpr char CODEZ_MESSAGES[ROWS_CODEZ][COLS_CODEZ] =
     "### 28  ,  bad acquisition code"                       ,
     "### 29  ,  remove() failed"                            ,
     "### 30  ,  trigger event never occured"                ,
-    "### 31  ,  "
+    "### 31  ,  fputs() failed"                             ,
+    "### 32  ,  "
 
     "### 99  ,  unspecified"
 };
@@ -84,7 +85,8 @@ enum CODEZ
     _28_bad_acquisition_code             = 28 ,
     _29_remove_failed                    = 29 ,
     _30_trigger_event_never_occured      = 30 ,
-    _31 = 31,
+    _31_fputs_failed                     = 31 ,
+    _32 = 32,
 
 
     _99_unspecified                = 99

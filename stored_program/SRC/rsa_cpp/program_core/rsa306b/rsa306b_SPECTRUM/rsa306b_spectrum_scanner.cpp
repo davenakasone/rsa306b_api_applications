@@ -31,50 +31,98 @@ CODEZ rsa306b_class::spectrum_scanner
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-    this->device_stop();
-    
+#ifdef SAFETY_CHECKS
+    if ((fstop - fstart) < this->_vars.spectrum.settings_type.actualRBW)
+    {
+        return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
+    }
+
+    if (this->_vars.device.is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
+    }
+
     this->vars.config.reference_level_dbm = reflevel;
-    this->_config_set_vars();
+    if (this->_config_set_vars() != CODEZ::_0_no_errors)
+    {
+        return this->cutil.get_status_code();
+    }
 
-    this->vars.spectrum.settings_type.rbw = rbw;
-    this->vars.spectrum.settings_type.span = span;
+    this->vars.spectrum.settings_type.rbw         = rbw;
+    this->vars.spectrum.settings_type.span        = span;
     this->vars.spectrum.settings_type.traceLength = tlen;
-    (void)this->_spectrum_set_vars();
-
+    if (this->_spectrum_set_vars() != CODEZ::_0_no_errors)
+    {
+        return this->cutil.get_status_code();
+    }
+#endif
     
-    float maxp = -999999999.9;
-    double maxf = maxp;
-    double cf = 0;
-    int repz = ((fstop - fstart) / this->_vars.spectrum.settings_type.span);
-    //std::size_t dlen = (repz + 1) * this->_vars.spectrum.settings_type.traceLength;
-    //this->_vars.spectrum.trace_power_v[trace_number].resize(dlen);
-    //this->_vars.spectrum.frequency_v.resize(dlen);
-    this->_vars.spectrum.trace_power_v[trace_number].clear();
-    this->_vars.spectrum.frequency_v.clear();
-    std::size_t vcnt = 0UL;
-printf("\n%lu  %lu   %d\n", this->_vars.spectrum.trace_power_v[trace_number].size(), this->_vars.spectrum.frequency_v.size(), repz);
+    float*      data       = NULL;               // the raw pointer, dynamically allocated and deallocated, to get data from the API
+    float       p_avg      = 0;                  // average power for a frequency, once "loitering" points have been acquired
+    bool        is_ready   = false;              // indicator for the API to unblock the program and proceed to data acquisition
+    int         timeout_ms = 100;                // how long to wait for a scan before skipping it, in milli-seconds
+    float       maxp       = -999999999.9;       // indicates maximum power level detected during acquisition
+    double      maxf       = maxp;               // indicates frequency that the maximum power level detected occured
+    double      cf         = 0;                  // marks the current center frequency of the scan
+    int         repz       = 0;                  // repititions needed to scan the specified frequency range
+    std::size_t vcnt       = 0UL;                // total data counter, incremented for each (frequency, power) pair acquired
+    std::vector<float> pow_getter[loitering];    // holds power levels detected at fixed center frequency to assist in averaging
+
+    repz = (2 * (fstop - fstart) / this->_vars.spectrum.settings_type.span);    // determine total acquisitions and create overlap
+    vcnt = repz * this->_vars.spectrum.settings_type.traceLength;
+
+    // std::vectors are prepared for acquisition
+    this->_vars.spectrum.trace_power_v[trace_number].resize(vcnt);  
+    this->_vars.spectrum.trace_power_v[trace_number].clear();       
+    this->_vars.spectrum.frequency_v.resize(vcnt);
+    this->_vars.spectrum.frequency_v.clear();                                   
+    for (int ii = 0; ii < loitering; ii++)
+    {
+        pow_getter[ii].clear();
+        pow_getter[ii].resize(this->_vars.spectrum.settings_type.traceLength);
+    }
+    vcnt = 0UL;
+
+    // acquire the data from the SPECTRUM group
     for (int xx = 0; xx < repz; xx++)
     {
-        cf = xx * this->_vars.spectrum.settings_type.span + this->_vars.spectrum.settings_type.span + fstart;
+        // center frequency is adjusted to make overlap, each adjustment automatically stops the device
+        cf = ((xx * this->_vars.spectrum.settings_type.span + this->_vars.spectrum.settings_type.span) / 2) + fstart;
         this->vars.config.center_frequency_hz = cf;
         this->_config_set_vars();
-        this->vars.spectrum.is_enabled_measurement = true;
-        (void)this->_spectrum_set_vars();
+        this->vars.spectrum.is_enabled_measurement = true;    
+        (void)this->_spectrum_set_vars();                     // insurance, also "gets"
         (void)this->device_run();
 
+        // loitering a few times at each center frequency, when used with averaging, helps smooth the data
         for (int yy = 0; yy < loitering; yy++)
         {
+            // request a trace, then use the wait time to complete preparation tasks
             (void)this->set_api_status(RSA_API::SPECTRUM_AcquireTrace());
-            float* data    = NULL;
-            bool is_ready  = false;
-            int timeout_ms = 1;
+            pow_getter[yy].clear();
+            is_ready = false;
+            data = NULL;
 
-            data = new float[this->_vars.spectrum.settings_type.traceLength]; 
-            while (is_ready == false)
+            try 
             {
-                (void)RSA_API::SPECTRUM_WaitForTraceReady(timeout_ms, &is_ready); 
+                data = new float[this->_vars.spectrum.settings_type.traceLength];
+            }
+            catch(...)
+            {
+                return this->cutil.report_status_code(CODEZ::_22_dynamic_allocation_failed);
             }
 
+            while (is_ready == false)    // block until trace is ready
+            {
+                (void)RSA_API::SPECTRUM_WaitForTraceReady(timeout_ms, &is_ready);  // this could hang the program
+            }
+
+            // API provides (frequency, power) for specified trace at selected center frequency
             this->_api_status = RSA_API::SPECTRUM_GetTrace
                 (
                     this->_vars.spectrum.trace_select[trace_number], 
@@ -83,51 +131,65 @@ printf("\n%lu  %lu   %d\n", this->_vars.spectrum.trace_power_v[trace_number].siz
                     &this->_vars.spectrum.trace_points_acquired[trace_number]
                 );
             (void)this->_report_api_status();
+            (void)this->_spectrum_copy_trace_points_acquired(trace_number);
             (void)this->_spectrum_get_trace_info_type(trace_number); 
+            // bitcheck here, if needed
 
-            maxp = -999999999.9;
-            maxf = maxp;
-            for (int kk = 0; kk < this->_vars.spectrum.trace_points_acquired[trace_number]; kk++)
+            // build trace at center frequency until "loitering" samples are collected for each (power, frequency) pair
+            for (int zz = 0; zz < this->_vars.spectrum.trace_points_acquired[trace_number]; zz++)
             {
-                // this->_vars.spectrum.frequency_v[vcnt] = 
-                //     this->_vars.spectrum.settings_type.actualStartFreq +
-                //     this->_vars.spectrum.settings_type.actualFreqStepSize * kk;
-
-                // this->_vars.spectrum.trace_power_v[trace_number][vcnt] = data[kk]; 
-                this->_vars.spectrum.trace_power_v[trace_number].push_back(data[kk]);
-                this->_vars.spectrum.frequency_v.push_back(
-                    this->_vars.spectrum.settings_type.actualStartFreq +
-                    this->_vars.spectrum.settings_type.actualFreqStepSize * kk);
-                if(maxp < data[kk])
-                {
-                    maxp = this->_vars.spectrum.trace_power_v[trace_number][vcnt];
-                    maxf = this->_vars.spectrum.frequency_v[vcnt];
-                }
-                vcnt++;
+                pow_getter[yy][zz] = data[zz];
             }
             delete [] data;
             data = NULL;
-            printf("%12lu  ,  %5d of %5d ,  %5d  ,  %5d  )  maxMHz=  %15.3lf  ,  maxdBm=  %15.3lf",
-                vcnt,
-                xx,
-                repz,
-                yy,
-                this->_vars.spectrum.trace_points_acquired[trace_number],
-                maxf/1e6,
-                maxp);
-            if(maxp > threshold) // this is where to process
+        }
+        
+        // selected center frequency has "loitering" (frequency, power) pairs for the trace, find average and max
+        maxp = -999999999.9;
+        maxf = maxp;
+        for (int rr = 0; rr < this->_vars.spectrum.trace_points_acquired[trace_number]; rr++)
+        {
+            p_avg = 0;
+            for (int ss = 0; ss < loitering; ss++)
             {
-                printf("   THRESHOLD exceeded\n");
+                p_avg = p_avg + pow_getter[ss][rr];
+            }
+            p_avg = p_avg / loitering;
+
+            this->_vars.spectrum.frequency_v[vcnt] = 
+                this->_vars.spectrum.settings_type.actualStartFreq + this->_vars.spectrum.settings_type.actualFreqStepSize * rr;
+            this->_vars.spectrum.trace_power_v[trace_number][vcnt] = p_avg;
+            
+            if(maxp < p_avg)
+            {
+                maxp = this->_vars.spectrum.trace_power_v[trace_number][vcnt];
+                maxf = this->_vars.spectrum.frequency_v[vcnt];
+            }
+            vcnt++;
+        }
+        printf("total points:  %9lu  ,  scan:  %5d of %5d  ,  current points:  %5d  ,  cf MHz=  %9.3lf  ,  span Hz=  %9.3lf  ,  " ,
+            vcnt,
+            xx,
+            repz,
+            this->_vars.spectrum.trace_points_acquired[trace_number],
+            this->_vars.config.center_frequency_hz/1e6,
+            this->_vars.spectrum.settings_type.span/1e6);
+        printf("[ max MHz=  %9.3lf  ,  max dBm=  %9.3lf ]  ",
+            maxf/1e6,
+            maxp);
+            if(maxp > threshold) // after aacquring and averaging, this is where you should further interogate the signal
+            {
+                printf("   THRESHOLD EXCEEDED\n");    // good time to get IF and IQ data, a strong signal was identified
             } 
             else
             {
-                printf("  ...just noise\n");
+                printf("  ...just noise\n");    // nothing in this spectrum band, move onto the next signal
             }
-        }
         this->vars.spectrum.is_enabled_measurement = false;
         (void)this->_spectrum_set_vars();
     }
 
+    // all data was acquired and processed, write the CSV
     if (file_path_name[0] == '\0')
     {
         this->_reftime_get_current();
@@ -145,7 +207,10 @@ printf("\n%lu  %lu   %d\n", this->_vars.spectrum.trace_power_v[trace_number].siz
     }
 
     this->_fp_write = fopen(this->_helper, "w");
-    if (this->_fp_write == NULL) { return CODEZ::_13_fopen_failed;}
+    if (this->_fp_write == NULL) 
+    {
+        return this->cutil.report_status_code(CODEZ::_13_fopen_failed);
+    }
 
     (void)sprintf(this->_helper, "%s,%s\n",
         SPECTRUM_FIELD_1,
@@ -157,13 +222,22 @@ printf("\n%lu  %lu   %d\n", this->_vars.spectrum.trace_power_v[trace_number].siz
         (void)snprintf(this->_helper, sizeof(this->_helper), "%0.5lf,%0.5f\n",
             this->_vars.spectrum.frequency_v[idx],
             this->_vars.spectrum.trace_power_v[trace_number][idx]);
-        (void)fputs(this->_helper, this->_fp_write);
+        if(fputs(this->_helper, this->_fp_write) < 0)
+        {
+            if (fclose(this->_fp_write) != 0)
+            {
+                return this->cutil.report_status_code(CODEZ::_10_fclose_failed);
+            }
+            return this->cutil.report_status_code(CODEZ::_31_fputs_failed);
+        }
     }
 
-    fclose(this->_fp_write); 
+    if(fclose(this->_fp_write) != 0)
+    {
+        return this->cutil.report_status_code(CODEZ::_16_fclose_failed);
+    }
     this->_fp_write = NULL;
-    this->device_stop();
-    return CODEZ::_0_no_errors;
+    return this->device_stop();
 }
 
 

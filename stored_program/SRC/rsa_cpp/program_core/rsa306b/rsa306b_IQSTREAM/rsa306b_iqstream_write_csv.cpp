@@ -113,9 +113,10 @@ CODEZ rsa306b_class::iqstream_write_csv
         (void)snprintf(this->_helper, sizeof(this->_helper), "%s", file_path_name);
     }
 
-    if (this->cutil.exe_fopen(this->_helper, "w", this->_fp_write) != CODEZ::_0_no_errors)
+    this->_fp_write = fopen(this->_helper, "w");
+    if (this->_fp_write == NULL)
     {
-        return this->cutil.get_status_code();
+        return this->cutil.report_status_code(CODEZ::_13_fopen_failed);
     }
     // file is open
 
@@ -140,10 +141,13 @@ CODEZ rsa306b_class::iqstream_write_csv
                 (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
                 debug_record(true);
             #endif
-            (void)this->cutil.exe_fclose(this->_fp_write);
+            (void)fclose(this->_fp_write);
+            this->_fp_write = NULL;
             return this->cutil.report_status_code(CODEZ::_2_error_in_logic);
     }
 
+    (void)fclose(this->_fp_write);
+    this->_fp_write = NULL;
     return this->cutil.report_status_code(temp);
 }
 
@@ -180,7 +184,7 @@ CODEZ rsa306b_class::_iqstream_write_csv_cplx32()
         }
         fputs(this->_helper, this->_fp_write);
     }
-    return this->cutil.exe_fclose(this->_fp_write);
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -217,7 +221,7 @@ CODEZ rsa306b_class::_iqstream_write_csv_cplxInt32()
         }
         fputs(this->_helper, this->_fp_write);
     }
-    return this->cutil.exe_fclose(this->_fp_write);
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
@@ -254,7 +258,7 @@ CODEZ rsa306b_class::_iqstream_write_csv_cplxInt16()
         }
         fputs(this->_helper, this->_fp_write);
     }
-    return this->cutil.exe_fclose(this->_fp_write);
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 

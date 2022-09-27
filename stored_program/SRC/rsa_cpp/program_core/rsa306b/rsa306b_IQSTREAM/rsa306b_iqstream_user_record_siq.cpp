@@ -104,7 +104,7 @@ CODEZ rsa306b_class::iqstream_record_siq()
         }
         else
         {
-            (void)this->cutil.exe_remove(this->_vars.iqstream.filenames_0_data);  // delete both of the hund files
+            (void)this->cutil.exe_remove(this->_vars.iqstream.filenames_0_data);  // delete both of the hung files
             (void)this->cutil.exe_remove(this->_vars.iqstream.filenames_1_header); 
         }
         this->_vars.iqstream.fileinfo_type.numberSamples = 0;

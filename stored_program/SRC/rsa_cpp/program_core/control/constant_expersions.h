@@ -13,6 +13,7 @@
 constexpr char DATA_DIRECTORY_RAW[]       = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_raw/";         
 constexpr char DATA_DIRECTORY_PROCESSED[] = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_processed/";  
 constexpr char DATA_OUTPUT_EXTENSTION[]   = ".csv";                     
+constexpr int EXTENSION_LIMIT             = 10;    // characters allowed in a file extension
 
 
 // program sizing parameters

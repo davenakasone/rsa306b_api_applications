@@ -39,18 +39,14 @@ CODEZ rsa306b_class::ifstream_acquire_data()
     debug_record(false);
 #endif 
 
-    int16_t* sample_getter = NULL;                   // pointer to acquire the data
-    (void)this->_ifstream_get_buffer_size();         // find out how much memory to allocate
-    if 
-    (
-        this->cutil.h_new_int16_d1                   // allocate the memory, and verify the allocation
-        (
-            sample_getter,
-            this->_vars.ifstream.buffer_samples    
-        ) != CODEZ::_0_no_errors
-    )
+    int16_t* sample_getter = NULL;
+    try
     {
-        return this->cutil.get_status_code();        // allocation failed, acquisition is not possible
+        sample_getter = new int16_t[this->_vars.ifstream.buffer_samples];
+    }
+    catch(...)
+    {
+        return this->cutil.report_status_code(CODEZ::_22_dynamic_allocation_failed);
     }
 
     RSA_API::ReturnStatus temp = 
@@ -61,17 +57,9 @@ CODEZ rsa306b_class::ifstream_acquire_data()
             &this->_vars.ifstream.data_info_type
         );
     
-    (void)this->cutil.h_copy_int16_to_vector_d1      // copy the acquired data into std::vector for processing
-    (
-        sample_getter, 
-        this->_vars.ifstream.if_data_length, 
-        this->_vars.ifstream.adc_data_v
-    );
-
-    (void)this->cutil.h_delete_int16_d1              // deallocate the memory
-    (
-        sample_getter
-    );
+    this->_vars.ifstream.adc_data_v.assign(sample_getter, sample_getter + this->_vars.ifstream.if_data_length);
+    delete [] sample_getter;
+    sample_getter = NULL;
 
     (void)this->_ifstream_copy_adc_data_v();          // update the user's variables
     (void)this->_ifstream_copy_if_data_length();
@@ -216,9 +204,10 @@ CODEZ rsa306b_class::ifstream_write_csv_data
         (void)snprintf(this->_helper, sizeof(this->_helper), "%s", file_path_name);
     }
 
-    if (this->cutil.exe_fopen(this->_helper, "w", this->_fp_write) != CODEZ::_0_no_errors)
+    this->_fp_write = fopen(this->_helper, "w");
+    if (this->_fp_write == NULL)
     {
-        return this->cutil.get_status_code();
+        return this->cutil.report_status_code(CODEZ::_13_fopen_failed);
     }
     
     (void)sprintf(this->_helper, "%s,%s,\n",
@@ -243,7 +232,9 @@ CODEZ rsa306b_class::ifstream_write_csv_data
         (void)fputs(this->_helper, this->_fp_write);
     }
 
-    return this->cutil.exe_fclose(this->_fp_write);
+    (void)fclose(this->_fp_write);
+    this->_fp_write = NULL;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 

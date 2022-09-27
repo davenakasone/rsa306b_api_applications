@@ -145,9 +145,10 @@ CODEZ rsa306b_class::ifstream_write_csv_framed_data
         (void)snprintf(this->_helper, sizeof(this->_helper), "%s", file_path_name);
     }
 
-    if (this->cutil.exe_fopen(this->_helper, "w", this->_fp_write) != CODEZ::_0_no_errors)
+    this->_fp_write = fopen(this->_helper, "w");
+    if (this->_fp_write == NULL)
     {
-        return this->cutil.get_status_code();
+        return this->cutil.report_status_code(CODEZ::_13_fopen_failed);
     }
     
     (void)sprintf(this->_helper, "%s,%s,\n",
@@ -176,7 +177,9 @@ CODEZ rsa306b_class::ifstream_write_csv_framed_data
         }
     }
 
-    return this->cutil.exe_fclose(this->_fp_write);
+    (void)fclose(this->_fp_write);
+    this->_fp_write = NULL;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 

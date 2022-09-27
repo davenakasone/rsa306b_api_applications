@@ -188,7 +188,8 @@ CODEZ rsa306b_class::_gp_init()
 
     if (this->_fp_write != NULL)
     {
-        (void)this->cutil.exe_fclose(this->_fp_write);
+        fclose(this->_fp_write);
+        this->_fp_write = NULL;
     }
     this->_api_status = RSA_API::noError;
     (void)memset(this->_helper, '\0', sizeof(this->_helper));

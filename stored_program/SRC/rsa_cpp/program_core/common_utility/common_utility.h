@@ -26,28 +26,15 @@
 
         "cu_exe_1.cpp"
             exe_strcpy()
-            exe_fopen()
-            exe_fseek()
-            exe_ftell()
-        
-        "cu_exe_2.cpp"
             exe_remove()
 
         "cu_help_1.cpp"
             h_find_bytes_in_file()
             h_match_extension()
+        
+        "cu_help_decode.cpp"
             h_decode_print())
             h_decode_write()
-
-        "cu_help_float.cpp"
-            h_new_float_d1()
-            h_copy_float_to_vector_d1()
-            h_delete_float_d1()
-
-        "cu_help_int16.cpp"
-            h_new_int16_d1()
-            h_copy_int16_to_vector_d1()
-            h_delete_int16_d1()
 
         "timing.cpp"
             timer_split_start()
@@ -109,10 +96,6 @@ class common_utility
 
         // execute a specific function + verify
         CODEZ exe_strcpy (char* destination, const char* source); 
-        CODEZ exe_fopen  (const char* file_path_name, const char* mode, FILE* fp);
-        CODEZ exe_fseek  (FILE* fp, long int offset, int origin);
-        CODEZ exe_ftell  (FILE* fp, long int& position);
-        CODEZ exe_fclose (FILE* fp);
         CODEZ exe_remove (const char* file_to_delete);
 
         // help for a common task
@@ -121,24 +104,16 @@ class common_utility
         CODEZ h_decode_print      (const char* file_path_name, long int start_byte, long int stop_byte);
         CODEZ h_decode_write      (const char* raw_file, const char* output_file, long int& start_byte, long int& stop_byte);
         
-        CODEZ h_new_int16_d1           (int16_t* array_pointer, int allocation_size);
-        CODEZ h_copy_int16_to_vector_d1(const int16_t* array_pointer, int elements, std::vector<int16_t>& destination);
-        CODEZ h_delete_int16_d1        (int16_t* array_pointer);
-
-        CODEZ h_new_float_d1           (float* array_pointer, int allocation_size);
-        CODEZ h_copy_float_to_vector_d1(const float* array_pointer, int elements, std::vector<float>& destination);
-        CODEZ h_delete_float_d1        (float* array_pointer);
-        
         // timer, both CPU and wall-clock
-        CODEZ timer_split_start      ();                                          // updates "trail" to mark beginning of a time split
-        CODEZ timer_split_stop       ();                                          // interval is stopped and duration is calculated
-        CODEZ timer_print_split      (int new_lines_begin, int new_lines_end);    // message with timesplit to stdout
-        CODEZ timer_print_running    (int new_lines_begin, int new_lines_end);    // message with total running time to stdout
-        CODEZ timer_print_both       (int new_lines_begin, int new_lines_end);    // message with timesplit and running time to stdout
-        double timer_get_split_cpu   ();                                          // updates "_split_cpu"
-        double timer_get_split_wall  ();                                          // updates "_split_wall"
-        double timer_get_running_cpu ();                                          // updates "_running_cpu"
-        double timer_get_running_wall();                                          // updates "_running_wall"
+        CODEZ  timer_split_start      ();                                          // updates "trail" to mark beginning of a time split
+        CODEZ  timer_split_stop       ();                                          // interval is stopped and duration is calculated
+        CODEZ  timer_print_split      (int new_lines_begin, int new_lines_end);    // message with timesplit to stdout
+        CODEZ  timer_print_running    (int new_lines_begin, int new_lines_end);    // message with total running time to stdout
+        CODEZ  timer_print_both       (int new_lines_begin, int new_lines_end);    // message with timesplit and running time to stdout
+        double timer_get_split_cpu   ();                                           // updates "_split_cpu"
+        double timer_get_split_wall  ();                                           // updates "_split_wall"
+        double timer_get_running_cpu ();                                           // updates "_running_cpu"
+        double timer_get_running_wall();                                           // updates "_running_wall"
 
         // string tools
         CODEZ wchar_2_char_std(char* destination, const wchar_t* source);                            // string converter, wchar_t* to char* using std::strings

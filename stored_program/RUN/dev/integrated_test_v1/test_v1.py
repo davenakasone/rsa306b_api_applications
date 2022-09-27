@@ -8,14 +8,28 @@
 # run as a top-level module          $ python3 dummy.py
 
 
-OUT_FILE_PATH = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/RUN/dev/integrated_test_v1/"
-
+DATA_PROCESSED =                                          "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_processed/"
+DATA_RAW =                                                "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_raw/"
+HELP_MESSAGE_1 =  "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/unlv/Desktop/rsa306b_api_applications/stored_program/RUN/shared_objects/"
+HELP_MESSAGE_2 =                                   "source /home/unlv/Desktop/rsa306b_api_applications/py_rsa_venv/bin/activate"
+SO_DIR =                                                  "/home/unlv/Desktop/rsa306b_api_applications/stored_program/RUN/shared_objects/libRSA306B.so"
+rsa_so = None
 
 import ctypes
 import os
 import sys
 
 from plot_spectrum import plot_spectrum
+
+try :
+    rsa_so = ctypes.CDLL(SO_DIR)
+except :
+    print("\nDid you run this ???")
+    print(f"\t$ {HELP_MESSAGE_1}")
+    print(f"\t$ {HELP_MESSAGE_2}")
+    print("\nIs the file-path-name of the library correct ???")
+    print(f"\t{SO_DIR}")
+    sys.exit("failed to find the library or path was not exported")
 
 def clear() :
     os.system("clear")
@@ -42,21 +56,6 @@ def lsf() :
 
 def stop() :
     sys.exit("\n\n\t\t~ ~ ~ SCRIPT COMPLETE ~ ~ ~\n\n")
-
-HELP_MESSAGE_1 = "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/unlv/Desktop/rsa306b_api_applications/stored_program/RUN/shared_objects/"
-HELP_MESSAGE_2 = "source /home/unlv/Desktop/rsa306b_api_applications/stored_program/py_rsa_venv/bin/activate"
-SO_DIR = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/RUN/shared_objects/libRSA306B.so"
-rsa_so = None
-
-try :
-    rsa_so = ctypes.CDLL(SO_DIR)
-except :
-    print("\nDid you run this ???")
-    print(f"\t$ {HELP_MESSAGE_1}")
-    print(f"\t$ {HELP_MESSAGE_2}")
-    print("\nIs the file-path-name of the library correct ???")
-    print(f"\t{SO_DIR}")
-    sys.exit("failed to find the library or path was not exported")
 
 clear()
 lsf()
@@ -103,7 +102,7 @@ def scsv() :
     ofile = temp.decode()
     return ofile
 
-def sspin(repz=6, cf=315e6, dbm=-25.5, tlen=1111, span=5e6, rbw=1e3, thresh=-35.6) :
+def sspin(repz=7, cf=315e6, dbm=-25.5, tlen=1111, span=5e6, rbw=1e3, thresh=-35.6) :
     #dcon()
     config(cf, dbm)
     sset(tlen, span, rbw)
@@ -123,7 +122,7 @@ def sspin(repz=6, cf=315e6, dbm=-25.5, tlen=1111, span=5e6, rbw=1e3, thresh=-35.
     dstop()
     #ddis()
 
-def sscan(fstart=1e6, fstop=1000e6, dbm=-25.5, tlen=3333, span=20e6, rbw=10e3, thresh=-55.6, loiter=7, olap=1e6) :
+def sscan(fstart=1e6, fstop=1000e6, dbm=-25.5, tlen=3333, span=20e6, rbw=10e3, thresh=-55.6, loiter=4, olap=1e6) :
     #dcon()
     hitz = 0
     repz = int((fstop-fstart)/span)
@@ -148,7 +147,7 @@ def sscan(fstart=1e6, fstop=1000e6, dbm=-25.5, tlen=3333, span=20e6, rbw=10e3, t
     dstop()
     #ddis()
 
-def sauto(fstart=10e6, fstop=1000e6, dbm=-25.5, tlen=1111, span=20e6, rbw=10e3, thresh=-55.6, loiter=7) :
+def sauto(fstart=10e6, fstop=400e6, dbm=-25.5, tlen=999, span=10e6, rbw=10e3, thresh=-55.6, loiter=3) :
     #dcon()
     rsa_so.spectrum_scanner.restype = ctypes.c_char_p
     temp = rsa_so.spectrum_scanner(\

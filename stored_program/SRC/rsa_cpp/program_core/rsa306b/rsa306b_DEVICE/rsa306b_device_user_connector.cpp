@@ -105,21 +105,14 @@ CODEZ rsa306b_class::device_connect()
     (void)this->align_run();
     (void)this->config_preset();  
     (void)this->spectrum_default();
-    // (void)this->get_everything();
-    // sleep(1);    // toggle
-    // (void)this->device_run();
-    // sleep(1);    // toggle
-    // (void)this->device_stop();
-    // sleep(1);    // toggle
-    // (void)this->device_run();
-    // sleep(1);    // toggle
-    // (void)this->device_stop();
-    // sleep(1);    // toggle
+    
+    (void)this->device_run();
+    sleep(1);    // toggle
+    (void)this->device_stop();
 
     // INSERT
     
     return this->get_everything();
-    //return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
 
