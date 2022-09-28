@@ -1,0 +1,60 @@
+"""
+    functions that use the API group "SPECTRUM
+"""
+
+from .api_config import config
+from .api_device import drun
+from .api_device import dstop
+from .api_spectrum import scsv
+from .api_spectrum import sset
+from .api_spectrum import son
+from .api_spectrum import soff
+from .api_spectrum import sacq
+from .api_spectrum import sfpi
+from ..funz.plot_spectrum import plot_spectrum
+
+
+def sspin(repz=7, cf=315e6, dbm=-25.5, tlen=1111, span=10e6, rbw=1e3, thresh=-35.6) -> None :
+    config(cf, dbm)
+    sset(tlen, span, rbw)
+    son()
+    drun()
+    for xx in range(0, repz) :
+        sacq()
+        pmax = spdx()
+        
+        if pmax > thresh :
+            print(f"{xx:2d} ) {pmax:0.5f}  dBm   ...writing CSV")
+            dataf = scsv()
+            plot_spectrum(dataf)
+        else :
+            print(f"{xx:2d} ) {pmax:0.5f}  dBm   ...just noise")
+    soff()
+    dstop()
+
+
+def sscan(fstart=1e6, fstop=1000e6, dbm=-35.5, tlen=999, span=10e6, rbw=10e3, thresh=-55.6, loiter=4) -> None :
+    hitz = 0
+    repz = int((fstop-fstart)/span)
+    for xx in range(0, repz+1) :
+        cf = (xx*span + span)
+        config(cf, dbm)
+        sset(tlen, span, rbw)
+        son()
+        drun()
+        for yy in range(0, loiter) :
+            sacq()
+            pmax = sfpi()
+            if pmax > thresh :
+                print(f"{xx:7d} )  cf:  {cf/1e6:15.3f}  MHz  ,  max dBm:{pmax:9.3f}  dBm   ...writing CSV")
+                dataf = scsv()
+                plot_spectrum(dataf)
+                hitz = hitz + 1
+            else :
+                print(f"{xx:7d} )  cf:  {cf/1e6:15.3f}  MHz  ,  max dBm:{pmax:9.3f}  dBm   ...noise")
+    print(f"\n\tscan complete, found {hitz} traces of interest")
+    soff()
+    dstop()
+
+
+########~~~~~~~~END>  f_spectrum.py

@@ -163,44 +163,6 @@ def sauto(fstart=10e6, fstop=400e6, dbm=-25.5, tlen=999, span=10e6, rbw=10e3, th
     plot_spectrum(ofile)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ####~~~~
 
 

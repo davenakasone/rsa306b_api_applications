@@ -1,0 +1,28 @@
+import importlib.util
+import sys
+
+sys.path.append("/home/unlv/Desktop/rsa306b_api_applications/stored_program/SRC")
+for p in sys.path :
+    print(p)
+
+module_to_import = 'unlv_rsapy'
+if module_to_import in sys.modules :
+    print(f"{module_to_import!r} already in sys.modules")
+elif (spec := importlib.util.find_spec(module_to_import)) is not None:
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_to_import] = module
+    spec.loader.exec_module(module)
+    print(f"{module_to_import!r} has been imported")
+else:
+    print(f"can't find the {module_to_import!r} module")
+    sys.exit()
+
+
+
+
+
+
+
+
+
+
