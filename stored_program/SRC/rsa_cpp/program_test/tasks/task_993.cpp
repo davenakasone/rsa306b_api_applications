@@ -23,7 +23,7 @@
 
 #include "../testz.h"
 
-#ifdef UNIT_TESTING
+#ifdef UNIT_TESTINGG
 
 // task 990 constants
 static const double CONFIG_DBM      = -44.4;                                        // select a power level for the data acquisition, in dBm

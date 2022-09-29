@@ -9,6 +9,11 @@
     {ON|OFF}  means that the macro should be commented on or off when building
 
     this is the header file with all the resources
+
+        - C libraries
+        - C++ libraries
+        - the RSA API header
+        - macros, preprocessor directives, and program flow (this header file)
 */
 
 #ifndef H_resourcez
@@ -16,6 +21,7 @@
 
 
 #include "constant_expersions.h"    // brings all libraries and constants
+#include "codez.h"                  // brings in the return "codez"
 
 
 constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  unlv_rsa_<year YYYY>_<month MM>
@@ -25,9 +31,9 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
 #define LOOP_TIMEOUT     2    // {ON|OFF} if activated, any acquisitions that require polling in a loop will have time-out applied
 #define SAFETY_CHECKS    3    // {ON|OFF} if activated, applies checks needed for proper device operation (but slows program)
 #define BUILD_PYTHON     4    // {ON|OFF} if activated, compiles with C++ to python3 interfacing, should be on to make a proper library
-#define UNIT_TESTINGG    5    // {ON|OFF} if activated, compiles with unit testing, select build target accordingly
-    #ifdef UNIT_TESTINGG
-        #define WAIT_ENTER_CLEAR 11    // {ON|OFF} if activated, calls wait_enter_clear(), for selected tasks and unit tests
+#define UNIT_TESTING     5    // {ON|OFF} if activated, compiles with unit testing, select build target accordingly
+    #ifdef UNIT_TESTING
+        #define WAIT_ENTER_CLEAR 6    // {ON|OFF} if activated, calls wait_enter_clear(), for selected tasks and unit tests
     #endif
 
 #ifdef DE_BUG

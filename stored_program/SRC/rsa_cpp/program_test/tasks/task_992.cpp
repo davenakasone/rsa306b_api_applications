@@ -10,7 +10,7 @@
 
 #include "../testz.h"
 
-#ifdef UNIT_TESTING
+#ifdef UNIT_TESTINGG
 
 static const double CONFIG_DBM         = -44.4;                                        // select a power level for the data acquisition, in dBm
 static const double CONFIG_CF          = 100.0e6;                                      // select a center frequency for the data acquisition, in Hz

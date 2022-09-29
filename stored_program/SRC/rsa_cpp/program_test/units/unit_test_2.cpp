@@ -11,7 +11,7 @@
 
 #include "../testz.h"
 
-#ifdef UNIT_TESTING
+#ifdef UNIT_TESTINGG
 
 //#define UT2_a 1    // basic connection
 //#define UT2_b 2    // sporadic connect/disconnect

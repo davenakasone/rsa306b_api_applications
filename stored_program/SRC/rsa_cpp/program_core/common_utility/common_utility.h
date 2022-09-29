@@ -66,7 +66,6 @@
 
 
 #include "../control/resourcez.h"
-#include "../control/codez.h"
 #ifdef DE_BUG
     #include "../control/de_bug/de_bug.h"
 #endif

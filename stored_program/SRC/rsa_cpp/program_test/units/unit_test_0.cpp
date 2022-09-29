@@ -16,23 +16,23 @@
 
 #include "../testz.h"
 
-#ifdef UNIT_TESTINGG
+#ifdef UNIT_TESTING
 
 
 void unit_test_0 (void)
 {
 #ifdef WAIT_ENTER_CLEAR
-printf("\n%s()  ,  a test template\n", __func__);
-//X_timer.time_split_start();                      
-#endif    
+printf("\n%s()  ,  a unit test template\n", __func__);
+X_util.timer_split_start(); 
+#endif                   
 ////~~~~
 
-    printf("\n\ttest executes...\n");    // test something
+    (void)printf("\n\ta unit test executes...\n");    // test something
 
 ////~~~~
 #ifdef WAIT_ENTER_CLEAR
-// X_timer.time_split_stop();
-// X_timer.print_both();
+X_util.timer_split_stop();
+X_util.timer_print_split(1,1);
 printf("\n%s()  ,  test complete\n", __func__);
 wait_enter_clear();
 #endif

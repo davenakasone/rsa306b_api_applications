@@ -159,8 +159,9 @@ $(SDIR)siq_manager/siq_loader.cpp \
 $(SDIR)siq_manager/siq_printer.cpp \
 $(SDIR)siq_manager/siq_write_csv.cpp \
 \
-$(PYDIR)dummy.cpp \
-$(PYDIR)rsa_basic.cpp
+$(PYDIR)rsa_config.cpp \
+$(PYDIR)rsa_device.cpp \
+$(PYDIR)rsa_spectrum.cpp
 
 
 SOURCE_FILES_ALL =$(SDIR)main.cpp \

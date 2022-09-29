@@ -5,7 +5,7 @@
 
 #include "../testz.h"
 
-#ifdef UNIT_TESTING
+#ifdef UNIT_TESTINGG
 
 #define REPZ 7
 

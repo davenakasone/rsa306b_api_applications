@@ -2,7 +2,7 @@
     source code for the python interface
 */
 
-#include "rsa_basic.h"
+#include "python_access.h"
 
 #ifdef BUILD_PYTHON
 
@@ -10,38 +10,6 @@
 extern "C"      
 {
 #endif
-
-
-void config_set_vars(double cf_hz, double ref_dbm)
-{
-    X_rsa.vars.config.center_frequency_hz = cf_hz;
-    X_rsa.vars.config.reference_level_dbm = ref_dbm;
-    (void)X_rsa.config_set_vars();
-}
-
-
-void device_connect()
-{
-    (void)X_rsa.device_connect();
-}
-
-
-void device_run()
-{
-    (void)X_rsa.device_run();
-}
-
-
-void device_stop()
-{
-    (void)X_rsa.device_stop();
-}
-
-
-void device_disconnect()
-{
-    (void)X_rsa.device_disconnect();
-}
 
 
 void spectrum_disable()
@@ -126,15 +94,11 @@ char* spectrum_scanner
 }
 
 
-
-
-
-
 #ifdef __cplusplus      
 }
 #endif
 
-#endif
+#endif    // BUILD_PYTHON
 
 
-////////~~~~~~~~END>  rsa_basic.cpp
+////////~~~~~~~~END>  rsa_spectrum.cpp

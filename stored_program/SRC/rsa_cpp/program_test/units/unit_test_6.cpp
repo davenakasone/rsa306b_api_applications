@@ -12,7 +12,7 @@
 
 #include "../testz.h"
 
-#ifdef UNIT_TESTING
+#ifdef UNIT_TESTINGG
 
 #define UT6_a 1    // basic test
 #define UT6_b 2    // timestamp conversions

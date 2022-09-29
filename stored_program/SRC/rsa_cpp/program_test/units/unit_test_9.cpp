@@ -13,7 +13,7 @@
 
 #include "../testz.h"
 
-#ifdef UNIT_TESTING
+#ifdef UNIT_TESTINGG
 
 #define UT9_a 1    // basic test
 #define UT9_b 2    // make an output file

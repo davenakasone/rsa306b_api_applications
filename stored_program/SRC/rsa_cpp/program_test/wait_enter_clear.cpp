@@ -8,31 +8,40 @@
 
 #include "testz.h"
 
-#ifdef UNIT_TESTINGG
-#ifdef WAIT_ENTER_CLEAR
+
+#ifdef UNIT_TESTING
 
 
-    void wait_enter_clear
-    (
-        void
-    )
-    {
-        fflush(stdin);
-        fflush(stdout);
-        sleep(1); 
-        char burner;
-        printf("\n\t\tpress any key to continue:  ");
-        std::cin >> burner;
-        printf("clearing stdout...  %c", burner);
-        fflush(stdout);
-        fflush(stdin);
-        sleep(1);
-        system("clear");
-        sleep(1);
-    }
+    #ifdef WAIT_ENTER_CLEAR
+
+
+        void wait_enter_clear
+        (
+            void
+        )
+        {
+            char burner;
+
+            (void)fflush(stdin);
+            (void)fflush(stdout);
+            (void)sleep(1); 
+            
+            (void)printf("\n\t\tpress any key to continue:  ");
+            std::cin >> burner;
+            
+            (void)printf("clearing stdout...  %c", burner);
+            (void)fflush(stdout);
+            (void)fflush(stdin);
+            (void)sleep(1);
+            (void)system("clear");
+            (void)sleep(1);
+        }
+
+
+    #endif
 
 
 #endif
-#endif
+
 
 ////////~~~~~~~~END>  wait_enter_clear.cpp

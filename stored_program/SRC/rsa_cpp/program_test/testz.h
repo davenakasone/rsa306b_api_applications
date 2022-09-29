@@ -26,17 +26,32 @@
 
 #include "../program_core/control/globalz.h"
 
-//#ifdef UNIT_TESTING
 
-#ifdef WAIT_ENTER_CLEAR
-    void wait_enter_clear (void);    // flow separation between unit tests
+    #ifdef UNIT_TESTING
+
+
+        #ifdef WAIT_ENTER_CLEAR
+            void wait_enter_clear (void);    // flow separation between unit tests
+        #endif
+
+        void test_selector (int test_number);    // controls the unit test being performed
+
+        void unit_test_0   (void);    // place holder, default, template...
+        void unit_test_1   (void);    // test the common utility class
+        
+        void task_999 (void);    // temporary use test bench 
+
+
+    #endif
+
+
 #endif
 
-void test_selector (int test_number);    // controls the unit test being performed
 
-void unit_test_0   (void);    // place holder, default, template...
-void task_991 (void); 
-#ifdef UNIT_TESTING
+////////~~~~~~~~END>  testz.h
+
+
+/*
 
 void unit_test_1   (void);    // test 'general purpose' section
 void unit_test_2   (void);    // test 'DEVICE' section
@@ -49,7 +64,6 @@ void unit_test_8   (void);    // test 'SPECTRUM' section
 void unit_test_9   (void);    // test 'IFSTREAM' section
 void unit_test_10  (void);    // test 'IQBLK' section
 void unit_test_11  (void);    // test 'IQSTREAM' section
-
 void task_992 (void);    // develop the "siq_manager" file handler
 void task_993 (void);    // see if IQSTREAM has a bug in the API ?
 void task_994 (void);    // test the whchar_t 2 char converter
@@ -57,11 +71,5 @@ void task_995 (void);    // test YK3000 @ 315 MHz
 void task_996 (void);    // EE 498, Semptember 2022
 void task_997 (void);    // DSP demonstration
 void task_998 (void);    // test the cpu_timer_class
-void task_999 (void);    // test bench 
 
-         
-#endif
-
-#endif
-
-////////~~~~~~~~END>  testz.h
+*/

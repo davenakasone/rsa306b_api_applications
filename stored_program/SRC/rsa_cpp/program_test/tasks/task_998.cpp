@@ -8,7 +8,7 @@
 
 #include "../testz.h"
 
-#ifdef UNIT_TESTING
+#ifdef UNIT_TESTINGG
 
 #define T998_REPZ 7
 

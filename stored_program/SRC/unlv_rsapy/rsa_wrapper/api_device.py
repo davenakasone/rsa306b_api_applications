@@ -18,5 +18,8 @@ def drun() -> None :
 def dstop() -> None :
     rsa_so.device_stop()
 
+def dreset() -> None :
+    rsa_so.device_reset()
+
 
 ########~~~~~~~~END>  api_device.py

@@ -11,7 +11,7 @@
 
 #include "../testz.h"
 
-#ifdef UNIT_TESTING
+#ifdef UNIT_TESTINGG
 
 #define CYCLEZ 9        // files of each acquisition method to write
 #define TEST_INDEX 5    // arbitrary index to observe the IQBLK std::vector<float>

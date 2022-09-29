@@ -11,7 +11,7 @@
 
 #include "../testz.h"
 
-#ifdef UNIT_TESTING
+#ifdef UNIT_TESTINGG
 
 #define UT5_a 1    // basic test
 #define UT5_b 2    // set trigger

@@ -27,12 +27,12 @@ from .funz.plot_spectrum import plot_spectrum
 from .r3f_wrapper.r3fw import r3fw
 
 # get the RSA-306B wrappers
-from .rsa_wrapper.rsaw import rsaw
 from .rsa_wrapper.api_config import config
 from .rsa_wrapper.api_device import dcon
 from .rsa_wrapper.api_device import ddis
 from .rsa_wrapper.api_device import drun
 from .rsa_wrapper.api_device import dstop
+from .rsa_wrapper.api_device import dreset
 from .rsa_wrapper.api_spectrum import soff
 from .rsa_wrapper.api_spectrum import son
 from .rsa_wrapper.api_spectrum import sset

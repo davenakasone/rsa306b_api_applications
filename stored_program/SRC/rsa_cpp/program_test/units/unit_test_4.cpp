@@ -10,7 +10,7 @@
 
 #include "../testz.h"
 
-#ifdef UNIT_TESTING
+#ifdef UNIT_TESTINGG
 
 #define UT4_a 1    // basic test
 

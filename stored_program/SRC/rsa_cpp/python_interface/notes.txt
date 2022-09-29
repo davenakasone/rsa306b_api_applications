@@ -8,7 +8,7 @@ changes in the core classes require recompiling
 ideally, the python interface will be its own module, load the shared object, and let the user mange the RSA with simple calls
 
 compiling the shared object should extern C the exposed functions
-when executed, the library path with all the shareed objects needs to be executed
+when executed, the library path with all the shared objects needs to be exported
 
 maybe give the python user a python class, where try/except statements are properly placed to ensure smooth operation
 

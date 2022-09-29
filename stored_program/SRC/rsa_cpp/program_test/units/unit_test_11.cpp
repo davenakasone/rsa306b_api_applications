@@ -11,7 +11,7 @@
 
 #include "../testz.h"
 
-#ifdef UNIT_TESTING
+#ifdef UNIT_TESTINGG
 
 #define UT11_a 1    // basic test of the group
 #define UT11_b 2    // calls through to task_990(), handles all client and file stream cases

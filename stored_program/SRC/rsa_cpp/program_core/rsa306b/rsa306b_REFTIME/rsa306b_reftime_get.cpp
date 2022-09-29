@@ -47,7 +47,7 @@ CODEZ rsa306b_class::_reftime_get_vars()
     constexpr int callz = 5;
     CODEZ caught_call[callz];
 
-    caught_call[0] = this->_reftime_get_current                 ();
+    caught_call[0] = this->reftime_make_dts();    // calls _reftime_get_current
     caught_call[1] = this->_reftime_get_start                   ();
     caught_call[2] = this->_reftime_get_running_duration_seconds();
     caught_call[3] = this->_reftime_get_source_select           ();

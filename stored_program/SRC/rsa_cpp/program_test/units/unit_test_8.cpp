@@ -10,7 +10,7 @@
 
 #include "../testz.h"
 
-#ifdef UNIT_TESTING
+#ifdef UNIT_TESTINGG
 
 #define UT8_a 1    // make some settings
 #define UT8_b 2    // read a spectrum trace, find peak

@@ -1,12 +1,19 @@
 /*
     fixed values, requested to be populated at compile time
+
+    note that the RSA_API header + all the C and C++ libraries are brought in
+
+    this header will consolidate to "resourcez.h"
 */
 
 #ifndef H_constant_expresions
 #define H_constant_expresions
 
 
-#include "common_libraries.h"
+#include "common_libraries.h"  // the RSA_API header + all the C and C++ libraries
+
+
+constexpr char CL_ARG_RESET[] = "reset";    // the command line argument, used through main(), that forces a hard reset
 
 
 // Data IO

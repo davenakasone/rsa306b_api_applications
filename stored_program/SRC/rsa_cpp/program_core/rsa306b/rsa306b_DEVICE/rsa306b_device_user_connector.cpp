@@ -100,7 +100,6 @@ CODEZ rsa306b_class::device_connect()
         debug_record(true);
     #endif
     
-    
     (void)this->device_stop();
     (void)this->align_run();
     (void)this->config_preset();  
@@ -140,15 +139,14 @@ CODEZ rsa306b_class::device_disconnect()
     this->_api_status = RSA_API::DEVICE_Disconnect();
     if (this->_api_status != RSA_API::noError)
     {
-        #ifdef DEBUG_MIN
-            (void)this->_device_get_api_status_message();
-            (void)snprintf(X_ddts, sizeof(X_ddts), "%s",
-                this->_vars.device.api_status_message);
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-            debug_record(true);
-        #endif
         return this->_report_api_status();    // the disconnection failed
     }
+
+    #ifdef DEBUG_MIN
+        (void)snprintf(X_ddts, sizeof(X_ddts), "DIS-connected");
+        (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+        debug_record(true);
+    #endif
 
     return this->_init_everything();          // sets 'device.is_connected == false'
 }

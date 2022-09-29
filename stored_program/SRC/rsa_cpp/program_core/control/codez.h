@@ -10,8 +10,8 @@
 
 
 // program satus codes, messages
-constexpr int ROWS_CODEZ = 99;    // number of status codes
-constexpr int COLS_CODEZ = 88;      // largest width of the status code message
+constexpr int ROWS_CODEZ = 33;    // number of status codes
+constexpr int COLS_CODEZ = 88;    // largest width of the status code message
 constexpr char CODEZ_MESSAGES[ROWS_CODEZ][COLS_CODEZ] =  
 {
     "### 0   ,  no errors"                                  ,
@@ -47,8 +47,6 @@ constexpr char CODEZ_MESSAGES[ROWS_CODEZ][COLS_CODEZ] =
     "### 30  ,  trigger event never occured"                ,
     "### 31  ,  fputs() failed"                             ,
     "### 32  ,  "
-
-    "### 99  ,  unspecified"
 };
 
 // program status codes, code number (index corresponds to row in "CODEZ_MESSAGES")
@@ -86,10 +84,7 @@ enum CODEZ
     _29_remove_failed                    = 29 ,
     _30_trigger_event_never_occured      = 30 ,
     _31_fputs_failed                     = 31 ,
-    _32 = 32,
-
-
-    _99_unspecified                = 99
+    _32 = 32
 };
 
 
