@@ -2,7 +2,7 @@
     source code for the python interface
 */
 
-#include "python_access.h"
+#include "python_interface.h"
 
 #ifdef BUILD_PYTHON
 

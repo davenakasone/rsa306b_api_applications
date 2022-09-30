@@ -27,7 +27,10 @@
         data and files will presist, but a new operation will overwrite the std::vectors
         so process or dump the data before subsequent acquisitons
 */
-CODEZ rsa306b_class::iqstream_acquire_data()
+CODEZ rsa306b_class::iqstream_acquire_data
+(
+    const int timeout_ms
+)
 {
 #ifdef DEBUG_CLI
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
@@ -54,20 +57,44 @@ CODEZ rsa306b_class::iqstream_acquire_data()
     }
 #endif
 
+int ms_timeout = timeout_ms;
+
+#ifdef TIMEOUT_MS
+    if (ms_timeout > TIMEOUT_MS)
+    {
+        ms_timeout = TIMEOUT_MS;
+    }
+    if (ms_timeout < 0)
+    {
+        ms_timeout = 1;
+    }
+#endif
+
     // settings applied
     // device_run()
     // iqstream_start()
 
     bool is_ready = false;
-    int timeout_ms = this->_vars.iqstream.LOOP_LIMIT_MS;
     (void)this->_iqstream_get_iq_data_buffer_size();
-    
+
+#ifdef TIMEOUT_MS
     this->_api_status =
         RSA_API::IQSTREAM_WaitForIQDataReady
         (
             timeout_ms, 
             &is_ready
-        );// need different capabilities for triggereing
+        );
+#else
+    while (is_ready == false)    // this could block forever
+    {
+        this->_api_status =
+            RSA_API::IQSTREAM_WaitForIQDataReady
+            (
+                timeout_ms, 
+                &is_ready
+            );
+    }
+#endif
     this->_report_api_status();
 
     if (is_ready == false)

@@ -94,9 +94,9 @@ CODEZ rsa306b_class::_align_get_is_warmed()
     (
         &this->_vars.align.is_warmed
     );
-    (void)this->_align_copy_is_needed();
+    (void)this->_align_copy_is_warmed();
     return this->_report_api_status();
 }
 
 
-////////~~~~~~~~END>  rsa306b_align_get_copy.cpp
+////////~~~~~~~~END>  rsa306b_align_get.cpp

@@ -1,99 +1,120 @@
 /*
-    unit test # 6, API group "REFTIME"
-
-    this section uses the availible API timing features
+    unit test # 6, class [rsa_306b] API group 'REFTIME'
 
     goals:
-        - getters, setters, copiers working correctly
-        - timestamp conversions work
-        - dts works
-        - timers are functioning
+    
+        CODEZ reftime_print           ();    // prints the "REFTIME" variables to stdout, using the private struct
+        CODEZ reftime_reset           ();    // resets start time of the device
+        CODEZ reftime_get_vars        ();    // gets all the "REFTIME" variables
+        CODEZ reftime_timestamp_2_time();    // set "vars.reftime.helper.timestamp", then call, updates time_t and uint64_t
+        CODEZ reftime_time_2_timestamp();    // set "vars.reftime.helper.seconds  and nanos", then call, updates timestamp
+        char* reftime_make_dts        ();   
 */
 
 #include "../testz.h"
 
-#ifdef UNIT_TESTINGG
+#ifdef UNIT_TESTING
 
-#define UT6_a 1    // basic test
-#define UT6_b 2    // timestamp conversions
-#define UT6_c 3    // dts
-#define UT6_d 4    // reset
-#define UT6_e 5 // compare time splits ... it is unresponsive to sleep?
+
+constexpr int bangz_ut6 = 3;
+static void ut6_basic();
+static void ut6_convert();
 
 
 void unit_test_6 (void)
 {
 #ifdef WAIT_ENTER_CLEAR
-printf("\n%s()  ,  API group 'REFTIME'\n", __func__);                    
-#endif    
-////~~~~
+printf("\n%s()  ,  class [rsa_306b] API group 'REFTIME'\n", __func__);
+X_util.timer_split_start(); 
+#endif                   
+//~
 
-    X_rsa.device_disconnect();
     X_rsa.device_connect();
-        
-    #ifdef UT6_a
-        X_rsa.print_reftime();
-        X_rsa.device_connect();
-        X_rsa.print_reftime();
-    #endif
-    #ifdef UT6_b
-        X_rsa.device_connect();
-        sleep(1);
-        X_rsa.reftime_get_vars();
-        X_rsa.print_reftime();
-        X_rsa.vars.reftime.helper.timestamp = X_rsa.vars.reftime.current.timestamp;
-        X_rsa.reftime_timestamp_2_time();
-        X_rsa.print_reftime();
+    ut6_basic();
+    ut6_convert();
+    X_rsa.device_disconnect();
 
-        X_rsa.reftime_get_vars();
-        X_rsa.print_reftime();
-        X_rsa.vars.reftime.helper.seconds = X_rsa.vars.reftime.current.seconds;
-        X_rsa.vars.reftime.helper.nanos   = X_rsa.vars.reftime.current.nanos;
-        X_rsa.reftime_time_2_timestamp();
-        X_rsa.print_reftime();
-    #endif
-    #ifdef UT6_c
-        X_rsa.device_connect();
-        X_rsa.reftime_get_vars();
-        printf("\n%s\n", X_rsa.vars.reftime.dts);
-    #endif
-    #ifdef UT6_d
-        X_rsa.device_connect();
-        X_rsa.print_reftime();
-        sleep(1);
-        X_rsa.reftime_reset();
-        X_rsa.print_reftime();
-    #endif
-    #ifdef UT6_e
-        
-        double lead = 0;
-        double trail = 0;
-        int waiting = 4; // change
-        printf("\ncomparing a %d second sleep cylce...\n", waiting);
-
-        //X_timer.time_split_start();
-        //X_rsa.reftime_get_vars();
-        trail = (double)X_rsa.vars.reftime.current.seconds + (double)X_rsa.vars.reftime.current.nanos / 1.0e9;
-        sleep(waiting);
-        // X_timer.time_split_stop();
-        // X_rsa.reftime_get_vars();
-        lead = (double)X_rsa.vars.reftime.current.seconds + (double)X_rsa.vars.reftime.current.nanos / 1.0e9;
-        printf("rsa306 time split:  %0.12lf", lead - trail);
-        //X_timer.print_time_split(true);
-        X_rsa.print_reftime();
-
-    #endif
-
-////~~~~
+//~
 #ifdef WAIT_ENTER_CLEAR
-//X_timer.print_running_time(true);
+X_util.timer_split_stop();
+X_util.timer_print_split(1,1);
 printf("\n%s()  ,  test complete\n", __func__);
 wait_enter_clear();
 #endif
 }
 
 
+////~~~~
+
+
+static void ut6_basic()
+{
+#ifdef WAIT_ENTER_CLEAR
+printf("\n%s()  ,  basic REFTIME methods\n", __func__);
+#endif                   
+//~ 
+    
+    X_rsa.reftime_get_vars();
+    X_rsa.reftime_print();
+    printf("\ndts:  %s\n", X_rsa.reftime_make_dts());
+
+    printf("\nreseting...\n");
+    X_rsa.reftime_reset();
+    sleep(1);
+    X_rsa.reftime_print();
+    printf("\ndts:  %s\n", X_rsa.reftime_make_dts());
+
+//~
+#ifdef WAIT_ENTER_CLEAR
+printf("\n%s()  ,  complete\n", __func__);
+wait_enter_clear();
 #endif
+}
+
+
+////~~~~
+
+
+static void ut6_convert()
+{
+#ifdef WAIT_ENTER_CLEAR
+printf("\n%s()  ,  conversion REFTIME methods\n", __func__);
+#endif                   
+//~ 
+    
+    for (int ii = 0; ii < bangz_ut6; ii++)
+    {
+        printf("\tsleep(%d)\n", ii+1);
+        (void)sleep(ii+1);
+        
+        X_rsa.reftime_get_vars();
+        X_rsa.vars.reftime.helper.timestamp = X_rsa.vars.reftime.current.timestamp;
+        X_rsa.vars.reftime.helper.seconds = X_rsa.vars.reftime.current.seconds;
+        X_rsa.vars.reftime.helper.nanos = X_rsa.vars.reftime.current.nanos;
+        X_rsa.reftime_time_2_timestamp();
+        X_rsa.reftime_timestamp_2_time();
+
+        printf("\n%2d of %2d)  timestamp 2 time converted:  %lu  -->  %ld  %lu\n",
+            ii+1,
+            bangz_ut6,
+            X_rsa.vars.reftime.helper.timestamp,
+            X_rsa.vars.reftime.helper.seconds,
+            X_rsa.vars.reftime.helper.nanos);
+        printf("                                        %lu       %ld  %lu\n", 
+            X_rsa.vars.reftime.current.timestamp,
+            X_rsa.vars.reftime.current.seconds,
+            X_rsa.vars.reftime.current.nanos);
+    }
+    
+//~
+#ifdef WAIT_ENTER_CLEAR
+printf("\n%s()  ,  complete\n", __func__);
+wait_enter_clear();
+#endif
+}
+
+
+#endif    // UNIT_TESTING
 
 
 ////////~~~~~~~~END>  unit_test_6.cpp

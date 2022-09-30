@@ -165,15 +165,6 @@ $(PYDIR)rsa_spectrum.cpp
 
 
 SOURCE_FILES_ALL =$(SDIR)main.cpp \
-$(TDIR_T)task_991.cpp \
-$(TDIR_T)task_992.cpp \
-$(TDIR_T)task_993.cpp \
-$(TDIR_T)task_994.cpp \
-$(TDIR_T)task_995.cpp \
-$(TDIR_T)task_996.cpp \
-$(TDIR_T)task_997.cpp \
-$(TDIR_T)task_998.cpp \
-$(TDIR_T)task_999.cpp \
 $(TDIR_U)unit_test_0.cpp \
 $(TDIR_U)unit_test_1.cpp \
 $(TDIR_U)unit_test_2.cpp \
@@ -183,9 +174,7 @@ $(TDIR_U)unit_test_5.cpp \
 $(TDIR_U)unit_test_6.cpp \
 $(TDIR_U)unit_test_7.cpp \
 $(TDIR_U)unit_test_8.cpp \
-$(TDIR_U)unit_test_9.cpp \
-$(TDIR_U)unit_test_10.cpp \
-$(TDIR_U)unit_test_11.cpp \
+$(TDIR_T)task_999.cpp \
 $(TDIR)test_selector.cpp \
 $(TDIR)wait_enter_clear.cpp \
 $(SOURCE_FILES_SO)

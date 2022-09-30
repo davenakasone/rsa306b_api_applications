@@ -3,7 +3,7 @@
     API group 'DEVICE'
 */
 
-#include "python_access.h"
+#include "python_interface.h"
 
 #ifdef BUILD_PYTHON
 

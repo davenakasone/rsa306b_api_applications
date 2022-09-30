@@ -77,7 +77,6 @@ struct rsa306b_iqstream_struct
 // limiting constants :
     const int  RECORD_MSEC_MIN = 1;      // if this is 0, then infinite recording occurs, p79
     const int  RECORD_MSEC_MAX = 999;    // limit for disk space, the files are huge
-    const int  LOOP_LIMIT_MS   = 2000;    // how much time to loiter in a loop before breaking out
 
 
 /*

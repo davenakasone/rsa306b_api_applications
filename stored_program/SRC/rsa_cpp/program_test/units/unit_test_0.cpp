@@ -25,11 +25,11 @@ void unit_test_0 (void)
 printf("\n%s()  ,  a unit test template\n", __func__);
 X_util.timer_split_start(); 
 #endif                   
-////~~~~
+//~
 
     (void)printf("\n\ta unit test executes...\n");    // test something
 
-////~~~~
+//~
 #ifdef WAIT_ENTER_CLEAR
 X_util.timer_split_stop();
 X_util.timer_print_split(1,1);
@@ -39,7 +39,7 @@ wait_enter_clear();
 }
 
 
-#endif
+#endif    // UNIT_TESTING
 
 
 ////////~~~~~~~~END>  unit_test_0.cpp

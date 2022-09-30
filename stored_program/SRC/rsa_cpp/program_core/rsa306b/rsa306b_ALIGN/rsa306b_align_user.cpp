@@ -62,14 +62,19 @@ CODEZ rsa306b_class::align_run()
     < 2 > public
     query if aligment is needed
 */
-CODEZ rsa306b_class::align_check_is_needed()
+bool rsa306b_class::align_check_is_needed()
 {
 #ifdef DEBUG_CLI
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
-    return this->_align_get_is_needed();
+    (void)this->_align_get_is_needed();
+    if (this->_vars.align.is_needed == true)
+    {
+        return true;
+    }
+    return false;
 }
 
 
@@ -80,14 +85,19 @@ CODEZ rsa306b_class::align_check_is_needed()
     < 3 > public
     query if device is warmed-up
 */
-CODEZ rsa306b_class::align_check_is_warmed()
+bool rsa306b_class::align_check_is_warmed()
 {
 #ifdef DEBUG_CLI
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
-    return this->_align_get_is_warmed();
+    (void)this->_align_get_is_warmed();
+    if (this->_vars.align.is_warmed == true)
+    {
+        return true;
+    }
+    return false;
 }
 
 

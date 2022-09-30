@@ -99,9 +99,9 @@ class common_utility
 
         // help for a common task
         CODEZ h_find_bytes_in_file(const char* file_path_name, long& result);
-        CODEZ h_match_extension   (const char* file_path_name, const char* extension);
-        CODEZ h_decode_print      (const char* file_path_name, long int start_byte, long int stop_byte);
-        CODEZ h_decode_write      (const char* raw_file, const char* output_file, long int& start_byte, long int& stop_byte);
+        bool h_matched_extension  (const char* file_path_name, const char* extension);
+        CODEZ h_decode_print      (const char* file_path_name, const long int start_byte, const long int stop_byte);
+        CODEZ h_decode_write      (const char* raw_file, const char* output_file, const long int start_byte, const long int stop_byte);
         
         // timer, both CPU and wall-clock
         CODEZ  timer_split_start      ();                                          // updates "trail" to mark beginning of a time split

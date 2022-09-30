@@ -57,7 +57,7 @@ CODEZ rsa306b_class::iqstream_write_csv
     }
     if 
     (
-        (this->_vars.iqstream.cplxInt32_v.size() <= 1)  &&
+        (this->_vars.iqstream.cplxInt32_v.size() <= 1)               &&
         (this->_vars.iqstream.datatype_select == RSA_API::IQSODT_INT32)
     )
     {
@@ -70,7 +70,7 @@ CODEZ rsa306b_class::iqstream_write_csv
     }
     if 
     (
-        (this->_vars.iqstream.cplxInt16_v.size() <= 1)  &&
+        (this->_vars.iqstream.cplxInt16_v.size() <= 1)               &&
         (this->_vars.iqstream.datatype_select == RSA_API::IQSODT_INT16) 
     )
     {
@@ -120,7 +120,7 @@ CODEZ rsa306b_class::iqstream_write_csv
     }
     // file is open
 
-    (void)sprintf(this->_helper, "%s,%s,%s,\n",   // place the CSV header
+    (void)sprintf(this->_helper, "%s,%s,%s\n",   // place the CSV header
         IQSTREAM_FIELD_1,
         IQSTREAM_FIELD_2,
         IQSTREAM_FIELD_3);
@@ -168,20 +168,10 @@ CODEZ rsa306b_class::_iqstream_write_csv_cplx32()
     std::size_t v_size = this->_vars.iqstream.cplx32_v.size();
     for (std::size_t kk = 0; kk < v_size; kk++)
     {
-        if (kk == v_size-1)
-        {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%lu,%0.9f,%0.9f\n",
-                kk,
+        (void)snprintf(this->_helper, sizeof(this->_helper), "%17.6lf,%0.9f,%0.9f\n",
+                static_cast<double>(kk) / this->_vars.iqstream.sample_rate,
                 this->_vars.iqstream.cplx32_v[kk].i,
                 this->_vars.iqstream.cplx32_v[kk].q);
-        }
-        else
-        {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%lu,%0.9f,%0.9f,\n",
-                kk,
-                this->_vars.iqstream.cplx32_v[kk].i,
-                this->_vars.iqstream.cplx32_v[kk].q);
-        }
         fputs(this->_helper, this->_fp_write);
     }
     return this->cutil.report_status_code(CODEZ::_0_no_errors);
@@ -205,20 +195,10 @@ CODEZ rsa306b_class::_iqstream_write_csv_cplxInt32()
     std::size_t v_size = this->_vars.iqstream.cplxInt32_v.size();
     for (std::size_t kk = 0; kk < v_size; kk++)
     {
-        if (kk == v_size-1)
-        {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%lu,%d,%d\n",
-                kk,
+        (void)snprintf(this->_helper, sizeof(this->_helper), "%17.6lf,%d,%d\n",
+                static_cast<double>(kk) / this->_vars.iqstream.sample_rate,
                 this->_vars.iqstream.cplxInt32_v[kk].i,
                 this->_vars.iqstream.cplxInt32_v[kk].q);
-        }
-        else
-        {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%lu,%d,%d,\n",
-                kk,
-                this->_vars.iqstream.cplxInt32_v[kk].i,
-                this->_vars.iqstream.cplxInt32_v[kk].q);
-        }
         fputs(this->_helper, this->_fp_write);
     }
     return this->cutil.report_status_code(CODEZ::_0_no_errors);
@@ -242,20 +222,10 @@ CODEZ rsa306b_class::_iqstream_write_csv_cplxInt16()
     std::size_t v_size = this->_vars.iqstream.cplxInt16_v.size();
     for (std::size_t kk = 0; kk < v_size; kk++)
     {
-        if (kk == v_size-1)
-        {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%lu,%d,%d\n",
-                kk,
+        (void)snprintf(this->_helper, sizeof(this->_helper), "%17.6lf,%d,%d\n",
+                static_cast<double>(kk) / this->_vars.iqstream.sample_rate,
                 this->_vars.iqstream.cplxInt16_v[kk].i,
                 this->_vars.iqstream.cplxInt16_v[kk].q);
-        }
-        else
-        {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%lu,%d,%d,\n",
-                kk,
-                this->_vars.iqstream.cplxInt16_v[kk].i,
-                this->_vars.iqstream.cplxInt16_v[kk].q);
-        }
         fputs(this->_helper, this->_fp_write);
     }
     return this->cutil.report_status_code(CODEZ::_0_no_errors);

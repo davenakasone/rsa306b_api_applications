@@ -72,25 +72,16 @@ CODEZ rsa306b_class::audio_write_csv
         return this->cutil.report_status_code(CODEZ::_13_fopen_failed);
     }
     
-    (void)sprintf(this->_helper, "%s,%s,\n",
+    (void)sprintf(this->_helper, "%s,%s\n",
         AUDIO_FIELD_1,
         AUDIO_FIELD_2);
     (void)fputs(this->_helper, this->_fp_write);
 
     for (std::size_t idx = 0; idx < v_size; idx++)
     {
-        if (idx == v_size-1)
-        {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%lu,%d\n", 
-                idx,
-                this->_vars.audio.data_v[idx]);
-        }
-        else
-        {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%lu,%d,\n", 
-                idx,
-                this->_vars.audio.data_v[idx]);
-        }
+        (void)snprintf(this->_helper, sizeof(this->_helper), "%lu,%d\n", 
+            idx,
+            this->_vars.audio.data_v[idx]);
         (void)fputs(this->_helper, this->_fp_write);
     }
 

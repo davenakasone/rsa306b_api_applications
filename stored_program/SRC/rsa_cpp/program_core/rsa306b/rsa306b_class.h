@@ -59,7 +59,7 @@
                 set_api_status()      
                 _report_api_status()
             - rsa306b_gp_print.cpp
-                print_everything()
+                print_vars()
                 print_constants()
         
         "./program_core/rsa306b/rsa306_ALIGN"
@@ -511,11 +511,9 @@ class rsa306b_class
 
     // general purpose
         CODEZ clear           ();    // re-initializes the instnace, connection is terminated
-        CODEZ apply_defaults  ();    // connects if unconnected, applies default settings, and updates structs
-        CODEZ get_everything  ();    // updates user's variable struct after calling all API getters
-        CODEZ print_everything();    // prints all variables and constants using the private struct
         CODEZ print_vars      ();    // prints all variables and constants using the private struct
         CODEZ print_constants ();    // prints the constant variables of the class
+        CODEZ get_everything  ();    // call to get all variables from private struct into public struct, not necessary to use
         // monitor the api status
         int                   get_api_status_number                     ();    // returns current RSA status code, casted to "int"
         char*                 get_api_status_string                     ();    // return assoicated message of the current RSA status code
@@ -524,8 +522,8 @@ class rsa306b_class
         
     // API group "ALIGN"
         CODEZ align_print          ();    // prints the "ALIGN" variables to stdout, using the private struct
-        CODEZ align_check_is_needed();    // see if the spectrum analyzer needs to be aligned
-        CODEZ align_check_is_warmed();    // see if the spectrum analyser is warmed-up
+        bool  align_check_is_needed();    // see if the spectrum analyzer needs to be aligned
+        bool  align_check_is_warmed();    // see if the spectrum analyser is warmed-up
         CODEZ align_run            ();    // execute the device alignment procedure
     
     // API group "AUDIO"
@@ -548,9 +546,9 @@ class rsa306b_class
         CODEZ device_run                 ();    // the spectrum analyzer runs, configuration should have been applied
         CODEZ device_stop                ();    // stop aquiring data
         CODEZ device_reset               ();    // disconnects, makes spectrum analyzer restart, use sparingly
-        CODEZ device_check_run_state     ();    // query run state of the spectrum analyzer
-        CODEZ device_check_temperature   ();    // see if the spectrum analyzer it too hot
-        CODEZ device_check_event         ();    // determine if an event occurred {0: ADC overange, 1: trigger}, user sets "event_id"
+        bool  device_check_run_state     ();    // query run state of the spectrum analyzer
+        bool  device_check_temperature   ();    // see if the spectrum analyzer it too hot
+        bool  device_check_event         ();    // determine if an event occurred {0: ADC overange, 1: trigger}, user sets "event_id"
         CODEZ device_prepare_for_run     ();    // make the device ready to run, a trigger is set
         CODEZ device_start_frame_transfer();    // initiates run, data transfer begins
     
@@ -574,22 +572,22 @@ class rsa306b_class
         CODEZ ifstream_write_csv_equalization(char* file_path_name);    // call after acquring data, "*.csv" is produced for equalization values
 
     // API group "IQBLK"
-        CODEZ iqblk_print                       ();    // prints the "IQBLK" variables to stdout, using the private struct
-        CODEZ iqblk_set_vars                    ();    // user changes "IQBLK" variables in public struct, then calls to set new values
-        CODEZ iqblk_acquire_data                ();    // the "IQBLK" data is acquired into "vars.iqblk.cplx32_v"
-        bool  iqblk_good_bitcheck               ();    // updates vars.iqblk.acq_status_type.acqStatus + message    
-        CODEZ iqblk_make_csv(char* file_path_name);    // call after acquring data, "*.csv" is produced
+        CODEZ iqblk_print                           ();    // prints the "IQBLK" variables to stdout, using the private struct
+        CODEZ iqblk_set_vars                        ();    // user changes "IQBLK" variables in public struct, then calls to set new values
+        CODEZ iqblk_acquire_data(const int timeout_ms);    // the "IQBLK" data is acquired into "vars.iqblk.cplx32_v"
+        bool  iqblk_good_bitcheck                   ();    // updates vars.iqblk.acq_status_type.acqStatus + message    
+        CODEZ iqblk_make_csv    (char* file_path_name);    // call after acquring data, "*.csv" is produced
 
     // API group "IQSTREAM"
-        CODEZ iqstream_print                        ();    // prints the "IQSTREAM" variables to stdout, using the private struct
-        CODEZ iqstream_set_vars                     ();    // user changes "IQSTREAM" variables in public struct, then calls to set new values
-        CODEZ iqstream_acquire_data                 ();    // the "IQSTREAM" data is acquired directly into "vars.iqstream.cplx*_v"
-        CODEZ iqstream_record_siq                   ();    // output a "*.siq" file according to user settings
-        CODEZ iqstream_write_csv(char* file_path_name);    // call after acquring data, "*.csv" is produced
-        CODEZ iqstream_clear_sticky                 ();    // clears the sticky bits of "acqStatus"
-        bool  iqstream_good_bitcheck                ();    // bitchecks acquisition status from most recent data transfer
-        CODEZ iqstream_start                        ();    // must be called before first acquisition, call device_start() before this
-        CODEZ iqstream_stop                         ();    // must be called after all acquisitions, call device_stop() after this
+        CODEZ iqstream_print                           ();    // prints the "IQSTREAM" variables to stdout, using the private struct
+        CODEZ iqstream_set_vars                        ();    // user changes "IQSTREAM" variables in public struct, then calls to set new values
+        CODEZ iqstream_acquire_data(const int timeout_ms);    // the "IQSTREAM" data is acquired directly into "vars.iqstream.cplx*_v"
+        CODEZ iqstream_record_siq  (const int timeout_ms);    // output a "*.siq" file according to user settings
+        CODEZ iqstream_write_csv   (char* file_path_name);    // call after acquring data, "*.csv" is produced
+        CODEZ iqstream_clear_sticky                    ();    // clears the sticky bits of "acqStatus"
+        bool  iqstream_good_bitcheck                   ();    // bitchecks acquisition status from most recent data transfer
+        CODEZ iqstream_start                           ();    // must be called before first acquisition, call device_start() before this
+        CODEZ iqstream_stop                            ();    // must be called after all acquisitions, call device_stop() after this
 
     // API group "REFTIME"
         CODEZ reftime_print           ();    // prints the "REFTIME" variables to stdout, using the private struct
@@ -597,7 +595,7 @@ class rsa306b_class
         CODEZ reftime_get_vars        ();    // gets all the "REFTIME" variables
         CODEZ reftime_timestamp_2_time();    // set "vars.reftime.helper.timestamp", then call, updates time_t and uint64_t
         CODEZ reftime_time_2_timestamp();    // set "vars.reftime.helper.seconds  and nanos", then call, updates timestamp
-        CODEZ reftime_make_dts        ();    // makes a date-time-stamp string in 'reftime.dts' using the current time
+        char* reftime_make_dts        ();    // makes a date-time-stamp string in 'reftime.dts' using the current time
 
     // API group "PLAYBACK"
         CODEZ playback_print   ();    // prints the "PLAYBACK" variables to stdout, using the private struct
@@ -615,26 +613,29 @@ class rsa306b_class
         bool  spectrum_good_bitcheck                  (int trace_number);    // use to bitcheck acqDataStatus of most recent trace
         CODEZ spectrum_scanner
         (
-            int trace_number,
+            int    trace_number,
             double fstart, 
             double fstop, 
             double threshold, 
-            int loitering,
-            char* file_path_name,
+            int    loitering,
+            char*  file_path_name,
             double reflevel,
             double rbw,
             double span,
-            int tlen
+            int    tlen
         );
 
     // API group "TRIG"
         CODEZ trig_print   ();    // prints the "TRIG" variables to stdout, using the private struct
         CODEZ trig_set_vars();    // user changes "TRIG" variables in public struct, then calls to set new values
         CODEZ trig_force   ();    // a trigger event is forced, user calls "device_run()" before and "device_stop()" after
+        // TRIG_GetTriggerTime() and TRIG_SetTriggerTime() are broken ?
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
     private : 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     rsa306b_struct _vars;    // private variables, structured in API layers, by group
 
@@ -781,39 +782,39 @@ class rsa306b_class
         CODEZ _ifstream_set_is_enabled                    ();
 
     // API group "IQBLK"
-        CODEZ _iqblk_init                          ();
-        CODEZ _iqblk_bitcheck                      ();
+        CODEZ _iqblk_init                      ();
+        CODEZ _iqblk_bitcheck                  ();
         // copiers, public = private;
-        CODEZ _iqblk_copy_vars                     ();
-        CODEZ _iqblk_copy_getting_select           ();
-        CODEZ _iqblk_copy_actual_buffer_samples    ();
-        CODEZ _iqblk_copy_cplx32_v                 ();
-        CODEZ _iqblk_copy_acq_info_type            ();
-        CODEZ _iqblk_copy_sample_rate              ();
-        CODEZ _iqblk_copy_bandwidth_hz             ();
-        CODEZ _iqblk_copy_max_bandwidth_hz         ();
-        CODEZ _iqblk_copy_min_bandwidth_hz         ();
-        CODEZ _iqblk_copy_record_length            ();
-        CODEZ _iqblk_copy_max_record_length        ();
-        CODEZ _iqblk_copy_acq_status_messages      ();
+        CODEZ _iqblk_copy_vars                 ();
+        CODEZ _iqblk_copy_getting_select       ();
+        CODEZ _iqblk_copy_actual_buffer_samples();
+        CODEZ _iqblk_copy_cplx32_v             ();
+        CODEZ _iqblk_copy_acq_info_type        ();
+        CODEZ _iqblk_copy_sample_rate          ();
+        CODEZ _iqblk_copy_bandwidth_hz         ();
+        CODEZ _iqblk_copy_max_bandwidth_hz     ();
+        CODEZ _iqblk_copy_min_bandwidth_hz     ();
+        CODEZ _iqblk_copy_record_length        ();
+        CODEZ _iqblk_copy_max_record_length    ();
+        CODEZ _iqblk_copy_acq_status_messages  ();
         // getters, uses API
-        CODEZ _iqblk_get_vars                      ();
-        CODEZ _iqblk_get_acq_info_type             ();
-        CODEZ _iqblk_get_sample_rate               ();
-        CODEZ _iqblk_get_bandwidth_hz              ();
-        CODEZ _iqblk_get_max_bandwidth_hz          ();
-        CODEZ _iqblk_get_min_bandwidth_hz          ();
-        CODEZ _iqblk_get_max_record_length         ();
-        CODEZ _iqblk_get_record_length             ();
+        CODEZ _iqblk_get_vars                  ();
+        CODEZ _iqblk_get_acq_info_type         ();
+        CODEZ _iqblk_get_sample_rate           ();
+        CODEZ _iqblk_get_bandwidth_hz          ();
+        CODEZ _iqblk_get_max_bandwidth_hz      ();
+        CODEZ _iqblk_get_min_bandwidth_hz      ();
+        CODEZ _iqblk_get_max_record_length     ();
+        CODEZ _iqblk_get_record_length         ();
         // setters
-        CODEZ _iqblk_set_vars                      ();
-        CODEZ _iqblk_set_getting_select            ();    // does not use API
-        CODEZ _iqblk_set_bandwidth_hz              ();
-        CODEZ _iqblk_set_record_length             ();
+        CODEZ _iqblk_set_vars                  ();
+        CODEZ _iqblk_set_getting_select        ();    // does not use API
+        CODEZ _iqblk_set_bandwidth_hz          ();
+        CODEZ _iqblk_set_record_length         ();
         // data acquisiton, uses API
-        CODEZ _iqblk_get_iq_data                   ();
-        CODEZ _iqblk_get_iq_data_cplx              ();
-        CODEZ _iqblk_get_iq_data_deinterleaved     ();
+        CODEZ _iqblk_get_iq_data               ();
+        CODEZ _iqblk_get_iq_data_cplx          ();
+        CODEZ _iqblk_get_iq_data_deinterleaved ();
 
     // API group "IQSTREAM"
         CODEZ _iqstream_init                           ();
@@ -862,25 +863,6 @@ class rsa306b_class
         CODEZ _iqstream_acquire_data_direct_cplx32_v   ();
         CODEZ _iqstream_acquire_data_direct_cplxInt16_v();
         CODEZ _iqstream_acquire_data_direct_cplxInt32_v();
-
-    
-    
-         
-       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // API group "PLAYBACK"
 
@@ -941,7 +923,7 @@ class rsa306b_class
         CODEZ _trig_copy_position_percent ();
         CODEZ _trig_copy_source_select    ();
         CODEZ _trig_copy_transition_select();
-        CODEZ _trig_copy_time             ();
+        // CODEZ _trig_copy_time             ();
         // getters, API is used
         CODEZ _trig_get_vars              ();
         CODEZ _trig_get_if_power_level    ();
@@ -949,7 +931,7 @@ class rsa306b_class
         CODEZ _trig_get_position_percent  ();
         CODEZ _trig_get_source_select     ();
         CODEZ _trig_get_transition_select ();
-        CODEZ _trig_get_time              ();
+        // CODEZ _trig_get_time              ();
         // setters, API is used
         CODEZ _trig_set_vars              ();
         CODEZ _trig_set_if_power_level    ();
@@ -957,7 +939,7 @@ class rsa306b_class
         CODEZ _trig_set_position_percent  ();
         CODEZ _trig_set_source_select     ();
         CODEZ _trig_set_transition_select ();
-        CODEZ _trig_set_time              ();
+        // CODEZ _trig_set_time              ();
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

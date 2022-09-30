@@ -19,63 +19,75 @@
     user should stop IQSTREAM and device when done
     designed to be faster
 */
-CODEZ rsa306b_class::iqstream_record_siq()
+CODEZ rsa306b_class::iqstream_record_siq
+(
+    const int timeout_ms
+)
 {
 #ifdef DEBUG_CLI
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
+#ifdef SAFETY_CHECKS
+    if (this->_vars.device.is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
+    }
+#endif
 
-    // settings applied
-    // device_run()
-    // iqstream_start()
+int ms_timeout = timeout_ms;
 
+#ifdef TIMEOUT_MS
+    if (ms_timeout > TIMEOUT_MS)
+    {
+        ms_timeout = TIMEOUT_MS;
+    }
+    if (ms_timeout < 0)
+    {
+        ms_timeout = 1;
+    }
+#endif
+
+    //(void)this->iqstream_start();    // IQSTREAM_Start()
     bool is_complete = false;
     bool is_writing = false;
-    if (this->_vars.trig.mode_select == RSA_API::freeRun)
-    {
-        while (is_complete == false)    // chances are data will eventually get there if untriggered, timeout if needed
-        {
-            this->_api_status =
-                RSA_API::IQSTREAM_GetDiskFileWriteStatus
-                (
-                    &is_complete,
-                    &is_writing
-                );
-        }
-        this->_report_api_status();
-    }
-    else    // triggered mode
-    {
-        std::chrono::time_point<std::chrono::steady_clock> start_time;
-        start_time = std::chrono::steady_clock::now();
-        std::chrono::time_point<std::chrono::steady_clock> current_time;
-        int elapsed_ms = 0;
 
-        while 
-        (
-            elapsed_ms < this->_vars.iqstream.LOOP_LIMIT_MS &&
-            is_complete == false
-        )
-        {
-            this->_api_status =
-                RSA_API::IQSTREAM_GetDiskFileWriteStatus   // when triggered, it is good to have a timer to breakout
-                (
-                    &is_complete,
-                    &is_writing
-                );
-            current_time = std::chrono::steady_clock::now();    // this is supposed to be better than the "cutil" timers
-            elapsed_ms = static_cast<int>
-                (
-                    std::chrono::duration_cast<std::chrono::milliseconds>(current_time - start_time).count()
-                );
-        }
-        this->_report_api_status();
+#ifdef TIMEOUT_MS
+    this->cutil.timer_split_start();
+    while 
+    (
+        (this->cutil.timer_get_split_wall() / 1000.0) < static_cast<double>(ms_timeout) &&
+        is_complete == false
+    )
+    {
+        this->_api_status =
+            RSA_API::IQSTREAM_GetDiskFileWriteStatus   // when triggered, it is good to have a timer to breakout
+            (
+                &is_complete,
+                &is_writing
+            );
     }
-    // file was either made or timed out
-
+#else
+    while (is_complete == false)    // this will block until the SIQ file is written
+    {
+        this->_api_status =
+            RSA_API::IQSTREAM_GetDiskFileWriteStatus
+            (
+                &is_complete,
+                &is_writing
+            );
+    }
+#endif
+this->_report_api_status();
+//(void)this->iqstream_stop();    // IQSTREAM_Stop()
 
     (void)this->_iqstream_get_disk_fileinfo();
+    this->_vars.iqstream.filenames_0_data[0] = '\0';
     this->cutil.wchar_2_char_std
         (
             this->_vars.iqstream.filenames_0_data,
@@ -89,7 +101,7 @@ CODEZ rsa306b_class::iqstream_record_siq()
             
         );
 
-    if (is_complete == false)    // timed-out
+    if (is_complete != true)    // timed-out
     {
         #ifdef DEBUG_MIN
             (void)snprintf(X_ddts, sizeof(X_ddts), "trigger event never occured...aborting output file");
@@ -97,25 +109,29 @@ CODEZ rsa306b_class::iqstream_record_siq()
             debug_record(true);
         #endif
         
-        
-        if (strcmp(this->_vars.iqstream.filenames_0_data, this->_vars.iqstream.filenames_1_header) == 0)
+        if 
+        (
+            strcmp(this->_vars.iqstream.filenames_0_data, this->_vars.iqstream.filenames_1_header) == 0 &&
+            this->_vars.iqstream.filenames_0_data[0] != '\0'
+        )
         {
-            (void)this->cutil.exe_remove(this->_vars.iqstream.filenames_0_data); // both files same, only delete 1
+            (void)this->cutil.exe_remove(this->_vars.iqstream.filenames_0_data);    // both files same, only delete 1
         }
-        else
+        if 
+        (
+            strcmp(this->_vars.iqstream.filenames_0_data, this->_vars.iqstream.filenames_1_header) != 0 &&
+            this->_vars.iqstream.filenames_0_data[0] != '\0'
+        )
         {
-            (void)this->cutil.exe_remove(this->_vars.iqstream.filenames_0_data);  // delete both of the hung files
+            (void)this->cutil.exe_remove(this->_vars.iqstream.filenames_0_data);      // delete both of the hung files
             (void)this->cutil.exe_remove(this->_vars.iqstream.filenames_1_header); 
         }
-        this->_vars.iqstream.fileinfo_type.numberSamples = 0;
-        this->vars.iqstream.fileinfo_type.numberSamples = this->_vars.iqstream.fileinfo_type.numberSamples;
         return this->cutil.report_status_code(CODEZ::_30_trigger_event_never_occured);
     }
 
-    return this->cutil.report_status_code(CODEZ::_0_no_errors);
-
     // iqstream_stop()
     // device_stop()
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 
              

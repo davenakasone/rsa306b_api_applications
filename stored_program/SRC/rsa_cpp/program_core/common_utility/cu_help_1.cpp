@@ -65,7 +65,7 @@ CODEZ common_utility::h_find_bytes_in_file
     < 2 > public
     "r3f" "siq" "csv" ...
 */
-CODEZ common_utility::h_match_extension
+bool common_utility::h_matched_extension
 (
     const char* file_path_name, 
     const char* extension
@@ -84,7 +84,7 @@ CODEZ common_utility::h_match_extension
                 this->codez_messages(CODEZ::_7_parameter_not_allocated));
             debug_record(true);
         #endif
-        return this->report_status_code(CODEZ::_7_parameter_not_allocated);
+        return false;
     }
 
     size_t file_chars = strlen(file_path_name);
@@ -97,7 +97,7 @@ CODEZ common_utility::h_match_extension
     {
         if (counter < file_chars-EXTENSION_LIMIT)
         {
-            return this->report_status_code(CODEZ::_19_result_not_found);
+            return false;
         }
         this->_worker[file_chars-1-counter] = file_path_name[counter];
         counter--;
@@ -105,7 +105,7 @@ CODEZ common_utility::h_match_extension
     file_chars = strlen(this->_worker);
     if (file_chars < 1 || file_chars > EXTENSION_LIMIT)
     {
-        return this->report_status_code(CODEZ::_19_result_not_found);
+        return false;
     }
     counter = 0;
     while (counter < file_chars)
@@ -115,9 +115,9 @@ CODEZ common_utility::h_match_extension
     }
     if (strcmp(compare_to, extension) != 0)
     {
-        return this->report_status_code(CODEZ::_19_result_not_found);
+        return false;
     }
-    return report_status_code(CODEZ::_0_no_errors);    // the exentension matched
+    return true;    // the exentension matched
 }
 
 

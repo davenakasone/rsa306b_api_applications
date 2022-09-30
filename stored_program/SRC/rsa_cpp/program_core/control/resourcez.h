@@ -27,11 +27,11 @@
 constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  unlv_rsa_<year YYYY>_<month MM>
 
 
-#define DE_BUG           1    // {ON|OFF} if activated, debug features are applied, good to have at least this and  "DEBUG_MIN" activated
-#define LOOP_TIMEOUT     2    // {ON|OFF} if activated, any acquisitions that require polling in a loop will have time-out applied
-#define SAFETY_CHECKS    3    // {ON|OFF} if activated, applies checks needed for proper device operation (but slows program)
-#define BUILD_PYTHON     4    // {ON|OFF} if activated, compiles with C++ to python3 interfacing, should be on to make a proper library
-#define UNIT_TESTING     5    // {ON|OFF} if activated, compiles with unit testing, select build target accordingly
+#define DE_BUG           1       // {ON|OFF} if activated, debug features are applied, good to have at least this and  "DEBUG_MIN" activated
+#define TIMEOUT_MS       8888    // {ON|OFF} if activated, any acquisitions that block will be limited by this many milli-seconds
+#define SAFETY_CHECKS    3       // {ON|OFF} if activated, applies checks needed for proper device operation (but slows program)
+#define BUILD_PYTHON     4       // {ON|OFF} if activated, compiles with C++ to python3 interfacing, should be on to make a proper library
+#define UNIT_TESTING     5       // {ON|OFF} if activated, compiles with unit testing, select build target accordingly
     #ifdef UNIT_TESTING
         #define WAIT_ENTER_CLEAR 6    // {ON|OFF} if activated, calls wait_enter_clear(), for selected tasks and unit tests
     #endif
@@ -83,34 +83,34 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
         
 
         #ifdef DEBUG_MIN
-            constexpr char DEBUG_MIN_FORMAT[]         = "DEBUG_MIN        ,  <%4d>  %s/%s()  !!!  %s\n";
+            constexpr char DEBUG_MIN_FORMAT[]         = "DEBUG_MIN        ,  <%4d>  %s/%s()  !!!  %s";
         #endif
         #ifdef DEBUG_MAX
-            constexpr char DEBUG_MAX_FORMAT[]         = "DEBUG_MAX        ,  <%4d>  %s/%s()  %s\n";
+            constexpr char DEBUG_MAX_FORMAT[]         = "DEBUG_MAX        ,  <%4d>  %s/%s()  %s";
         #endif
         #ifdef DEBUG_ACQ_STATUS
             constexpr char DEBUG_ACQ_STATUS_FORMAT[]  = "DEBUG_ACQ_STATUS ,  %s\n";
         #endif
         #ifdef DEBUG_CLI
-            constexpr char DEBUG_CLI_FORMAT[]         = "DEBUG_CLI        ,  <%4d>  %s/%s()\n";
+            constexpr char DEBUG_CLI_FORMAT[]         = "DEBUG_CLI        ,  <%4d>  %s/%s()";
         #endif
         #ifdef DEBUG_CALL_CHECKS
-            constexpr char DEBUG_CALL_CHECKS_FORMAT[] = "DEBUG_CALL_CHECKS,  <%4d>  %s/%s()\n";
+            constexpr char DEBUG_CALL_CHECKS_FORMAT[] = "DEBUG_CALL_CHECKS,  <%4d>  %s/%s()";
         #endif
         #ifdef DEBUG_GETS
-            constexpr char DEBUG_GETS_FORMAT[]        = "DEBUG_GETS       ,  <%4d>  %s/%s()\n";
+            constexpr char DEBUG_GETS_FORMAT[]        = "DEBUG_GETS       ,  <%4d>  %s/%s()";
         #endif
         #ifdef DEBUG_SETS
-            constexpr char DEBUG_SETS_FORMAT[]        = "DEBUG_SETS       ,  <%4d>  %s/%s()\n";
+            constexpr char DEBUG_SETS_FORMAT[]        = "DEBUG_SETS       ,  <%4d>  %s/%s()";
         #endif
         #ifdef DEBUG_COPYS
-            constexpr char DEBUG_COPYS_FORMAT[]       = "DEBUG_COPYS      ,  <%4d>  %s/%s()\n";
+            constexpr char DEBUG_COPYS_FORMAT[]       = "DEBUG_COPYS      ,  <%4d>  %s/%s()";
         #endif
         #ifdef DEBUG_COPYS
-            constexpr char DEBUG_TIMERS_FORMAT[]      = "DEBUG_TIMERS     ,  <%4d>  %s/%s()\n";
+            constexpr char DEBUG_TIMERS_FORMAT[]      = "DEBUG_TIMERS     ,  <%4d>  %s/%s()";
         #endif
         #ifdef DEBUG_CUSTOM
-            constexpr char DEBUG_CUSTOM_FORMAT[]      = "DEBUG_CUSTOM     ,  <%4d>  %s/%s()  ***  %s\n";
+            constexpr char DEBUG_CUSTOM_FORMAT[]      = "DEBUG_CUSTOM     ,  <%4d>  %s/%s()  ***  %s";
         #endif
     
     // may require a change

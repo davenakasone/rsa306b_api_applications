@@ -21,7 +21,7 @@ def sspin(repz=7, cf=315e6, dbm=-25.5, tlen=1111, span=10e6, rbw=1e3, thresh=-35
     drun()
     for xx in range(0, repz) :
         sacq()
-        pmax = spdx()
+        pmax = sfpi()
         
         if pmax > thresh :
             print(f"{xx:2d} ) {pmax:0.5f}  dBm   ...writing CSV")

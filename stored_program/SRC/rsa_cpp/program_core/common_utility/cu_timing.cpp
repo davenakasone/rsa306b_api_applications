@@ -253,6 +253,7 @@ CODEZ common_utility::timer_print_both
 
 /*
     < 6 > public
+    automatically stops the split
 */
 double common_utility::timer_get_split_cpu()
 {
@@ -261,9 +262,8 @@ double common_utility::timer_get_split_cpu()
     debug_record(false);
 #endif
 
-    if (this->_split_cpu > 0)
+    if (this->timer_split_stop() == CODEZ::_0_no_errors)
     {
-        (void)this->report_status_code(CODEZ::_0_no_errors);
         return this->_split_cpu;
     }
     else
@@ -286,6 +286,7 @@ double common_utility::timer_get_split_cpu()
 
 /*
     < 7 > public
+    automatically stops the split
 */
 double common_utility::timer_get_split_wall()
 {
@@ -294,9 +295,8 @@ double common_utility::timer_get_split_wall()
     debug_record(false);
 #endif
 
-    if (this->_split_wall > 0)
+    if (this->timer_split_stop() == CODEZ::_0_no_errors)
     {
-        (void)this->report_status_code(CODEZ::_0_no_errors);
         return this->_split_wall;
     }
     else

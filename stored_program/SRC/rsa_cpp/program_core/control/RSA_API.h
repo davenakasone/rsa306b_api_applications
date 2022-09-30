@@ -472,10 +472,11 @@ namespace RSA_API     // ...use V2 namespace
 		RSA_API_DLL ReturnStatus TRIG_GetIFPowerTriggerLevel   (double *level);
 		RSA_API_DLL ReturnStatus TRIG_SetTriggerPositionPercent(double trigPosPercent);
 		RSA_API_DLL ReturnStatus TRIG_GetTriggerPositionPercent(double* trigPosPercent);
-		RSA_API_DLL ReturnStatus TRIG_SetTriggerTime           (time_t startTimeSec, uint64_t startTimeNsec, uint64_t repeatTimeNsec);
-		RSA_API_DLL ReturnStatus TRIG_GetTriggerTime           (time_t* startTimeSec, uint64_t* startTimeNsec, uint64_t* repeatTimeNsec);
+		// RSA_API_DLL ReturnStatus TRIG_SetTriggerTime           (time_t startTimeSec, uint64_t startTimeNsec, uint64_t repeatTimeNsec);
+		// RSA_API_DLL ReturnStatus TRIG_GetTriggerTime           (time_t* startTimeSec, uint64_t* startTimeNsec, uint64_t* repeatTimeNsec);
 		RSA_API_DLL ReturnStatus TRIG_ForceTrigger             ();
-
+		
+		// TRIG_GetTriggerTime() and TRIG_SetTriggerTime() are broken ?
 
 		///////////////////////////////////////////////////////////
 		// Device Alignment
@@ -547,7 +548,7 @@ namespace RSA_API     // ...use V2 namespace
 		RSA_API_DLL ReturnStatus IQBLK_GetIQDataDeinterleaved(float* iData, float* qData, int* outLength, int reqLength);
 		RSA_API_DLL ReturnStatus IQBLK_GetIQDataCplx         (Cplx32* iqData, int* outLength, int reqLength);
 
-		RSA_API_DLL ReturnStatus IQBLK_FinishedIQData(void);
+		RSA_API_DLL ReturnStatus IQBLK_FinishedIQData(void);    // not in the API manual, probably should call
 
 		// Bit field definitions for "acqStatus" word of IQBLK_ACQINFO struct
 		enum 

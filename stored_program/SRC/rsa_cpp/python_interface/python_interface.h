@@ -2,8 +2,8 @@
     exposing the basics of the RSA306B class to python3
 */
 
-#ifndef H_python_access
-#define H_python_access
+#ifndef H_python_interface
+#define H_python_interface
 
 #include "../program_core/control/globalz.h"
 
@@ -28,10 +28,15 @@ void device_reset();
 // rsa_spectrum.cpp
 void  spectrum_disable();
 void  spectrum_enable();
-void  spectrum_set_vars(int trace_length, double span, double rbw);
 void  spectrum_acquire();
 float spectrum_find_peak();
 char* spectrum_write_csv();
+void  spectrum_set_vars
+(
+    int    trace_length, 
+    double span, 
+    double rbw
+);
 char* spectrum_scanner
 (
     double fstart, 
@@ -54,4 +59,4 @@ char* spectrum_scanner
 #endif    // H_python_access
 
 
-////////~~~~~~~~END>  dummy.h
+////////~~~~~~~~END>  python_interface.h

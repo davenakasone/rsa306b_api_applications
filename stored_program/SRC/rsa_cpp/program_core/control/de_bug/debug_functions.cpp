@@ -161,18 +161,18 @@ void debug_record(bool force_print)
         static_cast<double>(CLOCKS_PER_SEC);     
     
     char temp[3*DEBUG_WIDTH];
-    (void)snprintf(temp, sizeof(temp), "[ %15.5lf ]  %s",
+    (void)snprintf(temp, sizeof(temp), "[ %15.5lf ]  %s\n",
         seconds,
         X_dstr);
 
     #ifdef DEBUGS_WILL_PRINT
-        (void)printf("%s", temp);
+        (void)printf("\n%s\n", temp);
     #endif
     #ifdef DEBUGS_WILL_WRITE
         (void)fputs(temp, X_dfp);
         if (force_print == true)
         {
-            (void)printf("%s", temp);
+            (void)printf("\n%s\n", temp);
         }
     #endif
 

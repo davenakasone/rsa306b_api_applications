@@ -25,21 +25,33 @@
 
 
 #include "../program_core/control/globalz.h"
-
+#ifdef BUILD_PYTHON
+    #include "../python_interface/python_interface.h"
+#endif
 
     #ifdef UNIT_TESTING
 
 
         #ifdef WAIT_ENTER_CLEAR
-            void wait_enter_clear (void);    // flow separation between unit tests
+            void wait_enter_clear ();    // flow separation between unit tests, waits for user input
+            void flush_io();             // flush stdin and stdout, without waiting for user input
         #endif
 
-        void test_selector (int test_number);    // controls the unit test being performed
 
-        void unit_test_0   (void);    // place holder, default, template...
-        void unit_test_1   (void);    // test the common utility class
-        
-        void task_999 (void);    // temporary use test bench 
+        void test_selector (int test_number);    // controls the unit test or task being executed
+
+
+        void unit_test_0   ();    // place holder, default, template...
+        void unit_test_1   ();    // test class [common_utility]
+        void unit_test_2   ();    // test class [rsa_306b] section 'GP'
+        void unit_test_3   ();    // test class [rsa_306b] API group 'DEVICE'
+        void unit_test_4   ();    // test class [rsa_306b] API group 'ALIGN'
+        void unit_test_5   ();    // test class [rsa_306b] API group 'CONFIG'
+        void unit_test_6   ();    // test class [rsa_306b] API group 'REFTIME'
+        void unit_test_7   ();    // test class [rsa_306b] API group 'TRIG'
+        void unit_test_8   ();    // test class [rsa_306b] API group 'AUDIO'
+
+        void task_999 ();    // temporary use test bench 
 
 
     #endif
@@ -53,23 +65,20 @@
 
 /*
 
-void unit_test_1   (void);    // test 'general purpose' section
-void unit_test_2   (void);    // test 'DEVICE' section
-void unit_test_3   (void);    // test 'ALIGN' section
-void unit_test_4   (void);    // test 'AUDIO' section
-void unit_test_5   (void);    // test 'TRIG' section
-void unit_test_6   (void);    // test 'REFTIME' section
-void unit_test_7   (void);    // test 'CONFIG' section
-void unit_test_8   (void);    // test 'SPECTRUM' section
-void unit_test_9   (void);    // test 'IFSTREAM' section
-void unit_test_10  (void);    // test 'IQBLK' section
-void unit_test_11  (void);    // test 'IQSTREAM' section
-void task_992 (void);    // develop the "siq_manager" file handler
-void task_993 (void);    // see if IQSTREAM has a bug in the API ?
-void task_994 (void);    // test the whchar_t 2 char converter
-void task_995 (void);    // test YK3000 @ 315 MHz
-void task_996 (void);    // EE 498, Semptember 2022
-void task_997 (void);    // DSP demonstration
-void task_998 (void);    // test the cpu_timer_class
+9 - SPECTRUM
+10 - IQBLK
+11 - IQSTREAM
+12 - IFSTREAM
+
+13 - PLAYBACK
+14 - DPX
+
+15 - r3f
+16 - siq
+
+500 - september summary
+
+997 - total capture from a scan
+998 - demo YK3000 @ 315 MHz
 
 */

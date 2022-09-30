@@ -11,7 +11,7 @@
         < 4 >  _trig_get_position_percent()
         < 5 >  _trig_get_source_select()
         < 6 >  _trig_get_transition_select()
-        < 7 >  _trig_get_time()
+        // < 7 >  _trig_get_time()
 */
 
 #include "../rsa306b_class.h"
@@ -27,7 +27,7 @@ CODEZ rsa306b_class::_trig_get_vars()
     debug_record(false);
 #endif
 
-    constexpr int callz = 6;
+    constexpr int callz = 5;
     CODEZ caught_call[callz];
 
     caught_call[0] = this->_trig_get_if_power_level   ();
@@ -35,7 +35,7 @@ CODEZ rsa306b_class::_trig_get_vars()
     caught_call[2] = this->_trig_get_position_percent ();
     caught_call[3] = this->_trig_get_source_select    ();
     caught_call[4] = this->_trig_get_transition_select();
-    caught_call[5] = this->_trig_get_time             ();
+    // caught_call[5] = this->_trig_get_time             ();
 
     return this->cutil.codez_checker(caught_call, callz);
 }
@@ -218,34 +218,34 @@ CODEZ rsa306b_class::_trig_get_transition_select()
 /*
     < 7 > private
 */
-CODEZ rsa306b_class::_trig_get_time()
-{
-#ifdef DEBUG_GETS
-    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
-#ifdef SAFETY_CHECKS
-    if (this->_vars.device.is_connected == false)
-    {
-        #ifdef DEBUG_MIN
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
-                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
-            debug_record(true);
-        #endif
-        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
-    }
-#endif
+// CODEZ rsa306b_class::_trig_get_time()
+// {
+// #ifdef DEBUG_GETS
+//     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
+//     debug_record(false);
+// #endif
+// #ifdef SAFETY_CHECKS
+//     if (this->_vars.device.is_connected == false)
+//     {
+//         #ifdef DEBUG_MIN
+//             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+//                 this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
+//             debug_record(true);
+//         #endif
+//         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
+//     }
+// #endif
 
-    this->_api_status = 
-        RSA_API::TRIG_GetTriggerTime
-        (
-            &this->_vars.trig.start_time_seconds,
-            &this->_vars.trig.start_time_nano_seconds,
-            &this->_vars.trig.repeat_time_nano_seconds
-        );
-    (void)this->_trig_copy_time();
-    return this->_report_api_status();
-}
+//     this->_api_status = 
+//         RSA_API::TRIG_GetTriggerTime
+//         (
+//             &this->_vars.trig.start_time_seconds,
+//             &this->_vars.trig.start_time_nano_seconds,
+//             &this->_vars.trig.repeat_time_nano_seconds
+//         );
+//     (void)this->_trig_copy_time();
+//     return this->_report_api_status();
+// }
 
 
 ////////~~~~~~~~END>  rsa306b_trig_get.cpp

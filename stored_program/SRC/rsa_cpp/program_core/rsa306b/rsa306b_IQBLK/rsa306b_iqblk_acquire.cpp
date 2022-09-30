@@ -19,40 +19,10 @@
     all settings should have been set before calling
     device is running
 */
-CODEZ rsa306b_class::iqblk_acquire_data()
-{
-#ifdef DEBUG_CLI
-    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif
-
-    CODEZ catcher = CODEZ::_0_no_errors;
-    switch(this->_vars.iqblk.getting_select)
-    {
-        
-        case(iqblkGetData::interleaved)   : catcher = this->_iqblk_get_iq_data              (); break; 
-        case(iqblkGetData::deinterleaved) : catcher = this->_iqblk_get_iq_data_deinterleaved(); break;
-        case(iqblkGetData::complex)       : catcher = this->_iqblk_get_iq_data_cplx         (); break;
-        default                           : catcher = this->_iqblk_get_iq_data_cplx         (); break;
-
-    }
-
-    (void)this->_iqblk_copy_cplx32_v();
-    (void)this->_iqblk_copy_actual_buffer_samples();
-    (void)this->_iqblk_get_acq_info_type();
-
-#ifdef SAFETY_CHECKS
-    (void)this->iqblk_good_bitcheck();
-#endif
-
-    return this->cutil.report_status_code(catcher);
-}
-
-
-/*
-    < 1 > private
-*/
-CODEZ rsa306b_class::_iqblk_get_iq_data()
+CODEZ rsa306b_class::iqblk_acquire_data
+(
+    const int timeout_ms
+)
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
@@ -70,43 +40,93 @@ CODEZ rsa306b_class::_iqblk_get_iq_data()
     }
 #endif
 
-    float* data_iq     = NULL;
-    bool data_is_ready = false;
+int ms_timeout = timeout_ms;
 
+#ifdef TIMEOUT_MS
+    if (ms_timeout > TIMEOUT_MS)
+    {
+        ms_timeout = TIMEOUT_MS;
+    }
+    if (ms_timeout < 0)
+    {
+        ms_timeout = 1;
+    }
+#endif
+
+
+    bool data_is_ready = false;
+    // (void)this->iqstream_start();
     (void)this->_iqblk_get_record_length();
-    
+#ifdef TIMEOUT_MS
+    this->_api_status =
+    RSA_API::IQBLK_WaitForIQDataReady
+    (
+        ms_timeout,
+        &data_is_ready
+    );
+    if (data_is_ready == false)
+    {
+        return this->cutil.report_status_code(CODEZ::_27_loop_timed_out);
+    }
+#else
+    ms_timeout = 0;
+    while (data_is_ready == false)    // if a tigger does not come, this will block forever
+    {
+        this->_api_status =
+        RSA_API::IQBLK_WaitForIQDataReady
+        (
+            ms_timeout,
+            &data_is_ready
+        );
+    }
+#endif
+    (void)this->_report_api_status();
+    CODEZ catcher = CODEZ::_0_no_errors;
     (void)this->set_api_status(RSA_API::IQBLK_AcquireIQData());
 
+    switch(this->_vars.iqblk.getting_select)
+    {
+        
+        case(iqblkGetData::interleaved)   : catcher = this->_iqblk_get_iq_data              (); break; 
+        case(iqblkGetData::deinterleaved) : catcher = this->_iqblk_get_iq_data_deinterleaved(); break;
+        case(iqblkGetData::complex)       : catcher = this->_iqblk_get_iq_data_cplx         (); break;
+        default                           : return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
+    }
+
+    if (catcher == CODEZ::_0_no_errors)
+    {
+        (void)this->_iqblk_copy_cplx32_v();
+        (void)this->_iqblk_copy_actual_buffer_samples();
+        (void)this->_iqblk_get_acq_info_type();
+        #ifdef SAFETY_CHECKS
+            (void)this->iqblk_good_bitcheck();
+        #endif
+        this->set_api_status(RSA_API::IQBLK_FinishedIQData());    // ?
+    }
+
+    return this->cutil.report_status_code(catcher);
+}
+
+
+/*
+    < 1 > private
+*/
+CODEZ rsa306b_class::_iqblk_get_iq_data()
+{
+#ifdef DEBUG_CLI
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
+    float* data_iq     = NULL;
     try
     {
         data_iq = new float[2 * this->_vars.iqblk.record_length];
     }
-    catch(const std::exception& e)
+    catch(...)
     {
         return this->cutil.report_status_code(CODEZ::_22_dynamic_allocation_failed);
     }
-
-#ifdef LOOP_TIMEOUT
-    int timeout_ms     = this->_vars.iqblk.LOOP_LIMIT_MS;
-    this->_api_status =
-        RSA_API::IQBLK_WaitForIQDataReady
-        (
-            timeout_ms, 
-            &data_is_ready
-        );
-#else
-    int timeout_ms = 0;
-    while(data_is_ready == false)
-    {
-        this->_api_status =
-            RSA_API::IQBLK_WaitForIQDataReady
-            (
-                timeout_ms,
-                &data_is_ready
-            );
-    }
-#endif
-    (void)this->_report_api_status();
 
     RSA_API::ReturnStatus temp = 
         RSA_API::IQBLK_GetIQData
@@ -148,25 +168,8 @@ CODEZ rsa306b_class::_iqblk_get_iq_data_cplx()
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
-#ifdef SAFETY_CHECKS
-    if (this->_vars.device.is_connected == false)
-    {
-        #ifdef DEBUG_MIN
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
-                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
-            debug_record(true);
-        #endif
-        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
-    }
-#endif
 
     RSA_API::Cplx32* cplx32 = NULL;
-    bool data_is_ready      = false;
-
-    (void)this->_iqblk_get_record_length();
-    
-    (void)this->set_api_status(RSA_API::IQBLK_AcquireIQData());
-
     try
     {
         cplx32 = new RSA_API::Cplx32[this->_vars.iqblk.record_length];
@@ -175,28 +178,6 @@ CODEZ rsa306b_class::_iqblk_get_iq_data_cplx()
     {
         return this->cutil.report_status_code(CODEZ::_22_dynamic_allocation_failed);
     }
-
-#ifdef LOOP_TIMEOUT
-    int timeout_ms    = this->_vars.iqblk.LOOP_LIMIT_MS;
-    this->_api_status =
-        RSA_API::IQBLK_WaitForIQDataReady
-        (
-            timeout_ms, 
-            &data_is_ready
-        );
-#else
-    int timeout_ms = 0;
-    while(data_is_ready == false)
-    {
-        this->_api_status =
-            RSA_API::IQBLK_WaitForIQDataReady
-            (
-                timeout_ms,
-                &data_is_ready
-            );
-    }
-#endif
-    (void)this->_report_api_status();
 
     RSA_API::ReturnStatus temp = 
         RSA_API::IQBLK_GetIQDataCplx
@@ -207,12 +188,6 @@ CODEZ rsa306b_class::_iqblk_get_iq_data_cplx()
         );
 
     this->_vars.iqblk.cplx32_v.resize(this->_vars.iqblk.actual_buffer_samples);
-    std::size_t idx = 0LU;
-    while
-    (
-        idx < 
-        static_cast<std::size_t>(2* this->_vars.iqblk.actual_buffer_samples)
-    )
     for (int kk = 0; kk < this->_vars.iqblk.actual_buffer_samples; kk++)
     {
         this->_vars.iqblk.cplx32_v[kk].i = cplx32[kk].i;
@@ -237,26 +212,9 @@ CODEZ rsa306b_class::_iqblk_get_iq_data_deinterleaved()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif  
-#ifdef SAFETY_CHECKS
-    if (this->_vars.device.is_connected == false)
-    {
-        #ifdef DEBUG_MIN
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
-                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
-            debug_record(true);
-        #endif
-        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
-    }
-#endif
 
-    bool data_is_ready = false;
     float* data_i = NULL;
     float* data_q = NULL;
-
-    (void)this->_iqblk_get_record_length();
-    
-    (void)this->set_api_status(RSA_API::IQBLK_AcquireIQData());
-
     try
     {
         data_i = new float[this->_vars.iqblk.record_length];
@@ -266,28 +224,6 @@ CODEZ rsa306b_class::_iqblk_get_iq_data_deinterleaved()
     {
         return this->cutil.report_status_code(CODEZ::_22_dynamic_allocation_failed);
     }
-
-#ifdef LOOP_TIMEOUT
-    int timeout_ms    = this->_vars.iqblk.LOOP_LIMIT_MS;
-    this->_api_status =
-        RSA_API::IQBLK_WaitForIQDataReady
-        (
-            timeout_ms, 
-            &data_is_ready
-        );
-#else
-    int timeout_ms = 0;
-    while(data_is_ready == false)
-    {
-        this->_api_status =
-            RSA_API::IQBLK_WaitForIQDataReady
-            (
-                timeout_ms,
-                &data_is_ready
-            );
-    }
-#endif
-    (void)this->_report_api_status();
 
     RSA_API::ReturnStatus temp =
         RSA_API::IQBLK_GetIQDataDeinterleaved

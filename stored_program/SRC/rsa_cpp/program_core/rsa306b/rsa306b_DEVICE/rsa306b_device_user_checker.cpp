@@ -17,14 +17,19 @@
     < 1 > public
     the public struct is updated, "vars.device.is_running"
 */
-CODEZ rsa306b_class::device_check_run_state()
+bool rsa306b_class::device_check_run_state()
 {
 #ifdef DEBUG_CLI
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
 
-    return this->_device_get_is_running();
+    (void)this->_device_get_is_running();
+    if (this->_vars.device.is_running == true)
+    {
+        return true;
+    }
+    return false;
 }
 
 
@@ -36,7 +41,7 @@ CODEZ rsa306b_class::device_check_run_state()
     the public struct is updated, "vars.device.is_over_temperature"
     should be called every 15 minutes during operation
 */
-CODEZ rsa306b_class::device_check_temperature()
+bool rsa306b_class::device_check_temperature()
 {
 #ifdef DEBUG_CLI
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
@@ -58,7 +63,7 @@ CODEZ rsa306b_class::device_check_temperature()
     events mean nothing unless "vars.device.event_occured" == true
     the device should be running, events are only updated when running
 */
-CODEZ rsa306b_class::device_check_event()
+bool rsa306b_class::device_check_event()
 {
 #ifdef DEBUG_CLI
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);

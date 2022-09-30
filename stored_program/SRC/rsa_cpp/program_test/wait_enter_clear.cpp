@@ -11,30 +11,28 @@
 
 #ifdef UNIT_TESTING
 
-
+    
     #ifdef WAIT_ENTER_CLEAR
 
 
-        void wait_enter_clear
-        (
-            void
-        )
+        void flush_io()
         {
-            char burner;
-
             (void)fflush(stdin);
             (void)fflush(stdout);
-            (void)sleep(1); 
-            
+            (void)usleep(100);
+            (void)system("clear");
+            (void)usleep(100);
+        }
+
+
+        void wait_enter_clear()
+        {
+            char burner[BUF_C];
             (void)printf("\n\t\tpress any key to continue:  ");
             std::cin >> burner;
-            
-            (void)printf("clearing stdout...  %c", burner);
-            (void)fflush(stdout);
-            (void)fflush(stdin);
-            (void)sleep(1);
-            (void)system("clear");
-            (void)sleep(1);
+            (void)printf("clearing stdout...  %s", burner);
+            usleep(100000);
+            flush_io();
         }
 
 

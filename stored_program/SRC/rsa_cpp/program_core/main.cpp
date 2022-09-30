@@ -32,10 +32,18 @@
     //#define UNIT_TEST_BY_NUMBER 999   // select # here
     /*
         sections    "unit_test_#"   : 
-                                        0      // unit test template
+                                        0      // place holder, default, template...
+                                        1      // test class [common_utility]
+                                        2      // test class [rsa_306b] section 'GP'
+                                        3      // test class [rsa_306b] API group 'DEVICE'
+                                        4      // test class [rsa_306b] API group 'ALIGN'
+                                        5      // test class [rsa_306b] API group 'CONFIG'
+                                        6      // test class [rsa_306b] API group 'REFTIME'
+                                        7      // test class [rsa_306b] API group 'TRIG'
+                                        8      // test class [rsa_306b] API group 'AUDIO'
                                        
         specific tasks  "task_#"    :
-                                        999    // temporary use test bench                           
+                                        999    // temporary use test bench                         
     */
    
    //#define TEST_EVERYTHING 6969    // {on|off} turn on to run all unit tests
@@ -77,6 +85,14 @@ int main
     #ifdef UNIT_TESTING
         #ifdef TEST_EVERYTHING
             test_selector(0);
+            test_selector(1);
+            test_selector(2);
+            test_selector(3);
+            test_selector(4);
+            test_selector(5);
+            test_selector(6);
+            test_selector(7);
+            test_selector(8);
             test_selector(999);
         #else
             #ifdef UNIT_TEST_BY_NUMBER
@@ -99,9 +115,8 @@ int main
 ////~~~~
     if (X_rsa.vars.device.is_connected == true)
     {
-        (void)X_rsa.reftime_get_vars();
         (void)printf("\n\n\t\t ~ ~ ~ PROGRAM COMPLETE ~ ~ ~    %s\n %s\n",
-            X_rsa.vars.reftime.dts,
+            X_rsa.reftime_make_dts(),
             UNLV_RSA_VERSION);
     }
     else

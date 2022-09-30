@@ -47,9 +47,9 @@ CODEZ rsa306b_class::trig_print()
         case(RSA_API::TriggerTransitionEither) : (void)printf("either level change\n"); break;
         default                                : (void)printf("unknown\n");             break;
     }
-    (void)printf("\tstart_time_seconds        :  %ld\n", this->_vars.trig.start_time_seconds);
-    (void)printf("\tstart_time_nano_seconds   :  %lu\n", this->_vars.trig.start_time_nano_seconds);
-    (void)printf("\trepeat_time_nano_seconds  :  %lu\n", this->_vars.trig.repeat_time_nano_seconds);
+    // (void)printf("\tstart_time_seconds        :  %ld\n", this->_vars.trig.start_time_seconds);
+    // (void)printf("\tstart_time_nano_seconds   :  %lu\n", this->_vars.trig.start_time_nano_seconds);
+    // (void)printf("\trepeat_time_nano_seconds  :  %lu\n", this->_vars.trig.repeat_time_nano_seconds);
 
     return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }

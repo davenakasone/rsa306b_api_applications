@@ -12,7 +12,9 @@
 #include "common_utility.h"
 
 
-static void get_byte(const int8_t byte, char* bstr, long int& idx);    // for local assistance
+// for local assistance
+static void get_byte(const int8_t byte, char* bstr, long int& idx);    
+static void bytes_start_stop(const long int& bytes, long int& start, long int& stop);
 
 
 /*
@@ -22,8 +24,8 @@ static void get_byte(const int8_t byte, char* bstr, long int& idx);    // for lo
 CODEZ common_utility::h_decode_print
 (
     const char* file_path_name, 
-    long int start_byte, 
-    long int stop_byte
+    const long int start_byte, 
+    const long int stop_byte
 )
 {
 #ifdef DEBUG_CLI
@@ -31,9 +33,11 @@ CODEZ common_utility::h_decode_print
     debug_record(false);
 #endif
 
-    FILE* fp = NULL;
+    FILE* fp           = NULL;
     long bytes_in_file = 0;
-    int8_t bget = 0;
+    int8_t bget        = 0;
+    long bstart        = start_byte;
+    long bstop         = stop_byte;
 
     if (this->h_find_bytes_in_file(file_path_name, bytes_in_file) != CODEZ::_0_no_errors)
     {
@@ -45,22 +49,12 @@ CODEZ common_utility::h_decode_print
     {
         return this->report_status_code(CODEZ::_13_fopen_failed);
     }
+    if (bytes_in_file < 0)
+    {
+        return this->report_status_code(CODEZ::_5_called_with_bad_paramerters);
+    }
 
-    if (start_byte < 0             || 
-        start_byte > bytes_in_file-2) 
-    {
-        start_byte = 0;
-    }
-    if (stop_byte < 0           ||
-        stop_byte > bytes_in_file) 
-    {
-        stop_byte = bytes_in_file;
-    }
-    if (stop_byte <= start_byte)
-    {
-        start_byte = 0;
-        stop_byte = bytes_in_file;
-    }
+    bytes_start_stop(bytes_in_file, bstart, bstop);
 
     if (fseek(fp, 0L, SEEK_SET) != 0)                                 
     {
@@ -71,7 +65,7 @@ CODEZ common_utility::h_decode_print
         fp = NULL;
         return this->report_status_code(CODEZ::_14_fseek_failed);
     }
-    if (fseek(fp, start_byte, SEEK_CUR) != 0)                               
+    if (fseek(fp, bstart, SEEK_CUR) != 0)                               
     {
         if (fclose(fp) != 0)                                         
         {
@@ -81,10 +75,13 @@ CODEZ common_utility::h_decode_print
         return this->report_status_code(CODEZ::_14_fseek_failed);
     }
 
-    printf("\nmaking %s  ,  bytes[ %ld : %ld ]\n<<<begin file decode >>>\n\n",
-            file_path_name, start_byte, stop_byte);
+    printf("\nreading %s  ,  %ld bytes[ %ld : %ld ]\n<<<begin file decode >>>\n\n",
+            file_path_name, 
+            bytes_in_file,
+            bstart, 
+            bstop);
 
-    for (long int ii = start_byte; ii <= stop_byte; ii++)
+    for (long int ii = bstart; ii <= bstop; ii++)
     {
         if (fread(&bget, sizeof(int8_t), 1, fp) != 1)
         {
@@ -120,8 +117,8 @@ CODEZ common_utility::h_decode_write
 (
     const char* raw_file, 
     const char* output_file, 
-    long int& start_byte, 
-    long int& stop_byte
+    const long int start_byte, 
+    const long int stop_byte
 )
 {
 #ifdef DEBUG_CLI
@@ -129,15 +126,22 @@ CODEZ common_utility::h_decode_write
     debug_record(false);
 #endif
 
-    FILE* fp_w = NULL;
-    FILE* fp_r = NULL;
+    FILE* fp_w         = NULL;
+    FILE* fp_r         = NULL;
     long bytes_in_file = 0;
-    int8_t bget = 0;
+    int8_t bget        = 0;
+    long bstart        = start_byte;
+    long bstop         = stop_byte;
 
     if (this->h_find_bytes_in_file(raw_file, bytes_in_file) != CODEZ::_0_no_errors)
     {
         return this->_status_code;
     }
+    if (bytes_in_file < 0)
+    {
+        return this->report_status_code(CODEZ::_5_called_with_bad_paramerters);
+    }
+
     fp_r = fopen(raw_file, "r");                               
     if (fp_r == NULL)
     {
@@ -149,21 +153,7 @@ CODEZ common_utility::h_decode_write
         return this->report_status_code(CODEZ::_13_fopen_failed);
     }
 
-    if (start_byte < 0L            || 
-        start_byte > bytes_in_file-2) 
-    {
-        start_byte = 0L;
-    }
-    if (stop_byte < 0L          ||
-        stop_byte > bytes_in_file) 
-    {
-        stop_byte = bytes_in_file;
-    }
-    if (stop_byte <= start_byte)
-    {
-        start_byte = 0L;
-        stop_byte = bytes_in_file;
-    }
+    bytes_start_stop(bytes_in_file, bstart, bstop);
 
     if (fseek(fp_r, 0L, SEEK_SET) != 0)                                 
     {
@@ -179,7 +169,7 @@ CODEZ common_utility::h_decode_write
         fp_w = NULL;
         return this->report_status_code(CODEZ::_14_fseek_failed);
     }
-    if (fseek(fp_r, start_byte, SEEK_CUR) != 0)                               
+    if (fseek(fp_r, bstart, SEEK_CUR) != 0)                               
     {
         if (fclose(fp_r) != 0)                                         
         {
@@ -194,12 +184,13 @@ CODEZ common_utility::h_decode_write
         return this->report_status_code(CODEZ::_14_fseek_failed);
     }
 
-    (void)sprintf(this->_worker, "\nmaking %s  ,  bytes[ %ld : %ld ]\n<<<begin file decode >>>\n\n",
+    (void)sprintf(this->_worker, "\nmaking %s  ,  %ld bytes[ %ld : %ld ]\n<<<begin file decode >>>\n\n",
             raw_file, 
-            start_byte, 
-            stop_byte);
+            bytes_in_file,
+            bstart, 
+            bstop);
     (void)fputs(this->_worker, fp_w);
-    for (long int ii = start_byte; ii <= stop_byte; ii++)
+    for (long int ii = bstart; ii < bstop; ii++)
     {
         if (fread(&bget, sizeof(int8_t), 1, fp_r) != 1)
         {
@@ -274,6 +265,29 @@ static void get_byte(const int8_t byte, char* bstr, long int& idx)
         case (13)   : (void)sprintf(bstr, "<><><>%12ld)\t\t\t\t[CR]      %4d\n", idx, byte)               ; break;
         case (EOF)  : (void)sprintf(bstr, "<><><>%12ld)\t\t\t\t[EOF]     %4d\n", idx, byte)               ; break;
         default     : (void)sprintf(bstr, "<><><>%12ld)\t%c    %4d\n", idx, static_cast<char>(byte), byte); break;
+    }
+}
+
+
+////~~~~
+
+
+static void bytes_start_stop(const long int& bytes, long int& start, long int& stop)
+{
+    if (start < 0     || 
+        start > bytes-2) 
+    {
+        start = 0;
+    }
+    if (stop < 0     ||
+        stop > bytes-1) 
+    {
+        stop = bytes-1;
+    }
+    if (stop <= start)
+    {
+        start = 0;
+        stop = bytes-1;
     }
 }
 

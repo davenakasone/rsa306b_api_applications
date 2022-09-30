@@ -6,7 +6,7 @@
         TRIG_GetTriggerPositionPercent(), TRIG_SetTriggerPositionPercent()
         TRIG_GetTriggerSource()         , TRIG_SetTriggerSource()
         TRIG_GetTriggerTransition()     , TRIG_SetTriggerTransition()
-        TRIG_GetTriggerTime()           , TRIG_SetTriggerTime()
+        // TRIG_GetTriggerTime()           , TRIG_SetTriggerTime()
 
     active :
         double if_power_level
@@ -14,9 +14,9 @@
         double position_percent
         RSA_API::TriggerSource source_select
         RSA_API::TriggerTransition transition_select
-        time_t start_time_seconds
-        uint64_t start_time_nano_seconds
-        uint64_t repeat_time_nano_seconds
+        // time_t start_time_seconds
+        // uint64_t start_time_nano_seconds
+        // uint64_t repeat_time_nano_seconds
 
     constexpr helpers  :  <GROUP>_<CONSTEXPR_NAME>    // with group reference since used outside struct instance
     limiting constants :  <CONSTANT_NAME>             // no leading underscore
@@ -41,8 +41,8 @@ struct rsa306b_trig_struct
 
 
 // limiting constants
-    const double POSITION_PERCENT_MIN = 0.1F;     // smallest trigger position percentage
-    const double POSITION_PERCENT_MAX = 0.99F;    // largest trigger position percentage
+    const double POSITION_PERCENT_MIN = 1.0F;     // smallest trigger position percentage
+    const double POSITION_PERCENT_MAX = 99.0F;    // largest trigger position percentage
 
 /*
     TRIG_ForceTrigger()
@@ -116,14 +116,14 @@ struct rsa306b_trig_struct
             start_time_nano_seconds  ; appears to be the time to start triggering, in nano seconds
             repeat_time_nano_seconds ; appears to be the time to repeat trigger, in nano seconds
 */
-    time_t       start_time_seconds;
-    const time_t _START_TIME_SECONDS = 0;            // DEFAULT
+    // time_t       start_time_seconds;
+    // const time_t _START_TIME_SECONDS = 0;            // DEFAULT
 
-    uint64_t       start_time_nano_seconds;
-    const uint64_t _START_TIME_NANO_SECONDS = 0;     // DEFAULT
+    // uint64_t       start_time_nano_seconds;
+    // const uint64_t _START_TIME_NANO_SECONDS = 0;     // DEFAULT
 
-    uint64_t       repeat_time_nano_seconds;
-    const uint64_t _REPEAT_TIME_NANO_SECONDS = 0;    // DEFAULT
+    // uint64_t       repeat_time_nano_seconds;
+    // const uint64_t _REPEAT_TIME_NANO_SECONDS = 0;    // DEFAULT
 
 
 };

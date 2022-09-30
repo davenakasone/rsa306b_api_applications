@@ -37,7 +37,9 @@ CODEZ rsa306b_class::reftime_reset()
 #endif
     (void)this->device_stop();
 
-    return this->set_api_status(RSA_API::REFTIME_SetReferenceTime(0, 0, 0));
+    RSA_API::ReturnStatus temp = RSA_API::REFTIME_SetReferenceTime(0, 0, 0);
+    (void)this->_reftime_get_vars();
+    return this->set_api_status(temp);
 }
 
 
@@ -136,7 +138,7 @@ CODEZ rsa306b_class::reftime_time_2_timestamp()
     call and use "reftime.dts"
     it will update the char* with the current time
 */
-CODEZ rsa306b_class::reftime_make_dts()
+char* rsa306b_class::reftime_make_dts()
 {
 #ifdef DEBUG_CLI
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
@@ -150,13 +152,13 @@ CODEZ rsa306b_class::reftime_make_dts()
                 this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
             debug_record(true);
         #endif
-        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
+        return NULL;
     }
 #endif
     
     if(this->_reftime_get_current() != CODEZ::_0_no_errors)
     {
-        return this->cutil.get_status_code();
+        return NULL;
     }
 
     if
@@ -170,12 +172,12 @@ CODEZ rsa306b_class::reftime_make_dts()
     )
     {
         (void)strcpy(this->_vars.reftime.dts, INIT_CHARP);
-        this->_reftime_copy_dts();
-        return this->cutil.get_status_code();
+        (void)this->_reftime_copy_dts();
+        return NULL;
     }
 
     (void)this->_reftime_copy_dts();
-    return this->cutil.report_status_code(CODEZ::_0_no_errors);
+    return this->vars.reftime.dts;
 }
 
 

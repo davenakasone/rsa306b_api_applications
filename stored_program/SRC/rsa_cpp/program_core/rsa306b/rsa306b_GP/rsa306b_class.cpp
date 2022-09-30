@@ -96,6 +96,7 @@ CODEZ rsa306b_class::clear()
     the class attempts to update the public struct in real time
     this function can be called for insurace or convienence
     deep copy is performed by group, using group copier functions
+    this function is unecessary during normal operation
 */
 CODEZ rsa306b_class::get_everything()
 {

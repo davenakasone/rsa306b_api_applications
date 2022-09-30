@@ -40,6 +40,17 @@ CODEZ rsa306b_class::audio_acquire_data()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
+#ifdef SAFETY_CHECKS
+    if (this->_vars.device.is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
+    }
+#endif
 
     int16_t* data = NULL;
     try
@@ -66,8 +77,8 @@ CODEZ rsa306b_class::audio_acquire_data()
     
     delete [] data;
     data = NULL;
-    
-    (void)this->_audio_copy_data_v();      // public struct updates
+    (void)this->_audio_copy_data_samples_acquired();
+    (void)this->_audio_copy_data_v(); 
     return this->set_api_status(temp);
 }
 
@@ -92,6 +103,17 @@ CODEZ rsa306b_class::audio_start()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
+#ifdef SAFETY_CHECKS
+    if (this->_vars.device.is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
+    }
+#endif
 
     RSA_API::ReturnStatus temp = RSA_API::AUDIO_Start();
     (void)this->_audio_get_is_demodulating();
@@ -99,9 +121,9 @@ CODEZ rsa306b_class::audio_start()
     {
         return this->set_api_status(temp);
     }
-    #ifdef DEBUG_MIN
+    #ifdef DEBUG_MAX
         (void)snprintf(X_ddts, sizeof(X_ddts), "audio.is_demodulating=  %d", this->_vars.audio.is_demodulating);
-        (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+        (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MAX_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
         debug_record(true);
     #endif
     return this->cutil.report_status_code(CODEZ::_21_rsa_api_task_failed);
@@ -121,6 +143,17 @@ CODEZ rsa306b_class::audio_stop()
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
     debug_record(false);
 #endif
+#ifdef SAFETY_CHECKS
+    if (this->_vars.device.is_connected == false)
+    {
+        #ifdef DEBUG_MIN
+            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
+                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
+            debug_record(true);
+        #endif
+        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
+    }
+#endif
 
     RSA_API::ReturnStatus temp = RSA_API::AUDIO_Stop();
     (void)this->_audio_get_is_demodulating();
@@ -128,9 +161,9 @@ CODEZ rsa306b_class::audio_stop()
     {
         return this->set_api_status(temp);
     }
-    #ifdef DEBUG_MIN
+    #ifdef DEBUG_MAX
         (void)snprintf(X_ddts, sizeof(X_ddts), "audio.is_demodulating=  %d", this->vars.audio.is_demodulating);
-        (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+        (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MAX_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
         debug_record(true);
     #endif
     return this->cutil.report_status_code(CODEZ::_21_rsa_api_task_failed);

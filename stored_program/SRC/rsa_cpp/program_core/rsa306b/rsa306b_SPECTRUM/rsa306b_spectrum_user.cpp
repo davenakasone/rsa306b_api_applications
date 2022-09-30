@@ -44,7 +44,7 @@ CODEZ rsa306b_class::spectrum_acquire_data
 
     float* data    = NULL;
     bool is_ready  = false;
-    int timeout_ms = 1;
+    int timeout_ms = 0;
 
     data = new float[this->_vars.spectrum.settings_type.traceLength];  // dynamic allocation
 

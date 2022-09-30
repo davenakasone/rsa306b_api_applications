@@ -223,7 +223,8 @@ CODEZ rsa306b_class::_audio_set_demodulation_select()
         this->vars.audio.demodulation_select != RSA_API::ADM_FM_13KHZ  &&
         this->vars.audio.demodulation_select != RSA_API::ADM_FM_75KHZ  &&
         this->vars.audio.demodulation_select != RSA_API::ADM_FM_200KHZ &&
-        this->vars.audio.demodulation_select != RSA_API::ADM_AM_8KHZ    )
+        this->vars.audio.demodulation_select != RSA_API::ADM_AM_8KHZ   &&
+        this->vars.audio.demodulation_select != RSA_API::ADM_NONE       )
     {
         #ifdef DEBUG_MIN
             (void)snprintf(X_ddts, sizeof(X_ddts), "invalid demodulation mode selected:  %d",
