@@ -1,6 +1,8 @@
 /*
     source code for the python interface
     API group 'CONFIG'
+
+        < 1 >  config_set_vars()
 */
 
 #include "python_interface.h"
@@ -13,6 +15,7 @@ extern "C"
 #endif
 
 
+// < 1 >
 void config_set_vars(double cf_hz, double ref_dbm)
 {
     X_rsa.vars.config.center_frequency_hz = cf_hz;

@@ -12,7 +12,7 @@ import matplotlib.pyplot
 import pandas
 
 
-def plot_spectrum(input_file_path_name, verbose=True) :
+def plot_spectrum(input_file_path_name, verbose=True) -> None:
     label_xx = "frequency"
     label_yy = "power"
     fptr = None
@@ -23,6 +23,7 @@ def plot_spectrum(input_file_path_name, verbose=True) :
         return
     except :
         print("unknown error occured")
+        return
     fptr.close()
 
     fields = [label_xx, label_yy]   

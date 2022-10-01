@@ -169,10 +169,10 @@ struct rsa306b_device_struct
     const int _EVENT_ID = static_cast<int>(RSA_API::DEVEVENT_TRIGGER);    // DEFAULT
 
     bool       event_occured;
-    const bool _EVENT_OCCURED = false;                // DEFAULT
+    const bool _EVENT_OCCURED = false;                                    // DEFAULT
 
     uint64_t       event_timestamp;
-    const uint64_t _EVENT_TIMESTAMP = INIT_UINT64;    // DEFAULT   
+    const uint64_t _EVENT_TIMESTAMP = INIT_UINT64;                        // DEFAULT   
 
 
 }; 

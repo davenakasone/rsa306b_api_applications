@@ -63,7 +63,7 @@ static void ut1_wchar();
 static void ut1_acq();
 
 
-void unit_test_1 (void)
+void unit_test_1()
 {
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  class [common_utility]'\n", __func__);

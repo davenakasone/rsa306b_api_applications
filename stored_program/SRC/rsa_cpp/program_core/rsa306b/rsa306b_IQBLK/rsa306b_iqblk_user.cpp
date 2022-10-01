@@ -77,20 +77,10 @@ CODEZ rsa306b_class::iqblk_make_csv
 
     for (std::size_t idx = 0; idx < v_size; idx++)
     {
-        if (idx == v_size-1)
-        {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%lu,%f,%f\n", 
-                idx,
-                this->_vars.iqblk.cplx32_v[idx].i,
-                this->_vars.iqblk.cplx32_v[idx].q);
-        }
-        else
-        {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%lu,%f,%f,\n", 
-                idx,
-                this->_vars.iqblk.cplx32_v[idx].i,
-                this->_vars.iqblk.cplx32_v[idx].q);
-        }
+        (void)snprintf(this->_helper, sizeof(this->_helper), "%0.12lf,%f,%f\n", 
+            static_cast<double>(idx) / this->_vars.iqblk.sample_rate,
+            this->_vars.iqblk.cplx32_v[idx].i,
+            this->_vars.iqblk.cplx32_v[idx].q);
         (void)fputs(this->_helper, this->_fp_write);
     }
 

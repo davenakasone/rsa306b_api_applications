@@ -18,12 +18,15 @@ def son() -> None :
 def sset(tlen= 1111, span=30e6, rbw=10e3) -> None :
     rsa_so.spectrum_set_vars(ctypes.c_int(tlen), ctypes.c_double(span), ctypes.c_double(rbw))
 
-def sacq() -> None :
-    rsa_so.spectrum_acquire()
+def sacq() -> int :
+    rsa_so.spectrum_acquire.restype = ctypes.c_int
+    result = rsa_so.spectrum_acquire()
+    return int(result)
 
-def sfpi() -> int :
+def sfpi() -> float :
     rsa_so.spectrum_find_peak.restype = ctypes.c_float
-    return rsa_so.spectrum_find_peak()
+    result = rsa_so.spectrum_find_peak()
+    return float(result)
 
 def scsv() -> str :
     rsa_so.spectrum_write_csv.restype = ctypes.c_char_p

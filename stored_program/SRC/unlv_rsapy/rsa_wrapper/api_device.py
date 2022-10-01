@@ -21,5 +21,11 @@ def dstop() -> None :
 def dreset() -> None :
     rsa_so.device_reset()
 
+def dprun() -> None :
+    rsa_so.device_prepare_for_run()
+
+def dtran() -> None :
+    rsa_so.device_start_transfer()
+
 
 ########~~~~~~~~END>  api_device.py

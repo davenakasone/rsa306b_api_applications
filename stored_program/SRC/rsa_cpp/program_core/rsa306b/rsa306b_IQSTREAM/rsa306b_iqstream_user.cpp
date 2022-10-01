@@ -62,7 +62,7 @@ bool rsa306b_class::iqstream_good_bitcheck()
         temp =
             this->cutil.iqstream_acq_status
             (
-                this->_vars.iqstream.info_type.acqStatus,    // the streaming acqStatus
+                this->_vars.iqstream.fileinfo_type.acqStatus,    // the file acqStatus
                 this->_vars.iqstream.valid_bitmask,
                 this->_vars.iqstream.acq_status_messages
             );
@@ -72,7 +72,7 @@ bool rsa306b_class::iqstream_good_bitcheck()
         temp =
             this->cutil.iqstream_acq_status
             (
-                this->_vars.iqstream.fileinfo_type.acqStatus,    // the file acqStatus
+                this->_vars.iqstream.info_type.acqStatus,    // the streaming acqStatus
                 this->_vars.iqstream.valid_bitmask,
                 this->_vars.iqstream.acq_status_messages
             );

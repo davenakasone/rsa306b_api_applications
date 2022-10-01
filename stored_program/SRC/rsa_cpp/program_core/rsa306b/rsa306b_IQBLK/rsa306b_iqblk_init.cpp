@@ -28,7 +28,6 @@ CODEZ rsa306b_class::_iqblk_init()
 
     for (int ii = 0; ii < IQBLK_BITCHECKS; ii++)
     {
-        //(void)strcpy(this->_vars.iqblk.acq_status_messages[ii], this->_vars.iqblk._ACQ_STATUS_MESSAGES);
         (void)strcpy(this->_vars.iqblk.acq_status_messages[ii], BITCHECK_SUCCESS_MESSAGE);
     }
 
@@ -42,10 +41,10 @@ CODEZ rsa306b_class::_iqblk_init()
         this->_vars.iqblk.cplx32_v[kk].q = this->_vars.iqblk._CPLX32_V_element;
     }
 
-    this->_vars.iqblk.record_length = this->_vars.iqblk._RECORD_LENGTH;
-    this->_vars.iqblk.sample_rate = this->_vars.iqblk._SAMPLE_RATE;
-    this->_vars.iqblk.max_bandwidth_hz = this->_vars.iqblk._MAX_BANDWIDTH_HZ;
-    this->_vars.iqblk.min_bandwidth_hz = this->_vars.iqblk._MIN_BANDWIDTH_HZ;
+    this->_vars.iqblk.record_length     = this->_vars.iqblk._RECORD_LENGTH;
+    this->_vars.iqblk.sample_rate       = this->_vars.iqblk._SAMPLE_RATE;
+    this->_vars.iqblk.max_bandwidth_hz  = this->_vars.iqblk._MAX_BANDWIDTH_HZ;
+    this->_vars.iqblk.min_bandwidth_hz  = this->_vars.iqblk._MIN_BANDWIDTH_HZ;
     this->_vars.iqblk.max_record_length = this->_vars.iqblk._MAX_RECORD_LENGTH;
 
     this->_vars.iqblk.getting_select = this->_vars.iqblk._GETTING_SELECT;

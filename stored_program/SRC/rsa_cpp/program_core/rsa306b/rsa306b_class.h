@@ -574,15 +574,15 @@ class rsa306b_class
     // API group "IQBLK"
         CODEZ iqblk_print                           ();    // prints the "IQBLK" variables to stdout, using the private struct
         CODEZ iqblk_set_vars                        ();    // user changes "IQBLK" variables in public struct, then calls to set new values
-        CODEZ iqblk_acquire_data(const int timeout_ms);    // the "IQBLK" data is acquired into "vars.iqblk.cplx32_v"
+        CODEZ iqblk_acquire_data                    ();    // the "IQBLK" data is acquired into "vars.iqblk.cplx32_v"
         bool  iqblk_good_bitcheck                   ();    // updates vars.iqblk.acq_status_type.acqStatus + message    
         CODEZ iqblk_make_csv    (char* file_path_name);    // call after acquring data, "*.csv" is produced
 
     // API group "IQSTREAM"
         CODEZ iqstream_print                           ();    // prints the "IQSTREAM" variables to stdout, using the private struct
         CODEZ iqstream_set_vars                        ();    // user changes "IQSTREAM" variables in public struct, then calls to set new values
-        CODEZ iqstream_acquire_data(const int timeout_ms);    // the "IQSTREAM" data is acquired directly into "vars.iqstream.cplx*_v"
-        CODEZ iqstream_record_siq  (const int timeout_ms);    // output a "*.siq" file according to user settings
+        CODEZ iqstream_acquire_data                    ();    // the "IQSTREAM" data is acquired directly into "vars.iqstream.cplx*_v"
+        CODEZ iqstream_record_siq                      ();    // output a "*.siq" file according to user settings
         CODEZ iqstream_write_csv   (char* file_path_name);    // call after acquring data, "*.csv" is produced
         CODEZ iqstream_clear_sticky                    ();    // clears the sticky bits of "acqStatus"
         bool  iqstream_good_bitcheck                   ();    // bitchecks acquisition status from most recent data transfer
@@ -613,16 +613,16 @@ class rsa306b_class
         bool  spectrum_good_bitcheck                  (int trace_number);    // use to bitcheck acqDataStatus of most recent trace
         CODEZ spectrum_scanner
         (
-            int    trace_number,
-            double fstart, 
-            double fstop, 
-            double threshold, 
-            int    loitering,
+            const int    trace_number,
+            const double fstart, 
+            const double fstop, 
+            const double threshold, 
+            const int    loitering,
             char*  file_path_name,
-            double reflevel,
-            double rbw,
-            double span,
-            int    tlen
+            const double reflevel,
+            const double rbw,
+            const double span,
+            const int    tlen
         );
 
     // API group "TRIG"
@@ -923,7 +923,7 @@ class rsa306b_class
         CODEZ _trig_copy_position_percent ();
         CODEZ _trig_copy_source_select    ();
         CODEZ _trig_copy_transition_select();
-        // CODEZ _trig_copy_time             ();
+        CODEZ _trig_copy_time             ();
         // getters, API is used
         CODEZ _trig_get_vars              ();
         CODEZ _trig_get_if_power_level    ();
@@ -931,7 +931,7 @@ class rsa306b_class
         CODEZ _trig_get_position_percent  ();
         CODEZ _trig_get_source_select     ();
         CODEZ _trig_get_transition_select ();
-        // CODEZ _trig_get_time              ();
+        CODEZ _trig_get_time              ();
         // setters, API is used
         CODEZ _trig_set_vars              ();
         CODEZ _trig_set_if_power_level    ();
@@ -939,7 +939,7 @@ class rsa306b_class
         CODEZ _trig_set_position_percent  ();
         CODEZ _trig_set_source_select     ();
         CODEZ _trig_set_transition_select ();
-        // CODEZ _trig_set_time              ();
+        CODEZ _trig_set_time              ();
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -90,12 +90,15 @@ CODEZ rsa306b_class::iqstream_print()
     (void)printf("\t    fileinfo_type.filenames_0         :  %s\n", this->_vars.iqstream.filenames_0_data);
     (void)printf("\t    fileinfo_type.filenames_1         :  %s\n", this->_vars.iqstream.filenames_1_header);
 
-    (void)printf("\t%s\n", this->_vars.iqstream.acq_status_messages[IQSTREAM_BITCHECKS-1]);
-    for (int ii = 0; ii < IQSTREAM_BITCHECKS-1; ii++)
+    if (this->iqstream_good_bitcheck() != true)
     {
-        (void)printf("\t  acqstatus_message [%2d]   :  %s\n", 
-        ii,
-        this->_vars.iqstream.acq_status_messages[ii]);
+        (void)printf("\t%s\n", this->_vars.iqstream.acq_status_messages[IQSTREAM_BITCHECKS-1]);
+        for (int ii = 0; ii < IQSTREAM_BITCHECKS-1; ii++)
+        {
+            (void)printf("\t  acqstatus_message [%2d]   :  %s\n", 
+            ii,
+            this->_vars.iqstream.acq_status_messages[ii]);
+        }
     }
     
     return this->cutil.report_status_code(CODEZ::_0_no_errors);

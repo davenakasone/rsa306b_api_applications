@@ -22,7 +22,7 @@ static void ut2_basic();
 static void ut2_status();
 
 
-void unit_test_2 (void)
+void unit_test_2()
 {
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  class [rsa_306b] section 'GP'\n", __func__);

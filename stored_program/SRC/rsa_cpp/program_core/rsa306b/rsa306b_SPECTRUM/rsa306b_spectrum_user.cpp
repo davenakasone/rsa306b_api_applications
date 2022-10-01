@@ -40,17 +40,50 @@ CODEZ rsa306b_class::spectrum_acquire_data
 #endif
 // no safety, no checking, but enforce if needed
 
-    (void)this->set_api_status(RSA_API::SPECTRUM_AcquireTrace());     // notify device to start acquisition
-
     float* data    = NULL;
     bool is_ready  = false;
-    int timeout_ms = 0;
 
-    data = new float[this->_vars.spectrum.settings_type.traceLength];  // dynamic allocation
+    (void)this->set_api_status(RSA_API::SPECTRUM_AcquireTrace());     // notify device to start acquisition
 
-    while (is_ready == false)
+#ifdef BLOCKING_TIMEOUT
+    (void)this->cutil.timer_split_start();
+    while 
+    (
+        this->cutil.timer_get_split_wall() < TIMEOUT_LIMIT_S &&
+        is_ready == false
+    )
     {
-        (void)RSA_API::SPECTRUM_WaitForTraceReady(timeout_ms, &is_ready);    // block until data is ready for acquisition
+        this->_api_status =
+            RSA_API::SPECTRUM_WaitForTraceReady
+            (
+                0,
+                &is_ready
+            );
+    }
+#else
+    while (is_ready == false)    // will block until data is ready
+    {
+        this->_api_status = 
+            RSA_API::SPECTRUM_WaitForTraceReady
+            (
+                0,
+                &is_ready
+            );
+    }
+#endif
+    (void)this->_report_api_status();
+    if (is_ready == false)
+    {
+        return this->cutil.report_status_code(CODEZ::_27_loop_timed_out);
+    }
+
+    try
+    {
+        data = new float[this->_vars.spectrum.settings_type.traceLength];
+    }
+    catch(...)
+    {
+        return this->cutil.report_status_code(CODEZ::_22_dynamic_allocation_failed);
     }
 
     RSA_API::ReturnStatus temp = 
@@ -134,7 +167,10 @@ CODEZ rsa306b_class::spectrum_write_csv
     }
 
     this->_fp_write = fopen(this->_helper, "w");
-    if (this->_fp_write == NULL) { return CODEZ::_13_fopen_failed;}
+    if (this->_fp_write == NULL) 
+    { 
+        return this->cutil.report_status_code(CODEZ::_13_fopen_failed);
+    }
 
     (void)sprintf(this->_helper, "%s,%s\n",
         SPECTRUM_FIELD_1,

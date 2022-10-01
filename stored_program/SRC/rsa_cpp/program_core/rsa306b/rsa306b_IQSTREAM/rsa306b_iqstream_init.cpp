@@ -36,7 +36,7 @@ CODEZ rsa306b_class::_iqstream_init()
 
     (void)memset(this->_vars.iqstream.filename_base, '\0', sizeof(this->_vars.iqstream.filename_base));
     //(void)strcpy(this->_vars.iqstream.filename_base, this->_vars.iqstream._FILENAME_BASE);
-    (void)strcpy(this->_vars.iqstream.filename_base, DATA_DIRECTORY_PROCESSED);
+    (void)strcpy(this->_vars.iqstream.filename_base, DATA_DIRECTORY_RAW);
 
     (void)memset(this->_vars.iqstream.filenames_0_data, '\0', sizeof(this->_vars.iqstream.filenames_0_data));
     //(void)strcpy(this->_vars.iqstream.filenames_0_data, this->_vars.iqstream._FILENAMES);

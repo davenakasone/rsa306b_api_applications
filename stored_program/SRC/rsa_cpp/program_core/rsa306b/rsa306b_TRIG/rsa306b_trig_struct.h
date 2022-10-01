@@ -116,14 +116,14 @@ struct rsa306b_trig_struct
             start_time_nano_seconds  ; appears to be the time to start triggering, in nano seconds
             repeat_time_nano_seconds ; appears to be the time to repeat trigger, in nano seconds
 */
-    // time_t       start_time_seconds;
-    // const time_t _START_TIME_SECONDS = 0;            // DEFAULT
+    time_t       start_time_seconds;
+    const time_t _START_TIME_SECONDS = 0;            // DEFAULT
 
-    // uint64_t       start_time_nano_seconds;
-    // const uint64_t _START_TIME_NANO_SECONDS = 0;     // DEFAULT
+    uint64_t       start_time_nano_seconds;
+    const uint64_t _START_TIME_NANO_SECONDS = 0;     // DEFAULT
 
-    // uint64_t       repeat_time_nano_seconds;
-    // const uint64_t _REPEAT_TIME_NANO_SECONDS = 0;    // DEFAULT
+    uint64_t       repeat_time_nano_seconds;
+    const uint64_t _REPEAT_TIME_NANO_SECONDS = 0;    // DEFAULT
 
 
 };

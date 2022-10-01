@@ -15,20 +15,31 @@ extern "C"
 #endif
 
 
+// rsa_gp.cpp
+int api_status();
+char* api_status_message();
+
+// rsa_iqblk.cpp
+void  iqblk_set_vars(double bw_hz);
+int   iqblk_acquire();
+char* iqblk_make_csv();
+
 // rsa_config.cpp
 void config_set_vars(double cf_hz, double ref_dbm);
 
 // rsa_device.cpp
 void device_connect();
-void device_run();
-void device_stop();
 void device_disconnect();
+void device_prepare_for_run();
 void device_reset();
+void device_run();
+void device_start_transfer();
+void device_stop();
 
 // rsa_spectrum.cpp
 void  spectrum_disable();
 void  spectrum_enable();
-void  spectrum_acquire();
+int   spectrum_acquire();
 float spectrum_find_peak();
 char* spectrum_write_csv();
 void  spectrum_set_vars

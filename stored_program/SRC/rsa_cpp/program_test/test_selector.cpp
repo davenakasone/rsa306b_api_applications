@@ -15,7 +15,9 @@ void test_selector
     int test_number
 )
 {
+#ifdef WAIT_ENTER_CLEAR
     flush_io();
+#endif
 
     printf("\n%s()  ,  begin unit test # %d\n", 
         __func__, test_number);
@@ -30,6 +32,9 @@ void test_selector
         case (6)   : unit_test_6()   ; break;
         case (7)   : unit_test_7()   ; break;
         case (8)   : unit_test_8()   ; break;
+        case (9)   : unit_test_9()   ; break;
+        case (10)  : unit_test_10()  ; break;
+        case (11)  : unit_test_11()  ; break;
         
         case (999) : task_999()      ; break;
 

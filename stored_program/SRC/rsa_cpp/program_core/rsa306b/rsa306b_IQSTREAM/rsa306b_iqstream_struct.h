@@ -238,7 +238,7 @@ struct rsa306b_iqstream_struct
         do not include extension, that is automatically placed
             filename_base ; has path also
 */
-    char filename_base[BUF_C];
+    char filename_base[BUF_D];
     //const char* _FILENAME_BASE = DATA_DIRECTORY_RAW;
 
 /*

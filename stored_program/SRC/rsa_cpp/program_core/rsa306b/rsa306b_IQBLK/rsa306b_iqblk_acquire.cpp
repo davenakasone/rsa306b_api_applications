@@ -19,10 +19,7 @@
     all settings should have been set before calling
     device is running
 */
-CODEZ rsa306b_class::iqblk_acquire_data
-(
-    const int timeout_ms
-)
+CODEZ rsa306b_class::iqblk_acquire_data()
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
@@ -40,49 +37,42 @@ CODEZ rsa306b_class::iqblk_acquire_data
     }
 #endif
 
-int ms_timeout = timeout_ms;
-
-#ifdef TIMEOUT_MS
-    if (ms_timeout > TIMEOUT_MS)
-    {
-        ms_timeout = TIMEOUT_MS;
-    }
-    if (ms_timeout < 0)
-    {
-        ms_timeout = 1;
-    }
-#endif
-
-
-    bool data_is_ready = false;
-    // (void)this->iqstream_start();
+    CODEZ catcher = CODEZ::_0_no_errors;
     (void)this->_iqblk_get_record_length();
-#ifdef TIMEOUT_MS
-    this->_api_status =
-    RSA_API::IQBLK_WaitForIQDataReady
+    (void)this->set_api_status(RSA_API::IQBLK_AcquireIQData());
+    bool is_ready = false;
+    
+#ifdef BLOCKING_TIMEOUT
+    (void)this->cutil.timer_split_start();
+    while 
     (
-        ms_timeout,
-        &data_is_ready
-    );
-    if (data_is_ready == false)
-    {
-        return this->cutil.report_status_code(CODEZ::_27_loop_timed_out);
-    }
-#else
-    ms_timeout = 0;
-    while (data_is_ready == false)    // if a tigger does not come, this will block forever
+        this->cutil.timer_get_split_wall() < TIMEOUT_LIMIT_S &&
+        is_ready == false
+    )
     {
         this->_api_status =
-        RSA_API::IQBLK_WaitForIQDataReady
-        (
-            ms_timeout,
-            &data_is_ready
-        );
+            RSA_API::IQBLK_WaitForIQDataReady
+            (
+                0,
+                &is_ready
+            );
+    }
+#else
+    while (is_ready == false)    // will block until data is ready
+    {
+        this->_api_status =
+            RSA_API::IQBLK_WaitForIQDataReady
+            (
+                0,
+                &is_ready
+            );
     }
 #endif
     (void)this->_report_api_status();
-    CODEZ catcher = CODEZ::_0_no_errors;
-    (void)this->set_api_status(RSA_API::IQBLK_AcquireIQData());
+    if (is_ready == false)
+    {
+        return this->cutil.report_status_code(CODEZ::_27_loop_timed_out);
+    }
 
     switch(this->_vars.iqblk.getting_select)
     {

@@ -41,6 +41,9 @@
                                         6      // test class [rsa_306b] API group 'REFTIME'
                                         7      // test class [rsa_306b] API group 'TRIG'
                                         8      // test class [rsa_306b] API group 'AUDIO'
+                                        9      // test class [rsa_306b] API group 'SPECTRUM'
+                                        10     // test class [rsa_306b] API group 'IQBLK'
+                                        11     // test class [rsa_306b] API group 'IQSTREAM'
                                        
         specific tasks  "task_#"    :
                                         999    // temporary use test bench                         
@@ -93,6 +96,9 @@ int main
             test_selector(6);
             test_selector(7);
             test_selector(8);
+            test_selector(9);
+            test_selector(10);
+            test_selector(11);
             test_selector(999);
         #else
             #ifdef UNIT_TEST_BY_NUMBER

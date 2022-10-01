@@ -80,7 +80,7 @@ constexpr char DPX_BITCHECK_MESSAGES[DPX_BITCHECKS][BUF_B] =                    
 // IFSTREAM
 constexpr char IFSTREAM_FILE_NAME_BASE[]                             = "ifstream";    // default base name for output files
 constexpr int  IFSTREAM_BITCHECKS                                    = 3;             // checks for 'IFSTREAM' acqStatus
-constexpr char IFSTREAM_FIELD_1[]                                    = "interval";    // used to label fields in "*.csv" output
+constexpr char IFSTREAM_FIELD_1[]                                    = "time";        // used to label fields in "*.csv" output
 constexpr char IFSTREAM_FIELD_2[]                                    = "adc";         // used to label fields in "*.csv" output
 constexpr char IFSTREAM_BITCHECK_MESSAGES[IFSTREAM_BITCHECKS][BUF_B] =                // error codes for 'IFSTREAM' bitchecks
 {
@@ -98,7 +98,7 @@ typedef enum
 } iqblkGetData;                                                                    // method to acquire IQBLK data
 constexpr char IQBLK_FILE_NAME_BASE[]                             = "iqblk";       // default base name for output files
 constexpr int  IQBLK_BITCHECKS                                    = 5;             // checks for 'IQBLK' acqStatus
-constexpr char IQBLK_FIELD_1[]                                    = "interval";    // used to label fields in "*.csv" output
+constexpr char IQBLK_FIELD_1[]                                    = "time";        // used to label fields in "*.csv" output
 constexpr char IQBLK_FIELD_2[]                                    = "I";           // used to label fields in "*.csv" output
 constexpr char IQBLK_FIELD_3[]                                    = "Q";           // used to label fields in "*.csv" output
 constexpr char IQBLK_BITCHECK_MESSAGES[IQBLK_BITCHECKS][BUF_C]    =                // error codes for 'IQBLK' bitchecks
@@ -141,7 +141,7 @@ constexpr double IQSTREAM_BANDWIDTH_RANGES[IQSTREAM_INTERVALS][2] =
     
 };
 constexpr char IQSTREAM_FILE_NAME_BASE[]                         = "iqstream";    // default base name for output files
-constexpr char IQSTREAM_FIELD_1[]                                = "interval";    // used to label fields in "*.csv" output
+constexpr char IQSTREAM_FIELD_1[]                                = "time";        // used to label fields in "*.csv" output
 constexpr char IQSTREAM_FIELD_2[]                                = "I";           // used to label fields in "*.csv" output
 constexpr char IQSTREAM_FIELD_3[]                                = "Q";           // used to label fields in "*.csv" output
 constexpr int IQSTREAM_BITCHECKS                                 =  13;           //  status bits [0:5], [16:21], + summary, for both "*acqStatus" 

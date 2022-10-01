@@ -19,18 +19,17 @@
     user should have configured with 
         "iqstream_set_vars()" before acquiring data
         "device_run()" was called at lease for first acquisition
-        "iqstream_start()" was called at least for first acquisition
         ...get data
-        "iqstream_stop()" is called when done
         "device_stop()" is called last
+
+        internally:
+        "iqstream_start()" was called at least for first acquisition
+        "iqstream_stop()" is called when done
 
         data and files will presist, but a new operation will overwrite the std::vectors
         so process or dump the data before subsequent acquisitons
 */
-CODEZ rsa306b_class::iqstream_acquire_data
-(
-    const int timeout_ms
-)
+CODEZ rsa306b_class::iqstream_acquire_data()
 {
 #ifdef DEBUG_CLI
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
@@ -57,75 +56,58 @@ CODEZ rsa306b_class::iqstream_acquire_data
     }
 #endif
 
-int ms_timeout = timeout_ms;
-
-#ifdef TIMEOUT_MS
-    if (ms_timeout > TIMEOUT_MS)
-    {
-        ms_timeout = TIMEOUT_MS;
-    }
-    if (ms_timeout < 0)
-    {
-        ms_timeout = 1;
-    }
-#endif
-
     // settings applied
     // device_run()
-    // iqstream_start()
-
     bool is_ready = false;
+    (void)this->iqstream_start();
     (void)this->_iqstream_get_iq_data_buffer_size();
 
-#ifdef TIMEOUT_MS
-    this->_api_status =
-        RSA_API::IQSTREAM_WaitForIQDataReady
-        (
-            timeout_ms, 
-            &is_ready
-        );
-#else
-    while (is_ready == false)    // this could block forever
+#ifdef BLOCKING_TIMEOUT
+    (void)this->cutil.timer_split_start();
+    while 
+    (
+        this->cutil.timer_get_split_wall() < TIMEOUT_LIMIT_S &&
+        is_ready == false
+    )
     {
         this->_api_status =
             RSA_API::IQSTREAM_WaitForIQDataReady
             (
-                timeout_ms, 
+                0,
+                &is_ready
+            );
+    }
+#else
+    while (is_ready == false)    // will block until data is ready
+    {
+        this->_api_status =
+            RSA_API::IQSTREAM_WaitForIQDataReady
+            (
+                0,
                 &is_ready
             );
     }
 #endif
-    this->_report_api_status();
-
+    (void)this->_report_api_status();
     if (is_ready == false)
     {
-        #ifdef DEBUG_MIN
-            (void)snprintf(X_ddts, sizeof(X_ddts), "trigger event never occured...no data acquired");
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-            debug_record(true);
-        #endif
+        return this->cutil.report_status_code(CODEZ::_27_loop_timed_out);
+    }   
 
-        this->_vars.iqstream.cplx32_v.clear();
-        this->_vars.iqstream.cplx32_v.resize(this->_vars.iqstream._CPLX_V_size);
-        (void)this->_iqstream_copy_cplx32_v();
-        
-        this->_vars.iqstream.pairs_copied = this->_vars.iqstream._PAIRS_COPIED;
-        (void)this->_iqstream_copy_pairs_copied();
-
-        return this->cutil.report_status_code(CODEZ::_30_trigger_event_never_occured);
-    }
-
+    CODEZ caught = CODEZ::_0_no_errors;
     switch (this->_vars.iqstream.datatype_select)
     {
-        case (RSA_API::IQSODT_SINGLE)             : return this->_iqstream_acquire_data_direct_cplx32_v   ();
-        case (RSA_API::IQSODT_SINGLE_SCALE_INT32) : return this->_iqstream_acquire_data_direct_cplx32_v   ();
-        case (RSA_API::IQSODT_INT16)              : return this->_iqstream_acquire_data_direct_cplxInt16_v();
-        case (RSA_API::IQSODT_INT32)              : return this->_iqstream_acquire_data_direct_cplxInt32_v();
+        case (RSA_API::IQSODT_SINGLE)             : caught = this->_iqstream_acquire_data_direct_cplx32_v   (); break;
+        case (RSA_API::IQSODT_SINGLE_SCALE_INT32) : caught = this->_iqstream_acquire_data_direct_cplx32_v   (); break;
+        case (RSA_API::IQSODT_INT16)              : caught = this->_iqstream_acquire_data_direct_cplxInt16_v(); break;
+        case (RSA_API::IQSODT_INT32)              : caught = this->_iqstream_acquire_data_direct_cplxInt32_v(); break;
         default : return this->cutil.report_status_code(CODEZ::_2_error_in_logic);
     }
-    // iqstream_stop()
+
+    (void)this->iqstream_good_bitcheck();
+    (void)this->iqstream_stop();
+    return this->cutil.report_status_code(caught);
     // device_stop()
-    // bitchecks
 }
 
 
@@ -149,9 +131,9 @@ CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplx32_v()
     {
         p_cplx32 = new RSA_API::Cplx32[this->_vars.iqstream.pairs_max];
     }
-    catch(const std::exception& allocation_status)
+    catch(...)
     {
-        std::cout << "allocation failure:  " << allocation_status.what() << std::endl;
+        return this->cutil.report_status_code(CODEZ::_22_dynamic_allocation_failed);
     }
 
     RSA_API::ReturnStatus temp = 
@@ -199,9 +181,9 @@ CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplxInt16_v()
     {
         p_cplxInt16 = new RSA_API::CplxInt16[this->_vars.iqstream.pairs_max];
     }
-    catch(const std::exception& allocation_status)
+    catch(...)
     {
-        std::cout << "allocation failure:  " << allocation_status.what() << std::endl;
+        return this->cutil.report_status_code(CODEZ::_22_dynamic_allocation_failed);
     }
 
     RSA_API::ReturnStatus temp =
@@ -249,9 +231,9 @@ CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplxInt32_v()
     {
         p_cplxInt32 = new RSA_API::CplxInt32[this->_vars.iqstream.pairs_max];
     }
-    catch(const std::exception& allocation_status)
+    catch(...)
     {
-        std::cout << "allocation failure:  " << allocation_status.what() << std::endl;
+        return this->cutil.report_status_code(CODEZ::_22_dynamic_allocation_failed);
     }
     
     RSA_API::ReturnStatus temp =

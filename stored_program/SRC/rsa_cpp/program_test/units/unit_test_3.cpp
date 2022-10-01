@@ -27,7 +27,7 @@ static void ut3_run_stop();
 static void ut3_event();
 
 
-void unit_test_3 (void)
+void unit_test_3()
 {
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  class [rsa_306b] API group 'DEVICE''\n", __func__);

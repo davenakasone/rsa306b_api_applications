@@ -21,7 +21,7 @@ static void ut6_basic();
 static void ut6_convert();
 
 
-void unit_test_6 (void)
+void unit_test_6()
 {
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  class [rsa_306b] API group 'REFTIME'\n", __func__);

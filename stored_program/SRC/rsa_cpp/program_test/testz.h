@@ -50,6 +50,10 @@
         void unit_test_6   ();    // test class [rsa_306b] API group 'REFTIME'
         void unit_test_7   ();    // test class [rsa_306b] API group 'TRIG'
         void unit_test_8   ();    // test class [rsa_306b] API group 'AUDIO'
+        void unit_test_9   ();    // test class [rsa_306b] API group 'SPECTRUM'
+        void unit_test_10  ();    // test class [rsa_306b] API group 'IQBLK'
+        void unit_test_11  ();    // test class [rsa_306b] API group 'IQSTREAM'
+        void unit_test_12  ();    // test class [rsa_306b] API group 'IFSTREAM'
 
         void task_999 ();    // temporary use test bench 
 
@@ -64,21 +68,16 @@
 
 
 /*
-
-9 - SPECTRUM
-10 - IQBLK
-11 - IQSTREAM
 12 - IFSTREAM
-
-13 - PLAYBACK
-14 - DPX
 
 15 - r3f
 16 - siq
+
+13 - PLAYBACK
+14 - DPX
 
 500 - september summary
 
 997 - total capture from a scan
 998 - demo YK3000 @ 315 MHz
-
 */

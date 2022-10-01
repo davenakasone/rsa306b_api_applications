@@ -30,7 +30,7 @@ CODEZ rsa306b_class::_trig_copy_vars()
     printf("\n%s()\n", __func__);
 #endif
 
-    constexpr int callz = 5;
+    constexpr int callz = 6;
     CODEZ caught_call[callz];
 
     caught_call[0] = this->_trig_copy_if_power_level   ();
@@ -38,7 +38,7 @@ CODEZ rsa306b_class::_trig_copy_vars()
     caught_call[2] = this->_trig_copy_position_percent ();
     caught_call[3] = this->_trig_copy_source_select    ();
     caught_call[4] = this->_trig_copy_transition_select();
-    // caught_call[5] = this->_trig_copy_time             ();
+    caught_call[5] = this->_trig_copy_time             ();
 
     return this->cutil.codez_checker(caught_call, callz);
 }
@@ -141,18 +141,18 @@ CODEZ rsa306b_class::_trig_copy_transition_select()
 /*
     < 7 > private
 */
-// CODEZ rsa306b_class::_trig_copy_time()
-// {
-// #ifdef DEBUG_COPYS
-//     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
-//     debug_record(false);
-// #endif
+CODEZ rsa306b_class::_trig_copy_time()
+{
+#ifdef DEBUG_COPYS
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_COPYS_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
 
-//     this->vars.trig.start_time_seconds = this->_vars.trig.start_time_seconds;
-//     this->vars.trig.start_time_nano_seconds = this->_vars.trig.start_time_nano_seconds;
-//     this->vars.trig.repeat_time_nano_seconds = this->_vars.trig.repeat_time_nano_seconds;
-//     return this->cutil.report_status_code(CODEZ::_0_no_errors);
-// }
+    this->vars.trig.start_time_seconds = this->_vars.trig.start_time_seconds;
+    this->vars.trig.start_time_nano_seconds = this->_vars.trig.start_time_nano_seconds;
+    this->vars.trig.repeat_time_nano_seconds = this->_vars.trig.repeat_time_nano_seconds;
+    return this->cutil.report_status_code(CODEZ::_0_no_errors);
+}
 
 
 ////////~~~~~~~~END>  rsa306b_trig_copy.cpp

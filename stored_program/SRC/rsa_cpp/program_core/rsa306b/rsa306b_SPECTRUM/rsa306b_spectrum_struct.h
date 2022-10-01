@@ -43,7 +43,7 @@ struct rsa306b_spectrum_struct
 
 
 // limiting constants
-    const int LOOP_LIMIT_MS = 100;    // maximum time, in milli-seconds, to loiter in a loop and wait for data acquisition
+    //const int LOOP_LIMIT_MS = 100;    // maximum time, in milli-seconds, to loiter in a loop and wait for data acquisition
 
 
 /*

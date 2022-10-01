@@ -168,7 +168,7 @@ CODEZ rsa306b_class::_iqstream_write_csv_cplx32()
     std::size_t v_size = this->_vars.iqstream.cplx32_v.size();
     for (std::size_t kk = 0; kk < v_size; kk++)
     {
-        (void)snprintf(this->_helper, sizeof(this->_helper), "%17.6lf,%0.9f,%0.9f\n",
+        (void)snprintf(this->_helper, sizeof(this->_helper), "%0.12lf,%0.9f,%0.9f\n",
                 static_cast<double>(kk) / this->_vars.iqstream.sample_rate,
                 this->_vars.iqstream.cplx32_v[kk].i,
                 this->_vars.iqstream.cplx32_v[kk].q);
@@ -195,7 +195,7 @@ CODEZ rsa306b_class::_iqstream_write_csv_cplxInt32()
     std::size_t v_size = this->_vars.iqstream.cplxInt32_v.size();
     for (std::size_t kk = 0; kk < v_size; kk++)
     {
-        (void)snprintf(this->_helper, sizeof(this->_helper), "%17.6lf,%d,%d\n",
+        (void)snprintf(this->_helper, sizeof(this->_helper), "%0.12lf,%d,%d\n",
                 static_cast<double>(kk) / this->_vars.iqstream.sample_rate,
                 this->_vars.iqstream.cplxInt32_v[kk].i,
                 this->_vars.iqstream.cplxInt32_v[kk].q);
@@ -222,7 +222,7 @@ CODEZ rsa306b_class::_iqstream_write_csv_cplxInt16()
     std::size_t v_size = this->_vars.iqstream.cplxInt16_v.size();
     for (std::size_t kk = 0; kk < v_size; kk++)
     {
-        (void)snprintf(this->_helper, sizeof(this->_helper), "%17.6lf,%d,%d\n",
+        (void)snprintf(this->_helper, sizeof(this->_helper), "%0.12lf,%d,%d\n",
                 static_cast<double>(kk) / this->_vars.iqstream.sample_rate,
                 this->_vars.iqstream.cplxInt16_v[kk].i,
                 this->_vars.iqstream.cplxInt16_v[kk].q);

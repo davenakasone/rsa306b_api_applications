@@ -14,26 +14,29 @@ from .api_spectrum import sfpi
 from ..funz.plot_spectrum import plot_spectrum
 
 
-def sspin(repz=7, cf=315e6, dbm=-25.5, tlen=1111, span=10e6, rbw=1e3, thresh=-35.6) -> None :
+def sspin(repz=7, cf=315.0e6, dbm=-25.5, tlen=1111, span=10.0e6, rbw=1.0e3, thresh=-35.6) -> None :
+    dstop()
     config(cf, dbm)
     sset(tlen, span, rbw)
     son()
     drun()
     for xx in range(0, repz) :
-        sacq()
-        pmax = sfpi()
-        
-        if pmax > thresh :
-            print(f"{xx:2d} ) {pmax:0.5f}  dBm   ...writing CSV")
-            dataf = scsv()
-            plot_spectrum(dataf)
+        if sacq() == 0 :
+            pmax = sfpi()
+            if pmax > thresh :
+                print(f"{xx:2d} )  cf={cf/1e6:0.3f} Mhz  ,  power={pmax:0.5f}  dBm   ...writing CSV")
+                dataf = scsv()
+                plot_spectrum(dataf)
+            else :
+                print(f"{xx:2d} )  cf={cf/1e6:0.3f} Mhz  ,  power={pmax:0.5f}  dBm   ...just noise")
         else :
-            print(f"{xx:2d} ) {pmax:0.5f}  dBm   ...just noise")
+            print("acquisition failed")
     soff()
     dstop()
 
 
-def sscan(fstart=1e6, fstop=1000e6, dbm=-35.5, tlen=999, span=10e6, rbw=10e3, thresh=-55.6, loiter=4) -> None :
+def sscan(fstart=1.0e6, fstop=1000.0e6, dbm=-35.5, tlen=999, span=10.0e6, rbw=10.0e3, thresh=-55.6, loiter=4) -> None :
+    dstop()
     hitz = 0
     repz = int((fstop-fstart)/span)
     for xx in range(0, repz+1) :
@@ -43,18 +46,21 @@ def sscan(fstart=1e6, fstop=1000e6, dbm=-35.5, tlen=999, span=10e6, rbw=10e3, th
         son()
         drun()
         for yy in range(0, loiter) :
-            sacq()
-            pmax = sfpi()
-            if pmax > thresh :
-                print(f"{xx:7d} )  cf:  {cf/1e6:15.3f}  MHz  ,  max dBm:{pmax:9.3f}  dBm   ...writing CSV")
-                dataf = scsv()
-                plot_spectrum(dataf)
-                hitz = hitz + 1
+            if sacq() == 0 :
+                pmax = sfpi()
+                if pmax > thresh :
+                    print(f"{xx:7d} )  cf:  {cf/1e6:15.3f}  MHz  ,  max dBm:{pmax:9.3f}  dBm   ...writing CSV")
+                    dataf = scsv()
+                    plot_spectrum(dataf)
+                    hitz = hitz + 1
+                else :
+                    print(f"{xx:7d} )  cf:  {cf/1e6:15.3f}  MHz  ,  max dBm:{pmax:9.3f}  dBm   ...noise")
             else :
-                print(f"{xx:7d} )  cf:  {cf/1e6:15.3f}  MHz  ,  max dBm:{pmax:9.3f}  dBm   ...noise")
+                print("acquisition failed")
+            dstop()
+            
     print(f"\n\tscan complete, found {hitz} traces of interest")
     soff()
-    dstop()
 
 
 ########~~~~~~~~END>  f_spectrum.py

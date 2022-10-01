@@ -27,14 +27,20 @@
 constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  unlv_rsa_<year YYYY>_<month MM>
 
 
-#define DE_BUG           1       // {ON|OFF} if activated, debug features are applied, good to have at least this and  "DEBUG_MIN" activated
-#define TIMEOUT_MS       8888    // {ON|OFF} if activated, any acquisitions that block will be limited by this many milli-seconds
-#define SAFETY_CHECKS    3       // {ON|OFF} if activated, applies checks needed for proper device operation (but slows program)
-#define BUILD_PYTHON     4       // {ON|OFF} if activated, compiles with C++ to python3 interfacing, should be on to make a proper library
-#define UNIT_TESTING     5       // {ON|OFF} if activated, compiles with unit testing, select build target accordingly
+#define DE_BUG           1    // {ON|OFF} if activated, debug features are applied, good to have at least this and  "DEBUG_MIN" activated
+#define BLOCKING_TIMEOUT 2    // {ON|OFF} if activated, any acquisitions that block will be limited by "TIMEOUT_LIMIT_*"
+#define SAFETY_CHECKS    3    // {ON|OFF} if activated, applies checks needed for proper device operation (but slows program)
+#define BUILD_PYTHON     4    // {ON|OFF} if activated, compiles with C++ to python3 interfacing, should be on to make a proper library
+#define UNIT_TESTING     5    // {ON|OFF} if activated, compiles with unit testing, select build target accordingly
+    
+    #ifdef BLOCKING_TIMEOUT
+        constexpr int    TIMEOUT_LIMIT_MS = 222;
+        constexpr double TIMEOUT_LIMIT_S  = static_cast<double>(TIMEOUT_LIMIT_MS) / 1000.0;    // milli-seconds to seconds
+    #endif
     #ifdef UNIT_TESTING
         #define WAIT_ENTER_CLEAR 6    // {ON|OFF} if activated, calls wait_enter_clear(), for selected tasks and unit tests
     #endif
+
 
 #ifdef DE_BUG
     // pick: none, one, or all

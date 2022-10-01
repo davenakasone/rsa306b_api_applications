@@ -309,7 +309,7 @@ CODEZ rsa306b_class::_iqstream_set_iq_data_buffer_size()
             )
             {
                 this->_vars.iqstream.pairs_max = 
-                    IQSTREAM_BUFFER_SIZE_MEDIUM / pow(2, ii);
+                    static_cast<int>(IQSTREAM_BUFFER_SIZE_MEDIUM / pow(2, ii));
                 break;
             }
         }

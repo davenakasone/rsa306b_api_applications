@@ -18,7 +18,7 @@ static void ut5_basic();
 static void ut5_preset();
 
 
-void unit_test_5 (void)
+void unit_test_5()
 {
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  class [rsa_306b] API group 'CONFIG'\n", __func__);

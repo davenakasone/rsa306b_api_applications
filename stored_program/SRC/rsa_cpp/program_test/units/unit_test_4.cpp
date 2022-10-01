@@ -19,7 +19,7 @@ static void ut4_basic();
 static void ut4_run();
 
 
-void unit_test_4 (void)
+void unit_test_4()
 {
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  class [rsa_306b] API group 'ALIGN'\n", __func__);

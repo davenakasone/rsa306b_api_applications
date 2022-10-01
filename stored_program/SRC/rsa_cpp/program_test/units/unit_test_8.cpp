@@ -21,7 +21,7 @@ static void ut8_basic();
 static void ut8_acquire();
 
 
-void unit_test_8 (void)
+void unit_test_8()
 {
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  class [rsa_306b] API group 'AUDIO'\n", __func__);
@@ -92,24 +92,24 @@ printf("\n%s()  ,  acquring adio data and demoudlating\n", __func__);
 #endif                   
 //~
 
-    X_rsa.device_run();
-    for (int ii = 0; ii < bangz_ut8; ii++)
-    {
-        X_rsa.audio_start();
-        printf("%d\n", X_rsa.vars.audio.is_demodulating);
-        X_rsa.audio_acquire_data();
-        if (X_rsa.vars.audio.data_samples_acquired > 0)
-        {
-            sprintf(X_rsa.cutil.helper, "%s%s_%2d_of%2d_.csv",
-                DATA_DIRECTORY_PROCESSED,
-                __func__,
-                ii + 1,
-                bangz_ut8);
-            X_rsa.audio_write_csv(X_rsa.cutil.helper);
-            printf("\n%s\n", X_rsa.cutil.helper);
-        }
-        X_rsa.audio_stop();
-    }
+    // X_rsa.device_run();
+    // for (int ii = 0; ii < bangz_ut8; ii++)
+    // {
+    //     X_rsa.audio_start();
+    //     printf("%d\n", X_rsa.vars.audio.is_demodulating);
+    //     X_rsa.audio_acquire_data();
+    //     if (X_rsa.vars.audio.data_samples_acquired > 0)
+    //     {
+    //         sprintf(X_rsa.cutil.helper, "%s%s_%2d_of%2d_.csv",
+    //             DATA_DIRECTORY_PROCESSED,
+    //             __func__,
+    //             ii + 1,
+    //             bangz_ut8);
+    //         X_rsa.audio_write_csv(X_rsa.cutil.helper);
+    //         printf("\n%s\n", X_rsa.cutil.helper);
+    //     }
+    //     X_rsa.audio_stop();
+    // }
 
 //~
 #ifdef WAIT_ENTER_CLEAR

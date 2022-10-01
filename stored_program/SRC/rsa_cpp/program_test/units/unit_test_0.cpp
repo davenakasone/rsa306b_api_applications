@@ -19,7 +19,7 @@
 #ifdef UNIT_TESTING
 
 
-void unit_test_0 (void)
+void unit_test_0()
 {
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  a unit test template\n", __func__);
