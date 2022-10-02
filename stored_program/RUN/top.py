@@ -18,7 +18,7 @@ from unlv_rsapy import *     # best for interactive mode
 
 
 ####~~~~
-
+lsf()
 
 
 
