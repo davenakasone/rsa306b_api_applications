@@ -4,7 +4,7 @@
 
         < 1 >  iqblk_set_vars()
         < 2 >  iqblk_acquire()
-        < 3 >  iqblk_make_csv()
+        < 3 >  iqblk_write_csv()
 */
 
 #include "python_interface.h"
@@ -18,12 +18,12 @@ extern "C"
 
 
 // < 1 >
-void iqblk_set_vars(double bw_hz)
+int iqblk_set_vars(double bw_hz)
 {
     // python user gets standard trace length + complex format
     X_rsa.vars.iqblk.bandwidth_hz = bw_hz;
     X_rsa.vars.iqblk.getting_select = iqblkGetData::complex;
-    (void)X_rsa.iqblk_set_vars();
+    return static_cast<int>(X_rsa.iqblk_set_vars());
 }
 
 // < 2 >
@@ -33,10 +33,10 @@ int iqblk_acquire()
 }
 
 // < 3 >
-char* iqblk_make_csv()
+char* iqblk_write_csv()
 {
     X_rsa.cutil.helper[0] = '\0';
-    if (X_rsa.iqblk_make_csv(X_rsa.cutil.helper) != CODEZ::_0_no_errors)
+    if (X_rsa.iqblk_write_csv(X_rsa.cutil.helper) != CODEZ::_0_no_errors)
     {
         return NULL;
     }

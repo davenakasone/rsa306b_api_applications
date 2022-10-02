@@ -36,7 +36,18 @@ CODEZ rsa306b_class::iqstream_clear_sticky()
     }
 #endif
     
-    RSA_API::IQSTREAM_ClearAcqStatus();    // implemented as void
+    RSA_API::IQSTREAM_ClearAcqStatus();    // implemented as void, hardware clears 
+    
+    // effective reset of both acqStatus bitcheckers
+    for (int ii = 0; ii < IQSTREAM_BITCHECKS; ii++)
+    {
+        (void)strcpy(this->_vars.iqstream.acq_status_messages[ii], BITCHECK_SUCCESS_MESSAGE);
+    }
+    this->_vars.iqstream.fileinfo_type.acqStatus = BITCHECK_SUCCESS;
+    this->_vars.iqstream.info_type.acqStatus = BITCHECK_SUCCESS;
+    this->_iqstream_copy_acq_status_messages();
+    this->_iqstream_copy_fileinfo_type();
+    this->_iqstream_copy_info_type();
     return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 

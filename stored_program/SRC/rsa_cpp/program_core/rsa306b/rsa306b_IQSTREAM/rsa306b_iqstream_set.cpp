@@ -47,7 +47,7 @@ CODEZ rsa306b_class::_iqstream_set_vars()
     debug_record(false);
 #endif 
 
-    constexpr int callz = 6;
+    constexpr int callz = 7;
     CODEZ caught_call[callz];
 
     caught_call[0] = this->_iqstream_set_acq_bandwidth();
@@ -56,6 +56,8 @@ CODEZ rsa306b_class::_iqstream_set_vars()
     caught_call[3] = this->_iqstream_set_filename_suffix();
     caught_call[4] = this->_iqstream_set_iq_data_buffer_size();
     caught_call[5] = this->_iqstream_set_output_configuration();
+
+    caught_call[6] = this->_iqstream_get_vars();
 
     return this->cutil.codez_checker(caught_call, callz);
 }

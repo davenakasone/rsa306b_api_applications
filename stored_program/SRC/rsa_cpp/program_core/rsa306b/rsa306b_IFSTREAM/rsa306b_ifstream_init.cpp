@@ -68,7 +68,7 @@ CODEZ rsa306b_class::_ifstream_init()
     this->_vars.ifstream.file_length_max_ms = this->_vars.ifstream._FILE_LENGTH_MAX_MS;
 
     (void)strcpy(this->_vars.ifstream.file_name_base, IFSTREAM_FILE_NAME_BASE);
-    (void)strcpy(this->_vars.ifstream.file_path     , DATA_DIRECTORY_RAW    );
+    (void)strcpy(this->_vars.ifstream.file_path     , DATA_DIRECTORY_RAW     );
 
     this->_vars.ifstream.output_destination_select = this->_vars.ifstream._OUTPUT_DESTINATION_SELECT;
 

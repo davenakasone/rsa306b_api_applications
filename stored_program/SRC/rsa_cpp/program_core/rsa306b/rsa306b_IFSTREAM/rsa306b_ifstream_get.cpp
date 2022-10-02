@@ -187,8 +187,7 @@ CODEZ rsa306b_class::_ifstream_get_eq_parameters()
     {
         #ifdef DEBUG_MIN
             this->_device_get_api_status_message();
-            (void)snprintf(X_ddts, sizeof(X_ddts), "%s",
-                this->_vars.device.api_status_message);
+            (void)snprintf(X_ddts, sizeof(X_ddts), "%s", this->_vars.device.api_status_message);
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif

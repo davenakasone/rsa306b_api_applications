@@ -16,12 +16,12 @@ extern "C"
 
 
 // < 1 >
-void config_set_vars(double cf_hz, double ref_dbm)
+int config_set_vars(double cf_hz, double ref_dbm)
 {
     X_rsa.vars.config.center_frequency_hz = cf_hz;
     X_rsa.vars.config.reference_level_dbm = ref_dbm;
     X_rsa.vars.config.frequency_reference_source_select = RSA_API::FREQREF_SOURCE::FRS_INTERNAL;
-    (void)X_rsa.config_set_vars();
+    return static_cast<int>(X_rsa.config_set_vars());
 }
 
 

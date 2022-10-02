@@ -232,7 +232,7 @@ printf("\n%s()  ,  SPECTRUM automatic scan over range\n", __func__);
         (
             static_cast<int>(RSA_API::SpectrumTraces::SpectrumTrace1),   // trace # [0, 1, 2]
             10e6,                                                        // start frequency (Hz)
-            1.1e9,                                                       // stop frequency (Hz)
+            500e6,                                                       // stop frequency (Hz)
             -65.5,                                                       // threshold (dBm) that iniates further processing
             4,                                                           // repititions to loiter on a center frequency
             X_rsa.cutil.helper,                                          // output file-path-name

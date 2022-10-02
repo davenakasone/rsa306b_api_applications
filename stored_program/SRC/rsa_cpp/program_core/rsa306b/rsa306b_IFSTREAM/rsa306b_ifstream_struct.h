@@ -259,7 +259,7 @@ const int FILE_LENGTH_MAX_MS = 999;     // maximum milli-seconds to record to a 
         this field follows after the "path"
             file_name_base ; <file path> <filename base> <suffix> . <ext>
 */
-    char        file_name_base[BUF_B]; 
+    char        file_name_base[BUF_D]; 
     //const char* _FILE_NAME_BASE = IFSTREAM_FILE_NAME_BASE;    // DEFAULT
 
 
@@ -267,7 +267,7 @@ const int FILE_LENGTH_MAX_MS = 999;     // maximum milli-seconds to record to a 
     IFSTREAM_SetDiskFilePath()
         file_path ; <file path> <filename base> <suffix> . <ext>
 */
-    char        file_path[BUF_B];
+    char        file_path[BUF_D];
     //const char* _FILE_PATH = DATA_DIRECTORY_RAW;    // DEFAULT
 
 

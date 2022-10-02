@@ -65,6 +65,8 @@ CODEZ common_utility::clear()
     (void)memset(this->helper, '\0', sizeof(this->helper));
     (void)memset(this->holder, '\0', sizeof(this->holder));
     (void)memset(this->_worker, '\0', sizeof(this->_worker));
+    this->filez_in.clear();
+    this->filez_out.clear();
     return this->_timer_init();
 }
 

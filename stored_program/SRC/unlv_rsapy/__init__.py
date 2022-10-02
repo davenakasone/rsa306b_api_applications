@@ -24,7 +24,8 @@ from .funz.admin import clear
 from .funz.admin import lsf
 from .funz.admin import stop
 from .funz.plot_spectrum import plot_spectrum
-
+from .funz.plot_iq import plot_iq
+from .funz.plot_eq import plot_eq
 
 # get the R3F file manager wrappers
 from .r3f_wrapper.r3fw import r3fw
@@ -44,9 +45,20 @@ from .rsa_wrapper.api_config import config
 from .rsa_wrapper.api_gp import api_n
 from .rsa_wrapper.api_gp import api_m
 
+from .rsa_wrapper.api_ifstream import ifset
+from .rsa_wrapper.api_ifstream import ifcsv
+from .rsa_wrapper.api_ifstream import ifacq
+from .rsa_wrapper.api_ifstream import ifeq
+from .rsa_wrapper.api_ifstream import ifcsv
+
 from .rsa_wrapper.api_iqblk import bset
 from .rsa_wrapper.api_iqblk import bacq
 from .rsa_wrapper.api_iqblk import bcsv
+
+from .rsa_wrapper.api_iqstream import iqacq
+from .rsa_wrapper.api_iqstream import iqcsv
+from .rsa_wrapper.api_iqstream import iqrec
+from .rsa_wrapper.api_iqstream import iqset
 
 from .rsa_wrapper.api_spectrum import soff
 from .rsa_wrapper.api_spectrum import son
@@ -58,7 +70,12 @@ from .rsa_wrapper.api_spectrum import sauto
 
 
 # get the RSA-306B applied concepts
+from .rsa_wrapper.f_ifstream import ifcsvx
+from .rsa_wrapper.f_ifstream import ifrecx
+from .rsa_wrapper.f_ifstream import ifeqx
 from .rsa_wrapper.f_iqblk import bspin
+from .rsa_wrapper.f_iqstream import iqcsvx
+from .rsa_wrapper.f_iqstream import iqrecx
 from .rsa_wrapper.f_spectrum import sspin
 from .rsa_wrapper.f_spectrum import sscan
 

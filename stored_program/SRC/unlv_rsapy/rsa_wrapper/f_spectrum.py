@@ -16,8 +16,10 @@ from ..funz.plot_spectrum import plot_spectrum
 
 def sspin(repz=7, cf=315.0e6, dbm=-25.5, tlen=1111, span=10.0e6, rbw=1.0e3, thresh=-35.6) -> None :
     dstop()
-    config(cf, dbm)
-    sset(tlen, span, rbw)
+    if config(cf, dbm) != 0 :
+        return
+    if sset(tlen, span, rbw) != 0 :
+        return
     son()
     drun()
     for xx in range(0, repz) :
@@ -41,8 +43,10 @@ def sscan(fstart=1.0e6, fstop=1000.0e6, dbm=-35.5, tlen=999, span=10.0e6, rbw=10
     repz = int((fstop-fstart)/span)
     for xx in range(0, repz+1) :
         cf = (xx*span + span)
-        config(cf, dbm)
-        sset(tlen, span, rbw)
+        if config(cf, dbm) != 0 :
+            return
+        if sset(tlen, span, rbw) != 0 :
+            return
         son()
         drun()
         for yy in range(0, loiter) :

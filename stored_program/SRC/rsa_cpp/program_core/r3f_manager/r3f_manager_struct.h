@@ -10,31 +10,6 @@
 
 #include "../control/resourcez.h"
 
-// header known field sizes:
-#define R3F_FIELD_ID_SIZE_BYTES             28
-#define R3F_DEVICE_SERIAL_NUMBER_SIZE_BYTES 64
-#define R3F_DEVICE_NOMENCLATURE_SIZE_BYTES  32
-#define R3F_REFTIME_ELEMENTS                 7
-#define R3F_MAX_TABLE_ENTRIES              501
-#define R3F_FOOTER_DISCARD                   8
-
-// header byte indexes, by section:
-#define R3F_BI_FILE_ID_START            0L  
-#define R3F_BI_FILE_ID_STOP             511L
-#define R3F_BI_VERSION_INFO_START       512L
-#define R3F_BI_VERSION_INFO_STOP        1023L
-#define R3F_BI_INSTRUMENT_STATE_START   1024L
-#define R3F_BI_ISNTRUMENT_STATE_STOP    2047L
-#define R3F_BI_DATA_FORMAT_START        2048L
-#define R3F_BI_DATA_FORMAT_STOP         3071L
-#define R3F_BI_SIGNAL_PATH_START        3072L
-#define R3F_BI_SIGNAL_PATH_STOP         4095L
-#define R3F_BI_CHANNEL_CORRECTION_START 4096L
-#define R3F_BI_CHANNEL_CORRECTION_MID   4352L
-#define R3F_BI_CHANNEL_CORRECTION_STOP  12287L
-
-constexpr char R3F_BLOCK_SEPERATOR[BUF_C] = "------------------------------------------------------------------------------------------";
-
 
 struct r3f_manager_struct
 {
@@ -111,12 +86,14 @@ struct r3f_manager_struct
         float   table_frequency[R3F_MAX_TABLE_ENTRIES];    // <number_of_table_entries> * 4 bytes
         float   table_amplitude[R3F_MAX_TABLE_ENTRIES];    // <number_of_table_entries> * 4 bytes
         float   table_phase[R3F_MAX_TABLE_ENTRIES];        // <number_of_table_entries> * 4 bytes
+        std::vector<float>v_eqaul[R3F_EQL_FILEDS];         // collects the equalization / correction data
     // [:12287] EMPTY
 
     // [12288:16383] reserved, EMPTY ...first data on 16384
 
 // DATA, could be a lot of data depending on record length, max "*.r3f" file is 1.00 seconds
-    int16_t extracted_sample;    // holds the current 16-bit sample
+    int16_t extracted_sample;      // holds the current 16-bit sample
+    std::vector<int16_t> v_adc;    // collects extracted samples 
 
 // FOOTER, 28-bytes will show up in the footer of each frame, depends if triggering was enabled for the acqusition
     uint8_t  discard[R3F_FOOTER_DISCARD];    // [0:0], first byte is garbage
@@ -128,7 +105,8 @@ struct r3f_manager_struct
     uint64_t frame_timestamp;                // [13:20], an 8-byte, accurate timestamp for the frame
     // [21:27]  EMPTY, next frame starts, or EOF
 
-}; typedef struct r3f_manager_struct r3f_manager_struct;
+}; 
+typedef struct r3f_manager_struct r3f_manager_struct;
 
 
 #endif

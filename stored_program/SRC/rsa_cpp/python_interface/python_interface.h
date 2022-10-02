@@ -15,17 +15,8 @@ extern "C"
 #endif
 
 
-// rsa_gp.cpp
-int api_status();
-char* api_status_message();
-
-// rsa_iqblk.cpp
-void  iqblk_set_vars(double bw_hz);
-int   iqblk_acquire();
-char* iqblk_make_csv();
-
 // rsa_config.cpp
-void config_set_vars(double cf_hz, double ref_dbm);
+int config_set_vars(double cf_hz, double ref_dbm);
 
 // rsa_device.cpp
 void device_connect();
@@ -36,13 +27,35 @@ void device_run();
 void device_start_transfer();
 void device_stop();
 
+// rsa_gp.cpp
+int   api_status();
+char* api_status_message();
+
+// rsa_ifstream.cpp
+int   ifstream_set_vars(int record_ms, bool stream_file);
+int   ifstream_acq_direct();
+char* ifstream_write_csv();
+char* ifstream_record_r3f();
+char* ifstream_equalization();
+
+// rsa_iqblk.cpp
+int   iqblk_set_vars(double bw_hz);
+int   iqblk_acquire();
+char* iqblk_write_csv();
+
+// rsa_iqstream.cpp
+int   iqstream_set_vars(int record_ms, double bw_hz, bool stream_file);
+int   iqstream_acq_direct();
+char* iqstream_write_csv();
+char* iqstream_record_siq();
+
 // rsa_spectrum.cpp
 void  spectrum_disable();
 void  spectrum_enable();
 int   spectrum_acquire();
 float spectrum_find_peak();
 char* spectrum_write_csv();
-void  spectrum_set_vars
+int   spectrum_set_vars
 (
     int    trace_length, 
     double span, 

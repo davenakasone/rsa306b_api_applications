@@ -303,7 +303,7 @@
                 _iqblk_set_bandwidth_hz()
                 _iqblk_set_record_length()
             - rsa306b_iqblk_user.cpp
-                iqblk_make_csv()
+                iqblk_write_csv()
                 iqblk_good_bitcheck()
 
         "./program_core/rsa306b/rsa306_IQSTREAM/"
@@ -572,11 +572,11 @@ class rsa306b_class
         CODEZ ifstream_write_csv_equalization(char* file_path_name);    // call after acquring data, "*.csv" is produced for equalization values
 
     // API group "IQBLK"
-        CODEZ iqblk_print                           ();    // prints the "IQBLK" variables to stdout, using the private struct
-        CODEZ iqblk_set_vars                        ();    // user changes "IQBLK" variables in public struct, then calls to set new values
-        CODEZ iqblk_acquire_data                    ();    // the "IQBLK" data is acquired into "vars.iqblk.cplx32_v"
-        bool  iqblk_good_bitcheck                   ();    // updates vars.iqblk.acq_status_type.acqStatus + message    
-        CODEZ iqblk_make_csv    (char* file_path_name);    // call after acquring data, "*.csv" is produced
+        CODEZ iqblk_print                            ();    // prints the "IQBLK" variables to stdout, using the private struct
+        CODEZ iqblk_set_vars                         ();    // user changes "IQBLK" variables in public struct, then calls to set new values
+        CODEZ iqblk_acquire_data                     ();    // the "IQBLK" data is acquired into "vars.iqblk.cplx32_v"
+        bool  iqblk_good_bitcheck                    ();    // updates vars.iqblk.acq_status_type.acqStatus + message    
+        CODEZ iqblk_write_csv    (char* file_path_name);    // call after acquring data, "*.csv" is produced
 
     // API group "IQSTREAM"
         CODEZ iqstream_print                           ();    // prints the "IQSTREAM" variables to stdout, using the private struct

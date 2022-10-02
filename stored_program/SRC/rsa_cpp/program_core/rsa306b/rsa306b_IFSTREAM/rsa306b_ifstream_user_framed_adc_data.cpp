@@ -30,6 +30,13 @@
     first frame might be a header ?
     
     there is a lot of footer information in each frame, is it needed?
+
+    for RSA306B:
+        - gets 16 frames at a time
+        - bytes / frame == 2^14 == 16384 (throw away 28 bytes for header)
+        - sample per frame = (bytes/frame) / 2 [int16_t]  --> 8178
+        - so, you shoul normally see (2^14  * 16 ) total bytes
+            package this into  (([(2^14  * 16 ) / 16] - 28) / 2) * 16 -->   130,848 samples usually result
 */
 CODEZ rsa306b_class::ifstream_acquire_framed_data()
 {
@@ -38,6 +45,8 @@ CODEZ rsa306b_class::ifstream_acquire_framed_data()
     debug_record(false);
 #endif 
 
+    this->vars.ifstream.is_enabled = true;
+    (void)this->_ifstream_set_is_enabled();
     uint8_t* frame_data = NULL;
     
     RSA_API::ReturnStatus temp = 
@@ -47,9 +56,9 @@ CODEZ rsa306b_class::ifstream_acquire_framed_data()
             &this->_vars.ifstream.frame_bytes, 
             &this->_vars.ifstream.number_of_frames
         );
-    
+
     int bytes_per_frame = 
-        this->_vars.ifstream.frame_bytes / this->_vars.ifstream.number_of_frames;
+        static_cast<int>(this->_vars.ifstream.frame_bytes / this->_vars.ifstream.number_of_frames);
     this->_vars.ifstream.framed_adc_data_v.resize(
         static_cast<std::size_t>(this->_vars.ifstream.number_of_frames));
     std::size_t placer = 0;
@@ -63,8 +72,8 @@ CODEZ rsa306b_class::ifstream_acquire_framed_data()
             this->_vars.ifstream.framed_adc_data_v[ii][placer] =    // MSB first "start with most significant" big-endian
                 static_cast<int16_t>
                 (
-                    (frame_data[ii*jj + jj]     << 8) |
-                    (frame_data[ii*jj + jj + 1] << 0)
+                    (frame_data[ii*jj + jj]     << 0) |
+                    (frame_data[ii*jj + jj + 1] << 8)
                 );
             placer++;
             if (placer == SAMPLES_PER_FRAME)    // jump over the frame footer
@@ -79,6 +88,8 @@ CODEZ rsa306b_class::ifstream_acquire_framed_data()
     (void)this->_ifstream_copy_number_of_frames();
     (void)this->_ifstream_copy_framed_adc_data_v();
     frame_data = NULL;
+    this->vars.ifstream.is_enabled = false;
+    (void)this->_ifstream_set_is_enabled();
     return this->set_api_status(temp);    // bitcheck is not applicable unless footer of each frame is checked
 }
 
@@ -151,7 +162,7 @@ CODEZ rsa306b_class::ifstream_write_csv_framed_data
         return this->cutil.report_status_code(CODEZ::_13_fopen_failed);
     }
     
-    (void)sprintf(this->_helper, "%s,%s,\n",
+    (void)sprintf(this->_helper, "%s,%s\n",
         IFSTREAM_FIELD_1,
         IFSTREAM_FIELD_2);
     (void)fputs(this->_helper, this->_fp_write);
@@ -160,19 +171,9 @@ CODEZ rsa306b_class::ifstream_write_csv_framed_data
     {
         for (std::size_t colz = 0; colz < v_cols; colz++)
         {
-            if ((rowz == v_rows-1) && 
-                (colz == v_cols-1)  )
-            {
-                (void)snprintf(this->_helper, sizeof(this->_helper), "%lu,%d\n", 
-                    colz + colz*rowz,
-                    this->_vars.ifstream.framed_adc_data_v[rowz][colz]);
-            }
-            else
-            {
-                (void)snprintf(this->_helper, sizeof(this->_helper), "%lu,%d,\n", 
-                    colz + colz*rowz,
-                    this->_vars.ifstream.framed_adc_data_v[rowz][colz]);
-            }
+            (void)snprintf(this->_helper, sizeof(this->_helper), "%0.9lf,%d\n", 
+                static_cast<double>(colz + colz*rowz) / this->_vars.ifstream.samples_per_second,
+                this->_vars.ifstream.framed_adc_data_v[rowz][colz]);
             (void)fputs(this->_helper, this->_fp_write);
         }
     }

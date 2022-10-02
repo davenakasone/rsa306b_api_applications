@@ -156,7 +156,6 @@ printf("\n%s()  ,  IQSTREAM acquire direclty, then make CSV\n", __func__);
         }
     }
     X_rsa.device_stop();
-    (void)X_rsa.iqstream_clear_sticky();
     X_rsa.vars.iqstream.datatype_select = RSA_API::IQSOUTDTYPE::IQSODT_SINGLE_SCALE_INT32;
     X_rsa.iqstream_set_vars();
     X_rsa.device_run();

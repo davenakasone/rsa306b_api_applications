@@ -47,8 +47,15 @@ SOURCE_FILES_SO =\
 $(UDIR)cu_codez.cpp \
 $(UDIR)cu_common_utility.cpp \
 $(UDIR)cu_exe_1.cpp \
-$(UDIR)cu_help_1.cpp \
+$(UDIR)cu_help_batch_change_redirect.cpp \
+$(UDIR)cu_help_batch_match_extension.cpp \
+$(UDIR)cu_help_batch_redir_insert_ext_change.cpp\
+$(UDIR)cu_help_change_extension.cpp \
 $(UDIR)cu_help_decode.cpp \
+$(UDIR)cu_help_find_bytes_in_file.cpp \
+$(UDIR)cu_help_insert_and_change_extension.cpp \
+$(UDIR)cu_help_matched_extension.cpp \
+$(UDIR)cu_help_switch_directory.cpp \
 $(UDIR)cu_ifstream_acq_status.cpp \
 $(UDIR)cu_iqblk_acq_status.cpp \
 $(UDIR)cu_iqstream_acq_status.cpp \
@@ -61,12 +68,13 @@ $(DDIR)de_bug.cpp \
 $(DDIR)debug_functions.cpp \
 $(SDIR)control/globalz.cpp \
 \
-$(SDIR)r3f_manager/r3fc_file_decode.cpp \
-$(SDIR)r3f_manager/r3fc_file_process.cpp \
-$(SDIR)r3f_manager/r3fc_handle_adc.cpp \
-$(SDIR)r3f_manager/r3fc_plot_maker.cpp \
-$(SDIR)r3f_manager/r3fc_private.cpp \
-$(SDIR)r3f_manager/r3fc_public.cpp \
+$(SDIR)r3f_manager/r3f_decode_printer.cpp \
+$(SDIR)r3f_manager/r3f_decode_writer.cpp \
+$(SDIR)r3f_manager/r3f_get.cpp \
+$(SDIR)r3f_manager/r3f_helpers.cpp \
+$(SDIR)r3f_manager/r3f_init.cpp \
+$(SDIR)r3f_manager/r3f_loader.cpp \
+$(SDIR)r3f_manager/r3f_manager.cpp \
 \
 $(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_copy.cpp \
 $(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_get.cpp \
@@ -162,7 +170,9 @@ $(SDIR)siq_manager/siq_write_csv.cpp \
 $(PYDIR)rsa_config.cpp \
 $(PYDIR)rsa_device.cpp \
 $(PYDIR)rsa_gp.cpp \
+$(PYDIR)rsa_ifstream.cpp \
 $(PYDIR)rsa_iqblk.cpp \
+$(PYDIR)rsa_iqstream.cpp \
 $(PYDIR)rsa_spectrum.cpp
 
 
@@ -179,6 +189,8 @@ $(TDIR_U)unit_test_8.cpp \
 $(TDIR_U)unit_test_9.cpp \
 $(TDIR_U)unit_test_10.cpp \
 $(TDIR_U)unit_test_11.cpp \
+$(TDIR_U)unit_test_12.cpp \
+$(TDIR_U)unit_test_13.cpp \
 $(TDIR_T)task_999.cpp \
 $(TDIR)test_selector.cpp \
 $(TDIR)wait_enter_clear.cpp \

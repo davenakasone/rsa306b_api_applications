@@ -3,8 +3,8 @@
     this function is expecting the CSV to have a "time", "I" and "Q" column
     when a valid CSV is opened and read, a plot is made
 
-    independent (x-axis) = frequency [in Hz]
-    dependent (y-axis)   = power [in dBm]
+    independent (x-axis) = time (in seconds)
+    dependent (y-axis)   = I and Q measurements from ADC
 """
 
 from tkinter import N
@@ -12,7 +12,7 @@ import matplotlib.pyplot
 import pandas
 
 
-def plot_iqblk(input_file_path_name, verbose=True) -> None :
+def plot_iq(input_file_path_name, verbose=True) -> None :
     label_time = "time"
     label_i = "I"
     label_q = "Q"
@@ -48,4 +48,4 @@ def plot_iqblk(input_file_path_name, verbose=True) -> None :
     matplotlib.pyplot.show()
 
 
-########~~~~~~~~END>  plot_iqblk.py
+########~~~~~~~~END>  plot_iq.py

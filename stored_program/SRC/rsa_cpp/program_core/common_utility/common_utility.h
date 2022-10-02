@@ -81,9 +81,12 @@ class common_utility
 
         common_utility  ();    // destructor
         ~common_utility ();    // constructor
-        CODEZ      clear();    // re-initialize the object instance
-        char helper[BUF_E];    // for the user's convenience
-        char holder[BUF_F];    // for the user's convenience
+
+        CODEZ      clear();                    // re-initialize the object instance
+        char helper[BUF_E];                    // for the user's convenience
+        char holder[BUF_F];                    // for the user's convenience
+        std::vector<std::string> filez_in;     // for the user's convenience, store results from file operations
+        std::vector<std::string> filez_out;    // for the user's convenience, store results from file operations
 
         // status code management
         const char* get_status_code_string();                                                  // getter for "_status_code" message
@@ -98,8 +101,14 @@ class common_utility
         CODEZ exe_remove (const char* file_to_delete);
 
         // help for a common task
-        CODEZ h_find_bytes_in_file(const char* file_path_name, long& result);
-        bool h_matched_extension  (const char* file_path_name, const char* extension);
+        CODEZ h_find_bytes_in_file   (const char* file_path_name, long& result);
+        bool  h_matched_extension    (const char* file_path_name, const char* extension);
+        CODEZ h_batch_match_extension(const char* directory, const char* extension, std::vector<std::string>& filez, bool include_directory);
+        CODEZ h_change_extension     (char* file_path_name, const char* new_extension);
+        CODEZ h_batch_change_redirect(const char* in_directory, const char* in_extension, const char* out_directory, const char* out_extension, std::vector<std::string>& new_filez);
+        CODEZ h_insert_and_change_extension(char* file_path_name, const char* to_insert, const char* new_extension);
+        CODEZ h_switch_directory(char* file_to_change, const char* new_directory);
+        CODEZ h_batch_redir_insert_ext_change(const char* in_directory, const char* in_extension, const char* out_directory, const char* inserts, const char* out_extension, std::vector<std::string>& new_filez);
         CODEZ h_decode_print      (const char* file_path_name, const long int start_byte, const long int stop_byte);
         CODEZ h_decode_write      (const char* raw_file, const char* output_file, const long int start_byte, const long int stop_byte);
         
@@ -126,9 +135,7 @@ class common_utility
         CODEZ iqstream_acq_status(const uint32_t acq_status, const uint32_t valid_bitmask, char results[IQSTREAM_BITCHECKS][BUF_D]);
         CODEZ spectrum_acq_status(const uint16_t acq_status, const uint16_t valid_bitmask, char results[SPECTRUM_BITCHECKS][BUF_D]);
 
-
 ////~~~~
-
 
     private :
 

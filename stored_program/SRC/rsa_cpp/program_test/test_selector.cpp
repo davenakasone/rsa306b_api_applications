@@ -35,6 +35,8 @@ void test_selector
         case (9)   : unit_test_9()   ; break;
         case (10)  : unit_test_10()  ; break;
         case (11)  : unit_test_11()  ; break;
+        case (12)  : unit_test_12()  ; break;
+        case (13)  : unit_test_13()  ; break;
         
         case (999) : task_999()      ; break;
 

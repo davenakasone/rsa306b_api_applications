@@ -39,6 +39,10 @@ CODEZ rsa306b_class::ifstream_acquire_data()
     debug_record(false);
 #endif 
 
+    (void)this->_ifstream_get_buffer_size();
+    this->vars.ifstream.is_enabled = true;
+    (void)this->_ifstream_set_is_enabled();
+
     int16_t* sample_getter = NULL;
     try
     {
@@ -61,14 +65,11 @@ CODEZ rsa306b_class::ifstream_acquire_data()
     delete [] sample_getter;
     sample_getter = NULL;
 
-    (void)this->_ifstream_copy_adc_data_v();          // update the user's variables
-    (void)this->_ifstream_copy_if_data_length();
-    (void)this->_ifstream_copy_data_info_type();
-
-
-#ifdef SAFETY_CHECKS
-    if (this->_vars.ifstream.buffer_samples                    != 
-        static_cast<int>(this->_vars.ifstream.adc_data_v.size()))
+    if 
+    (
+        this->_vars.ifstream.buffer_samples                  != 
+        static_cast<int>(this->_vars.ifstream.adc_data_v.size())
+    )
     {
         #ifdef DEBUG_MIN
             (void)snprintf(X_ddts, sizeof(X_ddts), "expected:  %d  ,  received:  %d",
@@ -77,11 +78,16 @@ CODEZ rsa306b_class::ifstream_acquire_data()
             (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
             debug_record(true);
         #endif
+        this->vars.ifstream.is_enabled = false;
+        (void)this->_ifstream_set_is_enabled();
         return this->cutil.report_status_code(CODEZ::_9_function_call_failed);
     }
-
+    (void)this->_ifstream_copy_adc_data_v();          // update the user's variables
+    (void)this->_ifstream_copy_if_data_length();
+    (void)this->_ifstream_copy_data_info_type();
+    this->vars.ifstream.is_enabled = false;
+    (void)this->_ifstream_set_is_enabled();
     (void)this->ifstream_good_bitcheck();
-
     this->_vars.ifstream.adc_triggers_v.assign(this->vars.ifstream.adc_data_v.size(), false);
     for (int ii = 0; ii < this->_vars.ifstream.data_info_type.triggerCount; ii++)
     {
@@ -94,16 +100,6 @@ CODEZ rsa306b_class::ifstream_acquire_data()
         ] = true;
     }
     this->_ifstream_copy_adc_tiggers_v();
-
-#endif
-    
-#ifdef DEBUG_MAX
-    (void)snprintf(X_ddts, sizeof(X_ddts), "vars.ifstream.adc_data_v loaded with %lu of %dsamples",
-        this->_vars.ifstream.adc_data_v.size(),
-        this->_vars.ifstream.if_data_length);
-    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MAX_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-    debug_record(true);
-#endif
 
     return this->set_api_status(temp);    // good acquisition, but see bitcheck result
 }
@@ -126,12 +122,12 @@ bool rsa306b_class::ifstream_good_bitcheck()
 #endif
 
     CODEZ temp = 
-    this->cutil.ifstream_acq_status
-    (
-        this->_vars.ifstream.data_info_type.acqStatus, 
-        this->_vars.ifstream.valid_bitmask,
-        this->_vars.ifstream.acq_status_messages
-    );
+        this->cutil.ifstream_acq_status
+        (
+            this->_vars.ifstream.data_info_type.acqStatus, 
+            this->_vars.ifstream.valid_bitmask,
+            this->_vars.ifstream.acq_status_messages
+        );
     (void)this->_ifstream_copy_acq_status_messages();
 
     if (temp == CODEZ::_0_no_errors)
@@ -210,25 +206,16 @@ CODEZ rsa306b_class::ifstream_write_csv_data
         return this->cutil.report_status_code(CODEZ::_13_fopen_failed);
     }
     
-    (void)sprintf(this->_helper, "%s,%s,\n",
+    (void)sprintf(this->_helper, "%s,%s\n",
         IFSTREAM_FIELD_1,
         IFSTREAM_FIELD_2);
     (void)fputs(this->_helper, this->_fp_write);
 
     for (std::size_t idx = 0; idx < v_size; idx++)
     {
-        if (idx == v_size-1)
-        {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%lu,%d\n", 
-                idx,
-                this->_vars.ifstream.adc_data_v[idx]);
-        }
-        else
-        {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%lu,%d,\n", 
-                idx,
-                this->_vars.ifstream.adc_data_v[idx]);
-        }
+        (void)snprintf(this->_helper, sizeof(this->_helper), "%0.9lf,%d\n", 
+            static_cast<double>(idx) / this->_vars.ifstream.samples_per_second,
+            this->_vars.ifstream.adc_data_v[idx]);
         (void)fputs(this->_helper, this->_fp_write);
     }
 

@@ -104,6 +104,8 @@ CODEZ rsa306b_class::iqstream_acquire_data()
         default : return this->cutil.report_status_code(CODEZ::_2_error_in_logic);
     }
 
+    (void)this->_iqstream_copy_pairs_copied();
+    (void)this->_iqstream_copy_info_type();
     (void)this->iqstream_good_bitcheck();
     (void)this->iqstream_stop();
     return this->cutil.report_status_code(caught);
@@ -154,8 +156,6 @@ CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplx32_v()
     delete [] p_cplx32; 
     p_cplx32 = NULL;
 
-    (void)this->_iqstream_copy_pairs_copied();
-    (void)this->_iqstream_copy_info_type();
     (void)this->_iqstream_copy_cplx32_v();
     return this->set_api_status(temp);
 }
@@ -204,8 +204,6 @@ CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplxInt16_v()
     delete [] p_cplxInt16; 
     p_cplxInt16 = NULL;
 
-    (void)this->_iqstream_copy_pairs_copied();
-    (void)this->_iqstream_copy_info_type();
     (void)this->_iqstream_copy_cplxInt16_v();
     return this->set_api_status(temp);
 }
@@ -254,8 +252,6 @@ CODEZ rsa306b_class::_iqstream_acquire_data_direct_cplxInt32_v()
     delete [] p_cplxInt32; 
     p_cplxInt32 = NULL;
 
-    (void)this->_iqstream_copy_pairs_copied();
-    (void)this->_iqstream_copy_info_type();
     (void)this->_iqstream_copy_cplxInt32_v();
     return this->set_api_status(temp);
 }

@@ -44,13 +44,18 @@
                                         9      // test class [rsa_306b] API group 'SPECTRUM'
                                         10     // test class [rsa_306b] API group 'IQBLK'
                                         11     // test class [rsa_306b] API group 'IQSTREAM'
+                                        12     // test class [rsa_306b] API group 'IFSTREAM'
+                                        13     // test class [r3f_manager]
                                        
         specific tasks  "task_#"    :
                                         999    // temporary use test bench                         
     */
    
-   //#define TEST_EVERYTHING 6969    // {on|off} turn on to run all unit tests
+   // #define TEST_EVERYTHING 6969    // {on|off} turn on to run all unit tests
 
+    #ifndef TEST_EVERYTHING
+        static bool user_test_selection();
+    #endif
 #endif
 
 
@@ -99,18 +104,28 @@ int main
             test_selector(9);
             test_selector(10);
             test_selector(11);
+            test_selector(12);
+            test_selector(13);
             test_selector(999);
         #else
             #ifdef UNIT_TEST_BY_NUMBER
                 test_selector(static_cast<int>(UNIT_TEST_BY_NUMBER)); 
             #else
-                if (argc > 1)
+                if (argc > 1)    // user wants to run tests from command line
                 {
                     int current_test = INIT_INT;
                     for (int xx = 1; xx < argc; xx++)
                     {
                         current_test = atoi(argv[xx]);
                         test_selector(current_test);
+                    }
+                }
+                else    // user wants an "interactive" testing session
+                {
+                    bool keep_testing = true;
+                    while (keep_testing == true)
+                    {
+                        keep_testing = user_test_selection();
                     }
                 }
             #endif
@@ -159,6 +174,61 @@ int main
     #endif
     return EXIT_SUCCESS;
 }
+
+
+////~~~~
+
+
+#ifndef TEST_EVERYTHING
+static bool user_test_selection()
+{
+    int selection = -1;
+    printf("\nall tests are complete, make a selection to keep testing :\n\n");
+    printf("\t[0]      ut0()                // default\n");
+    printf("\t[1]      ut1()                // common utility\n");
+    printf("\t[2]      ut2()                // GP, general purpose\n");
+    printf("\t[3]      ut3()                // API group 'DEVICE'\n");
+    printf("\t[4]      ut4()                // API group 'ALIGN'\n");
+    printf("\t[5]      ut5()                // API group 'CONFIG'\n");
+    printf("\t[6]      ut6()                // API group 'REFTIME'\n");
+    printf("\t[7]      ut7()                // API group 'TRIG'\n");
+    printf("\t[8]      ut8()                // API group 'AUDIO'\n");
+    printf("\t[9]      ut9()                // API group 'SPECTRUM'\n");
+    printf("\t[10]     ut10()               // API group 'IQBLK'\n");
+    printf("\t[11]     ut11()               // API group 'IQSTREAM'\n");
+    printf("\t[12]     ut12()               // API group 'IFSTREAM'\n");
+    printf("\t[13]     ut13()               // r3f manager\n");
+
+    printf("\t[999]    task999()            // testbench\n");
+    printf("\t[998]    task998()            // unknown\n");
+
+    printf("\nor enter -1 to exit:    ");
+    std::cin >> selection;
+    flush_io();
+
+    switch(selection)
+    {
+        case(0)   : unit_test_0();   return true;
+        case(1)   : unit_test_1();   return true;
+        case(2)   : unit_test_2();   return true;
+        case(3)   : unit_test_3();   return true;
+        case(4)   : unit_test_4();   return true;
+        case(5)   : unit_test_5();   return true;
+        case(6)   : unit_test_6();   return true;
+        case(7)   : unit_test_7();   return true;
+        case(8)   : unit_test_8();   return true;
+        case(9)   : unit_test_9();   return true;
+        case(10)  : unit_test_10();  return true;
+        case(11)  : unit_test_11();  return true;
+        case(12)  : unit_test_12();  return true;
+        case(13)  : unit_test_13();  return true;
+
+        case(999) : task_999(); return true;
+
+        default : return false;
+    }
+}
+#endif
 
 
 ////////~~~~~~~~END>  main.cpp

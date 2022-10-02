@@ -15,8 +15,12 @@ def soff() -> None :
 def son() -> None :
     rsa_so.spectrum_enable()
 
-def sset(tlen= 1111, span=30e6, rbw=10e3) -> None :
-    rsa_so.spectrum_set_vars(ctypes.c_int(tlen), ctypes.c_double(span), ctypes.c_double(rbw))
+def sset(tlen= 1111, span=30e6, rbw=10e3) -> int :
+    rsa_so.spectrum_set_vars.restype = ctypes.c_int
+    result = rsa_so.spectrum_set_vars(ctypes.c_int(tlen), ctypes.c_double(span), ctypes.c_double(rbw))
+    if int(result) != 0 :
+        print(f"sset() failed,  {int(result)}")
+    return int(result)
 
 def sacq() -> int :
     rsa_so.spectrum_acquire.restype = ctypes.c_int
@@ -46,7 +50,10 @@ def sauto(fstart=10e6, fstop=400e6, dbm=-25.5, tlen=999, span=10e6, rbw=10e3, th
         ctypes.c_double(span),\
         ctypes.c_int(tlen))
     ofile = temp.decode()
-    plot_spectrum(ofile)
+    if len(ofile) > 1 :
+        plot_spectrum(ofile)
+    else :
+        print("sauto() failed")
 
 
 ########~~~~~~~~END>  api_spectrum.py

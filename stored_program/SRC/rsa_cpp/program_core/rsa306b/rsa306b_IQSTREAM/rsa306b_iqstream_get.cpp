@@ -175,16 +175,30 @@ CODEZ rsa306b_class::_iqstream_get_disk_fileinfo()
         (
             &this->_vars.iqstream.fileinfo_type
         );
-    this->cutil.wchar_2_char_std
-    (
-        this->_vars.iqstream.filenames_0_data,
-        this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX]
-    );
-    this->cutil.wchar_2_char_std
-    (
-        this->_vars.iqstream.filenames_1_header,
-        this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX]  
-    );
+    if (this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX] != NULL)
+    {
+        this->cutil.wchar_2_char_std
+        (
+            this->_vars.iqstream.filenames_0_data,
+            this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX]
+        );
+    }
+    else
+    {
+        (void)strcpy(this->vars.iqstream.filenames_0_data, INIT_CHARP);
+    }
+    if (this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX] != NULL)
+    {
+        this->cutil.wchar_2_char_std
+        (
+            this->_vars.iqstream.filenames_1_header,
+            this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX]  
+        );
+    }
+    else
+    {
+        (void)strcpy(this->vars.iqstream.filenames_1_header, INIT_CHARP);
+    }
     (void)this->_iqstream_copy_fileinfo_type();
     return this->_report_api_status();
 }

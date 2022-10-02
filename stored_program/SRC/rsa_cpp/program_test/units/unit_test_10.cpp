@@ -95,7 +95,7 @@ printf("\n%s()  ,  basic IQBLK acquire and write csv\n", __func__);
                 __func__,
                 ii+1,
                 bangz_ut10);
-            X_rsa.iqblk_make_csv(X_rsa.cutil.helper);
+            X_rsa.iqblk_write_csv(X_rsa.cutil.helper);
             printf("%s\n", X_rsa.cutil.helper);
         }
     }
@@ -114,7 +114,7 @@ printf("\n%s()  ,  basic IQBLK acquire and write csv\n", __func__);
                 __func__,
                 ii+1,
                 bangz_ut10);
-            X_rsa.iqblk_make_csv(X_rsa.cutil.helper);
+            X_rsa.iqblk_write_csv(X_rsa.cutil.helper);
             printf("%s\n", X_rsa.cutil.helper);
         }
     }
@@ -133,7 +133,7 @@ printf("\n%s()  ,  basic IQBLK acquire and write csv\n", __func__);
                 __func__,
                 ii+1,
                 bangz_ut10);
-            X_rsa.iqblk_make_csv(X_rsa.cutil.helper);
+            X_rsa.iqblk_write_csv(X_rsa.cutil.helper);
             printf("%s\n", X_rsa.cutil.helper);
         }
     }

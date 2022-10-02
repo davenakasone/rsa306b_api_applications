@@ -59,7 +59,7 @@ char* spectrum_write_csv()
 }
 
 // < 6 >
-void spectrum_set_vars(int trace_length, double span, double rbw)
+int spectrum_set_vars(int trace_length, double span, double rbw)
 {
     X_rsa.vars.spectrum.is_enabled_trace[RSA_API::SpectrumTrace1] = true;   // python users only get trace[0]
     X_rsa.vars.spectrum.is_enabled_trace[RSA_API::SpectrumTrace2] = false;
@@ -71,7 +71,7 @@ void spectrum_set_vars(int trace_length, double span, double rbw)
     X_rsa.vars.spectrum.settings_type.traceLength = trace_length;
     X_rsa.vars.spectrum.settings_type.verticalUnit = RSA_API::SpectrumVerticalUnit_dBm;
     X_rsa.vars.spectrum.settings_type.window = RSA_API::SpectrumWindow_Kaiser;
-    (void)X_rsa.spectrum_set_vars();
+    return static_cast<int>(X_rsa.spectrum_set_vars());
 }
 
 // < 7 >

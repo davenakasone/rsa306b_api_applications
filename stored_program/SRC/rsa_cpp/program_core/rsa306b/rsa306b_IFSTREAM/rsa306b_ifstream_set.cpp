@@ -47,7 +47,7 @@ CODEZ rsa306b_class::_ifstream_set_vars()
     debug_record(false);
 #endif
 
-    constexpr int callz = 7;
+    constexpr int callz = 8;
     CODEZ caught_call[callz];
 
     caught_call[0] = this->_ifstream_set_file_name_suffix();
@@ -57,6 +57,8 @@ CODEZ rsa306b_class::_ifstream_set_vars()
     caught_call[4] = this->_ifstream_set_file_count();
     caught_call[5] = this->_ifstream_set_output_configuration_select();
     caught_call[6] = this->_ifstream_set_is_enabled();
+    
+    caught_call[7] = this->_ifstream_get_vars();
 
     return this->cutil.codez_checker(caught_call, callz);
     

@@ -2,7 +2,7 @@
     API group "IQBLK"
 
     public :
-        < 2 >  iqblk_make_csv()
+        < 2 >  iqblk_make_write()
         < 3 >  iqblk_good_bitcheck
     
     private :
@@ -15,7 +15,7 @@
 /*
     < 1 > public
 */
-CODEZ rsa306b_class::iqblk_make_csv
+CODEZ rsa306b_class::iqblk_write_csv
 (
     char* file_path_name
 )

@@ -89,20 +89,10 @@ CODEZ rsa306b_class::ifstream_write_csv_equalization
 
     for (std::size_t idx = 0; idx < v_size_freq; idx++)
     {
-        if (idx == v_size_freq-1)
-        {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%f,%f,%f\n", 
-                this->_vars.ifstream.eq_frequency_v[idx],
-                this->_vars.ifstream.eq_amplitude_v[idx],
-                this->_vars.ifstream.eq_phase_v[idx]);
-        }
-        else
-        {
-            (void)snprintf(this->_helper, sizeof(this->_helper), "%f,%f,%f,\n", 
-                this->_vars.ifstream.eq_frequency_v[idx],
-                this->_vars.ifstream.eq_amplitude_v[idx],
-                this->_vars.ifstream.eq_phase_v[idx]);
-        }
+        (void)snprintf(this->_helper, sizeof(this->_helper), "%0.9f,%0.9f,%0.9f\n", 
+            this->_vars.ifstream.eq_frequency_v[idx],
+            this->_vars.ifstream.eq_amplitude_v[idx],
+            this->_vars.ifstream.eq_phase_v[idx]);
         (void)fputs(this->_helper, this->_fp_write);
     }
 

@@ -54,7 +54,7 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
         #define DEBUG_MAX               1787                  
 
         // {ON|OFF} tracks:  acqStatus and acqDataStatus of all status code verifications, after data is acquired
-        //#define DEBUG_ACQ_STATUS        2022    
+        #define DEBUG_ACQ_STATUS        2022    
 
         // {ON|OFF} tracks:  call sequence of the executing program, for major calls only
         #define DEBUG_CLI               1776                  
@@ -63,10 +63,10 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
         //#define DEBUG_CALL_CHECKS       1492 
 
         // {ON|OFF} tracks:  call sequence WITH getter calls
-        #define DEBUG_GETS              1992                 
+        //#define DEBUG_GETS              1992                 
     
         // {ON|OFF} tracks:  call sequence WITH setter calls
-        #define DEBUG_SETS              1999                 
+        //#define DEBUG_SETS              1999                 
     
         // {ON|OFF} tracks:  call sequence WITH  copier calls
         //#define DEBUG_COPYS             2000    
@@ -85,7 +85,7 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
 
         // {ON|OFF} prints function entries of interest printed to stdout (no string format required)
         // sprinkle them whereever you need
-        //#define DEBUG_FUNC 1956
+        // #define DEBUG_FUNC 1956
         
 
         #ifdef DEBUG_MIN
@@ -95,7 +95,7 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
             constexpr char DEBUG_MAX_FORMAT[]         = "DEBUG_MAX        ,  <%4d>  %s/%s()  %s";
         #endif
         #ifdef DEBUG_ACQ_STATUS
-            constexpr char DEBUG_ACQ_STATUS_FORMAT[]  = "DEBUG_ACQ_STATUS ,  %s\n";
+            constexpr char DEBUG_ACQ_STATUS_FORMAT[]  = "DEBUG_ACQ_STATUS ,  %s";
         #endif
         #ifdef DEBUG_CLI
             constexpr char DEBUG_CLI_FORMAT[]         = "DEBUG_CLI        ,  <%4d>  %s/%s()";

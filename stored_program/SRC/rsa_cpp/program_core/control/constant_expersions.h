@@ -17,7 +17,7 @@ constexpr char CL_ARG_RESET[] = "reset";    // the command line argument, used t
 
 
 // Data IO
-constexpr char DATA_DIRECTORY_RAW[]       = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_raw/";         
+constexpr char DATA_DIRECTORY_RAW[]       = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_raw/";       
 constexpr char DATA_DIRECTORY_PROCESSED[] = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_processed/";  
 constexpr char DATA_OUTPUT_EXTENSTION[]   = ".csv";                     
 constexpr int EXTENSION_LIMIT             = 10;    // characters allowed in a file extension
@@ -49,6 +49,30 @@ constexpr uint16_t     INIT_UINT16     = 0xFFFFU;
 constexpr uint32_t     INIT_UINT32     = 0xFFFFFFFFU;
 constexpr uint64_t     INIT_UINT64     = 0xFFFFFFFFFFFFFFFFLU;
 constexpr wchar_t      INIT_WCHARP[]   = L"wchar_t";
+
+
+// R3F file parsing
+constexpr std::size_t R3F_EQL_FILEDS = 3;    // frequency, scaling, and phase            
+#define R3F_FIELD_ID_SIZE_BYTES             28        // header known field size
+#define R3F_DEVICE_SERIAL_NUMBER_SIZE_BYTES 64        // header known field size
+#define R3F_DEVICE_NOMENCLATURE_SIZE_BYTES  32        // header known field size
+#define R3F_REFTIME_ELEMENTS                7         // header known field size
+#define R3F_MAX_TABLE_ENTRIES               501       // header known field size
+#define R3F_FOOTER_DISCARD                  8         // header known field size
+#define R3F_BI_FILE_ID_START                0L        // header byte indexes, by section
+#define R3F_BI_FILE_ID_STOP                 511L      // header byte indexes, by section
+#define R3F_BI_VERSION_INFO_START           512L      // header byte indexes, by section
+#define R3F_BI_VERSION_INFO_STOP            1023L     // header byte indexes, by section
+#define R3F_BI_INSTRUMENT_STATE_START       1024L     // header byte indexes, by section
+#define R3F_BI_ISNTRUMENT_STATE_STOP        2047L     // header byte indexes, by section
+#define R3F_BI_DATA_FORMAT_START            2048L     // header byte indexes, by section
+#define R3F_BI_DATA_FORMAT_STOP             3071L     // header byte indexes, by section
+#define R3F_BI_SIGNAL_PATH_START            3072L     // header byte indexes, by section
+#define R3F_BI_SIGNAL_PATH_STOP             4095L     // header byte indexes, by section
+#define R3F_BI_CHANNEL_CORRECTION_START     4096L     // header byte indexes, by section
+#define R3F_BI_CHANNEL_CORRECTION_MID       4352L     // header byte indexes, by section
+#define R3F_BI_CHANNEL_CORRECTION_STOP      12287L    // header byte indexes, by section
+constexpr char R3F_BLOCK_SEPERATOR[BUF_C] = "------------------------------------------------------------------------------------------";
 
 
 //////////////////////////////////////////////// Common hardware constants ///////////////////////////////////////////////////////////////////////////////////////
