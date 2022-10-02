@@ -39,7 +39,7 @@ def lsf() :
     print("ifrec   ()                                                           record *.r3f IFSTREAM file to disk, returns file name")
     print("ifeq    ()                                                           write equalization parameters to CSV")
     print("ifcsvx  (repz, cf, dbm)                                              writes 'repz' IFSTREAM data acquisitions to CSV files")
-    print("iqrecx  (repz, cf, dbm, ms)                                          writes 'repz' IFSTREAM data acquisitions to R3F files")
+    print("ifrecx  (repz, cf, dbm, ms)                                          writes 'repz' IFSTREAM data acquisitions to R3F files")
     print("ifeqx   (repz, cf, dbm, ms)                                          writes 'repz' equalization parameters to CSV\n")
 
     print("bset    (bw)                                                         set the IQBLK bandwidth in Hz, returns 0 if successful")
