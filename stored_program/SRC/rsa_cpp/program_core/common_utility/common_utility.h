@@ -109,6 +109,8 @@ class common_utility
         CODEZ h_insert_and_change_extension(char* file_path_name, const char* to_insert, const char* new_extension);
         CODEZ h_switch_directory(char* file_to_change, const char* new_directory);
         CODEZ h_batch_redir_insert_ext_change(const char* in_directory, const char* in_extension, const char* out_directory, const char* inserts, const char* out_extension, std::vector<std::string>& new_filez);
+        CODEZ h_delete_files_in_dir(const char* directory);
+        
         CODEZ h_decode_print      (const char* file_path_name, const long int start_byte, const long int stop_byte);
         CODEZ h_decode_write      (const char* raw_file, const char* output_file, const long int start_byte, const long int stop_byte);
         

@@ -52,6 +52,7 @@ $(UDIR)cu_help_batch_match_extension.cpp \
 $(UDIR)cu_help_batch_redir_insert_ext_change.cpp\
 $(UDIR)cu_help_change_extension.cpp \
 $(UDIR)cu_help_decode.cpp \
+$(UDIR)cu_help_delete_files_in_dir.cpp \
 $(UDIR)cu_help_find_bytes_in_file.cpp \
 $(UDIR)cu_help_insert_and_change_extension.cpp \
 $(UDIR)cu_help_matched_extension.cpp \

@@ -26,7 +26,10 @@ CODEZ r3f_manager_class::load_file
     const char* r3f_input,
     const char* output_parsed,
     const char* output_adc,
-    const char* output_equalization
+    const char* output_equalization,
+    bool write_parsed,
+    bool write_equalization,
+    bool write_adc
 )
 {
 #ifdef DEBUG_CLI
@@ -58,72 +61,93 @@ CODEZ r3f_manager_class::load_file
     {
         return this->cutil.report_status_code(CODEZ::_13_fopen_failed);
     }
-    this->_fp_write = fopen(output_parsed, "w");    // open output file
-    if (this->_fp_write == NULL)
+    if (write_parsed == true)
     {
-        return this->cutil.report_status_code(CODEZ::_13_fopen_failed);
+        this->_fp_write = fopen(output_parsed, "w");    // open output file
+        if (this->_fp_write == NULL)
+        {
+            return this->cutil.report_status_code(CODEZ::_13_fopen_failed);
+        }
     }
     // guard end
 
     (void)fseek(this->_fp_read, 0L, SEEK_SET);     // input file pointer set to start of file
-    (void)fseek(this->_fp_write, 0L, SEEK_SET);    // output file pointer set to start of file
-
+    if (write_parsed == true)
+    {
+        (void)fseek(this->_fp_write, 0L, SEEK_SET);    // output file pointer set to start of file
+    }
+    
     // parse the header and footer
-    if (this->_populate_header() != CODEZ::_0_no_errors)
+    if (this->_populate_header(write_parsed) != CODEZ::_0_no_errors)
     {
         // close input and output files
         (void)fclose(this->_fp_read);
         this->_fp_read = NULL;
-        (void)fclose(this->_fp_write);
-        this->_fp_write = NULL;
+        if (write_parsed == true)
+        {
+            (void)fclose(this->_fp_write);
+            this->_fp_write = NULL;
+        }
         return this->cutil.get_status_code();
     }
-    if (this->_populate_data() != CODEZ::_0_no_errors)
+    if (this->_populate_data(write_parsed) != CODEZ::_0_no_errors)
     {
         // close input and output files
         (void)fclose(this->_fp_read);
         this->_fp_read = NULL;
-        (void)fclose(this->_fp_write);
-        this->_fp_write = NULL;
+        if (write_parsed == true)
+        {
+            (void)fclose(this->_fp_write);
+            this->_fp_write = NULL;
+        }
         return this->cutil.get_status_code();
     }
 
     // close input and output files, parsing is complete, data is loaded
     (void)fclose(this->_fp_read);
     this->_fp_read = NULL;
-    (void)fclose(this->_fp_write);
-    this->_fp_write = NULL;
+    if (write_parsed == true)
+    {
+        (void)fclose(this->_fp_write);
+        this->_fp_write = NULL;
+    }
 
     // make the adc plot
-    this->_fp_write = fopen(output_adc, "w");
-    if (this->_fp_write == NULL)
+    if (write_adc == true)
     {
-        return this->cutil.report_status_code(CODEZ::_13_fopen_failed);
-    }
-    if (this->_write_csv_adc() != CODEZ::_0_no_errors)
-    {
+        this->_fp_write = fopen(output_adc, "w");
+        if (this->_fp_write == NULL)
+        {
+            return this->cutil.report_status_code(CODEZ::_13_fopen_failed);
+        }
+        if (this->_write_csv_adc() != CODEZ::_0_no_errors)
+        {
+            (void)fclose(this->_fp_write);
+            this->_fp_write = NULL;
+            return this->cutil.report_status_code(CODEZ::_9_function_call_failed);
+        }
         (void)fclose(this->_fp_write);
         this->_fp_write = NULL;
-        return this->cutil.report_status_code(CODEZ::_9_function_call_failed);
     }
-    (void)fclose(this->_fp_write);
-    this->_fp_write = NULL;
-
+    
     // make the eql plot
-    this->_fp_write = fopen(output_equalization, "w");
-    if (this->_fp_write == NULL)
+    if (write_equalization == true)
     {
-        return this->cutil.report_status_code(CODEZ::_13_fopen_failed);
-    }
-    if (this->_write_csv_equalization() != CODEZ::_0_no_errors)
-    {
+        this->_fp_write = fopen(output_equalization, "w");
+        if (this->_fp_write == NULL)
+        {
+            return this->cutil.report_status_code(CODEZ::_13_fopen_failed);
+        }
+        if (this->_write_csv_equalization() != CODEZ::_0_no_errors)
+        {
+            (void)fclose(this->_fp_write);
+            this->_fp_write = NULL;
+            return this->cutil.report_status_code(CODEZ::_9_function_call_failed);
+        }
         (void)fclose(this->_fp_write);
         this->_fp_write = NULL;
-        return this->cutil.report_status_code(CODEZ::_9_function_call_failed);
     }
-    (void)fclose(this->_fp_write);
-    this->_fp_write = NULL;
-
+    
     return this->_get_vars();    // updates user's struct if files were successfully loaded and data was written
 }
 
@@ -138,7 +162,10 @@ CODEZ r3f_manager_class::load_file
     validation should have occured before calling
     "field                                              :  value" 
 */
-CODEZ  r3f_manager_class::_populate_header()
+CODEZ  r3f_manager_class::_populate_header
+(
+    bool write_parsed
+)
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
@@ -150,387 +177,520 @@ CODEZ  r3f_manager_class::_populate_header()
     fseek(this->_fp_read, R3F_BI_FILE_ID_START, SEEK_CUR); 
     // [1 of 1] file ID
     fread(this->_vars.file_id, sizeof(char), R3F_FIELD_ID_SIZE_BYTES, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "File ID                                            :  %s\n", 
-        this->_vars.file_id);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "File ID                                            :  %s\n", 
+            this->_vars.file_id);
+        fputs(this->_holder, this->_fp_write);
+    }
 
 // Version Info section, 7 fields
     fseek(this->_fp_read, 0L, SEEK_SET);
     fseek(this->_fp_read, R3F_BI_VERSION_INFO_START, SEEK_CUR);
     // [1 of 7] endian check
     fread(&this->_vars.endian_check, sizeof(int32_t), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Endian Check                                       :  0x%X\n", 
-        this->_vars.endian_check);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Endian Check                                       :  0x%X\n", 
+            this->_vars.endian_check);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [2 of 7] file format version
     fread(&this->_vars.file_format_version, sizeof(int8_t), 1, this->_fp_read);
     fread(&this->_vars.file_format_version_sub, sizeof(int8_t), 1, this->_fp_read);
     fread(&this->_vars.file_format_version_part, sizeof(int16_t), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "File Format Version                                :  " 
-        "%d.%d.%d\n", 
-        this->_vars.file_format_version, 
-        this->_vars.file_format_version_sub, 
-        this->_vars.file_format_version_part);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "File Format Version                                :  " 
+            "%d.%d.%d\n", 
+            this->_vars.file_format_version, 
+            this->_vars.file_format_version_sub, 
+            this->_vars.file_format_version_part);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [3 of 7] api software version
     fread(&this->_vars.api_software_version, sizeof(int8_t), 1, this->_fp_read);
     fread(&this->_vars.api_software_version_sub, sizeof(int8_t), 1, this->_fp_read);
     fread(&this->_vars.api_software_version_part, sizeof(int16_t), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "API Software Version                               :  %d.%d.%d\n",
-        this->_vars.api_software_version,
-        this->_vars.api_software_version_sub,
-        this->_vars.api_software_version_part);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "API Software Version                               :  %d.%d.%d\n",
+            this->_vars.api_software_version,
+            this->_vars.api_software_version_sub,
+            this->_vars.api_software_version_part);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [4 of 7] firmware version
     fread(&this->_vars.firmware_version, sizeof(int8_t), 1, this->_fp_read);
     fread(&this->_vars.firmware_version_sub, sizeof(int8_t), 1, this->_fp_read);
     fread(&this->_vars.firmware_version_part, sizeof(int16_t), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Firmware Version                                   :  %d.%d.%d\n",
-        this->_vars.firmware_version,
-        this->_vars.firmware_version_sub,
-        this->_vars.firmware_version_part);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Firmware Version                                   :  %d.%d.%d\n",
+            this->_vars.firmware_version,
+            this->_vars.firmware_version_sub,
+            this->_vars.firmware_version_part);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [5 of 7] fpga version
     fread(&this->_vars.fpga_version, sizeof(int8_t), 1, this->_fp_read);
     fread(&this->_vars.fpga_version_sub, sizeof(int8_t), 1, this->_fp_read);
     fread(&this->_vars.fpga_version_part, sizeof(int16_t), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "FPGA Version                                       :  %d.%d.%d\n",
-        this->_vars.fpga_version,
-        this->_vars.fpga_version_sub,
-        this->_vars.fpga_version_part);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "FPGA Version                                       :  %d.%d.%d\n",
+            this->_vars.fpga_version,
+            this->_vars.fpga_version_sub,
+            this->_vars.fpga_version_part);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [6 of 7] device serial number
     fread(&this->_vars.device_serial_number, sizeof(char), R3F_DEVICE_SERIAL_NUMBER_SIZE_BYTES, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Device Serial Number                               :  %s\n", 
-        this->_vars.device_serial_number);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Device Serial Number                               :  %s\n", 
+            this->_vars.device_serial_number);
+        fputs(this->_holder, this->_fp_write);
+    }
     
     // [ 7 of 7] device nomenclature
     fread(this->_vars.device_nomenclature, sizeof(char), R3F_DEVICE_NOMENCLATURE_SIZE_BYTES, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Device Nomenclature                                :  %s\n", 
-        this->_vars.device_nomenclature);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Device Nomenclature                                :  %s\n", 
+            this->_vars.device_nomenclature);
+        fputs(this->_holder, this->_fp_write);
+    }
 
 // Instrument State section, 9 fields
     fseek(this->_fp_read, 0L, SEEK_SET);
     fseek(this->_fp_read, R3F_BI_INSTRUMENT_STATE_START, SEEK_CUR);
     // [1 of 9] reference level dBm
     fread(&this->_vars.reference_level_dbm, sizeof(double), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Reference Level (dBm)                              :  %lf\n", 
-        this->_vars.reference_level_dbm);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Reference Level (dBm)                              :  %lf\n", 
+            this->_vars.reference_level_dbm);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [2 of 9] RF center frequency Hz
     fread(&this->_vars.rf_center_frequency_hz, sizeof(double), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "RF Center Frequency (Hz)                           :  %lf\n", 
-        this->_vars.rf_center_frequency_hz);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "RF Center Frequency (Hz)                           :  %lf\n", 
+            this->_vars.rf_center_frequency_hz);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [3 of 9] device temperature celsius
     fread(&this->_vars.device_temperature_celsius, sizeof(double), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Device Temperature (C)                             :  %lf\n",
-        this->_vars.device_temperature_celsius);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Device Temperature (C)                             :  %lf\n",
+            this->_vars.device_temperature_celsius);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [4 of 9] alignment state
     fread(&this->_vars.alignment_state, sizeof(int32_t), 1, this->_fp_read);
-    switch (this->_vars.alignment_state)
+    if(write_parsed == true)
     {
-        case (0) : snprintf(this->_holder, BUF_F-1, "Alignment State                                    :  not aligned\n"); break;
-        case (1) : snprintf(this->_holder, BUF_F-1, "Alignment State                                    :  aligned\n");     break;
-        default  : snprintf(this->_holder, BUF_F-1, "Alignment State                                    :  unknown\n");     break;
+        switch (this->_vars.alignment_state)
+        {
+            case (0) : snprintf(this->_holder, BUF_F-1, "Alignment State                                    :  not aligned\n"); break;
+            case (1) : snprintf(this->_holder, BUF_F-1, "Alignment State                                    :  aligned\n");     break;
+            default  : snprintf(this->_holder, BUF_F-1, "Alignment State                                    :  unknown\n");     break;
+        }
+        fputs(this->_holder, this->_fp_write);
     }
-    fputs(this->_holder, this->_fp_write);
 
     // [5 of 9] frequency reference state
     fread(&this->_vars.frequecny_reference_state, sizeof(int32_t), 1, this->_fp_read);
-    switch (this->_vars.frequecny_reference_state)
+    if(write_parsed == true)
     {
-        case (0) : snprintf(this->_holder, BUF_F-1, "Frequency Reference State                          :  internal\n"); break;
-        case (1) : snprintf(this->_holder, BUF_F-1, "Frequency Reference State                          :  external\n"); break;
-        case (2) : snprintf(this->_holder, BUF_F-1, "Frequency Reference State                          :  GNSS\n");     break;
-        case (3) : snprintf(this->_holder, BUF_F-1, "Frequency Reference State                          :  user\n");     break;
-        default  : snprintf(this->_holder, BUF_F-1, "Frequency Reference State                          :  unknown\n");  break;
+        switch (this->_vars.frequecny_reference_state)
+        {
+            case (0) : snprintf(this->_holder, BUF_F-1, "Frequency Reference State                          :  internal\n"); break;
+            case (1) : snprintf(this->_holder, BUF_F-1, "Frequency Reference State                          :  external\n"); break;
+            case (2) : snprintf(this->_holder, BUF_F-1, "Frequency Reference State                          :  GNSS\n");     break;
+            case (3) : snprintf(this->_holder, BUF_F-1, "Frequency Reference State                          :  user\n");     break;
+            default  : snprintf(this->_holder, BUF_F-1, "Frequency Reference State                          :  unknown\n");  break;
+        }
+        fputs(this->_holder, this->_fp_write);
     }
-    fputs(this->_holder, this->_fp_write);
 
     // [6 of 9] trigger mode
     fread(&this->_vars.trigger_mode, sizeof(int32_t), 1, this->_fp_read);
-    switch (this->_vars.trigger_mode)
+    if(write_parsed == true)
     {
-        case (0) : snprintf(this->_holder, BUF_F-1, "Trigger Mode                                       :  free running\n"); break;
-        case (1) : snprintf(this->_holder, BUF_F-1, "Trigger Mode                                       :  triggered\n");    break;
-        default  : snprintf(this->_holder, BUF_F-1, "Trigger Mode                                       :  unknown\n");      break;
+        switch (this->_vars.trigger_mode)
+        {
+            case (0) : snprintf(this->_holder, BUF_F-1, "Trigger Mode                                       :  free running\n"); break;
+            case (1) : snprintf(this->_holder, BUF_F-1, "Trigger Mode                                       :  triggered\n");    break;
+            default  : snprintf(this->_holder, BUF_F-1, "Trigger Mode                                       :  unknown\n");      break;
+        }
+        fputs(this->_holder, this->_fp_write);
     }
-    fputs(this->_holder, this->_fp_write);
 
     // [7 of 9] trigger source
     fread(&this->_vars.trigger_source, sizeof(int32_t), 1, this->_fp_read);
-    switch (this->_vars.trigger_source)
+    if(write_parsed == true)
     {
-        case (0) : snprintf(this->_holder, BUF_F-1, "Trigger Source                                     :  external\n"); break;
-        case (1) : snprintf(this->_holder, BUF_F-1, "Trigger Source                                     :  power\n");    break;
-        default  : snprintf(this->_holder, BUF_F-1, "Trigger Source                                     :  unknown\n");  break;
+        switch (this->_vars.trigger_source)
+        {
+            case (0) : snprintf(this->_holder, BUF_F-1, "Trigger Source                                     :  external\n"); break;
+            case (1) : snprintf(this->_holder, BUF_F-1, "Trigger Source                                     :  power\n");    break;
+            default  : snprintf(this->_holder, BUF_F-1, "Trigger Source                                     :  unknown\n");  break;
+        }
+        fputs(this->_holder, this->_fp_write);
     }
-    fputs(this->_holder, this->_fp_write);
 
     // [8 of 9] trigger transition
     fread(&this->_vars.trigger_transition, sizeof(int32_t), 1, this->_fp_read);
-    switch (this->_vars.trigger_transition)
+    if(write_parsed == true)
     {
-        case (1) : snprintf(this->_holder, BUF_F-1, "Trigger Transition                                 :  rising\n");  break;
-        case (2) : snprintf(this->_holder, BUF_F-1, "Trigger Transition                                 :  falling\n"); break;
-        default  : snprintf(this->_holder, BUF_F-1, "Trigger Transition                                 :  unknown\n"); break;
+        switch (this->_vars.trigger_transition)
+        {
+            case (1) : snprintf(this->_holder, BUF_F-1, "Trigger Transition                                 :  rising\n");  break;
+            case (2) : snprintf(this->_holder, BUF_F-1, "Trigger Transition                                 :  falling\n"); break;
+            default  : snprintf(this->_holder, BUF_F-1, "Trigger Transition                                 :  unknown\n"); break;
+        }
+        fputs(this->_holder, this->_fp_write);
     }
-    fputs(this->_holder, this->_fp_write);
 
     // [9 of 9] trigger level dBm
     fread(&this->_vars.trigger_level_dbm, sizeof(double), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Trigger Level (dBm)                                :  %lf\n",
-        this->_vars.trigger_level_dbm);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Trigger Level (dBm)                                :  %lf\n",
+            this->_vars.trigger_level_dbm);
+        fputs(this->_holder, this->_fp_write);
+    }
 
 // Data Format section, 19 fields
     fseek(this->_fp_read, 0L, SEEK_SET);
     fseek(this->_fp_read, R3F_BI_DATA_FORMAT_START, SEEK_CUR);
     // [1 of 19] file data type
     fread(&this->_vars.file_data_type, sizeof(int32_t), 1, this->_fp_read);
-    if (this->_vars.file_data_type == 161)
+    if(write_parsed == true)
     {
-        snprintf(this->_holder, BUF_F-1, "File Data Type                                     :  16-bit integer IF samples\n");
+        if (this->_vars.file_data_type == 161)
+        {
+            snprintf(this->_holder, BUF_F-1, "File Data Type                                     :  16-bit integer IF samples\n");
+        }
+        else
+        {
+            snprintf(this->_holder, BUF_F-1, "File Data Type                                     :  unkown\n");
+        }
+        fputs(this->_holder, this->_fp_write);
     }
-    else
-    {
-        snprintf(this->_holder, BUF_F-1, "File Data Type                                     :  unkown\n");
-    }
-    fputs(this->_holder, this->_fp_write);
     
     // [2 of 19] byte offset to first frame
     fread(&this->_vars.byte_offset_to_first_frame, sizeof(int32_t), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Byte offset to first data frame                    :  %d\n",
-        this->_vars.byte_offset_to_first_frame);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Byte offset to first data frame                    :  %d\n",
+            this->_vars.byte_offset_to_first_frame);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [3 of 19] size of frame in bytes
     fread(&this->_vars.size_of_frame_bytes, sizeof(int32_t), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Size of Frame (bytes)                              :  %d\n",
-        this->_vars.size_of_frame_bytes);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Size of Frame (bytes)                              :  %d\n",
+            this->_vars.size_of_frame_bytes);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [4 of 19] byte offset to sample data in frame
     fread(&this->_vars.byte_offset_to_non_sample_data_in_frame, sizeof(int32_t), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Byte offset to sample data in frame                :  %d\n",
-        this->_vars.byte_offset_to_sample_data_in_frame);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Byte offset to sample data in frame                :  %d\n",
+            this->_vars.byte_offset_to_sample_data_in_frame);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [5 of 19] number of samples per frame
     fread(&this->_vars.number_of_samples_per_frame, sizeof(int32_t), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Number of samples per frame                        :  %d\n",
-        this->_vars.number_of_samples_per_frame);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Number of samples per frame                        :  %d\n",
+            this->_vars.number_of_samples_per_frame);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [6 of 19] byte offset to non-sample data in frame
     fread(&this->_vars.byte_offset_to_non_sample_data_in_frame, sizeof(int32_t), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Byte offset to non-sample data in frame            :  %d\n",
-        this->_vars.byte_offset_to_non_sample_data_in_frame);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Byte offset to non-sample data in frame            :  %d\n",
+            this->_vars.byte_offset_to_non_sample_data_in_frame);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [7 of 19] size of non-sample data in frame
     fread(&this->_vars.size_of_non_sample_data_in_frame_bytes, sizeof(int32_t), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Size of non-sample data in frame (bytes)           :  %d\n",
-        this->_vars.size_of_non_sample_data_in_frame_bytes);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Size of non-sample data in frame (bytes)           :  %d\n",
+            this->_vars.size_of_non_sample_data_in_frame_bytes);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [8 of 19] center IF frequency sampled Hz
     fread(&this->_vars.center_frequency_if_sampled_hz, sizeof(double), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Center IF Frequency Sampled (Hz)                   :  %lf\n", 
-        this->_vars.center_frequency_if_sampled_hz);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Center IF Frequency Sampled (Hz)                   :  %lf\n", 
+            this->_vars.center_frequency_if_sampled_hz);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [9 of 19] samples per second
     fread(&this->_vars.samples_per_second, sizeof(double), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Samples per Second                                 :  %lf\n", 
-        this->_vars.samples_per_second);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Samples per Second                                 :  %lf\n", 
+            this->_vars.samples_per_second);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [10 of 19] usable bandwidth Hz
     fread(&this->_vars.usable_bandwidth, sizeof(double), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Usable Bandwidth (Hz)                              :  %lf\n",
-        this->_vars.usable_bandwidth);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Usable Bandwidth (Hz)                              :  %lf\n",
+            this->_vars.usable_bandwidth);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [11 of 19] file data corrected
     fread(&this->_vars.file_data_corrected, sizeof(int32_t), 1, this->_fp_read);
-    if (this->_vars.file_data_corrected == 0)
+    if(write_parsed == true)
     {
-        snprintf(this->_holder, BUF_F-1, "File Data                                          :  uncorrected\n");
+        if (this->_vars.file_data_corrected == 0)
+        {
+            snprintf(this->_holder, BUF_F-1, "File Data                                          :  uncorrected\n");
+        }
+        else
+        {
+            snprintf(this->_holder, BUF_F-1, "File Data                                          :  correction unknown\n");
+        }
+        fputs(this->_holder, this->_fp_write);
     }
-    else
-    {
-        snprintf(this->_holder, BUF_F-1, "File Data                                          :  correction unknown\n");
-    }
-    fputs(this->_holder, this->_fp_write);
 
     // [12 of 19] time source
     fread(&this->_vars.reftime_local_source, sizeof(int32_t), 1, this->_fp_read);
-    if (this->_vars.reftime_local_source == 0)
+    if(write_parsed == true)
     {
-        snprintf(this->_holder, BUF_F-1, "Time Source                                        :  local\n");
+        if (this->_vars.reftime_local_source == 0)
+        {
+            snprintf(this->_holder, BUF_F-1, "Time Source                                        :  local\n");
+        }
+        else
+        {
+            snprintf(this->_holder, BUF_F-1, "Time Source                                        :  unknown\n");
+        }
+        fputs(this->_holder, this->_fp_write);
     }
-    else
-    {
-        snprintf(this->_holder, BUF_F-1, "Time Source                                        :  unknown\n");
-    }
-    fputs(this->_holder, this->_fp_write);
 
     // [13 of 19] reftime local
     for (int ii = 0; ii < R3F_REFTIME_ELEMENTS; ii++)
     {
         fread(&this->_vars.reftime_local[ii], sizeof(int32_t), 1, this->_fp_read);
     }
-    snprintf(this->_holder, BUF_F-1, "Local Time {YY/MM/DD_hh:mm:ss_nano}                :  "
-        "%04d/%02d/%02d_%02d:%02d:%02d_%d\n",
-        this->_vars.reftime_local[0],
-        this->_vars.reftime_local[1],
-        this->_vars.reftime_local[2],
-        this->_vars.reftime_local[3],
-        this->_vars.reftime_local[4],
-        this->_vars.reftime_local[5],
-        this->_vars.reftime_local[6]);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Local Time {YY/MM/DD_hh:mm:ss_nano}                :  "
+            "%04d/%02d/%02d_%02d:%02d:%02d_%d\n",
+            this->_vars.reftime_local[0],
+            this->_vars.reftime_local[1],
+            this->_vars.reftime_local[2],
+            this->_vars.reftime_local[3],
+            this->_vars.reftime_local[4],
+            this->_vars.reftime_local[5],
+            this->_vars.reftime_local[6]);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [14 of 19] fpga sample count
     fread(&this->_vars.fpga_sample_count, sizeof(uint64_t), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "FPGA Sample Count                                  :  %ld\n",
-        this->_vars.fpga_sample_count);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "FPGA Sample Count                                  :  %ld\n",
+            this->_vars.fpga_sample_count);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [15 of 19] fpga sample counter ticks per second
     fread(&this->_vars.fpga_sample_counter_ticks_per_second, sizeof(uint64_t), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "FPGA Sample Counter Ticks per Second               :  %ld\n",
-        this->_vars.fpga_sample_counter_ticks_per_second);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "FPGA Sample Counter Ticks per Second               :  %ld\n",
+            this->_vars.fpga_sample_counter_ticks_per_second);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [16 of 19] reftime utc
     for (int ii = 0; ii < R3F_REFTIME_ELEMENTS; ii++)
     {
         fread(&this->_vars.reftime_utc[ii], sizeof(int32_t), 1, this->_fp_read);
     }
-    snprintf(this->_holder, BUF_F-1, "UTC Time {YY/MM/DD_hh:mm:ss_nano}                  :  "
-        "%04d/%02d/%02d_%02d:%02d:%02d_%d\n",
-        this->_vars.reftime_utc[0],
-        this->_vars.reftime_utc[1],
-        this->_vars.reftime_utc[2],
-        this->_vars.reftime_utc[3],
-        this->_vars.reftime_utc[4],
-        this->_vars.reftime_utc[5],
-        this->_vars.reftime_utc[6]);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "UTC Time {YY/MM/DD_hh:mm:ss_nano}                  :  "
+            "%04d/%02d/%02d_%02d:%02d:%02d_%d\n",
+            this->_vars.reftime_utc[0],
+            this->_vars.reftime_utc[1],
+            this->_vars.reftime_utc[2],
+            this->_vars.reftime_utc[3],
+            this->_vars.reftime_utc[4],
+            this->_vars.reftime_utc[5],
+            this->_vars.reftime_utc[6]);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [17 of 19] reftime source
     fread(&this->_vars.reftime_source, sizeof(int32_t), 1, this->_fp_read);
-    switch (this->_vars.reftime_source)
+    if(write_parsed == true)
     {
-        case (1) : snprintf(this->_holder, BUF_F-1, "REFTIME Source                                     :  system\n");  break;
-        case (2) : snprintf(this->_holder, BUF_F-1, "REFTIME Source                                     :  GNSS\n");    break;
-        case (3) : snprintf(this->_holder, BUF_F-1, "REFTIME Source                                     :  user\n");    break;
-        default  : snprintf(this->_holder, BUF_F-1, "REFTIME Source                                     :  unknown\n"); break;
+        switch (this->_vars.reftime_source)
+        {
+            case (1) : snprintf(this->_holder, BUF_F-1, "REFTIME Source                                     :  system\n");  break;
+            case (2) : snprintf(this->_holder, BUF_F-1, "REFTIME Source                                     :  GNSS\n");    break;
+            case (3) : snprintf(this->_holder, BUF_F-1, "REFTIME Source                                     :  user\n");    break;
+            default  : snprintf(this->_holder, BUF_F-1, "REFTIME Source                                     :  unknown\n"); break;
+        }
+        fputs(this->_holder, this->_fp_write);
     }
-    fputs(this->_holder, this->_fp_write);
 
     // [18 of 19] timestamp of first sample
     fread(&this->_vars.timestamp_of_first_sample, sizeof(uint64_t), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "First sample, timestamp                            :  %ld\n",
-        this->_vars.timestamp_of_first_sample);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "First sample, timestamp                            :  %ld\n",
+            this->_vars.timestamp_of_first_sample);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [19 of 19] local time of first sample
     for (int ii = 0; ii < R3F_REFTIME_ELEMENTS; ii++)
     {
         fread(&this->_vars.reftime_first_sample[ii], sizeof(int32_t), 1, this->_fp_read);
     }
-    snprintf(this->_holder, BUF_F-1, "First sample, local time {YY/MM/DD_hh:mm:ss_nano}  :  " 
-        "%04d/%02d/%02d_%02d:%02d:%02d_%d\n",
-        this->_vars.reftime_first_sample[0],
-        this->_vars.reftime_first_sample[1],
-        this->_vars.reftime_first_sample[2],
-        this->_vars.reftime_first_sample[3],
-        this->_vars.reftime_first_sample[4],
-        this->_vars.reftime_first_sample[5],
-        this->_vars.reftime_first_sample[6]);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "First sample, local time {YY/MM/DD_hh:mm:ss_nano}  :  " 
+            "%04d/%02d/%02d_%02d:%02d:%02d_%d\n",
+            this->_vars.reftime_first_sample[0],
+            this->_vars.reftime_first_sample[1],
+            this->_vars.reftime_first_sample[2],
+            this->_vars.reftime_first_sample[3],
+            this->_vars.reftime_first_sample[4],
+            this->_vars.reftime_first_sample[5],
+            this->_vars.reftime_first_sample[6]);
+        fputs(this->_holder, this->_fp_write);
+    }
 
 // Signal Path section, 2 fields
     fseek(this->_fp_read, 0L, SEEK_SET);
     fseek(this->_fp_read, R3F_BI_SIGNAL_PATH_START, SEEK_CUR);
     // [1 of 2] sample gain scaling factor
     fread(&this->_vars.sample_gain_scaling_factor, sizeof(double), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Sample Gain Scaling Factor                         :  %lf\n",
-        this->_vars.sample_gain_scaling_factor);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Sample Gain Scaling Factor                         :  %lf\n",
+            this->_vars.sample_gain_scaling_factor);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     // [2 of 2] signal path delay seconds
     fread(&this->_vars.signal_path_delay_seconds, sizeof(double), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Signal Path Delay (s)                              :  %lf\n",
-        this->_vars.signal_path_delay_seconds);
-    fputs(this->_holder, this->_fp_write);
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Signal Path Delay (s)                              :  %lf\n",
+            this->_vars.signal_path_delay_seconds);
+        fputs(this->_holder, this->_fp_write);
+    }
 
 // Channel Correction section, 5 fields
     fseek(this->_fp_read, 0L, SEEK_SET);
     fseek(this->_fp_read, R3F_BI_CHANNEL_CORRECTION_START, SEEK_CUR);
     // [1 of 5] channel correction type
     fread(&this->_vars.channel_correction_type, sizeof(int32_t), 1, this->_fp_read);
-    snprintf(this->_helper, BUF_E-1, "Channel Correction                                 :  "); 
-    switch (this->_vars.channel_correction_type)
+    if(write_parsed == true)
     {
-        case(0) : snprintf(this->_holder, BUF_F-1, "%sLF\n", this->_helper);      break;
-        case(1) : snprintf(this->_holder, BUF_F-1, "%sRF/IF\n", this->_helper);   break;
-        default : snprintf(this->_holder, BUF_F-1, "%sunknown\n", this->_helper); break;
+        snprintf(this->_helper, BUF_E-1, "Channel Correction                                 :  "); 
+        switch (this->_vars.channel_correction_type)
+        {
+            case(0) : snprintf(this->_holder, BUF_F-1, "%sLF\n", this->_helper);      break;
+            case(1) : snprintf(this->_holder, BUF_F-1, "%sRF/IF\n", this->_helper);   break;
+            default : snprintf(this->_holder, BUF_F-1, "%sunknown\n", this->_helper); break;
+        }
+        fputs(this->_holder, this->_fp_write);
     }
-    fputs(this->_holder, this->_fp_write);
 
     // [2 of 5] number of table enteries
     fseek(this->_fp_read, 0L, SEEK_SET);
     fseek(this->_fp_read, R3F_BI_CHANNEL_CORRECTION_MID, SEEK_CUR);
     fread(&this->_vars.number_of_table_entries, sizeof(int32_t), 1, this->_fp_read);
-    snprintf(this->_holder, BUF_F-1, "Number of Table Entries                            :  %d\n", 
-        this->_vars.number_of_table_entries);
-    fputs(this->_holder, this->_fp_write); 
+    if(write_parsed == true)
+    {
+        snprintf(this->_holder, BUF_F-1, "Number of Table Entries                            :  %d\n", 
+            this->_vars.number_of_table_entries);
+        fputs(this->_holder, this->_fp_write); 
+    }
 
     // [3 of 5] table, frequency (Hz)
     for (int ii = 0; ii < this->_vars.number_of_table_entries; ii++)
     {
         fread(&this->_vars.table_frequency[ii], sizeof(float), 1, this->_fp_read);
-        snprintf(this->_holder, BUF_F-1, "table_frequency[%3d]  (Hz)                         :  %f\n",
-            ii, this->_vars.table_frequency[ii]);
-        fputs(this->_holder, this->_fp_write); 
+        if(write_parsed == true)
+        {
+            snprintf(this->_holder, BUF_F-1, "table_frequency[%3d]  (Hz)                         :  %f\n",
+                ii, this->_vars.table_frequency[ii]);
+            fputs(this->_holder, this->_fp_write); 
+        }
         this->_vars.v_eqaul[0].push_back(this->_vars.table_frequency[ii]);    // vector is loaded
     } 
     // [4 of 5] table, amplitude (dB)
     for (int ii = 0; ii < this->_vars.number_of_table_entries; ii++)
     {
         fread(&this->_vars.table_amplitude[ii], sizeof(float), 1, this->_fp_read);
-        snprintf(this->_holder, BUF_F-1, "table_amplitude[%3d]  (dB)                         :  %f\n",
-            ii, this->_vars.table_amplitude[ii]);
-        fputs(this->_holder, this->_fp_write); 
+        if(write_parsed == true)
+        {
+            snprintf(this->_holder, BUF_F-1, "table_amplitude[%3d]  (dB)                         :  %f\n",
+                ii, this->_vars.table_amplitude[ii]);
+            fputs(this->_holder, this->_fp_write); 
+        }
         this->_vars.v_eqaul[1].push_back(this->_vars.table_amplitude[ii]);    // vector is loaded
     }    
     // [5 of 5] table, phase (degrees)
     for (int ii = 0; ii < this->_vars.number_of_table_entries; ii++)
     {
         fread(&this->_vars.table_phase[ii], sizeof(float), 1, this->_fp_read);
-        snprintf(this->_holder, BUF_F-1, "table_phase[%3d]  (degrees)                        :  %f\n",
-            ii, this->_vars.table_phase[ii]);
-        fputs(this->_holder, this->_fp_write); 
+        if(write_parsed == true)
+        {
+            snprintf(this->_holder, BUF_F-1, "table_phase[%3d]  (degrees)                        :  %f\n",
+                ii, this->_vars.table_phase[ii]);
+            fputs(this->_holder, this->_fp_write); 
+        }
         this->_vars.v_eqaul[2].push_back(this->_vars.table_phase[ii]);    // vector is loaded
-    }                       
-    snprintf(this->_holder, BUF_F-1, "%s\n", R3F_BLOCK_SEPERATOR);
-    fputs(this->_holder, this->_fp_write);
+    } 
+
+    if(write_parsed == true)
+    {                      
+        snprintf(this->_holder, BUF_F-1, "%s\n", R3F_BLOCK_SEPERATOR);
+        fputs(this->_holder, this->_fp_write);
+    }
 
     return CODEZ::_0_no_errors;
 }
@@ -543,7 +703,10 @@ CODEZ  r3f_manager_class::_populate_header()
     private < 2 >
     using the header information to get the data
 */
-CODEZ  r3f_manager_class::_populate_data()
+CODEZ  r3f_manager_class::_populate_data
+(
+    bool write_parsed
+)
 {
 #ifdef DEBUG_CLI
     snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
@@ -554,22 +717,27 @@ CODEZ  r3f_manager_class::_populate_data()
                                this->_vars.size_of_frame_bytes) / 
                                this->_vars.size_of_frame_bytes;
     
-    for (int ii = 1; ii <= samples_to_get; ii++)
+    for (int ii = 1; ii <= samples_to_get; ii++)   // skips the header frame (start @ 1....already loaded it)
     {
         this->_byte_index = this->_vars.size_of_frame_bytes * ii;
         fseek(this->_fp_read, 0L, SEEK_SET);
         fseek(this->_fp_read, this->_byte_index, SEEK_CUR);
-        
-        snprintf(this->_holder, BUF_F-1, "%s  frame:  %5d of %5d  { %9ld }\n", 
-            R3F_BLOCK_SEPERATOR, ii, samples_to_get, ftell(this->_fp_read));
-        fputs(this->_holder, this->_fp_write);
+        if(write_parsed == true)
+        {
+            snprintf(this->_holder, BUF_F-1, "%s  frame:  %5d of %5d  { %9ld }\n", 
+                R3F_BLOCK_SEPERATOR, ii, samples_to_get, ftell(this->_fp_read));
+            fputs(this->_holder, this->_fp_write);
+        }
 
         for (int32_t jj = 0; jj < this->_vars.number_of_samples_per_frame; jj++)
         {
             fread(&this->_vars.extracted_sample, sizeof(int16_t), 1, this->_fp_read);
-            snprintf(this->_holder, BUF_F-1,"%6d)  %d\n", 
-                jj, this->_vars.extracted_sample);
-            fputs(this->_holder, this->_fp_write);
+            if(write_parsed == true)
+            {
+                snprintf(this->_holder, BUF_F-1,"%6d)  %d\n", 
+                    jj, this->_vars.extracted_sample);
+                fputs(this->_holder, this->_fp_write);
+            }
             this->_vars.v_adc.push_back(this->_vars.extracted_sample);    // vector is loaded
         }
 
@@ -577,32 +745,56 @@ CODEZ  r3f_manager_class::_populate_data()
         {
             fread(&this->_vars.discard[kk], sizeof(uint8_t), 1, this->_fp_read);
         }
+        
         fread(&this->_vars.frame_id, sizeof(uint32_t), 1, this->_fp_read);
-        snprintf(this->_holder, BUF_F-1, 
-            "Frame ID                                           :  %u\n", this->_vars.frame_id);
-        fputs(this->_holder, this->_fp_write);
+        if(write_parsed == true)
+        {
+            snprintf(this->_holder, BUF_F-1, 
+                "Frame ID                                           :  %u\n", this->_vars.frame_id);
+            fputs(this->_holder, this->_fp_write);
+        }
+        
         fread(&this->_vars.trigger_1_index, sizeof(uint16_t), 1, this->_fp_read);
-        snprintf(this->_holder, BUF_F-1, 
-            "Trigger 1 index                                    :  %u\n", this->_vars.trigger_1_index);
-        fputs(this->_holder, this->_fp_write);
+        if(write_parsed == true)
+        {
+            snprintf(this->_holder, BUF_F-1, 
+                "Trigger 1 index                                    :  %u\n", this->_vars.trigger_1_index);
+            fputs(this->_holder, this->_fp_write);
+        }
+        
         fread(&this->_vars.trigger_2_index, sizeof(uint16_t), 1, this->_fp_read);
-        snprintf(this->_holder, BUF_F-1, 
-            "Trigger 2 index                                    :  %u\n", this->_vars.trigger_1_index);
-        fputs(this->_holder, this->_fp_write);
+        if(write_parsed == true)
+        {
+            snprintf(this->_holder, BUF_F-1, 
+                "Trigger 2 index                                    :  %u\n", this->_vars.trigger_1_index);
+            fputs(this->_holder, this->_fp_write);
+        }
+        
         fread(&this->_vars.time_synchronization_index, sizeof(uint16_t), 1, this->_fp_read);
-        snprintf(this->_holder, BUF_F-1, 
-            "Time Synchronization index                         :  %u\n", this->_vars.time_synchronization_index);
-        fputs(this->_holder, this->_fp_write);
+        if(write_parsed == true)
+        {
+            snprintf(this->_holder, BUF_F-1, 
+                "Time Synchronization index                         :  %u\n", this->_vars.time_synchronization_index);
+            fputs(this->_holder, this->_fp_write);
+        }
+
         fread(&this->_vars.frame_status, sizeof(uint16_t), 1, this->_fp_read);
-        snprintf(this->_holder, BUF_F-1, 
-            "Frame Status                                       :  %u\n", this->_vars.frame_status);
-        fputs(this->_holder, this->_fp_write);
+        if(write_parsed == true)
+        {
+            snprintf(this->_holder, BUF_F-1, 
+                "Frame Status                                       :  %u\n", this->_vars.frame_status);
+            fputs(this->_holder, this->_fp_write);
+        }
+
         fread(&this->_vars.frame_timestamp, sizeof(uint64_t), 1, this->_fp_read);
-        snprintf(this->_holder, BUF_F-1, 
-            "Timestamp                                          :  %ld    { %12ld }\n", 
-            ftell(this->_fp_read)-1,
-            this->_vars.frame_timestamp);
-        fputs(this->_holder, this->_fp_write);                        
+        if(write_parsed == true)
+        {
+            snprintf(this->_holder, BUF_F-1, 
+                "Timestamp                                          :  %ld    { %12ld }\n", 
+                ftell(this->_fp_read)-1,
+                this->_vars.frame_timestamp);
+            fputs(this->_holder, this->_fp_write); 
+        }                       
     }
 
     return CODEZ::_0_no_errors;

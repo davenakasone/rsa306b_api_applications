@@ -220,13 +220,13 @@ struct rsa306b_dpx_struct
             FREQUENCY_SPAN_MAX_HZ 
 */
     double       frequency_span_hz;
-    const double _SPAN_HZ = INIT_DOUBLE;       // DEFAULT
+    const double _FREQUENCY_SPAN_HZ = INIT_DOUBLE;       // DEFAULT
 
     double       rbw_min_hz;
-    const double _RBW_MIN_HZ = INIT_DOUBLE;    // DEFAULT
+    const double _RBW_MIN_HZ        = INIT_DOUBLE;    // DEFAULT
 
     double       rbw_max_hz;
-    const double _RBW_MAX_HZ = INIT_DOUBLE;    // DEFAULT
+    const double _RBW_MAX_HZ        = INIT_DOUBLE;    // DEFAULT
 
 
 /*

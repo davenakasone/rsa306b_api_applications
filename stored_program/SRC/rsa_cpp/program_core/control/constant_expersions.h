@@ -52,13 +52,28 @@ constexpr wchar_t      INIT_WCHARP[]   = L"wchar_t";
 
 
 // R3F file parsing
-constexpr std::size_t R3F_EQL_FILEDS = 3;    // frequency, scaling, and phase            
+constexpr std::size_t R3F_EQL_FILEDS   = 3;      // frequency, scaling, and phase   
+constexpr std::size_t R3F_EQL_IDX_FREQ = 0;      // index number of frequency in equalization vector
+constexpr std::size_t R3F_EQL_IDX_SCAL = 1;      // index number of scaling in equalization vector
+constexpr std::size_t R3F_EQL_IDX_PHAS = 0;      // index number of phase in equalization vector
+constexpr char R3F_TAG_ADC[] = "_ADC_";        // adc file output have this insersted into their file names, if not specified
+constexpr char R3F_EXT_ADC[] = "csv";          // adc file output uses this extension, if not specified, no "."
+constexpr char R3F_TAG_PAR[] = "_PAR_";        // parsed file output have this insersted into their file names, if not specified
+constexpr char R3F_EXT_PAR[] = "txt";          // parsed file output uses this extension, if not specified, no "."
+constexpr char R3F_TAG_EQL[] = "_EQL_";        // equalization file output have this insersted into their file names, if not specified
+constexpr char R3F_EXT_EQL[] = "csv";          // equalization file output uses this extension, if not specified, no "."
+constexpr char R3F_FIELD_1[] = "time";         // used to label fields in "*.csv" output
+constexpr char R3F_FIELD_2[] = "adc";          // used to label fields in "*.csv" output
+constexpr char R3F_FIELD_3[] = "frequency";    // used to label fields in "*.csv" output
+constexpr char R3F_FIELD_4[] = "scaling";      // used to label fields in "*.csv" output
+constexpr char R3F_FIELD_5[] = "phase";        // used to label fields in "*.csv" output
+constexpr char R3F_EXT[] = "r3f"; // known name of the raw extension, no "."
 #define R3F_FIELD_ID_SIZE_BYTES             28        // header known field size
 #define R3F_DEVICE_SERIAL_NUMBER_SIZE_BYTES 64        // header known field size
 #define R3F_DEVICE_NOMENCLATURE_SIZE_BYTES  32        // header known field size
 #define R3F_REFTIME_ELEMENTS                7         // header known field size
 #define R3F_MAX_TABLE_ENTRIES               501       // header known field size
-#define R3F_FOOTER_DISCARD                  8         // header known field size
+#define R3F_FOOTER_DISCARD                  8         // header known field size, 28-byte frame footers, 8 bytes are nothing
 #define R3F_BI_FILE_ID_START                0L        // header byte indexes, by section
 #define R3F_BI_FILE_ID_STOP                 511L      // header byte indexes, by section
 #define R3F_BI_VERSION_INFO_START           512L      // header byte indexes, by section
@@ -88,9 +103,9 @@ constexpr char AUDIO_FIELD_2[]        = "values";      // used to label fields i
 
 // DPX
 constexpr char DPX_FILE_NAME_BASE[]                        = "dpx";                // default output file base name for the API group
-constexpr char DPX_OUTPUT_TYPE_SOGRAM_BITMAP[]             = "sogram_bitmap";      // default to place in file name when writing a 'sogram_bitmap'
-constexpr char DPX_OUTPUT_TYPE_SPECTRUM_BITMAP[]           = "spectrum_bitmap";    // default to place in file name when writing a 'spectrum_bitmap'
-constexpr char DPX_OUTPUT_TYPE_HI_RES_LINE[]               = "hires_line";         // default to place in file name when writing a 'hires_line'
+constexpr char DPX_TAG_SOGRAM_BITMAP[]                     = "sogram_bitmap";      // default to place in file name when writing a 'sogram_bitmap'
+constexpr char DPX_TAG_SPECTRUM_BITMAP[]                   = "spectrum_bitmap";    // default to place in file name when writing a 'spectrum_bitmap'
+constexpr char DPX_TAG_HI_RES_LINE[]                       = "hires_line";         // default to place in file name when writing a 'hires_line'
 constexpr int  DPX_BITCHECKS                               = 5;                    // checks for 'DPX' acqDataStatus
 constexpr char DPX_BITCHECK_MESSAGES[DPX_BITCHECKS][BUF_B] =                       // error codes for 'DPX' bitchecks
 {
@@ -106,6 +121,9 @@ constexpr char IFSTREAM_FILE_NAME_BASE[]                             = "ifstream
 constexpr int  IFSTREAM_BITCHECKS                                    = 3;             // checks for 'IFSTREAM' acqStatus
 constexpr char IFSTREAM_FIELD_1[]                                    = "time";        // used to label fields in "*.csv" output
 constexpr char IFSTREAM_FIELD_2[]                                    = "adc";         // used to label fields in "*.csv" output
+constexpr char IFSTREAM_FIELD_3[]                                    = "frequency";   // used to label fields in "*.csv" output
+constexpr char IFSTREAM_FIELD_4[]                                    = "scaling";     // used to label fields in "*.csv" output
+constexpr char IFSTREAM_FIELD_5[]                                    = "phase";       // used to label fields in "*.csv" output
 constexpr char IFSTREAM_BITCHECK_MESSAGES[IFSTREAM_BITCHECKS][BUF_B] =                // error codes for 'IFSTREAM' bitchecks
 {
     "b0 : ADC input overrange detected",

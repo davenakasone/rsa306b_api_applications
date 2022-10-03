@@ -15,7 +15,7 @@ static void ut13_r3f();
 static void ut13_decodew();
 static void ut13_decodep();
 static void ut13_batch();
-
+static void vprint(std::vector<std::string>& inv, std::vector<std::string>& outv);  // just a helper
 
 void unit_test_13()
 {
@@ -26,8 +26,8 @@ X_util.timer_split_start();
 //~
 
     ut13_r3f();
-    ut13_decodew();
-    ut13_decodep();
+    //ut13_decodew();
+    //ut13_decodep();
     ut13_batch();
 
 //~
@@ -140,24 +140,106 @@ static void ut13_batch()
 printf("\n%s()  ,  batch r3f files, parse + 2 plots\n", __func__);
 #endif                   
 //~
-    int cnt = 0;
-    (void)X_r3f.batch_load_file(DATA_DIRECTORY_RAW, DATA_DIRECTORY_PROCESSED, X_util.filez_in, X_util.filez_out);
-    for (std::size_t ii = 0; ii < X_util.filez_in.size(); ii++)
-    {
-        printf("\n%luof%lu)  %s\n", ii+1, X_util.filez_in.size(), X_util.filez_in[ii].c_str());
-        printf("\t%s\n", X_util.filez_out[cnt].c_str());
-        cnt++;
-        printf("\t%s\n", X_util.filez_out[cnt].c_str());
-        cnt++;
-        printf("\t%s\n", X_util.filez_out[cnt].c_str());
-        cnt++;
-    }
+
+    (void)X_r3f.batch_process_files
+    (
+        DATA_DIRECTORY_RAW, 
+        DATA_DIRECTORY_PROCESSED, 
+        X_util.filez_in, 
+        X_util.filez_out,
+        false,
+        false,
+        false);
+    vprint(X_util.filez_in, X_util.filez_out);
+    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+    
+    (void)X_r3f.batch_process_files
+    (
+        DATA_DIRECTORY_RAW, 
+        DATA_DIRECTORY_PROCESSED, 
+        X_util.filez_in, 
+        X_util.filez_out,
+        true,
+        false,
+        false);
+    vprint(X_util.filez_in, X_util.filez_out);
+    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+
+    (void)X_r3f.batch_process_files
+    (
+        DATA_DIRECTORY_RAW, 
+        DATA_DIRECTORY_PROCESSED, 
+        X_util.filez_in, 
+        X_util.filez_out,
+        false,
+        true,
+        false);
+    vprint(X_util.filez_in, X_util.filez_out);
+    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+
+    (void)X_r3f.batch_process_files
+    (
+        DATA_DIRECTORY_RAW, 
+        DATA_DIRECTORY_PROCESSED, 
+        X_util.filez_in, 
+        X_util.filez_out,
+        false,
+        false,
+        true);
+    vprint(X_util.filez_in, X_util.filez_out);
+    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+
+    (void)X_r3f.batch_process_files
+    (
+        DATA_DIRECTORY_RAW, 
+        DATA_DIRECTORY_PROCESSED, 
+        X_util.filez_in, 
+        X_util.filez_out,
+        true,
+        true,
+        true);
+    vprint(X_util.filez_in, X_util.filez_out);
+    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+
 
 //~
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  complete\n", __func__);
 wait_enter_clear();
 #endif
+}
+
+
+////~~~~
+
+
+static void vprint(std::vector<std::string>& inv, std::vector<std::string>& outv)
+{
+    if (inv.size() > 0)
+    {
+        printf("\ninputs:\n");
+        for(std::size_t ii = 0; ii < inv.size(); ii++)
+        {
+            printf("\t%s\n", inv[ii].c_str());
+        }
+    }
+    else
+    {
+        printf("inv.size() =  %lu\n", inv.size());
+    }
+
+    if (outv.size() > 0)
+    {
+        printf("outputs:\n");
+        for(std::size_t ii = 0; ii < outv.size(); ii++)
+        {
+            printf("\t%s\n", outv[ii].c_str());
+        }
+    }
+    else
+    {
+        printf("outv.size() =  %lu\n", outv.size());
+    }
 }
 
 

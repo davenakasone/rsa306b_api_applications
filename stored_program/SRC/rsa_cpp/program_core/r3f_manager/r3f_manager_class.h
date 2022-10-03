@@ -58,14 +58,20 @@ class r3f_manager_class
             const char* r3f_input,
             const char* output_parsed,
             const char* output_adc,
-            const char* output_equalization
+            const char* output_equalization,
+            bool write_parsed,
+            bool write_equalization,
+            bool write_adc
         );
-        CODEZ batch_load_file
+        CODEZ batch_process_files
         (
             const char* r3f_input_directory,
             const char* output_directory,
             std::vector<std::string>& in_filez, 
-            std::vector<std::string>& out_filez
+            std::vector<std::string>& out_filez,
+            bool write_parsed,
+            bool write_equalization,
+            bool write_adc
         );
 
         // decoding, diagnostic tools to parse "*.r3f" files, byte-by-byte
@@ -111,8 +117,8 @@ class r3f_manager_class
 
         CODEZ _init();                      // sets member variables to known values
         CODEZ _get_vars();                  // copies private struct into public struct
-        CODEZ _populate_header();           // helps "load_file()"
-        CODEZ _populate_data();             // helps "load_file()"
+        CODEZ _populate_header(const bool write_parsed);           // helps "load_file()"
+        CODEZ _populate_data(const bool write_parsed);             // helps "load_file()"
         CODEZ _write_csv_adc();             // write the ADC CSV for plotting
         CODEZ _write_csv_equalization();    // write the equalization CSV for plotting
 };
