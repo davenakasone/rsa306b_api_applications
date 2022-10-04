@@ -32,8 +32,8 @@ struct r3f_manager_struct
         int8_t  firmware_version_sub;           // [525], 1 byte
         int16_t firmware_version_part;          // [526:527], 2 bytes
         // "<firmware_version>.<firmware_version_sub>.<firmware_version_part>"
-        int8_t  fpga_version;                   // [528], 1 byte
-        int8_t  fpga_version_sub;               // [529], 1 byte
+        int8_t  fpga_version;                   // [528]    , 1 byte
+        int8_t  fpga_version_sub;               // [529]    , 1 byte
         int16_t fpga_version_part;              // [530:531], 2 bytes
         // "<fpga_version>.<fpga_version_sub>.<fpga_version_part>"
         char    device_serial_number[BUF_B];    // [532:595], 64 bytes
@@ -96,14 +96,18 @@ struct r3f_manager_struct
     std::vector<int16_t> v_adc;    // collects extracted samples 
 
 // FOOTER, 28-bytes will show up in the footer of each frame, depends if triggering was enabled for the acqusition
-    uint8_t  discard[R3F_FOOTER_DISCARD];    // [0:0], first byte is garbage
-    uint32_t frame_id;                       // [1:4], next 4 bytes are the frame ID
-    uint16_t trigger_2_index;                // [5:6], next 2 bytes are trigger index if any, tigger # 2
-    uint16_t trigger_1_index;                // [7:8], next 2 bytes are trigger index if any, tigger # 1
-    uint16_t time_synchronization_index;     // [9:10], next 2 bytes are how much skew occured in DSP unit
-    uint16_t frame_status;                   // [11:12],next 2 bytes are the standard IFSTREAM status code for the frame
+    uint8_t  discard[R3F_FOOTER_DISCARD];    // [0:0]  , first byte is garbage
+    uint32_t frame_id;                       // [1:4]  , next 4 bytes are the frame ID
+    uint16_t trigger_2_index;                // [5:6]  , next 2 bytes are trigger index if any, tigger # 2
+    uint16_t trigger_1_index;                // [7:8]  , next 2 bytes are trigger index if any, tigger # 1
+    uint16_t time_synchronization_index;     // [9:10] , next 2 bytes are how much skew occured in DSP unit
+    uint16_t frame_status;                   // [11:12], next 2 bytes are the standard IFSTREAM status code for the frame
     uint64_t frame_timestamp;                // [13:20], an 8-byte, accurate timestamp for the frame
     // [21:27]  EMPTY, next frame starts, or EOF
+
+
+    // after header frame, data frames continue until EOF, see API manual
+
 
 }; 
 typedef struct r3f_manager_struct r3f_manager_struct;

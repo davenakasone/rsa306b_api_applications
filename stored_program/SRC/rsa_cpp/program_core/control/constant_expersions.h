@@ -19,9 +19,12 @@ constexpr char CL_ARG_RESET[] = "reset";    // the command line argument, used t
 // Data IO
 constexpr char DATA_DIRECTORY_RAW[]       = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_raw/";       
 constexpr char DATA_DIRECTORY_PROCESSED[] = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_processed/";  
-constexpr char DATA_OUTPUT_EXTENSTION[]   = ".csv";                     
-constexpr int EXTENSION_LIMIT             = 10;    // characters allowed in a file extension
-
+constexpr char DATA_DEFAULT_EXT[]         = "csv";      // data file outputs use this extension, if not specified, no "."                    
+constexpr int EXTENSION_LIMIT             = 10;         // characters allowed in a file extension
+constexpr char TAG_DECODED[]              = "_DEC_";    // decoded file outputs have this inserted into their file names, if not specified
+constexpr char EXT_DECODED[]              = "txt";      // decoded file outputs use this extension, if not specified, no "."
+constexpr char TAG_PARSED[]               = "_PAR_";    // parsed file outputs have this inserted into their file names, if not specified
+constexpr char EXT_PARSED[]               = "txt";      // parsed file outputs use this extension, if not specified, no "."
 
 // program sizing parameters
 constexpr int BUF_A = 32;      // a short general purpose buffer
@@ -30,7 +33,6 @@ constexpr int BUF_C = 128;     // ...
 constexpr int BUF_D = 256;     // ....
 constexpr int BUF_E = 512;     // .....
 constexpr int BUF_F = 1024;    // a long general purpose buffer
-
 
 // program initialization values, covers most types
 constexpr char         INIT_CHAR       = 'Z';
@@ -51,46 +53,9 @@ constexpr uint64_t     INIT_UINT64     = 0xFFFFFFFFFFFFFFFFLU;
 constexpr wchar_t      INIT_WCHARP[]   = L"wchar_t";
 
 
-// R3F file parsing
-constexpr std::size_t R3F_EQL_FILEDS   = 3;      // frequency, scaling, and phase   
-constexpr std::size_t R3F_EQL_IDX_FREQ = 0;      // index number of frequency in equalization vector
-constexpr std::size_t R3F_EQL_IDX_SCAL = 1;      // index number of scaling in equalization vector
-constexpr std::size_t R3F_EQL_IDX_PHAS = 0;      // index number of phase in equalization vector
-constexpr char R3F_TAG_ADC[] = "_ADC_";        // adc file output have this insersted into their file names, if not specified
-constexpr char R3F_EXT_ADC[] = "csv";          // adc file output uses this extension, if not specified, no "."
-constexpr char R3F_TAG_PAR[] = "_PAR_";        // parsed file output have this insersted into their file names, if not specified
-constexpr char R3F_EXT_PAR[] = "txt";          // parsed file output uses this extension, if not specified, no "."
-constexpr char R3F_TAG_EQL[] = "_EQL_";        // equalization file output have this insersted into their file names, if not specified
-constexpr char R3F_EXT_EQL[] = "csv";          // equalization file output uses this extension, if not specified, no "."
-constexpr char R3F_FIELD_1[] = "time";         // used to label fields in "*.csv" output
-constexpr char R3F_FIELD_2[] = "adc";          // used to label fields in "*.csv" output
-constexpr char R3F_FIELD_3[] = "frequency";    // used to label fields in "*.csv" output
-constexpr char R3F_FIELD_4[] = "scaling";      // used to label fields in "*.csv" output
-constexpr char R3F_FIELD_5[] = "phase";        // used to label fields in "*.csv" output
-constexpr char R3F_EXT[] = "r3f"; // known name of the raw extension, no "."
-#define R3F_FIELD_ID_SIZE_BYTES             28        // header known field size
-#define R3F_DEVICE_SERIAL_NUMBER_SIZE_BYTES 64        // header known field size
-#define R3F_DEVICE_NOMENCLATURE_SIZE_BYTES  32        // header known field size
-#define R3F_REFTIME_ELEMENTS                7         // header known field size
-#define R3F_MAX_TABLE_ENTRIES               501       // header known field size
-#define R3F_FOOTER_DISCARD                  8         // header known field size, 28-byte frame footers, 8 bytes are nothing
-#define R3F_BI_FILE_ID_START                0L        // header byte indexes, by section
-#define R3F_BI_FILE_ID_STOP                 511L      // header byte indexes, by section
-#define R3F_BI_VERSION_INFO_START           512L      // header byte indexes, by section
-#define R3F_BI_VERSION_INFO_STOP            1023L     // header byte indexes, by section
-#define R3F_BI_INSTRUMENT_STATE_START       1024L     // header byte indexes, by section
-#define R3F_BI_ISNTRUMENT_STATE_STOP        2047L     // header byte indexes, by section
-#define R3F_BI_DATA_FORMAT_START            2048L     // header byte indexes, by section
-#define R3F_BI_DATA_FORMAT_STOP             3071L     // header byte indexes, by section
-#define R3F_BI_SIGNAL_PATH_START            3072L     // header byte indexes, by section
-#define R3F_BI_SIGNAL_PATH_STOP             4095L     // header byte indexes, by section
-#define R3F_BI_CHANNEL_CORRECTION_START     4096L     // header byte indexes, by section
-#define R3F_BI_CHANNEL_CORRECTION_MID       4352L     // header byte indexes, by section
-#define R3F_BI_CHANNEL_CORRECTION_STOP      12287L    // header byte indexes, by section
-constexpr char R3F_BLOCK_SEPERATOR[BUF_C] = "------------------------------------------------------------------------------------------";
-
-
-//////////////////////////////////////////////// Common hardware constants ///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////// HARDWARE CONSTANTS ///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 constexpr std::size_t TRACES_306B                = 3UL;                // the RSA-306B has 3 possible traces available
 constexpr char        BITCHECK_SUCCESS_MESSAGE[] = "good bitcheck";    // common message recorded upon successful bitcheck
 constexpr unsigned    BITCHECK_SUCCESS           = 0U;                 // all successful bitchecks result in 0
@@ -117,13 +82,15 @@ constexpr char DPX_BITCHECK_MESSAGES[DPX_BITCHECKS][BUF_B] =                    
 };
 
 // IFSTREAM
-constexpr char IFSTREAM_FILE_NAME_BASE[]                             = "ifstream";    // default base name for output files
-constexpr int  IFSTREAM_BITCHECKS                                    = 3;             // checks for 'IFSTREAM' acqStatus
-constexpr char IFSTREAM_FIELD_1[]                                    = "time";        // used to label fields in "*.csv" output
-constexpr char IFSTREAM_FIELD_2[]                                    = "adc";         // used to label fields in "*.csv" output
-constexpr char IFSTREAM_FIELD_3[]                                    = "frequency";   // used to label fields in "*.csv" output
-constexpr char IFSTREAM_FIELD_4[]                                    = "scaling";     // used to label fields in "*.csv" output
-constexpr char IFSTREAM_FIELD_5[]                                    = "phase";       // used to label fields in "*.csv" output
+constexpr char IFSTREAM_FILE_NAME_BASE[]   = "ifstream";    // default base name for output files
+constexpr char IFSTREAM_TAG_ADC[]          = "_ADC_";       // adc file outputs have this insersted into their file names, if not specified
+constexpr char IFSTREAM_TAG_EQL[]          = "_EQL_";       // equalization file outputs have this insersted into their file names, if not specified
+constexpr int  IFSTREAM_BITCHECKS          = 3;             // checks for 'IFSTREAM' acqStatus
+constexpr char IFSTREAM_FIELD_ADC_1_OF_2[] = "time";        // used to label fields in "*.csv" output
+constexpr char IFSTREAM_FIELD_ADC_2_OF_2[] = "adc";         // used to label fields in "*.csv" output
+constexpr char IFSTREAM_FIELD_EQL_1_OF_3[] = "frequency";   // used to label fields in "*.csv" output
+constexpr char IFSTREAM_FIELD_EQL_2_OF_3[] = "scaling";     // used to label fields in "*.csv" output
+constexpr char IFSTREAM_FIELD_EQL_3_OF_3[] = "phase";       // used to label fields in "*.csv" output
 constexpr char IFSTREAM_BITCHECK_MESSAGES[IFSTREAM_BITCHECKS][BUF_B] =                // error codes for 'IFSTREAM' bitchecks
 {
     "b0 : ADC input overrange detected",
@@ -216,6 +183,141 @@ constexpr char SPECTRUM_BITCHECK_MESSAGES[SPECTRUM_BITCHECKS][BUF_B] =          
     "b4 : power (5V and USB) failure detected",
     "b5 : dropped frame, loss of ADC data frame samples",
     "acqDataStatus bitcheck failures: "
+};
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////// RAW FILE CONSTANTS ///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// R3F file parsing
+constexpr char        R3F_RAW_EXT[]                       = "r3f";     // known name of the raw extension, no "."
+constexpr std::size_t R3F_EQL_FILEDS                      = 3;         // frequency, scaling, and phase   
+constexpr std::size_t R3F_EQL_IDX_FREQ                    = 0;         // index number of frequency in equalization vector
+constexpr std::size_t R3F_EQL_IDX_SCAL                    = 1;         // index number of scaling in equalization vector
+constexpr std::size_t R3F_EQL_IDX_PHAS                    = 0;         // index number of phase in equalization vector
+constexpr size_t      R3F_FIELD_ID_SIZE_BYTES             = 28;        // header known field size
+constexpr size_t      R3F_DEVICE_SERIAL_NUMBER_SIZE_BYTES = 64;        // header known field size
+constexpr size_t      R3F_DEVICE_NOMENCLATURE_SIZE_BYTES  = 32;        // header known field size
+constexpr int         R3F_REFTIME_ELEMENTS                = 7;         // header known field size
+constexpr int         R3F_MAX_TABLE_ENTRIES               = 501;       // header known field size
+constexpr int         R3F_FOOTER_DISCARD                  = 8;         // header known field size, 28-byte frame footers, 8 bytes are nothing
+constexpr long int    R3F_BI_FILE_ID_START                = 0L;        // header byte indexes, by section
+constexpr long int    R3F_BI_FILE_ID_STOP                 = 511L;      // header byte indexes, by section
+constexpr long int    R3F_BI_VERSION_INFO_START           = 512L;      // header byte indexes, by section
+constexpr long int    R3F_BI_VERSION_INFO_STOP            = 1023L;     // header byte indexes, by section
+constexpr long int    R3F_BI_INSTRUMENT_STATE_START       = 1024L;     // header byte indexes, by section
+constexpr long int    R3F_BI_ISNTRUMENT_STATE_STOP        = 2047L;     // header byte indexes, by section
+constexpr long int    R3F_BI_DATA_FORMAT_START            = 2048L;     // header byte indexes, by section
+constexpr long int    R3F_BI_DATA_FORMAT_STOP             = 3071L;     // header byte indexes, by section
+constexpr long int    R3F_BI_SIGNAL_PATH_START            = 3072L;     // header byte indexes, by section
+constexpr long int    R3F_BI_SIGNAL_PATH_STOP             = 4095L;     // header byte indexes, by section
+constexpr long int    R3F_BI_CHANNEL_CORRECTION_START     = 4096L;     // header byte indexes, by section
+constexpr long int    R3F_BI_CHANNEL_CORRECTION_MID       = 4352L;     // header byte indexes, by section
+constexpr long int    R3F_BI_CHANNEL_CORRECTION_STOP      = 12287L;    // header byte indexes, by section
+constexpr char        R3F_BLOCK_SEPERATOR[BUF_C] = "------------------------------------------------------------------------------------------";
+
+// SIQ file parsing
+constexpr char SIQ_RAW_EXT[]               = "siq";    // known name of the raw extension, no "."
+constexpr char SIQ_TAG_IQ[]               = "_IQ_";    // for "*.siq" CSV files, to signify IQ data
+constexpr int  SIQ_HEADER_FIELDS           = 22;       // number of fields in an IQ data file header
+constexpr int  SIQ_NUMBER_FORMATS          = 3;        // f9 NumberFormat, possible formats data samples in IQ file can use
+constexpr int  SIQ_ENDIANS                 = 2;        // f11 DataEndian, possible endians data samples in IQ file can use
+constexpr int  SIQ_REF_TIME_SOURCES        = 3;        // f20 RefTimeSource, possible time sources IQ file can use 
+constexpr int  SIQ_FREQ_REF_SOURCES        = 4;        // f21 FreqRefSource, possible frequency sources IQ file can use
+constexpr int  SIQ_CORRECT_IQ_FILE_VERSION = 1;        // f0 RSASIQHT, all "siq" files should be on version #1 for the RSA-306B
+constexpr char SIQ_HEADER_FIELDS_STRINGS[SIQ_HEADER_FIELDS][BUF_A] =    // for searching the header of the "siq" file for field entries
+{
+    "RSASIQHT",             // index 0
+    "FileDateTime",         // index 1
+    "Hardware",             // index 2
+    "Software/Firmware",    // index 3
+    "ReferenceLevel",       // index 4
+    "CenterFrequency",      // index 5
+    "SampleRate",           // index 6
+    "AcqBandwidth",         // index 7
+    "NumberSamples",        // index 8
+    "NumberFormat",         // index 9
+    "DataScale",            // index 10
+    "DataEndian",           // index 11
+    "RecordUtcSec",         // index 12
+    "RecordUtcTime",        // index 13
+    "RecordLclTime",        // index 14
+    "TriggerIndex",         // index 15
+    "TriggerUtcSec",        // index 16
+    "TriggerUtcTime",       // index 17
+    "TriggerLclTime",       // index 18
+    "AcqStatus",            // index 19
+    "RefTimeSource",        // index 20
+    "FreqRefSource"         // index 21
+
+};
+enum
+{
+    siq_RSASIQHT          = 0,     // index 0
+    siq_FileDateTime      = 1,     // index 1
+    siq_Hardware          = 2,     // index 2
+    siq_Software_Firmware = 3,     // index 3
+    siq_ReferenceLevel    = 4,     // index 4
+    siq_CenterFrequency   = 5,     // index 5
+    siq_SampleRate        = 6,     // index 6
+    siq_AcqBandwidth      = 7,     // index 7
+    siq_NumberSamples     = 8,     // index 8
+    siq_NumberFormat      = 9,     // index 9
+    siq_DataScale         = 10,    // index 10
+    siq_DataEndian        = 11,    // index 11
+    siq_RecordUtcSec      = 12,    // index 12
+    siq_RecordUtcTime     = 13,    // index 13
+    siq_RecordLclTime     = 14,    // index 14
+    siq_TriggerIndex      = 15,    // index 15
+    siq_TriggerUtcSec     = 16,    // index 16
+    siq_TriggerUtcTime    = 17,    // index 17
+    siq_TriggerLclTime    = 18,    // index 18
+    siq_AcqStatus         = 19,    // index 19
+    siq_RefTimeSource     = 20,    // index 20
+    siq_FreqRefSource     = 21     // index 21
+};
+
+// f9 NumberFormat
+const char SIQ_NUMBER_FORMATS_STRING[SIQ_NUMBER_FORMATS][BUF_A] =
+{
+    "IQ-Single",    // index 0
+    "IQ-Int16",     // index 1
+    "IQ-Int32"      // index 2
+};
+enum
+{
+    siq_NUMBER_FORMAT_SINGLE = 0,    // index 0
+    siq_NUMBER_FORMAT_INT16  = 1,    // index 1
+    siq_NUMBER_FORMAT_INT32  = 2     // index 2
+};
+
+// f11 DataEndian
+const char SIQ_ENDIANS_STRING[SIQ_ENDIANS][BUF_A] =
+{
+    "Little",    // index 0
+    "Big"        // index 1
+};
+enum
+{
+    siq_Little = 0,    // index 0
+    siq_Big = 1        // index 1
+};
+
+// f20 RefTimeSource
+constexpr char SIQ_REF_TIME_SOURCES_STRING[SIQ_REF_TIME_SOURCES][BUF_A] =
+{
+    "System",    // index 0
+    "GnssRx",    // index 1
+    "UserCa"     // index 2
+};
+
+// f21 FreqRefSource
+constexpr char SIQ_FREQ_REF_SOURCES_STRING[SIQ_FREQ_REF_SOURCES][BUF_A] =
+{
+    "Intern",    // index 0
+    "Extern",    // index 1
+    "GnssRx",    // index 2
+    "UserCa"     // index 3
 };
 
 

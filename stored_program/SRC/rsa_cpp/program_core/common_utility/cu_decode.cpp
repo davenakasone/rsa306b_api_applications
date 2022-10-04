@@ -1,9 +1,9 @@
 /*
-    common_utility, class 
+    class common_utility , single decoders
 
     public :
-        < 1 >  h_decode_print()
-        < 2 >  h_decode_write()
+        < 1 >  decode_print()
+        < 2 >  decode_write()
 
     private :
         #  none
@@ -19,11 +19,14 @@ static void bytes_start_stop(const long int& bytes, long int& start, long int& s
 
 /*
     < 1 > public
-    "r3f" or "siq" 
+    selected raw file is opened
+    contents are printed to stdout
+    specified byte range is obeyed if possible, but subject to change
+    best for "*.siq" and "*.r3f" files 
 */
-CODEZ common_utility::h_decode_print
+CODEZ common_utility::decode_print
 (
-    const char* file_path_name, 
+    const char* raw_file_path_name, 
     const long int start_byte, 
     const long int stop_byte
 )
@@ -39,12 +42,12 @@ CODEZ common_utility::h_decode_print
     long bstart        = start_byte;
     long bstop         = stop_byte;
 
-    if (this->h_find_bytes_in_file(file_path_name, bytes_in_file) != CODEZ::_0_no_errors)
+    if (this->find_bytes_in_file(raw_file_path_name, bytes_in_file) != CODEZ::_0_no_errors)
     {
         return this->_status_code;
     }
 
-    fp = fopen(file_path_name, "r");                               
+    fp = fopen(raw_file_path_name, "r");                               
     if (fp == NULL)
     {
         return this->report_status_code(CODEZ::_13_fopen_failed);
@@ -76,7 +79,7 @@ CODEZ common_utility::h_decode_print
     }
 
     printf("\nreading %s  ,  %ld bytes[ %ld : %ld ]\n<<<begin file decode >>>\n\n",
-            file_path_name, 
+            raw_file_path_name, 
             bytes_in_file,
             bstart, 
             bstop);
@@ -111,12 +114,14 @@ CODEZ common_utility::h_decode_print
 
 /*
     < 2 > public
-    "r3f" or "siq" 
+    selected file is decoded and output is written to selected destination
+    specified byte range is obeyed if possible, but subject to change
+    best for "*.siq" and "*.r3f" files 
 */
-CODEZ common_utility::h_decode_write
+CODEZ common_utility::decode_write
 (
-    const char* raw_file, 
-    const char* output_file, 
+    const char* raw_file_path_name, 
+    const char* decoded_file_path_name,
     const long int start_byte, 
     const long int stop_byte
 )
@@ -133,7 +138,7 @@ CODEZ common_utility::h_decode_write
     long bstart        = start_byte;
     long bstop         = stop_byte;
 
-    if (this->h_find_bytes_in_file(raw_file, bytes_in_file) != CODEZ::_0_no_errors)
+    if (this->find_bytes_in_file(raw_file_path_name, bytes_in_file) != CODEZ::_0_no_errors)
     {
         return this->_status_code;
     }
@@ -142,12 +147,12 @@ CODEZ common_utility::h_decode_write
         return this->report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
 
-    fp_r = fopen(raw_file, "r");                               
+    fp_r = fopen(raw_file_path_name, "r");                               
     if (fp_r == NULL)
     {
         return this->report_status_code(CODEZ::_13_fopen_failed);
     }
-    fp_w = fopen(output_file, "w");                               
+    fp_w = fopen(decoded_file_path_name, "w");                               
     if (fp_w == NULL)
     {
         return this->report_status_code(CODEZ::_13_fopen_failed);
@@ -185,7 +190,7 @@ CODEZ common_utility::h_decode_write
     }
 
     (void)sprintf(this->_worker, "\nmaking %s  ,  %ld bytes[ %ld : %ld ]\n<<<begin file decode >>>\n\n",
-            raw_file, 
+            raw_file_path_name, 
             bytes_in_file,
             bstart, 
             bstop);
@@ -248,7 +253,8 @@ CODEZ common_utility::h_decode_write
         return this->report_status_code(CODEZ::_10_fclose_failed);
     }
     fp_w = NULL;
-    return this->report_status_code(CODEZ::_0_no_errors);
+
+    return CODEZ::_0_no_errors;
 }
 
 

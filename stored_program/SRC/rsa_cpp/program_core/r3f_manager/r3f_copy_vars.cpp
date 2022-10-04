@@ -1,23 +1,27 @@
 /*
-    r3f_manager_class", getting
+    r3f_manager_class", copying
 
         public:
             #  none
             
         private:
-            < 1 >  _get_vars()
+            < 1 >  _copy_vars()
 */
 
 #include "r3f_manager_class.h"
 
 
 /*
-    public < 7 >
+    private < 1 >
     deep copy of the private struct to the public struct
     the user has an inert struct for extra needs
     should be called after loading an r3f file successfully
+
+    best suited for direct processing
+    load any "*.r3f" file and 
+    analyze it further once the values are in these member variabels
 */
-CODEZ r3f_manager_class::_get_vars()
+CODEZ r3f_manager_class::_copy_vars()
 {
 #ifdef DEBUG_CLI
     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
@@ -38,9 +42,9 @@ CODEZ r3f_manager_class::_get_vars()
     this->vars.fpga_version_part         = this->_vars.fpga_version_part;
     this->vars.fpga_version_sub          = this->_vars.fpga_version_sub;
     
-    strcpy(this->vars.device_nomenclature, this->_vars.device_nomenclature);
+    strcpy(this->vars.device_nomenclature , this->_vars.device_nomenclature);
     strcpy(this->vars.device_serial_number,this->_vars.device_serial_number);
-    strcpy(this->vars.file_id, this->_vars.file_id);
+    strcpy(this->vars.file_id             , this->_vars.file_id);
    
     this->vars.reference_level_dbm                     = this->_vars.reference_level_dbm;
     this->vars.rf_center_frequency_hz                  = this->_vars.rf_center_frequency_hz;
@@ -87,13 +91,21 @@ CODEZ r3f_manager_class::_get_vars()
         this->vars.table_phase[ii]     = this->_vars.table_phase[ii];
     }
 
-    this->vars.v_adc.resize(this->_vars.v_adc.size());
-    this->vars.v_adc = this->_vars.v_adc;
-
+    this->vars.v_adc.clear();
+    if (this->_vars.v_adc.size() > static_cast<std::size_t>(0))
+    {
+        this->vars.v_adc.resize(this->_vars.v_adc.size());
+        this->vars.v_adc = this->_vars.v_adc;
+    }
+    
     for (std::size_t ii = 0; ii < R3F_EQL_FILEDS; ii++)
     {
-        this->vars.v_eqaul[ii].resize(this->_vars.v_eqaul[ii].size());
-        this->vars.v_eqaul[ii] = this->_vars.v_eqaul[ii];
+        this->vars.v_eqaul[ii].clear();
+        if (this->_vars.v_eqaul[ii].size() > static_cast<std::size_t>(0))
+        {
+            this->vars.v_eqaul[ii].resize(this->_vars.v_eqaul[ii].size());
+            this->vars.v_eqaul[ii] = this->_vars.v_eqaul[ii];
+        }
     }
     
 
@@ -101,4 +113,4 @@ CODEZ r3f_manager_class::_get_vars()
 }
 
 
-////////~~~~~~~~END>  r3f_get.cpp
+////////~~~~~~~~END>  r3f_copy_vars.cpp

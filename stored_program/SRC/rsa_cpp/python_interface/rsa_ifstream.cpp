@@ -80,7 +80,7 @@ char* ifstream_record_r3f()
     {
         return NULL;
     }
-    (void)X_rsa.cutil.h_batch_match_extension(DATA_DIRECTORY_RAW, "r3f", X_rsa.cutil.filez_in, true);
+    (void)X_util.find_files_with_extension(DATA_DIRECTORY_RAW, R3F_RAW_EXT, X_rsa.cutil.filez_in, true);
     if (X_rsa.cutil.filez_in.size() > 0)
     {
         (void)strcpy(X_rsa.cutil.helper, X_rsa.cutil.filez_in.back().c_str());

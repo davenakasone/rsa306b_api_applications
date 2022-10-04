@@ -101,50 +101,116 @@ class common_utility
         CODEZ exe_remove (const char* file_to_delete);
 
         // help for a common task
-        CODEZ h_find_bytes_in_file   (const char* file_path_name, long& result);
-        bool  h_matched_extension    (const char* file_path_name, const char* extension);
-        CODEZ h_batch_match_extension(const char* directory, const char* extension, std::vector<std::string>& filez, bool include_directory);
+        CODEZ find_bytes_in_file(const char* file_path_name, long& result);
+        bool  extension_matched(const char* file_path_name, const char* extension);
+        CODEZ find_files_with_extension(const char* directory, const char* extension, std::vector<std::string>& filez, bool include_directory);
+        
+        
+        
+        
+        
+        
         CODEZ h_change_extension     (char* file_path_name, const char* new_extension);
         CODEZ h_batch_change_redirect(const char* in_directory, const char* in_extension, const char* out_directory, const char* out_extension, std::vector<std::string>& new_filez);
         CODEZ h_insert_and_change_extension(char* file_path_name, const char* to_insert, const char* new_extension);
         CODEZ h_switch_directory(char* file_to_change, const char* new_directory);
         CODEZ h_batch_redir_insert_ext_change(const char* in_directory, const char* in_extension, const char* out_directory, const char* inserts, const char* out_extension, std::vector<std::string>& new_filez);
         CODEZ h_delete_files_in_dir(const char* directory);
-        
-        CODEZ h_decode_print      (const char* file_path_name, const long int start_byte, const long int stop_byte);
-        CODEZ h_decode_write      (const char* raw_file, const char* output_file, const long int start_byte, const long int stop_byte);
-        
-        // timer, both CPU and wall-clock
-        CODEZ  timer_split_start      ();                                          // updates "trail" to mark beginning of a time split
-        CODEZ  timer_split_stop       ();                                          // interval is stopped and duration is calculated
-        CODEZ  timer_print_split      (int new_lines_begin, int new_lines_end);    // message with timesplit to stdout
-        CODEZ  timer_print_running    (int new_lines_begin, int new_lines_end);    // message with total running time to stdout
-        CODEZ  timer_print_both       (int new_lines_begin, int new_lines_end);    // message with timesplit and running time to stdout
-        double timer_get_split_cpu   ();                                           // updates "_split_cpu"
-        double timer_get_split_wall  ();                                           // updates "_split_wall"
-        double timer_get_running_cpu ();                                           // updates "_running_cpu"
-        double timer_get_running_wall();                                           // updates "_running_wall"
 
-        // string tools
-        CODEZ wchar_2_char_std(char* destination, const wchar_t* source);                            // string converter, wchar_t* to char* using std::strings
-        CODEZ wchar_2_char(const wchar_t* source, char* destination);                                // string converter,  wchar_t* to char*
-        CODEZ make_date_timestamp(const time_t* seconds, const uint64_t nanos, char* dts_string);    // place desired time into formated string
+// decoding, diagnostic tools to parse raw files, byte-by-byte + batch
+        CODEZ decode_print
+        (
+            const char*    raw_file_path_name, 
+            const long int start_byte, 
+            const long int stop_byte
+        );
+        CODEZ batch_decode_print
+        (
+            const char*               raw_directory,
+            const char*               raw_extension, 
+            const long int            start_byte, 
+            const long int            stop_byte, 
+            std::vector<std::string>& raw_files_v
+        );
+        CODEZ decode_write
+        (
+            const char*    raw_file_path_name, 
+            const char*    decoded_file_path_name,
+            const long int start_byte, 
+            const long int stop_byte
+        );
+        CODEZ batch_decode_write
+        (
+            const char*               raw_directory,
+            const char*               raw_extension, 
+            const char*               decoded_directory,
+            const char*               decoded_insert,
+            const char*               decoded_extenstion,
+            const long int            start_byte, 
+            const long int            stop_byte, 
+            std::vector<std::string>& raw_files_v, 
+            std::vector<std::string>& decoded_files_v
+        );
 
-        // acqstatus bitchecking, the API has 6 bitcheck points in 5 API groups
-        CODEZ ifstream_acq_status(const uint32_t acq_status, const uint32_t valid_bitmask, char results[IFSTREAM_BITCHECKS][BUF_D]);
+// timer, both CPU and wall-clock + date-timestamp as a string
+        CODEZ  timer_split_start     ();                                          // updates "trail" to mark beginning of a time split
+        CODEZ  timer_split_stop      ();                                          // interval is stopped and duration is calculated
+        CODEZ  timer_print_split     (int new_lines_begin, int new_lines_end);    // message with timesplit to stdout
+        CODEZ  timer_print_running   (int new_lines_begin, int new_lines_end);    // message with total running time to stdout
+        CODEZ  timer_print_both      (int new_lines_begin, int new_lines_end);    // message with timesplit and running time to stdout
+        double timer_get_split_cpu   ();                                          // updates "_split_cpu"
+        double timer_get_split_wall  ();                                          // updates "_split_wall"
+        double timer_get_running_cpu ();                                          // updates "_running_cpu"
+        double timer_get_running_wall();                                          // updates "_running_wall"
+        CODEZ  make_date_timestamp                                                // place desired time into formated "dts" string
+        (
+            const time_t* seconds, 
+            const uint64_t nanos, 
+            char* dts_string
+        );
+
+// wchar_t* and char* conversion
+        CODEZ wchar_2_char_std(char* destination, const wchar_t* source);    // string converter, wchar_t* to char* using std::                        
+        CODEZ wchar_2_char    (const wchar_t* source, char* destination);    // string converter,  wchar_t* to char*
+        
+
+// acqstatus bitchecking, the API has 6 bitcheck points in 5 API groups
+        CODEZ ifstream_acq_status
+        (
+            const uint32_t acq_status, 
+            const uint32_t valid_bitmask, 
+            char results[IFSTREAM_BITCHECKS][BUF_D]
+        );
         //CODEZ dpx_acq_status     (const uint32_t acq_status, const uint32_t valid_bitmask, char results[DPX_BITCHECKS][BUF_D]     );
-        CODEZ iqblk_acq_status   (const uint32_t acq_status, const uint32_t valid_bitmask, char results[IQBLK_BITCHECKS][BUF_D]   );
-        CODEZ iqstream_acq_status(const uint32_t acq_status, const uint32_t valid_bitmask, char results[IQSTREAM_BITCHECKS][BUF_D]);
-        CODEZ spectrum_acq_status(const uint16_t acq_status, const uint16_t valid_bitmask, char results[SPECTRUM_BITCHECKS][BUF_D]);
+        CODEZ iqblk_acq_status   
+        (
+            const uint32_t acq_status, 
+            const uint32_t valid_bitmask, 
+            char results[IQBLK_BITCHECKS][BUF_D]   
+        );
+        CODEZ iqstream_acq_status
+        (
+            const uint32_t acq_status, 
+            const uint32_t valid_bitmask, 
+            char results[IQSTREAM_BITCHECKS][BUF_D]
+        );
+        CODEZ spectrum_acq_status
+        (
+            const uint16_t acq_status, 
+            const uint16_t valid_bitmask, 
+            char results[SPECTRUM_BITCHECKS][BUF_D]
+        );
+
 
 ////~~~~
 
+
     private :
 
-        CODEZ _status_code;     // status code, usually from most recent call        
+        CODEZ _status_code;     // status code, reflects most recent call        
         char _worker[BUF_E];    // string for internal use
 
-    // timer
+// timers
         CODEZ _timer_init();
         // timer, CPU
         CODEZ   _timer_set_running_cpu();    // calculates difference of current time and object creation time

@@ -108,7 +108,7 @@ printf("\n%s()  ,  trigger on power\n", __func__);
                 X_rsa.spectrum_find_peak_index(0);
                 X_rsa.spectrum_make_frequency_v();
                 printf("\tMHz=  %9.3lf  ,  dBm=  %9.3f\n", 
-                    X_rsa.vars.spectrum.frequency_v[X_rsa.vars.spectrum.peak_index[0]],
+                    X_rsa.vars.spectrum.frequency_v[X_rsa.vars.spectrum.peak_index[0]]/1.0e6,
                     X_rsa.vars.spectrum.trace_power_v[0][X_rsa.vars.spectrum.peak_index[0]]);
             }
         }
@@ -174,7 +174,7 @@ printf("\n%s()  ,  trigger on time\n", __func__);
                 X_rsa.spectrum_find_peak_index(0);
                 X_rsa.spectrum_make_frequency_v();
                 printf("\tMHz=  %9.3lf  ,  dBm=  %9.3f\n", 
-                    X_rsa.vars.spectrum.frequency_v[X_rsa.vars.spectrum.peak_index[0]],
+                    X_rsa.vars.spectrum.frequency_v[X_rsa.vars.spectrum.peak_index[0]]/1.0e6,
                     X_rsa.vars.spectrum.trace_power_v[0][X_rsa.vars.spectrum.peak_index[0]]);
             }
         }

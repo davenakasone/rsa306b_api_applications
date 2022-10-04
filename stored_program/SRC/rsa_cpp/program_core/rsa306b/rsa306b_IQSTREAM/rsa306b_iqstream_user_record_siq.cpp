@@ -80,7 +80,7 @@ CODEZ rsa306b_class::iqstream_record_siq()
 // #endif
     (void)this->_report_api_status();
     (void)this->_iqstream_get_disk_fileinfo();
-    this->_vars.iqstream.filenames_0_data[0] = '\0';
+    //this->_vars.iqstream.filenames_0_data[0] = '\0';
     
     if (is_complete == false)    // file never finished (could be hung or never started because trigger did not occur)
     {

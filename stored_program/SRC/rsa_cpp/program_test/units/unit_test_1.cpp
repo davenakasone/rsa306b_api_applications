@@ -6,47 +6,6 @@
     it is very important that it operates correctly
 
     goals:
-        
-        // call-check management
-        const char* get_status_code_string();
-        int         get_status_code_number();
-        CODEZ       get_status_code       ();                                                  
-        CODEZ       report_status_code    (CODEZ current_code);                                
-        CODEZ       codez_checker         (const CODEZ* codez_list, const int codez_count);    
-        const char* codez_messages        (CODEZ lookup);                                     
-
-        // execute a specific function + verify
-        CODEZ exe_strcpy (char* destination, const char* source); 
-        CODEZ exe_remove (const char* file_to_delete);
-
-        // help for a common task
-        CODEZ h_find_bytes_in_file(const char* file_path_name, long& result);
-        bool  h_matched_extension (const char* file_path_name, const char* extension);
-        CODEZ h_decode_print      (const char* file_path_name, long int start_byte, long int stop_byte);
-        CODEZ h_decode_write      (const char* raw_file, const char* output_file, long int& start_byte, long int& stop_byte);
-        
-        // timer, both CPU and wall-clock
-        CODEZ  timer_split_start      ();                                          
-        CODEZ  timer_split_stop       ();                                         
-        CODEZ  timer_print_split      (int new_lines_begin, int new_lines_end);    
-        CODEZ  timer_print_running    (int new_lines_begin, int new_lines_end);    
-        CODEZ  timer_print_both       (int new_lines_begin, int new_lines_end);    
-        double timer_get_split_cpu   ();                                           
-        double timer_get_split_wall  ();                                           
-        double timer_get_running_cpu ();                                           
-        double timer_get_running_wall();                                           
-
-        // string tools
-        CODEZ wchar_2_char_std(char* destination, const wchar_t* source);                            
-        CODEZ wchar_2_char(const wchar_t* source, char* destination);                                
-        CODEZ make_date_timestamp(const time_t* seconds, const uint64_t nanos, char* dts_string); 
-
-        // acqstatus bitchecking, the API has 6 bitcheck points in 5 API groups
-        CODEZ ifstream_acq_status(const uint32_t acq_status, const uint32_t valid_bitmask, char results[IFSTREAM_BITCHECKS][BUF_D]);
-        //CODEZ dpx_acq_status     (const uint32_t acq_status, const uint32_t valid_bitmask, char results[DPX_BITCHECKS][BUF_D]     );
-        CODEZ iqblk_acq_status   (const uint32_t acq_status, const uint32_t valid_bitmask, char results[IQBLK_BITCHECKS][BUF_D]   );
-        CODEZ iqstream_acq_status(const uint32_t acq_status, const uint32_t valid_bitmask, char results[IQSTREAM_BITCHECKS][BUF_D]);
-        CODEZ spectrum_acq_status(const uint16_t acq_status, const uint16_t valid_bitmask, char results[SPECTRUM_BITCHECKS][BUF_D]);
 */
 
 #include "../testz.h"
@@ -185,13 +144,13 @@ printf("\n%s()  ,  methods that decode and manage files\n", __func__);
     printf("\nmade:  '%s'\n", X_util.helper);
     printf("\n\textension == '%s' ?  %d {0=false, 1=true}\n",
         ext,
-        X_util.h_matched_extension(X_util.helper, ext));
-    (void)X_util.h_find_bytes_in_file(X_util.helper, bytez);
+        X_util.extension_matched(X_util.helper, ext));
+    (void)X_util.find_bytes_in_file(X_util.helper, bytez);
     printf("\n\tbytes in file:  %ld\n", bytez);
 
     sprintf(X_util.holder, "%sut1decoded.txt", DATA_DIRECTORY_PROCESSED);
-    X_util.h_decode_print(X_util.helper, 0, 0);
-    X_util.h_decode_write(X_util.helper, X_util.holder, 0, 0);
+    X_util.decode_print(X_util.helper, 0, 0);
+    X_util.decode_write(X_util.helper, X_util.holder, 0, 0);
     printf("\nsee files:\n");
 #ifdef WAIT_ENTER_CLEAR
     printf("%s\n%s\n\tany key to delete:", X_util.helper, X_util.holder);

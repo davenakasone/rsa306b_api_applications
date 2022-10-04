@@ -177,10 +177,15 @@ CODEZ rsa306b_class::_iqstream_get_disk_fileinfo()
         );
     if (this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX] != NULL)
     {
-        this->cutil.wchar_2_char_std
+        // this->cutil.wchar_2_char_std
+        // (
+        //     this->_vars.iqstream.filenames_0_data,
+        //     this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX]
+        // );
+        this->cutil.wchar_2_char
         (
-            this->_vars.iqstream.filenames_0_data,
-            this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX]
+            this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX],
+            this->_vars.iqstream.filenames_0_data
         );
     }
     else
@@ -189,10 +194,15 @@ CODEZ rsa306b_class::_iqstream_get_disk_fileinfo()
     }
     if (this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX] != NULL)
     {
-        this->cutil.wchar_2_char_std
+        // this->cutil.wchar_2_char_std
+        // (
+        //     this->_vars.iqstream.filenames_1_header,
+        //     this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX]  
+        // );
+        this->cutil.wchar_2_char
         (
-            this->_vars.iqstream.filenames_1_header,
-            this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX]  
+            this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX],
+            this->_vars.iqstream.filenames_1_header
         );
     }
     else

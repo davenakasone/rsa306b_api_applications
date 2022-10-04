@@ -2,7 +2,7 @@
     common_utility, class 
 
     public :
-        < 1 >  h_matched_extension()
+        < 1 >  extension_matched()
 
     private :
         #  none
@@ -16,7 +16,7 @@
     do not include "."
     "r3f" "siq" "csv" ...
 */
-bool common_utility::h_matched_extension
+bool common_utility::extension_matched
 (
     const char* file_path_name, 
     const char* extension
@@ -72,4 +72,4 @@ bool common_utility::h_matched_extension
 }
 
 
-////////~~~~~~~~END>  cu_help_matched_extension.cpp
+////////~~~~~~~~END>  cu_extension_matched.cpp

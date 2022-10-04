@@ -55,6 +55,7 @@
         void unit_test_11  ();    // test class [rsa_306b] API group 'IQSTREAM'
         void unit_test_12  ();    // test class [rsa_306b] API group 'IFSTREAM'
         void unit_test_13  ();    // test class [r3f_manager]
+        void unit_test_14  ();    // test class [siq_manager]
 
         void task_999 ();    // temporary use test bench 
 
@@ -69,10 +70,6 @@
 
 
 /*
-
-13 - r3f
-14 - siq
-
 15 - PLAYBACK
 16 - DPX
 

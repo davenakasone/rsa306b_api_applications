@@ -24,7 +24,7 @@
 #include "codez.h"                  // brings in the return "codez"
 
 
-constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  unlv_rsa_<year YYYY>_<month MM>
+constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_10";    // program version:  unlv_rsa_<year YYYY>_<month MM>
 
 
 #define DE_BUG           1    // {ON|OFF} if activated, debug features are applied, good to have at least this and  "DEBUG_MIN" activated
@@ -63,10 +63,10 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
         //#define DEBUG_CALL_CHECKS       1492 
 
         // {ON|OFF} tracks:  call sequence WITH getter calls
-        //#define DEBUG_GETS              1992                 
+        //#define DEBUG_GETS              1941                
     
         // {ON|OFF} tracks:  call sequence WITH setter calls
-        //#define DEBUG_SETS              1999                 
+        //#define DEBUG_SETS              1945                
     
         // {ON|OFF} tracks:  call sequence WITH  copier calls
         //#define DEBUG_COPYS             2000    
@@ -75,13 +75,7 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_09";    // program version:  
         //#define DEBUG_TIMERS            1165               
     
         // {ON|OFF} tracks:  " ", where ever you want to debug, place anywhere, usually just temporary
-        #define DEBUG_CUSTOM            1865               
-
-        // {ON|OFF} prints SIQ header as loaded, in 'siq_manager' class 
-        //#define DEBUG_SIQ_LOADER_HEADER 1941   
-
-        // {ON|OFF} prints SIQ data as loaded, in 'siq_manager' class 
-        //#define DEBUG_SIQ_LOADER_DATA   1945     
+        #define DEBUG_CUSTOM            1865                
 
         // {ON|OFF} prints function entries of interest printed to stdout (no string format required)
         // sprinkle them whereever you need

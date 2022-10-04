@@ -125,8 +125,8 @@ struct rsa306b_iqstream_struct
             triggerTimestamp            ; timestamp of the trigger event, only valid if trigger enabled
             acqStatus                   ; status for the run interval, sticky and running bit-check required
             filenames: uses a wchar_t** ; [0]= file name, [1]= header file name, handle the wide character
-                filenames_0_data        
-                filenames_1_header
+                filenames_0_data        ; unload the wchar_t
+                filenames_1_header      ; unload the wchar_t
 */
 // 
     RSA_API::IQSTRMFILEINFO fileinfo_type;    
@@ -136,9 +136,8 @@ struct rsa306b_iqstream_struct
     const uint64_t _FILEINFO_TYPE_triggerTimestamp   = INIT_UINT64;    // DEFAULT
     const uint32_t _FILEINFO_TYPE_acqStatus          = INIT_UINT32;    // DEFAULT
     
-    char filenames_0_data[BUF_D];
-    char filenames_1_header[BUF_D];
-    //const char* _FILENAMES = INIT_CHARP;    // DEFAULT
+    char filenames_0_data[BUF_E]; 
+    char filenames_1_header[BUF_E];  
 
 
 /*

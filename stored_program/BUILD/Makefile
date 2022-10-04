@@ -44,18 +44,19 @@ EMPTY_NAME        = place_holder.test
 EMPTY_MESSAGE     = "git place holder\n"
 
 SOURCE_FILES_SO =\
+$(UDIR)cu_batch_decode.cpp \
 $(UDIR)cu_codez.cpp \
 $(UDIR)cu_common_utility.cpp \
+$(UDIR)cu_decode.cpp \
 $(UDIR)cu_exe_1.cpp \
+$(UDIR)cu_extension_matched.cpp \
+$(UDIR)cu_find_bytes_in_file.cpp \
+$(UDIR)cu_find_files_with_extension.cpp \
 $(UDIR)cu_help_batch_change_redirect.cpp \
-$(UDIR)cu_help_batch_match_extension.cpp \
 $(UDIR)cu_help_batch_redir_insert_ext_change.cpp\
 $(UDIR)cu_help_change_extension.cpp \
-$(UDIR)cu_help_decode.cpp \
 $(UDIR)cu_help_delete_files_in_dir.cpp \
-$(UDIR)cu_help_find_bytes_in_file.cpp \
 $(UDIR)cu_help_insert_and_change_extension.cpp \
-$(UDIR)cu_help_matched_extension.cpp \
 $(UDIR)cu_help_switch_directory.cpp \
 $(UDIR)cu_ifstream_acq_status.cpp \
 $(UDIR)cu_iqblk_acq_status.cpp \
@@ -69,13 +70,14 @@ $(DDIR)de_bug.cpp \
 $(DDIR)debug_functions.cpp \
 $(SDIR)control/globalz.cpp \
 \
-$(SDIR)r3f_manager/r3f_decode_printer.cpp \
-$(SDIR)r3f_manager/r3f_decode_writer.cpp \
-$(SDIR)r3f_manager/r3f_get.cpp \
-$(SDIR)r3f_manager/r3f_helpers.cpp \
+$(SDIR)r3f_manager/r3f_batch_process_files.cpp \
+$(SDIR)r3f_manager/r3f_copy_vars.cpp \
 $(SDIR)r3f_manager/r3f_init.cpp \
-$(SDIR)r3f_manager/r3f_loader.cpp \
+$(SDIR)r3f_manager/r3f_load_file.cpp \
 $(SDIR)r3f_manager/r3f_manager.cpp \
+$(SDIR)r3f_manager/r3f_populate_data.cpp \
+$(SDIR)r3f_manager/r3f_populate_header.cpp \
+$(SDIR)r3f_manager/r3f_write_csv.cpp \
 \
 $(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_copy.cpp \
 $(SDIR)rsa306b/rsa306b_ALIGN/rsa306b_align_get.cpp \
@@ -160,13 +162,14 @@ $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_print.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_set.cpp \
 $(SDIR)rsa306b/rsa306b_TRIG/rsa306b_trig_user.cpp \
 \
-$(SDIR)siq_manager/siq_common.cpp \
-$(SDIR)siq_manager/siq_decode.cpp \
-$(SDIR)siq_manager/siq_error_codes.cpp \
-$(SDIR)siq_manager/siq_init_copy.cpp \
-$(SDIR)siq_manager/siq_loader.cpp \
-$(SDIR)siq_manager/siq_printer.cpp \
-$(SDIR)siq_manager/siq_write_csv.cpp \
+$(SDIR)siq_manager/siq_batch_process_files.cpp \
+$(SDIR)siq_manager/siq_copy.cpp \
+$(SDIR)siq_manager/siq_init.cpp \
+$(SDIR)siq_manager/siq_load_file.cpp \
+$(SDIR)siq_manager/siq_manager.cpp \
+$(SDIR)siq_manager/siq_populate_data.cpp \
+$(SDIR)siq_manager/siq_populate_header.cpp \
+$(SDIR)siq_manager/siq_write.cpp \
 \
 $(PYDIR)rsa_config.cpp \
 $(PYDIR)rsa_device.cpp \
@@ -192,6 +195,7 @@ $(TDIR_U)unit_test_10.cpp \
 $(TDIR_U)unit_test_11.cpp \
 $(TDIR_U)unit_test_12.cpp \
 $(TDIR_U)unit_test_13.cpp \
+$(TDIR_U)unit_test_14.cpp \
 $(TDIR_T)task_999.cpp \
 $(TDIR)test_selector.cpp \
 $(TDIR)wait_enter_clear.cpp \

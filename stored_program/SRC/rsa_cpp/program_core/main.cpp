@@ -46,6 +46,7 @@
                                         11     // test class [rsa_306b] API group 'IQSTREAM'
                                         12     // test class [rsa_306b] API group 'IFSTREAM'
                                         13     // test class [r3f_manager]
+                                        14     // test class [siq_manager]
                                        
         specific tasks  "task_#"    :
                                         999    // temporary use test bench                         
@@ -106,6 +107,7 @@ int main
             test_selector(11);
             test_selector(12);
             test_selector(13);
+            test_selector(14);
             test_selector(999);
         #else
             #ifdef UNIT_TEST_BY_NUMBER
@@ -198,13 +200,16 @@ static bool user_test_selection()
     printf("\t[11]     ut11()               // API group 'IQSTREAM'\n");
     printf("\t[12]     ut12()               // API group 'IFSTREAM'\n");
     printf("\t[13]     ut13()               // r3f manager\n");
+    printf("\t[14]     ut14()               // siq manager\n");
 
     printf("\t[999]    task999()            // testbench\n");
     printf("\t[998]    task998()            // unknown\n");
 
     printf("\nor enter -1 to exit:    ");
     std::cin >> selection;
+#ifdef WAIT_ENTER_CLEAR
     flush_io();
+#endif
 
     switch(selection)
     {
@@ -222,6 +227,7 @@ static bool user_test_selection()
         case(11)  : unit_test_11();  return true;
         case(12)  : unit_test_12();  return true;
         case(13)  : unit_test_13();  return true;
+        case(14)  : unit_test_14();  return true;
 
         case(999) : task_999(); return true;
 

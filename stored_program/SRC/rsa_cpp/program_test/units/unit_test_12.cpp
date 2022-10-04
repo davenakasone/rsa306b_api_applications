@@ -107,14 +107,24 @@ printf("\n%s()  ,  IFSTREAM produce '*.r3f' files\n", __func__);
         (void)X_rsa.ifstream_record_r3f();
     }
     X_rsa.device_stop();
-    (void)X_util.h_batch_match_extension(X_rsa.vars.ifstream.file_path, "r3f", X_util.filez_in, true);
-    (void)X_util.h_batch_change_redirect(X_rsa.vars.ifstream.file_path, "r3f", DATA_DIRECTORY_PROCESSED, "csv", X_util.filez_out);
+    
+    (void)X_r3f.batch_process_files
+    (
+        DATA_DIRECTORY_RAW, 
+        DATA_DIRECTORY_PROCESSED, 
+        X_util.filez_in, 
+        X_util.filez_out, 
+        true, 
+        true, 
+        true
+    );
+
     printf("\noriginal files:\n");
     for (std::size_t ii = 0; ii < X_util.filez_in.size(); ii++)
     {
         printf("\t%s\n", X_util.filez_in[ii].c_str());
     }
-    printf("\nswitching the files:\n");
+    printf("\nprocessed the files:\n");
     for (std::size_t ii = 0; ii < X_util.filez_out.size(); ii++)
     {
         printf("\t%s\n", X_util.filez_out[ii].c_str());

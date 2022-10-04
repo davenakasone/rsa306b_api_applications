@@ -4,6 +4,7 @@
         public:
             < 1 >  r3f_manager_class()
             < 2 >  ~r3f_manager_class()
+            < 3 >  clear()
 
         private:
             #  none
@@ -26,7 +27,7 @@ r3f_manager_class::r3f_manager_class()
     debug_record(false);
 #endif
 
-    this->_init();
+    (void)this->_init();
 }
 
 
@@ -47,6 +48,24 @@ r3f_manager_class::~r3f_manager_class()
 #ifdef DE_BUG
     debug_stop();
 #endif
+}
+
+
+////~~~~
+
+
+/*
+    public < 3 >
+    clears variables when user needsd it
+*/
+CODEZ r3f_manager_class::clear()
+{
+#ifdef DEBUG_CLI
+    snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
+    return this->_init();
 }
 
 

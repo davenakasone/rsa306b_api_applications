@@ -58,7 +58,7 @@ CODEZ rsa306b_class::audio_write_csv
             DATA_DIRECTORY_PROCESSED,
             AUDIO_FILE_NAME_BASE,
             this->_vars.reftime.current.timestamp,
-            DATA_OUTPUT_EXTENSTION);
+            DATA_DEFAULT_EXT);
         (void)sprintf(file_path_name, "%s", this->_helper);
     }
     else

@@ -67,6 +67,15 @@ CODEZ common_utility::exe_remove
         return this->report_status_code(CODEZ::_7_parameter_not_allocated);
     }
 
+    FILE* fp = NULL;
+    fp = fopen(file_to_delete, "r");
+    if (fp == NULL)
+    {
+        return this->report_status_code(CODEZ::_13_fopen_failed);    // file is not there
+    }
+    (void)fclose(fp);
+    fp = NULL;
+
     if (remove(file_to_delete) != 0)
     {
         return this->report_status_code(CODEZ::_29_remove_failed);

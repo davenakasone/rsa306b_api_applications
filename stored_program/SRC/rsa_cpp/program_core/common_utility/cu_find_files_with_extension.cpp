@@ -2,7 +2,7 @@
     common_utility, class 
 
     public :
-        < 1 >  h_batch_match_extension()
+        < 1 >  find_files_with_extension()
 
     private :
         #  none
@@ -18,7 +18,7 @@
         "include_directory == true", vetor is updated with full file-path-name
         "include_directory == false", vetor is updated with only file-name (no directory)
 */
-CODEZ common_utility::h_batch_match_extension
+CODEZ common_utility::find_files_with_extension
 (
     const char* directory, 
     const char* extension,
@@ -37,24 +37,24 @@ CODEZ common_utility::h_batch_match_extension
     }
 
     filez.clear();
-    DIR* dir = NULL;
-    struct dirent* diread = NULL;
+    DIR* p_dir = NULL;
+    struct dirent* p_dread = NULL;
     char temp[BUF_E];
 
-    dir = opendir(directory);
-    if (dir == NULL)
+    p_dir = opendir(directory);
+    if (p_dir == NULL)
     {
         return this->report_status_code(CODEZ::_32_opendir_failed);
     }
 
-    while ( (diread = readdir(dir)) != NULL)
+    while ( (p_dread = readdir(p_dir)) != NULL)
     {
-        if (diread->d_name[0] != '.')
+        if (p_dread->d_name[0] != '.')
         {
             (void)snprintf(temp, sizeof(temp), "%s%s",
                 directory,
-                diread->d_name);
-            if (this->h_matched_extension(temp, extension) == true)
+                p_dread->d_name);
+            if (this->extension_matched(temp, extension) == true)
             {
                 if (include_directory == true)
                 {
@@ -62,19 +62,19 @@ CODEZ common_utility::h_batch_match_extension
                 }
                 else
                 {
-                    filez.push_back(diread->d_name);
+                    filez.push_back(p_dread->d_name);
                 }
             }
         }
     }
-    if (closedir(dir) != 0)
+    if (closedir(p_dir) != 0)
     {
         this->report_status_code(CODEZ::_33_closedir_failed);
     }
-    dir = NULL;
+    p_dir = NULL;
 
     return CODEZ::_0_no_errors;
 }
 
 
-////////~~~~~~~~END>  cu_help_batch_match_extension.cpp
+////////~~~~~~~~END>  cu_find_files_with_extension.cpp

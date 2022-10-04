@@ -2,7 +2,7 @@
     common_utility, class 
 
     public :
-        < 1 >  h_find_bytes_in_file()
+        < 1 >  find_bytes_in_file()
 
     private :
         #  none
@@ -15,7 +15,7 @@
     < 1 > public
     FILE* must be closed and on NULL
 */
-CODEZ common_utility::h_find_bytes_in_file
+CODEZ common_utility::find_bytes_in_file
 (
     const char* file_path_name, 
     long& result
@@ -58,4 +58,4 @@ CODEZ common_utility::h_find_bytes_in_file
 }
 
 
-////////~~~~~~~~END>  cu_help_find_bytes_in_file.cpp
+////////~~~~~~~~END>  cu_find_bytes_in_file.cpp

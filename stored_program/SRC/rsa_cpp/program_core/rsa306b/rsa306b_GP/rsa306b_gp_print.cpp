@@ -59,10 +59,11 @@ CODEZ rsa306b_class::print_constants()
     debug_record(false);
 #endif
 
-    (void)printf("\nconstants from 'resources.h'  >>>\n");
-    (void)printf("\tTRACES_306B               :  %lu\n", TRACES_306B);
-    (void)printf("\tBITCHECK_SUCCESS_MESSAGE  :  %s\n" , BITCHECK_SUCCESS_MESSAGE);
-    (void)printf("\tBITCHECK_SUCCESS          :  %u\n" , BITCHECK_SUCCESS);
+    (void)printf("\nhardware constants >>>\n");
+    (void)printf("\tTRACES_306B               :  %lu\n"  , TRACES_306B);
+    (void)printf("\tBITCHECK_SUCCESS_MESSAGE  :  %s\n"   , BITCHECK_SUCCESS_MESSAGE);
+    (void)printf("\tBITCHECK_SUCCESS          :  0x%X\n" , BITCHECK_SUCCESS);
+    (void)printf("\tSAMPLES_PER_FRAME         :  %lu\n"  , SAMPLES_PER_FRAME);
     
     return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }

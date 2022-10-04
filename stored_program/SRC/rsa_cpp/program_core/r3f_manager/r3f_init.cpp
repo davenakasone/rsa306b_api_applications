@@ -22,12 +22,25 @@ CODEZ r3f_manager_class::_init()
     debug_record(false);
 #endif
 
-    (void)memset(this->_helper, '\0', sizeof(this->_helper));
-    (void)memset(this->_holder, '\0', sizeof(this->_holder));
-    this->_fp_read            = NULL;
-    this->_fp_write           = NULL;
+    // initialize the private members
     this->_byte_index           = 0;
     this->_bytes_in_file        = 0;
+
+    if (this->_fp_write != NULL)
+    {
+        (void)fclose(this->_fp_write);
+    }
+    this->_fp_write = NULL;
+
+    if (this->_fp_read != NULL)
+    {
+        (void)fclose(this->_fp_read);
+    }
+    this->_fp_read = NULL;
+
+    memset(this->_holder, '\0', sizeof(this->_holder));
+    memset(this->_helper, '\0', sizeof(this->_helper));
+    
 
     // the private struct with processing variables:
     (void)memset(this->_vars.file_id, '\0', sizeof(this->_vars.file_id));
@@ -45,7 +58,7 @@ CODEZ r3f_manager_class::_init()
     this->_vars.fpga_version_part         = 0;
     this->_vars.fpga_version_sub          = 0;
     (void)memset(this->_vars.device_serial_number, '\0', sizeof(this->_vars.device_serial_number));
-    (void)memset(this->_vars.device_nomenclature, '\0', sizeof(this->_vars.device_nomenclature));
+    (void)memset(this->_vars.device_nomenclature , '\0', sizeof(this->_vars.device_nomenclature));
 
     this->_vars.reference_level_dbm                     = 0;
     this->_vars.rf_center_frequency_hz                  = 0;
@@ -111,7 +124,7 @@ CODEZ r3f_manager_class::_init()
         this->_vars.v_eqaul[ii].clear();
     }
     
-    return this->_get_vars();   // initializes the public struct instance
+    return this->_copy_vars();   // initializes the public struct instance by deep copy
 }
 
 

@@ -101,11 +101,11 @@ CODEZ rsa306b_class::iqstream_write_csv
     if (file_path_name[0] == '\0')    // using default output file_path_name
     {
         this->_reftime_get_current();
-        (void)snprintf(this->_helper, sizeof(this->_helper), "%s%s_%lu_%s",
+        (void)snprintf(this->_helper, sizeof(this->_helper), "%s%s_%lu_.%s",
             DATA_DIRECTORY_PROCESSED,
             IQSTREAM_FILE_NAME_BASE,
             this->_vars.reftime.current.timestamp,
-            DATA_OUTPUT_EXTENSTION);
+            DATA_DEFAULT_EXT);
         (void)sprintf(file_path_name, "%s", this->_helper);
     }
     else   // using the given file-path-name

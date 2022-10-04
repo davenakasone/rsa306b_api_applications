@@ -15,7 +15,8 @@ static void ut13_r3f();
 static void ut13_decodew();
 static void ut13_decodep();
 static void ut13_batch();
-static void vprint(std::vector<std::string>& inv, std::vector<std::string>& outv);  // just a helper
+static void vprint(std::vector<std::string>& anyv, const char* message);    // just a local helper
+
 
 void unit_test_13()
 {
@@ -26,9 +27,12 @@ X_util.timer_split_start();
 //~
 
     ut13_r3f();
-    //ut13_decodew();
-    //ut13_decodep();
+    ut13_decodew();
+    ut13_decodep();
     ut13_batch();
+    
+    X_util.h_delete_files_in_dir(DATA_DIRECTORY_RAW);
+    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
 
 //~
 #ifdef WAIT_ENTER_CLEAR
@@ -72,12 +76,14 @@ printf("\n%s()  ,  make some r3f files\n", __func__);
     }
     X_rsa.device_stop();
 
-    (void)X_util.h_batch_match_extension(X_rsa.vars.ifstream.file_path, "r3f", X_util.filez_in, true);
-    printf("\nmade some R3F files:\n");
-    for (std::size_t ii = 0; ii < X_util.filez_in.size(); ii++)
-    {
-        printf("\t%s\n", X_util.filez_in[ii].c_str());
-    }
+    (void)X_util.find_files_with_extension
+    (
+        X_rsa.vars.ifstream.file_path, 
+        R3F_RAW_EXT, 
+        X_util.filez_in, 
+        true
+    );
+    vprint(X_util.filez_in, "made some R3F files");
     
     X_rsa.device_disconnect();
 }
@@ -93,12 +99,20 @@ printf("\n%s()  ,  decoding r3f files, writing\n", __func__);
 #endif                   
 //~
 
-    (void)X_r3f.batch_decode_write(DATA_DIRECTORY_RAW, DATA_DIRECTORY_PROCESSED, 0L, 0L, X_util.filez_in, X_util.filez_out);
-    for (std::size_t ii = 0; ii < X_util.filez_in.size(); ii++)
-    {
-        printf("\n%luof%lu)  %s\n", ii+1, X_util.filez_in.size(), X_util.filez_in[ii].c_str());
-        printf("\t%s\n", X_util.filez_out[ii].c_str());
-    }
+    (void)X_util.batch_decode_write
+    (
+        DATA_DIRECTORY_RAW, 
+        R3F_RAW_EXT, 
+        DATA_DIRECTORY_PROCESSED, 
+        TAG_DECODED, 
+        EXT_DECODED, 
+        0L, 
+        0L, 
+        X_util.filez_in, 
+        X_util.filez_out
+    );
+    vprint(X_util.filez_in, "raw inputs found");
+    vprint(X_util.filez_out, "decoded outputs");
 
 //~
 #ifdef WAIT_ENTER_CLEAR
@@ -106,6 +120,7 @@ printf("\n%s()  ,  complete\n", __func__);
 wait_enter_clear();
 #endif
 }
+
 
 ////~~~~
 
@@ -117,11 +132,15 @@ printf("\n%s()  ,  decoding r3f files, printing\n", __func__);
 #endif                   
 //~
 
-    (void)X_r3f.batch_decode_print(DATA_DIRECTORY_RAW, 0L, 0L, X_util.filez_in);
-    for (std::size_t ii = 0; ii < X_util.filez_in.size(); ii++)
-    {
-        printf("\n%luof%lu)  %s\n", ii+1, X_util.filez_in.size(), X_util.filez_in[ii].c_str());
-    }
+    (void)X_util.batch_decode_print
+    (
+        DATA_DIRECTORY_RAW, 
+        R3F_RAW_EXT,
+        0L, 
+        0L, 
+        X_util.filez_in
+    );
+    vprint(X_util.filez_in, "raw inputs found");
 
 //~
 #ifdef WAIT_ENTER_CLEAR
@@ -150,7 +169,8 @@ printf("\n%s()  ,  batch r3f files, parse + 2 plots\n", __func__);
         false,
         false,
         false);
-    vprint(X_util.filez_in, X_util.filez_out);
+    vprint(X_util.filez_in, "raw inputs");
+    vprint(X_util.filez_out, "outputs made");
     X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
     
     (void)X_r3f.batch_process_files
@@ -162,7 +182,8 @@ printf("\n%s()  ,  batch r3f files, parse + 2 plots\n", __func__);
         true,
         false,
         false);
-    vprint(X_util.filez_in, X_util.filez_out);
+    vprint(X_util.filez_in, "raw inputs");
+    vprint(X_util.filez_out, "outputs made");
     X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
 
     (void)X_r3f.batch_process_files
@@ -174,7 +195,8 @@ printf("\n%s()  ,  batch r3f files, parse + 2 plots\n", __func__);
         false,
         true,
         false);
-    vprint(X_util.filez_in, X_util.filez_out);
+    vprint(X_util.filez_in, "raw inputs");
+    vprint(X_util.filez_out, "outputs made");
     X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
 
     (void)X_r3f.batch_process_files
@@ -186,7 +208,8 @@ printf("\n%s()  ,  batch r3f files, parse + 2 plots\n", __func__);
         false,
         false,
         true);
-    vprint(X_util.filez_in, X_util.filez_out);
+    vprint(X_util.filez_in, "raw inputs");
+    vprint(X_util.filez_out, "outputs made");
     X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
 
     (void)X_r3f.batch_process_files
@@ -198,7 +221,8 @@ printf("\n%s()  ,  batch r3f files, parse + 2 plots\n", __func__);
         true,
         true,
         true);
-    vprint(X_util.filez_in, X_util.filez_out);
+    vprint(X_util.filez_in, "raw inputs");
+    vprint(X_util.filez_out, "outputs made");
     X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
 
 
@@ -213,32 +237,19 @@ wait_enter_clear();
 ////~~~~
 
 
-static void vprint(std::vector<std::string>& inv, std::vector<std::string>& outv)
+static void vprint(std::vector<std::string>& anyv, const char* message)
 {
-    if (inv.size() > 0)
+    if (anyv.size() > 0)
     {
-        printf("\ninputs:\n");
-        for(std::size_t ii = 0; ii < inv.size(); ii++)
+        printf("\n%s:\n", message);
+        for(std::size_t ii = 0; ii < anyv.size(); ii++)
         {
-            printf("\t%s\n", inv[ii].c_str());
+            printf("\t%s\n", anyv[ii].c_str());
         }
     }
     else
     {
-        printf("inv.size() =  %lu\n", inv.size());
-    }
-
-    if (outv.size() > 0)
-    {
-        printf("outputs:\n");
-        for(std::size_t ii = 0; ii < outv.size(); ii++)
-        {
-            printf("\t%s\n", outv[ii].c_str());
-        }
-    }
-    else
-    {
-        printf("outv.size() =  %lu\n", outv.size());
+        printf("*.size() =  %lu\n", anyv.size());
     }
 }
 

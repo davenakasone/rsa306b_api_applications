@@ -1,41 +1,5 @@
 /*
-
-    "siq_common.cpp"
-        siq_handler_class()
-        ~siq_handler_class()
-        unload_and_clear()
-        get_file_byte_length()
-        _verify_siq_extension()
-        _prepare_siq_input()
-        _conclude_siq_input()
-        _prepare_any_output()
-        _conclude_any_output()
-
-    "siq_decode.cpp"
-        decode_and_write()
-        decode_and_print()
-
-    "siq_error_codes.cpp"
-        execution_success()
-        _set_error_code()
-        _check_error_code()
-
-    "siq_init_copy.cpp"
-        _init()
-        _copy_vars()
-
-    "siq_loader.cpp"
-        load_file()
-        _populate_header()
-        _populate_data()
-
-    "siq_printer()"
-        print_header()
-        print_data()
-    
-    "siq_write_csv.cpp"
-        write_iq_to_csv()
-        write_iq_to_csv_batch()
+    designed to parse "*.siq files"
 */
 
 #ifndef H_siq_manager_class
@@ -47,62 +11,56 @@
     #include "../control/de_bug/de_bug.h"
 #endif
 
+
 class siq_manager_class
 {
     public :
 
-        common_utility cutil;       // public class instance, by composition, for "common utility" needs
-        siq_manager_struct vars;    // structured variables for parsing
+        common_utility     cutil;    // public class instance, by composition, for "common utility" needs
+        siq_manager_struct vars;     // structured variables for parsing
 
-        siq_manager_class();               // only constuctor used
-        ~siq_manager_class();              // destructor
-        
-        // diagnostic tools to parse "*.siq" files, byte-by-byte
-        CODEZ decode_and_write(char* siq_file, char* output_file, unsigned long int byte_start, unsigned long int byte_stop);    
-        CODEZ decode_and_print(char* siq_file, unsigned long int byte_start, unsigned long int byte_stop);                       
-        
-        // optional (no writting), contents of the "*.siq" file are loaded into "vars"
-        CODEZ load_file(char* siq_file); 
+        siq_manager_class ();    // see siq_manager.cpp
+        ~siq_manager_class();    // see siq_manager.cpp                     
+        CODEZ clear       ();    // re-initialize the class member variables, see siq_manager.cpp
 
-        // seperate IQ data and header data, ideal for obtaining "*.csv" from "*.siq" for further processing                                                                                         
-        CODEZ write_iq_to_csv(char* input_file, char* output_file); 
-        CODEZ write_iq_to_csv_batch(char* input_directory, char* output_directory);
-        
-        CODEZ print_header();                                             // called after loading a file for printing header fields
-        CODEZ print_data(std::size_t idx_start, std::size_t idx_stop);    // called after loading a file for printing data block samples
-        //bool execution_success();                                        // user can call to confirm successful operation
-        //unsigned long int get_file_byte_length(char* input_file);        // provides size in bytes, of any file
-        CODEZ unload_and_clear();                                         // re-initialize the class members to effectivley clear variables
+
+        // call to load "*.siq" file and begin processing   (user only needs to call this, or the batch version)
+        CODEZ load_file
+        (
+            const char* siq_input,
+            const char* output_parsed,
+            const char* output_iq,
+            bool write_parsed,
+            bool write_iq
+        );
+        CODEZ batch_process_files
+        (
+            const char* siq_input_directory,
+            const char* output_directory,
+            std::vector<std::string>& input_files_v, 
+            std::vector<std::string>& output_files_v,
+            bool write_parsed,
+            bool write_iq
+        );
+
 
     private :
 
-        struct siq_manager_struct _vars;    // structured variables for parsing
-        //error_code_select _ec;              // tracks state of calls
 
-        FILE* _fptr_read;
-        FILE* _fptr_write;
-        unsigned long int _byte_offset;
-        unsigned long int _bytes_in_file;
-        char _helper[BUF_E];
-        char _holder[BUF_F];
-        bool _file_loaded;
+        siq_manager_struct _vars;             // structured variables for parsing
+        char               _helper[BUF_E];    // smaller string
+        char               _holder[BUF_F];    // larger string
+        FILE*              _fp_read;          // for reading provided "*.siq" as input
+        FILE*              _fp_write;         // for writting results of a processed "*.siq" file to output
+        long int           _bytes_in_file;    // total bytes in a file, found when first opening "*.siq"
+        long int           _byte_index;       // assists processing functions to move position within "*.r3f" file
 
-        // monitor return-error status while parsing
-        void _set_error_code(error_code_select code);    
-        void _check_error_code();
-
-        // common helpers
-        void _init();                                          // called to place all variables into a known state
-        void _copy_vars();                                     // copies contents of private struct "_vars" to public struch "vars"
-        //void _verify_siq_extension(const char* input_file);    // verify that the user provided a "*.siq" file to parse  
-        void _prepare_siq_input(char* input_file);             // opens a "*.siq" file for reading
-        void _conclude_siq_input();                            // closes a "*.siq" file when reading is complete
-        //void _prepare_any_output(char* output_file);           // opens any file for text-writing
-        //void _conclude_any_output();                           // closes any file when text-writing is complete
-
-        // for loading and parsing *.siq files           
-        void _populate_header();    // helps "_load_file()" parse header
-        void _populate_data();      // helps "_load_file()" parse data block
+        CODEZ _init           ();    // sets member variables to known values, called at start of "load_file()"
+        CODEZ _copy_vars      ();    // copies private struct into public struct, called at end of "load_file()"
+        CODEZ _populate_header();    // helps "load_file()"
+        CODEZ _populate_data  ();    // helps "load_file()"
+        CODEZ _write_csv_iq   ();    // write the IQ CSV for plotting, "load_file()" calls if requested
+        CODEZ _write_parsed   ();    // write the SIQ files into readable parsed output, "load_file()" calls if requested
 };
 
 

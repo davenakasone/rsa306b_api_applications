@@ -16,7 +16,7 @@
     used as a "call-through" when wanting to switch files of a specific extension in one directory to another
         naming the new files with a different (or can keep same) exetension
     
-    1) calls h_batch_match_extension() to files in the input directory that match the specified extension
+    1) calls find_files_with_extension() to files in the input directory that match the specified extension
     2) calls h_change_extension() on each file found
     3) concatenates desired output directory and files with changed extensions into "std::vector<std::string> new_filez"
 */
@@ -50,7 +50,7 @@ CODEZ common_utility::h_batch_change_redirect
     char temp[BUF_E];
     
     // in the specified directory, find the files with matching extension
-    if (this->h_batch_match_extension(in_directory, in_extension, vfiles, false) != CODEZ::_0_no_errors)
+    if (this->find_files_with_extension(in_directory, in_extension, vfiles, false) != CODEZ::_0_no_errors)
     {
         return this->report_status_code(CODEZ::_9_function_call_failed);
     }

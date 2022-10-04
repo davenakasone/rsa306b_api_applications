@@ -1,5 +1,5 @@
 /*
-    unit test # 11, class [siq_manager]
+    unit test # 14, class [siq_manager]
 
     goals:
     
@@ -10,25 +10,30 @@
 #ifdef UNIT_TESTING
 
 
-constexpr int bangz_ut11 = 5;
-static void ut11_basic();
-static void ut11_siq();
-static void ut11_acq();
+constexpr int bangz_ut14 = 3;
+static void ut14_siq();
+static void ut14_decodew();
+static void ut14_decodep();
+static void ut14_batch();
+static void vprint(std::vector<std::string>& anyv, const char* message);    // just a local helper
 
 
-void unit_test_11()
+void unit_test_14()
 {
 #ifdef WAIT_ENTER_CLEAR
-printf("\n%s()  ,  class [rsa_306b] API group 'IQSTREAM'\n", __func__);
+printf("\n%s()  ,  class [siq_manager]\n", __func__);
 X_util.timer_split_start(); 
 #endif                   
 //~
 
-    X_rsa.device_connect();
-    ut11_basic();
-    ut11_siq();
-    ut11_acq();
-    X_rsa.device_disconnect();
+   
+    ut14_siq();
+    ut14_decodew();
+    ut14_decodep();
+    ut14_batch();
+   
+    (void)X_util.h_delete_files_in_dir(DATA_DIRECTORY_RAW);
+    (void)X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
 
 //~
 #ifdef WAIT_ENTER_CLEAR
@@ -43,14 +48,14 @@ wait_enter_clear();
 ////~~~~
 
 
-static void ut11_basic()
+static void ut14_siq()
 {
 #ifdef WAIT_ENTER_CLEAR
-printf("\n%s()  ,  basic IQSTREAM methods\n", __func__);
+printf("\n%s()  ,  get some *.siq files...\n", __func__);
 #endif                   
 //~
-
-    X_rsa.iqstream_print();
+    X_util.filez_in.clear();
+    X_rsa.device_connect();
 
     X_rsa.vars.config.center_frequency_hz = 315.0e6;
     X_rsa.vars.config.reference_level_dbm = -15.5;
@@ -60,49 +65,64 @@ printf("\n%s()  ,  basic IQSTREAM methods\n", __func__);
     X_rsa.vars.iqstream.buffer_multiplier = iqsBuff::b2x;
     X_rsa.vars.iqstream.datatype_select = RSA_API::IQSOUTDTYPE::IQSODT_SINGLE;
     X_rsa.vars.iqstream.destination_select = RSA_API::IQSOUTDEST::IQSOD_FILE_SIQ;
-    X_rsa.vars.iqstream.record_time_ms = 10;
-    (void)sprintf(X_rsa.vars.iqstream.filename_base, "%s%s_ut11_", 
+    X_rsa.vars.iqstream.record_time_ms = 1;
+    (void)sprintf(X_rsa.vars.iqstream.filename_base, "%s%s_ut13_", 
         DATA_DIRECTORY_RAW,
         IQSTREAM_FILE_NAME_BASE);
     X_rsa.vars.iqstream.suffix_control = static_cast<int>(RSA_API::IQSSDFN_SUFFIX_TIMESTAMP);
     X_rsa.iqstream_set_vars();
 
-    X_rsa.iqstream_print();
-
-//~
-#ifdef WAIT_ENTER_CLEAR
-printf("\n%s()  ,  complete\n", __func__);
-wait_enter_clear();
-#endif
-}
-
-
-////~~~~
-
-
-static void ut11_siq()
-{
-#ifdef WAIT_ENTER_CLEAR
-printf("\n%s()  ,  IQSTREAM produce '*.siq' files\n", __func__);
-#endif                   
-//~
-
     X_rsa.device_run();
-    for (int ii = 0; ii < bangz_ut11; ii++)
+    for (int ii = 0; ii < bangz_ut14; ii++)
     {
         (void)X_rsa.iqstream_clear_sticky();
         if (X_rsa.iqstream_record_siq() == CODEZ::_0_no_errors)
         {
             printf("\n%2d of %2d) bitcheck:  %d {1==good}  ,  acqStatus=0x%X {0==good}\n", 
                 ii+1,
-                bangz_ut11,
+                bangz_ut14,
                 X_rsa.iqstream_good_bitcheck(),
                 X_rsa.vars.iqstream.fileinfo_type.acqStatus);
-            printf("\t%s\n", X_rsa.vars.iqstream.filenames_0_data);
+             X_util.filez_in.push_back( X_rsa.vars.iqstream.filenames_0_data);
         }
     }
     X_rsa.device_stop();
-    X_rsa.iqstream_print();
+    X_rsa.device_disconnect();
+    vprint(X_util.filez_in, "siq files are ready");
+
+//~
+#ifdef WAIT_ENTER_CLEAR
+printf("\n%s()  ,  complete\n", __func__);
+wait_enter_clear();
+#endif
+}
+
+
+
+////~~~~
+
+
+static void ut14_decodew()
+{
+#ifdef WAIT_ENTER_CLEAR
+printf("\n%s()  ,  decoding siq files, writing\n", __func__);
+#endif                   
+//~
+
+    (void)X_util.batch_decode_write
+    (
+        DATA_DIRECTORY_RAW, 
+        SIQ_RAW_EXT, 
+        DATA_DIRECTORY_PROCESSED, 
+        TAG_DECODED, 
+        EXT_DECODED, 
+        0L, 
+        0L, 
+        X_util.filez_in, 
+        X_util.filez_out
+    );
+    vprint(X_util.filez_in, "raw inputs found");
+    vprint(X_util.filez_out, "decoded outputs");
 
 //~
 #ifdef WAIT_ENTER_CLEAR
@@ -115,113 +135,114 @@ wait_enter_clear();
 ////~~~~
 
 
-static void ut11_acq()
+static void ut14_decodep()
 {
 #ifdef WAIT_ENTER_CLEAR
-printf("\n%s()  ,  IQSTREAM acquire direclty, then make CSV\n", __func__);
+printf("\n%s()  ,  decoding siq files, printing\n", __func__);
 #endif                   
 //~
 
-    X_rsa.device_stop();
-    X_rsa.vars.iqstream.destination_select = RSA_API::IQSOUTDEST::IQSOD_CLIENT;
-    X_rsa.vars.iqstream.datatype_select = RSA_API::IQSOUTDTYPE::IQSODT_SINGLE;
-    X_rsa.iqstream_set_vars();
-    X_rsa.device_run();
-    for (int ii = 0; ii < bangz_ut11; ii++)
-    {
-        (void)X_rsa.iqstream_clear_sticky();
-        if (X_rsa.iqstream_acquire_data() == CODEZ::_0_no_errors)
-        {
-            (void)sprintf(X_rsa.cutil.helper, "%s%s_single__%2d_of_%2d_.csv",
-                DATA_DIRECTORY_PROCESSED,
-                IQSTREAM_FILE_NAME_BASE,
-                ii+1,
-                bangz_ut11);
-            printf("\n%2d of %2d) bitcheck:  %d {1==good}  ,  acqStatus=0x%X {0==good}\n", 
-                ii+1,
-                bangz_ut11,
-                X_rsa.iqstream_good_bitcheck(),
-                X_rsa.vars.iqstream.info_type.acqStatus);
-            (void)X_rsa.iqstream_write_csv(X_rsa.cutil.helper);
-            printf("\t%s\n", X_rsa.cutil.helper);
-        }
-    }
-    X_rsa.device_stop();
-    X_rsa.vars.iqstream.datatype_select = RSA_API::IQSOUTDTYPE::IQSODT_SINGLE_SCALE_INT32;
-    X_rsa.iqstream_set_vars();
-    X_rsa.device_run();
-    for (int ii = 0; ii < bangz_ut11; ii++)
-    {
-        (void)X_rsa.iqstream_clear_sticky();
-        if (X_rsa.iqstream_acquire_data() == CODEZ::_0_no_errors)
-        {
-            (void)sprintf(X_rsa.cutil.helper, "%s%s_scaled__%2d_of_%2d_.csv",
-                DATA_DIRECTORY_PROCESSED,
-                IQSTREAM_FILE_NAME_BASE,
-                ii+1,
-                bangz_ut11);
-            printf("\n%2d of %2d) bitcheck:  %d {1==good}  ,  acqStatus=0x%X {0==good}\n", 
-                ii+1,
-                bangz_ut11,
-                X_rsa.iqstream_good_bitcheck(),
-                X_rsa.vars.iqstream.info_type.acqStatus);
-            (void)X_rsa.iqstream_write_csv(X_rsa.cutil.helper);
-            printf("\t%s\n", X_rsa.cutil.helper);
-        }
-    }
-    X_rsa.device_stop();
-    X_rsa.vars.iqstream.datatype_select = RSA_API::IQSOUTDTYPE::IQSODT_INT16;
-    X_rsa.iqstream_set_vars();
-    X_rsa.device_run();
-    for (int ii = 0; ii < bangz_ut11; ii++)
-    {
-        (void)X_rsa.iqstream_clear_sticky();
-        if (X_rsa.iqstream_acquire_data() == CODEZ::_0_no_errors)
-        {
-            (void)sprintf(X_rsa.cutil.helper, "%s%s_int16__%2d_of_%2d_.csv",
-                DATA_DIRECTORY_PROCESSED,
-                IQSTREAM_FILE_NAME_BASE,
-                ii+1,
-                bangz_ut11);
-            printf("\n%2d of %2d) bitcheck:  %d {1==good}  ,  acqStatus=0x%X {0==good}\n", 
-                ii+1,
-                bangz_ut11,
-                X_rsa.iqstream_good_bitcheck(),
-                X_rsa.vars.iqstream.info_type.acqStatus);
-            (void)X_rsa.iqstream_write_csv(X_rsa.cutil.helper);
-            printf("\t%s\n", X_rsa.cutil.helper);
-        }
-    }
-    X_rsa.device_stop();
-    X_rsa.vars.iqstream.datatype_select = RSA_API::IQSOUTDTYPE::IQSODT_INT32;
-    X_rsa.iqstream_set_vars();
-    X_rsa.device_run();
-    for (int ii = 0; ii < bangz_ut11; ii++)
-    {
-        (void)X_rsa.iqstream_clear_sticky();
-        if (X_rsa.iqstream_acquire_data() == CODEZ::_0_no_errors)
-        {
-            (void)sprintf(X_rsa.cutil.helper, "%s%s_int32__%2d_of_%2d_.csv",
-                DATA_DIRECTORY_PROCESSED,
-                IQSTREAM_FILE_NAME_BASE,
-                ii+1,
-                bangz_ut11);
-            printf("\n%2d of %2d) bitcheck:  %d {1==good}  ,  acqStatus=0x%X {0==good}\n", 
-                ii+1,
-                bangz_ut11,
-                X_rsa.iqstream_good_bitcheck(),
-                X_rsa.vars.iqstream.info_type.acqStatus);
-            (void)X_rsa.iqstream_write_csv(X_rsa.cutil.helper);
-            printf("\t%s\n", X_rsa.cutil.helper);
-        }
-    }
-    X_rsa.device_stop();
-   
+    (void)X_util.batch_decode_print
+    (
+        DATA_DIRECTORY_RAW, 
+        SIQ_RAW_EXT,
+        0L, 
+        0L, 
+        X_util.filez_in
+    );
+    vprint(X_util.filez_in, "raw inputs found");
+
 //~
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  complete\n", __func__);
 wait_enter_clear();
 #endif
+}
+
+
+////~~~~
+
+
+static void ut14_batch()
+{
+#ifdef WAIT_ENTER_CLEAR
+printf("\n%s()  ,  batch siq files, parse + IQ plot\n", __func__);
+#endif                   
+//~
+
+    (void)X_siq.batch_process_files
+    (
+        DATA_DIRECTORY_RAW, 
+        DATA_DIRECTORY_PROCESSED, 
+        X_util.filez_in, 
+        X_util.filez_out,
+        false,
+        false);
+    vprint(X_util.filez_in, "raw inputs");
+    vprint(X_util.filez_out, "outputs made");
+    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+    
+    (void)X_siq.batch_process_files
+    (
+        DATA_DIRECTORY_RAW, 
+        DATA_DIRECTORY_PROCESSED, 
+        X_util.filez_in, 
+        X_util.filez_out,
+        true,
+        false);
+    vprint(X_util.filez_in, "raw inputs");
+    vprint(X_util.filez_out, "outputs made");
+    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+
+    (void)X_siq.batch_process_files
+    (
+        DATA_DIRECTORY_RAW, 
+        DATA_DIRECTORY_PROCESSED, 
+        X_util.filez_in, 
+        X_util.filez_out,
+        false,
+        true);
+    vprint(X_util.filez_in, "raw inputs");
+    vprint(X_util.filez_out, "outputs made");
+    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+
+    (void)X_siq.batch_process_files
+    (
+        DATA_DIRECTORY_RAW, 
+        DATA_DIRECTORY_PROCESSED, 
+        X_util.filez_in, 
+        X_util.filez_out,
+        true,
+        true);
+    vprint(X_util.filez_in, "raw inputs");
+    vprint(X_util.filez_out, "outputs made");
+    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+
+//~
+#ifdef WAIT_ENTER_CLEAR
+printf("\n%s()  ,  complete\n", __func__);
+wait_enter_clear();
+#endif
+}
+
+
+////~~~~
+
+
+static void vprint(std::vector<std::string>& anyv, const char* message)
+{
+    if (anyv.size() > 0)
+    {
+        printf("\n%s:\n", message);
+        for(std::size_t ii = 0; ii < anyv.size(); ii++)
+        {
+            printf("\t%s\n", anyv[ii].c_str());
+        }
+    }
+    else
+    {
+        printf("*.size() =  %lu\n", anyv.size());
+    }
 }
 
 
