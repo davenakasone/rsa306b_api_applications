@@ -57,7 +57,7 @@ char* get_siq_csv()
     (
         X_siq.load_file
         (
-            X_util.filez_in[static_cast<std::size_t>(select)].c_str(), 
+            X_util.filez_in[static_cast<std::size_t>(select-1)].c_str(), 
             NULL, 
             X_util.helper, 
             false, 

@@ -58,7 +58,7 @@ char* get_r3f_csv_equalization()
     (
         X_r3f.load_file
         (
-            X_util.filez_in[static_cast<std::size_t>(select)].c_str(), 
+            X_util.filez_in[static_cast<std::size_t>(select-1)].c_str(), 
             NULL,
             X_util.helper, 
             NULL, 
@@ -115,7 +115,7 @@ char* get_r3f_csv_adc()
     (
         X_r3f.load_file
         (
-            X_util.filez_in[static_cast<std::size_t>(select)].c_str(), 
+            X_util.filez_in[static_cast<std::size_t>(select-1)].c_str(), 
             NULL,   
             NULL,
             X_util.helper,
