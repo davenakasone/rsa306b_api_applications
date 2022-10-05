@@ -32,9 +32,13 @@
             h_find_bytes_in_file()
             h_match_extension()
         
-        "cu_help_decode.cpp"
-            h_decode_print())
-            h_decode_write()
+        "cu_batch_decode.cpp"
+            batch_decode_print())
+            batch_decode_write()
+
+        "cu_decode.cpp"
+            decode_print())
+            decode_write()
 
         "timing.cpp"
             timer_split_start()
@@ -51,8 +55,9 @@
             _timer_set_running_wall()
         
         "cu_wchar_2_char.cpp"
-            wchar_2_char_std()
-            wchar_2_char()
+            whcar_2_char()
+            _wchar_2_char_std()
+            _wchar_2_char_unq()
 
     Notes:
         "clock_t" is processing time required, not wall clock
@@ -79,16 +84,16 @@ class common_utility
 {
     public :
 
+// core
         common_utility  ();    // destructor
         ~common_utility ();    // constructor
-
         CODEZ      clear();                    // re-initialize the object instance
         char helper[BUF_E];                    // for the user's convenience
         char holder[BUF_F];                    // for the user's convenience
         std::vector<std::string> filez_in;     // for the user's convenience, store results from file operations
         std::vector<std::string> filez_out;    // for the user's convenience, store results from file operations
 
-        // status code management
+// status code management
         const char* get_status_code_string();                                                  // getter for "_status_code" message
         int         get_status_code_number();                                                  // getter for "_status_code", casted to "int"
         CODEZ       get_status_code       ();                                                  // getter for "_status_code"
@@ -96,13 +101,16 @@ class common_utility
         CODEZ       codez_checker         (const CODEZ* codez_list, const int codez_count);    // evaluate batch of codez
         const char* codez_messages        (CODEZ lookup);                                      // lookup a status code and get char*
 
-        // execute a specific function + verify
+// string handling
+        CODEZ wchar_2_char(char* destination, const wchar_t* source, bool use_std);    // convert wchar_t* to char*
+
+// execute a specific library function + verify
         CODEZ exe_strcpy (char* destination, const char* source); 
         CODEZ exe_remove (const char* file_to_delete);
 
-        // help for a common task
-        CODEZ find_bytes_in_file(const char* file_path_name, long& result);
-        bool  extension_matched(const char* file_path_name, const char* extension);
+// getting file information
+        CODEZ find_bytes_in_file       (const char* file_path_name, long& result);
+        bool  extension_matched        (const char* file_path_name, const char* extension);
         CODEZ find_files_with_extension(const char* directory, const char* extension, std::vector<std::string>& filez, bool include_directory);
         
         
@@ -164,15 +172,10 @@ class common_utility
         double timer_get_running_wall();                                          // updates "_running_wall"
         CODEZ  make_date_timestamp                                                // place desired time into formated "dts" string
         (
-            const time_t* seconds, 
-            const uint64_t nanos, 
-            char* dts_string
+            const time_t* seconds,    // call with 0 to use current time
+            const uint64_t nanos,     // call with 0 to use current time
+            char* dts_string          // must be allocated
         );
-
-// wchar_t* and char* conversion
-        CODEZ wchar_2_char_std(char* destination, const wchar_t* source);    // string converter, wchar_t* to char* using std::                        
-        CODEZ wchar_2_char    (const wchar_t* source, char* destination);    // string converter,  wchar_t* to char*
-        
 
 // acqstatus bitchecking, the API has 6 bitcheck points in 5 API groups
         CODEZ ifstream_acq_status
@@ -202,13 +205,15 @@ class common_utility
         );
 
 
-////~~~~
-
-
     private :
+
 
         CODEZ _status_code;     // status code, reflects most recent call        
         char _worker[BUF_E];    // string for internal use
+
+// wchar_t* and char* conversion
+        CODEZ _wchar_2_char_std(char* destination, const wchar_t* source);    // string converter, wchar_t* to char*, using std::                        
+        CODEZ _wchar_2_char_unq(char* destination, const wchar_t* source);    // string converter,  wchar_t* to char*, using something else
 
 // timers
         CODEZ _timer_init();

@@ -28,8 +28,8 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_10";    // program version:  
 
 
 #define DE_BUG           1    // {ON|OFF} if activated, debug features are applied, good to have at least this and  "DEBUG_MIN" activated
-#define BLOCKING_TIMEOUT 2    // {ON|OFF} if activated, any acquisitions that block will be limited by "TIMEOUT_LIMIT_*"
-#define SAFETY_CHECKS    3    // {ON|OFF} if activated, applies checks needed for proper device operation (but slows program)
+//#define BLOCKING_TIMEOUT 2    // {ON|OFF} if activated, any acquisitions that block will be limited by "TIMEOUT_LIMIT_*"
+//#define SAFETY_CHECKS    3    // {ON|OFF} if activated, applies checks needed for proper device operation (but slows program)
 #define BUILD_PYTHON     4    // {ON|OFF} if activated, compiles with C++ to python3 interfacing, should be on to make a proper library
 #define UNIT_TESTING     5    // {ON|OFF} if activated, compiles with unit testing, select build target accordingly
     

@@ -78,9 +78,33 @@ CODEZ rsa306b_class::iqstream_record_siq()
 //             );
 //     }
 // #endif
+
     (void)this->_report_api_status();
-    (void)this->_iqstream_get_disk_fileinfo();
-    //this->_vars.iqstream.filenames_0_data[0] = '\0';
+
+
+
+    (void)this->set_api_status
+    (
+        RSA_API::IQSTREAM_GetDiskFileInfo
+        (
+            &this->_vars.iqstream.fileinfo_type
+        )
+    );
+    (void)this->cutil.wchar_2_char
+    (
+        this->_vars.iqstream.filenames_0_data, 
+        this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX],
+        true
+    );
+    (void)this->cutil.wchar_2_char
+    (
+        this->_vars.iqstream.filenames_1_header, 
+        this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX],
+        true
+    );
+    (void)this->_iqstream_copy_fileinfo_type();
+
+
     
     if (is_complete == false)    // file never finished (could be hung or never started because trigger did not occur)
     {
@@ -92,7 +116,8 @@ CODEZ rsa306b_class::iqstream_record_siq()
         if 
         (
             (strcmp(this->_vars.iqstream.filenames_0_data, this->_vars.iqstream.filenames_1_header) == 0) &&
-            (strcmp(this->_vars.iqstream.filenames_0_data, INIT_CHARP) != 0)
+            (strcmp(this->_vars.iqstream.filenames_0_data, INIT_CHARP) != 0)                              &&
+            (this->_vars.iqstream.filenames_0_data[0] != '\0')
         )
         {
             (void)this->cutil.exe_remove(this->_vars.iqstream.filenames_0_data);    // both files same, only delete 1
@@ -101,7 +126,9 @@ CODEZ rsa306b_class::iqstream_record_siq()
         (
             (strcmp(this->_vars.iqstream.filenames_0_data, this->_vars.iqstream.filenames_1_header) != 0) &&
             (strcmp(this->_vars.iqstream.filenames_0_data, INIT_CHARP) != 0)                              &&
-            (strcmp(this->_vars.iqstream.filenames_1_header, INIT_CHARP) != 0)
+            (strcmp(this->_vars.iqstream.filenames_1_header, INIT_CHARP) != 0)                            &&
+            (this->_vars.iqstream.filenames_0_data[0] != '\0') &&
+            (this->_vars.iqstream.filenames_1_header[0] != '\0')
         )
         {
             (void)this->cutil.exe_remove(this->_vars.iqstream.filenames_0_data);      // delete both of the hung files
@@ -110,9 +137,8 @@ CODEZ rsa306b_class::iqstream_record_siq()
         return this->cutil.report_status_code(CODEZ::_27_loop_timed_out);
     }
 
-    //(void)this->iqstream_good_bitcheck();
+    (void)this->iqstream_good_bitcheck();
     (void)this->iqstream_stop();    // IQSTREAM_Stop()
-    // device_stop()
     return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 

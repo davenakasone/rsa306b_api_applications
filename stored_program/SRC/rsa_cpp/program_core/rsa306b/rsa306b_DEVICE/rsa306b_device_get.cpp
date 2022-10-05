@@ -214,10 +214,10 @@ CODEZ rsa306b_class::_device_get_is_over_temperature()
 */
 CODEZ rsa306b_class::_device_get_event()
 {
-#ifdef DEBUG_GETS
-    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
-    debug_record(false);
-#endif 
+// #ifdef DEBUG_GETS
+//     (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_GETS_FORMAT, __LINE__, __FILE__, __func__);
+//     debug_record(false);
+// #endif 
 #ifdef SAFETY_CHECKS
     if (this->_vars.device.is_connected == false)
     {

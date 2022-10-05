@@ -160,8 +160,8 @@ CODEZ r3f_manager_class:: batch_process_files
             (
                 temp_r3f,
                 temp_parsed,
-                temp_adc,
                 temp_eql,
+                temp_adc,
                 write_parsed,
                 write_equalization,
                 write_adc

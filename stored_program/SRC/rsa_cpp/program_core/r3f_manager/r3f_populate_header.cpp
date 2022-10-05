@@ -528,7 +528,7 @@ CODEZ  r3f_manager_class::_populate_header
                 ii, this->_vars.table_frequency[ii]);
             (void)fputs(this->_holder, this->_fp_write); 
         }
-        this->_vars.v_eqaul[0].push_back(this->_vars.table_frequency[ii]);    // vector is loaded
+        this->_vars.v_eqaul[R3F_EQL_IDX_FREQ].push_back(this->_vars.table_frequency[ii]);    // vector is loaded
     } 
     // [4 of 5] table, amplitude (dB)
     for (int ii = 0; ii < this->_vars.number_of_table_entries; ii++)
@@ -540,7 +540,7 @@ CODEZ  r3f_manager_class::_populate_header
                 ii, this->_vars.table_amplitude[ii]);
             (void)fputs(this->_holder, this->_fp_write); 
         }
-        this->_vars.v_eqaul[1].push_back(this->_vars.table_amplitude[ii]);    // vector is loaded
+        this->_vars.v_eqaul[R3F_EQL_IDX_SCAL].push_back(this->_vars.table_amplitude[ii]);    // vector is loaded
     }    
     // [5 of 5] table, phase (degrees)
     for (int ii = 0; ii < this->_vars.number_of_table_entries; ii++)
@@ -552,7 +552,7 @@ CODEZ  r3f_manager_class::_populate_header
                 ii, this->_vars.table_phase[ii]);
             (void)fputs(this->_holder, this->_fp_write); 
         }
-        this->_vars.v_eqaul[2].push_back(this->_vars.table_phase[ii]);    // vector is loaded
+        this->_vars.v_eqaul[R3F_EQL_IDX_PHAS].push_back(this->_vars.table_phase[ii]);    // vector is loaded
     } 
 
     if(write_parsed == true)

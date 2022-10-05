@@ -171,6 +171,8 @@ $(SDIR)siq_manager/siq_populate_data.cpp \
 $(SDIR)siq_manager/siq_populate_header.cpp \
 $(SDIR)siq_manager/siq_write.cpp \
 \
+$(PYDIR)raw_r3f.cpp \
+$(PYDIR)raw_siq.cpp \
 $(PYDIR)rsa_config.cpp \
 $(PYDIR)rsa_device.cpp \
 $(PYDIR)rsa_gp.cpp \

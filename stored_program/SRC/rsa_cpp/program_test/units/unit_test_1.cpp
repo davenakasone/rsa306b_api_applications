@@ -108,6 +108,7 @@ printf("\n%s()  ,  methods that execute common library functions\n", __func__);
     (void)fputs("dummy data", fp);
     (void)fclose(fp);
     fp = NULL;
+
 #ifdef WAIT_ENTER_CLEAR
     printf("\nsee if file was made\n'%s'\n\tit will be deleted soon, press any key to execute:",
         X_util.helper);
@@ -135,7 +136,8 @@ printf("\n%s()  ,  methods that decode and manage files\n", __func__);
     long bytez = 0;
     FILE* fp = NULL;
     char ext[BUF_A] = "txt";
-    (void)sprintf(X_util.helper, "%sut1decode.%s", DATA_DIRECTORY_RAW, ext);
+
+    (void)sprintf(X_util.helper, "%sut1encoded.%s", DATA_DIRECTORY_RAW, ext);
     fp = fopen(X_util.helper, "w");
     if (fp == NULL) {return;}
     (void)fputs("dummy data", fp);
@@ -152,6 +154,7 @@ printf("\n%s()  ,  methods that decode and manage files\n", __func__);
     X_util.decode_print(X_util.helper, 0, 0);
     X_util.decode_write(X_util.helper, X_util.holder, 0, 0);
     printf("\nsee files:\n");
+
 #ifdef WAIT_ENTER_CLEAR
     printf("%s\n%s\n\tany key to delete:", X_util.helper, X_util.holder);
     char discard[BUF_C];
@@ -228,14 +231,24 @@ printf("\n%s()  ,  wchar_t* --> char*\n", __func__);
 #endif                   
 //~
 
-    char c_str[BUF_A] = "cstring";
-    wchar_t wc_str[BUF_A] = L"w_cstring";
-    std::cout << "c-string :  " << c_str << std::endl;
-    std::cout << "wc-string:  " << wc_str << std::endl;
+    printf("\n");
+    char std_c_str[BUF_A] = "cstring std";
+    wchar_t std_wc_str[BUF_A] = L"w_cstring std";
+    std::cout << "c-string :  " << std_c_str << std::endl;
+    std::cout << "wc-string:  " << std_wc_str << std::endl;
+    X_util.wchar_2_char(std_c_str, std_wc_str, true);
+    std::cout << "c-string :  " << std_c_str << std::endl;
+    std::cout << "wc-string:  " << std_wc_str << std::endl;
 
-    X_util.wchar_2_char_std(c_str, wc_str);
-    std::cout << "\nc-string :  " << c_str << std::endl;
-    std::cout << "wc-string:  " << wc_str << std::endl;
+    printf("\n");
+    char unq_c_str[BUF_A] = "cstring unq";
+    wchar_t unq_wc_str[BUF_A] = L"w_cstring unq";
+    std::cout << "c-string :  " << unq_c_str << std::endl;
+    std::cout << "wc-string:  " << unq_wc_str << std::endl;
+    X_util.wchar_2_char(unq_c_str, unq_wc_str, false);
+    std::cout << "c-string :  " << unq_c_str << std::endl;
+    std::cout << "wc-string:  " << unq_wc_str << std::endl;
+
 //~
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  complete\n", __func__);

@@ -35,8 +35,8 @@ CODEZ r3f_manager_class::load_file
 (
     const char* r3f_input,
     const char* output_parsed,
-    const char* output_adc,
     const char* output_equalization,
+    const char* output_adc,
     bool write_parsed,
     bool write_equalization,
     bool write_adc

@@ -26,8 +26,11 @@ CODEZ common_utility::exe_strcpy
     debug_record(false);
 #endif
 
-    if (destination == NULL ||
-        source == NULL       )
+    if 
+    (
+        destination == NULL ||
+        source == NULL       
+    )
     {
         return this->report_status_code(CODEZ::_7_parameter_not_allocated);
     }
@@ -71,7 +74,7 @@ CODEZ common_utility::exe_remove
     fp = fopen(file_to_delete, "r");
     if (fp == NULL)
     {
-        return this->report_status_code(CODEZ::_13_fopen_failed);    // file is not there
+        return this->report_status_code(CODEZ::_13_fopen_failed);    // file is not there, or busy
     }
     (void)fclose(fp);
     fp = NULL;

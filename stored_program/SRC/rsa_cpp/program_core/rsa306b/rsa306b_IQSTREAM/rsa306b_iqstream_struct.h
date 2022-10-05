@@ -238,7 +238,7 @@ struct rsa306b_iqstream_struct
             filename_base ; has path also
 */
     char filename_base[BUF_D];
-    //const char* _FILENAME_BASE = DATA_DIRECTORY_RAW;
+    // initializes from "constant_expresions.h"
 
 /*
     IQSTREAM_SetDiskFilenameSuffix()

@@ -157,8 +157,10 @@ void debug_record(bool force_print)
     
     clock_t t_now  = clock();
     double seconds = 
-        (static_cast<double>(t_now) - static_cast<double>(X_dstart)) /
-        static_cast<double>(CLOCKS_PER_SEC);     
+        (
+            static_cast<double>(t_now) - 
+            static_cast<double>(X_dstart)
+        ) / static_cast<double>(CLOCKS_PER_SEC);     
     
     char temp[3*DEBUG_WIDTH];
     (void)snprintf(temp, sizeof(temp), "[ %15.5lf ]  %s\n",
@@ -169,6 +171,11 @@ void debug_record(bool force_print)
         (void)printf("\n%s\n", temp);
     #endif
     #ifdef DEBUGS_WILL_WRITE
+        if (X_dfp == NULL)
+        {
+            printf("\n!!! %s =  %p\n", GET_NAME(X_dfp), X_dfp);
+            return;
+        }
         (void)fputs(temp, X_dfp);
         if (force_print == true)
         {

@@ -45,12 +45,11 @@ rsa306b_class::~rsa306b_class()
     debug_record(false);
 #endif
 
-    (void)this->device_disconnect();    // attempts to disconect, automatic clear() if device was connected
+   (void)this->set_api_status(RSA_API::DEVICE_Disconnect());  // insurance
+    //(void)this->device_disconnect();    // attempts to disconect, automatic clear() if device was connected
 
 #ifdef DE_BUG
     (void)this->cutil.timer_print_running(1, 2); // only constructor triggering print
-#endif
-#ifdef DE_BUG
     debug_stop();
 #endif
 }
@@ -72,14 +71,15 @@ CODEZ rsa306b_class::clear()
     constexpr int calls = 3;
     CODEZ caught_call[calls];
 
-    if (this->_vars.device.is_connected == true)
-    {
-        caught_call[0] = this->set_api_status(RSA_API::DEVICE_Disconnect());
-    }
-    else
-    {
-        caught_call[0] = CODEZ::_0_no_errors;
-    }
+    caught_call[0] = this->set_api_status(RSA_API::DEVICE_Disconnect()); // insurance
+    // if (this->_vars.device.is_connected == true)
+    // {
+    //     caught_call[0] = this->set_api_status(RSA_API::DEVICE_Disconnect());
+    // }
+    // else
+    // {
+    //     caught_call[0] = CODEZ::_0_no_errors;
+    // }
     caught_call[1] = this->cutil.clear();         // clear the composed instance
     caught_call[2] = this->_init_everything();    // clear variables in this instance
 

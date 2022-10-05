@@ -35,16 +35,8 @@ CODEZ rsa306b_class::_iqstream_init()
     this->_vars.iqstream.pairs_copied      = this->_vars.iqstream._PAIRS_COPIED;
 
     (void)memset(this->_vars.iqstream.filename_base, '\0', sizeof(this->_vars.iqstream.filename_base));
-    //(void)strcpy(this->_vars.iqstream.filename_base, this->_vars.iqstream._FILENAME_BASE);
+    (void)strcpy(this->_vars.iqstream.filename_base, IQSTREAM_FILE_NAME_BASE);
     (void)strcpy(this->_vars.iqstream.filename_base, DATA_DIRECTORY_RAW);
-
-    (void)memset(this->_vars.iqstream.filenames_0_data, '\0', sizeof(this->_vars.iqstream.filenames_0_data));
-    //(void)strcpy(this->_vars.iqstream.filenames_0_data, this->_vars.iqstream._FILENAMES);
-    (void)strcpy(this->_vars.iqstream.filenames_0_data, INIT_CHARP);
-
-    (void)memset(this->_vars.iqstream.filenames_1_header, '\0', sizeof(this->_vars.iqstream.filenames_1_header));
-    //(void)strcpy(this->_vars.iqstream.filenames_1_header, this->_vars.iqstream._FILENAMES);
-    (void)strcpy(this->_vars.iqstream.filenames_1_header, INIT_CHARP);
 
     for (int kk = 0; kk < IQSTREAM_BITCHECKS; kk++)
     {
@@ -68,18 +60,22 @@ CODEZ rsa306b_class::_iqstream_init()
     this->_vars.iqstream.destination_select = this->_vars.iqstream._DESTINATION_SELECT;
     this->_vars.iqstream.datatype_select    = this->_vars.iqstream._DATATYPE_SELECT;
 
-    this->_vars.iqstream.info_type.acqStatus      = this->_vars.iqstream._INFO_TYPE_acqStatus;
-    this->_vars.iqstream.info_type.scaleFactor    = this->_vars.iqstream._INFO_TYPE_scaleFactor;
-    this->_vars.iqstream.info_type.timestamp      = this->_vars.iqstream._INFO_TYPE_timestamp;
-    this->_vars.iqstream.info_type.triggerCount   = this->_vars.iqstream._INFO_TYPE_triggerCount;
-    // there is a pointer
+    this->_vars.iqstream.info_type.acqStatus    = this->_vars.iqstream._INFO_TYPE_acqStatus;
+    this->_vars.iqstream.info_type.scaleFactor  = this->_vars.iqstream._INFO_TYPE_scaleFactor;
+    this->_vars.iqstream.info_type.timestamp    = this->_vars.iqstream._INFO_TYPE_timestamp;
+    this->_vars.iqstream.info_type.triggerCount = this->_vars.iqstream._INFO_TYPE_triggerCount;
+    // there is an int* , don't touch it here
 
     this->_vars.iqstream.fileinfo_type.acqStatus          = this->_vars.iqstream._FILEINFO_TYPE_acqStatus;
     this->_vars.iqstream.fileinfo_type.numberSamples      = this->_vars.iqstream._FILEINFO_TYPE_numberSamples;
     this->_vars.iqstream.fileinfo_type.sample0Timestamp   = this->_vars.iqstream._FILEINFO_TYPE_sample0Timestamp;
     this->_vars.iqstream.fileinfo_type.triggerSampleIndex = this->_vars.iqstream._FILEINFO_TYPE_triggerSampleIndex;
     this->_vars.iqstream.fileinfo_type.triggerTimestamp   = this->_vars.iqstream._FILEINFO_TYPE_triggerTimestamp;
-    // there is a pointer
+    (void)memset(this->_vars.iqstream.filenames_0_data  , '\0', sizeof(this->_vars.iqstream.filenames_0_data));
+    (void)memset(this->_vars.iqstream.filenames_1_header, '\0', sizeof(this->_vars.iqstream.filenames_1_header));
+    // there is a wchar_t**, don't touch it here?
+    // this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX] = NULL;
+    // this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX] = NULL;
 
     return this->_iqstream_copy_vars();
 }

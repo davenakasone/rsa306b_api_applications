@@ -22,13 +22,30 @@ from .configuration import SO_DIR
 # get the functions
 from .funz.admin import clear
 from .funz.admin import lsf
+from .funz.admin import lsf_a
+from .funz.admin import lsf_b
+from .funz.admin import lsf_c
+from .funz.admin import lsf_d
+from .funz.admin import lsf_if
+from .funz.admin import lsf_iq
+from .funz.admin import lsf_s
+from .funz.admin import lsf_r3f
+from .funz.admin import lsf_siq
 from .funz.admin import stop
 from .funz.plot_spectrum import plot_spectrum
 from .funz.plot_iq import plot_iq
 from .funz.plot_eq import plot_eq
 
 # get the R3F file manager wrappers
-from .r3f_wrapper.r3fw import r3fw
+from .r3f_wrapper.r3f_utility import r3f_adc
+from .r3f_wrapper.r3f_utility import r3f_eql
+from .r3f_wrapper.f_r3f import r3f_adcp
+from .r3f_wrapper.f_r3f import r3f_eqlp
+
+
+# get the SIQ file manager wrappers
+from .siq_wrapper.siq_utility import siq_csv
+from .siq_wrapper.f_siq import siq_csvp
 
 
 # get the RSA-306B wrappers
@@ -50,15 +67,21 @@ from .rsa_wrapper.api_ifstream import ifcsv
 from .rsa_wrapper.api_ifstream import ifacq
 from .rsa_wrapper.api_ifstream import ifeq
 from .rsa_wrapper.api_ifstream import ifcsv
+from .rsa_wrapper.f_ifstream import ifcsvx
+from .rsa_wrapper.f_ifstream import ifrecx
+from .rsa_wrapper.f_ifstream import ifeqx
 
 from .rsa_wrapper.api_iqblk import bset
 from .rsa_wrapper.api_iqblk import bacq
 from .rsa_wrapper.api_iqblk import bcsv
+from .rsa_wrapper.f_iqblk import bspin
 
 from .rsa_wrapper.api_iqstream import iqacq
 from .rsa_wrapper.api_iqstream import iqcsv
 from .rsa_wrapper.api_iqstream import iqrec
 from .rsa_wrapper.api_iqstream import iqset
+from .rsa_wrapper.f_iqstream import iqcsvx
+from .rsa_wrapper.f_iqstream import iqrecx
 
 from .rsa_wrapper.api_spectrum import soff
 from .rsa_wrapper.api_spectrum import son
@@ -67,21 +90,8 @@ from .rsa_wrapper.api_spectrum import sacq
 from .rsa_wrapper.api_spectrum import sfpi
 from .rsa_wrapper.api_spectrum import scsv
 from .rsa_wrapper.api_spectrum import sauto
-
-
-# get the RSA-306B applied concepts
-from .rsa_wrapper.f_ifstream import ifcsvx
-from .rsa_wrapper.f_ifstream import ifrecx
-from .rsa_wrapper.f_ifstream import ifeqx
-from .rsa_wrapper.f_iqblk import bspin
-from .rsa_wrapper.f_iqstream import iqcsvx
-from .rsa_wrapper.f_iqstream import iqrecx
 from .rsa_wrapper.f_spectrum import sspin
 from .rsa_wrapper.f_spectrum import sscan
-
-
-# get the SIQ file manager wrappers
-from .siq_wrapper.siqw import siqw
 
 
 ########~~~~~~~~END>  __init__.py

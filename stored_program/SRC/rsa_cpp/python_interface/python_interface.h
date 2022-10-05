@@ -73,6 +73,13 @@ char* spectrum_scanner
     int    tlen
 );
 
+// raw_r3f.cpp
+char* get_r3f_csv_equalization();
+char* get_r3f_csv_adc();
+
+// raw_siq.cpp
+char* get_siq_csv();
+
 
 #ifdef __cplusplus      
 }

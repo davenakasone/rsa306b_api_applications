@@ -27,15 +27,15 @@ CODEZ rsa306b_class::_iqstream_get_vars()
     debug_record(false);
 #endif  
 
-    constexpr int callz = 6;
+    constexpr int callz = 5;
     CODEZ caught_call[callz];
     
     caught_call[0] = this->_iqstream_get_max_acq_bandwidth();
     caught_call[1] = this->_iqstream_get_min_acq_bandwidth();
     caught_call[2] = this->_iqstream_get_acq_parameters();
-    caught_call[3] = this->_iqstream_get_disk_fileinfo();
-    caught_call[4] = this->_iqstream_get_enabled();
-    caught_call[5] = this->_iqstream_get_iq_data_buffer_size();
+    //caught_call[3] = this->_iqstream_get_disk_fileinfo();
+    caught_call[3] = this->_iqstream_get_enabled();
+    caught_call[4] = this->_iqstream_get_iq_data_buffer_size();
 
     return this->cutil.codez_checker(caught_call, callz);
 }
@@ -175,40 +175,6 @@ CODEZ rsa306b_class::_iqstream_get_disk_fileinfo()
         (
             &this->_vars.iqstream.fileinfo_type
         );
-    if (this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX] != NULL)
-    {
-        // this->cutil.wchar_2_char_std
-        // (
-        //     this->_vars.iqstream.filenames_0_data,
-        //     this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX]
-        // );
-        this->cutil.wchar_2_char
-        (
-            this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX],
-            this->_vars.iqstream.filenames_0_data
-        );
-    }
-    else
-    {
-        (void)strcpy(this->vars.iqstream.filenames_0_data, INIT_CHARP);
-    }
-    if (this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX] != NULL)
-    {
-        // this->cutil.wchar_2_char_std
-        // (
-        //     this->_vars.iqstream.filenames_1_header,
-        //     this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX]  
-        // );
-        this->cutil.wchar_2_char
-        (
-            this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX],
-            this->_vars.iqstream.filenames_1_header
-        );
-    }
-    else
-    {
-        (void)strcpy(this->vars.iqstream.filenames_1_header, INIT_CHARP);
-    }
     (void)this->_iqstream_copy_fileinfo_type();
     return this->_report_api_status();
 }
