@@ -18,6 +18,7 @@
 #include <iterator>
 #include <cmath>
 #include <queue>
+#include <sstream>
 #include <stack>
 #include <string>
 #include <vector>

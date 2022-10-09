@@ -11,11 +11,10 @@
 
     Source:
 
-        "cu_common_utility.cpp"
-            common_utility()
-            ~common_utility()
-            clear()
-
+        "cu_batch_decode.cpp"
+            batch_decode_print()
+            batch_decode_write()
+        
         "cu_codez.cpp"
             get_status_code_string()
             get_status_code_number()
@@ -24,21 +23,47 @@
             codez_checker()
             codez_messages()
 
+        "cu_common_utility.cpp"
+            common_utility()
+            ~common_utility()
+            clear()
+
+        "cu_decode.cpp"
+            decode_print()
+            decode_write()
+
         "cu_exe_1.cpp"
             exe_strcpy()
             exe_remove()
 
-        "cu_help_1.cpp"
-            h_find_bytes_in_file()
-            h_match_extension()
-        
-        "cu_batch_decode.cpp"
-            batch_decode_print())
-            batch_decode_write()
+        "cu_file_modification.cpp"
+            delete_files_in_directory()
+            change_extension()
+            switch_directory()
+            insert_and_change_extension()
+            batch_switch_directory_and_change_extension()
+            batch_switch_directory_insert_and_change_extension()
 
-        "cu_decode.cpp"
-            decode_print())
-            decode_write()
+        "cu_find_file_info.cpp"
+            find_bytes_in_file()
+            extension_matched()
+            tag_matched()
+            extension_and_tag_matched()
+            find_files_with_extension()
+            find_files_with_tag()
+            find_files_with_extension_and_tag()
+        
+        "cu_ifstream_acq_status.cpp"
+            ifstream_acq_status
+
+        "cu_iqblk_acq_status.cpp"
+            iqblk_acq_status()
+
+        "cu_iqstream_acq_status.cpp"
+            iqstream_acq_status()
+
+        "cu_spectrum_acq_status.cpp"
+            spectrum_acq_status()
 
         "timing.cpp"
             timer_split_start()
@@ -50,6 +75,7 @@
             timer_get_split_wall()
             timer_get_running_cpu()
             timer_get_running_wall()
+            make_datetime_stamp()
             _timer_init()
             _timer_set_running_cpu()
             _timer_set_running_wall()
@@ -85,8 +111,8 @@ class common_utility
     public :
 
 // core
-        common_utility  ();    // destructor
-        ~common_utility ();    // constructor
+        common_utility  ();    
+        ~common_utility ();    
         CODEZ      clear();                    // re-initialize the object instance
         char helper[BUF_E];                    // for the user's convenience
         char holder[BUF_F];                    // for the user's convenience
@@ -101,31 +127,111 @@ class common_utility
         CODEZ       codez_checker         (const CODEZ* codez_list, const int codez_count);    // evaluate batch of codez
         const char* codez_messages        (CODEZ lookup);                                      // lookup a status code and get char*
 
-// string handling
-        CODEZ wchar_2_char(char* destination, const wchar_t* source, bool use_std);    // convert wchar_t* to char*
+// wchar* to char* conversion
+        CODEZ wchar_2_char
+        (
+            char* destination, 
+            const wchar_t* source, 
+            bool use_std
+        );    
 
 // execute a specific library function + verify
-        CODEZ exe_strcpy (char* destination, const char* source); 
-        CODEZ exe_remove (const char* file_to_delete);
+        CODEZ exe_strcpy 
+        (
+            char* destination, 
+            const char* source
+        ); 
+        CODEZ exe_remove 
+        (
+            const char* file_to_delete
+        );
 
 // getting file information
-        CODEZ find_bytes_in_file       (const char* file_path_name, long& result);
-        bool  extension_matched        (const char* file_path_name, const char* extension);
-        CODEZ find_files_with_extension(const char* directory, const char* extension, std::vector<std::string>& filez, bool include_directory);
-        
-        
-        
-        
-        
-        
-        CODEZ h_change_extension     (char* file_path_name, const char* new_extension);
-        CODEZ h_batch_change_redirect(const char* in_directory, const char* in_extension, const char* out_directory, const char* out_extension, std::vector<std::string>& new_filez);
-        CODEZ h_insert_and_change_extension(char* file_path_name, const char* to_insert, const char* new_extension);
-        CODEZ h_switch_directory(char* file_to_change, const char* new_directory);
-        CODEZ h_batch_redir_insert_ext_change(const char* in_directory, const char* in_extension, const char* out_directory, const char* inserts, const char* out_extension, std::vector<std::string>& new_filez);
-        CODEZ h_delete_files_in_dir(const char* directory);
+        CODEZ find_bytes_in_file
+        (
+            const char* file_path_name, 
+            long& result
+        );
+        bool extension_matched        
+        (
+            const char* file_path_name, 
+            const char* extension
+        );
+        bool  tag_matched              
+        (
+            const char* file_path_name, 
+            const char* tag
+        );
+        bool  extension_and_tag_matched              
+        (
+            const char* file_path_name, 
+            const char* extension,
+            const char* tag
+        );
+        CODEZ find_files_with_extension
+        (
+            const char* directory, 
+            const char* extension, 
+            std::vector<std::string>& filez, 
+            bool include_directory
+        );
+        CODEZ find_files_with_tag     
+        (
+            const char* directory, 
+            const char* tag, 
+            std::vector<std::string>& filez, 
+            bool include_directory
+        );
+        CODEZ find_files_with_extension_and_tag     
+        (
+            const char* directory, 
+            const char* extension, 
+            const char* tag, 
+            std::vector<std::string>& filez, 
+            bool include_directory
+        );
 
-// decoding, diagnostic tools to parse raw files, byte-by-byte + batch
+// file modification
+        CODEZ delete_files_in_directory
+        (
+            const char* directory
+        );
+        CODEZ change_extension
+        (
+            char* file_path_name, 
+            const char* new_extension
+        );
+        CODEZ switch_directory
+        (
+            char* file_to_change, 
+            const char* new_directory
+        );
+        CODEZ insert_and_change_extension
+        (
+            char* file_path_name, 
+            const char* to_insert, 
+            const char* new_extension
+        );
+        CODEZ batch_switch_directory_and_change_extension
+        (
+            const char* in_directory, 
+            const char* in_extension, 
+            const char* out_directory, 
+            const char* out_extension, 
+            std::vector<std::string>& new_filez
+        );
+        CODEZ batch_switch_directory_insert_and_change_extension
+        (
+            const char* in_directory, 
+            const char* in_extension, 
+            const char* out_directory, 
+            const char* inserts, 
+            const char* out_extension, 
+            std::vector<std::string>& new_filez
+        );
+
+
+// decoding, diagnostic tools to parse raw files and batches of files, byte-by-byte
         CODEZ decode_print
         (
             const char*    raw_file_path_name, 
@@ -217,14 +323,14 @@ class common_utility
 
 // timers
         CODEZ _timer_init();
-        // timer, CPU
+        // timer, CPU-clock
         CODEZ   _timer_set_running_cpu();    // calculates difference of current time and object creation time
         clock_t _begin_cpu;                  // marks the beginning time of the object's creation                    
         clock_t _lead_cpu;                   // used to mark the end of a split, will be used in a calculation
         double  _running_cpu;                // holds the difference of current time and object creation time , after calculation                     
         double  _split_cpu;                  // holds the difference of end of split and beginning of split, after calculation                  
         double  _trail_cpu;                  // used to mark the beginnng of a split, will be used in a calculation  
-        // timer, wall-clock "w"
+        // timer, wall-clock
         CODEZ  _timer_set_running_wall();    // calculates difference of current time and object creation time
         struct timespec _begin_wall;         // marks the beginning time of the object's creation            
         struct timespec _lead_wall;          // used to mark the end of a split, will be used in a calculation

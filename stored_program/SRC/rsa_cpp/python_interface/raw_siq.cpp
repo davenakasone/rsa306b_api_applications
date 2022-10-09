@@ -52,7 +52,7 @@ char* get_siq_csv()
         DATA_DIRECTORY_PROCESSED, 
         IFSTREAM_TAG_ADC, 
         X_util.filez_out[static_cast<std::size_t>(select-1)].c_str());
-    (void)X_util.h_change_extension(X_util.helper, DATA_DEFAULT_EXT);
+    (void)X_util.change_extension(X_util.helper, DATA_DEFAULT_EXT);
     if 
     (
         X_siq.load_file

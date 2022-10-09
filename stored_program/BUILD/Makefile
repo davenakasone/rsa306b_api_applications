@@ -49,19 +49,11 @@ $(UDIR)cu_codez.cpp \
 $(UDIR)cu_common_utility.cpp \
 $(UDIR)cu_decode.cpp \
 $(UDIR)cu_exe_1.cpp \
-$(UDIR)cu_extension_matched.cpp \
-$(UDIR)cu_find_bytes_in_file.cpp \
-$(UDIR)cu_find_files_with_extension.cpp \
-$(UDIR)cu_help_batch_change_redirect.cpp \
-$(UDIR)cu_help_batch_redir_insert_ext_change.cpp\
-$(UDIR)cu_help_change_extension.cpp \
-$(UDIR)cu_help_delete_files_in_dir.cpp \
-$(UDIR)cu_help_insert_and_change_extension.cpp \
-$(UDIR)cu_help_switch_directory.cpp \
+$(UDIR)cu_file_modification.cpp \
+$(UDIR)cu_find_file_info.cpp \
 $(UDIR)cu_ifstream_acq_status.cpp \
 $(UDIR)cu_iqblk_acq_status.cpp \
 $(UDIR)cu_iqstream_acq_status.cpp \
-$(UDIR)cu_make_date_timestamp.cpp \
 $(UDIR)cu_spectrum_acq_status.cpp \
 $(UDIR)cu_timing.cpp \
 $(UDIR)cu_wchar_2_char.cpp \

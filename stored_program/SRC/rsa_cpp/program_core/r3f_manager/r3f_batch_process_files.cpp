@@ -64,7 +64,7 @@ CODEZ r3f_manager_class:: batch_process_files
     {
         if 
         (
-            this->cutil.h_batch_redir_insert_ext_change
+            this->cutil.batch_switch_directory_insert_and_change_extension
             (
                 r3f_input_directory,
                 R3F_RAW_EXT,
@@ -84,7 +84,7 @@ CODEZ r3f_manager_class:: batch_process_files
     {
         if 
         (
-            this->cutil.h_batch_redir_insert_ext_change
+            this->cutil.batch_switch_directory_insert_and_change_extension
             (
                 r3f_input_directory,
                 R3F_RAW_EXT,
@@ -103,7 +103,7 @@ CODEZ r3f_manager_class:: batch_process_files
     {
         if 
         (
-            this->cutil.h_batch_redir_insert_ext_change
+            this->cutil.batch_switch_directory_insert_and_change_extension
             (
                 r3f_input_directory,
                 R3F_RAW_EXT,

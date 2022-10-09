@@ -60,7 +60,7 @@ CODEZ siq_manager_class::batch_process_files
     {
         if 
         (
-            this->cutil.h_batch_redir_insert_ext_change
+            this->cutil.batch_switch_directory_insert_and_change_extension
             (
                 siq_input_directory,
                 SIQ_RAW_EXT,
@@ -80,7 +80,7 @@ CODEZ siq_manager_class::batch_process_files
     {
         if 
         (
-            this->cutil.h_batch_redir_insert_ext_change
+            this->cutil.batch_switch_directory_insert_and_change_extension
             (
                 siq_input_directory,
                 SIQ_RAW_EXT,

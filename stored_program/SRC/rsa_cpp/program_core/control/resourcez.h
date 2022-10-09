@@ -54,7 +54,7 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_10";    // program version:  
         #define DEBUG_MAX               1787                  
 
         // {ON|OFF} tracks:  acqStatus and acqDataStatus of all status code verifications, after data is acquired
-        #define DEBUG_ACQ_STATUS        2022    
+        //#define DEBUG_ACQ_STATUS        2022    
 
         // {ON|OFF} tracks:  call sequence of the executing program, for major calls only
         #define DEBUG_CLI               1776                  

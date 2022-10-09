@@ -6,6 +6,60 @@
     it is very important that it operates correctly
 
     goals:
+
+        common_utility ()    
+        ~common_utility()  
+        clear          ()
+        
+        get_status_code_string() 
+        get_status_code_number()                                              
+        get_status_code       ()
+        report_status_code    ()
+        codez_checker         ()
+        codez_messages        ()
+
+        wchar_2_char()  
+
+        exe_strcpy()
+        exe_remove()
+
+        find_bytes_in_file               ()
+        extension_matched                ()
+        tag_matched                      ()
+        extension_and_tag_matched        ()
+        find_files_with_extension        ()
+        find_files_with_tag              ()
+        find_files_with_extension_and_tag()
+
+        delete_files_in_directory                         ()
+        change_extension                                  ()
+        switch_directory                                  ()
+        insert_and_change_extension                       ()
+        batch_switch_directory_and_change_extension       ()
+        batch_switch_directory_insert_and_change_extension()
+        
+        decode_print      ()
+        batch_decode_print()
+        decode_write      ()
+        batch_decode_write()
+        
+        timer_split_start     ()
+        timer_split_stop      ()
+        timer_print_split     ()
+        timer_print_running   ()
+        timer_print_both      ()
+        timer_get_split_cpu   ()
+        timer_get_split_wall  ()
+        timer_get_running_cpu ()
+        timer_get_running_wall()
+        make_date_timestamp   ()
+
+// acqstatus bitchecking, the API has 6 bitcheck points in 5 API groups
+        ifstream_acq_status()
+        //dpx_acq_status   ()
+        iqblk_acq_status   ()
+        iqstream_acq_status()
+        spectrum_acq_status()
 */
 
 #include "../testz.h"
@@ -20,6 +74,8 @@ static void ut1_decode();
 static void ut1_timer();
 static void ut1_wchar();
 static void ut1_acq();
+static void ut1_file_info();
+static void ut1_mod_file();
 
 
 void unit_test_1()
@@ -35,6 +91,8 @@ printf("\n%s()  ,  class [common_utility]'\n", __func__);
     ut1_timer();
     ut1_wchar();
     ut1_acq();
+    ut1_file_info();
+    ut1_mod_file();
 
 //~
 #ifdef WAIT_ENTER_CLEAR
@@ -53,12 +111,18 @@ static void ut1_callcheck()
 printf("\n%s()  ,  call-check management\n", __func__);
 #endif                   
 //~
+    // get_status_code_string() 
+    // get_status_code_number()                                              
+    // get_status_code       ()
+    // report_status_code    ()
+    // codez_checker         ()
+    // codez_messages        ()
 
     (void)printf("\tstatus code number:  %d\n", X_util.get_status_code_number());
     (void)printf("\tstatus code enum  :  %d\n", X_util.get_status_code());
     (void)printf("\tstatus code string:  %s\n", X_util.get_status_code_string());
 
-    CODEZ test[bangz_ut1] = {CODEZ::_10_fclose_failed, CODEZ::_15_ftell_failed, CODEZ::_2_error_in_logic};
+    CODEZ test[bangz_ut1] = {CODEZ::_10_fclose_failed, CODEZ::_15_ftell_failed, CODEZ::_2_error_in_logic};  //
     (void)printf("\n\tcodez batch result =  %d\n\n", X_util.codez_checker(test, bangz_ut1));
 
     for (int ii = 0; ii < bangz_ut1; ii++)
@@ -92,6 +156,8 @@ static void ut1_exe()
 printf("\n%s()  ,  methods that execute common library functions\n", __func__);
 #endif                   
 //~
+    // exe_strcpy()
+    // exe_remove()
 
     char src[BUF_A] = "source cstring";
     char dest[BUF_A] = "destination cstring";
@@ -132,6 +198,10 @@ static void ut1_decode()
 printf("\n%s()  ,  methods that decode and manage files\n", __func__);
 #endif                   
 //~
+    // decode_print      ()
+    // batch_decode_print()
+    // decode_write      ()
+    // batch_decode_write()
 
     long bytez = 0;
     FILE* fp = NULL;
@@ -163,6 +233,48 @@ printf("\n%s()  ,  methods that decode and manage files\n", __func__);
     X_util.exe_remove(X_util.helper);
     X_util.exe_remove(X_util.holder);
 
+    for (int ii = 0; ii < bangz_ut1; ii++)
+    {
+        (void)sprintf(X_util.helper, "%sraw%d.%s", DATA_DIRECTORY_RAW, ii, EXT_DECODED);
+        fp = fopen(X_util.helper, "w");
+        if (fp == NULL) {return;}
+        (void)sprintf(X_util.holder, "dummy data %d of %d\n", ii+1, bangz_ut1);
+        (void)fputs(X_util.holder, fp);
+        (void)fclose(fp);
+        fp=NULL;
+    }
+    X_util.batch_decode_print(DATA_DIRECTORY_RAW, EXT_DECODED, 0, 0, X_util.filez_in);
+    for (std::size_t ii = 0UL; ii < X_util.filez_in.size(); ii++)
+    {
+        printf("%s\n", X_util.filez_in[ii].c_str());
+    }
+    X_util.batch_decode_write
+    (
+        DATA_DIRECTORY_RAW, 
+        EXT_DECODED, 
+        DATA_DIRECTORY_PROCESSED, 
+        TAG_DECODED, 
+        EXT_PARSED,
+        0, 
+        0, 
+        X_util.filez_in, 
+        X_util.filez_out
+    );
+    for (std::size_t ii = 0UL; ii < X_util.filez_in.size(); ii++)
+    {
+        printf("%s\n", X_util.filez_in[ii].c_str());
+    }
+    for (std::size_t ii = 0UL; ii < X_util.filez_out.size(); ii++)
+    {
+        printf("%s\n", X_util.filez_out[ii].c_str());
+    }
+#ifdef WAIT_ENTER_CLEAR
+    printf("\n\tany key to delete files: ");
+    std::cin >> discard;
+#endif
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
+
 //~
 #ifdef WAIT_ENTER_CLEAR
 flush_io();
@@ -179,6 +291,16 @@ static void ut1_timer()
 printf("\n%s()  ,  timers (wall and CPU)\n", __func__);
 #endif                   
 //~
+    // timer_split_start     ()
+    // timer_split_stop      ()
+    // timer_print_split     ()
+    // timer_print_running   ()
+    // timer_print_both      ()
+    // timer_get_split_cpu   ()
+    // timer_get_split_wall  ()
+    // timer_get_running_cpu ()
+    // timer_get_running_wall()
+    // make_date_timestamp   ()
 
     X_util.timer_split_start();
     printf("\n\t\tsleep(1)  ...split started\n");
@@ -212,6 +334,11 @@ printf("\n%s()  ,  timers (wall and CPU)\n", __func__);
         X_util.timer_get_running_wall(),
         X_util.timer_get_split_cpu(),
         X_util.timer_get_split_wall());
+    
+    X_util.make_date_timestamp(0,0, X_util.helper);
+    printf("\n%s\n", X_util.helper);
+    X_util.make_date_timestamp(&X_rsa.vars.reftime.start.seconds, 111, X_util.helper);
+    printf("\n%s\n", X_util.helper);
 
 //~
 #ifdef WAIT_ENTER_CLEAR
@@ -230,6 +357,7 @@ static void ut1_wchar()
 printf("\n%s()  ,  wchar_t* --> char*\n", __func__);
 #endif                   
 //~
+    // wchar_2_char()  
 
     printf("\n");
     char std_c_str[BUF_A] = "cstring std";
@@ -266,6 +394,11 @@ static void ut1_acq()
 printf("\n%s()  ,  acquisition status helpers\n", __func__);
 #endif                   
 //~
+    // ifstream_acq_status()
+    // //dpx_acq_status   ()
+    // iqblk_acq_status   ()
+    // iqstream_acq_status()
+    // spectrum_acq_status()
 
     printf("\n\tIQBLK bitchecks:  %d...all will fail\n\n", IQBLK_BITCHECKS);
     if 
@@ -340,6 +473,150 @@ printf("\n%s()  ,  acquisition status helpers\n", __func__);
     printf("checking SPECTRUM :  %d  {0 == good bitcheck}\n",
         X_util.spectrum_acq_status(BITCHECK_SUCCESS, X_rsa.vars.spectrum.valid_bitmask, NULL));
     
+
+//~
+#ifdef WAIT_ENTER_CLEAR
+printf("\n%s()  ,  complete\n", __func__);
+wait_enter_clear();
+#endif
+}
+
+
+////~~~~
+
+
+static void ut1_file_info()
+{
+#ifdef WAIT_ENTER_CLEAR
+printf("\n%s()  ,  file info functions\n", __func__);
+#endif                   
+//~
+    // extension_matched                ()
+    // tag_matched                      ()
+    // extension_and_tag_matched        ()
+    // find_files_with_extension        ()
+    // find_files_with_tag              ()
+    // find_files_with_extension_and_tag()
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
+
+    FILE* fp = NULL;
+    for (int ii = 0; ii < bangz_ut1; ii++)
+    {
+        if (ii%2==1)
+        {
+            (void)sprintf(X_util.helper, "%sut1_%d_.%s", DATA_DIRECTORY_PROCESSED, ii, EXT_PARSED);
+        }
+        else
+        {
+            (void)sprintf(X_util.helper, "%sut1_%d_%s.%s", DATA_DIRECTORY_PROCESSED, ii, TAG_PARSED, EXT_PARSED);
+        }
+        fp = fopen(X_util.helper, "w");
+        fputs("trash", fp);
+        fclose(fp);
+        fp = NULL;
+        printf("%s\n", X_util.helper);
+    }
+    std::vector<std::string> temp;
+    X_util.find_files_with_extension(DATA_DIRECTORY_PROCESSED, EXT_PARSED, X_util.filez_in, true);
+    X_util.find_files_with_tag(DATA_DIRECTORY_PROCESSED, TAG_PARSED, X_util.filez_out, true);
+    X_util.find_files_with_extension_and_tag(DATA_DIRECTORY_PROCESSED, EXT_PARSED, TAG_PARSED, temp, true);
+    printf("\nmatched extension:\n");
+    for (std::size_t ii = 0; ii < X_util.filez_in.size(); ii++)
+    {
+        printf("%s\n", X_util.filez_in[ii].c_str());
+    }
+    printf("\nmatched tag:\n");
+    for (std::size_t ii = 0; ii < X_util.filez_out.size(); ii++)
+    {
+        printf("%s\n", X_util.filez_out[ii].c_str());
+    }
+    printf("\nmatched extension + tag:\n");
+    for (std::size_t ii = 0; ii < temp.size(); ii++)
+    {
+        printf("%s\n", temp[ii].c_str());
+    }
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
+
+//~
+#ifdef WAIT_ENTER_CLEAR
+printf("\n%s()  ,  complete\n", __func__);
+wait_enter_clear();
+#endif
+}
+
+
+////~~~~
+
+
+static void ut1_mod_file()
+{
+#ifdef WAIT_ENTER_CLEAR
+printf("\n%s()  ,  file modification\n", __func__);
+#endif                   
+//~
+    // change_extension                                  ()
+    // switch_directory                                  ()
+    // insert_and_change_extension                       ()
+    // batch_switch_directory_and_change_extension       ()
+    // batch_switch_directory_insert_and_change_extension()
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
+
+    FILE* fp = NULL;
+    sprintf(X_util.helper, "%sraw123.%s", DATA_DIRECTORY_RAW, R3F_RAW_EXT);
+    fp = fopen(X_util.helper, "w");
+    fclose(fp);
+    fp = NULL;
+    printf("\noriginal:\n\t%s\n", X_util.helper);
+    X_util.change_extension(X_util.helper, DATA_DEFAULT_EXT);
+    printf("\nextension changed:\n\t%s\n", X_util.helper);
+    X_util.switch_directory(X_util.helper, DATA_DIRECTORY_PROCESSED);
+    printf("\nswitched directory:\n\t%s\n", X_util.helper);
+    X_util.insert_and_change_extension(X_util.helper, SIQ_TAG_IQ, EXT_PARSED);
+    printf("\ninserted and changed extension:\n\t%s\n", X_util.helper);
+
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
+
+    printf("\noriginal files made:\n");
+    for (int ii = 0; ii < bangz_ut1; ii++)
+    {
+        sprintf(X_util.helper, "%sraw123_%d_%s.%s", DATA_DIRECTORY_RAW, ii, TAG_DECODED, EXT_DECODED);
+        fp = fopen(X_util.helper, "w");
+        fclose(fp); fp= NULL;
+        printf("%s\n", X_util.helper);
+    }
+    X_util.batch_switch_directory_and_change_extension
+    (
+        DATA_DIRECTORY_RAW, 
+        EXT_DECODED, 
+        DATA_DIRECTORY_PROCESSED, 
+        DATA_DEFAULT_EXT, 
+        X_util.filez_in
+    );
+    X_util.batch_switch_directory_insert_and_change_extension
+    (
+        DATA_DIRECTORY_RAW, 
+        EXT_DECODED, 
+        DATA_DIRECTORY_PROCESSED, 
+        IFSTREAM_TAG_EQL,
+        SIQ_RAW_EXT, 
+        X_util.filez_out
+    );
+    printf("\nswitched directory and changed extension:\n");
+    for (std::size_t ii = 0; ii < X_util.filez_in.size(); ii++)
+    {
+        printf("%s\n", X_util.filez_in[ii].c_str());
+    }
+    printf("\n+ inserted:\n");
+    for (std::size_t ii = 0; ii < X_util.filez_out.size(); ii++)
+    {
+        printf("%s\n", X_util.filez_out[ii].c_str());
+    }
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
 
 //~
 #ifdef WAIT_ENTER_CLEAR

@@ -129,7 +129,7 @@ CODEZ common_utility::batch_decode_write
     // prepare the decoded files
     if 
     (
-        this->h_batch_redir_insert_ext_change
+        this->batch_switch_directory_insert_and_change_extension
         (
             raw_directory, 
             raw_extension, 

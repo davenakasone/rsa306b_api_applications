@@ -32,8 +32,8 @@ X_util.timer_split_start();
     ut14_decodep();
     ut14_batch();
    
-    (void)X_util.h_delete_files_in_dir(DATA_DIRECTORY_RAW);
-    (void)X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
 
 //~
 #ifdef WAIT_ENTER_CLEAR
@@ -180,7 +180,7 @@ printf("\n%s()  ,  batch siq files, parse + IQ plot\n", __func__);
         false);
     vprint(X_util.filez_in, "raw inputs");
     vprint(X_util.filez_out, "outputs made");
-    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+    X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
     
     (void)X_siq.batch_process_files
     (
@@ -192,7 +192,7 @@ printf("\n%s()  ,  batch siq files, parse + IQ plot\n", __func__);
         false);
     vprint(X_util.filez_in, "raw inputs");
     vprint(X_util.filez_out, "outputs made");
-    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+    X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
 
     (void)X_siq.batch_process_files
     (
@@ -204,7 +204,7 @@ printf("\n%s()  ,  batch siq files, parse + IQ plot\n", __func__);
         true);
     vprint(X_util.filez_in, "raw inputs");
     vprint(X_util.filez_out, "outputs made");
-    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+    X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
 
     (void)X_siq.batch_process_files
     (
@@ -216,7 +216,7 @@ printf("\n%s()  ,  batch siq files, parse + IQ plot\n", __func__);
         true);
     vprint(X_util.filez_in, "raw inputs");
     vprint(X_util.filez_out, "outputs made");
-    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+    X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
 
 //~
 #ifdef WAIT_ENTER_CLEAR

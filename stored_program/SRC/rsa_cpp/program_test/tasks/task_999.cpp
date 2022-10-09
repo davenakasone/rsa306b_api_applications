@@ -8,7 +8,7 @@
     h_batch_change_redirect(const char* in_directory, const char* in_extension, const char* out_directory, const char* out_extension, std::vector<std::string>& new_filez);
     h_insert_and_change_extension(char* file_path_name, const char* to_insert, const char* new_extension);
     h_switch_directory(char* file_to_change, const char* new_directory);
-    h_batch_redir_insert_ext_change(const char* in_directory, const char* in_extension, const char* out_directory, const char* inserts, const char* out_extension, std::vector<std::string>& new_filez);
+    batch_switch_directory_insert_and_change_extension(const char* in_directory, const char* in_extension, const char* out_directory, const char* inserts, const char* out_extension, std::vector<std::string>& new_filez);
     h_decode_print(const char* file_path_name, const long int start_byte, const long int stop_byte);
     h_decode_write(const char* raw_file, const char* output_file, const long int start_byte, const long int stop_byte);
 */
@@ -45,7 +45,7 @@ X_util.timer_split_start();
     //     printf("%s\n", X_util.filez_out[ii].c_str());
     // }
 
-    X_util.h_batch_redir_insert_ext_change(DATA_DIRECTORY_RAW, extn1, DATA_DIRECTORY_PROCESSED, "_penis_", extn2, X_util.filez_out);
+    X_util.batch_switch_directory_insert_and_change_extension(DATA_DIRECTORY_RAW, extn1, DATA_DIRECTORY_PROCESSED, "_unlv_", extn2, X_util.filez_out);
     for (std::size_t ii = 0; ii < X_util.filez_out.size(); ii++)
     {
         printf("%s\n", X_util.filez_out[ii].c_str());

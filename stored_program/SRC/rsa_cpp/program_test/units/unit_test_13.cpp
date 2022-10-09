@@ -31,8 +31,8 @@ X_util.timer_split_start();
     ut13_decodep();
     ut13_batch();
     
-    X_util.h_delete_files_in_dir(DATA_DIRECTORY_RAW);
-    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+    X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
+    X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
 
 //~
 #ifdef WAIT_ENTER_CLEAR
@@ -171,7 +171,7 @@ printf("\n%s()  ,  batch r3f files, parse + 2 plots\n", __func__);
         false);
     vprint(X_util.filez_in, "raw inputs");
     vprint(X_util.filez_out, "outputs made");
-    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+    X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
     
     (void)X_r3f.batch_process_files
     (
@@ -184,7 +184,7 @@ printf("\n%s()  ,  batch r3f files, parse + 2 plots\n", __func__);
         false);
     vprint(X_util.filez_in, "raw inputs");
     vprint(X_util.filez_out, "outputs made");
-    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+    X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
 
     (void)X_r3f.batch_process_files
     (
@@ -197,7 +197,7 @@ printf("\n%s()  ,  batch r3f files, parse + 2 plots\n", __func__);
         false);
     vprint(X_util.filez_in, "raw inputs");
     vprint(X_util.filez_out, "outputs made");
-    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+    X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
 
     (void)X_r3f.batch_process_files
     (
@@ -210,7 +210,7 @@ printf("\n%s()  ,  batch r3f files, parse + 2 plots\n", __func__);
         true);
     vprint(X_util.filez_in, "raw inputs");
     vprint(X_util.filez_out, "outputs made");
-    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+    X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
 
     (void)X_r3f.batch_process_files
     (
@@ -223,7 +223,7 @@ printf("\n%s()  ,  batch r3f files, parse + 2 plots\n", __func__);
         true);
     vprint(X_util.filez_in, "raw inputs");
     vprint(X_util.filez_out, "outputs made");
-    X_util.h_delete_files_in_dir(DATA_DIRECTORY_PROCESSED);
+    X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
 
 
 //~
