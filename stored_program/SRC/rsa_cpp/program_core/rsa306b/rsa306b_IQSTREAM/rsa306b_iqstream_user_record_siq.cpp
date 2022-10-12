@@ -79,65 +79,59 @@ CODEZ rsa306b_class::iqstream_record_siq()
 //     }
 // #endif
 
-    (void)this->_report_api_status();
+    // (void)this->set_api_status
+    // (
+    //     RSA_API::IQSTREAM_GetDiskFileInfo
+    //     (
+    //         &this->_vars.iqstream.fileinfo_type
+    //     )
+    // );
+    // (void)this->cutil.wchar_2_char
+    // (
+    //     this->_vars.iqstream.filenames_0_data, 
+    //     this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX],
+    //     true
+    // );
+    // (void)this->cutil.wchar_2_char
+    // (
+    //     this->_vars.iqstream.filenames_1_header, 
+    //     this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX],
+    //     true
+    // );
+    // (void)this->_iqstream_copy_fileinfo_type();
 
+    // if (is_complete == false)    // file never finished (could be hung or never started because trigger did not occur)
+    // {
+    //     #ifdef DEBUG_MIN
+    //         (void)snprintf(X_ddts, sizeof(X_ddts), "...aborting output '*.siq' file(s)");
+    //         (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
+    //         debug_record(true);
+    //     #endif
+    //     if 
+    //     (
+    //         (strcmp(this->_vars.iqstream.filenames_0_data, this->_vars.iqstream.filenames_1_header) == 0) &&
+    //         (strcmp(this->_vars.iqstream.filenames_0_data, INIT_CHARP) != 0)                              &&
+    //         (this->_vars.iqstream.filenames_0_data[0] != '\0')
+    //     )
+    //     {
+    //         (void)this->cutil.exe_remove(this->_vars.iqstream.filenames_0_data);    // both files same, only delete 1
+    //     }
+    //     if 
+    //     (
+    //         (strcmp(this->_vars.iqstream.filenames_0_data, this->_vars.iqstream.filenames_1_header) != 0) &&
+    //         (strcmp(this->_vars.iqstream.filenames_0_data, INIT_CHARP) != 0)                              &&
+    //         (strcmp(this->_vars.iqstream.filenames_1_header, INIT_CHARP) != 0)                            &&
+    //         (this->_vars.iqstream.filenames_0_data[0] != '\0') &&
+    //         (this->_vars.iqstream.filenames_1_header[0] != '\0')
+    //     )
+    //     {
+    //         (void)this->cutil.exe_remove(this->_vars.iqstream.filenames_0_data);      // delete both of the hung files
+    //         (void)this->cutil.exe_remove(this->_vars.iqstream.filenames_1_header); 
+    //     }
+    //     return this->cutil.report_status_code(CODEZ::_27_loop_timed_out);
+    // }
+    // (void)this->iqstream_good_bitcheck();
 
-
-    (void)this->set_api_status
-    (
-        RSA_API::IQSTREAM_GetDiskFileInfo
-        (
-            &this->_vars.iqstream.fileinfo_type
-        )
-    );
-    (void)this->cutil.wchar_2_char
-    (
-        this->_vars.iqstream.filenames_0_data, 
-        this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX],
-        true
-    );
-    (void)this->cutil.wchar_2_char
-    (
-        this->_vars.iqstream.filenames_1_header, 
-        this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX],
-        true
-    );
-    (void)this->_iqstream_copy_fileinfo_type();
-
-
-    
-    if (is_complete == false)    // file never finished (could be hung or never started because trigger did not occur)
-    {
-        #ifdef DEBUG_MIN
-            (void)snprintf(X_ddts, sizeof(X_ddts), "...aborting output '*.siq' file(s)");
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__, X_ddts);
-            debug_record(true);
-        #endif
-        if 
-        (
-            (strcmp(this->_vars.iqstream.filenames_0_data, this->_vars.iqstream.filenames_1_header) == 0) &&
-            (strcmp(this->_vars.iqstream.filenames_0_data, INIT_CHARP) != 0)                              &&
-            (this->_vars.iqstream.filenames_0_data[0] != '\0')
-        )
-        {
-            (void)this->cutil.exe_remove(this->_vars.iqstream.filenames_0_data);    // both files same, only delete 1
-        }
-        if 
-        (
-            (strcmp(this->_vars.iqstream.filenames_0_data, this->_vars.iqstream.filenames_1_header) != 0) &&
-            (strcmp(this->_vars.iqstream.filenames_0_data, INIT_CHARP) != 0)                              &&
-            (strcmp(this->_vars.iqstream.filenames_1_header, INIT_CHARP) != 0)                            &&
-            (this->_vars.iqstream.filenames_0_data[0] != '\0') &&
-            (this->_vars.iqstream.filenames_1_header[0] != '\0')
-        )
-        {
-            (void)this->cutil.exe_remove(this->_vars.iqstream.filenames_0_data);      // delete both of the hung files
-            (void)this->cutil.exe_remove(this->_vars.iqstream.filenames_1_header); 
-        }
-        return this->cutil.report_status_code(CODEZ::_27_loop_timed_out);
-    }
-
-    (void)this->iqstream_good_bitcheck();
     (void)this->iqstream_stop();    // IQSTREAM_Stop()
     return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }

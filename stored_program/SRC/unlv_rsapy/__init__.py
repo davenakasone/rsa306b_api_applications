@@ -31,6 +31,7 @@ from .funz.admin import lsf_iq
 from .funz.admin import lsf_s
 from .funz.admin import lsf_r3f
 from .funz.admin import lsf_siq
+from .funz.admin import lspec
 from .funz.admin import stop
 from .funz.plot_spectrum import plot_spectrum
 from .funz.plot_iq import plot_iq
@@ -89,9 +90,12 @@ from .rsa_wrapper.api_spectrum import sset
 from .rsa_wrapper.api_spectrum import sacq
 from .rsa_wrapper.api_spectrum import sfpi
 from .rsa_wrapper.api_spectrum import scsv
-from .rsa_wrapper.api_spectrum import sauto
 from .rsa_wrapper.f_spectrum import sspin
 from .rsa_wrapper.f_spectrum import sscan
 
+
+# specials
+from .special.special import scand
+from .special.special import sauto
 
 ########~~~~~~~~END>  __init__.py

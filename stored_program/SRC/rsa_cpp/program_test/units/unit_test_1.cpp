@@ -182,6 +182,21 @@ printf("\n%s()  ,  methods that execute common library functions\n", __func__);
 #endif
     X_util.exe_remove(X_util.helper);
 
+    (void)sprintf(X_util.helper, "%smydir/", DATA_DIRECTORY_PROCESSED);
+    (void)X_util.exe_mkdir(X_util.helper);
+    (void)sprintf(X_util.holder, "%stemp.txt", X_util.helper);
+    fp = fopen(X_util.holder, "w");
+    if (fp == NULL) {return;}
+    fputs("data", fp);
+    (void)fclose(fp);
+    fp = NULL;
+#ifdef WAIT_ENTER_CLEAR
+    printf("\nsee if directory was made\n'%s'\n\tit will be deleted soon, press any key to execute:",
+        X_util.helper);
+    std::cin >> X_util.holder;
+#endif
+    (void)X_util.exe_rmdir(X_util.helper);
+
 //~
 #ifdef WAIT_ENTER_CLEAR
 flush_io();

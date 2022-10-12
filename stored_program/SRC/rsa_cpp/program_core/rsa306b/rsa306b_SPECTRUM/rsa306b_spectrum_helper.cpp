@@ -61,7 +61,7 @@ CODEZ rsa306b_class::spectrum_find_peak_index
 
 
 /*
-    < 2 > private
+    < 2 > public
     need to have data in the std::vector before calling
 */
 CODEZ rsa306b_class::spectrum_make_frequency_v()
@@ -91,7 +91,7 @@ CODEZ rsa306b_class::spectrum_make_frequency_v()
     }
 #endif
     
-    //this->_vars.spectrum.frequency_v.clear();
+    this->_vars.spectrum.frequency_v.clear();
     this->_vars.spectrum.frequency_v.resize(
         static_cast<std::size_t>(this->_vars.spectrum.settings_type.traceLength));
 
@@ -126,7 +126,7 @@ CODEZ rsa306b_class::spectrum_make_frequency_v()
 
 
 /*
-    < 3 > private
+    < 3 > public
     call after an acquitions
     give a valid trace number {0, 1, 2}
 */

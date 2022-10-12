@@ -611,7 +611,14 @@ class rsa306b_class
         CODEZ spectrum_make_frequency_v                               ();    // call after acquisitions to matching frequency array in std::vector
         CODEZ spectrum_write_csv(char* file_path_name, int trace_number);    // call after acquring data, "*.csv" is produced
         bool  spectrum_good_bitcheck                  (int trace_number);    // use to bitcheck acqDataStatus of most recent trace
-        CODEZ spectrum_scanner
+
+    // API group "TRIG"
+        CODEZ trig_print   ();    // prints the "TRIG" variables to stdout, using the private struct
+        CODEZ trig_set_vars();    // user changes "TRIG" variables in public struct, then calls to set new values
+        CODEZ trig_force   ();    // a trigger event is forced, user calls "device_run()" before and "device_stop()" after
+    
+    // special
+        CODEZ spectrum_scanner                 // leads with SPECTRUM group, if peak exceeds threshold, process more
         (
             const int    trace_number,
             const double fstart, 
@@ -624,12 +631,20 @@ class rsa306b_class
             const double span,
             const int    tlen
         );
+        CODEZ scan_dump                      // leads with SPECTRUM group, dumps: spectrum trace, R3F, and SIQ if threshold breached
+        (
+            const double fstart, 
+            const double fstop, 
+            const double reflevel,
+            const int    trace_number,
+            const double rbw,
+            const double span,
+            const int    tlen,
+            const double threshold, 
+            int record_ms,
+            char* active_directory
+        );
 
-    // API group "TRIG"
-        CODEZ trig_print   ();    // prints the "TRIG" variables to stdout, using the private struct
-        CODEZ trig_set_vars();    // user changes "TRIG" variables in public struct, then calls to set new values
-        CODEZ trig_force   ();    // a trigger event is forced, user calls "device_run()" before and "device_stop()" after
-        // TRIG_GetTriggerTime() and TRIG_SetTriggerTime() are broken ?
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        

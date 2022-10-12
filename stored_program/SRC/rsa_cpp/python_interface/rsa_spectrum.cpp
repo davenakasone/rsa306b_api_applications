@@ -8,7 +8,6 @@
         < 4 >  spectrum_find_peak()
         < 5 >  spectrum_write_csv()
         < 6 >  spectrum_set_vars()
-        < 7 >  spectrum_scanner()
 */
 
 #include "python_interface.h"
@@ -72,36 +71,6 @@ int spectrum_set_vars(int trace_length, double span, double rbw)
     X_rsa.vars.spectrum.settings_type.verticalUnit = RSA_API::SpectrumVerticalUnit_dBm;
     X_rsa.vars.spectrum.settings_type.window = RSA_API::SpectrumWindow_Kaiser;
     return static_cast<int>(X_rsa.spectrum_set_vars());
-}
-
-// < 7 >
-char* spectrum_scanner
-(
-    double fstart, 
-    double fstop, 
-    double threshold, 
-    int loitering,
-    double reflevel,
-    double rbw,
-    double span,
-    int tlen
-)
-{
-    X_rsa.cutil.helper[0] = '\0';
-    (void)X_rsa.spectrum_scanner
-        (
-            RSA_API::SpectrumTrace1, // python users only get trace[0]
-            fstart, 
-            fstop, 
-            threshold, 
-            loitering, 
-            X_rsa.cutil.helper, 
-            reflevel, 
-            rbw, 
-            span, 
-            tlen
-        );
-    return X_rsa.cutil.helper;
 }
 
 

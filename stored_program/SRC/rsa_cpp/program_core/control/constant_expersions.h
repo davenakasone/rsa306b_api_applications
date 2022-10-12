@@ -19,12 +19,14 @@ constexpr char CL_ARG_RESET[] = "reset";    // the command line argument, used t
 // Data IO
 constexpr char DATA_DIRECTORY_RAW[]       = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_raw/";       
 constexpr char DATA_DIRECTORY_PROCESSED[] = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_processed/";  
+constexpr char DATA_DIRECTORY_SEQUENCED[] = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_sequenced/";  
 constexpr char DATA_DEFAULT_EXT[]         = "csv";      // data file outputs use this extension, if not specified, no "."                    
 constexpr int EXTENSION_LIMIT             = 10;         // characters allowed in a file extension
 constexpr char TAG_DECODED[]              = "_DEC_";    // decoded file outputs have this inserted into their file names, if not specified
 constexpr char EXT_DECODED[]              = "txt";      // decoded file outputs use this extension, if not specified, no "."
 constexpr char TAG_PARSED[]               = "_PAR_";    // parsed file outputs have this inserted into their file names, if not specified
 constexpr char EXT_PARSED[]               = "txt";      // parsed file outputs use this extension, if not specified, no "."
+constexpr mode_t FMODE = S_IRWXU | S_IRWXG | S_IRWXO;
 
 // program sizing parameters
 constexpr int BUF_A = 32;      // a short general purpose buffer

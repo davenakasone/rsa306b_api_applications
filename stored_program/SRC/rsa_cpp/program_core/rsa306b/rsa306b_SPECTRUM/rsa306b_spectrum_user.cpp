@@ -26,8 +26,8 @@
     keep trace numbers {0, 1, 2}
     good to call after:
         spectrum_make_frequency_v ()
-        spectrum_find_peak_index  (file_path_name, trace_number)
-        spectrum_write_csv        (trace_number)
+        spectrum_find_peak_index  (trace_number)
+        spectrum_write_csv        (file_path_name, trace_number)
 */
 CODEZ rsa306b_class::spectrum_acquire_data
 (
@@ -45,32 +45,41 @@ CODEZ rsa306b_class::spectrum_acquire_data
 
     (void)this->set_api_status(RSA_API::SPECTRUM_AcquireTrace());     // notify device to start acquisition
 
-#ifdef BLOCKING_TIMEOUT
-    (void)this->cutil.timer_split_start();
-    while 
-    (
-        this->cutil.timer_get_split_wall() < TIMEOUT_LIMIT_S &&
-        is_ready == false
-    )
-    {
-        this->_api_status =
-            RSA_API::SPECTRUM_WaitForTraceReady
-            (
-                0,
-                &is_ready
-            );
-    }
-#else
+// #ifdef BLOCKING_TIMEOUT
+//     (void)this->cutil.timer_split_start();
+//     while 
+//     (
+//         this->cutil.timer_get_split_wall() < TIMEOUT_LIMIT_S &&
+//         is_ready == false
+//     )
+//     {
+//         this->_api_status =
+//             RSA_API::SPECTRUM_WaitForTraceReady
+//             (
+//                 0,
+//                 &is_ready
+//             );
+//     }
+// #else
+//     while (is_ready == false)    // will block until data is ready
+//     {
+//         this->_api_status = 
+//             RSA_API::SPECTRUM_WaitForTraceReady
+//             (
+//                 0,
+//                 &is_ready
+//             );
+//     }
+// #endif
     while (is_ready == false)    // will block until data is ready
     {
         this->_api_status = 
-            RSA_API::SPECTRUM_WaitForTraceReady
-            (
-                0,
-                &is_ready
-            );
+        RSA_API::SPECTRUM_WaitForTraceReady
+        (
+            0,
+            &is_ready
+        );
     }
-#endif
     (void)this->_report_api_status();
     if (is_ready == false)
     {
@@ -94,7 +103,7 @@ CODEZ rsa306b_class::spectrum_acquire_data
             data, 
             &this->_vars.spectrum.trace_points_acquired[trace_number]
         );
-
+    this->_vars.spectrum.trace_power_v[trace_number].clear();
     this->_vars.spectrum.trace_power_v[trace_number].resize(this->_vars.spectrum.trace_points_acquired[trace_number]);
     for (int ii=0; ii < this->_vars.spectrum.trace_points_acquired[trace_number]; ii++)
     {
@@ -118,7 +127,6 @@ CODEZ rsa306b_class::spectrum_acquire_data
     < 2 > public
     does not nead a connected device, 
     just writes arrays to file as is
-    might want to allow user to select a file-path-name and trace?
 */
 CODEZ rsa306b_class::spectrum_write_csv
 (

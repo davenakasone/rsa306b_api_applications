@@ -10,7 +10,7 @@
 
 
 // program satus codes, messages
-constexpr int ROWS_CODEZ = 35;    // number of status codes
+constexpr int ROWS_CODEZ = 37;    // number of status codes
 constexpr int COLS_CODEZ = 88;    // largest width of the status code message
 constexpr char CODEZ_MESSAGES[ROWS_CODEZ][COLS_CODEZ] =  
 {
@@ -48,7 +48,9 @@ constexpr char CODEZ_MESSAGES[ROWS_CODEZ][COLS_CODEZ] =
     "### 31  ,  fputs() failed"                             ,
     "### 32  ,  opendir() failed"                           ,
     "### 33  ,  closedir() failed"                          ,
-    "### 34  ,  "
+    "### 34  ,  mkdir() failed"                             ,
+    "### 35  ,  rmdir() failed"                             ,
+    "### 36  ,  rename() failed"
 };
 
 // program status codes, code number (index corresponds to row in "CODEZ_MESSAGES")
@@ -88,7 +90,9 @@ enum CODEZ
     _31_fputs_failed                     = 31 ,
     _32_opendir_failed                   = 32 ,
     _33_closedir_failed                  = 33 ,
-    _34 = 34
+    _34_mkdir_failed                     = 34 ,
+    _35_rmdir_failed                     = 35 ,
+    _36_rename_failed                    = 36
 };
 
 

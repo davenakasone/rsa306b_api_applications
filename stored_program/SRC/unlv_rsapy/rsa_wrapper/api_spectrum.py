@@ -38,22 +38,5 @@ def scsv() -> str :
     ofile = temp.decode()
     return ofile
 
-def sauto(fstart=10e6, fstop=400e6, dbm=-25.5, tlen=999, span=10e6, rbw=10e3, thresh=-55.6, loiter=3) -> None :
-    rsa_so.spectrum_scanner.restype = ctypes.c_char_p
-    temp = rsa_so.spectrum_scanner(\
-        ctypes.c_double(fstart),\
-        ctypes.c_double(fstop),\
-        ctypes.c_double(thresh),\
-        ctypes.c_int(loiter),\
-        ctypes.c_double(dbm),\
-        ctypes.c_double(rbw),\
-        ctypes.c_double(span),\
-        ctypes.c_int(tlen))
-    ofile = temp.decode()
-    if len(ofile) > 1 :
-        plot_spectrum(ofile)
-    else :
-        print("sauto() failed")
-
 
 ########~~~~~~~~END>  api_spectrum.py

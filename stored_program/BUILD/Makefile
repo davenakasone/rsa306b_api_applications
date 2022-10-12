@@ -12,6 +12,7 @@
 # $ make all                                   compile stand-alone program and shared library
 # $ make clear_data_processed                  delete "processed data"
 # $ make clear_data_raw                        delete "raw data"
+# $ make clear_data_sequenced                  delete "sequence data"
 # $ make clear_data                            delete all data
 # $ make clear_logs                            deletes all the debugging logs
 # $ make clear                                 delets data and logs, but keeps compiled binaries
@@ -37,11 +38,13 @@ UDIR              = $(SDIR)common_utility/
 DATA_IO           = ../DATA/
 DATA_IO_PROCESSED = $(DATA_IO)data_processed/
 DATA_IO_RAW       = $(DATA_IO)data_raw/
+DATA_IO_SEQUENCED = $(DATA_IO)data_sequenced/
 DLOGZ             = ../DOC/debug_logs/
 TDIR_U            = $(TDIR)units/
 TDIR_T            = $(TDIR)tasks/
-EMPTY_NAME        = place_holder.test
+EMPTY_NAME        = place_holder.txt
 EMPTY_MESSAGE     = "git place holder\n"
+
 
 SOURCE_FILES_SO =\
 $(UDIR)cu_batch_decode.cpp \
@@ -138,12 +141,14 @@ $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_init.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_print.cpp \
 $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_user.cpp \
 \
+$(SDIR)rsa306b/rsa306b_special/rsa306b_spectrum_scanner.cpp \
+$(SDIR)rsa306b/rsa306b_special/rsa306b_scan_dump.cpp \
+\
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_copy.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_get.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_helper.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_init_default.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_print.cpp \
-$(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_scanner.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_set.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_user.cpp \
 \
@@ -171,7 +176,8 @@ $(PYDIR)rsa_gp.cpp \
 $(PYDIR)rsa_ifstream.cpp \
 $(PYDIR)rsa_iqblk.cpp \
 $(PYDIR)rsa_iqstream.cpp \
-$(PYDIR)rsa_spectrum.cpp
+$(PYDIR)rsa_spectrum.cpp \
+$(PYDIR)special.cpp
 
 
 SOURCE_FILES_ALL =$(SDIR)main.cpp \
@@ -190,6 +196,7 @@ $(TDIR_U)unit_test_11.cpp \
 $(TDIR_U)unit_test_12.cpp \
 $(TDIR_U)unit_test_13.cpp \
 $(TDIR_U)unit_test_14.cpp \
+$(TDIR_T)task_998.cpp \
 $(TDIR_T)task_999.cpp \
 $(TDIR)test_selector.cpp \
 $(TDIR)wait_enter_clear.cpp \
@@ -232,8 +239,7 @@ all : alone shared
 # stdout is cleared
 # the executable is deleted
 # "data_processed" file directory is deleted, removing all processed data files
-# empty file directory is made
-# "data_raw" file directory is preserved
+# empty file directory is made with a git place-holder
 clear_data_processed :
 	clear
 	rm -rf $(DATA_IO_PROCESSED)
@@ -245,9 +251,21 @@ clear_data_processed :
 
 # stdout is cleared
 # the executable is deleted
+# "data_sequenced" file directory is deleted, removing all time-series files
+# empty file directory is made with a git place-holder
+clear_data_sequenced :
+	clear
+	rm -rf $(DATA_IO_SEQUENCED)
+	mkdir $(DATA_IO_SEQUENCED)
+	printf $(EMPTY_MESSAGE) >> $(DATA_IO_SEQUENCED)$(EMPTY_NAME)
+	clear
+	@echo 'all data sequences were deleted'
+
+
+# stdout is cleared
+# the executable is deleted
 # "data_raw" file directory is deleted, removing all raw data files
-# empty file directory is made
-# "data_processed" file directory is preserved
+# empty file directory is made with a git place-holder
 clear_data_raw :
 	clear
 	rm -rf $(DATA_IO_RAW)
@@ -258,8 +276,8 @@ clear_data_raw :
 
 
 # does not delete executables or debug logs, just the data
-clear_data : clear_data_raw clear_data_processed
-	@echo 'all data inputs and outputs were deleted'
+clear_data : clear_data_raw clear_data_processed clear_data_sequenced
+	@echo 'all data inputs, outputs, and time-series were deleted'
 
 
 # delete all the debug logs

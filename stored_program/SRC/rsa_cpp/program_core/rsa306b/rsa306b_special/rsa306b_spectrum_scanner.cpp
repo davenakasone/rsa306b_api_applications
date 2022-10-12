@@ -1,5 +1,5 @@
 /*
-    API group "SPECTRUM"
+    special function, combines several API groups
 
     public :
         < 1 >  spectrum_scanner()

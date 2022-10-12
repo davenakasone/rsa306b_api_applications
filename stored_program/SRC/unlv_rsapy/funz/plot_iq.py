@@ -38,7 +38,7 @@ def plot_iq(input_file_path_name, verbose=True) -> None :
     data_time = data_frame[label_time]
     data_i = data_frame[label_i]
     data_q = data_frame[label_q]
-    matplotlib.pyplot.xlabel(f"{label_time} (us)")
+    matplotlib.pyplot.xlabel(f"{label_time} (s)")
     matplotlib.pyplot.ylabel(f"ADC reading")
     matplotlib.pyplot.title(f"{label_i} and {label_q}  vs  {label_time}")
     matplotlib.pyplot.plot(data_time, data_i, label=label_i)

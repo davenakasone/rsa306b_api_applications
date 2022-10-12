@@ -125,30 +125,26 @@ CODEZ rsa306b_class::device_reset()
     debug_record(false);
 #endif  
 #ifdef SAFETY_CHECKS
-    if (this->_vars.device.is_connected == false)
+    if (this->_vars.device.is_connected == true)
     {
-        #ifdef DEBUG_MIN
-            (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_MIN_FORMAT, __LINE__, __FILE__, __func__,
-                this->cutil.codez_messages(CODEZ::_12_rsa_not_connnected));
-            debug_record(true);
-        #endif
-        return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
+        this->device_stop();
+        this->set_api_status(RSA_API::DEVICE_Disconnect());
     }
 #endif
-    (void)this->device_stop();
 
+    (void)printf("\n\t!!! WITNESS ME !!!\n");
     try
     {
         (void)printf("\n\t\t-witness\n\n");
-        this->_api_status = RSA_API::DEVICE_Reset(this->_vars.device.id);
+        // this->_api_status = RSA_API::DEVICE_Reset(this->_vars.device.id);
+        this->_api_status = RSA_API::DEVICE_Reset(0);
     }
     catch(...)
     {
         (void)printf("\nyou did not make it to vahallah\n");
-        (void)sleep(10);
-        this->clear();
+        (void)sleep(1);
     }
-    return this->cutil.report_status_code(CODEZ::_0_no_errors);
+    return this->clear();
 }
 
 

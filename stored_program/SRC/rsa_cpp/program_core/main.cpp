@@ -49,7 +49,8 @@
                                         14     // test class [siq_manager]
                                        
         specific tasks  "task_#"    :
-                                        999    // temporary use test bench                         
+                                        999    // temporary use test bench 
+                                        998    // scan_dump()                        
     */
    
    // #define TEST_EVERYTHING 6969    // {on|off} turn on to run all unit tests
@@ -79,8 +80,8 @@ int main
                 witness_me:
             #endif
             (void)X_rsa.device_connect();
-            (void)printf("\n\t!!! WITNESS ME !!!\n");
             (void)X_rsa.device_reset();
+            return EXIT_SUCCESS;
         }
     }
     int objSize[4];
@@ -108,6 +109,7 @@ int main
             test_selector(12);
             test_selector(13);
             test_selector(14);
+            test_selector(998);
             test_selector(999);
         #else
             #ifdef UNIT_TEST_BY_NUMBER
@@ -202,9 +204,9 @@ static bool user_test_selection()
     printf("\t[13]     ut13()               // r3f manager\n");
     printf("\t[14]     ut14()               // siq manager\n");
 
+    printf("\t[998]    task998()            // scan_dump()\n");
     printf("\t[999]    task999()            // testbench\n");
-    printf("\t[998]    task998()            // unknown\n");
-
+   
     printf("\nor enter -1 to exit:    ");
     std::cin >> selection;
 #ifdef WAIT_ENTER_CLEAR
@@ -228,7 +230,8 @@ static bool user_test_selection()
         case(12)  : unit_test_12();  return true;
         case(13)  : unit_test_13();  return true;
         case(14)  : unit_test_14();  return true;
-
+        
+        case(998) : task_998(); return true;
         case(999) : task_999(); return true;
 
         default : return false;

@@ -61,6 +61,15 @@ int   spectrum_set_vars
     double span, 
     double rbw
 );
+
+// raw_r3f.cpp
+char* get_r3f_csv_equalization();
+char* get_r3f_csv_adc();
+
+// raw_siq.cpp
+char* get_siq_csv();
+
+// special
 char* spectrum_scanner
 (
     double fstart, 
@@ -72,13 +81,14 @@ char* spectrum_scanner
     double span,
     int    tlen
 );
-
-// raw_r3f.cpp
-char* get_r3f_csv_equalization();
-char* get_r3f_csv_adc();
-
-// raw_siq.cpp
-char* get_siq_csv();
+char* scan_dump                    
+(
+    const double fstart, 
+    const double fstop, 
+    const double reflevel,
+    const double threshold
+);
+char* file_select(char* directory);
 
 
 #ifdef __cplusplus      

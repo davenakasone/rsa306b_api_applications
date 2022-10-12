@@ -35,6 +35,9 @@
         "cu_exe_1.cpp"
             exe_strcpy()
             exe_remove()
+            exe_mkdir()
+            exe_rmdir()
+            exe_rename()
 
         "cu_file_modification.cpp"
             delete_files_in_directory()
@@ -145,6 +148,19 @@ class common_utility
         (
             const char* file_to_delete
         );
+        CODEZ exe_mkdir
+        (
+            const char* directory_name
+        );
+        CODEZ exe_rmdir
+        (
+            const char* directory_name
+        );
+        CODEZ exe_rename
+        (
+            const char* old_name,
+            const char* new_name
+        );
 
 // getting file information
         CODEZ find_bytes_in_file
@@ -187,6 +203,12 @@ class common_utility
             const char* directory, 
             const char* extension, 
             const char* tag, 
+            std::vector<std::string>& filez, 
+            bool include_directory
+        );
+        CODEZ find_files_in_directory
+        (
+            const char* directory, 
             std::vector<std::string>& filez, 
             bool include_directory
         );
