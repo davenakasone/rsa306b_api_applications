@@ -633,6 +633,7 @@ class rsa306b_class
         );
         CODEZ scan_dump                      // leads with SPECTRUM group, dumps: spectrum trace, R3F, and SIQ if threshold breached
         (
+            const int    smode,
             const double fstart, 
             const double fstop, 
             const double reflevel,
@@ -747,6 +748,47 @@ class rsa306b_class
         CODEZ _device_get_event               ();
         
     // API group "DPX"
+        CODEZ _dpx_init();
+        // copiers, public = private
+        CODEZ _dpx_copy_vars();
+        CODEZ _dpx_copy_is_enabled();
+        CODEZ _dpx_copy_acq_status_messages();
+        CODEZ _dpx_copy_spectrum_bitmap_v();
+        CODEZ _dpx_copy_spectrum_traces_v();
+        CODEZ _dpx_copy_sogram_bitmap_v();   
+        CODEZ _dpx_copy_sogram_bitmap_timestamp_v();
+        CODEZ _dpx_copy_sogram_bitmap_trigger_v();
+        CODEZ _dpx_copy_frame_buffer_type();
+        CODEZ _dpx_copy_frequency_span_hz();
+        CODEZ _dpx_copy_rbw_min_hz();
+        CODEZ _dpx_copy_rbw_max_hz();
+        CODEZ _dpx_copy_settings_type();
+        CODEZ _dpx_copy_line_data_v();
+        CODEZ _dpx_copy_line_data_elements();
+        CODEZ _dpx_copy_line_index();
+        CODEZ _dpx_copy_line_data_scaling_factor();
+        CODEZ _dpx_copy_trace_points();
+        CODEZ _dpx_copy_first_valid_point();
+        CODEZ _dpx_copy_line_count();
+        CODEZ _dpx_copy_line_timestamp();
+        CODEZ _dpx_copy_was_triggered();
+        CODEZ _dpx_copy_sogram_settings_type();
+        CODEZ _dpx_copy_frame_available();
+        CODEZ _dpx_copy_trace_points_per_pixel();
+        CODEZ _dpx_copy_trace_points_total();
+        CODEZ _dpx_copy_vertical_unit_select();
+        CODEZ _dpx_copy_y_top();
+        CODEZ _dpx_copy_y_bottom();
+        CODEZ _dpx_copy_infinite_persistence();
+        CODEZ _dpx_copy_persistence_time_seconds();
+        CODEZ _dpx_copy_show_only_trigger_frame();
+        CODEZ _dpx_copy_time_per_bitmap_line_seconds();
+        CODEZ _dpx_copy_time_resolution_seconds();
+        CODEZ _dpx_copy_power_min();
+        CODEZ _dpx_copy_power_max();
+        CODEZ _dpx_copy_spectrogram_trace_type_select();
+        CODEZ _dpx_copy_spectrum_traces();
+        CODEZ _dpx_copy_spectrum_trace_type_select();
 
     // API group "IFSTREAM"
         CODEZ _ifstream_init                              ();

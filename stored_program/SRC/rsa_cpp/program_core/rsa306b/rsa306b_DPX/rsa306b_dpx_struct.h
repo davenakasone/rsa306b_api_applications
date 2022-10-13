@@ -20,6 +20,45 @@
         DPX_SetSpectrumTraceType()
         DPX_WaitForReady()
 
+bool                                         is_enabled;
+char                                         acq_status_messages[DPX_BITCHECKS][BUF_D];
+std::vector<std::vector<float>>              spectrum_bitmap_v;
+std::vector<std::vector<std::vector<float>>> spectrum_traces_v;
+std::vector<std::vector<uint8_t>>            sogram_bitmap_v;   
+std::vector<double>                          sogram_bitmap_timestamp_v;
+std::vector<std::vector<int16_t>>            sogram_bitmap_trigger_v;
+RSA_API::DPX_FrameBuffer                     frame_buffer_type;
+double                                       frequency_span_hz;
+double                                       rbw_min_hz;
+double                                       rbw_max_hz;
+RSA_API::DPX_SettingsStruct                  settings_type;
+std::vector<int16_t>                         line_data_v;
+int32_t                                      line_data_elements;
+int32_t                                      line_index;
+double                                       line_data_scaling_factor;
+int32_t                                      trace_points;
+int32_t                                      first_valid_point;
+int32_t                                      line_count;
+double                                       line_timestamp;
+bool                                         was_triggered;
+RSA_API::DPX_SogramSettingsStruct            sogram_settings_type;
+bool                                         frame_available;
+int32_t                                      trace_points_per_pixel;
+int32_t                                      trace_points_total;
+RSA_API::VerticalUnitType                    vertical_unit_select;
+double                                       y_top;
+double                                       y_bottom;
+bool                                         infinite_persistence;
+double                                       persistence_time_seconds;
+bool                                         show_only_trigger_frame;
+double                                       time_per_bitmap_line_seconds;
+double                                       time_resolution_seconds;
+double                                       power_min;
+double                                       power_max;
+RSA_API::TraceType                           spectrogram_trace_type_select;
+int32_t                                      spectrum_traces[TRACES_306B];
+RSA_API::TraceType                           spectrum_trace_type_select[TRACES_306B];
+
     constexpr helpers  :  <GROUP>_<CONSTEXPR_NAME>    // with group reference since used outside struct instance
     limiting constants :  <CONSTANT_NAME>             // no leading underscore
     initializers       :  _<VARIABLE_NAME>            // leading underscore
@@ -72,18 +111,18 @@ struct rsa306b_dpx_struct
 
 
 // limiting constants :
-    const uint8_t SOGRAM_DIVISOR          = 254U;          // sogram bitmap: (max - min) / 254, 0: signal level <= minPow, 254: signal level >= maxPow
-    const int16_t SOGRAM_TRIGGER_OCCURED  = 1;             // sogram bitmap trigger array indicates "1" if a trigger occured
-    const int16_t SOGRAM_NO_TRIGGER       = 0;             // sogram bitmap trigger array indicates "0" if there was no trigger
-    const double  FREQUENCY_SPAN_MIN_HZ   = 1e6;           // the frequency span minimum, in Hz, must be > 0 Hz
-    const double  FREQUENCY_SPAN_MAX_HZ   = 39.0e6;        // the frequency span maximum, in Hz, must be < 40.0 MHz
-    const double  RBW_MIN_HZ              = 1e3;           // the RBW must be > 0 Hz
-    const int32_t BITMAP_WIDTH_MIN        = 21;            // bitmap width must be > 0 pixels
-    const int32_t BITMAP_WIDTH_MAX        = 801;           // bitmap width must be <= 801
-    const int32_t TRACE_POINT_PER_PIXEL_1 = 1;             // a valid "trace-points-per-pixel" is 1
-    const int32_t TRACE_POINT_PER_PIXEL_3 = 3;             // a valid "trace-points-per-pixel" is 3
-    const int32_t TRACE_POINT_PER_PIXEL_5 = 5;             // a valid "trace-points-per-pixel" is 5
-    const double  TIME_RESOLUTION_SECONDS_MIN = 1.0e-2;    // time resolution must be >= 1 ms
+    const uint8_t SOGRAM_DIVISOR              = 254U;          // sogram bitmap: (max - min) / 254, 0: signal level <= minPow, 254: signal level >= maxPow
+    const int16_t SOGRAM_TRIGGER_OCCURED      = 1;             // sogram bitmap trigger array indicates "1" if a trigger occured
+    const int16_t SOGRAM_NO_TRIGGER           = 0;             // sogram bitmap trigger array indicates "0" if there was no trigger
+    const double  FREQUENCY_SPAN_MIN_HZ       = 1e6;           // the frequency span minimum, in Hz, must be > 0 Hz
+    const double  FREQUENCY_SPAN_MAX_HZ       = 40.0e6;        // the frequency span maximum, in Hz, must be < 40.0 MHz
+    const double  RBW_MIN_HZ                  = 1e3;           // the RBW must be > 0 Hz
+    const int32_t BITMAP_WIDTH_MIN            = 21;            // bitmap width must be > 0 pixels
+    const int32_t BITMAP_WIDTH_MAX            = 801;           // bitmap width must be <= 801
+    const int32_t TRACE_POINT_PER_PIXEL_1     = 1;             // a valid "trace-points-per-pixel" is 1
+    const int32_t TRACE_POINT_PER_PIXEL_3     = 3;             // a valid "trace-points-per-pixel" is 3
+    const int32_t TRACE_POINT_PER_PIXEL_5     = 5;             // a valid "trace-points-per-pixel" is 5
+    const double  TIME_RESOLUTION_SECONDS_MIN = 1.0e-2;        // time resolution must be >= 1 ms
 
 
 /*
@@ -147,8 +186,14 @@ struct rsa306b_dpx_struct
             sogramBitmapContainTriggerArray ; correspons to map, if triggered, pass to std::vector
 
 */
-    char        acq_data_status_message[BUF_E];          // call-check acqDataStatus and record message
-    //const char* _ACQ_DATA_STATUS_MESSAGE = INIT_CHARP;   // DEFAULT
+    char acq_status_messages[DPX_BITCHECKS][BUF_D];
+    const uint16_t valid_bitmask = 
+        (
+            static_cast<uint16_t>(RSA_API::AcqDataStatus_ADC_OVERRANGE	)    |    // bit 0
+            static_cast<uint16_t>(RSA_API::AcqDataStatus_REF_OSC_UNLOCK)     |    // bit 1
+            static_cast<uint16_t>(RSA_API::AcqDataStatus_LOW_SUPPLY_VOLTAGE) |    // bit 4
+            static_cast<uint16_t>(RSA_API::AcqDataStatus_ADC_DATA_LOST)           // bit 5
+        );
 
     std::vector<std::vector<float>> spectrum_bitmap_v;
     const float                     _SPECTRUM_BITMAP_V_element = INIT_FLOAT;         // DEFAULT, element value
@@ -460,13 +505,8 @@ const double _LINE_TIMESTAMP = INIT_DOUBLE;    // DEFAULT
         else, ready parameter is true and data is ready
         timeout_ms ; milli-seconds to hang the loop and wait for data
         is_ready   ; true if data is ready, else false
-
+    these are internal
 */  
-    int       timeout_ms;
-    const int _TIMEOUT_MS = 2;       // DEFAULT
-
-    bool       is_ready;
-    const bool _IS_READY = false;    // DEFAULT
 
 
 };
@@ -477,3 +517,46 @@ typedef struct rsa306b_dpx_struct rsa306b_dpx_struct;
 
 
 ////////~~~~~~~~END>  rsa306b_dpx_struct.h
+
+
+
+
+
+// is_enabled;
+// acq_status_messages[DPX_BITCHECKS][BUF_D];
+// spectrum_bitmap_v;
+// spectrum_traces_v;
+// sogram_bitmap_v;   
+// sogram_bitmap_timestamp_v;
+// sogram_bitmap_trigger_v;
+// frame_buffer_type;
+// frequency_span_hz;
+// rbw_min_hz;
+// rbw_max_hz;
+// settings_type;
+// line_data_v;
+// line_data_elements;
+// line_index;
+// line_data_scaling_factor;
+// trace_points;
+// first_valid_point;
+// line_count;
+// line_timestamp;
+// was_triggered;
+// sogram_settings_type;
+// frame_available;
+// trace_points_per_pixel;
+// trace_points_total;
+// vertical_unit_select;
+// y_top;
+// y_bottom;
+// infinite_persistence;
+// persistence_time_seconds;
+// show_only_trigger_frame;
+// time_per_bitmap_line_seconds;
+// time_resolution_seconds;
+// power_min;
+// power_max;
+// spectrogram_trace_type_select;
+// spectrum_traces[TRACES_306B];
+// spectrum_trace_type_select;

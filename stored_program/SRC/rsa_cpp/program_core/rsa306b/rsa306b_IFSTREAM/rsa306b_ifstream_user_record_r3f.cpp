@@ -56,19 +56,25 @@ CODEZ rsa306b_class::ifstream_record_r3f()
     this->vars.ifstream.is_enabled = true;
     this->_ifstream_set_is_enabled();
 
-#ifdef BLOCKING_TIMEOUT
-    this->cutil.timer_split_start();
-#endif
-
-    while(this->_vars.ifstream.is_active == true)   // still writting
+    if (this->_vars.trig.mode_select == RSA_API::TriggerMode::freeRun)
     {
-        (void)this->_ifstream_get_is_active();
-        #ifdef BLOCKING_TIMEOUT
-            // probably just going to let this run
-        #endif
+        while(this->_vars.ifstream.is_active == true)   // still writting
+        {
+            (void)this->_ifstream_get_is_active();
+        }
     }
-    // if this is blocking forever, no way a file can hang (only get stuck in infinite loop)
-
+    else
+    {
+        while
+        (
+            (this->_vars.ifstream.is_active == true) &&
+            (this->cutil.timer_get_running_wall() < TIMEOUT_LIMIT_S)
+        )
+        {
+            (void)this->_ifstream_get_is_active();
+        }
+    }
+    
     this->vars.ifstream.is_enabled = false;
     this->_ifstream_set_is_enabled();
 

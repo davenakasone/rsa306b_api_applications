@@ -48,6 +48,7 @@ char* spectrum_scanner
 // < 2 >
 char* scan_dump                    
 (
+    const int    smode,
     const double fstart, 
     const double fstop, 
     const double reflevel,
@@ -64,6 +65,7 @@ char* scan_dump
     
     X_rsa.scan_dump
     (
+        smode,
         ffstart,
         fstop,
         reflevel,

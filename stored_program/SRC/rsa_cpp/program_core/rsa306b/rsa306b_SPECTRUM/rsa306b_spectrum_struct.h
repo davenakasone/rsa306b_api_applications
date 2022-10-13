@@ -132,20 +132,20 @@ struct rsa306b_spectrum_struct
             trace_points_acquired   ; how many trace points were acquired, used for verification
             'maxTracePoints'        ; what to allocate float*, how many points to get, uses 'spectrum.settings_type.traceLength'
 */
-    RSA_API::SpectrumTraces         trace_select[TRACES_306B];
-    const RSA_API::SpectrumTraces   _TRACE_SELECT[TRACES_306B] =                     // DEFAULT
+    RSA_API::SpectrumTraces       trace_select[TRACES_306B];
+    const RSA_API::SpectrumTraces _TRACE_SELECT[TRACES_306B] =                       // DEFAULT
         {
             RSA_API::SpectrumTraces::SpectrumTrace1, 
             RSA_API::SpectrumTraces::SpectrumTrace2,   
             RSA_API::SpectrumTraces::SpectrumTrace3
         }; 
 
-    int                             trace_points_acquired[TRACES_306B];
-    const int                       _TRACE_POINTS_ACQURIED     = INIT_INT;           // DEFAULT
+    int                           trace_points_acquired[TRACES_306B];
+    const int                     _TRACE_POINTS_ACQURIED     = INIT_INT;           // DEFAULT
 
-    std::vector<float> trace_power_v[TRACES_306B];
-    const std::size_t               _TRACE_POWER_V_size        = INIT_STL_LENGTH;    // DEFAULT
-    const float                     _TRACE_POWER_V_element     = INIT_FLOAT;         // DEFAULT
+    std::vector<float>            trace_power_v[TRACES_306B];
+    const std::size_t             _TRACE_POWER_V_size        = INIT_STL_LENGTH;    // DEFAULT
+    const float                   _TRACE_POWER_V_element     = INIT_FLOAT;         // DEFAULT
 
 
 /*
@@ -161,10 +161,8 @@ struct rsa306b_spectrum_struct
     const uint64_t              _TRACE_INFO_TYPE_timestamp     = 0;                   // DEFAULT
     const uint16_t              _TRACE_INFO_TYPE_acqDataStatus = BITCHECK_SUCCESS;    // DEFAULT
 
-    char        acq_status_messages[SPECTRUM_BITCHECKS][BUF_D];
-    //const char* _ACQ_STATUS_MESSAGES                           = BITCHECK_SUCCESS_MESSAGE;    // DEFAULT
-    
-    const uint16_t valid_bitmask                               = 
+    char acq_status_messages[SPECTRUM_BITCHECKS][BUF_D];
+    const uint16_t valid_bitmask = 
         (
             static_cast<uint16_t>(RSA_API::AcqDataStatus_ADC_OVERRANGE	)    |    // bit 0
             static_cast<uint16_t>(RSA_API::AcqDataStatus_REF_OSC_UNLOCK)     |    // bit 1

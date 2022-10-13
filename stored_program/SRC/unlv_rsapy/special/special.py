@@ -12,10 +12,15 @@ from ..funz.plot_iq import plot_iq
 from ..funz.plot_eq import plot_eq
 from ..funz.admin import clear
 
-def scand(fstart = 10.0e6, fstop= 2.0e9, refl= -2.3, thresh=-44.4) -> None :
+def scand(smode=2, fstart = 10.0e6, fstop= 2.0e9, refl= -2.3, thresh=-44.4) -> None :
     rsa_so.scan_dump.restype = ctypes.c_char_p
     rsa_so.file_select.restype = ctypes.c_char_p
-    directory = rsa_so.scan_dump(ctypes.c_double(fstart), ctypes.c_double(fstop), ctypes.c_double(refl), ctypes.c_double(thresh))
+    directory = rsa_so.scan_dump(\
+        ctypes.c_int(smode),
+        ctypes.c_double(fstart),
+        ctypes.c_double(fstop), 
+        ctypes.c_double(refl), 
+        ctypes.c_double(thresh))
     while True :
         temp = rsa_so.file_select(directory)
         if temp is None :

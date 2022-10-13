@@ -42,15 +42,35 @@ CODEZ rsa306b_class::iqstream_record_siq()
     bool is_complete = false;
     bool is_writing = false;
 
-    while (is_complete == false)    // will block until data is ready
+    if (this->_vars.trig.mode_select == RSA_API::TriggerMode::freeRun)
     {
-        this->_api_status =
-            RSA_API::IQSTREAM_GetDiskFileWriteStatus
-            (
-                &is_complete,
-                &is_writing
-            );
+        while (is_complete == false)    // will block until data is ready
+        {
+            this->_api_status =
+                RSA_API::IQSTREAM_GetDiskFileWriteStatus
+                (
+                    &is_complete,
+                    &is_writing
+                );
+        }
     }
+    else
+    {
+        while    // will block until data is ready OR timeout
+        (
+            (is_complete == false) &&
+            this->cutil.timer_get_split_wall()<TIMEOUT_LIMIT_S
+        )    
+        {
+            this->_api_status =
+                RSA_API::IQSTREAM_GetDiskFileWriteStatus
+                (
+                    &is_complete,
+                    &is_writing
+                );
+        }
+    }
+    
 
 // #ifdef BLOCKING_TIMEOUT
 //     (void)this->cutil.timer_split_start();

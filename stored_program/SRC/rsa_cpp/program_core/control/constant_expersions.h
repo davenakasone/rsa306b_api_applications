@@ -21,7 +21,7 @@ constexpr char DATA_DIRECTORY_RAW[]       = "/home/unlv/Desktop/rsa306b_api_appl
 constexpr char DATA_DIRECTORY_PROCESSED[] = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_processed/";  
 constexpr char DATA_DIRECTORY_SEQUENCED[] = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_sequenced/";  
 constexpr char DATA_DEFAULT_EXT[]         = "csv";      // data file outputs use this extension, if not specified, no "."                    
-constexpr int EXTENSION_LIMIT             = 10;         // characters allowed in a file extension
+constexpr int  EXTENSION_LIMIT            = 10;         // characters allowed in a file extension
 constexpr char TAG_DECODED[]              = "_DEC_";    // decoded file outputs have this inserted into their file names, if not specified
 constexpr char EXT_DECODED[]              = "txt";      // decoded file outputs use this extension, if not specified, no "."
 constexpr char TAG_PARSED[]               = "_PAR_";    // parsed file outputs have this inserted into their file names, if not specified
@@ -58,11 +58,21 @@ constexpr wchar_t      INIT_WCHARP[]   = L"wchar_t";
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////// HARDWARE CONSTANTS ///////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+typedef enum
+{
+    smode_1 = 1,    // no trigger, no threshold, get everything
+    smode_2 = 2,    // no trigger, data only acquired if threshold exceeded
+    smode_3 = 3,    // trigger, data only acquired if trigger even occurs
+    smode_4 = 4     // time trigger, data acquired at uniform sampling interval
+} sMode;  
 constexpr std::size_t TRACES_306B                = 3UL;                // the RSA-306B has 3 possible traces available
 constexpr char        BITCHECK_SUCCESS_MESSAGE[] = "good bitcheck";    // common message recorded upon successful bitcheck
 constexpr unsigned    BITCHECK_SUCCESS           = 0U;                 // all successful bitchecks result in 0
 constexpr std::size_t SAMPLES_PER_FRAME          = 8178LU;             // number of 16-bit-signed data samples, per frame  (capacity ~ 260e6 samples, 32e3 frames)
                                                                        // note 2^14 bytes per frame, less 28 for footer, /2 --> # of int16_t samples
+ 
 // AUDIO
 constexpr char AUDIO_FILE_NAME_BASE[] = "audio";       // default output file base name for the API group
 constexpr char AUDIO_FIELD_1[]        = "interval";    // used to label fields in "*.csv" output
@@ -191,6 +201,8 @@ constexpr char SPECTRUM_BITCHECK_MESSAGES[SPECTRUM_BITCHECKS][BUF_B] =          
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////// RAW FILE CONSTANTS ///////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 // R3F file parsing
 constexpr char        R3F_RAW_EXT[]                       = "r3f";     // known name of the raw extension, no "."
 constexpr std::size_t R3F_EQL_FILEDS                      = 3;         // frequency, scaling, and phase   
