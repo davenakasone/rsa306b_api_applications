@@ -11,9 +11,9 @@
 int adc_pin = A0;
 int adc_val = 0;
 int sig_pin = 7;
-int rest_time = 5000;
+int rest_time = 3000;
 int charge_time = 0;
-int min_time = 10000;
+int min_time = 1000;
 int tdiv = 10;
 
 void setup() 
