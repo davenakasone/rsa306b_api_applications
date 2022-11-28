@@ -9,6 +9,7 @@
         < 5 >  batch_switch_directory_and_change_extension()
         < 6 >  batch_switch_directory_insert_and_change_extension()
         < 7 >  rm_rf()
+        < 8 >  clear_data()
 
     private :
         #  none
@@ -467,5 +468,35 @@ CODEZ common_utility::rm_rf
     return CODEZ::_0_no_errors;
 }
 
+
+////~~~~
+
+
+/*
+    < 8 > public
+    call to clear top-level data directory and all childern
+*/
+CODEZ common_utility::clear_data()
+{
+#ifdef DEBUG_CLI
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+
+    if 
+    (
+        this->rm_rf(DATA_DIRECTORY, FILLER_NAME, FILLER_CONTENTS, true)           == CODEZ::_0_no_errors &&
+        this->rm_rf(DATA_DIRECTORY_PROCESSED, FILLER_NAME, FILLER_CONTENTS, true) == CODEZ::_0_no_errors &&
+        this->rm_rf(DATA_DIRECTORY_RAW, FILLER_NAME, FILLER_CONTENTS, true)       == CODEZ::_0_no_errors &&
+        this->rm_rf(DATA_DIRECTORY_SEQUENCED, FILLER_NAME, FILLER_CONTENTS, true) == CODEZ::_0_no_errors
+    )
+    {
+        return CODEZ::_0_no_errors;
+    }
+    else
+    {
+        return CODEZ::_37_system_failed;
+    }
+}
 
 ////////~~~~~~~~END>  cu_file_modification.cpp

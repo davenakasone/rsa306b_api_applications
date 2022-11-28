@@ -26,9 +26,10 @@ printf("\n%s()  ,  a unit test template\n", __func__);
 X_util.timer_split_start(); 
 #endif                   
 //~
-
-    (void)printf("\n\ta unit test executes...\n");    // test something
-
+    X_util.clear_data();
+    X_rsa.device_connect();
+    X_rsa.print_vars();
+    X_rsa.device_disconnect();
 //~
 #ifdef WAIT_ENTER_CLEAR
 X_util.timer_split_stop();

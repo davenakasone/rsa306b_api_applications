@@ -197,6 +197,7 @@ $(TDIR_U)unit_test_11.cpp \
 $(TDIR_U)unit_test_12.cpp \
 $(TDIR_U)unit_test_13.cpp \
 $(TDIR_U)unit_test_14.cpp \
+$(TDIR_T)task_996.cpp \
 $(TDIR_T)task_997.cpp \
 $(TDIR_T)task_998.cpp \
 $(TDIR_T)task_999.cpp \

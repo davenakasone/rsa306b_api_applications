@@ -24,6 +24,34 @@ except :
     print("\nIs the file-path-name of the library correct ???")
     print(f"\t{SO_DIR}")
     sys.exit("failed to find the library or path was not exported")
-    
+
+rsa_so.scan_dump.restype = ctypes.c_char_p
+rsa_so.file_select.restype = ctypes.c_char_p
+rsa_so.spectrum_scanner.restype = ctypes.c_char_p
+rsa_so.spectrum_scanner_b1.restype = ctypes.c_char_p
+rsa_so.spectrum_scanner_b2.restype = ctypes.c_char_p
+rsa_so.get_r3f_csv_equalization.restype = ctypes.c_char_p
+rsa_so.get_r3f_csv_adc.restype = ctypes.c_char_p
+rsa_so.get_siq_csv.restype = ctypes.c_char_p
+rsa_so.spectrum_set_vars.restype = ctypes.c_int
+rsa_so.spectrum_acquire.restype = ctypes.c_int
+rsa_so.spectrum_find_peak.restype = ctypes.c_float
+rsa_so.spectrum_write_csv.restype = ctypes.c_char_p
+rsa_so.iqstream_set_vars.restype = ctypes.c_int
+rsa_so.iqstream_acq_direct.restype = ctypes.c_int
+rsa_so.iqstream_write_csv.restype = ctypes.c_char_p
+rsa_so.iqstream_record_siq.restype = ctypes.c_char_p
+rsa_so.iqblk_set_vars.restype = ctypes.c_int
+rsa_so.iqblk_acquire.restype = ctypes.c_int
+rsa_so.iqblk_write_csv.restype = ctypes.c_char_p
+rsa_so.ifstream_set_vars.restype = ctypes.c_int
+rsa_so.ifstream_acq_direct.restype = ctypes.c_int
+rsa_so.ifstream_write_csv.restype = ctypes.c_char_p
+rsa_so.ifstream_record_r3f.restype = ctypes.c_char_p
+rsa_so.ifstream_equalization.restype = ctypes.c_char_p
+rsa_so.api_status.restype = ctypes.c_int
+rsa_so.api_status_message.restype = ctypes.c_char_p
+rsa_so.config_set_vars.restype = ctypes.c_int
+
 
 ########~~~~~~~~END>  shared_object.py

@@ -19,7 +19,6 @@ def iqcsvx(repz= 3, cf=315.0e6, dbm=-33.3, bw=20.0e6) -> None :
         return
     if iqset(ms=10, bw=bw, use_siq=False) :
         return
-
     drun()
     for xx in range(0, repz) :
         if iqacq() == 0 :
@@ -38,7 +37,6 @@ def iqrecx(repz= 3, cf=315.0e6, dbm=-33.3, ms=10, bw=20.0e6) -> None :
         return
     if iqset(ms=ms, bw=bw, use_siq=True) != 0 :
         return
-
     drun()
     for xx in range(0, repz) :
         dataf = iqrec()

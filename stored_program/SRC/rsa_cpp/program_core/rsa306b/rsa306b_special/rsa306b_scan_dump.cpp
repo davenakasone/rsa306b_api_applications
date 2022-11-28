@@ -75,16 +75,23 @@ CODEZ rsa306b_class::scan_dump
         printf("%d\n", __LINE__);
         return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
-    if ((fstart - (span/2)) < 0)
-    {
-        printf("%d\n", __LINE__);
-        return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
-    }
+    // if ((fstart - (span/2)) < 0)
+    // {
+    //     printf("%d\n", __LINE__);
+    //     return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
+    // }
 #endif
-    (void)this->device_stop();
-
     float maxp = -999.999;       
-    double cf = fstart;
+    double cf;
+    if (fstart < (span/2))
+    {
+        cf = span/2;
+    }
+    else
+    {
+        cf = fstart;
+    }
+    (void)this->device_stop();
 
     // a directory is created for output that may or may not occur during this trace
     this->reftime_get_vars();
@@ -179,7 +186,11 @@ CODEZ rsa306b_class::scan_dump
             return this->cutil.get_status_code();
         }
         maxp = this->_vars.spectrum.trace_power_v[trace_number][this->_vars.spectrum.peak_index[trace_number]];
-        printf("cf=  %15.5lf MHz  ,  dBm=  %12.6f\n", cf/1.0e6, maxp);
+        (void)this->spectrum_make_frequency_v();
+        printf("cf=  %15.5lf MHz  ,  max_dBm=  %12.6f  @  %15.5lf MHz\n", 
+            cf/1.0e6, 
+            maxp,
+            this->_vars.spectrum.frequency_v[this->_vars.spectrum.peak_index[trace_number]]/1.0e6);
         (void)this->reftime_get_vars();
         switch(smode)
         {
@@ -189,7 +200,7 @@ CODEZ rsa306b_class::scan_dump
                     SPECTRUM_FILE_NAME_BASE, 
                     this->_vars.reftime.current.timestamp,
                     DATA_DEFAULT_EXT);
-                (void)this->spectrum_make_frequency_v();
+                //(void)this->spectrum_make_frequency_v();
                 (void)this->spectrum_write_csv(this->_holder, trace_number);
                 this->vars.spectrum.is_enabled_measurement = false;   
                 (void)this->_spectrum_set_vars(); 
@@ -214,7 +225,7 @@ CODEZ rsa306b_class::scan_dump
                         SPECTRUM_FILE_NAME_BASE, 
                         this->_vars.reftime.current.timestamp,
                         DATA_DEFAULT_EXT);
-                    (void)this->spectrum_make_frequency_v();
+                    //(void)this->spectrum_make_frequency_v();
                     (void)this->spectrum_write_csv(this->_holder, trace_number);
                     this->vars.spectrum.is_enabled_measurement = false;   
                     (void)this->_spectrum_set_vars();  
@@ -245,7 +256,7 @@ CODEZ rsa306b_class::scan_dump
                             SPECTRUM_FILE_NAME_BASE, 
                             this->_vars.reftime.current.timestamp,
                             DATA_DEFAULT_EXT);
-                        (void)this->spectrum_make_frequency_v();
+                        //(void)this->spectrum_make_frequency_v();
                         (void)this->spectrum_write_csv(this->_holder, trace_number);
                         this->vars.spectrum.is_enabled_measurement = false;   
                         (void)this->_spectrum_set_vars();  

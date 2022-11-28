@@ -188,7 +188,8 @@ CODEZ rsa306b_class::_spectrum_copy_trace_info_type(std::size_t idx)
     debug_record(false);
 #endif
 
-    this->vars.spectrum.trace_info_type[idx] = this->_vars.spectrum.trace_info_type[idx];
+    this->vars.spectrum.trace_info_type[idx].acqDataStatus = this->_vars.spectrum.trace_info_type[idx].acqDataStatus;
+    this->vars.spectrum.trace_info_type[idx].timestamp= this->_vars.spectrum.trace_info_type[idx].timestamp;
     return this->cutil.report_status_code(CODEZ::_0_no_errors);
 }
 

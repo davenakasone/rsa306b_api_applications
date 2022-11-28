@@ -7,7 +7,7 @@
     dependent (y-axis)   = power [in dBm]
 """
 
-from tkinter import N
+# from tkinter import N
 import matplotlib.pyplot
 import pandas
 

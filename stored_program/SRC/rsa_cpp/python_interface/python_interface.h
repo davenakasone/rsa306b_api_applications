@@ -70,6 +70,14 @@ char* get_r3f_csv_adc();
 char* get_siq_csv();
 
 // special
+char* scan_dump                    
+(
+    const int    smode,
+    const double fstart, 
+    const double fstop, 
+    const double reflevel,
+    const double threshold
+);
 char* spectrum_scanner
 (
     double fstart, 
@@ -103,18 +111,10 @@ char* spectrum_scanner_b2
     double span,
     int    tlen
 );
-char* scan_dump                    
-(
-    const int    smode,
-    const double fstart, 
-    const double fstop, 
-    const double reflevel,
-    const double threshold
-);
-char* file_select(char* directory);
 
 // c_utility.cpp
 void delete_data();
+char* file_select(char* directory);
 
 
 #ifdef __cplusplus      

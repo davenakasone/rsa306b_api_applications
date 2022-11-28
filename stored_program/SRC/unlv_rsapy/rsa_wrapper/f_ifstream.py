@@ -21,7 +21,6 @@ def ifcsvx(repz= 3, cf=315.0e6, dbm=-33.3) -> None :
         return
     if ifset(ms=10, use_r3f=False) :
         return
-
     drun()
     for xx in range(0, repz) :
         if ifacq() == 0 :
@@ -40,7 +39,6 @@ def ifrecx(repz= 3, cf=315.0e6, dbm=-33.3, ms=10) -> None :
         return
     if ifset(ms=ms, use_r3f=True) != 0 :
         return
-
     drun()
     for xx in range(0, repz) :
         dataf = ifrec()
@@ -58,7 +56,6 @@ def ifeqx(repz= 3, cf=315.0e6, dbm=-33.3) -> None :
         return
     if ifset() :
         return
-
     for xx in range(0, repz) :
         eqf = ifeq()
         if len(eqf) > 1 :

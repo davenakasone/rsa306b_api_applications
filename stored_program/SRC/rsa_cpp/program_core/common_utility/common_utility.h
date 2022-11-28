@@ -258,6 +258,7 @@ class common_utility
             const char* filler_contents,
             bool remake_and_fill
         );
+        CODEZ clear_data();
 
 
 // decoding, diagnostic tools to parse raw files and batches of files, byte-by-byte
