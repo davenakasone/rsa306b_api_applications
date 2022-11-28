@@ -13,6 +13,7 @@ import pandas
 
 
 def plot_eq(input_file_path_name, verbose=True) -> None :
+    """called to plot equalization data from a CSV file, from IF acquisition"""
     label_f = "frequency"
     label_s = "scaling"
     label_p = "phase"

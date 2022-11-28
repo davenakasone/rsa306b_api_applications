@@ -18,6 +18,8 @@ extern "C"
 // < 1 >
 char* get_siq_csv()
 {
+    static char juicy[BUF_E];
+    memset(juicy, '\0', sizeof(juicy));
     int select = -1;
     char selection[BUF_C];
     memset(selection, '\0', sizeof(selection));
@@ -67,7 +69,8 @@ char* get_siq_csv()
     {
         return NULL;
     }
-    return X_util.helper;
+    (void)strcpy(juicy, X_util.helper);
+    return juicy;
 }
 
 

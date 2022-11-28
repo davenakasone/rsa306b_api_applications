@@ -96,7 +96,7 @@ CODEZ rsa306b_class::scan_dump
     }
 
     // TRIG, ensure triggers are off
-    this->vars.trig.mode_select       = RSA_API::TriggerMode::freeRun;
+    //this->vars.trig.mode_select       = RSA_API::TriggerMode::freeRun;
     this->vars.trig.if_power_level    = threshold;
     this->vars.trig.mode_select       = RSA_API::TriggerMode::triggered;
     this->vars.trig.position_percent  = this->vars.trig.POSITION_PERCENT_MAX / 2;
@@ -183,7 +183,7 @@ CODEZ rsa306b_class::scan_dump
         (void)this->reftime_get_vars();
         switch(smode)
         {
-            case (sMode::smode_1) :
+            case (sMode::smode_1) :    // dump everything, regarless of threshold
                 (void)sprintf(this->_holder, "%s%s_%lu.%s", 
                     active_directory, 
                     SPECTRUM_FILE_NAME_BASE, 
@@ -262,42 +262,42 @@ CODEZ rsa306b_class::scan_dump
                     }
                 }
                 break;
-            case (sMode::smode_4) :
-                this->reftime_get_vars();
-                this->vars.trig.start_time_seconds = this->_vars.reftime.current.seconds+1;
-                this->vars.trig.start_time_nano_seconds = this->vars.reftime.current.nanos;
-                this->vars.trig.repeat_time_nano_seconds = 999999;    // too big and there are problems
-                this->vars.trig.mode_select = RSA_API::TriggerMode::triggered;
-                this->vars.trig.source_select = RSA_API::TriggerSource::TriggerSourceTime;
-                this->trig_set_vars();
-                 this->cutil.timer_split_start();
-                while(this->cutil.timer_get_split_wall() < TIMEOUT_LIMIT_S)
-                {
-                    this->device_check_event();
-                    if (this->_vars.device.event_occured == true)
-                    {
-                        (void)sprintf(this->_holder, "%s%s_%lu.%s", 
-                            active_directory, 
-                            SPECTRUM_FILE_NAME_BASE, 
-                            this->_vars.reftime.current.timestamp,
-                            DATA_DEFAULT_EXT);
-                        (void)this->spectrum_make_frequency_v();
-                        (void)this->spectrum_write_csv(this->_holder, trace_number);
-                        this->vars.spectrum.is_enabled_measurement = false;   
-                        (void)this->_spectrum_set_vars();  
-                        // threshold was exceeded, get the R3F file
-                        (void)this->ifstream_set_vars();
-                        (void)this->device_run();
-                        (void)this->ifstream_record_r3f();
-                        (void)this->device_stop();
-                        // threshold was exceeded, get the SIQ file
-                        (void)this->iqstream_set_vars();
-                        (void)this->device_run();
-                        (void)this->iqstream_record_siq();
-                        (void)this->device_stop();
-                    }
-                }
-                break;
+            // case (sMode::smode_4) :
+            //     this->reftime_get_vars();
+            //     this->vars.trig.start_time_seconds = this->_vars.reftime.current.seconds+1;
+            //     this->vars.trig.start_time_nano_seconds = this->vars.reftime.current.nanos;
+            //     this->vars.trig.repeat_time_nano_seconds = 999999;    // too big and there are problems
+            //     this->vars.trig.mode_select = RSA_API::TriggerMode::triggered;
+            //     this->vars.trig.source_select = RSA_API::TriggerSource::TriggerSourceTime;
+            //     this->trig_set_vars();
+            //      this->cutil.timer_split_start();
+            //     while(this->cutil.timer_get_split_wall() < TIMEOUT_LIMIT_S)
+            //     {
+            //         this->device_check_event();
+            //         if (this->_vars.device.event_occured == true)
+            //         {
+            //             (void)sprintf(this->_holder, "%s%s_%lu.%s", 
+            //                 active_directory, 
+            //                 SPECTRUM_FILE_NAME_BASE, 
+            //                 this->_vars.reftime.current.timestamp,
+            //                 DATA_DEFAULT_EXT);
+            //             (void)this->spectrum_make_frequency_v();
+            //             (void)this->spectrum_write_csv(this->_holder, trace_number);
+            //             this->vars.spectrum.is_enabled_measurement = false;   
+            //             (void)this->_spectrum_set_vars();  
+            //             // threshold was exceeded, get the R3F file
+            //             (void)this->ifstream_set_vars();
+            //             (void)this->device_run();
+            //             (void)this->ifstream_record_r3f();
+            //             (void)this->device_stop();
+            //             // threshold was exceeded, get the SIQ file
+            //             (void)this->iqstream_set_vars();
+            //             (void)this->device_run();
+            //             (void)this->iqstream_record_siq();
+            //             (void)this->device_stop();
+            //         }
+            //     }
+            //     break;
             default :
                 return this->cutil.report_status_code(CODEZ::_2_error_in_logic);
         }

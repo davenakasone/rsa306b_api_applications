@@ -22,6 +22,7 @@ extern "C"
 int iqstream_set_vars(int record_ms, double bw_hz, bool stream_file)
 {
     // python user can pick these settings:
+    static int juicy;
     X_rsa.vars.iqstream.record_time_ms = record_ms;
     X_rsa.vars.iqstream.bandwidth = bw_hz;
     if (stream_file == true)
@@ -40,18 +41,22 @@ int iqstream_set_vars(int record_ms, double bw_hz, bool stream_file)
         DATA_DIRECTORY_RAW,
         IQSTREAM_FILE_NAME_BASE);
     X_rsa.vars.iqstream.suffix_control = static_cast<int>(RSA_API::IQSSDFN_SUFFIX_TIMESTAMP);
-    return static_cast<int>(X_rsa.iqstream_set_vars());
+    juicy = static_cast<int>(X_rsa.iqstream_set_vars());
+    return juicy;
 }
 
 // < 2 >
 int iqstream_acq_direct()
 {
+    static int juicy;
     if (X_rsa.vars.iqstream.destination_select != RSA_API::IQSOUTDEST::IQSOD_CLIENT)
     {
-        return static_cast<int>(CODEZ::_5_called_with_bad_paramerters);
+        juicy = static_cast<int>(CODEZ::_5_called_with_bad_paramerters);
+        return juicy;
     }
     (void)X_rsa.iqstream_clear_sticky();
-    return static_cast<int>(X_rsa.iqstream_acquire_data());
+    juicy = static_cast<int>(X_rsa.iqstream_acquire_data());
+    return juicy;
 }
 
 // < 3 >
@@ -62,12 +67,13 @@ char* iqstream_write_csv()
         return NULL;
     }
 
-    X_rsa.cutil.helper[0] = '\0';
-    if (X_rsa.iqstream_write_csv(X_rsa.cutil.helper) != CODEZ::_0_no_errors)
+    static char juicy[BUF_E];
+    memset(juicy, '\0', sizeof(juicy));
+    if (X_rsa.iqstream_write_csv(juicy) != CODEZ::_0_no_errors)
     {
         return NULL;
     }
-    return X_rsa.cutil.helper;
+    return juicy;
 }
 
 // < 4 >
@@ -79,13 +85,14 @@ char* iqstream_record_siq()
     }
     
     (void)X_rsa.iqstream_clear_sticky();
-    memset(X_rsa.cutil.helper, '\0', sizeof(X_rsa.cutil.helper));
+    static char juicy[BUF_E];
+    memset(juicy, '\0', sizeof(juicy));
     if (X_rsa.iqstream_record_siq() != CODEZ::_0_no_errors)
     {
         return NULL;
     }
-    (void)strcpy(X_rsa.cutil.helper, X_rsa.vars.iqstream.filenames_0_data);
-    return X_rsa.cutil.helper;
+    (void)strcpy(juicy, X_rsa.vars.iqstream.filenames_0_data);
+    return juicy;
 }
 
 

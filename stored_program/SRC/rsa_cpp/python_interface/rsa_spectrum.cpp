@@ -37,29 +37,36 @@ void spectrum_enable()
 // < 3 >
 int spectrum_acquire()
 {
-    return static_cast<int>(X_rsa.spectrum_acquire_data(RSA_API::SpectrumTrace1));    // python users only get trace[0]
+    // python users only get trace[0]
+    static int juicy;
+    juicy = static_cast<int>(X_rsa.spectrum_acquire_data(RSA_API::SpectrumTrace1));    
+    return juicy;
 }
 
 // < 4 >
 float spectrum_find_peak()
 {
+    float juicy;
     (void)X_rsa.spectrum_find_peak_index(RSA_API::SpectrumTrace1);  // python users only get trace[0]
     std::size_t peak_index = X_rsa.vars.spectrum.peak_index[RSA_API::SpectrumTrace1];
-    return X_rsa.vars.spectrum.trace_power_v[RSA_API::SpectrumTrace1][peak_index];
+    juicy = X_rsa.vars.spectrum.trace_power_v[RSA_API::SpectrumTrace1][peak_index];
+    return juicy;
 }
 
 // < 5 >
 char* spectrum_write_csv()
 {
-    X_rsa.cutil.helper[0] = '\0';
+    static char juicy[BUF_E];
+    memset(juicy, '\0', sizeof(juicy));
     (void)X_rsa.spectrum_make_frequency_v();
-    (void)X_rsa.spectrum_write_csv(X_rsa.cutil.helper, RSA_API::SpectrumTrace1);  // python users only get trace[0]
-    return X_rsa.cutil.helper;
+    (void)X_rsa.spectrum_write_csv(juicy, RSA_API::SpectrumTrace1);  // python users only get trace[0]
+    return juicy;
 }
 
 // < 6 >
 int spectrum_set_vars(int trace_length, double span, double rbw)
 {
+    static int juicy;
     X_rsa.vars.spectrum.is_enabled_trace[RSA_API::SpectrumTrace1] = true;   // python users only get trace[0]
     X_rsa.vars.spectrum.is_enabled_trace[RSA_API::SpectrumTrace2] = false;
     X_rsa.vars.spectrum.is_enabled_trace[RSA_API::SpectrumTrace3] = false;
@@ -70,7 +77,8 @@ int spectrum_set_vars(int trace_length, double span, double rbw)
     X_rsa.vars.spectrum.settings_type.traceLength  = trace_length;
     X_rsa.vars.spectrum.settings_type.verticalUnit = RSA_API::SpectrumVerticalUnit_dBm;
     X_rsa.vars.spectrum.settings_type.window       = RSA_API::SpectrumWindow_Kaiser;
-    return static_cast<int>(X_rsa.spectrum_set_vars());
+    juicy = static_cast<int>(X_rsa.spectrum_set_vars());
+    return juicy;
 }
 
 

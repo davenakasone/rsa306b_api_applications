@@ -17,6 +17,7 @@ constexpr char CL_ARG_RESET[] = "reset";    // the command line argument, used t
 
 
 // Data IO
+constexpr char DATA_DIRECTORY[]           = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/";  
 constexpr char DATA_DIRECTORY_RAW[]       = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_raw/";       
 constexpr char DATA_DIRECTORY_PROCESSED[] = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_processed/";  
 constexpr char DATA_DIRECTORY_SEQUENCED[] = "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_sequenced/";  
@@ -27,6 +28,8 @@ constexpr char EXT_DECODED[]              = "txt";      // decoded file outputs 
 constexpr char TAG_PARSED[]               = "_PAR_";    // parsed file outputs have this inserted into their file names, if not specified
 constexpr char EXT_PARSED[]               = "txt";      // parsed file outputs use this extension, if not specified, no "."
 constexpr mode_t FMODE = S_IRWXU | S_IRWXG | S_IRWXO;
+constexpr char FILLER_NAME[]              = "filler.txt";    // name of filler file after deleting directory (optional)
+constexpr char FILLER_CONTENTS[]          = "filling";       // contents of the filler file (optional)
 
 // program sizing parameters
 constexpr int BUF_A = 32;      // a short general purpose buffer
@@ -64,8 +67,8 @@ typedef enum
 {
     smode_1 = 1,    // no trigger, no threshold, get everything
     smode_2 = 2,    // no trigger, data only acquired if threshold exceeded
-    smode_3 = 3,    // trigger, data only acquired if trigger even occurs
-    smode_4 = 4     // time trigger, data acquired at uniform sampling interval
+    smode_3 = 3     // trigger, data only acquired if trigger even occurs
+    //smode_4 = 4     // time trigger, data acquired at uniform sampling interval
 } sMode;  
 constexpr std::size_t TRACES_306B                = 3UL;                // the RSA-306B has 3 possible traces available
 constexpr char        BITCHECK_SUCCESS_MESSAGE[] = "good bitcheck";    // common message recorded upon successful bitcheck

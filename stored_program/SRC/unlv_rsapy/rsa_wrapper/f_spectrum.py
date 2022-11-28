@@ -15,6 +15,7 @@ from ..funz.plot_spectrum import plot_spectrum
 
 
 def sspin(repz=7, cf=315.0e6, dbm=-25.5, tlen=1111, span=10.0e6, rbw=1.0e3, thresh=-35.6) -> None :
+    """spectrum spin; sits on range of interest and collects specified number of spectrum traces"""
     dstop()
     if config(cf, dbm) != 0 :
         return
@@ -38,6 +39,7 @@ def sspin(repz=7, cf=315.0e6, dbm=-25.5, tlen=1111, span=10.0e6, rbw=1.0e3, thre
 
 
 def sscan(fstart=1.0e6, fstop=1000.0e6, dbm=-35.5, tlen=999, span=10.0e6, rbw=10.0e3, thresh=-55.6, loiter=4) -> None :
+    """spectrum scan; spans a large range; if threshold is exceeded, immidatley saves data and plots"""
     dstop()
     hitz = 0
     repz = int((fstop-fstart)/span)
@@ -65,6 +67,6 @@ def sscan(fstart=1.0e6, fstop=1000.0e6, dbm=-35.5, tlen=999, span=10.0e6, rbw=10
             
     print(f"\n\tscan complete, found {hitz} traces of interest")
     soff()
-
+    
 
 ########~~~~~~~~END>  f_spectrum.py

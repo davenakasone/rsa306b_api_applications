@@ -8,6 +8,7 @@ from ..funz.plot_iq import plot_iq
 
 
 def siq_csvp() -> None :
+    """user selects raw siq file, it is plotted after processing"""
     catcher = siq_csv()
     if catcher == "" :
         print("no siq files are available")

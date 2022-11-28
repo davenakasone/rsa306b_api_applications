@@ -46,14 +46,16 @@ printf("\n%s()  ,  class [rsa_306b] API group 'SPECTRUM'\n", __func__);
 X_util.timer_split_start(); 
 #endif                   
 //~
-
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
     X_rsa.device_connect();
+
     ut9_basic();
     ut9_untrig_acq();
     ut9_trig_acq();
     ut9_auto_scan();
-    X_rsa.device_disconnect();
 
+    X_rsa.device_disconnect();
 //~
 #ifdef WAIT_ENTER_CLEAR
 X_util.timer_split_stop();

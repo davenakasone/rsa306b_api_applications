@@ -8,6 +8,7 @@
         < 4 >  insert_and_change_extension()
         < 5 >  batch_switch_directory_and_change_extension()
         < 6 >  batch_switch_directory_insert_and_change_extension()
+        < 7 >  rm_rf()
 
     private :
         #  none
@@ -383,6 +384,86 @@ CODEZ common_utility::batch_switch_directory_insert_and_change_extension
         new_filez.push_back(temp);
     }
 
+    return CODEZ::_0_no_errors;
+}
+
+
+////~~~~
+
+
+/*
+    < 7 > public
+    deletes specified directory recursivley and with force
+    when called, target directory and everything in it is deleted
+    enable the filler to remake the directory and place a dummy git-holder in it
+    this operation is executed even if the directory does not exist
+    only valid on Linux/POSIX (use different library for other build targets)
+*/
+CODEZ common_utility::rm_rf
+(
+    const char* directory,
+    const char* filler_name,
+    const char* filler_contents,
+    bool remake_and_fill
+)
+{
+#ifdef DEBUG_CLI
+    (void)snprintf(X_dstr, sizeof(X_dstr), DEBUG_CLI_FORMAT, __LINE__, __FILE__, __func__);
+    debug_record(false);
+#endif
+    
+    if (directory == NULL)
+    {
+        return this->report_status_code(CODEZ::_5_called_with_bad_paramerters);
+    }
+    char scommand[BUF_F];
+    memset(scommand, '\0', sizeof(scommand));
+    (void)snprintf(scommand, sizeof(scommand), "rm -rf %s", directory);
+    if (system(scommand) == -1)
+    {
+        return this->report_status_code(CODEZ::_37_system_failed);
+    }
+    if (remake_and_fill == false)
+    {
+        return CODEZ::_0_no_errors;
+    }
+
+    // back fill requested :
+    // if (mkdir(directory, FMODE) != 0)
+    // {
+    //     return this->report_status_code(CODEZ::_34_mkdir_failed);
+    // }
+    (void)snprintf(this->_worker, sizeof(this->_worker), "mkdir %s", directory);
+    if (system(this->_worker) == -1)
+    {
+        return this->report_status_code(CODEZ::_37_system_failed);
+    }
+    FILE* fptr = NULL;
+    if (filler_name == NULL)
+    {
+        (void)snprintf(this->_worker, sizeof(this->_worker), "%s%s", directory, FILLER_NAME);
+    }
+    else
+    {
+        (void)snprintf(this->_worker, sizeof(this->_worker), "%s%s", directory, filler_name);
+    }
+    fptr = fopen(this->_worker, "w");
+    if (fptr == NULL)
+    {
+        return this->report_status_code(CODEZ::_13_fopen_failed);
+    }
+    if (filler_contents == NULL)
+    {
+        (void)fputs(FILLER_CONTENTS, fptr);
+    }
+    else
+    {
+        (void)fputs(filler_contents, fptr);
+    }
+    if (fclose(fptr) != 0)
+    {
+        return this->report_status_code(CODEZ::_10_fclose_failed);
+    }
     return CODEZ::_0_no_errors;
 }
 

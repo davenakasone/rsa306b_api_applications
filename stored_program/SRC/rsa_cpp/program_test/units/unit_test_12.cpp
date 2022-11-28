@@ -33,14 +33,16 @@ printf("\n%s()  ,  class [rsa_306b] API group 'IFSTREAM'\n", __func__);
 X_util.timer_split_start(); 
 #endif                   
 //~
-
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
     X_rsa.device_connect();
+
     ut12_basic();
     ut12_r3f();
     ut12_acq();
     ut12_acqf();
-    X_rsa.device_disconnect();
 
+    X_rsa.device_disconnect();
 //~
 #ifdef WAIT_ENTER_CLEAR
 X_util.timer_split_stop();
@@ -100,7 +102,6 @@ static void ut12_r3f()
 printf("\n%s()  ,  IFSTREAM produce '*.r3f' files\n", __func__);
 #endif                   
 //~
-
     X_rsa.device_run();
     for (int ii = 0; ii < bangz_ut12; ii++)
     {

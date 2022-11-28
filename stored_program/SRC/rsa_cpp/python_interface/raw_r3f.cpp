@@ -19,6 +19,8 @@ extern "C"
 // < 1 >
 char* get_r3f_csv_equalization()
 {
+    static char juicy[BUF_E];
+    memset(juicy, '\0', sizeof(juicy));
     int select = -1;
     char selection[BUF_C];
     memset(selection, '\0', sizeof(selection));
@@ -70,12 +72,15 @@ char* get_r3f_csv_equalization()
     {
         return NULL;
     }
-    return X_util.helper;
+    (void)strcpy(juicy, X_util.helper);
+    return juicy;
 }
 
 // < 2 >
 char* get_r3f_csv_adc()
 {
+    static char juicy[BUF_E];
+    memset(juicy, '\0', sizeof(juicy));
     int select = -1;
     char selection[BUF_C];
     memset(selection, '\0', sizeof(selection));
@@ -127,7 +132,8 @@ char* get_r3f_csv_adc()
     {
         return NULL;
     }
-    return X_util.helper;
+    (void)strcpy(juicy, X_util.helper);
+    return juicy;
 }
 
 

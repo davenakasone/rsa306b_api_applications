@@ -251,6 +251,13 @@ class common_utility
             const char* out_extension, 
             std::vector<std::string>& new_filez
         );
+        CODEZ rm_rf
+        (
+            const char* directory,
+            const char* filler_name,
+            const char* filler_contents,
+            bool remake_and_fill
+        );
 
 
 // decoding, diagnostic tools to parse raw files and batches of files, byte-by-byte

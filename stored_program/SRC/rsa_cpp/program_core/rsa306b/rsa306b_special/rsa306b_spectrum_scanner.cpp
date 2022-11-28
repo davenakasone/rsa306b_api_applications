@@ -109,7 +109,7 @@ CODEZ rsa306b_class::spectrum_scanner
     int         repz       = 0;                  // repititions needed to scan the specified frequency range
     std::size_t vcnt       = 0UL;                // total data counter, incremented for each (frequency, power) pair acquired
     std::vector<float> pow_getter[loitering];    // holds power levels detected at fixed center frequency to assist in averaging
-    int         timeout_ms = 0;                  // how long to wait for a scan before skipping it, in milli-seconds
+    int         timeout_ms = 1;                  // how long to wait for a scan before skipping it, in milli-seconds
 #ifdef TIMEOUT_MS
     timeout_ms = TIMEOUT_MS;
 #endif

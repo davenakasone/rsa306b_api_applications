@@ -19,13 +19,18 @@ extern "C"
 // < 1 >
 int api_status()
 {
-    return X_rsa.get_api_status_number();
+    static int juicy;
+    juicy = X_rsa.get_api_status_number();
+    return juicy;
 }
 
 // < 2 >
 char* api_status_message()
 {
-    return X_rsa.get_api_status_string();
+    static char juicy[BUF_E];
+    memset(juicy, '\0', sizeof(juicy));
+    (void)strcpy(juicy, X_rsa.get_api_status_string());
+    return juicy;
 }
 
 

@@ -23,6 +23,7 @@ extern "C"
 int ifstream_set_vars(int record_ms, bool stream_file)
 {
     // python user can change these
+    static int juicy;
     X_rsa.vars.ifstream.file_length_max_ms = 11;
     if (stream_file == true)
     {
@@ -39,17 +40,21 @@ int ifstream_set_vars(int record_ms, bool stream_file)
     (void)strcpy(X_rsa.vars.ifstream.file_name_base, IFSTREAM_FILE_NAME_BASE);
     X_rsa.vars.ifstream.file_count = 1;
     X_rsa.vars.ifstream.is_enabled = false;
-    return static_cast<int>(X_rsa.ifstream_set_vars());
+    juicy = static_cast<int>(X_rsa.ifstream_set_vars());
+    return juicy;
 }
 
 // < 2 >
 int ifstream_acq_direct()
 {
+    static int juicy;
     if (X_rsa.vars.ifstream.output_destination_select != RSA_API::IFSOUTDEST::IFSOD_CLIENT)
     {
-        return static_cast<int>(CODEZ::_5_called_with_bad_paramerters);
+        juicy = static_cast<int>(CODEZ::_5_called_with_bad_paramerters);
+        return juicy;
     }
-    return static_cast<int>(X_rsa.ifstream_acquire_data());
+    juicy = static_cast<int>(X_rsa.ifstream_acquire_data());
+    return juicy;
 }
 
 // < 3 >
@@ -59,13 +64,13 @@ char* ifstream_write_csv()
     {
         return NULL;
     }
-
-    X_rsa.cutil.helper[0] = '\0';
-    if (X_rsa.ifstream_write_csv_data(X_rsa.cutil.helper) != CODEZ::_0_no_errors)
+    static char juicy[BUF_E];
+    memset(juicy, '\0', sizeof(juicy));
+    if (X_rsa.ifstream_write_csv_data(juicy) != CODEZ::_0_no_errors)
     {
         return NULL;
     }
-    return X_rsa.cutil.helper;
+    return juicy;
 }
 
 // < 4 >
@@ -75,11 +80,12 @@ char* ifstream_record_r3f()
     {
         return NULL;
     }
-    
     if (X_rsa.ifstream_record_r3f() != CODEZ::_0_no_errors)
     {
         return NULL;
     }
+    static char juicy[BUF_E];
+    memset(juicy, '\0', sizeof(juicy));
     (void)X_util.find_files_with_extension(DATA_DIRECTORY_RAW, R3F_RAW_EXT, X_rsa.cutil.filez_in, true);
     if (X_rsa.cutil.filez_in.size() > 0)
     {
@@ -91,18 +97,20 @@ char* ifstream_record_r3f()
             X_rsa.vars.ifstream.file_path,
             X_rsa.vars.ifstream.file_name_base);
     }
-    return X_rsa.cutil.helper;
+    (void)strcpy(juicy, X_rsa.cutil.helper);
+    return juicy;
 }
 
 // < 5 >
 char* ifstream_equalization()
 {
-    X_rsa.cutil.helper[0] = '\0';
-    if (X_rsa.ifstream_write_csv_equalization(X_rsa.cutil.helper) != CODEZ::_0_no_errors)
+    static char juicy[BUF_E];
+    memset(juicy, '\0', sizeof(juicy));
+    if (X_rsa.ifstream_write_csv_equalization(juicy) != CODEZ::_0_no_errors)
     {
         return NULL;
     }
-    return X_rsa.cutil.helper;
+    return juicy;
 }
 
 

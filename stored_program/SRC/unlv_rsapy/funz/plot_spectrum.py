@@ -13,6 +13,7 @@ import pandas
 
 
 def plot_spectrum(input_file_path_name, verbose=True) -> None:
+    """called to plot frequency vs power data from a CSV file for a single spectrum trace"""
     label_xx = "frequency"
     label_yy = "power"
     fptr = None

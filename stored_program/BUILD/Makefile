@@ -168,6 +168,7 @@ $(SDIR)siq_manager/siq_populate_data.cpp \
 $(SDIR)siq_manager/siq_populate_header.cpp \
 $(SDIR)siq_manager/siq_write.cpp \
 \
+$(PYDIR)c_utility.cpp \
 $(PYDIR)raw_r3f.cpp \
 $(PYDIR)raw_siq.cpp \
 $(PYDIR)rsa_config.cpp \
@@ -196,6 +197,7 @@ $(TDIR_U)unit_test_11.cpp \
 $(TDIR_U)unit_test_12.cpp \
 $(TDIR_U)unit_test_13.cpp \
 $(TDIR_U)unit_test_14.cpp \
+$(TDIR_T)task_997.cpp \
 $(TDIR_T)task_998.cpp \
 $(TDIR_T)task_999.cpp \
 $(TDIR)test_selector.cpp \

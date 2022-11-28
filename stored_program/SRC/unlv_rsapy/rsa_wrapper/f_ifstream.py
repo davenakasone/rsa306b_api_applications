@@ -15,6 +15,7 @@ from ..funz.plot_eq import plot_eq
 
 
 def ifcsvx(repz= 3, cf=315.0e6, dbm=-33.3) -> None :
+    """IFSTREAM write CSV x times; for direct destination, writes the ADC value specified repititions"""
     dstop()
     if config(cf, dbm) != 0 :
         return
@@ -33,6 +34,7 @@ def ifcsvx(repz= 3, cf=315.0e6, dbm=-33.3) -> None :
 
 
 def ifrecx(repz= 3, cf=315.0e6, dbm=-33.3, ms=10) -> None :
+    """IFSTREAM record r3f; for file destination, writes raw r3f file for specificed repitions"""
     dstop()
     if config(cf, dbm) != 0 :
         return
@@ -50,6 +52,7 @@ def ifrecx(repz= 3, cf=315.0e6, dbm=-33.3, ms=10) -> None :
 
 
 def ifeqx(repz= 3, cf=315.0e6, dbm=-33.3) -> None :
+    """IFSTREAM write CSV x times; for direct destination, writes the equalization values specified repititions"""
     dstop()
     if config(cf, dbm) != 0 :
         return

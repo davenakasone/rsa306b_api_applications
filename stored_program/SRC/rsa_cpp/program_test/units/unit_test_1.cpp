@@ -84,6 +84,8 @@ void unit_test_1()
 printf("\n%s()  ,  class [common_utility]'\n", __func__);
 #endif                   
 //~
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
 
     ut1_callcheck();
     ut1_exe();
@@ -93,7 +95,6 @@ printf("\n%s()  ,  class [common_utility]'\n", __func__);
     ut1_acq();
     ut1_file_info();
     ut1_mod_file();
-
 //~
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  test complete\n", __func__);

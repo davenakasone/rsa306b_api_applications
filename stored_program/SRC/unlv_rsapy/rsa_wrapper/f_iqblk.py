@@ -12,6 +12,7 @@ from ..funz.plot_iq import plot_iq
 
 
 def bspin(repz=3, cf=315.02e6, dbm=-22.22, bw=20.0e6) -> None :
+    """IQBLK spin; sits on spectrum range of interest, acquires data, plots data; for specified repitions"""
     dstop()
     if config(cf, dbm) != 0 :
         return

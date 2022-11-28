@@ -1,5 +1,8 @@
 /*
     special function "scan_dump()"
+
+    mode 4 does not work beacause the API was never built with time-based trigger
+    ...the functions are in the header, but they are inoperable
 */
 
 #include "../testz.h"
@@ -70,21 +73,21 @@ X_util.timer_split_start();
         t998_recms,
         X_rsa.cutil.helper
     );
-    printf("\nsmode 4\n\n");
-    X_rsa.scan_dump
-    (
-        sMode::smode_4,
-        t998_fstart,
-        t998_fstop,
-        t998_reflvl,
-        t998_traceNum,
-        t998_rbw,
-        t998_span,
-        t998_tlen,
-        t998_thresh,
-        t998_recms,
-        X_rsa.cutil.helper
-    );
+    // printf("\nsmode 4\n\n");
+    // X_rsa.scan_dump
+    // (
+    //     sMode::smode_4,
+    //     t998_fstart,
+    //     t998_fstop,
+    //     t998_reflvl,
+    //     t998_traceNum,
+    //     t998_rbw,
+    //     t998_span,
+    //     t998_tlen,
+    //     t998_thresh,
+    //     t998_recms,
+    //     X_rsa.cutil.helper
+    // );
 
     X_rsa.device_disconnect();                  
 

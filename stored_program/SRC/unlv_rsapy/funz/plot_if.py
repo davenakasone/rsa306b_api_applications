@@ -12,7 +12,8 @@ import matplotlib.pyplot
 import pandas
 
 
-def plot_if(input_file_path_name, verbose=True) -> None:
+def plot_if(input_file_path_name, verbose=True) -> None :
+    """called to plot IF data from a CSV file, time vs ADC value"""
     label_xx = "time"
     label_yy = "ADC Value"
     fptr = None

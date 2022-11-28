@@ -81,6 +81,28 @@ char* spectrum_scanner
     double span,
     int    tlen
 );
+char* spectrum_scanner_b1
+(
+    double fstart, 
+    double fstop, 
+    double threshold, 
+    int    loitering,
+    double reflevel,
+    double rbw,
+    double span,
+    int    tlen
+);
+char* spectrum_scanner_b2
+(
+    double fstart, 
+    double fstop, 
+    double threshold, 
+    int    loitering,
+    double reflevel,
+    double rbw,
+    double span,
+    int    tlen
+);
 char* scan_dump                    
 (
     const int    smode,
@@ -90,6 +112,9 @@ char* scan_dump
     const double threshold
 );
 char* file_select(char* directory);
+
+// c_utility.cpp
+void delete_data();
 
 
 #ifdef __cplusplus      

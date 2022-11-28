@@ -25,15 +25,13 @@ printf("\n%s()  ,  class [r3f_manager]'\n", __func__);
 X_util.timer_split_start(); 
 #endif                   
 //~
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
 
     ut13_r3f();
     ut13_decodew();
     ut13_decodep();
     ut13_batch();
-    
-    X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
-    X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
-
 //~
 #ifdef WAIT_ENTER_CLEAR
 X_util.timer_split_stop();
@@ -53,7 +51,6 @@ static void ut13_r3f()
 printf("\n%s()  ,  make some r3f files\n", __func__);
 #endif                   
 //~
-
     X_rsa.device_connect();
 
     X_rsa.vars.config.reference_level_dbm = -17.7;

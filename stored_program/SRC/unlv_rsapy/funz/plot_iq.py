@@ -13,6 +13,7 @@ import pandas
 
 
 def plot_iq(input_file_path_name, verbose=True) -> None :
+    """called to plot IQ data from a CSV file, time series I + Q values"""
     label_time = "time"
     label_i = "I"
     label_q = "Q"

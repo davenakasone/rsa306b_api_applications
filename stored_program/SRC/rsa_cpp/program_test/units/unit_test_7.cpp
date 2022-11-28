@@ -32,8 +32,10 @@ void unit_test_7()
 printf("\n%s()  ,  class [rsa_306b] API group 'TRIG'\n", __func__);
 #endif                   
 //~
-
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
     X_rsa.device_connect();
+    
     X_rsa.trig_print();
 
     X_rsa.vars.config.center_frequency_hz = 315.0e6;
@@ -63,8 +65,8 @@ printf("\n%s()  ,  class [rsa_306b] API group 'TRIG'\n", __func__);
     X_rsa.spectrum_set_vars();
     X_rsa.vars.trig.mode_select = RSA_API::TriggerMode::freeRun;    // it is good to make the trigger free-run when done to avoid blocking
     X_rsa.trig_set_vars();
+    
     X_rsa.device_disconnect();
-
 //~
 #ifdef WAIT_ENTER_CLEAR
 printf("\n%s()  ,  test complete\n", __func__);

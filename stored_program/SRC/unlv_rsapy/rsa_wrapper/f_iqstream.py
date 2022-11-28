@@ -13,6 +13,7 @@ from ..funz.plot_iq import plot_iq
 
 
 def iqcsvx(repz= 3, cf=315.0e6, dbm=-33.3, bw=20.0e6) -> None :
+    """IQSTREAM write CSV multiple repititions; sits on range of interest and reads IQ data for specified repititions"""
     dstop()
     if config(cf, dbm) != 0 :
         return
@@ -31,6 +32,7 @@ def iqcsvx(repz= 3, cf=315.0e6, dbm=-33.3, bw=20.0e6) -> None :
 
 
 def iqrecx(repz= 3, cf=315.0e6, dbm=-33.3, ms=10, bw=20.0e6) -> None :
+    """IQSTREAM record r3f multiple repitions; writes multiple r3f files, specified repititions"""
     dstop()
     if config(cf, dbm) != 0 :
         return

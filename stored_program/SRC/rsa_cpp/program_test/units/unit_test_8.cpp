@@ -28,12 +28,14 @@ printf("\n%s()  ,  class [rsa_306b] API group 'AUDIO'\n", __func__);
 X_util.timer_split_start(); 
 #endif                   
 //~
-
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
     X_rsa.device_connect();
+
     ut8_basic();
     ut8_acquire();
+    
     X_rsa.device_disconnect();
-
 //~
 #ifdef WAIT_ENTER_CLEAR
 X_util.timer_split_stop();

@@ -195,7 +195,7 @@ CODEZ common_utility::decode_write
             bstart, 
             bstop);
     (void)fputs(this->_worker, fp_w);
-    for (long int ii = bstart; ii < bstop; ii++)
+    for (long int ii = bstart; ii <= bstop; ii++)
     {
         if (fread(&bget, sizeof(int8_t), 1, fp_r) != 1)
         {
@@ -285,7 +285,7 @@ static void bytes_start_stop(const long int& bytes, long int& start, long int& s
     {
         start = 0;
     }
-    if (stop < 0     ||
+    if (stop <= 0     ||
         stop > bytes-1) 
     {
         stop = bytes-1;

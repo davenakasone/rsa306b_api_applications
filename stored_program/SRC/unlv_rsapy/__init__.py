@@ -21,6 +21,7 @@ from .configuration import SO_DIR
 
 # get the functions
 from .funz.admin import clear
+from .funz.admin import lsfl
 from .funz.admin import lsf
 from .funz.admin import lsf_a
 from .funz.admin import lsf_b
@@ -32,10 +33,12 @@ from .funz.admin import lsf_s
 from .funz.admin import lsf_r3f
 from .funz.admin import lsf_siq
 from .funz.admin import lspec
+from .funz.admin import lsf_u
 from .funz.admin import stop
 from .funz.plot_spectrum import plot_spectrum
 from .funz.plot_iq import plot_iq
 from .funz.plot_eq import plot_eq
+
 
 # get the R3F file manager wrappers
 from .r3f_wrapper.r3f_utility import r3f_adc
@@ -94,8 +97,13 @@ from .rsa_wrapper.f_spectrum import sspin
 from .rsa_wrapper.f_spectrum import sscan
 
 
-# specials
+# get the specialized functions
 from .special.special import scand
 from .special.special import sauto
+from .special.special import bscan
+
+# get the utilities
+from .funz.c_utility import ddata
+
 
 ########~~~~~~~~END>  __init__.py

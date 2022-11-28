@@ -3,6 +3,10 @@
     special functions and applications
 
         < 1 >  spectrum_scanner()
+        < 2 >  scan_dump()
+        < 3 >  file_select()
+        < 4 >  spectrum_scanner_b1()
+        < 5 >  spectrum_scanner_b2()
 */
 
 #include "python_interface.h"
@@ -28,7 +32,8 @@ char* spectrum_scanner
     int tlen
 )
 {
-    X_rsa.cutil.helper[0] = '\0';
+    static char juicy[BUF_E];
+    memset(juicy, '\0', sizeof(juicy));
     (void)X_rsa.spectrum_scanner
         (
             RSA_API::SpectrumTrace1, // python users only get trace[0]
@@ -36,13 +41,13 @@ char* spectrum_scanner
             fstop, 
             threshold, 
             loitering, 
-            X_rsa.cutil.helper, 
+            juicy,
             reflevel, 
             rbw, 
             span, 
             tlen
         );
-    return X_rsa.cutil.helper;
+    return juicy;
 }
 
 // < 2 >
@@ -57,6 +62,7 @@ char* scan_dump
 {
     double ffstart = fstart;
     static char juicy[BUF_E];
+    memset(juicy, '\0', sizeof(juicy));
 
     if (ffstart < 10.0e6)
     {
@@ -87,6 +93,7 @@ char* file_select
 )
 {
     static char juicy[BUF_E];
+    memset(juicy, '\0', sizeof(juicy));
     int selection = 1;
 
     (void)X_util.find_files_in_directory(directory, X_util.filez_in, true);
@@ -138,6 +145,68 @@ char* file_select
         return NULL;
     }
     (void)strcpy(juicy, X_util.filez_out[selection-1].c_str());
+    return juicy;
+}
+
+// < 4 >
+char* spectrum_scanner_b1
+(
+    double fstart, 
+    double fstop, 
+    double threshold, 
+    int loitering,
+    double reflevel,
+    double rbw,
+    double span,
+    int tlen
+)
+{
+    static char juicy[BUF_E];
+    memset(juicy, '\0', sizeof(juicy));
+    (void)X_rsa.spectrum_scanner
+        (
+            RSA_API::SpectrumTrace1, // python users only get trace[0]
+            fstart, 
+            fstop, 
+            threshold, 
+            loitering, 
+            juicy,
+            reflevel, 
+            rbw, 
+            span, 
+            tlen
+        );
+    return juicy;
+}
+
+// < 5 >
+char* spectrum_scanner_b2
+(
+    double fstart, 
+    double fstop, 
+    double threshold, 
+    int loitering,
+    double reflevel,
+    double rbw,
+    double span,
+    int tlen
+)
+{
+    static char juicy[BUF_E];
+    memset(juicy, '\0', sizeof(juicy));
+    (void)X_rsa.spectrum_scanner
+        (
+            RSA_API::SpectrumTrace1, // python users only get trace[0]
+            fstart, 
+            fstop, 
+            threshold, 
+            loitering, 
+            juicy,
+            reflevel, 
+            rbw, 
+            span, 
+            tlen
+        );
     return juicy;
 }
 

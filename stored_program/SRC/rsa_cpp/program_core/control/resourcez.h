@@ -38,7 +38,7 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_10";    // program version:  
         constexpr double TIMEOUT_LIMIT_S  = static_cast<double>(TIMEOUT_LIMIT_MS) / 1000.0;    // milli-seconds to seconds
     #endif
     #ifdef UNIT_TESTING
-        #define WAIT_ENTER_CLEAR 6    // {ON|OFF} if activated, calls wait_enter_clear(), for selected tasks and unit tests
+        //#define WAIT_ENTER_CLEAR 6    // {ON|OFF} if activated, calls wait_enter_clear(), for selected tasks and unit tests
     #endif
 
 

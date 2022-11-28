@@ -57,6 +57,7 @@
         void unit_test_13  ();    // test class [r3f_manager]
         void unit_test_14  ();    // test class [siq_manager]
 
+        void task_997();    // deleting directories, recursilvley + force
         void task_998();    // scan_dump()
         void task_999();    // temporary use test bench 
 

@@ -29,10 +29,11 @@ printf("\n%s()  ,  class [rsa_306b] section 'GP'\n", __func__);
 X_util.timer_split_start(); 
 #endif                   
 //~
-
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
+    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
+    
     ut2_basic();
     ut2_status();
-
 //~
 #ifdef WAIT_ENTER_CLEAR
 X_util.timer_split_stop();
@@ -59,8 +60,9 @@ printf("\n%s()  ,  basic GP methods\n", __func__);
     X_rsa.get_everything();
     X_rsa.device_disconnect();
 
-    printf("\nget_everything() fails, device is not connected, any key to continue:");
+    printf("\nget_everything() fails, device is not connected,  ");
 #ifdef WAIT_ENTER_CLEAR
+    printf("any key to continue: ");
     char dis[BUF_C];
     std::cin >> dis;
     flush_io();
