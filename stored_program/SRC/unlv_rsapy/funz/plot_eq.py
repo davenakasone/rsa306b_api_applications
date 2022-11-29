@@ -7,7 +7,6 @@
     dependent (y-axis)   = scale and phase
 """
 
-from tkinter import N
 import matplotlib.pyplot
 import pandas
 

@@ -19,7 +19,6 @@ def son() -> None :
 
 def sset(tlen= 1111, span=30e6, rbw=10e3) -> int :
     """spectrum set; select trace length, span, and resolution bandwidth"""
-    # rsa_so.spectrum_set_vars.restype = ctypes.c_int
     result = rsa_so.spectrum_set_vars(ctypes.c_int(tlen), ctypes.c_double(span), ctypes.c_double(rbw))
     if int(result) != 0 :
         print(f"sset() failed,  {int(result)}")
@@ -27,19 +26,16 @@ def sset(tlen= 1111, span=30e6, rbw=10e3) -> int :
 
 def sacq() -> int :
     """spectrum acquire; power vs frequency data is obtained"""
-    # rsa_so.spectrum_acquire.restype = ctypes.c_int
     result = rsa_so.spectrum_acquire()
     return int(result)
 
 def sfpi() -> float :
     """spectrum find peak index; get the highest power level measured in the last trace"""
-    # rsa_so.spectrum_find_peak.restype = ctypes.c_float
     result = rsa_so.spectrum_find_peak()
     return float(result)
 
 def scsv() -> str :
     """spectrum write CSV; makes frequency table and dumps frequency + power data into a CSV"""
-    # rsa_so.spectrum_write_csv.restype = ctypes.c_char_p
     temp = rsa_so.spectrum_write_csv()
     ofile = temp.decode()
     return ofile

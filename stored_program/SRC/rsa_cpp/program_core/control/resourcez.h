@@ -38,7 +38,7 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_10";    // program version:  
         constexpr double TIMEOUT_LIMIT_S  = static_cast<double>(TIMEOUT_LIMIT_MS) / 1000.0;    // milli-seconds to seconds
     #endif
     #ifdef UNIT_TESTING
-        //#define WAIT_ENTER_CLEAR 6    // {ON|OFF} if activated, calls wait_enter_clear(), for selected tasks and unit tests
+        #define WAIT_ENTER_CLEAR 6    // {ON|OFF} if activated, calls wait_enter_clear(), for selected tasks and unit tests
     #endif
 
 
@@ -66,7 +66,7 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_10";    // program version:  
         //#define DEBUG_GETS              1941                
     
         // {ON|OFF} tracks:  call sequence WITH setter calls
-        #define DEBUG_SETS              1945                
+        //#define DEBUG_SETS              1945                
     
         // {ON|OFF} tracks:  call sequence WITH  copier calls
         //#define DEBUG_COPYS             2000    
@@ -75,7 +75,7 @@ constexpr char UNLV_RSA_VERSION[] = "unlv_rsa_2022_10";    // program version:  
         //#define DEBUG_TIMERS            1165               
     
         // {ON|OFF} tracks:  " ", where ever you want to debug, place anywhere, usually just temporary
-        #define DEBUG_CUSTOM            1865                
+        //#define DEBUG_CUSTOM            1865                
 
         // {ON|OFF} prints function entries of interest printed to stdout (no string format required)
         // sprinkle them whereever you need

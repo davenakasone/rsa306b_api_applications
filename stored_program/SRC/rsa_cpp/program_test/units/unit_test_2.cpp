@@ -29,8 +29,7 @@ printf("\n%s()  ,  class [rsa_306b] section 'GP'\n", __func__);
 X_util.timer_split_start(); 
 #endif                   
 //~
-    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
-    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
+    X_util.clear_data();
     
     ut2_basic();
     ut2_status();

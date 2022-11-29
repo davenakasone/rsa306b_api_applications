@@ -11,7 +11,7 @@
 void task_999()
 {
 #ifdef WAIT_ENTER_CLEAR
-printf("\n%s()  ,  a unit test template\n", __func__);
+printf("\n%s()  ,  just a test bench\n", __func__);
 X_util.timer_split_start(); 
 #endif                   
 //~

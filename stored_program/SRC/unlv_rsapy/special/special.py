@@ -17,8 +17,6 @@ from ..funz.admin import clear
 
 def scand(smode=2, fstart = 10.0e6, fstop= 5.7e9, refl= -2.3, thresh=-44.4) -> None :
     """scan and dump"""
-    # rsa_so.scan_dump.restype = ctypes.c_char_p
-    # rsa_so.file_select.restype = ctypes.c_char_p
     directory = rsa_so.scan_dump(\
         ctypes.c_int(smode),
         ctypes.c_double(fstart),
@@ -46,7 +44,6 @@ def scand(smode=2, fstart = 10.0e6, fstop= 5.7e9, refl= -2.3, thresh=-44.4) -> N
 
 def sauto(fstart=30e6, fstop=5.7e9, dbm=-25.5, tlen=999, span=20e6, rbw=10e4, thresh=-55.6, loiter=3) -> None :
     """scan, automatic average and pass through specified range, no stopping"""
-    # rsa_so.spectrum_scanner.restype = ctypes.c_char_p
     temp = rsa_so.spectrum_scanner(\
         ctypes.c_double(fstart),\
         ctypes.c_double(fstop),\
@@ -69,8 +66,6 @@ def sauto(fstart=30e6, fstop=5.7e9, dbm=-25.5, tlen=999, span=20e6, rbw=10e4, th
 def bscan(fstart=30e6, fstop=5.7e9, dbm=-25.5, tlen=999, span=35e6, rbw=10.0e5, thresh=-55.6, loiter=2) -> None :
     "get background then scan, similar to sauto (with addition of the background trace"
     discard = None
-    # rsa_so.spectrum_scanner_b1.restype = ctypes.c_char_p
-    # rsa_so.spectrum_scanner_b2.restype = ctypes.c_char_p
     discard = input("enter any key to get the BACKGROUND spectrum: ")
     temp_b = rsa_so.spectrum_scanner_b1(\
         ctypes.c_double(fstart),\

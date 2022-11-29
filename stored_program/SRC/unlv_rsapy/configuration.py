@@ -8,9 +8,10 @@
 import ctypes
 import sys
 
-
+DATA_DIR =                                                "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/"
 DATA_PROCESSED =                                          "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_processed/"
 DATA_RAW =                                                "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_raw/"
+DATA_SEQUENCED =                                          "/home/unlv/Desktop/rsa306b_api_applications/stored_program/DATA/data_sequenced/"
 HELP_MESSAGE_1 =  "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/unlv/Desktop/rsa306b_api_applications/stored_program/RUN/shared_objects/"
 HELP_MESSAGE_2 =                                   "source /home/unlv/Desktop/rsa306b_api_applications/py_rsa_venv/bin/activate"
 SO_DIR =                                                  "/home/unlv/Desktop/rsa306b_api_applications/stored_program/RUN/shared_objects/libRSA306B.so"

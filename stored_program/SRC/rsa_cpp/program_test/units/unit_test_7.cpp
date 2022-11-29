@@ -32,8 +32,7 @@ void unit_test_7()
 printf("\n%s()  ,  class [rsa_306b] API group 'TRIG'\n", __func__);
 #endif                   
 //~
-    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
-    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
+    X_util.clear_data();
     X_rsa.device_connect();
     
     X_rsa.trig_print();

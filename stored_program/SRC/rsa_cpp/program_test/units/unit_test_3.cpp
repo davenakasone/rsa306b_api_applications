@@ -34,8 +34,7 @@ printf("\n%s()  ,  class [rsa_306b] API group 'DEVICE''\n", __func__);
 X_util.timer_split_start(); 
 #endif                   
 //~
-    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
-    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
+    X_util.clear_data();
     
     ut3_con_dcon_print();
     ut3_run_stop();

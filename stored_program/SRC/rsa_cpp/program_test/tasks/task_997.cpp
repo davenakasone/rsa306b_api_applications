@@ -17,7 +17,8 @@ printf("\n%s()  ,  delete directories\n", __func__);
 X_util.timer_split_start(); 
 #endif                   
 //~
-
+    X_util.clear_data();
+    
     t997_populate();
     printf("\ncheck the directory, any key to delete (no filling) :  ");
     std::cin >> X_util.helper;

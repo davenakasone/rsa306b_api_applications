@@ -1,5 +1,5 @@
 """
-    adminstrative function
+    adminstrative functions
 """
 
 import os
@@ -31,15 +31,17 @@ def lsfl() :
     lsf_siq(False)
     lspec(False)
     lsf_u(False)
+    lsf_p(False)
     print("\n")
 
 def lsf() :
     clear()
     print("\n")
+    # general use adminstrative functions
     print("lsfl ()        list every availible interactive function")
     print("clear()        clear the terminal")
     print("stop ()        exit the program\n")
-
+    # API info functions
     print("lsf_a  ()        list API return status functions")
     print("lsf_b  ()        list IQBLKfunctions")
     print("lsf_c  ()        list CONFIG functions")
@@ -47,10 +49,14 @@ def lsf() :
     print("lsf_if ()        list IFSTREAM functions")
     print("lsf_iq ()        list IQSTREAM functions")
     print("lsf_s  ()        list SPECTRUM functions")
+    # file manager functions
     print("lsf_r3f()        list r3f file manager functions")
     print("lsf_siq()        list siq file manager functions")
+    # combined / specialized functions
     print("lspec  ()        list the special functions")
+    # utilities + plotting functions
     print("lsf_u  ()        list the utility functions")
+    print("lsf_p  ()        list the plotting functions")
     print("\n")
 
 
@@ -163,6 +169,18 @@ def lsf_u(spacer= True) -> None :
     if spacer == True :
         print("\n")
     print("ddata()                          deletes every file and directory in root data IO, full reset")
+    print("cdisk()                          checks disk space, deletes data if over 90%% full")
+    print("fplot()                          traverse data and plot files at will")
+    if spacer == True :
+        print("\n")
+
+def lsf_p(spacer= True) -> None :
+    if spacer == True :
+        print("\n")
+    print("plot_eq()        plot equalization parameters, acqusition + file is required")
+    print("plot_if()        plot ADC values from intermideate frequency (IF), acqusition + file is required")
+    print("plot_iq()        plot intermediate and quadrature values (IQ), acqusition + file is required")
+    print("plot_spectrum    plot spectrum data (frequeny + power), acqusition + file is required")
     if spacer == True :
         print("\n")
 

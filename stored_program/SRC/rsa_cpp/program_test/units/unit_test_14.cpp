@@ -25,15 +25,12 @@ printf("\n%s()  ,  class [siq_manager]\n", __func__);
 X_util.timer_split_start(); 
 #endif                   
 //~
-
+    X_util.clear_data();
    
     ut14_siq();
     ut14_decodew();
     ut14_decodep();
     ut14_batch();
-   
-    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_RAW);
-    (void)X_util.delete_files_in_directory(DATA_DIRECTORY_PROCESSED);
 
 //~
 #ifdef WAIT_ENTER_CLEAR
