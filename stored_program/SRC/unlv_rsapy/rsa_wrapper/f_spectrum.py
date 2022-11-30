@@ -27,11 +27,11 @@ def sspin(repz=7, cf=315.0e6, dbm=-25.5, tlen=1111, span=10.0e6, rbw=1.0e3, thre
         if sacq() == 0 :
             pmax = sfpi()
             if pmax > thresh :
-                print(f"{xx:2d} )  cf={cf/1e6:0.3f} Mhz  ,  power={pmax:0.5f}  dBm   ...writing CSV")
+                print(f"{xx:2d} )  cf={cf/1e6:0.3f} Mhz  ,  power={pmax:9.2f}  dBm   ...writing CSV")
                 dataf = scsv()
                 plot_spectrum(dataf)
             else :
-                print(f"{xx:2d} )  cf={cf/1e6:0.3f} Mhz  ,  power={pmax:0.5f}  dBm   ...just noise")
+                print(f"{xx:2d} )  cf={cf/1e6:0.3f} Mhz  ,  power={pmax:9.2f}  dBm   ...just noise")
         else :
             print("acquisition failed")
     soff()
@@ -67,6 +67,11 @@ def sscan(fstart=1.0e6, fstop=1000.0e6, dbm=-35.5, tlen=999, span=10.0e6, rbw=10
             
     print(f"\n\tscan complete, found {hitz} traces of interest")
     soff()
+
+
+def sdet(cf= 315.0e6, dbm= -17.7, repz= 5) :
+    """spectrum acquisition, detailed focus on specified cf and dBm"""
+    sspin(repz, cf, dbm, tlen=33333, span=40e6, rbw=1.0e3, thresh=dbm*1.2) 
     
 
 ########~~~~~~~~END>  f_spectrum.py

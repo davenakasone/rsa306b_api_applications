@@ -135,6 +135,7 @@ def lsf_s(spacer= True) -> None :
     print("scsv    ()                                                           writes SPECTRUM data to CSV, returns file name")
     print("sspin   (reps, cf, dbm, tlen, span, rbw, thresh)                     collect spectrum traces at fixed center frequency")
     print("sscan   (fstart, fstop, dbm, tlen, span, rbw, thresh, loiter)        collect spectrum traces across a range of frequencies, manual")
+    print("sdet    (cf, dbm, repz)                                              detailed version of sspin()")
     if spacer == True :
         print("\n")
 
@@ -161,7 +162,7 @@ def lspec(spacer= True) -> None :
         print("\n")
     print("sauto   (fstart, fstop, dbm, tlen, span, rbw, thresh, loiter)        collect spectrum traces across a range of frequencies, automatic")
     print("scand   (fstart, fstop, refl, thresh)                                span and scan a range, DUMP: spectrum, R3F, and SIQ")
-    print("bscan")
+    print("bscan   (fstart, fstop, dbm, tlen, span, rbw, thresh, loiter)        similar to sauto(), but collects 2 scans")
     if spacer == True :
         print("\n")
 

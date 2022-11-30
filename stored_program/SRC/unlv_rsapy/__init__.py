@@ -45,6 +45,8 @@ from .funz.plot_spectrum import plot_spectrum
 from .funz.disk_and_file import ddata
 from .funz.disk_and_file import cdisk
 from .funz.disk_and_file import fplot
+from .funz.tester import dtest
+
 
 # get the R3F file manager wrappers
 from .r3f_wrapper.r3f_utility import r3f_adc
@@ -101,6 +103,7 @@ from .rsa_wrapper.api_spectrum import sfpi
 from .rsa_wrapper.api_spectrum import scsv
 from .rsa_wrapper.f_spectrum import sspin
 from .rsa_wrapper.f_spectrum import sscan
+from .rsa_wrapper.f_spectrum import sdet
 
 
 # get the specialized functions
