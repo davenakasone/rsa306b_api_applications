@@ -169,7 +169,7 @@ def lspec(spacer= True) -> None :
 def lsf_u(spacer= True) -> None :
     if spacer == True :
         print("\n")
-    print("ddata()                          deletes every file and directory in root data IO, full reset")
+    print("deldata()                        deletes every file and directory in root data IO, full reset")
     print("cdisk()                          checks disk space, deletes data if over 90%% full")
     print("fplot()                          traverse data and plot files at will")
     if spacer == True :

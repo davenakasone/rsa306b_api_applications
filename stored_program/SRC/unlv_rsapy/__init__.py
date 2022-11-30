@@ -42,10 +42,10 @@ from .funz.plot_eq import plot_eq
 from .funz.plot_if import plot_if
 from .funz.plot_iq import plot_iq
 from .funz.plot_spectrum import plot_spectrum
-from .funz.disk_and_file import ddata
+from .funz.disk_and_file import deldata
 from .funz.disk_and_file import cdisk
 from .funz.disk_and_file import fplot
-from .funz.tester import dtest
+from .funz.tester import testd
 
 
 # get the R3F file manager wrappers

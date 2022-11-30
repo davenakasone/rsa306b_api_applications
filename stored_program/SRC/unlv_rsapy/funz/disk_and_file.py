@@ -19,7 +19,7 @@ from .plot_iq import plot_iq
 from .plot_spectrum import plot_spectrum
 from .admin import clear
 
-def ddata() -> None :
+def deldata() -> None :
     """delete all data files"""
     result = rsa_so.delete_data()
 
@@ -37,7 +37,7 @@ def cdisk(verbose= True) -> None :
     if pfull > 0.9 :
         if verbose is True :
             print(f"-->  {pfull*100:0.2f} % full...deleting {DATA_DIR}")
-        ddata()
+        deldata()
     
 def fplot() -> None :
     """file plot, for convienence"""

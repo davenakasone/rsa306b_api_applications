@@ -13,7 +13,7 @@ from .disk_and_file import cdisk
 from ..configuration import rsa_so
 
 
-def dtest(dayz=0, hourz=0, minutez=0, secondz=20, sleepz=3) -> None :
+def testd(dayz=0, hourz=0, minutez=0, secondz=30, sleepz=3) -> None :
     """duration test of the program"""
     duration = datetime.timedelta(days=dayz, hours=hourz, minutes=minutez, seconds=secondz)
     start_time = datetime.datetime.now()
@@ -23,9 +23,6 @@ def dtest(dayz=0, hourz=0, minutez=0, secondz=20, sleepz=3) -> None :
 
     while (duration.days >= tdiff.days) and (duration.seconds >= tdiff.seconds) :
         clear()
-        current_time = datetime.datetime.now()
-        tdiff = current_time - start_time
-
         try :
             # test the dump-files (spectrum, IQ, IF, includes all raw)
             tempd = rsa_so.scan_dump(\
@@ -50,6 +47,8 @@ def dtest(dayz=0, hourz=0, minutez=0, secondz=20, sleepz=3) -> None :
             print("\n\n\t!!! TEST FAILED !!!\n\n")
             stop()
         
+        current_time = datetime.datetime.now()
+        tdiff = current_time - start_time
         if len(directory) < 1 :
             print("\n\tno files to dump\n")
         else :
@@ -58,13 +57,25 @@ def dtest(dayz=0, hourz=0, minutez=0, secondz=20, sleepz=3) -> None :
             print("\n\tno scanner data\n")
         else :
             print(f"\n\tscanner data: {ofile}\n")
-
         iterz = iterz + 1
-        print(f"\n@ {current_time}  ,  successful iterations: {iterz}\n")
+        run_s = tdiff.seconds
+        dhrz = divmod(run_s, 60*60)
+        run_s = run_s - (dhrz[0] * 60 * 60)
+        dminz = divmod(run_s, 60)
+        run_s = run_s - (dminz[0] * 60)
+        print(f"\n@ {current_time}  ,  ", end='')
+        print(f"ELAPSED[days={tdiff.days}, {dhrz[0]:02d}:{dminz[0]:02d}:{run_s:02d}]  ,  ", end='')
+        print(f"successful iterations: {iterz}\n")
         cdisk()
-        if sleepz > 0 :
+        try :
             time.sleep(sleepz)
+        except KeyboardInterrupt :
+            print("\n\n\tduration test aborted...\n")
+            return
+        else :
+            pass
 
     print("\n\n\t~ TEST SUCCESS ~ TEST SUCCESS ~ TEST SUCCESS ~ \n\n")
+
 
 ########~~~~~~~~END>  tester.py
