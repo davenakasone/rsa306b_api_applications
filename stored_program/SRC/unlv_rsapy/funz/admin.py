@@ -160,28 +160,30 @@ def lsf_siq(spacer= True) -> None :
 def lspec(spacer= True) -> None :
     if spacer == True :
         print("\n")
-    print("sauto   (fstart, fstop, dbm, tlen, span, rbw, thresh, loiter)        collect spectrum traces across a range of frequencies, automatic")
-    print("scand   (fstart, fstop, refl, thresh)                                span and scan a range, DUMP: spectrum, R3F, and SIQ")
-    print("bscan   (fstart, fstop, dbm, tlen, span, rbw, thresh, loiter)        similar to sauto(), but collects 2 scans")
+    print("sauto   (fstart, fstop, dbm, tlen, span, rbw, thresh, loiter)          collect spectrum traces across a range of frequencies, automatic")
+    print("scand   (fstart, fstop, refl, thresh)                                  span and scan a range, DUMP: spectrum, R3F, and SIQ")
+    print("bscan   (fstart, fstop, dbm, tlen, span, rbw, thresh, loiter)          similar to sauto(), but collects 2 scans")
+    print("diffscan(fstart, fstop, dbm, tlen, span, rbw, thresh, loiter, nfloor)  like bscan(), but only plots differences from nfloor")
     if spacer == True :
         print("\n")
 
 def lsf_u(spacer= True) -> None :
     if spacer == True :
         print("\n")
-    print("deldata()                        deletes every file and directory in root data IO, full reset")
-    print("cdisk()                          checks disk space, deletes data if over 90%% full")
-    print("fplot()                          traverse data and plot files at will")
+    print("deldata()                                               deletes every file and directory in root data IO, full reset")
+    print("cdisk  ()                                               checks disk space, deletes data if over 90%% full")
+    print("fplot  ()                                               traverse data and plot files at will")
+    print("testd  (dayz, hourz, minutez, secondz, sleepz)          duration test of the program")
     if spacer == True :
         print("\n")
 
 def lsf_p(spacer= True) -> None :
     if spacer == True :
         print("\n")
-    print("plot_eq()        plot equalization parameters, acqusition + file is required")
-    print("plot_if()        plot ADC values from intermideate frequency (IF), acqusition + file is required")
-    print("plot_iq()        plot intermediate and quadrature values (IQ), acqusition + file is required")
-    print("plot_spectrum    plot spectrum data (frequeny + power), acqusition + file is required")
+    print("plot_eq      ()        plot equalization parameters, acqusition + file is required")
+    print("plot_if      ()        plot ADC values from intermideate frequency (IF), acqusition + file is required")
+    print("plot_iq      ()        plot intermediate and quadrature values (IQ), acqusition + file is required")
+    print("plot_spectrum()        plot spectrum data (frequeny + power), acqusition + file is required")
     if spacer == True :
         print("\n")
 

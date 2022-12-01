@@ -110,6 +110,7 @@ from .rsa_wrapper.f_spectrum import sdet
 from .special.special import scand
 from .special.special import sauto
 from .special.special import bscan
+from .special.special import diffscan
 
 
 ########~~~~~~~~END>  __init__.py
