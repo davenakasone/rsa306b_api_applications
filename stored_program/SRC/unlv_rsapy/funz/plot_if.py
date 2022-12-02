@@ -40,7 +40,7 @@ def plot_if(input_file_path_name, verbose=True) -> None :
     matplotlib.pyplot.xlabel(f"{label_xx} (s)")
     matplotlib.pyplot.ylabel(f"{label_yy} (dn)")
     matplotlib.pyplot.title(f"{label_xx}  vs  {label_yy}")
-    matplotlib.pyplot.plot(xx, yy)
+    matplotlib.pyplot.plot(xx, yy, 'm-')
     matplotlib.pyplot.gcf().autofmt_xdate()
     matplotlib.pyplot.show()
 

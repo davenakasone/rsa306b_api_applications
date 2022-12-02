@@ -13,11 +13,64 @@ from ..configuration import DATA_DIR
 from ..configuration import DATA_SEQUENCED
 from ..configuration import DATA_RAW
 from ..configuration import DATA_PROCESSED
+from ..configuration import GDRIVE_DIR
+from ..configuration import GDRIVE_DIR_SEQUENCED
+from ..configuration import GDRIVE_DIR_RAW
+from ..configuration import GDRIVE_DIR_PROCESSED
 from .plot_eq import plot_eq
 from .plot_if import plot_if
 from .plot_iq import plot_iq
 from .plot_spectrum import plot_spectrum
 from .admin import clear
+
+def uploader(verbose=True) :
+    """upload files"""
+    def upload(src, dest, verb=verbose) :
+        """helper"""
+        if verb is True :
+            print("\n")
+        srcf = os.listdir(src)
+        destf = os.listdir(dest)
+        for f in srcf :
+            if f not in destf :
+                p_src = os.path.join(src, f)
+                p_dest = os.path.join(dest, f)
+                try :
+                    shutil.move(p_src, p_dest)
+                except :
+                    if verb is True :
+                        print(f"already there:  {p_dest}")
+                else :
+                    if verb is True :
+                        print(f"{src} -->\n\t{p_dest}")
+            else :
+                if verb is True :
+                    print(f"duplicate:  {f}")
+    try :
+        os.mkdir(GDRIVE_DIR)
+    except :
+        if verbose is True :
+            print(f"already exists: {GDRIVE_DIR}")
+    try :
+        os.mkdir(GDRIVE_DIR_PROCESSED)
+    except :
+        if verbose is True :
+            print(f"already exists: {GDRIVE_DIR_PROCESSED}")
+    try :
+        os.mkdir(GDRIVE_DIR_RAW)
+    except :
+        if verbose is True :
+            print(f"already exists: {GDRIVE_DIR_RAW}")
+    try :
+        os.mkdir(GDRIVE_DIR_SEQUENCED)
+    except :
+        if verbose is True :
+            print(f"already exists: {GDRIVE_DIR_SEQUENCED}")
+    upload(DATA_RAW, GDRIVE_DIR_RAW, verbose)
+    upload(DATA_PROCESSED, GDRIVE_DIR_PROCESSED, verbose)
+    upload(DATA_SEQUENCED, GDRIVE_DIR_SEQUENCED, verbose)
+    if verbose is True :
+        print("\n\tUPLOADS COMPLETE\n")
 
 def deldata() -> None :
     """delete all data files"""

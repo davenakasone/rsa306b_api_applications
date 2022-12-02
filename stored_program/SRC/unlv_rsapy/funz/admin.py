@@ -170,10 +170,11 @@ def lspec(spacer= True) -> None :
 def lsf_u(spacer= True) -> None :
     if spacer == True :
         print("\n")
-    print("deldata()                                               deletes every file and directory in root data IO, full reset")
-    print("cdisk  ()                                               checks disk space, deletes data if over 90%% full")
-    print("fplot  ()                                               traverse data and plot files at will")
-    print("testd  (dayz, hourz, minutez, secondz, sleepz)          duration test of the program")
+    print("uploader()                                               moves files to upload area, DATA directory is emptied")
+    print("deldata ()                                               deletes every file and directory in root data IO, full reset")
+    print("cdisk   ()                                               checks disk space, deletes data if over 90%% full")
+    print("fplot   ()                                               traverse data and plot files at will")
+    print("testd   (dayz, hourz, minutez, secondz, sleepz)          duration test of the program")
     if spacer == True :
         print("\n")
 

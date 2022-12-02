@@ -42,6 +42,7 @@ from .funz.plot_eq import plot_eq
 from .funz.plot_if import plot_if
 from .funz.plot_iq import plot_iq
 from .funz.plot_spectrum import plot_spectrum
+from .funz.disk_and_file import uploader
 from .funz.disk_and_file import deldata
 from .funz.disk_and_file import cdisk
 from .funz.disk_and_file import fplot
@@ -75,10 +76,11 @@ from .rsa_wrapper.api_gp import api_n
 from .rsa_wrapper.api_gp import api_m
 
 from .rsa_wrapper.api_ifstream import ifset
-from .rsa_wrapper.api_ifstream import ifcsv
 from .rsa_wrapper.api_ifstream import ifacq
-from .rsa_wrapper.api_ifstream import ifeq
 from .rsa_wrapper.api_ifstream import ifcsv
+from .rsa_wrapper.api_ifstream import ifrec
+from .rsa_wrapper.api_ifstream import ifeq
+
 from .rsa_wrapper.f_ifstream import ifcsvx
 from .rsa_wrapper.f_ifstream import ifrecx
 from .rsa_wrapper.f_ifstream import ifeqx

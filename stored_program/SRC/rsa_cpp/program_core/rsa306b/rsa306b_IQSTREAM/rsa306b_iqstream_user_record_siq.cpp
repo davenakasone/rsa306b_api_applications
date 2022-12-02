@@ -99,26 +99,26 @@ CODEZ rsa306b_class::iqstream_record_siq()
 //     }
 // #endif
 
-    // (void)this->set_api_status
-    // (
-    //     RSA_API::IQSTREAM_GetDiskFileInfo
-    //     (
-    //         &this->_vars.iqstream.fileinfo_type
-    //     )
-    // );
-    // (void)this->cutil.wchar_2_char
-    // (
-    //     this->_vars.iqstream.filenames_0_data, 
-    //     this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX],
-    //     true
-    // );
-    // (void)this->cutil.wchar_2_char
-    // (
-    //     this->_vars.iqstream.filenames_1_header, 
-    //     this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX],
-    //     true
-    // );
-    // (void)this->_iqstream_copy_fileinfo_type();
+    (void)this->set_api_status
+    (
+        RSA_API::IQSTREAM_GetDiskFileInfo
+        (
+            &this->_vars.iqstream.fileinfo_type
+        )
+    );
+    (void)this->cutil.wchar_2_char
+    (
+        this->_vars.iqstream.filenames_0_data, 
+        this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_DATA_IDX],
+        true
+    );
+    (void)this->cutil.wchar_2_char
+    (
+        this->_vars.iqstream.filenames_1_header, 
+        this->_vars.iqstream.fileinfo_type.filenames[RSA_API::IQSTRM_FILENAME_HEADER_IDX],
+        true
+    );
+    (void)this->_iqstream_copy_fileinfo_type();
 
     // if (is_complete == false)    // file never finished (could be hung or never started because trigger did not occur)
     // {

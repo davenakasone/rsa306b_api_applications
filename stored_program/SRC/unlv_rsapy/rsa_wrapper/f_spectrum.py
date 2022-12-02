@@ -69,9 +69,9 @@ def sscan(fstart=1.0e6, fstop=1000.0e6, dbm=-35.5, tlen=999, span=10.0e6, rbw=10
     soff()
 
 
-def sdet(cf= 315.0e6, dbm= -17.7, repz= 5) :
+def sdet(cf= 315.0e6, dbm= -9.9, repz= 5) :
     """spectrum acquisition, detailed focus on specified cf and dBm"""
-    sspin(repz, cf, dbm, tlen=33333, span=40e6, rbw=1.0e3, thresh=dbm*1.2) 
+    sspin(repz, cf, dbm, tlen=11111, span=20e6, rbw=1.0e3, thresh=dbm*1.2) 
     
 
 ########~~~~~~~~END>  f_spectrum.py
