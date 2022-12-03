@@ -25,10 +25,13 @@ def scand(smode=2, fstart = 10.0e6, fstop= 5.7e9, refl= -20.3, thresh=-44.4) -> 
         ctypes.c_double(fstop), 
         ctypes.c_double(refl), 
         ctypes.c_double(thresh))
+    print("\nneed to wait for file managers to parse files...")
     while True :
+        print("\nenter 0 to stop -->")
         temp = rsa_so.file_select(directory)
         if temp is None :
-            print("no files were found")
+            print(f"released:  {directory}")
+            return
         ofile = temp.decode()
         if ofile.find("_ADC_") > 0 :
             plot_if(ofile)
@@ -38,9 +41,6 @@ def scand(smode=2, fstart = 10.0e6, fstop= 5.7e9, refl= -20.3, thresh=-44.4) -> 
             plot_iq(ofile)
         else :
             plot_spectrum(ofile)
-        selected = input("enter 0 to stop : ")
-        if int(selected) == 0 :
-            break
         clear()
 
 

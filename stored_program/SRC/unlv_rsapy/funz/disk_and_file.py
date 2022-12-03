@@ -32,6 +32,8 @@ def uploader(verbose=True) :
         srcf = os.listdir(src)
         destf = os.listdir(dest)
         for f in srcf :
+            if "filler.txt" in f :
+                continue
             if f not in destf :
                 p_src = os.path.join(src, f)
                 p_dest = os.path.join(dest, f)

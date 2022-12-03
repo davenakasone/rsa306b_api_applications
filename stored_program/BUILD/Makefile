@@ -6,6 +6,8 @@
 # pthread should be included already, use $ldd on the Tektronix shared objects
 # consider optimizations as performance needs grow (+ macros)
 #
+# https://github.com/astrada/google-drive-ocamlfuse
+# https://github.com/astrada/google-drive-ocamlfuse/issues/73
 ########################### TARGETS #############################################################
 # $ make alone                                 compile stand-alone program
 # $ make shared                                compile shared library
@@ -17,6 +19,7 @@
 # $ make clear_logs                            deletes all the debugging logs
 # $ make clear                                 delets data and logs, but keeps compiled binaries
 # $ make clean                                 delete all: data, compiled binaries, and logs
+# $ make drive                                 mounts google drive for uploading
 #################################################################################################
 
 
@@ -42,8 +45,9 @@ DATA_IO_SEQUENCED = $(DATA_IO)data_sequenced/
 DLOGZ             = ../DOC/debug_logs/
 TDIR_U            = $(TDIR)units/
 TDIR_T            = $(TDIR)tasks/
-EMPTY_NAME        = place_holder.txt
-EMPTY_MESSAGE     = "git place holder\n"
+EMPTY_NAME        = filler.txt
+EMPTY_MESSAGE     = "filling\n"
+CLOUD             = "/home/unlv/Desktop/GOOGLE_DRIVE"
 
 
 SOURCE_FILES_SO =\
@@ -206,7 +210,12 @@ $(TDIR)wait_enter_clear.cpp \
 $(SOURCE_FILES_SO)
 
 
-# 1st TARGET
+# ocaml fuze mounts selected google drive
+drive :
+	clear
+	bash -c "google-drive-ocamlfuse ${CLOUD} -o nonempty";
+
+
 # stdout is cleared
 # the executable is first deleted, then a clean build occurs
 # user must export library path 
