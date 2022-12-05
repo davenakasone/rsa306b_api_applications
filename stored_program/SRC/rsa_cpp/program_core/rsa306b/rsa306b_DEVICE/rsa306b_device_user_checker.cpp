@@ -58,10 +58,9 @@ bool rsa306b_class::device_check_temperature()
 /*
     < 3 > public
     the user sets "vars.device.event_id" before calling
-    0 = ADC overflow
-    1 = trigger occured
     events mean nothing unless "vars.device.event_occured" == true
     the device should be running, events are only updated when running
+    events deleted after query
 */
 bool rsa306b_class::device_check_event()
 {
@@ -70,7 +69,11 @@ bool rsa306b_class::device_check_event()
 //     debug_record(false);
 // #endif  
 
-    return this->_device_get_event();
+    if (this->_device_get_event() != CODEZ::_0_no_errors)
+    {
+        return false;
+    }
+    return this->_vars.device.event_occured;
 }
 
 

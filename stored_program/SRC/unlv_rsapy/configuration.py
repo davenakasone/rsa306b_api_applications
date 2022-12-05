@@ -35,6 +35,7 @@ rsa_so.file_select.restype = ctypes.c_char_p
 rsa_so.spectrum_scanner.restype = ctypes.c_char_p
 rsa_so.spectrum_scanner_b1.restype = ctypes.c_char_p
 rsa_so.spectrum_scanner_b2.restype = ctypes.c_char_p
+rsa_so.trigger_dump.restype = ctypes.c_char_p
 rsa_so.get_r3f_csv_equalization.restype = ctypes.c_char_p
 rsa_so.get_r3f_csv_adc.restype = ctypes.c_char_p
 rsa_so.get_siq_csv.restype = ctypes.c_char_p

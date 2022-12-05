@@ -109,10 +109,11 @@ from .rsa_wrapper.f_spectrum import sdet
 
 
 # get the specialized functions
-from .special.special import scand
+from .special.special import sdump
 from .special.special import sauto
 from .special.special import bscan
 from .special.special import diffscan
+from .special.special import tdump
 
 
 ########~~~~~~~~END>  __init__.py

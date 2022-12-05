@@ -3,6 +3,8 @@
 
     mode 4 does not work beacause the API was never built with time-based trigger
     ...the functions are in the header, but they are inoperable
+
+    mode 3 is not suitable for integration, develope it differently
 */
 
 #include "../testz.h"
@@ -57,22 +59,22 @@ X_util.timer_split_start();
         );
         printf("%s\n", X_rsa.cutil.helper);
 
-        printf("\nsmode 3\n\n");
-        X_rsa.scan_dump
-        (
-            sMode::smode_3,
-            15.0e6,
-            5.7e9,
-            -13.33,
-            0,
-            10.0e5,
-            35.0e6,
-            999,
-            -55.55,
-            20,
-            X_rsa.cutil.helper
-        );
-        printf("%s\n", X_rsa.cutil.helper);
+        // printf("\nsmode 3\n\n");
+        // X_rsa.scan_dump
+        // (
+        //     sMode::smode_3,
+        //     15.0e6,
+        //     5.7e9,
+        //     -13.33,
+        //     0,
+        //     10.0e5,
+        //     35.0e6,
+        //     999,
+        //     -15.55,
+        //     20,
+        //     X_rsa.cutil.helper
+        // );
+        // printf("%s\n", X_rsa.cutil.helper);
     }
 
     X_rsa.device_disconnect();                  

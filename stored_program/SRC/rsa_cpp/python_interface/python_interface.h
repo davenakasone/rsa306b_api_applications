@@ -111,6 +111,18 @@ char* spectrum_scanner_b2
     double span,
     int    tlen
 );
+char* trigger_dump
+(
+    const int    loitering,
+    const double fstart, 
+    const double fstop, 
+    const double reflevel,
+    const double triglevel,
+    const double rbw,
+    const double span,
+    const int    tlen,
+    int          record_ms
+);
 
 // c_utility.cpp
 void delete_data();

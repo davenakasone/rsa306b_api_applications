@@ -209,8 +209,8 @@ CODEZ rsa306b_class::_device_get_is_over_temperature()
     nothing is relevant unless 'device.event_occured == true'
     nothing is valid if device is stopped (device should be in the run state before calling)
     user must set "vars.device.event_id" before calling:
-        RSA_API::DEVEVENT_OVERRANGE
-        RSA_API::DEVEVENT_TRIGGER
+        RSA_API::DEVEVENT_OVERRANGE, 0 = ADC overflow
+        RSA_API::DEVEVENT_TRIGGER, 1 = trigger occured
 */
 CODEZ rsa306b_class::_device_get_event()
 {

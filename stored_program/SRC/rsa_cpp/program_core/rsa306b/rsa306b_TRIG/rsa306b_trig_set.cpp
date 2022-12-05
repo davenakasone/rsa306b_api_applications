@@ -131,8 +131,11 @@ CODEZ rsa306b_class::_trig_set_mode_select()
         return this->cutil.report_status_code(CODEZ::_12_rsa_not_connnected);
     }
 #endif
-    if (this->vars.trig.mode_select != RSA_API::freeRun  &&
-        this->vars.trig.mode_select != RSA_API::triggered )
+    if 
+    (
+        (this->vars.trig.mode_select != RSA_API::TriggerMode::freeRun)  &&
+        (this->vars.trig.mode_select != RSA_API::TriggerMode::triggered)
+    )
     {
         #ifdef DEBUG_MIN
             (void)snprintf(X_ddts, sizeof(X_ddts), "invalid trigger mode: %d", 

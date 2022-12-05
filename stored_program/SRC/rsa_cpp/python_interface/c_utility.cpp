@@ -57,6 +57,7 @@ char* file_select
             X_util.insert_and_change_extension(X_r3f.cutil.helper, IFSTREAM_TAG_EQL, DATA_DEFAULT_EXT);
             X_util.insert_and_change_extension(X_r3f.cutil.holder, IFSTREAM_TAG_ADC, DATA_DEFAULT_EXT);
             X_r3f.load_file(X_util.helper, NULL, X_r3f.cutil.helper, X_r3f.cutil.holder, false, true, true);
+            // raw file transfered :
             X_util.switch_directory(X_util.holder, DATA_DIRECTORY_RAW);
             X_util.exe_rename(X_util.helper, X_util.holder);
         }
@@ -65,6 +66,7 @@ char* file_select
             (void)strcpy(X_siq.cutil.helper, X_util.filez_in[xx].c_str());
             X_util.insert_and_change_extension(X_siq.cutil.helper, SIQ_TAG_IQ, DATA_DEFAULT_EXT);
             X_siq.load_file(X_util.helper, NULL, X_siq.cutil.helper, false, true);
+            // raw file transfered :
             X_util.switch_directory(X_util.holder, DATA_DIRECTORY_RAW);
             X_util.exe_rename(X_util.helper, X_util.holder);
         }

@@ -11,7 +11,6 @@
 #include "./control/resourcez.h"
 #ifdef UNIT_TESTING 
     #include "../program_test/testz.h"
-    #include "./control/globalz.h"
 #endif
 
 
@@ -49,7 +48,9 @@
                                         14     // test class [siq_manager]
                                        
         specific tasks  "task_#"    :
-                                        996    // spectrum scanner
+                                        995    // triggered_dump()
+                                        995    // trigger evaluation
+                                        996    // spectrum_scanner()
                                         997    // delete directories
                                         999    // temporary use test bench 
                                         998    // scan_dump()                        
@@ -111,6 +112,8 @@ int main
             test_selector(12);
             test_selector(13);
             test_selector(14);
+            test_selector(994);
+            test_selector(995);
             test_selector(996);
             test_selector(997);
             test_selector(998);
@@ -208,7 +211,9 @@ static bool user_test_selection()
     printf("\t[13]     ut13()               // r3f manager\n");
     printf("\t[14]     ut14()               // siq manager\n");
 
-    printf("\t[996]    task996()            // spectrum scanner\n");
+    printf("\t[994]    task994()            // triggered_dump()\n");
+    printf("\t[995]    task995()            // trigger evaluation\n");
+    printf("\t[996]    task996()            // spectrum_scanner()\n");
     printf("\t[997]    task997()            // delete directories\n");
     printf("\t[998]    task998()            // scan_dump()\n");
     printf("\t[999]    task999()            // testbench\n");
@@ -237,6 +242,8 @@ static bool user_test_selection()
         case(13)  : unit_test_13();  return true;
         case(14)  : unit_test_14();  return true;
         
+        case(994) : task_994(); return true;
+        case(995) : task_995(); return true;
         case(996) : task_996(); return true;
         case(997) : task_997(); return true;
         case(998) : task_998(); return true;

@@ -17,7 +17,7 @@ from ..funz.plot_eq import plot_eq
 from ..funz.admin import clear
 
 
-def scand(smode=2, fstart = 10.0e6, fstop= 5.7e9, refl= -20.3, thresh=-44.4) -> None :
+def sdump(smode=2, fstart = 10.0e6, fstop= 5.7e9, refl= -20.3, thresh=-44.4) -> None :
     """scan and dump"""
     directory = rsa_so.scan_dump(\
         ctypes.c_int(smode),
@@ -208,6 +208,37 @@ def diffscan(fstart=30e6, fstop=5.7e9, dbm=-15.5, tlen=3333, span=30e6, rbw=10.0
     matplotlib.pyplot.plot(xx_b, hi_floor, "b:", linewidth=3)
     matplotlib.pyplot.plot(xx_b, lo_floor, "b:", linewidth=3)
     matplotlib.pyplot.show()
+
+
+def tdump(loiter=3, fstart=30.0e6, fstop=1.0e9, rlvl=-1.1, tlvl=-33.33, rbw=1.0e4, span=30.0e6, tlen=3333, recms=2) -> None :
+    """when triggered, scan and dump"""
+    directory = rsa_so.trigger_dump(\
+        ctypes.c_int(loiter),
+        ctypes.c_double(fstart),
+        ctypes.c_double(fstop), 
+        ctypes.c_double(rlvl), 
+        ctypes.c_double(tlvl), 
+        ctypes.c_double(rbw),
+        ctypes.c_double(span),  
+        ctypes.c_int(tlen),
+        ctypes.c_int(recms))
+    print("\nneed to wait for file managers to parse files...")
+    while True :
+        print("\nenter 0 to stop -->")
+        temp = rsa_so.file_select(directory)
+        if temp is None :
+            print(f"released:  {directory}")
+            return
+        ofile = temp.decode()
+        if ofile.find("_ADC_") > 0 :
+            plot_if(ofile)
+        elif ofile.find("_EQL_") > 0 :
+            plot_eq(ofile)
+        elif ofile.find("_IQ_") > 0 :
+            plot_iq(ofile)
+        else :
+            plot_spectrum(ofile)
+        clear()
 
 
 ########~~~~~~~~END>  special.py

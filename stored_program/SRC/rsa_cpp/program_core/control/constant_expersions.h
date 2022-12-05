@@ -70,8 +70,8 @@ constexpr wchar_t      INIT_WCHARP[]   = L"wchar_t";
 typedef enum
 {
     smode_1 = 1,    // no trigger, no threshold, get everything
-    smode_2 = 2,    // no trigger, data only acquired if threshold exceeded
-    smode_3 = 3     // trigger, data only acquired if trigger even occurs
+    smode_2 = 2    // no trigger, data only acquired if threshold exceeded
+    //smode_3 = 3     // trigger, data only acquired if trigger even occurs
     //smode_4 = 4     // time trigger, data acquired at uniform sampling interval
 } sMode;  
 constexpr std::size_t TRACES_306B                = 3UL;                // the RSA-306B has 3 possible traces available

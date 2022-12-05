@@ -625,7 +625,7 @@ class rsa306b_class
             const double fstop, 
             const double threshold, 
             const int    loitering,
-            char*  file_path_name,
+            char*        file_path_name,
             const double reflevel,
             const double rbw,
             const double span,
@@ -642,8 +642,22 @@ class rsa306b_class
             const double span,
             const int    tlen,
             const double threshold, 
-            int record_ms,
-            char* active_directory
+            int          record_ms,
+            char*        active_directory
+        );
+        CODEZ triggered_dump                 // like scan_dump(), but triggered
+        (
+            const int    loitering,
+            const double fstart, 
+            const double fstop, 
+            const double reflevel,
+            const double triglevel,
+            const int    trace_number,
+            const double rbw,
+            const double span,
+            const int    tlen,
+            int          record_ms,
+            char*        active_directory
         );
 
 

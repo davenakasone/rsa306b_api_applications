@@ -6,6 +6,7 @@
         < 2 >  spectrum_scanner()
         < 3 >  spectrum_scanner_b1()
         < 4 >  spectrum_scanner_b2()
+        < 5 >  trigger_dump()
 */
 
 #include "python_interface.h"
@@ -31,27 +32,33 @@ char* scan_dump
     double ffstart = fstart;
     static char juicy[BUF_E];
     memset(juicy, '\0', sizeof(juicy));
-
     if (ffstart < 10.0e6)
     {
         ffstart = 10.0e6;
     }
     
-    X_rsa.scan_dump
+    if 
     (
-        smode,
-        ffstart,
-        fstop,
-        reflevel,
-        RSA_API::SpectrumTrace1, // python users only get trace[0]
-        10.0e3,
-        20.0e6,
-        999,
-        threshold,
-        10,
-        juicy
-    );
+        X_rsa.scan_dump
+        (
+            smode,
+            ffstart,
+            fstop,
+            reflevel,
+            RSA_API::SpectrumTrace1, // python users only get trace[0]
+            10.0e3,
+            20.0e6,
+            999,
+            threshold,
+            10,
+            juicy
+        ) != CODEZ::_0_no_errors
+    )
+    {
+        return NULL;
+    }
     return juicy;
+    
 }
 
 // < 2 >
@@ -144,6 +151,51 @@ char* spectrum_scanner_b2
             span, 
             tlen
         );
+    return juicy;
+}
+
+// < 5 >
+char* trigger_dump
+(
+    const int    loitering,
+    const double fstart, 
+    const double fstop, 
+    const double reflevel,
+    const double triglevel,
+    const double rbw,
+    const double span,
+    const int    tlen,
+    int          record_ms
+)
+{
+    double ffstart = fstart;
+    static char juicy[BUF_E];
+    memset(juicy, '\0', sizeof(juicy));
+    if (ffstart < 10.0e6)
+    {
+        ffstart = 10.0e6;
+    }
+
+    if 
+    (
+        X_rsa.triggered_dump
+        (
+            loitering,                                  // how many times to loiter on each bin
+            ffstart,                                    // stopping frequency (Hz)
+            fstop,                                      // starting frequency (Hz)
+            reflevel,                                   // configuration reference level (dBm)
+            triglevel,                                  // trigger IF power level (dBm)
+            RSA_API::SpectrumTraces::SpectrumTrace1,    // which trace
+            rbw,                                        // resolution bandwidth (Hz)
+            span,                                       // span (Hz)
+            tlen,                                       // points in a trace
+            record_ms,                                  // milli-seconds to record SIQ and R3F
+            juicy                                       // directory where files will go                  
+        ) != CODEZ::_0_no_errors
+    )
+    {
+        return NULL;
+    }
     return juicy;
 }
 

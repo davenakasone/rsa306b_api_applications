@@ -57,7 +57,9 @@
         void unit_test_13  ();    // test class [r3f_manager]
         void unit_test_14  ();    // test class [siq_manager]
 
-        void task_996();    // spectrum scanner
+        void task_994();    // triggered_dump()
+        void task_995();    // trigger evaluation
+        void task_996();    // spectrum_scanner()
         void task_997();    // deleting directories, recursilvley + force
         void task_998();    // scan_dump()
         void task_999();    // temporary use test bench 
@@ -70,14 +72,3 @@
 
 
 ////////~~~~~~~~END>  testz.h
-
-
-/*
-15 - PLAYBACK
-16 - DPX
-
-500 - september summary
-
-997 - total capture from a scan
-998 - demo YK3000 @ 315 MHz
-*/

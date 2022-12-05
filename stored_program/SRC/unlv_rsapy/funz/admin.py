@@ -161,9 +161,10 @@ def lspec(spacer= True) -> None :
     if spacer == True :
         print("\n")
     print("sauto   (fstart, fstop, dbm, tlen, span, rbw, thresh, loiter)          collect spectrum traces across a range of frequencies, automatic")
-    print("scand   (fstart, fstop, refl, thresh)                                  span and scan a range, DUMP: spectrum, R3F, and SIQ")
+    print("sdump   (fstart, fstop, refl, thresh)                                  span and scan a range, DUMP: spectrum, R3F, and SIQ")
     print("bscan   (fstart, fstop, dbm, tlen, span, rbw, thresh, loiter)          similar to sauto(), but collects 2 scans")
     print("diffscan(fstart, fstop, dbm, tlen, span, rbw, thresh, loiter, nfloor)  like bscan(), but only plots differences from nfloor")
+    print("tdump   (loiter, fstart,fstop, rlvl, tlvl, rbw, span, tlen, recms)     like sdump(), but uses trigger")
     if spacer == True :
         print("\n")
 

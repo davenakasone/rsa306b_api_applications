@@ -51,32 +51,41 @@ CODEZ rsa306b_class::ifstream_record_r3f()
         return this->cutil.report_status_code(CODEZ::_5_called_with_bad_paramerters);
     }
 #endif
+    if 
+    (
+        (this->_vars.device.event_occured == false) &&
+        (this->vars.trig.mode_select == RSA_API::TriggerMode::triggered)
+    )
+    {
+        return this->cutil.report_status_code(CODEZ::_30_trigger_event_never_occured);
+    }
 
     this->_vars.ifstream.is_active = true;
     this->vars.ifstream.is_enabled = true;
     this->_ifstream_set_is_enabled();
 
-    if (this->_vars.trig.mode_select == RSA_API::TriggerMode::freeRun)
+    if 
+    (
+        (this->_vars.device.event_id == RSA_API::DEVEVENT_TRIGGER) &&
+        (this->_vars.device.event_occured == true) &&
+        (this->vars.trig.mode_select == RSA_API::TriggerMode::triggered)
+    )
     {
-        while(this->_vars.ifstream.is_active == true)   // still writting
-        {
-            (void)this->_ifstream_get_is_active();
-        }
+        this->trig_force();    // force over already quireied trigger
     }
-    else
+
+    this->cutil.timer_split_start();
+    while
+    (
+        (this->_vars.ifstream.is_active == true) &&
+        this->cutil.timer_get_split_wall() < 1.0
+    )
     {
-        while
-        (
-            (this->_vars.ifstream.is_active == true) &&
-            (this->cutil.timer_get_running_wall() < TIMEOUT_LIMIT_S)
-        )
-        {
-            (void)this->_ifstream_get_is_active();
-        }
+        (void)this->_ifstream_get_is_active();
     }
-    
     this->vars.ifstream.is_enabled = false;
     this->_ifstream_set_is_enabled();
+    (void)this->_device_get_event();    // clear forced trigger, if any
 
     #ifdef DEBUG_MAX
         (void)snprintf(X_ddts, sizeof(X_ddts), "\nsee:  %s%s*.r3f",

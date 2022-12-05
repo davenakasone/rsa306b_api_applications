@@ -147,6 +147,7 @@ $(SDIR)rsa306b/rsa306b_REFTIME/rsa306b_reftime_user.cpp \
 \
 $(SDIR)rsa306b/rsa306b_special/rsa306b_spectrum_scanner.cpp \
 $(SDIR)rsa306b/rsa306b_special/rsa306b_scan_dump.cpp \
+$(SDIR)rsa306b/rsa306b_special/rsa306b_triggered_dump.cpp \
 \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_copy.cpp \
 $(SDIR)rsa306b/rsa306b_SPECTRUM/rsa306b_spectrum_get.cpp \
@@ -201,6 +202,8 @@ $(TDIR_U)unit_test_11.cpp \
 $(TDIR_U)unit_test_12.cpp \
 $(TDIR_U)unit_test_13.cpp \
 $(TDIR_U)unit_test_14.cpp \
+$(TDIR_T)task_994.cpp \
+$(TDIR_T)task_995.cpp \
 $(TDIR_T)task_996.cpp \
 $(TDIR_T)task_997.cpp \
 $(TDIR_T)task_998.cpp \
