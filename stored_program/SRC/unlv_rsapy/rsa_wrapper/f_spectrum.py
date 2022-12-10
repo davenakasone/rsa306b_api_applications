@@ -14,7 +14,8 @@ from .api_spectrum import sfpi
 from ..funz.plot_spectrum import plot_spectrum
 
 
-def sspin(repz=7, cf=315.0e6, dbm=-25.5, tlen=1111, span=10.0e6, rbw=1.0e3, thresh=-35.6) -> None :
+def sspin(repz=7, cf=315.0e6, dbm=-5.5, tlen=1111, span=10.0e6, rbw=1.0e3, thresh=-35.6) -> None :   # use the regular antenna
+#def sspin(repz=7, cf=915.0e6, dbm=-20.0, tlen=9999, span=35.0e6, rbw=1.0e4, thresh=-66.6) -> None :  # use the B antenna
     """spectrum spin; sits on range of interest and collects specified number of spectrum traces"""
     dstop()
     if config(cf, dbm) != 0 :

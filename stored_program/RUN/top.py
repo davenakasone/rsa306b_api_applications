@@ -8,6 +8,7 @@
     best for an interactive session
 """
 
+from pytimedinput import timedKey
 
 import importlib.util
 import sys
@@ -20,8 +21,18 @@ from unlv_rsapy import *     # best for interactive mode
 ####~~~~
 lsf()
 
-
-
+def rrdemo() -> None :
+    dcon()
+    while True :
+        rdemo(fstart=50e6, fstop=6.0e9, cf=315.0e6, dbm=-5.5, tlen=1111, span=30.0e6, rbw=1.0e3, ftime=5000, nfloor=15.0)
+        cdisk()
+        deldata()
+        print("")
+        userText, timedOut = timedKey(prompt="press any key to quit: ", allowCharacters="", resetOnInput=True, timeout=10)
+        if timedOut is True :
+            continue
+        else :
+            stop()
 
 
 

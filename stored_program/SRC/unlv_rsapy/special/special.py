@@ -44,7 +44,7 @@ def sdump(smode=2, fstart = 10.0e6, fstop= 5.7e9, refl= -20.3, thresh=-44.4) -> 
         clear()
 
 
-def sauto(fstart=30e6, fstop=5.7e9, dbm=-15.5, tlen=999, span=20e6, rbw=10e4, thresh=-55.6, loiter=3) -> None :
+def sauto(fstart=30e6, fstop=6.1e9, dbm=-15.5, tlen=999, span=20e6, rbw=10e4, thresh=-55.6, loiter=3) -> None :
     """scan, automatic average and pass through specified range, no stopping"""
     temp = rsa_so.spectrum_scanner(\
         ctypes.c_double(fstart),\
@@ -211,6 +211,7 @@ def diffscan(fstart=30e6, fstop=5.7e9, dbm=-15.5, tlen=3333, span=30e6, rbw=10.0
 
 
 def tdump(loiter=3, fstart=30.0e6, fstop=1.0e9, rlvl=-1.1, tlvl=-33.33, rbw=1.0e4, span=30.0e6, tlen=3333, recms=2) -> None :
+#def tdump(loiter=3, fstart=30.0e6, fstop=1.0e9, rlvl=-80.0, tlvl=-90.0, rbw=1.0e4, span=10.0e6, tlen=3333, recms=1) -> None :
     """when triggered, scan and dump"""
     directory = rsa_so.trigger_dump(\
         ctypes.c_int(loiter),

@@ -114,6 +114,6 @@ from .special.special import sauto
 from .special.special import bscan
 from .special.special import diffscan
 from .special.special import tdump
-
+from .special.demonstration import rdemo
 
 ########~~~~~~~~END>  __init__.py
